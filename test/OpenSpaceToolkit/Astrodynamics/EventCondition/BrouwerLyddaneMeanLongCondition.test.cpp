@@ -13,7 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
@@ -41,15 +41,16 @@ using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
+using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
+class OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition
     : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real>>
 {
     void SetUp() override
@@ -60,21 +61,25 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
         Velocity previousVelocity = Velocity::Undefined();
 
         std::tie(currentPosition, currentVelocity) =
-            COE(Length::Kilometers(551.0) + Earth::EGM2008.equatorialRadius_,
+            BrouwerLyddaneMeanLong(
+                Length::Kilometers(551.0) + Earth::EGM2008.equatorialRadius_,
                 0.00021,
                 Angle::Degrees(16.0),
                 Angle::Degrees(1.0),
                 Angle::Degrees(1.0),
-                Angle::Degrees(1.0))
+                Angle::Degrees(1.0)
+            )
                 .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
 
         std::tie(previousPosition, previousVelocity) =
-            COE(Length::Kilometers(549.0) + Earth::EGM2008.equatorialRadius_,
+            BrouwerLyddaneMeanLong(
+                Length::Kilometers(549.0) + Earth::EGM2008.equatorialRadius_,
                 0.00019,
                 Angle::Degrees(15.0),
-                Angle::Degrees(358.0),
-                Angle::Degrees(358.0),
-                Angle::Degrees(358.0))
+                Angle::Degrees(359.0),
+                Angle::Degrees(359.0),
+                Angle::Degrees(359.0)
+            )
                 .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
 
         currentState_ = {defaultInstant_, currentPosition, currentVelocity};
@@ -84,14 +89,14 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
    protected:
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
     const Instant defaultInstant_ = Instant::J2000();
-    const Shared<const Frame> defaultFrame_ = Frame::TEME();
+    const Shared<const Frame> defaultFrame_ = Frame::GCRF();
     State currentState_ = State::Undefined();
     State previousState_ = State::Undefined();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, SemiMajorAxis)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, SemiMajorAxis)
 {
-    RealCondition condition = COECondition::SemiMajorAxis(
+    RealCondition condition = BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
         RealCondition::Criterion::PositiveCrossing,
         defaultFrame_,
         Length::Meters(550000.0) + Earth::EGM2008.equatorialRadius_,
@@ -101,12 +106,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, SemiMajorAxis
     EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, Eccentricity)
 {
     const Real target = 0.0002;
 
     {
-        RealCondition condition = COECondition::Eccentricity(
+        RealCondition condition = BrouwerLyddaneMeanLongCondition::Eccentricity(
             RealCondition::Criterion::PositiveCrossing, defaultFrame_, target, gravitationalParameter_
         );
 
@@ -115,7 +120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
     }
 
     {
-        RealCondition condition = COECondition::Eccentricity(
+        RealCondition condition = BrouwerLyddaneMeanLongCondition::Eccentricity(
             RealCondition::Criterion::NegativeCrossing, defaultFrame_, target, gravitationalParameter_
         );
 
@@ -124,7 +129,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
     }
 
     {
-        RealCondition condition = COECondition::Eccentricity(
+        RealCondition condition = BrouwerLyddaneMeanLongCondition::Eccentricity(
             RealCondition::Criterion::AnyCrossing, defaultFrame_, target, gravitationalParameter_
         );
 
@@ -133,11 +138,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, Inclination)
 {
     const Angle targetAngle = Angle::Degrees(15.5);
     {
-        AngularCondition condition = COECondition::Inclination(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Inclination(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -146,7 +151,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
     }
 
     {
-        AngularCondition condition = COECondition::Inclination(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Inclination(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -155,7 +160,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
     }
 
     {
-        AngularCondition condition = COECondition::Inclination(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Inclination(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -167,19 +172,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
         // Range that includes the current state's inclination (16 deg) but not the previous state's (15 deg)
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(15.5), Angle::Degrees(17.0)};
 
-        AngularCondition condition = COECondition::Inclination(defaultFrame_, targetRange, gravitationalParameter_);
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::Inclination(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, Aop)
 {
     const Angle targetAngle = Angle::Degrees(0.0);
 
     {
-        AngularCondition condition = COECondition::Aop(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Aop(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -188,7 +194,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
     }
 
     {
-        AngularCondition condition = COECondition::Aop(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Aop(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -197,7 +203,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
     }
 
     {
-        AngularCondition condition = COECondition::Aop(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Aop(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -209,19 +215,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
         // Range that includes the current state's AoP (1 deg) but not the previous state's (359 deg)
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-        AngularCondition condition = COECondition::Aop(defaultFrame_, targetRange, gravitationalParameter_);
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::Aop(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, Raan)
 {
     const Angle targetAngle = Angle::Degrees(0.0);
 
     {
-        AngularCondition condition = COECondition::Raan(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Raan(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -230,7 +237,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
     }
 
     {
-        AngularCondition condition = COECondition::Raan(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Raan(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -239,7 +246,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
     }
 
     {
-        AngularCondition condition = COECondition::Raan(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::Raan(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -251,19 +258,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
         // Range that includes the current state's RAAN (1 deg) but not the previous state's (359 deg)
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-        AngularCondition condition = COECondition::Raan(defaultFrame_, targetRange, gravitationalParameter_);
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::Raan(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, TrueAnomaly)
 {
     const Angle targetAngle = Angle::Degrees(0.0);
 
     {
-        AngularCondition condition = COECondition::TrueAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::TrueAnomaly(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -272,7 +280,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
     }
 
     {
-        AngularCondition condition = COECondition::TrueAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::TrueAnomaly(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -281,7 +289,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
     }
 
     {
-        AngularCondition condition = COECondition::TrueAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::TrueAnomaly(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -293,19 +301,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
         // Range that includes the current state's true anomaly (1 deg) but not the previous state's (359 deg)
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-        AngularCondition condition = COECondition::TrueAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::TrueAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, MeanAnomaly)
 {
     const Angle targetAngle = Angle::Degrees(0.0);
 
     {
-        AngularCondition condition = COECondition::MeanAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::MeanAnomaly(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -314,7 +323,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
     }
 
     {
-        AngularCondition condition = COECondition::MeanAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::MeanAnomaly(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -323,7 +332,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
     }
 
     {
-        AngularCondition condition = COECondition::MeanAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::MeanAnomaly(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -335,19 +344,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
         // Range that includes the current state's mean anomaly (approximately 1 deg) but not the previous state's
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
-        AngularCondition condition = COECondition::MeanAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
+        AngularCondition condition =
+            BrouwerLyddaneMeanLongCondition::MeanAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnomaly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, EccentricAnomaly)
 {
     const Angle targetAngle = Angle::Degrees(0.0);
 
     {
-        AngularCondition condition = COECondition::EccentricAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -356,7 +366,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnom
     }
 
     {
-        AngularCondition condition = COECondition::EccentricAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -365,7 +375,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnom
     }
 
     {
-        AngularCondition condition = COECondition::EccentricAnomaly(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::EccentricAnomaly(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -378,19 +388,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnom
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
         AngularCondition condition =
-            COECondition::EccentricAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
+            BrouwerLyddaneMeanLongCondition::EccentricAnomaly(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, ArgumentOfLatitude)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BrouwerLyddaneMeanLongCondition, ArgumentOfLatitude)
 {
     const Angle targetAngle = Angle::Degrees(0.0);
 
     {
-        AngularCondition condition = COECondition::ArgumentOfLatitude(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
             AngularCondition::Criterion::PositiveCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -399,7 +409,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, ArgumentOfLat
     }
 
     {
-        AngularCondition condition = COECondition::ArgumentOfLatitude(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
             AngularCondition::Criterion::NegativeCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -408,7 +418,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, ArgumentOfLat
     }
 
     {
-        AngularCondition condition = COECondition::ArgumentOfLatitude(
+        AngularCondition condition = BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(
             AngularCondition::Criterion::AnyCrossing, defaultFrame_, targetAngle, gravitationalParameter_
         );
 
@@ -422,7 +432,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, ArgumentOfLat
         const Pair<Angle, Angle> targetRange = {Angle::Degrees(0.5), Angle::Degrees(10.0)};
 
         AngularCondition condition =
-            COECondition::ArgumentOfLatitude(defaultFrame_, targetRange, gravitationalParameter_);
+            BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude(defaultFrame_, targetRange, gravitationalParameter_);
 
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
         EXPECT_FALSE(condition.isSatisfied(previousState_, currentState_));

@@ -4,6 +4,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/AngularCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BrouwerLyddaneMeanLongCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/InstantCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalCondition.cpp>
@@ -289,4 +290,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLongCondition(event_condition);
 }

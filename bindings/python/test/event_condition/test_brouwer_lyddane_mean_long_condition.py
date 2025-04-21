@@ -8,7 +8,7 @@ from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics import EventCondition
 from ostk.astrodynamics.event_condition import (
-    COECondition,
+    BrouwerLyddaneMeanLongCondition,
     AngularCondition,
     RealCondition,
 )
@@ -29,52 +29,52 @@ def frame() -> Frame:
     return Frame.GCRF()
 
 
-class TestCOECondition:
+class TestBrouwerLyddaneMeanLongCondition:
     @pytest.mark.parametrize(
         "static_constructor,target,criterion",
         (
             (
-                COECondition.semi_major_axis,
+                BrouwerLyddaneMeanLongCondition.semi_major_axis,
                 EventCondition.Target(Length.meters(7e6)),
                 RealCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.eccentricity,
+                BrouwerLyddaneMeanLongCondition.eccentricity,
                 EventCondition.Target(0.1),
                 RealCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.inclination,
+                BrouwerLyddaneMeanLongCondition.inclination,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.aop,
+                BrouwerLyddaneMeanLongCondition.aop,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.raan,
+                BrouwerLyddaneMeanLongCondition.raan,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.true_anomaly,
+                BrouwerLyddaneMeanLongCondition.true_anomaly,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.mean_anomaly,
+                BrouwerLyddaneMeanLongCondition.mean_anomaly,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.eccentric_anomaly,
+                BrouwerLyddaneMeanLongCondition.eccentric_anomaly,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
             (
-                COECondition.argument_of_latitude,
+                BrouwerLyddaneMeanLongCondition.argument_of_latitude,
                 EventCondition.Target(Angle.degrees(0.0)),
                 AngularCondition.Criterion.PositiveCrossing,
             ),
@@ -95,31 +95,31 @@ class TestCOECondition:
         "static_constructor,target_range",
         (
             (
-                COECondition.inclination,
+                BrouwerLyddaneMeanLongCondition.inclination,
                 (Angle.degrees(10.0), Angle.degrees(20.0)),
             ),
             (
-                COECondition.aop,
+                BrouwerLyddaneMeanLongCondition.aop,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.raan,
+                BrouwerLyddaneMeanLongCondition.raan,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.true_anomaly,
+                BrouwerLyddaneMeanLongCondition.true_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.mean_anomaly,
+                BrouwerLyddaneMeanLongCondition.mean_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.eccentric_anomaly,
+                BrouwerLyddaneMeanLongCondition.eccentric_anomaly,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
             (
-                COECondition.argument_of_latitude,
+                BrouwerLyddaneMeanLongCondition.argument_of_latitude,
                 (Angle.degrees(0.0), Angle.degrees(90.0)),
             ),
         ),
