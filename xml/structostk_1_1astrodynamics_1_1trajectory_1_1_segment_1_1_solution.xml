@@ -71,10 +71,10 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1ab9ed23a12a8266b5844b7984e4d15ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a92ce3226da9d500e4682b44d6fbe9128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::Segment::Solution::Solution</definition>
-        <argsstring>(const String &amp;aName, const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray, const Array&lt; State &gt; &amp;aStates, const bool &amp;aConditionIsSatisfied, const Segment::Type &amp;aSegmentType)</argsstring>
+        <argsstring>(const String &amp;aName, const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray, const Array&lt; State &gt; &amp;aStateArray, const bool &amp;aConditionIsSatisfied, const Segment::Type &amp;aSegmentType)</argsstring>
         <name>Solution</name>
         <param>
           <type>const String &amp;</type>
@@ -86,7 +86,7 @@
         </param>
         <param>
           <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
-          <declname>aStates</declname>
+          <declname>aStateArray</declname>
         </param>
         <param>
           <type>const bool &amp;</type>
@@ -118,7 +118,7 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>aStates</parametername>
+<parametername>aStateArray</parametername>
 </parameternamelist>
 <parameterdescription>
 <para>Array of states for the segment </para>
@@ -633,7 +633,7 @@
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1aca78b91909896a040a271510c450caee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::Solution</scope><name>operator&lt;&lt;</name></member>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a213868259cc8c1a0a54fea5d5ad1454f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::Solution</scope><name>print</name></member>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1afb9c72f8b3ac22e4b1c2823dcb4e8c41" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::Solution</scope><name>segmentType</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1ab9ed23a12a8266b5844b7984e4d15ac7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::Solution</scope><name>Solution</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a92ce3226da9d500e4682b44d6fbe9128" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::Solution</scope><name>Solution</name></member>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a1c1c776e875650eaad5e1c792ab20c41" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::Solution</scope><name>states</name></member>
     </listofallmembers>
   </compounddef>

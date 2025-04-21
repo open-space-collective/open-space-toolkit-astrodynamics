@@ -16,6 +16,7 @@
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Length.hpp</includes>
     <includes refid="_brouwer_lyddane_mean_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp</includes>
     <includes refid="_c_o_e_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</includes>
+    <includedby refid="_brouwer_lyddane_mean_long_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</includedby>
     <includedby refid="_brouwer_lyddane_mean_short_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp</includedby>
     <incdepgraph>
       <node id="3">
@@ -151,15 +152,27 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
+      <node id="4">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp</label>
         <link refid="_brouwer_lyddane_mean_short_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</label>
+        <link refid="_brouwer_lyddane_mean_long_condition_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</label>
         <link refid="_brouwer_lyddane_mean_short_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp</label>
+        <link refid="_brouwer_lydanne_mean_long_condition_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short" prot="public">ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</innerclass>

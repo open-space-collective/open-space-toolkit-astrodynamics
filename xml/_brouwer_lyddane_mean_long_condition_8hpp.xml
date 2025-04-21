@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_brouwer_lyddane_mean_long_condition_8hpp" kind="file" language="C++">
+    <compoundname>BrouwerLyddaneMeanLongCondition.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Type/Real.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Type/Shared.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Type/String.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Unit/Derived.hpp</includes>
+    <includes refid="_angular_condition_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp</includes>
+    <includes refid="_real_condition_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp</includes>
+    <includes refid="_brouwer_lyddane_mean_long_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp</includes>
+    <includes refid="_brouwer_lyddane_mean_short_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</includes>
+    <includes refid="_c_o_e_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</includes>
+    <includedby refid="_brouwer_lydanne_mean_long_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
+      </node>
+      <node id="25">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp</label>
+      </node>
+      <node id="13">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
+        <link refid="_state_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
+      </node>
+      <node id="22">
+        <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
+      </node>
+      <node id="18">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
+      </node>
+      <node id="10">
+        <label>OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</label>
+        <link refid="_event_condition_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp</label>
+        <link refid="_angular_condition_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp</label>
+        <link refid="_real_condition_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
+      </node>
+      <node id="15">
+        <label>OpenSpaceToolkit/Core/Type/Size.hpp</label>
+      </node>
+      <node id="28">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp</label>
+        <link refid="_brouwer_lyddane_mean_long_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
+        <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp</label>
+      </node>
+      <node id="29">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp</label>
+        <link refid="_brouwer_lyddane_mean_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Core/Container/Pair.hpp</label>
+      </node>
+      <node id="12">
+        <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</label>
+        <link refid="_brouwer_lyddane_mean_long_condition_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Core/Type/Unique.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
+      </node>
+      <node id="30">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</label>
+        <link refid="_c_o_e_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
+      </node>
+      <node id="23">
+        <label>OpenSpaceToolkit/Core/Type/Index.hpp</label>
+      </node>
+      <node id="32">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</label>
+        <link refid="_brouwer_lyddane_mean_short_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
+      </node>
+      <node id="21">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</label>
+        <link refid="_coordinate_broker_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
+      </node>
+      <node id="27">
+        <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</label>
+        <link refid="_brouwer_lyddane_mean_long_condition_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp</label>
+        <link refid="_brouwer_lydanne_mean_long_condition_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" prot="public">ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1eventcondition">ostk::astrodynamics::eventcondition</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_EventConditions_BrouwerLyddaneMeanLongCondition__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_EventConditions_BrouwerLyddaneMeanLongCondition__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Type/Real.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Type/Shared.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Type/String.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Unit/Derived.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_angular_condition_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_real_condition_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_brouwer_lyddane_mean_long_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_brouwer_lyddane_mean_short_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_c_o_e_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">eventcondition</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::container::Pair;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Real;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Shared;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::String;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Frame;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::unit::Angle;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::unit::Derived;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">ostk::astrodynamics::EventCondition</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">ostk::astrodynamics::eventcondition::AngularCondition</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">ostk::astrodynamics::eventcondition::RealCondition</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">ostk::astrodynamics::trajectory::orbit::model::kepler::COE</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">ostk::astrodynamics::trajectory::State</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7c7675adf52eb742e41fe02e3fafa34b" kindref="member">SemiMajorAxis</ref>(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">RealCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1dc94269607409324e4637cb53faf43b" kindref="member">Eccentricity</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">RealCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ad45b7f3ad55e734924e681b6ceac8ccf" kindref="member">Inclination</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ad45b7f3ad55e734924e681b6ceac8ccf" kindref="member">Inclination</ref>(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a3fe544cdc6f9c785b402b5888af245e9" kindref="member">Aop</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a3fe544cdc6f9c785b402b5888af245e9" kindref="member">Aop</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1aed2b70624ac112989cac042aa7a6e135" kindref="member">Raan</ref>(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1aed2b70624ac112989cac042aa7a6e135" kindref="member">Raan</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a733629e4455ad51b775b8ca23dc0692e" kindref="member">TrueAnomaly</ref>(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a733629e4455ad51b775b8ca23dc0692e" kindref="member">TrueAnomaly</ref>(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ab2cada38e91aaa155dadccf786e3547e" kindref="member">MeanAnomaly</ref>(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ab2cada38e91aaa155dadccf786e3547e" kindref="member">MeanAnomaly</ref>(</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1afa14adf68d4c89ce824f869d2ebca35a" kindref="member">EccentricAnomaly</ref>(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1afa14adf68d4c89ce824f869d2ebca35a" kindref="member">EccentricAnomaly</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1ed7e856a729de6cb37ff0a5d7726a06" kindref="member">ArgumentOfLatitude</ref>(</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref>&amp;<sp/>aCriterion,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref>&amp;<sp/>aTarget,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1ed7e856a729de6cb37ff0a5d7726a06" kindref="member">ArgumentOfLatitude</ref>(</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Angle,<sp/>Angle&gt;&amp;<sp/>aTargetRange,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::function&lt;Real(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;)&gt;<sp/>GenerateEvaluator(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad329a59499bd192ab5b154433a04ce31" kindref="member">COE::Element</ref>&amp;<sp/>anElement,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>eventcondition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp"/>
+  </compounddef>
+</doxygen>

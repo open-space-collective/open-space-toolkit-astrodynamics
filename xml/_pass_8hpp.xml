@@ -59,6 +59,8 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
       </node>
       <node id="12">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp</label>
@@ -75,6 +77,10 @@
       <node id="11">
         <label>include/OpenSpaceToolkit/Astrodynamics/Flight.hpp</label>
         <link refid="_flight_8hpp"/>
+      </node>
+      <node id="14">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp</label>
+        <link refid="_trajectory_8cpp"/>
       </node>
       <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
@@ -103,10 +109,10 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp</label>
         <link refid="_pass_8cpp"/>
       </node>

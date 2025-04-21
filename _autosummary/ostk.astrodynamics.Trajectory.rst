@@ -20,6 +20,7 @@ ostk.astrodynamics.Trajectory
       ~Trajectory.get_state_at
       ~Trajectory.get_states_at
       ~Trajectory.ground_strip
+      ~Trajectory.ground_strip_geodetic_nadir
       ~Trajectory.is_defined
       ~Trajectory.position
       ~Trajectory.undefined

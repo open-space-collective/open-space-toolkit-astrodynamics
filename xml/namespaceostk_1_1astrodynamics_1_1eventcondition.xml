@@ -4,6 +4,7 @@
     <compoundname>ostk::astrodynamics::eventcondition</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" prot="public">ostk::astrodynamics::eventcondition::AngularCondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition" prot="public">ostk::astrodynamics::eventcondition::BooleanCondition</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" prot="public">ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" prot="public">ostk::astrodynamics::eventcondition::COECondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition" prot="public">ostk::astrodynamics::eventcondition::InstantCondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition" prot="public">ostk::astrodynamics::eventcondition::LogicalCondition</innerclass>

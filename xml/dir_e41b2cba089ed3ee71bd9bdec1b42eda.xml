@@ -4,6 +4,7 @@
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/EventCondition</compoundname>
     <innerfile refid="_angular_condition_8hpp">AngularCondition.hpp</innerfile>
     <innerfile refid="_boolean_condition_8hpp">BooleanCondition.hpp</innerfile>
+    <innerfile refid="_brouwer_lyddane_mean_long_condition_8hpp">BrouwerLyddaneMeanLongCondition.hpp</innerfile>
     <innerfile refid="_c_o_e_condition_8hpp">COECondition.hpp</innerfile>
     <innerfile refid="_instant_condition_8hpp">InstantCondition.hpp</innerfile>
     <innerfile refid="_logical_condition_8hpp">LogicalCondition.hpp</innerfile>

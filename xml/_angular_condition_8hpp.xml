@@ -7,6 +7,7 @@
     <includes local="no">OpenSpaceToolkit/Core/Type/String.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</includes>
     <includes refid="_event_condition_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</includes>
+    <includedby refid="_brouwer_lyddane_mean_long_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</includedby>
     <includedby refid="_c_o_e_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</includedby>
     <includedby refid="_angular_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp</includedby>
     <incdepgraph>
@@ -165,18 +166,30 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</label>
-        <link refid="_c_o_e_condition_8hpp"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="4">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</label>
+        <link refid="_c_o_e_condition_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp</label>
         <link refid="_angular_condition_8cpp"/>
       </node>
+      <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</label>
+        <link refid="_brouwer_lyddane_mean_long_condition_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
       <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp</label>
+        <link refid="_brouwer_lydanne_mean_long_condition_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp</label>
         <link refid="_c_o_e_condition_8cpp"/>
       </node>

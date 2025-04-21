@@ -17,6 +17,7 @@ ostk.astrodynamics.event\_condition.COECondition
       :nosignatures:
    
       ~COECondition.aop
+      ~COECondition.argument_of_latitude
       ~COECondition.eccentric_anomaly
       ~COECondition.eccentricity
       ~COECondition.inclination

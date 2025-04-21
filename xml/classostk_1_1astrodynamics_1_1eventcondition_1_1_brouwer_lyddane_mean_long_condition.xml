@@ -1,0 +1,1033 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</compoundname>
+    <includes refid="_brouwer_lyddane_mean_long_condition_8hpp" local="no">BrouwerLyddaneMeanLongCondition.hpp</includes>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7c7675adf52eb742e41fe02e3fafa34b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
+        <definition>RealCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::SemiMajorAxis</definition>
+        <argsstring>(const RealCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>SemiMajorAxis</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">RealCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Semi-Major Axis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="54" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="15" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1dc94269607409324e4637cb53faf43b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
+        <definition>RealCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Eccentricity</definition>
+        <argsstring>(const RealCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Eccentricity</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">RealCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentricity based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="69" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="30" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ad45b7f3ad55e734924e681b6ceac8ccf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Inclination</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Inclination</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Inclination based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="84" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="45" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a17a1fce35cd30929416adcb02f088142" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Inclination</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Inclination</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Inclination based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="98" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="60" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a3fe544cdc6f9c785b402b5888af245e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Aop</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Aop</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Periapsis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="112" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="71" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a98903bd47aab661580ef03bd798413b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Aop</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Aop</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Periapsis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="126" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="86" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1aed2b70624ac112989cac042aa7a6e135" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Raan</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Raan</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Right Ascension of Ascending Node based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="140" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="97" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a31451cfcad0884cd50eb94920e1e63ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::Raan</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Raan</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Right Ascension of Ascending Node based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="154" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a733629e4455ad51b775b8ca23dc0692e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::TrueAnomaly</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>TrueAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>True Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="168" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="125" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a8b8f0cfe2e626c1badfb015c2bfca8e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::TrueAnomaly</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>TrueAnomaly</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>True Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="182" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="140" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ab2cada38e91aaa155dadccf786e3547e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::MeanAnomaly</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>MeanAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Mean Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="196" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="151" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7889fb984c540ff5720b00a2aac1fc7e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::MeanAnomaly</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>MeanAnomaly</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Mean Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="210" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="166" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1afa14adf68d4c89ce824f869d2ebca35a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::EccentricAnomaly</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>EccentricAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentric Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="224" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="177" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a8e180cdd5caf8fbdf616e5f0ba57a7ba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::EccentricAnomaly</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>EccentricAnomaly</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentric Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="238" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="192" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1ed7e856a729de6cb37ff0a5d7726a06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ArgumentOfLatitude</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Latitude based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="252" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="205" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1cd8dc747815af1db8f560d324aafafb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::ArgumentOfLatitude</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ArgumentOfLatitude</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Latitude based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">BrouwerLyddaneMeanLongCondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="266" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="220" bodyend="231"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a5996c5b27549b32923b51660b863e777" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; Real(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>std::function&lt; Real(const State &amp;)&gt; ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition::GenerateEvaluator</definition>
+        <argsstring>(const COE::Element &amp;anElement, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>GenerateEvaluator</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad329a59499bd192ab5b154433a04ce31" kindref="member">COE::Element</ref> &amp;</type>
+          <declname>anElement</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="273" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="233" bodyend="279"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A Brouwer-Lyddane Long Mean orbital elements based event condition. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" bodystart="43" bodyend="276"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a3fe544cdc6f9c785b402b5888af245e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Aop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a98903bd47aab661580ef03bd798413b8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Aop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1ed7e856a729de6cb37ff0a5d7726a06" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>ArgumentOfLatitude</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1cd8dc747815af1db8f560d324aafafb" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>ArgumentOfLatitude</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1afa14adf68d4c89ce824f869d2ebca35a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>EccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a8e180cdd5caf8fbdf616e5f0ba57a7ba" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>EccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1dc94269607409324e4637cb53faf43b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Eccentricity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a5996c5b27549b32923b51660b863e777" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>GenerateEvaluator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ad45b7f3ad55e734924e681b6ceac8ccf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Inclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a17a1fce35cd30929416adcb02f088142" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Inclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ab2cada38e91aaa155dadccf786e3547e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>MeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7889fb984c540ff5720b00a2aac1fc7e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>MeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1aed2b70624ac112989cac042aa7a6e135" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Raan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a31451cfcad0884cd50eb94920e1e63ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Raan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7c7675adf52eb742e41fe02e3fafa34b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>SemiMajorAxis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a733629e4455ad51b775b8ca23dc0692e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>TrueAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a8b8f0cfe2e626c1badfb015c2bfca8e7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>TrueAnomaly</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -7,6 +7,7 @@
     <includes local="no">OpenSpaceToolkit/Physics/Time/Duration.hpp</includes>
     <includes refid="_event_condition_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</includes>
     <includedby refid="_boolean_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp</includedby>
+    <includedby refid="_brouwer_lyddane_mean_long_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</includedby>
     <includedby refid="_c_o_e_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</includedby>
     <includedby refid="_instant_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp</includedby>
     <includedby refid="_real_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</includedby>
@@ -157,7 +158,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="7">
+      <node id="9">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp</label>
         <link refid="_instant_condition_8cpp"/>
       </node>
@@ -182,24 +183,36 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-      </node>
-      <node id="4">
-        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</label>
-        <link refid="_c_o_e_condition_8hpp"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="6">
-        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp</label>
-        <link refid="_instant_condition_8hpp"/>
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</label>
+        <link refid="_c_o_e_condition_8hpp"/>
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="8">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp</label>
+        <link refid="_instant_condition_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</label>
+        <link refid="_brouwer_lyddane_mean_long_condition_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="5">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp</label>
+        <link refid="_brouwer_lydanne_mean_long_condition_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp</label>
         <link refid="_c_o_e_condition_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</label>
         <link refid="_real_condition_8cpp"/>
       </node>

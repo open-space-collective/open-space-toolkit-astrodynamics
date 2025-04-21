@@ -22,6 +22,7 @@ ostk.astrodynamics.trajectory.Sequence
       ~Sequence.add_segments
       ~Sequence.get_dynamics
       ~Sequence.get_maximum_propagation_duration
+      ~Sequence.get_minimum_maneuver_duration
       ~Sequence.get_numerical_solver
       ~Sequence.get_segments
       ~Sequence.solve

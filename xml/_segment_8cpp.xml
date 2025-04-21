@@ -616,16 +616,16 @@
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" kindref="compound">ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity</ref>;</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">ostk::astrodynamics::trajectory::StateBuilder</ref>;</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1ab9ed23a12a8266b5844b7984e4d15ac7" kindref="member">Segment::Solution::Solution</ref>(</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution_1a92ce3226da9d500e4682b44d6fbe9128" kindref="member">Segment::Solution::Solution</ref>(</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStates,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray,</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>aConditionIsSatisfied,</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008" kindref="member">Segment::Type</ref>&amp;<sp/>aSegmentType</highlight></codeline>
 <codeline lineno="41"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>name(aName),</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dynamics(aDynamicsArray),</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>states(aStates),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>states(aStateArray),</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>conditionIsSatisfied(aConditionIsSatisfied),</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>segmentType(aSegmentType)</highlight></codeline>
 <codeline lineno="47"><highlight class="normal">{</highlight></codeline>
@@ -1089,80 +1089,91 @@
 <codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aState,<sp/>aState.accessInstant()<sp/>+<sp/>maximumPropagationDuration,<sp/>*eventCondition_</highlight></codeline>
 <codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="507"><highlight class="normal"></highlight></codeline>
-<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
-<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamics_,</highlight></codeline>
-<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagator.accessNumericalSolver().accessObservedStates(),</highlight></codeline>
-<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conditionSolution.conditionIsSatisfied,</highlight></codeline>
-<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type_,</highlight></codeline>
-<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="515"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="516"><highlight class="normal"></highlight></codeline>
-<codeline lineno="517"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a64c52af823b26583ee077aa8f8c8f639" kindref="member">Segment::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="518"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(displayDecorator)</highlight></codeline>
-<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Segment&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="523"><highlight class="normal"></highlight></codeline>
-<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Name:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name_;</highlight></codeline>
-<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Type:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(type_<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;Coast&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Maneuver&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>Condition&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>eventCondition_-&gt;print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream);</highlight></codeline>
-<codeline lineno="529"><highlight class="normal"></highlight></codeline>
-<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Dynamics&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dynamics<sp/>:<sp/>dynamics_)</highlight></codeline>
-<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamics-&gt;print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream);</highlight></codeline>
-<codeline lineno="536"><highlight class="normal"></highlight></codeline>
-<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Numerical<sp/>Solver&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>numericalSolver_.print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="539"><highlight class="normal"></highlight></codeline>
-<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(displayDecorator)</highlight></codeline>
-<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Footer(anOutputStream);</highlight></codeline>
-<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="544"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="545"><highlight class="normal"></highlight></codeline>
-<codeline lineno="546"><highlight class="normal">Segment<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a40f618a437b4a61aed4728c615e55574" kindref="member">Segment::Coast</ref>(</highlight></codeline>
-<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,</highlight></codeline>
-<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;&amp;<sp/>anEventConditionSPtr,</highlight></codeline>
-<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NumericalSolver&amp;<sp/>aNumericalSolver</highlight></codeline>
-<codeline lineno="551"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="552"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aName,</highlight></codeline>
-<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref>,</highlight></codeline>
-<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anEventConditionSPtr,</highlight></codeline>
-<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aNumericalSolver,</highlight></codeline>
-<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="560"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="561"><highlight class="normal"></highlight></codeline>
-<codeline lineno="562"><highlight class="normal">Segment<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a40f5cea13ffa93070b28880c5f7f5953" kindref="member">Segment::Maneuver</ref>(</highlight></codeline>
-<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,</highlight></codeline>
-<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;&amp;<sp/>anEventConditionSPtr,</highlight></codeline>
-<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>aThrusterDynamics,</highlight></codeline>
-<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NumericalSolver&amp;<sp/>aNumericalSolver</highlight></codeline>
-<codeline lineno="568"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="569"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aName,</highlight></codeline>
-<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>,</highlight></codeline>
-<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anEventConditionSPtr,</highlight></codeline>
-<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray<sp/>+<sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>{aThrusterDynamics},</highlight></codeline>
-<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aNumericalSolver,</highlight></codeline>
-<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="577"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="578"><highlight class="normal"></highlight></codeline>
-<codeline lineno="579"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="580"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="581"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expand<sp/>states<sp/>based<sp/>on<sp/>input<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>stateBuilder<sp/>=<sp/>{aState};</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>Array&lt;State&gt;::Empty();</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state<sp/>:<sp/>propagator.accessNumericalSolver().accessObservedStates())</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()),<sp/>aState));</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamics_,</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conditionSolution.conditionIsSatisfied,</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type_,</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="526"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a64c52af823b26583ee077aa8f8c8f639" kindref="member">Segment::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="529"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(displayDecorator)</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Segment&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Name:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name_;</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Type:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(type_<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;Coast&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Maneuver&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>Condition&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>eventCondition_-&gt;print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream);</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Dynamics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dynamics<sp/>:<sp/>dynamics_)</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamics-&gt;print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream);</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Numerical<sp/>Solver&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>numericalSolver_.print(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(displayDecorator)</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Footer(anOutputStream);</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="555"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal">Segment<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a40f618a437b4a61aed4728c615e55574" kindref="member">Segment::Coast</ref>(</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;&amp;<sp/>anEventConditionSPtr,</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray,</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NumericalSolver&amp;<sp/>aNumericalSolver</highlight></codeline>
+<codeline lineno="562"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="563"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aName,</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref>,</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anEventConditionSPtr,</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aNumericalSolver,</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal">Segment<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a40f5cea13ffa93070b28880c5f7f5953" kindref="member">Segment::Maneuver</ref>(</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aName,</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;&amp;<sp/>anEventConditionSPtr,</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>aThrusterDynamics,</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray,</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NumericalSolver&amp;<sp/>aNumericalSolver</highlight></codeline>
+<codeline lineno="579"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="580"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aName,</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>,</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anEventConditionSPtr,</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray<sp/>+<sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>{aThrusterDynamics},</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aNumericalSolver,</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="588"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"></highlight></codeline>
+<codeline lineno="590"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp"/>
   </compounddef>

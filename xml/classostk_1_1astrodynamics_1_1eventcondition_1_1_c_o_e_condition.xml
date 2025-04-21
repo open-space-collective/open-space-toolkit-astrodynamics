@@ -34,7 +34,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -42,7 +42,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -58,15 +58,17 @@
 <parametername>aGravitationalParameter</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A gravitational parameter </para>
+<para>A gravitational parameter</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="52" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="28" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="54" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="15" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a0a658913d4f4ad02be0f1aac33991e2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
@@ -98,7 +100,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -106,7 +108,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -132,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="67" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="43" bodyend="56"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="69" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="30" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a9e22f65874df7f17e2eab57bb9ec4b8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -164,7 +166,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -172,7 +174,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -198,7 +200,61 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="82" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="58" bodyend="71"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="84" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="45" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a365c919ba934604d34db0110db572526" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::Inclination</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Inclination</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Inclination based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="98" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="60" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3fb71e74232437ecedd5344776476a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -230,7 +286,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -238,7 +294,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -264,7 +320,61 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="97" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="73" bodyend="86"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="112" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="71" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3dccea674c7017ba816b05ae925bc70" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::Aop</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Aop</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Periapsis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="126" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="86" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1aad1a6b92733545555e668bfdfbb12723" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -296,7 +406,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -304,7 +414,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -330,7 +440,61 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="112" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="88" bodyend="101"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="140" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="97" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1aa46243927f6287ff4dd5b50a391f7a2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::Raan</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Raan</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Right Ascension of Ascending Node based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="154" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="112" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a36e555812b9860268999153a6ec5bd69" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -362,7 +526,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -370,7 +534,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -396,7 +560,61 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="127" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="103" bodyend="116"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="168" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="125" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a67d9632dcd172d8bb2739f51a223806f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::TrueAnomaly</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>TrueAnomaly</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>True Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="182" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="140" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1adf13f91243d10cc8931de779e90bf517" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -428,7 +646,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -436,7 +654,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -462,7 +680,61 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="142" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="118" bodyend="131"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="196" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="151" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a68d90fe8202b3421a8f19588602ed9f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::MeanAnomaly</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>MeanAnomaly</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Mean Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="210" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="166" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a75a7dbabf7600b7344f937aac21b7228" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -494,7 +766,7 @@
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum indicating the criterion used to determine the Event Condition </para>
+<para>The criterion used to resolve the Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -502,7 +774,7 @@
 <parametername>aFrameSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A frame in which the Element is to be computed </para>
+<para>A frame in which the element is to be computed </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -528,7 +800,181 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="157" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="133" bodyend="146"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="224" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="177" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ab4cd6ea2ca21a041a54c2d84bf512add" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::EccentricAnomaly</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>EccentricAnomaly</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentric Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="238" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="192" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a047d45f02107262a007185a3a49405cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::ArgumentOfLatitude</definition>
+        <argsstring>(const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ArgumentOfLatitude</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Latitude based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="252" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="205" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1afe45a3538ca1beb5d0875bb04a077048" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::COECondition::ArgumentOfLatitude</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ArgumentOfLatitude</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Latitude based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">COECondition</ref> object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="266" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="220" bodyend="231"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -555,7 +1001,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="165" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="148" bodyend="183"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="273" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="233" bodyend="279"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -563,17 +1009,25 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" bodystart="43" bodyend="168"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" bodystart="43" bodyend="276"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3fb71e74232437ecedd5344776476a2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Aop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3dccea674c7017ba816b05ae925bc70" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Aop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a047d45f02107262a007185a3a49405cf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>ArgumentOfLatitude</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1afe45a3538ca1beb5d0875bb04a077048" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>ArgumentOfLatitude</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a75a7dbabf7600b7344f937aac21b7228" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>EccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ab4cd6ea2ca21a041a54c2d84bf512add" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>EccentricAnomaly</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a0a658913d4f4ad02be0f1aac33991e2f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Eccentricity</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a49285f6d1f1df56ef7501a6cea8a8783" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>GenerateEvaluator</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a9e22f65874df7f17e2eab57bb9ec4b8f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Inclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a365c919ba934604d34db0110db572526" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Inclination</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1adf13f91243d10cc8931de779e90bf517" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>MeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a68d90fe8202b3421a8f19588602ed9f4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>MeanAnomaly</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1aad1a6b92733545555e668bfdfbb12723" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Raan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1aa46243927f6287ff4dd5b50a391f7a2c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Raan</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ab0eca692df7d3e66a09148d7837e78a1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>SemiMajorAxis</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a36e555812b9860268999153a6ec5bd69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>TrueAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a67d9632dcd172d8bb2739f51a223806f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>TrueAnomaly</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

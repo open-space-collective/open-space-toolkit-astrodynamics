@@ -22,6 +22,7 @@
    
       AngularCondition
       BooleanCondition
+      BrouwerLyddaneMeanLongCondition
       COECondition
       InstantCondition
       LogicalCondition

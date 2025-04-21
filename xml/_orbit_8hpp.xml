@@ -28,6 +28,7 @@
     <includedby refid="_orbit_determination_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp</includedby>
     <includedby refid="_trajectory_2_orbit_2_model_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp</includedby>
     <includedby refid="_orbit_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</includedby>
+    <includedby refid="_trajectory_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</label>
@@ -301,6 +302,8 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="11">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp</label>
@@ -317,6 +320,10 @@
       <node id="10">
         <label>include/OpenSpaceToolkit/Astrodynamics/Flight.hpp</label>
         <link refid="_flight_8hpp"/>
+      </node>
+      <node id="13">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp</label>
+        <link refid="_trajectory_8cpp"/>
       </node>
       <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>

@@ -1442,6 +1442,7 @@
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a828ef112e449b697c961e61825b48cbc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>getStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>GroundStrip</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ae0657f4bca61121f64aa8d66643afccd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>GroundStrip</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a10709f1c1b56a4ab187cfcf41c03c3be" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>GroundStripGeodeticNadir</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1b164ea936fb2a37e0243dc2f2721aa9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a63793925e09d541e3a6414e09aaae326" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>modelPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1aa60bc82dc85cd9d93f68b27ae69eef5e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>mutex_</name></member>

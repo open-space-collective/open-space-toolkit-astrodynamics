@@ -251,7 +251,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="65" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="65" bodyend="70"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="75" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="75" bodyend="80"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
