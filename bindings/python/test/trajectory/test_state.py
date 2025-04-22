@@ -623,7 +623,7 @@ class TestState:
             state=state,
             tolerance_array_map=tolerance_array_map,
         )
-        expected_is_near_result: dict[CoordinateSubset, bool] = {
+        expected_is_near_result: dict[CoordinateSubset, list[bool]] = {
             CartesianPosition.default(): [True, True, True],
             CartesianVelocity.default(): [True, True, True],
         }

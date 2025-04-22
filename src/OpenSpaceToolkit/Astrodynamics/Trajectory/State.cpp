@@ -503,7 +503,10 @@ std::unordered_map<Shared<const CoordinateSubset>, bool> State::isNear(
 {
     if (aToleranceMap.size() != coordinatesBrokerSPtr_->accessSubsets().getSize())
     {
-        throw ostk::core::error::runtime::Wrong("Tolerance Map");
+        throw ostk::core::error::runtime::Wrong(
+            "Tolerance Map: Expected size [" + std::to_string(coordinatesBrokerSPtr_->accessSubsets().getSize()) +
+            "], but received size [" + std::to_string(aToleranceMap.size()) + "]."
+        );
     }
 
     const State deltaState = aState - *this;
@@ -513,11 +516,15 @@ std::unordered_map<Shared<const CoordinateSubset>, bool> State::isNear(
     {
         if (!coordinatesBrokerSPtr_->hasSubset(subsetSPtr))
         {
-            throw ostk::core::error::runtime::Wrong("Tolerance Map Coordinate Subset");
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance map doesn't contain coordinate subset [" + subsetSPtr->getName() + "]."
+            );
         }
         if (tolerance <= 0.0)
         {
-            throw ostk::core::error::runtime::Wrong("Tolerance");
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance value for subset [" + subsetSPtr->getName() + "] is less than or equal to zero."
+            );
         }
 
         const VectorXd deltaCoordinates = deltaState.extractCoordinate(subsetSPtr);
@@ -533,7 +540,7 @@ std::unordered_map<Shared<const CoordinateSubset>, Array<bool>> State::isNear(
 {
     if (aToleranceArrayMap.size() != coordinatesBrokerSPtr_->accessSubsets().getSize())
     {
-        throw ostk::core::error::runtime::Wrong("Tolerance Map");
+        throw ostk::core::error::runtime::Wrong("Tolerance array map is not of the same size as the state.");
     }
 
     const State deltaState = aState - *this;
@@ -543,18 +550,26 @@ std::unordered_map<Shared<const CoordinateSubset>, Array<bool>> State::isNear(
     {
         if (!coordinatesBrokerSPtr_->hasSubset(subsetSPtr))
         {
-            throw ostk::core::error::runtime::Wrong("Tolerance Map Coordinate Subset");
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance array map doesn't contain coordinate subset [" + subsetSPtr->getName() + "]."
+            );
         }
 
         const VectorXd deltaCoordinates = deltaState.extractCoordinate(subsetSPtr);
 
         if (toleranceArray.size() != deltaCoordinates.size())
         {
-            throw ostk::core::error::runtime::Wrong("Tolerance Array Size");
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance Array Size: Expected [" + std::to_string(deltaCoordinates.size()) + "], but got [" +
+                std::to_string(toleranceArray.size()) + "]"
+            );
         }
         if ((toleranceArray.array() <= 0.0).any())
         {
-            throw ostk::core::error::runtime::Wrong("Tolerance Array");
+            throw ostk::core::error::runtime::Wrong(
+                "One or more elements in the tolerance array for subset [" + subsetSPtr->getName() +
+                "] is less than or equal to zero."
+            );
         }
 
         Array<bool> isNearArray;
