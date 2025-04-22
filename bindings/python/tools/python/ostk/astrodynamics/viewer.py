@@ -166,7 +166,6 @@ class Viewer:
                     width=1,
                 )
             )
-
         return self
 
     def add_profile(
@@ -264,7 +263,6 @@ class Viewer:
                     width=1,
                 )
             )
-
         return self
 
     def add_target(
@@ -338,7 +336,6 @@ class Viewer:
                 material=color or cesiumpy.color.YELLOW,
             )
         )
-
         return self
 
     def add_label(
@@ -357,6 +354,8 @@ class Viewer:
             size (int, optional): Label size. Defaults to None.
             color (str, optional): Label color. Defaults to None.
 
+        Returns:
+            Viewer: The Viewer.
         """
 
         self._viewer.entities.add(
@@ -367,7 +366,6 @@ class Viewer:
                 fill_color=color or cesiumpy.color.WHITE,
             )
         )
-        
         return self
 
     def render(self) -> str:
