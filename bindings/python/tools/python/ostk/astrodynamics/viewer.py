@@ -105,7 +105,7 @@ class Viewer:
         show_orbital_track: bool = False,
         color: str | None = None,
         image: str | None = None,
-    ) -> None:
+    ) -> Viewer:
         """
         Add Orbit to Viewer.
 
@@ -116,6 +116,9 @@ class Viewer:
             show_orbital_track (bool, optional): Whether to show the orbital track. Defaults to False.
             color (str, optional): Color of the orbit. Defaults to None.
             image (str, optional): Logo to be added. Defaults to None.
+
+        Returns:
+            Viewer: The Viewer.
         """
         instants: list[Instant] = self._interval.generate_grid(step)
         states: list[State] = orbit.get_states_at(instants)
@@ -164,6 +167,8 @@ class Viewer:
                 )
             )
 
+        return self
+
     def add_profile(
         self,
         profile: Profile,
@@ -172,7 +177,7 @@ class Viewer:
         cesium_asset_id: int | None = None,
         sensors: list[Sensor] | None = None,
         show_xyz_axes: bool = False,
-    ) -> None:
+    ) -> Viewer:
         """
         Add Profile to Viewer.
 
@@ -183,6 +188,9 @@ class Viewer:
             cesium_asset_id (int, optional): The Cesium asset ID. Defaults to None.
             sensors (list[Sensor], optional): Sensors to be added to the asset. Defaults to None.
             show_xyz_axes (bool, optional): Whether to show the XYZ axes. Defaults to False.
+
+        Returns:
+            Viewer: The Viewer.
         """
 
         instants: list[Instant] = self._interval.generate_grid(step)
@@ -257,13 +265,15 @@ class Viewer:
                 )
             )
 
+        return self
+
     def add_target(
         self,
         position: Position,
         size: int | None = None,
         color: str | None = None,
         label: str | None = None,
-    ) -> None:
+    ) -> Viewer:
         """
         Add target to Viewer.
 
@@ -272,6 +282,9 @@ class Viewer:
             size (int, optional): Target size. Defaults to None.
             color (str, optional): Target color. Defaults to None.
             label (str, optional): Target label. Defaults to None.
+
+        Returns:
+            Viewer: The Viewer.
         """
 
         self._viewer.entities.add(
@@ -285,12 +298,14 @@ class Viewer:
         if label:
             self.add_label(position, label, size, color)
 
+        return self
+
     def add_line(
         self,
         positions: list[Position],
         size: int | None = None,
         color: str | None = None,
-    ) -> None:
+    ) -> Viewer:
         """
         Add line to Viewer.
 
@@ -298,6 +313,9 @@ class Viewer:
             positions (list[Position]): Line positions.
             size (int, optional): Line size. Defaults to None.
             color (str, optional): Line color. Defaults to None.
+
+        Returns:
+            Viewer: The Viewer.
         """
 
         self._viewer.entities.add(
@@ -321,13 +339,15 @@ class Viewer:
             )
         )
 
+        return self
+
     def add_label(
         self,
         position: Position,
         text: str,
         size: int | None = None,
         color: str | None = None,
-    ) -> None:
+    ) -> Viewer:
         """
         Add label to Viewer.
 
@@ -337,6 +357,8 @@ class Viewer:
             size (int, optional): Label size. Defaults to None.
             color (str, optional): Label color. Defaults to None.
 
+        Returns:
+            Viewer: The Viewer.
         """
 
         self._viewer.entities.add(
@@ -347,6 +369,8 @@ class Viewer:
                 fill_color=color or cesiumpy.color.WHITE,
             )
         )
+
+        return self
 
     def render(self) -> str:
         """
