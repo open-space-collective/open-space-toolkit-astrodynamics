@@ -458,6 +458,41 @@ class TestState:
         assert isinstance(state, State)
         assert state.get_size() == 6
 
+    def test_from_dict_with_ballistic_coefficient(self):
+        data: dict = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "ballistic_coefficient": 2.2,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_size() == 7
+
+        data: dict = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rx_eci": 7000.0,
+            "ry_eci": 0.0,
+            "rz_eci": 0.0,
+            "vx_eci": 0.0,
+            "vy_eci": 7.5,
+            "vz_eci": 0.0,
+            "ballistic_coefficient": None,
+        }
+
+        state: State = State.from_dict(data)
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.get_size() == 6
+
     @pytest.mark.parametrize(
         ("data", "expected_length", "expected_frame"),
         [
