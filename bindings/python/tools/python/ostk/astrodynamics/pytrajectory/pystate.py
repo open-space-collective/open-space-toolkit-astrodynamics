@@ -18,7 +18,7 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import (
     AngularVelocity,
 )
 
-CANONICAL_FORMAT: str = r"(r|v)_(.*?)_(x|y|z)"
+POS_VEL_CANONICAL_FORMAT: str = r"(r|v)_(.*?)_(x|y|z)"
 
 
 def custom_class_generator(frame: Frame, coordinate_subsets: list) -> type:
@@ -68,6 +68,7 @@ def from_dict(data: dict) -> State:
     - 'drag_coefficient'/'cd': The drag coefficient. Optional.
     - 'cross_sectional_area'/'surface_area': The cross-sectional area. Optional.
     - 'mass': The mass. Optional.
+    - 'ballistic_coefficient'/'bc': The ballistic coefficient. Optional.
 
     Args:
         data (dict): The dictionary.
@@ -76,7 +77,7 @@ def from_dict(data: dict) -> State:
         State: The State.
     """
 
-    instant: Instant = coerce_to_instant(data["timestamp"])
+    # Position and velocity subsets
 
     eci_columns: list[str] = [
         "rx_eci",
@@ -123,7 +124,7 @@ def from_dict(data: dict) -> State:
     ]
 
     match_groups: list[re.Match] = [
-        re.match(CANONICAL_FORMAT, column) for column in data.keys()
+        re.match(POS_VEL_CANONICAL_FORMAT, column) for column in data.keys()
     ]
 
     if len(matches := [match for match in match_groups if match is not None]) == 6:
@@ -188,6 +189,8 @@ def from_dict(data: dict) -> State:
     else:
         raise ValueError("Invalid state data.")
 
+    # Attitude and angular velocity subsets
+
     if all(
         column in data for column in ["q_B_ECI_x", "q_B_ECI_y", "q_B_ECI_z", "q_B_ECI_s"]
     ):
@@ -216,6 +219,8 @@ def from_dict(data: dict) -> State:
             ],
         )
 
+    # Extra subsets
+
     if (data.get("drag_coefficient") is not None) or (data.get("cd") is not None):
         coordinate_subsets.append(CoordinateSubset.drag_coefficient())
         coordinates = np.append(
@@ -239,8 +244,15 @@ def from_dict(data: dict) -> State:
             data["mass"],
         )
 
+    if (data.get("ballistic_coefficient") is not None) or (data.get("bc") is not None):
+        coordinate_subsets.append(CoordinateSubset.ballistic_coefficient())
+        coordinates = np.append(
+            coordinates,
+            data.get("ballistic_coefficient", data.get("bc")),
+        )
+
     return State(
-        instant=instant,
+        instant=coerce_to_instant(data["timestamp"]),
         coordinates=coordinates,
         frame=frame,
         coordinate_subsets=coordinate_subsets,
