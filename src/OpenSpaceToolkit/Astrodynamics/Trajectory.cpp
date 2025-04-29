@@ -294,8 +294,8 @@ Array<State> Trajectory::computeStates(
     Vector3d velocityCoordinates = Vector3d::Zero();
     for (Size i = 0; i < anInstantArray.getSize(); i++)
     {
-        physics::coordinate::Position currentPosition = aPositionFunction(anInstantArray.at(i));
         const Instant currentInstant = anInstantArray.at(i);
+        physics::coordinate::Position currentPosition = aPositionFunction(currentInstant);
 
         if (i == 0)
         {

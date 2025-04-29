@@ -39,7 +39,7 @@ Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool&
 }
 
 Profile::TrajectoryTarget::TrajectoryTarget(
-    const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
 )
     : Target(TargetType::Trajectory, anAxis, isAntiDirection),
       trajectory(aTrajectory)
@@ -47,6 +47,51 @@ Profile::TrajectoryTarget::TrajectoryTarget(
     if (!trajectory.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Trajectory");
+    }
+
+    std::cout << "Deprecation warning: TrajectoryTarget constructor is deprecated. Use "
+                 "TrajectoryTarget::TargetPosition or TrajectoryTarget::TargetVelocity instead as appropriate."
+              << std::endl;
+}
+
+Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+)
+{
+    return TrajectoryTarget(TargetType::TargetPosition, aTrajectory, anAxis, isAntiDirection);
+}
+
+Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetVelocity(
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+)
+{
+    return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, anAxis, isAntiDirection);
+}
+
+Profile::TrajectoryTarget::TrajectoryTarget(
+    const TargetType& aType,
+    const ostk::astrodynamics::Trajectory& aTrajectory,
+    const Axis& anAxis,
+    const bool& isAntiDirection
+)
+    : Target(aType, anAxis, isAntiDirection),
+      trajectory(aTrajectory)
+{
+    if (!trajectory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Trajectory");
+    }
+
+    if (aType == TargetType::Trajectory)
+    {
+        throw ostk::core::error::RuntimeError(
+            "TrajectoryTarget::Trajectory is deprecated. Use TrajectoryTarget::TargetPosition instead."
+        );
+    }
+
+    if (aType != TargetType::TargetPosition && aType != TargetType::TargetVelocity)
+    {
+        throw ostk::core::error::runtime::Wrong("Target type");
     }
 }
 
@@ -211,7 +256,7 @@ Profile Profile::Undefined()
     return {};
 }
 
-Profile Profile::InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion)
+Profile Profile::InertialPointing(const ostk::astrodynamics::Trajectory& aTrajectory, const Quaternion& aQuaternion)
 {
     return {TransformModel::InertialPointing(aTrajectory, aQuaternion)};
 }
@@ -303,12 +348,22 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
             case TargetType::GeodeticNadir:
                 return Profile::ComputeGeodeticNadirDirectionVector;
             case TargetType::Trajectory:
+            case TargetType::TargetPosition:
             {
-                const Shared<const TrajectoryTarget> trajectoryTargetSPtr =
+                const Shared<const TrajectoryTarget> targetPositionSPtr =
                     std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
-                return [trajectoryTargetSPtr](const State& aState) -> Vector3d
+                return [targetPositionSPtr](const State& aState) -> Vector3d
                 {
-                    return Profile::ComputeTargetDirectionVector(aState, trajectoryTargetSPtr->trajectory);
+                    return Profile::ComputeTargetDirectionVector(aState, targetPositionSPtr->trajectory);
+                };
+            }
+            case TargetType::TargetVelocity:
+            {
+                const Shared<const TrajectoryTarget> targetVelocitySPtr =
+                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
+                return [targetVelocitySPtr](const State& aState) -> Vector3d
+                {
+                    return Profile::ComputeTargetVelocityVector(aState, targetVelocitySPtr->trajectory);
                 };
             }
             case TargetType::Sun:
@@ -411,7 +466,7 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
     return ITRF_GCRF_transform.applyToVector(nadir).normalized();
 }
 
-Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory)
+Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
     if (!aTrajectory.isDefined())
     {
@@ -423,6 +478,28 @@ Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const Trajec
     const Vector3d satellitePositionCoordinates = aState.getPosition().accessCoordinates();
 
     return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
+}
+
+Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
+{
+    if (!aTrajectory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Trajectory");
+    }
+
+    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant());
+
+    const State slidingTargetState_GCRF = aTrajectory.getStateAt(aState.accessInstant());
+    const State slidingTargetState_ITRF = slidingTargetState_GCRF.inFrame(Frame::ITRF());
+
+    const Vector3d relativePositionDirection =
+        (slidingTargetState_GCRF.getPosition().getCoordinates() - aState.getPosition().getCoordinates()).normalized();
+    const Vector3d relativeVelocityDirection =
+        ITRF_GCRF_transform.applyToVector(slidingTargetState_ITRF.getVelocity().getCoordinates()).normalized();
+
+    const Vector3d relativeNormalDirection = relativePositionDirection.cross(relativeVelocityDirection).normalized();
+
+    return relativeNormalDirection.cross(relativePositionDirection);
 }
 
 Vector3d Profile::ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial)
