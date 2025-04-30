@@ -5,9 +5,9 @@
     <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::Target</basecompoundref>
     <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a357f974eaa908f2b2c503f68c7071b8d" prot="public" static="no" mutable="no">
-        <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref></type>
-        <definition>Trajectory ostk::astrodynamics::flight::Profile::TrajectoryTarget::trajectory</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a999b5c9dc760876ab946b27f02f12f03" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref></type>
+        <definition>ostk::astrodynamics::Trajectory ostk::astrodynamics::flight::Profile::TrajectoryTarget::trajectory</definition>
         <argsstring></argsstring>
         <name>trajectory</name>
         <briefdescription>
@@ -17,17 +17,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="133" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="133" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="155" column="41" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="155" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1ad6f6c2eec2a0c0c9b83991a2d1ea3321" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a419c0b22ad2b23b3a375de0a5809ac16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::flight::Profile::TrajectoryTarget::TrajectoryTarget</definition>
-        <argsstring>(const Trajectory &amp;aTrajectory, const Axis &amp;anAxis, const bool &amp;isAntiDirection=false)</argsstring>
+        <argsstring>(const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Axis &amp;anAxis, const bool &amp;isAntiDirection=false)</argsstring>
         <name>TrajectoryTarget</name>
         <param>
-          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
           <declname>aTrajectory</declname>
         </param>
         <param>
@@ -72,7 +72,182 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="131" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="41" bodyend="51"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="133" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="41" bodyend="51"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1ab72bea3e9b5a99822e9e37ecd597304f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
+        <definition>Profile::TrajectoryTarget ostk::astrodynamics::flight::Profile::TrajectoryTarget::TargetPosition</definition>
+        <argsstring>(const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Axis &amp;anAxis, const bool &amp;isAntiDirection=false)</argsstring>
+        <name>TargetPosition</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" kindref="member">Axis</ref> &amp;</type>
+          <declname>anAxis</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isAntiDirection</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref> object of type <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref>, pointing towards a specific position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to point towards. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The axis of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAntiDirection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the target is in the anti-direction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="142" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1acbcd1e9a80fc117f6b39bd14ee6a713a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
+        <definition>Profile::TrajectoryTarget ostk::astrodynamics::flight::Profile::TrajectoryTarget::TargetVelocity</definition>
+        <argsstring>(const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Axis &amp;anAxis, const bool &amp;isAntiDirection=false)</argsstring>
+        <name>TargetVelocity</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" kindref="member">Axis</ref> &amp;</type>
+          <declname>anAxis</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isAntiDirection</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref> object of type TargetVelocity, pointing along the scan direction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to point towards. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The axis of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAntiDirection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the target is in the anti-direction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="151" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1aca81229208efcfc4b7c429bab51bb04d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Profile::TrajectoryTarget::TrajectoryTarget</definition>
+        <argsstring>(const TargetType &amp;aType, const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Axis &amp;anAxis, const bool &amp;isAntiDirection=false)</argsstring>
+        <name>TrajectoryTarget</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7189d5a2b82ad2af6bdcf1576146c440" kindref="member">TargetType</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a5095a2732f0495f64fd8610008f84080" kindref="member">Axis</ref> &amp;</type>
+          <declname>anAxis</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isAntiDirection</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to point towards. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAxis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The axis of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAntiDirection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the target is in the anti-direction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="164" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="67" bodyend="92"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -111,13 +286,16 @@
         <link refid="classostk_1_1astrodynamics_1_1_trajectory"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="124" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="123" bodyend="134"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="125" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="124" bodyend="170"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a64c09bafe204f7fb7b2e152ff7c49d00" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>antiDirection</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a6c746cc29caea39fbd308fc78b415fbc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>axis</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a192673acea78f21926fcc3144616ea26" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>Target</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a357f974eaa908f2b2c503f68c7071b8d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>trajectory</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1ad6f6c2eec2a0c0c9b83991a2d1ea3321" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>TrajectoryTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1ab72bea3e9b5a99822e9e37ecd597304f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>TargetPosition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1acbcd1e9a80fc117f6b39bd14ee6a713a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>TargetVelocity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a999b5c9dc760876ab946b27f02f12f03" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>trajectory</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a419c0b22ad2b23b3a375de0a5809ac16" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>TrajectoryTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1aca81229208efcfc4b7c429bab51bb04d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>TrajectoryTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1afa9cf268b2a791c0d0b31afeeb75f6ac" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryTarget</scope><name>type</name></member>
     </listofallmembers>
   </compounddef>
