@@ -46,6 +46,7 @@ using ostk::core::type::String;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector4d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -841,6 +842,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
     }
 
     {
+        EXPECT_THROW(
+            Profile::TrajectoryTarget::TargetPosition(Trajectory::Undefined(), Profile::Axis::X),
+            ostk::core::error::runtime::Undefined
+        );
+        EXPECT_THROW(
+            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Profile::Axis::X),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
         EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X));
         EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X, true));
@@ -943,6 +955,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
     const State uncompensatedState = uncompensatedProfile.getStateAt(instant);
 
     // Values taken from Orekit for unit test
+    const Vector4d q_B_GCRF = {-0.049325536600717236, 0.7053880389500211, 0.04932501463561278, -0.7053805702431075};
+    const Vector4d qCompensated_B_GCRF = {
+        -0.07270744620256138, 0.7033625816898471, 0.07270667666769967, -0.7033551344187611
+    };
+
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        q_B_GCRF, uncompensatedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-10
+    );
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        qCompensated_B_GCRF, compensatedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-5
+    );
 
     EXPECT_NEAR(
         compensatedState.getAttitude().angularDifferenceWith(uncompensatedState.getAttitude()).inDegrees(),

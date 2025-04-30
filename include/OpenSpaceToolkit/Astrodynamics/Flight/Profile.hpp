@@ -129,6 +129,7 @@ class Profile
         /// @param aTrajectory The trajectory to point towards.
         /// @param anAxis The axis of the target.
         /// @param isAntiDirection Whether the target is in the anti-direction.
+        [[deprecated("Use TrajectoryTarget::TargetPosition instead.")]]
         TrajectoryTarget(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
         );

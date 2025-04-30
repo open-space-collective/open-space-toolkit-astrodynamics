@@ -55,7 +55,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .value("GeocentricNadir", Profile::TargetType::GeocentricNadir, "Geocentric nadir")
         .value("GeodeticNadir", Profile::TargetType::GeodeticNadir, "Geodetic nadir")
-        .value("Trajectory", Profile::TargetType::Trajectory, "Trajectory")
+        .value("Trajectory", Profile::TargetType::Trajectory, "Trajectory")  // Deprecated in favor of TargetPosition
         .value("TargetPosition", Profile::TargetType::TargetPosition, "Target position")
         .value("TargetVelocity", Profile::TargetType::TargetVelocity, "Target velocity")
         .value("Sun", Profile::TargetType::Sun, "Sun")

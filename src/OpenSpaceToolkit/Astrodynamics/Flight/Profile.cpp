@@ -48,10 +48,6 @@ Profile::TrajectoryTarget::TrajectoryTarget(
     {
         throw ostk::core::error::runtime::Undefined("Trajectory");
     }
-
-    std::cout << "Deprecation warning: TrajectoryTarget constructor is deprecated. Use "
-                 "TrajectoryTarget::TargetPosition or TrajectoryTarget::TargetVelocity instead as appropriate."
-              << std::endl;
 }
 
 Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
@@ -468,11 +464,6 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
 
 Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     const Vector3d targetPositionCoordinates =
         aTrajectory.getStateAt(aState.accessInstant()).inFrame(Frame::GCRF()).getPosition().accessCoordinates();
     const Vector3d satellitePositionCoordinates = aState.getPosition().accessCoordinates();
@@ -482,11 +473,6 @@ Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::
 
 Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant());
 
     const State slidingTargetState_GCRF = aTrajectory.getStateAt(aState.accessInstant());
