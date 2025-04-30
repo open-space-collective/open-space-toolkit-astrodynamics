@@ -46,6 +46,7 @@ using ostk::core::type::String;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector4d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -841,9 +842,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
     }
 
     {
+        EXPECT_THROW(
+            Profile::TrajectoryTarget::TargetPosition(Trajectory::Undefined(), Profile::Axis::X),
+            ostk::core::error::runtime::Undefined
+        );
+        EXPECT_THROW(
+            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Profile::Axis::X),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
         EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X));
         EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X, true));
+
+        // Testing static factory methods
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X, true));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X, true));
     }
 }
 
@@ -881,6 +899,79 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
         };
         EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X));
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
+{
+    const Environment environment = Environment::Default();
+
+    const Length semiMajorAxis = Length::Kilometers(7000.0);
+    const Real eccentricity = 0.0;
+    const Angle inclination = Angle::Degrees(98.0);
+    const Angle raan = Angle::Degrees(0.0);
+    const Angle aop = Angle::Degrees(0.0);
+    const Angle trueAnomaly = Angle::Degrees(0.0);
+
+    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+    const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+    const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+    const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+    const Kepler keplerianModel = {
+        coe, instant, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+    };
+
+    const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+    const State state = orbit.getStateAt(instant);
+
+    const Array<Instant> instants =
+        Interval::Closed(instant, instant + Duration::Seconds(2.0)).generateGrid(Duration::Seconds(1.0));
+
+    const Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(orbit, instants, Earth::WGS84());
+
+    const Profile compensatedProfile = Profile::CustomPointing(
+        orbit,
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
+        ),
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X)
+        )
+    );
+
+    const Profile uncompensatedProfile = Profile::CustomPointing(
+        orbit,
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
+        ),
+        std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X)
+    );
+
+    const State compensatedState = compensatedProfile.getStateAt(instant);
+    const State uncompensatedState = uncompensatedProfile.getStateAt(instant);
+
+    // Values taken from Orekit for unit test
+    const Vector4d q_B_GCRF = {-0.049325536600717236, 0.7053880389500211, 0.04932501463561278, -0.7053805702431075};
+    const Vector4d qCompensated_B_GCRF = {
+        -0.07270744620256138, 0.7033625816898471, 0.07270667666769967, -0.7033551344187611
+    };
+
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        q_B_GCRF, uncompensatedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-10
+    );
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        qCompensated_B_GCRF, compensatedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-5
+    );
+
+    EXPECT_NEAR(
+        compensatedState.getAttitude().angularDifferenceWith(uncompensatedState.getAttitude()).inDegrees(),
+        3.803545407107513,
+        1e-4
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)

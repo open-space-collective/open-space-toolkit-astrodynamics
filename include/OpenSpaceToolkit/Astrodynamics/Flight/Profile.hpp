@@ -65,7 +65,6 @@ using ostk::physics::time::Interval;
 using ostk::physics::unit::Angle;
 
 using ostk::astrodynamics::flight::profile::Model;
-using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief Spacecraft flight profile
@@ -94,6 +93,8 @@ class Profile
         GeocentricNadir,     /// Negative of the position vector of the satellite in the ECI frame
         GeodeticNadir,       /// Negative of the geodetic normal of the satellite in the ECI frame
         Trajectory,          /// Points towards the provided trajectory, eg. Ground Station in ECEF
+        TargetPosition,      /// Points towards the provided target position
+        TargetVelocity,      /// Points along the target velocity vector
         Sun,                 /// The position of the Sun
         Moon,                /// The position of the Moon
         VelocityECI,         /// The velocity vector in the ECI frame
@@ -128,9 +129,44 @@ class Profile
         /// @param aTrajectory The trajectory to point towards.
         /// @param anAxis The axis of the target.
         /// @param isAntiDirection Whether the target is in the anti-direction.
-        TrajectoryTarget(const Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false);
+        [[deprecated("Use TrajectoryTarget::TargetPosition instead.")]]
+        TrajectoryTarget(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        );
 
-        Trajectory trajectory;  ///< The trajectory to point towards.
+        /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
+        ///
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        static TrajectoryTarget TargetPosition(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        );
+
+        /// @brief Constructs a TrajectoryTarget object of type TargetVelocity, pointing along the scan direction.
+        ///
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        static TrajectoryTarget TargetVelocity(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        );
+
+        ostk::astrodynamics::Trajectory trajectory;  ///< The trajectory to point towards.
+
+       private:
+        /// @brief Constructs a TrajectoryTarget object.
+        ///
+        /// @param aType The type of the target.
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        TrajectoryTarget(
+            const TargetType& aType,
+            const ostk::astrodynamics::Trajectory& aTrajectory,
+            const Axis& anAxis,
+            const bool& isAntiDirection = false
+        );
     };
 
     /// @brief Represents a target that points towards a profile of orientations.
@@ -285,7 +321,7 @@ class Profile
     /// @param aTrajectory A trajectory
     /// @param aQuaternion A pointing in GCRF
     /// @return Flight profile
-    static Profile InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion);
+    static Profile InertialPointing(const ostk::astrodynamics::Trajectory& aTrajectory, const Quaternion& aQuaternion);
 
     /// @brief Constructs a flight profile with local orbital frame pointing
     ///
@@ -340,7 +376,9 @@ class Profile
 
     static Vector3d ComputeGeodeticNadirDirectionVector(const State& aState);
 
-    static Vector3d ComputeTargetDirectionVector(const State& aState, const Trajectory& aTrajectory);
+    static Vector3d ComputeTargetDirectionVector(
+        const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
+    );
 
     static Vector3d ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial);
 
@@ -349,6 +387,10 @@ class Profile
     static Vector3d ComputeVelocityDirectionVector_ECEF(const State& aState);
 
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
+
+    static Vector3d ComputeTargetVelocityVector(
+        const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
+    );
 
     static Vector3d ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
 
