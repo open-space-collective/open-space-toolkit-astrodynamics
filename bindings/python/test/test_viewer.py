@@ -301,4 +301,4 @@ def test_compute_celestial_angular_diameter_from_states_success(
         states=orbit.get_states_at(
             interval.generate_grid(Duration.seconds(30.0)),
         ),
-    ).mean() == pytest.approx(0.52, rel=1e-2)
+    ).mean() == pytest.approx(0.54, rel=1e-2)

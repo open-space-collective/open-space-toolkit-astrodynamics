@@ -671,15 +671,15 @@ def _compute_celestial_angular_diameter_from_states(
     Reference:
         https://en.wikipedia.org/wiki/Angular_diameter
     """
-    celestial_diameter: Length = celestial.get_equatorial_diameter()
+    celestial_radius_meters: float = float(celestial.get_equatorial_radius().in_meters())
     celestial_to_observer_meters: np.ndarray = np.zeros((3, len(states)))
 
     for i, state in enumerate(states):
         celestial_to_observer_meters[:, i] = (
-            state.in_frame(celestial.get_frame())
+            state.in_frame(celestial.access_frame())
             .get_position()
             .in_meters()
             .get_coordinates()
         )
     distances: np.ndarray = np.linalg.norm(celestial_to_observer_meters, axis=0)
-    return np.rad2deg(2 * np.arcsin(celestial_diameter.in_meters() / (2 * distances)))
+    return np.rad2deg(2 * np.arcsin(celestial_radius_meters / distances))
