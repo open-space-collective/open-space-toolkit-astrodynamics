@@ -293,17 +293,17 @@ class Viewer:
         reference_frame: Frame = Frame.GCRF()
         reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
         instants: list[Instant] = self._interval.generate_grid(time_step)
+        celestial_name: str = str(celestial.access_name())
 
         if color is None:
-            match celestial.access_name():
-                case "Earth":
-                    color = cesiumpy.color.BLUE
-                case "Moon":
-                    color = cesiumpy.color.GREY
-                case "Sun":
-                    color = cesiumpy.color.YELLOW
-                case _:
-                    color = cesiumpy.color.RED
+            if celestial_name == "Earth":
+                color = cesiumpy.color.BLUE
+            elif celestial_name == "Moon":
+                color = cesiumpy.color.GREY
+            elif celestial_name == "Sun":
+                color = cesiumpy.color.YELLOW
+            else:
+                color = cesiumpy.color.RED
 
         def _create_celestial_body_direction_state(
             satellite_state: State,
@@ -352,7 +352,7 @@ class Viewer:
 
         _cesium_from_ostk_sensor(
             ConicSensor(
-                name=str(celestial.access_name()).lower() + "_direction",
+                name=celestial_name.lower() + "_direction",
                 direction=reference_vector,
                 # Compute the half angle from the celestial body diameter
                 half_angle=Angle.degrees(
