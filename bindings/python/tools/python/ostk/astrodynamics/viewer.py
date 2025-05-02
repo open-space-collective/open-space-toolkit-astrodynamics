@@ -275,6 +275,7 @@ class Viewer:
         profile_or_trajectory: Profile | Trajectory,
         celestial: Celestial,
         time_step: Duration | None = None,
+        color: str | None = None,
     ) -> Viewer:
         """
         Add the celestial direction to the viewer.
@@ -284,11 +285,25 @@ class Viewer:
             celestial (Celestial, optional): The celestial body to be used.
             time_step (Duration): The duration of each step in the grid.
                 Default to None. If None, the default step duration is used.
+            color (str, optional): The color of the celestial body direction.
+                Defaults to None. If None, the color depends on the celestial body (for the Earth, Sun and Moon).
+                Otherwise, use the default color (RED).
         """
         time_step = time_step or DEFAULT_STEP_DURATION
         reference_frame: Frame = Frame.GCRF()
         reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
         instants: list[Instant] = self._interval.generate_grid(time_step)
+
+        if color is None:
+            match celestial.access_name():
+                case "Earth":
+                    color = cesiumpy.color.BLUE
+                case "Moon":
+                    color = cesiumpy.color.GREY
+                case "Sun":
+                    color = cesiumpy.color.YELLOW
+                case _:
+                    color = cesiumpy.color.RED
 
         def _create_celestial_body_direction_state(
             satellite_state: State,
@@ -348,7 +363,7 @@ class Viewer:
                     / 2.0
                 ),
                 length=Length.meters(2.0),
-                color="yellow",
+                color=color,
             )
         ).render(
             viewer=self._viewer,

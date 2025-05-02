@@ -296,7 +296,7 @@ def test_compute_celestial_angular_diameter_from_states_success(
     interval: Interval,
     environment: Environment,
 ) -> None:
-    _compute_celestial_angular_diameter_from_states(
+    assert _compute_celestial_angular_diameter_from_states(
         celestial=environment.access_celestial_object_with_name("Sun"),
         states=orbit.get_states_at(
             interval.generate_grid(Duration.seconds(30.0)),
