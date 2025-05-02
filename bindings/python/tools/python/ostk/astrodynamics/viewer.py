@@ -272,11 +272,11 @@ class Viewer:
 
         return self
 
-    def add_sun_direction(
+    def add_celestial_body_direction(
         self,
         profile_or_trajectory: Profile | Trajectory,
         time_step: Duration | None = None,
-        environment: Environment | None = None,
+        celestial: Celestial | None = None,
     ) -> Viewer:
         """
         Add the sun direction to the viewer.
@@ -285,14 +285,12 @@ class Viewer:
             profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
             time_step (Duration): The duration of each step in the grid.
                 Default to None. If None, the default step duration is used.
-            environment (Environment): The environment containing the sun.
-                Default to None. If None, the default environment is used.
+            celestial (Celestial, optional): The celestial body to be used.
+                Defaults to None. If None, the default celestial body is used.
         """
         time_step = time_step or DEFAULT_STEP_DURATION
-        environment = environment or Environment.default()
         reference_frame: Frame = Frame.GCRF()
         sun_reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
-        sun: Celestial = environment.access_celestial_object_with_name("Sun")
 
         instants: list[Instant] = self._interval.generate_grid(time_step)
 
@@ -300,6 +298,7 @@ class Viewer:
             satellite_state: State,
             reference_frame: Frame = reference_frame,
             sun_reference_vector: np.ndarray = sun_reference_vector,
+            celestial: Celestial = celestial,
         ) -> State:
             state_in_reference_frame: State = satellite_state.in_frame(reference_frame)
             return State(
@@ -307,7 +306,7 @@ class Viewer:
                 position=state_in_reference_frame.get_position(),
                 velocity=state_in_reference_frame.get_velocity(),
                 attitude=Quaternion.shortest_rotation(
-                    first_vector=sun.get_position_in(
+                    first_vector=celestial.get_position_in(
                         frame=reference_frame,
                         instant=state_in_reference_frame.get_instant(),
                     ).get_coordinates(),
@@ -341,7 +340,7 @@ class Viewer:
         )
         _cesium_from_ostk_sensor(
             ConicSensor(
-                name="sun_direction",
+                name=str(celestial.access_name()).lower() + "_direction",
                 direction=sun_reference_vector,
                 half_angle=Angle.degrees(1.0),
                 length=Length.meters(2.0),

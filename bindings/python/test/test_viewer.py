@@ -172,16 +172,21 @@ class TestViewer:
         )
         assert rendered_html.endswith("</script>")
 
-    def test_add_sun_direction_success(
+    @pytest.mark.parametrize(
+        "celestial_body_name",
+        ["Earth", "Moon", "Sun"],
+    )
+    def test_add_celestial_body_direction_success(
         self,
         viewer: Viewer,
         orbit: Orbit,
+        celestial_body_name: str,
         environment: Environment,
     ):
-        viewer.add_sun_direction(
+        viewer.add_celestial_body_direction(
             profile_or_trajectory=orbit,
             time_step=Duration.seconds(30.0),
-            environment=environment,
+            celestial=environment.access_celestial_object_with_name(celestial_body_name),
         )
 
         rendered_html: str = viewer.render()
@@ -190,7 +195,7 @@ class TestViewer:
         assert "var widget = new Cesium.Viewer" in rendered_html
         assert " widget.entities.add({position: widget" in rendered_html
         assert (
-            "widget.entities.add({position: widget.sun_direction_position"
+            f"widget.entities.add({{position: widget.{celestial_body_name.lower()}_direction_position"
             in rendered_html
         )
         assert rendered_html.endswith("</script>")
