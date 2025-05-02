@@ -19,6 +19,7 @@ from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.flight import Profile
 from ostk.astrodynamics.viewer import Viewer
 from ostk.astrodynamics.viewer import ConicSensor
+from ostk.astrodynamics.viewer import _compute_celestial_angular_diameter_from_states
 
 
 @pytest.fixture
@@ -288,3 +289,16 @@ class TestViewer:
             in rendered_html
         )
         assert rendered_html.endswith("</script>")
+
+
+def test_compute_celestial_angular_diameter_from_states_success(
+    orbit: Orbit,
+    interval: Interval,
+    environment: Environment,
+) -> None:
+    _compute_celestial_angular_diameter_from_states(
+        celestial=environment.access_celestial_object_with_name("Sun"),
+        states=orbit.get_states_at(
+            interval.generate_grid(Duration.seconds(30.0)),
+        ),
+    ).mean() == pytest.approx(0.52, rel=1e-2)

@@ -321,7 +321,8 @@ class Viewer:
 
         satellite = cesiumpy.Satellite(
             position=_generate_sampled_position_from_llas(
-                instants, _generate_llas(celestial_direction_states)
+                instants=instants,
+                llas=_generate_llas(celestial_direction_states),
             ),
             orientation=_generate_sampled_orientation(celestial_direction_states),
             availability=cesiumpy.TimeIntervalCollection(
@@ -332,13 +333,20 @@ class Viewer:
                     ),
                 ],
             ),
-            model=None,
         )
+
         _cesium_from_ostk_sensor(
             ConicSensor(
                 name=str(celestial.access_name()).lower() + "_direction",
                 direction=reference_vector,
-                half_angle=Angle.degrees(1.0),
+                # Compute the half angle from the celestial body diameter
+                half_angle=Angle.degrees(
+                    _compute_celestial_angular_diameter_from_states(
+                        celestial=celestial,
+                        states=celestial_direction_states,
+                    ).mean()
+                    / 2.0
+                ),
                 length=Length.meters(2.0),
                 color="yellow",
             )
@@ -629,3 +637,34 @@ def _cesium_from_ostk_sensor(sensor: Sensor) -> cesiumpy.Sensor:
         )
 
     raise NotImplementedError("{sensor.__name__} is not supported yet.")
+
+
+def _compute_celestial_angular_diameter_from_states(
+    celestial: Celestial,
+    states: list[State],
+) -> np.ndarray:
+    """
+    Compute the angular diameter of a celestial body from the states of an observer.
+
+    Args:
+        celestial (Celestial): The celestial body.
+        states (list[State]): The states of the observer.
+
+    Returns:
+        np.ndarray: The angular diameter of the celestial body (in degrees).
+
+    Reference:
+        https://en.wikipedia.org/wiki/Angular_diameter
+    """
+    celestial_diameter: Length = celestial.get_equatorial_diameter()
+    celestial_to_observer_meters: np.ndarray = np.zeros((3, len(states)))
+
+    for i, state in enumerate(states):
+        celestial_to_observer_meters[:, i] = (
+            state.in_frame(celestial.get_frame())
+            .get_position()
+            .in_meters()
+            .get_coordinates()
+        )
+    distances: np.ndarray = np.linalg.norm(celestial_to_observer_meters, axis=0)
+    return np.rad2deg(2 * np.arcsin(celestial_diameter.in_meters() / (2 * distances)))
