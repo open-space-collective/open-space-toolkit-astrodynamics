@@ -16,6 +16,8 @@ except ImportError:
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
+from ostk.physics import Environment
+from ostk.physics.environment.object import Celestial
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.time import Instant, Interval, Duration
@@ -23,7 +25,9 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 
+from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.flight import Profile
+from ostk.astrodynamics.flight.profile.model import Tabulated
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
 
@@ -33,6 +37,7 @@ from .utilities import lla_from_position
 DEFAULT_SATELLITE_IMAGE: str = (
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADJSURBVDhPnZHRDcMgEEMZjVEYpaNklIzSEfLfD4qNnXAJSFWfhO7w2Zc0Tf9QG2rXrEzSUeZLOGm47WoH95x3Hl3jEgilvDgsOQUTqsNl68ezEwn1vae6lceSEEYvvWNT/Rxc4CXQNGadho1NXoJ+9iaqc2xi2xbt23PJCDIB6TQjOC6Bho/sDy3fBQT8PrVhibU7yBFcEPaRxOoeTwbwByCOYf9VGp1BYI1BA+EeHhmfzKbBoJEQwn1yzUZtyspIQUha85MpkNIXB7GizqDEECsAAAAASUVORK5CYII="
 )
+DEFAULT_STEP_DURATION: Duration = Duration.seconds(1.0)
 
 
 @dataclass
@@ -264,6 +269,88 @@ class Viewer:
                     width=1,
                 )
             )
+
+        return self
+
+    def add_sun_direction(
+        self,
+        profile_or_trajectory: Profile | Trajectory,
+        time_step: Duration | None = None,
+        environment: Environment | None = None,
+    ) -> Viewer:
+        """
+        Add the sun direction to the viewer.
+
+        Args:
+            profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
+            time_step (Duration): The duration of each step in the grid.
+                Default to None. If None, the default step duration is used.
+            environment (Environment): The environment containing the sun.
+                Default to None. If None, the default environment is used.
+        """
+        time_step = time_step or DEFAULT_STEP_DURATION
+        environment = environment or Environment.default()
+        reference_frame: Frame = Frame.GCRF()
+        sun_reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
+        sun: Celestial = environment.access_celestial_object_with_name("Sun")
+
+        instants: list[Instant] = self._interval.generate_grid(time_step)
+
+        def _create_sun_direction_state(
+            satellite_state: State,
+            reference_frame: Frame = reference_frame,
+            sun_reference_vector: np.ndarray = sun_reference_vector,
+        ) -> State:
+            state_in_reference_frame: State = satellite_state.in_frame(reference_frame)
+            return State(
+                instant=state_in_reference_frame.get_instant(),
+                position=state_in_reference_frame.get_position(),
+                velocity=state_in_reference_frame.get_velocity(),
+                attitude=Quaternion.shortest_rotation(
+                    first_vector=sun.get_position_in(
+                        frame=reference_frame,
+                        instant=state_in_reference_frame.get_instant(),
+                    ).get_coordinates(),
+                    second_vector=sun_reference_vector,
+                ),
+                angular_velocity=np.zeros(3),
+                attitude_frame=reference_frame,
+            )
+
+        sun_direction_states: list[State] = list(
+            map(
+                _create_sun_direction_state,
+                profile_or_trajectory.get_states_at(instants),
+            )
+        )
+
+        satellite = cesiumpy.Satellite(
+            position=_generate_sampled_position_from_llas(
+                instants, _generate_llas(sun_direction_states)
+            ),
+            orientation=_generate_sampled_orientation(sun_direction_states),
+            availability=cesiumpy.TimeIntervalCollection(
+                intervals=[
+                    cesiumpy.TimeInterval(
+                        start=coerce_to_datetime(self._interval.get_start()),
+                        stop=coerce_to_datetime(self._interval.get_end()),
+                    ),
+                ],
+            ),
+            model=None,
+        )
+        _cesium_from_ostk_sensor(
+            ConicSensor(
+                name="sun_direction",
+                direction=sun_reference_vector,
+                half_angle=Angle.degrees(1.0),
+                length=Length.meters(2.0),
+                color="yellow",
+            )
+        ).render(
+            viewer=self._viewer,
+            satellite=satellite,
+        )
 
         return self
 
