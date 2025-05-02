@@ -275,18 +275,17 @@ class Viewer:
     def add_celestial_body_direction(
         self,
         profile_or_trajectory: Profile | Trajectory,
+        celestial: Celestial,
         time_step: Duration | None = None,
-        celestial: Celestial | None = None,
     ) -> Viewer:
         """
         Add the sun direction to the viewer.
 
         Args:
             profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
+            celestial (Celestial, optional): The celestial body to be used.
             time_step (Duration): The duration of each step in the grid.
                 Default to None. If None, the default step duration is used.
-            celestial (Celestial, optional): The celestial body to be used.
-                Defaults to None. If None, the default celestial body is used.
         """
         time_step = time_step or DEFAULT_STEP_DURATION
         reference_frame: Frame = Frame.GCRF()
