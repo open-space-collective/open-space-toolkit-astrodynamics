@@ -16,7 +16,6 @@ except ImportError:
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
-from ostk.physics import Environment
 from ostk.physics.environment.object import Celestial
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
@@ -27,7 +26,6 @@ from ostk.physics.coordinate.spherical import LLA
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.flight import Profile
-from ostk.astrodynamics.flight.profile.model import Tabulated
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
 
@@ -279,7 +277,7 @@ class Viewer:
         time_step: Duration | None = None,
     ) -> Viewer:
         """
-        Add the sun direction to the viewer.
+        Add the celestial direction to the viewer.
 
         Args:
             profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
@@ -289,14 +287,13 @@ class Viewer:
         """
         time_step = time_step or DEFAULT_STEP_DURATION
         reference_frame: Frame = Frame.GCRF()
-        sun_reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
-
+        reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
         instants: list[Instant] = self._interval.generate_grid(time_step)
 
-        def _create_sun_direction_state(
+        def _create_celestial_body_direction_state(
             satellite_state: State,
             reference_frame: Frame = reference_frame,
-            sun_reference_vector: np.ndarray = sun_reference_vector,
+            reference_vector: np.ndarray = reference_vector,
             celestial: Celestial = celestial,
         ) -> State:
             state_in_reference_frame: State = satellite_state.in_frame(reference_frame)
@@ -309,24 +306,24 @@ class Viewer:
                         frame=reference_frame,
                         instant=state_in_reference_frame.get_instant(),
                     ).get_coordinates(),
-                    second_vector=sun_reference_vector,
+                    second_vector=reference_vector,
                 ),
                 angular_velocity=np.zeros(3),
                 attitude_frame=reference_frame,
             )
 
-        sun_direction_states: list[State] = list(
+        celestial_direction_states: list[State] = list(
             map(
-                _create_sun_direction_state,
+                _create_celestial_body_direction_state,
                 profile_or_trajectory.get_states_at(instants),
             )
         )
 
         satellite = cesiumpy.Satellite(
             position=_generate_sampled_position_from_llas(
-                instants, _generate_llas(sun_direction_states)
+                instants, _generate_llas(celestial_direction_states)
             ),
-            orientation=_generate_sampled_orientation(sun_direction_states),
+            orientation=_generate_sampled_orientation(celestial_direction_states),
             availability=cesiumpy.TimeIntervalCollection(
                 intervals=[
                     cesiumpy.TimeInterval(
@@ -340,7 +337,7 @@ class Viewer:
         _cesium_from_ostk_sensor(
             ConicSensor(
                 name=str(celestial.access_name()).lower() + "_direction",
-                direction=sun_reference_vector,
+                direction=reference_vector,
                 half_angle=Angle.degrees(1.0),
                 length=Length.meters(2.0),
                 color="yellow",
