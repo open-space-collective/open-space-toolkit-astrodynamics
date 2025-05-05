@@ -19,6 +19,7 @@ from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.flight import Profile
 from ostk.astrodynamics.viewer import Viewer
 from ostk.astrodynamics.viewer import ConicSensor
+from ostk.astrodynamics.viewer import _compute_celestial_angular_diameter_from_states
 
 
 @pytest.fixture
@@ -172,6 +173,34 @@ class TestViewer:
         )
         assert rendered_html.endswith("</script>")
 
+    @pytest.mark.parametrize(
+        "celestial_body_name",
+        ["Earth", "Moon", "Sun"],
+    )
+    def test_add_celestial_body_direction_success(
+        self,
+        viewer: Viewer,
+        orbit: Orbit,
+        celestial_body_name: str,
+        environment: Environment,
+    ):
+        viewer.add_celestial_body_direction(
+            profile_or_trajectory=orbit,
+            time_step=Duration.seconds(30.0),
+            celestial=environment.access_celestial_object_with_name(celestial_body_name),
+        )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert " widget.entities.add({position: widget" in rendered_html
+        assert (
+            f"widget.entities.add({{position: widget.{celestial_body_name.lower()}_direction_position"
+            in rendered_html
+        )
+        assert rendered_html.endswith("</script>")
+
     def test_add_target_success(
         self,
         viewer: Viewer,
@@ -260,3 +289,16 @@ class TestViewer:
             in rendered_html
         )
         assert rendered_html.endswith("</script>")
+
+
+def test_compute_celestial_angular_diameter_from_states_success(
+    orbit: Orbit,
+    interval: Interval,
+    environment: Environment,
+) -> None:
+    assert _compute_celestial_angular_diameter_from_states(
+        celestial=environment.access_celestial_object_with_name("Sun"),
+        states=orbit.get_states_at(
+            interval.generate_grid(Duration.seconds(30.0)),
+        ),
+    ).mean() == pytest.approx(0.54, rel=1e-2)

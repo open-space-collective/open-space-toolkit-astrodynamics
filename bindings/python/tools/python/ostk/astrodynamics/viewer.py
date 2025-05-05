@@ -16,6 +16,7 @@ except ImportError:
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 
+from ostk.physics.environment.object import Celestial
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.time import Instant, Interval, Duration
@@ -23,6 +24,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 
+from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.flight import Profile
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
@@ -33,6 +35,7 @@ from .utilities import lla_from_position
 DEFAULT_SATELLITE_IMAGE: str = (
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADJSURBVDhPnZHRDcMgEEMZjVEYpaNklIzSEfLfD4qNnXAJSFWfhO7w2Zc0Tf9QG2rXrEzSUeZLOGm47WoH95x3Hl3jEgilvDgsOQUTqsNl68ezEwn1vae6lceSEEYvvWNT/Rxc4CXQNGadho1NXoJ+9iaqc2xi2xbt23PJCDIB6TQjOC6Bho/sDy3fBQT8PrVhibU7yBFcEPaRxOoeTwbwByCOYf9VGp1BYI1BA+EeHhmfzKbBoJEQwn1yzUZtyspIQUha85MpkNIXB7GizqDEECsAAAAASUVORK5CYII="
 )
+DEFAULT_STEP_DURATION: Duration = Duration.seconds(1.0)
 
 
 @dataclass
@@ -264,6 +267,112 @@ class Viewer:
                     width=1,
                 )
             )
+
+        return self
+
+    def add_celestial_body_direction(
+        self,
+        profile_or_trajectory: Profile | Trajectory,
+        celestial: Celestial,
+        time_step: Duration | None = None,
+        color: str | None = None,
+    ) -> Viewer:
+        """
+        Add the celestial direction to the viewer.
+
+        Args:
+            profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
+            celestial (Celestial, optional): The celestial body to be used.
+            time_step (Duration): The duration of each step in the grid.
+                Default to None. If None, the default step duration is used.
+            color (str, optional): The color of the celestial body direction.
+                Defaults to None. If None, the color depends on the celestial body (for the Earth, Sun and Moon).
+                Otherwise, use the default color (RED).
+
+        Returns:
+            Viewer: The Viewer.
+        """
+        time_step = time_step or DEFAULT_STEP_DURATION
+        reference_frame: Frame = Frame.GCRF()
+        reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
+        instants: list[Instant] = self._interval.generate_grid(time_step)
+        celestial_name: str = str(celestial.access_name())
+
+        if color is None:
+            if celestial_name == "Earth":
+                color = cesiumpy.color.BLUE
+            elif celestial_name == "Moon":
+                color = cesiumpy.color.GREY
+            elif celestial_name == "Sun":
+                color = cesiumpy.color.YELLOW
+            else:
+                color = cesiumpy.color.RED
+
+        def _create_celestial_body_direction_state(
+            satellite_state: State,
+            reference_frame: Frame = reference_frame,
+            reference_vector: np.ndarray = reference_vector,
+            celestial: Celestial = celestial,
+        ) -> State:
+            state_in_reference_frame: State = satellite_state.in_frame(reference_frame)
+            return State(
+                instant=state_in_reference_frame.get_instant(),
+                position=state_in_reference_frame.get_position(),
+                velocity=state_in_reference_frame.get_velocity(),
+                attitude=Quaternion.shortest_rotation(
+                    first_vector=_compute_celestial_direction_from_state(
+                        state=satellite_state,
+                        celestial=celestial,
+                        frame=reference_frame,
+                    ),
+                    second_vector=reference_vector,
+                ),
+                angular_velocity=np.zeros(3),
+                attitude_frame=reference_frame,
+            )
+
+        celestial_direction_states: list[State] = list(
+            map(
+                _create_celestial_body_direction_state,
+                profile_or_trajectory.get_states_at(instants),
+            )
+        )
+
+        satellite = cesiumpy.Satellite(
+            position=_generate_sampled_position_from_llas(
+                instants=instants,
+                llas=_generate_llas(celestial_direction_states),
+            ),
+            orientation=_generate_sampled_orientation(celestial_direction_states),
+            availability=cesiumpy.TimeIntervalCollection(
+                intervals=[
+                    cesiumpy.TimeInterval(
+                        start=coerce_to_datetime(self._interval.get_start()),
+                        stop=coerce_to_datetime(self._interval.get_end()),
+                    ),
+                ],
+            ),
+        )
+
+        _cesium_from_ostk_sensor(
+            ConicSensor(
+                name=celestial_name.lower() + "_direction",
+                direction=reference_vector,
+                # Compute the half angle from the celestial body diameter
+                half_angle=Angle.degrees(
+                    _compute_celestial_angular_diameter_from_states(
+                        celestial=celestial,
+                        states=celestial_direction_states,
+                    ).mean()
+                    / 2.0
+                ),
+                length=Length.meters(2.0),
+                color=color,
+            )
+        ).render(
+            viewer=self._viewer,
+            satellite=satellite,
+        )
 
         return self
 
@@ -547,3 +656,69 @@ def _cesium_from_ostk_sensor(sensor: Sensor) -> cesiumpy.Sensor:
         )
 
     raise NotImplementedError("{sensor.__name__} is not supported yet.")
+
+
+def _compute_celestial_direction_from_state(
+    state: State,
+    celestial: Celestial,
+    frame: Frame | None = None,
+) -> np.ndarray:
+    """
+    Compute the direction of a celestial body from a state.
+
+    Args:
+        state (State): The state of the observer.
+        celestial (Celestial): The celestial body.
+        frame (Frame): The frame in which the celestial body is expressed.
+            Defaults to None. If None, the GCRF frame is used.
+
+    Returns:
+        np.ndarray: The direction of the celestial body (in meters).
+    """
+    frame = frame or Frame.GCRF()
+    return (
+        celestial.get_position_in(
+            frame=frame,
+            instant=state.get_instant(),
+        )
+        .in_meters()
+        .get_coordinates()
+        - state.get_position()
+        .in_frame(
+            frame=frame,
+            instant=state.get_instant(),
+        )
+        .in_meters()
+        .get_coordinates()
+    )
+
+
+def _compute_celestial_angular_diameter_from_states(
+    celestial: Celestial,
+    states: list[State],
+) -> np.ndarray:
+    """
+    Compute the angular diameter of a celestial body from the states of an observer.
+
+    Args:
+        celestial (Celestial): The celestial body.
+        states (list[State]): The states of the observer.
+
+    Returns:
+        np.ndarray: The angular diameter of the celestial body (in degrees).
+
+    Reference:
+        https://en.wikipedia.org/wiki/Angular_diameter
+    """
+    celestial_radius_meters: float = float(celestial.get_equatorial_radius().in_meters())
+    celestial_to_observer_meters: np.ndarray = np.zeros((3, len(states)))
+
+    for i, state in enumerate(states):
+        celestial_to_observer_meters[:, i] = (
+            state.in_frame(celestial.access_frame())
+            .get_position()
+            .in_meters()
+            .get_coordinates()
+        )
+    distances: np.ndarray = np.linalg.norm(celestial_to_observer_meters, axis=0)
+    return np.rad2deg(2 * np.arcsin(celestial_radius_meters / distances))
