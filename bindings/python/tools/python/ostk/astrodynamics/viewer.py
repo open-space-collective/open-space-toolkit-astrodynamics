@@ -288,6 +288,9 @@ class Viewer:
             color (str, optional): The color of the celestial body direction.
                 Defaults to None. If None, the color depends on the celestial body (for the Earth, Sun and Moon).
                 Otherwise, use the default color (RED).
+
+        Returns:
+            Viewer: The Viewer.
         """
         time_step = time_step or DEFAULT_STEP_DURATION
         reference_frame: Frame = Frame.GCRF()
