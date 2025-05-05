@@ -317,10 +317,11 @@ class Viewer:
                 position=state_in_reference_frame.get_position(),
                 velocity=state_in_reference_frame.get_velocity(),
                 attitude=Quaternion.shortest_rotation(
-                    first_vector=celestial.get_position_in(
+                    first_vector=_compute_celestial_direction_from_state(
+                        state=satellite_state,
+                        celestial=celestial,
                         frame=reference_frame,
-                        instant=state_in_reference_frame.get_instant(),
-                    ).get_coordinates(),
+                    ),
                     second_vector=reference_vector,
                 ),
                 angular_velocity=np.zeros(3),
@@ -652,6 +653,41 @@ def _cesium_from_ostk_sensor(sensor: Sensor) -> cesiumpy.Sensor:
         )
 
     raise NotImplementedError("{sensor.__name__} is not supported yet.")
+
+
+def _compute_celestial_direction_from_state(
+    state: State,
+    celestial: Celestial,
+    frame: Frame | None = None,
+) -> np.ndarray:
+    """
+    Compute the direction of a celestial body from a state.
+
+    Args:
+        state (State): The state of the observer.
+        celestial (Celestial): The celestial body.
+        frame (Frame): The frame in which the celestial body is expressed.
+            Defaults to None. If None, the GCRF frame is used.
+
+    Returns:
+        np.ndarray: The direction of the celestial body (in meters).
+    """
+    frame = frame or Frame.GCRF()
+    return (
+        celestial.get_position_in(
+            frame=frame,
+            instant=state.get_instant(),
+        )
+        .in_meters()
+        .get_coordinates()
+        - state.get_position()
+        .in_frame(
+            frame=frame,
+            instant=state.get_instant(),
+        )
+        .in_meters()
+        .get_coordinates()
+    )
 
 
 def _compute_celestial_angular_diameter_from_states(
