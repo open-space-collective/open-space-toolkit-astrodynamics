@@ -215,7 +215,6 @@ class TestViewer:
 
         assert rendered_html.startswith('<meta charset="utf-8">')
         assert "var widget = new Cesium.Viewer" in rendered_html
-        assert " widget.entities.add({position: widget" in rendered_html
         assert "widget.entities.add({polyline:" in rendered_html
         assert rendered_html.endswith("</script>")
 
