@@ -201,18 +201,11 @@ class TestViewer:
         )
         assert rendered_html.endswith("</script>")
 
-        # For debugging purposes - uncomment to save the HTML file
-        # with open(
-        #     f"/app/build/test_add_celestial_body_direction_{celestial_body_name}.html",
-        #     "w",
-        # ) as file:
-        #     file.write(rendered_html)
-
     def test_add_ground_tracks_success(
         self,
         viewer: Viewer,
         orbit: Orbit,
-    ) -> None:
+    ):
         viewer.add_ground_tracks(profile_or_trajectory=orbit)
 
         rendered_html: str = viewer.render()
@@ -221,10 +214,6 @@ class TestViewer:
         assert "var widget = new Cesium.Viewer" in rendered_html
         assert "widget.entities.add({polyline:" in rendered_html
         assert rendered_html.endswith("</script>")
-
-        # For debugging purposes - uncomment to save the HTML file
-        # with open("/app/build/test_add_ground_tracks.html", "w") as file:
-        # file.write(rendered_html)
 
     def test_add_target_success(
         self,

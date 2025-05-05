@@ -304,8 +304,8 @@ class Viewer:
             else:
                 color = cesiumpy.color.RED
 
-        # Apply an alpha to the color
-        color = color.with_alpha(alpha_color)
+            # Apply an alpha to the color
+            color = color.with_alpha(alpha_color)
 
         def _create_celestial_body_direction_state(
             satellite_state: State,
@@ -645,14 +645,9 @@ def _generate_sampled_position_from_states(
     Returns:
         cesiumpy.SampledPositionProperty: Sampled position property.
     """
-    instants: list[Instant] = [None] * len(states)
-    positions: list[Position] = [None] * len(states)
-    for i, state in enumerate(states):
-        instants[i] = state.get_instant()
-        positions[i] = state.get_position()
     return _generate_sampled_position_from_positions(
-        instants=instants,
-        positions=positions,
+        instants=[state.get_instant() for state in states],
+        positions=[state.get_position() for state in states],
     )
 
 
@@ -661,11 +656,11 @@ def _generate_sampled_position_from_positions(
     positions: list[Position],
 ) -> cesiumpy.SampledPositionProperty:
     """
-    Generate a sampled position property from a list of OSTk Positions.
+    Generate a sampled position property from a list of OSTk positions and instants.
 
     Args:
-        instants (list[Instant]): A list of OSTk Instants.
-        positions (list[Position]): A list of OSTk Positions.
+        instants (list[Instant]): A list of OSTk instants.
+        positions (list[Position]): A list of OSTk positions.
 
     Returns:
         cesiumpy.SampledPositionProperty: Sampled position property.
