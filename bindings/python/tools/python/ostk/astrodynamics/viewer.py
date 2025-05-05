@@ -31,11 +31,13 @@ from ostk.astrodynamics.trajectory import State
 
 from .converters import coerce_to_datetime
 from .utilities import lla_from_position
+from .utilities import lla_from_state
+from .utilities import position_from_lla
 
 DEFAULT_SATELLITE_IMAGE: str = (
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADJSURBVDhPnZHRDcMgEEMZjVEYpaNklIzSEfLfD4qNnXAJSFWfhO7w2Zc0Tf9QG2rXrEzSUeZLOGm47WoH95x3Hl3jEgilvDgsOQUTqsNl68ezEwn1vae6lceSEEYvvWNT/Rxc4CXQNGadho1NXoJ+9iaqc2xi2xbt23PJCDIB6TQjOC6Bho/sDy3fBQT8PrVhibU7yBFcEPaRxOoeTwbwByCOYf9VGp1BYI1BA+EeHhmfzKbBoJEQwn1yzUZtyspIQUha85MpkNIXB7GizqDEECsAAAAASUVORK5CYII="
 )
-DEFAULT_STEP_DURATION: Duration = Duration.seconds(1.0)
+DEFAULT_STEP_DURATION: Duration = Duration.seconds(10.0)
 
 
 @dataclass
@@ -376,6 +378,47 @@ class Viewer:
 
         return self
 
+    def add_ground_tracks(
+        self,
+        profile_or_trajectory: Profile | Trajectory,
+        time_step: Duration | None = None,
+    ) -> Viewer:
+        """
+        Add ground tracks to the viewer.
+
+        Args:
+            profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
+            time_step (Duration, optional): The duration of each step in the grid.
+                Default to None. If None, the default step duration is used.
+
+        Returns:
+            Viewer: The Viewer.
+        """
+        time_step = time_step or DEFAULT_STEP_DURATION
+
+        ground_track_positions: list[Position] = []
+        for state in profile_or_trajectory.get_states_at(
+            self._interval.generate_grid(time_step)
+        ):
+            lla: LLA = lla_from_state(state)
+            ground_track_positions.append(
+                position_from_lla(
+                    LLA(
+                        latitude=lla.get_latitude(),
+                        longitude=lla.get_longitude(),
+                        altitude=Length.meters(0.0),
+                    )
+                )
+            )
+
+        self.add_line(
+            positions=ground_track_positions,
+            size=1,
+            color=cesiumpy.color.GRAY,
+        )
+
+        return self
+
     def add_target(
         self,
         position: Position,
@@ -496,9 +539,7 @@ class Viewer:
 
 
 def _generate_llas(states: list[State]) -> list[LLA]:
-    return [
-        lla_from_position(state.get_position(), state.get_instant()) for state in states
-    ]
+    return list(map(lla_from_state, states))
 
 
 def _generate_sampled_position_from_llas(

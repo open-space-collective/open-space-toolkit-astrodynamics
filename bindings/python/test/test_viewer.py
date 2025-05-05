@@ -201,6 +201,26 @@ class TestViewer:
         )
         assert rendered_html.endswith("</script>")
 
+    def test_add_ground_tracks_success(
+        self,
+        viewer: Viewer,
+        orbit: Orbit,
+        environment: Environment,
+    ):
+        viewer.add_ground_tracks(
+            profile_or_trajectory=orbit,
+            time_step=Duration.seconds(30.0),
+            environment=environment,
+        )
+
+        rendered_html: str = viewer.render()
+
+        assert rendered_html.startswith('<meta charset="utf-8">')
+        assert "var widget = new Cesium.Viewer" in rendered_html
+        assert " widget.entities.add({position: widget" in rendered_html
+        assert "widget.entities.add({polyline:" in rendered_html
+        assert rendered_html.endswith("</script>")
+
     def test_add_target_success(
         self,
         viewer: Viewer,
