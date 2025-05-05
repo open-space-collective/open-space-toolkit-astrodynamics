@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1746453510126,
+  "lastUpdate": 1746469011364,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,60 @@ window.BENCHMARK_DATA = {
             "value": 3192782591.8999987,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3192560301.599998 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "137164378+loft-nicolas-sanchez@users.noreply.github.com",
+            "name": "loft-nicolas-sanchez",
+            "username": "loft-nicolas-sanchez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ee8622834fa29bc555d943446a74d39eda4958a0",
+          "message": "feat: add ground track to viewer (#550)\n\n* feat: add ground track to viewer\n\n* fix: remove wrong argument\n\n* test: fix test",
+          "timestamp": "2025-05-05T12:56:55-05:00",
+          "tree_id": "e29752b548d193b329e79ae0b7daef1adcd5096b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ee8622834fa29bc555d943446a74d39eda4958a0"
+        },
+        "date": 1746469008828,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 542531903.2000005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 542335008.3000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 884667295.4999974,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 884557615.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3204116343.1000032,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3203828365.400001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3204204888.9,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3204021568.399998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3204889178.099995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3204610868.000002 ns\nthreads: 1"
           }
         ]
       }
