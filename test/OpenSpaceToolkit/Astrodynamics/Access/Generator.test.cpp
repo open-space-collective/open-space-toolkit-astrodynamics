@@ -1048,7 +1048,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
             const AccessTarget accessTarget = AccessTarget::FromLLA(visibilityCriterion, LLAs[0], defaultEarthSPtr_);
 
-            const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, accessTarget, toTrajectory);
+            const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, toTrajectory);
 
             ASSERT_EQ(accesses.getSize(), 0);
         }
