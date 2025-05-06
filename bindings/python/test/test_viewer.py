@@ -206,10 +206,7 @@ class TestViewer:
         viewer: Viewer,
         orbit: Orbit,
     ):
-        viewer.add_ground_tracks(
-            profile_or_trajectory=orbit,
-            time_step=Duration.seconds(30.0),
-        )
+        viewer.add_ground_tracks(profile_or_trajectory=orbit)
 
         rendered_html: str = viewer.render()
 

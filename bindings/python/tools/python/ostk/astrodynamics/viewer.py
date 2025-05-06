@@ -233,14 +233,7 @@ class Viewer:
         satellite = cesiumpy.Satellite(
             position=_generate_sampled_position_from_llas(instants, llas),
             orientation=_generate_sampled_orientation(states),
-            availability=cesiumpy.TimeIntervalCollection(
-                intervals=[
-                    cesiumpy.TimeInterval(
-                        start=coerce_to_datetime(self._interval.get_start()),
-                        stop=coerce_to_datetime(self._interval.get_end()),
-                    ),
-                ],
-            ),
+            availability=self._get_availability(),
             model=cesiumpy.IonResource(
                 asset_id=cesium_asset_id or 0
             ),  # TBM: Should be made more robust
@@ -295,6 +288,7 @@ class Viewer:
             Viewer: The Viewer.
         """
         time_step = time_step or DEFAULT_STEP_DURATION
+        alpha_color: float = 0.5
         reference_frame: Frame = Frame.GCRF()
         reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
         instants: list[Instant] = self._interval.generate_grid(time_step)
@@ -309,6 +303,9 @@ class Viewer:
                 color = cesiumpy.color.YELLOW
             else:
                 color = cesiumpy.color.RED
+
+            # Apply an alpha to the color
+            color = color.with_alpha(alpha_color)
 
         def _create_celestial_body_direction_state(
             satellite_state: State,
@@ -346,14 +343,7 @@ class Viewer:
                 llas=_generate_llas(celestial_direction_states),
             ),
             orientation=_generate_sampled_orientation(celestial_direction_states),
-            availability=cesiumpy.TimeIntervalCollection(
-                intervals=[
-                    cesiumpy.TimeInterval(
-                        start=coerce_to_datetime(self._interval.get_start()),
-                        stop=coerce_to_datetime(self._interval.get_end()),
-                    ),
-                ],
-            ),
+            availability=self._get_availability(),
         )
 
         _cesium_from_ostk_sensor(
@@ -382,6 +372,7 @@ class Viewer:
         self,
         profile_or_trajectory: Profile | Trajectory,
         time_step: Duration | None = None,
+        show_current_position: bool = True,
     ) -> Viewer:
         """
         Add ground tracks to the viewer.
@@ -390,32 +381,39 @@ class Viewer:
             profile_or_trajectory (Profile | Trajectory): The profile or trajectory to be added.
             time_step (Duration, optional): The duration of each step in the grid.
                 Default to None. If None, the default step duration is used.
+            show_current_position (bool, optional): Whether to show the current position as a point. Defaults to True.
 
         Returns:
             Viewer: The Viewer.
         """
         time_step = time_step or DEFAULT_STEP_DURATION
 
+        instants: list[Instant] = self._interval.generate_grid(time_step)
+        llas: list[LLA] = []
         ground_track_positions: list[Position] = []
-        for state in profile_or_trajectory.get_states_at(
-            self._interval.generate_grid(time_step)
-        ):
-            lla: LLA = lla_from_state(state)
-            ground_track_positions.append(
-                position_from_lla(
-                    LLA(
-                        latitude=lla.get_latitude(),
-                        longitude=lla.get_longitude(),
-                        altitude=Length.meters(0.0),
-                    )
-                )
+
+        for state in profile_or_trajectory.get_states_at(instants):
+            satellite_lla: LLA = lla_from_state(state)
+            lla: LLA = LLA(
+                latitude=satellite_lla.get_latitude(),
+                longitude=satellite_lla.get_longitude(),
+                altitude=Length.meters(0.0),
             )
+            llas.append(lla)
+            ground_track_positions.append(position_from_lla(lla))
 
         self.add_line(
             positions=ground_track_positions,
             size=1,
             color=cesiumpy.color.GRAY,
         )
+
+        if show_current_position:
+            self.add_moving_point(
+                instants=instants,
+                llas=llas,
+                color=cesiumpy.color.DARKORANGE,
+            )
 
         return self
 
@@ -493,6 +491,40 @@ class Viewer:
 
         return self
 
+    def add_moving_point(
+        self,
+        instants: list[Instant],
+        llas: list[LLA],
+        color: str | None = None,
+        size: int | None = None,
+    ) -> Viewer:
+        """
+        Add a moving point to the Viewer.
+
+        Args:
+            instants (list[Instant]): The list of instants.
+            llas (list[LLA]): The list of Longitude, Latitude, Altitude (LLA) coordinates.
+            color (str, optional): The color of the point. Defaults to None. If None, the default color is used.
+            size (int, optional): The size of the point. Defaults to None. If None, the default size is used.
+
+        Returns:
+            Viewer: The Viewer.
+        """
+
+        self._viewer.entities.add(
+            cesiumpy.Point(
+                position=_generate_sampled_position_from_llas(
+                    instants=instants,
+                    llas=llas,
+                ),
+                availability=self._get_availability(),
+                color=color,
+                pixel_size=size,
+            )
+        )
+
+        return self
+
     def add_label(
         self,
         position: Position,
@@ -533,6 +565,15 @@ class Viewer:
         """
 
         return self._viewer.to_html()
+
+    def _get_availability(self) -> cesiumpy.TimeIntervalCollection:
+        """
+        Get the availability of the viewer.
+
+        Returns:
+            cesiumpy.TimeIntervalCollection: The availability of the viewer.
+        """
+        return _cesium_from_ostk_intervals(intervals=[self._interval])
 
     def _repr_html_(self) -> str:
         return self.render()
@@ -604,17 +645,38 @@ def _generate_sampled_position_from_states(
     Returns:
         cesiumpy.SampledPositionProperty: Sampled position property.
     """
+    return _generate_sampled_position_from_positions(
+        instants=[state.get_instant() for state in states],
+        positions=[state.get_position() for state in states],
+    )
+
+
+def _generate_sampled_position_from_positions(
+    instants: list[Instant],
+    positions: list[Position],
+) -> cesiumpy.SampledPositionProperty:
+    """
+    Generate a sampled position property from a list of OSTk positions and instants.
+
+    Args:
+        instants (list[Instant]): A list of OSTk instants.
+        positions (list[Position]): A list of OSTk positions.
+
+    Returns:
+        cesiumpy.SampledPositionProperty: Sampled position property.
+    """
+    frame_itrf: Frame = Frame.ITRF()
 
     return cesiumpy.SampledPositionProperty(
         samples=[
             (
-                coerce_to_datetime(state.get_instant()),
+                coerce_to_datetime(instant),
                 _cesium_from_ostk_position(
-                    position=state.in_frame(Frame.ITRF()).get_position()
+                    position.in_frame(instant=instant, frame=frame_itrf)
                 ),
                 None,
             )
-            for state in states
+            for instant, position in zip(instants, positions)
         ],
     )
 
@@ -763,3 +825,27 @@ def _compute_celestial_angular_diameter_from_states(
         )
     distances: np.ndarray = np.linalg.norm(celestial_to_observer_meters, axis=0)
     return np.rad2deg(2 * np.arcsin(celestial_radius_meters / distances))
+
+
+def _cesium_from_ostk_intervals(
+    intervals: list[Interval],
+) -> cesiumpy.TimeIntervalCollection:
+    """
+    Convert a list of OSTk intervals into Cesium TimeIntervalCollection.
+
+    Args:
+        intervals (list[Interval]): List of OSTk intervals.
+
+    Returns:
+        cesiumpy.TimeIntervalCollection: Converted intervals.
+    """
+
+    return cesiumpy.TimeIntervalCollection(
+        intervals=[
+            cesiumpy.TimeInterval(
+                start=coerce_to_datetime(interval.get_start()),
+                stop=coerce_to_datetime(interval.get_end()),
+            )
+            for interval in intervals
+        ],
+    )
