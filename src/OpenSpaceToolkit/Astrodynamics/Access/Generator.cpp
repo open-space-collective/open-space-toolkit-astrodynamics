@@ -413,11 +413,6 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     const bool& coarse
 ) const
 {
-    if (stateFilter_)
-    {
-        throw ostk::core::error::RuntimeError("State filter is not supported for multiple access targets.");
-    }
-
     // create a stacked matrix of SEZ rotations for all access targets
 
     const Index targetCount = someAccessTargets.getSize();
@@ -657,13 +652,24 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     {
         const Instant& instant = instants[index];
 
+        const State toTrajectoryState = aToTrajectory.getStateAt(instant);
+
         // calculate target to satellite vector in ITRF
         const Vector3d toPositionCoordinates_ITRF =
-            aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            toTrajectoryState.inFrame(Frame::ITRF()).getPosition().getCoordinates();
 
         // check if satellite is in access
-        const auto inAccess =
-            visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
+        auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
+
+        if (this->getStateFilter())
+        {
+            for (Index i = 0; i < targetCount; ++i)
+            {
+                const State fromState = someAccessTargets[i].accessTrajectory().getStateAt(instant);
+
+                inAccess(i) = inAccess(i) && this->getStateFilter()(fromState, toTrajectoryState);
+            }
+        }
 
         inAccessPerTarget.row(index) = inAccess.cast<int>().transpose();
     }
