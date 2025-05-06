@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1746469011364,
+  "lastUpdate": 1746526101322,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 3204889178.099995,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3204610868.000002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "137164378+loft-nicolas-sanchez@users.noreply.github.com",
+            "name": "loft-nicolas-sanchez",
+            "username": "loft-nicolas-sanchez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "53b2adde4c9656c31a6632e5504b807fe9c8e593",
+          "message": "feat: add moving point and set transparent celestial direction in viewer (#551)\n\n* feat: add moving point in viewer\n\n* refactor: apply suggestions",
+          "timestamp": "2025-05-06T11:48:32+02:00",
+          "tree_id": "5db3fe361c2c9e1aa5a3cb3e923e9c905ce80151",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/53b2adde4c9656c31a6632e5504b807fe9c8e593"
+        },
+        "date": 1746526098939,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 545926569.2999907,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 545812097.5 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 887197701.7999996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 886820168.9000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3218171490.100002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3217762823.2000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3218151152.8999863,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3217719026.6000004 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3212591131.2000027,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3212165157.300002 ns\nthreads: 1"
           }
         ]
       }
