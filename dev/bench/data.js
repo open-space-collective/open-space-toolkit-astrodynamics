@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1746526101322,
+  "lastUpdate": 1746570397049,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 3212591131.2000027,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3212165157.300002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e98e167e6389c76117d3ab4a7d09e00395894a9b",
+          "message": "feat: add support for state filter with fixed targets (#552)\n\n* feat: add support for state filter with fixed targets\n\n* Apply suggestions from code review\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\n\n---------\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>",
+          "timestamp": "2025-05-06T22:06:43Z",
+          "tree_id": "d11f009e21bba72931c9a7bfc88f82cef9c77da8",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/e98e167e6389c76117d3ab4a7d09e00395894a9b"
+        },
+        "date": 1746570394945,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 537453844.1999903,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 537352397.5 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 878268594.4999969,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 877898657.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3203526061.5999956,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3203081102.3999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3188483083.5000005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3188377509.499999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3188288697.899992,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3188177086.9000006 ns\nthreads: 1"
           }
         ]
       }
