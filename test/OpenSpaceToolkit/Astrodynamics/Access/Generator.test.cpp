@@ -864,22 +864,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                 defaultGenerator_.computeAccesses(interval, {trajectoryTarget, accessTarget}, orbit, true),
                 ostk::core::error::RuntimeError
             );
-
-            {
-                const auto stateFilter = [](const State&, const State&) -> bool
-                {
-                    return true;
-                };
-
-                defaultGenerator_.setStateFilter(stateFilter);
-
-                EXPECT_THROW(
-                    defaultGenerator_.computeAccesses(interval, {accessTarget, accessTarget}, orbit),
-                    ostk::core::error::RuntimeError
-                );
-
-                defaultGenerator_.setStateFilter(nullptr);
-            }
         }
 
         // single target
@@ -1041,6 +1025,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                         << access.getDuration().toString() << " ~ " << expectedAccess.getDuration().toString();
                 }
             }
+        }
+
+        // Elevation Interval visibility criterion, target with state filter
+
+        {
+            const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
+            {
+                (void)aFirstState;
+                (void)aSecondState;
+                return false;
+            };
+
+            const Generator generator =
+                Generator(defaultEnvironment_, Duration::Minutes(1.0), Duration::Seconds(5.0), {}, stateFilter);
+
+            const ostk::mathematics::object::Interval<Real> elevationInterval =
+                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+
+            const VisibilityCriterion visibilityCriterion =
+                VisibilityCriterion::FromElevationInterval(elevationInterval);
+
+            const AccessTarget accessTarget = AccessTarget::FromLLA(visibilityCriterion, LLAs[0], defaultEarthSPtr_);
+
+            const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, toTrajectory);
+
+            ASSERT_EQ(accesses.getSize(), 0);
         }
     }
 }
