@@ -16,8 +16,11 @@ ostk.astrodynamics.viewer.Viewer
    .. autosummary::
       :nosignatures:
    
+      ~Viewer.add_celestial_body_direction
+      ~Viewer.add_ground_tracks
       ~Viewer.add_label
       ~Viewer.add_line
+      ~Viewer.add_moving_point
       ~Viewer.add_orbit
       ~Viewer.add_profile
       ~Viewer.add_target
