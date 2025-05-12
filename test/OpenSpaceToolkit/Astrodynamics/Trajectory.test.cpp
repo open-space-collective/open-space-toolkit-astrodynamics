@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkit/Physics/Data/Provider/Nadir.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
@@ -13,6 +14,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
 
@@ -33,14 +36,18 @@ using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::Kepler;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
@@ -501,181 +508,239 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Position)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 {
-    const Earth earth = Earth::WGS84();
-    const LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
-    const LLA endLLA = LLA::Vector({0.0, 1.0, 0.0});
-
     {
-        const Array<Instant> instants = {Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0)};
-
+        const Earth earth = Earth::WGS84();
+        const LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
+        const LLA endLLA = LLA::Vector({0.0, 1.0, 0.0});
         {
+            const Array<Instant> instants = {Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0)};
+
             {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(LLA::Undefined(), endLLA, instants, earth), ostk::core::error::RuntimeError
-                );
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(LLA::Undefined(), endLLA, instants, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(startLLA, LLA::Undefined(), instants, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(LLA::Vector({0.0, 0.0, 1e-1}), endLLA, instants, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(startLLA, LLA::Vector({0.0, 0.0, 1e-1}), instants, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(startLLA, endLLA, {Instant::J2000()}, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
             }
 
             {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, LLA::Undefined(), instants, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
+                {
+                    const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants, earth);
 
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(LLA::Vector({0.0, 0.0, 1e-1}), endLLA, instants, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
+                    EXPECT_TRUE(trajectory.isDefined());
+                }
 
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, LLA::Vector({0.0, 0.0, 1e-1}), instants, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
+                {
+                    const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants);
 
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, endLLA, {Instant::J2000()}, earth),
-                    ostk::core::error::RuntimeError
-                );
+                    EXPECT_TRUE(trajectory.isDefined());
+                }
             }
         }
 
         {
-            {
-                const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants, earth);
+            const Derived groundSpeed = Derived(7000.0, Derived::Unit::MeterPerSecond());
+            const Instant startInstant = Instant::J2000();
 
-                EXPECT_TRUE(trajectory.isDefined());
+            {
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(LLA::Undefined(), endLLA, groundSpeed, startInstant, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(startLLA, LLA::Undefined(), groundSpeed, startInstant, earth),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(
+                            LLA::Vector({0.0, 0.0, 1e-1}), endLLA, groundSpeed, startInstant, earth
+                        ),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(
+                            startLLA, LLA::Vector({0.0, 0.0, 1e-1}), groundSpeed, startInstant, earth
+                        ),
+                        ostk::core::error::RuntimeError
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(startLLA, endLLA, Derived::Undefined(), startInstant, earth),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
+
+                {
+                    EXPECT_THROW(
+                        Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, Instant::Undefined(), earth),
+                        ostk::core::error::runtime::Undefined
+                    );
+                }
             }
 
             {
-                const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants);
+                {
+                    const Trajectory trajectory = Trajectory::GroundStrip(
+                        startLLA, endLLA, groundSpeed, startInstant, earth, Duration::Seconds(1.0)
+                    );
 
-                EXPECT_TRUE(trajectory.isDefined());
-            }
-        }
-    }
+                    EXPECT_TRUE(trajectory.isDefined());
 
-    {
-        const Derived groundSpeed = Derived(7000.0, Derived::Unit::MeterPerSecond());
-        const Instant startInstant = Instant::J2000();
-
-        {
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(LLA::Undefined(), endLLA, groundSpeed, startInstant, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
-
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, LLA::Undefined(), groundSpeed, startInstant, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
-
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(LLA::Vector({0.0, 0.0, 1e-1}), endLLA, groundSpeed, startInstant, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
-
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, LLA::Vector({0.0, 0.0, 1e-1}), groundSpeed, startInstant, earth),
-                    ostk::core::error::RuntimeError
-                );
-            }
-
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, endLLA, Derived::Undefined(), startInstant, earth),
-                    ostk::core::error::runtime::Undefined
-                );
-            }
-
-            {
-                EXPECT_THROW(
-                    Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, Instant::Undefined(), earth),
-                    ostk::core::error::runtime::Undefined
-                );
-            }
-        }
-
-        {
-            {
-                const Trajectory trajectory =
-                    Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth, Duration::Seconds(1.0));
-
-                EXPECT_TRUE(trajectory.isDefined());
-
-                // Speed in ITRF frame should be approximately equal to ground speed
-                EXPECT_LT(
-                    trajectory.getStateAt(startInstant).inFrame(Frame::ITRF()).getVelocity().getCoordinates().norm() -
+                    // Speed in ITRF frame should be approximately equal to ground speed
+                    EXPECT_NEAR(
+                        trajectory.getStateAt(startInstant)
+                            .inFrame(Frame::ITRF())
+                            .getVelocity()
+                            .getCoordinates()
+                            .norm(),
                         groundSpeed.in(Derived::Unit::MeterPerSecond()),
-                    1e-6
-                );
+                        1.0
+                    );
+                }
+
+                {
+                    const Trajectory trajectory =
+                        Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth);
+
+                    EXPECT_TRUE(trajectory.isDefined());
+                }
+
+                {
+                    const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant);
+
+                    EXPECT_TRUE(trajectory.isDefined());
+                }
             }
 
             {
                 const Trajectory trajectory =
                     Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth);
 
-                EXPECT_TRUE(trajectory.isDefined());
-            }
+                {
+                    const State state = trajectory.getStateAt(startInstant).inFrame(Frame::ITRF());
 
-            {
-                const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant);
+                    EXPECT_TRUE(
+                        LLA::Cartesian(
+                            state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
+                        )
+                            .toVector()
+                            .isNear(startLLA.toVector(), 1e-12)
+                    );
+                }
 
-                EXPECT_TRUE(trajectory.isDefined());
+                {
+                    const Length distance =
+                        startLLA.calculateDistanceTo(endLLA, earth.getEquatorialRadius(), earth.getFlattening());
+                    const Duration duration =
+                        Duration::Seconds(distance.inMeters() / groundSpeed.in(Derived::Unit::MeterPerSecond()));
+                    const State state = trajectory.getStateAt(startInstant + duration).inFrame(Frame::ITRF());
+
+                    EXPECT_TRUE(
+                        LLA::Cartesian(
+                            state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
+                        )
+                            .toVector()
+                            .isNear(endLLA.toVector(), 1e-8)
+                    );
+                }
             }
         }
+    }
 
+    // Regression, discontinuities in velocity
+    {
+        const LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
+        const LLA endLLA = LLA::Vector({0.5, 0.1, 0.0});
+
+        const Interval interval = Interval::Closed(
+            Instant::Parse("2024-01-12T02:33:25.366299241", Scale::UTC),
+            Instant::Parse("2024-01-12T02:34:39.106651991", Scale::UTC)
+        );
+
+        const Array<Instant> instants = interval.generateGrid(Duration::Seconds(1.0));
+
+        const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants);
+
+        for (const auto& state : trajectory.getStatesAt(instants))
         {
-            const Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, groundSpeed, startInstant, earth);
-
-            {
-                const State state = trajectory.getStateAt(startInstant).inFrame(Frame::ITRF());
-
-                EXPECT_TRUE(LLA::Cartesian(
-                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                )
-                                .toVector()
-                                .isNear(startLLA.toVector(), 1e-12));
-            }
-
-            {
-                const Length distance =
-                    startLLA.calculateDistanceTo(endLLA, earth.getEquatorialRadius(), earth.getFlattening());
-                const Duration duration =
-                    Duration::Seconds(distance.inMeters() / groundSpeed.in(Derived::Unit::MeterPerSecond()));
-                const State state = trajectory.getStateAt(startInstant + duration).inFrame(Frame::ITRF());
-
-                EXPECT_TRUE(LLA::Cartesian(
-                                state.getPosition().getCoordinates(), earth.getEquatorialRadius(), earth.getFlattening()
-                )
-                                .toVector()
-                                .isNear(endLLA.toVector(), 1e-8));
-            }
+            const Vector3d velocity = state.getVelocity().getCoordinates();
+            EXPECT_NEAR(velocity.norm(), 970.3, 1.0);
         }
     }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
 {
-    const Array<Instant> instants = {Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0)};
+    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+
+    const Array<Instant> instants = {instant, instant + Duration::Seconds(10.0)};
+
     const Earth earth = Earth::WGS84();
 
-    const Environment environment = Environment::Default();
+    const Environment environment = Environment::Default(true);
 
     const Shared<Earth> earthSPtr = std::make_shared<Earth>(earth);
 
-    const Orbit orbit = Orbit::Circular(Instant::J2000(), Length::Meters(545000.0), Angle::Degrees(0.0), earthSPtr);
+    const Length semiMajorAxis = Length::Kilometers(7000.0);
+    const Real eccentricity = 0.0;
+    const Angle inclination = Angle::Degrees(98.0);
+    const Angle raan = Angle::Degrees(0.0);
+    const Angle aop = Angle::Degrees(0.0);
+    const Angle trueAnomaly = Angle::Degrees(0.0);
+
+    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+    const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+    const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+    const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+    const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+    const Kepler keplerianModel = {
+        coe, instant, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+    };
+
+    const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
     {
         EXPECT_THROW(
@@ -693,8 +758,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
         const Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(orbit, instants, earth);
 
         EXPECT_TRUE(trajectory.isDefined());
-
-        const Instant instant = Instant::J2000();
 
         const State trajectoryState = trajectory.getStateAt(instant);
         const State orbitState = orbit.getStateAt(instant);
@@ -714,5 +777,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
                 .getCoordinates();
 
         EXPECT_VECTORS_ALMOST_EQUAL(trajectoryLLACoordinates, orbitLLACoordinates, 1e-12);
+
+        // check that the trajectory velocity is the same as the geodetic nadir coordinate of the orbit
+        const Duration stepSize = Duration::Seconds(1.0);
+        const Instant nextInstant = instant + stepSize;
+        const LLA startLLA =
+            LLA::FromPosition(trajectoryState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface();
+        const LLA endLLA =
+            LLA::FromPosition(trajectory.getStateAt(nextInstant).inFrame(Frame::ITRF()).getPosition(), earthSPtr)
+                .onSurface();
+
+        const Length groundDistance =
+            startLLA.calculateDistanceTo(endLLA, earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening());
+
+        const double expectedSpeed = groundDistance.inMeters() / stepSize.inSeconds();
+
+        EXPECT_NEAR(trajectoryState.inFrame(Frame::ITRF()).getVelocity().getCoordinates().norm(), expectedSpeed, 1.0);
     }
 }
