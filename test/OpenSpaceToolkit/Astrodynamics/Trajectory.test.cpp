@@ -762,7 +762,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
         const State trajectoryState = trajectory.getStateAt(instant);
         const State orbitState = orbit.getStateAt(instant);
 
-        // check that the trajectory state is the same as the geodetic nadir coordinate of the orbit
+        // check that the trajectory position is the same as the geodetic nadir coordinate of the orbit
 
         const Vector3d orbitLLACoordinates =
             Position::FromLLA(
@@ -778,7 +778,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
 
         EXPECT_VECTORS_ALMOST_EQUAL(trajectoryLLACoordinates, orbitLLACoordinates, 1e-12);
 
-        // check that the trajectory velocity is the same as the geodetic nadir coordinate of the orbit
+        // check that the trajectory speed is the same as the geodetic nadir coordinate of the orbit
+
         const Duration stepSize = Duration::Seconds(1.0);
         const Instant nextInstant = instant + stepSize;
         const LLA startLLA =
@@ -793,5 +794,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
         const double expectedSpeed = groundDistance.inMeters() / stepSize.inSeconds();
 
         EXPECT_NEAR(trajectoryState.inFrame(Frame::ITRF()).getVelocity().getCoordinates().norm(), expectedSpeed, 1.0);
+
+        // computed with Orekit
+
+        const Vector3d expectedVelocity = {-0.07204923298218091, -956.9095709619337, 6804.692417661864};
+        
+        EXPECT_VECTORS_ALMOST_EQUAL(trajectoryState.getVelocity().getCoordinates(), expectedVelocity, 1e-12);
     }
 }
