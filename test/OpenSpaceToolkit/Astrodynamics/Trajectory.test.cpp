@@ -798,7 +798,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
         // computed with Orekit
 
         const Vector3d expectedVelocity = {-0.07204923298218091, -956.9095709619337, 6804.692417661864};
-        
+
         EXPECT_VECTORS_ALMOST_EQUAL(trajectoryState.getVelocity().getCoordinates(), expectedVelocity, 1e-12);
     }
 }
