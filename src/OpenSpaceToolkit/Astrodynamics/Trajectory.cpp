@@ -10,8 +10,8 @@
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
@@ -30,9 +30,9 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Duration;
 using ostk::physics::unit::Length;
 
+using ostk::astrodynamics::trajectory::model::Nadir;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::model::Nadir;
 
 Trajectory::Trajectory(const Model& aModel)
     : modelUPtr_(aModel.clone())
@@ -246,7 +246,9 @@ Trajectory Trajectory::GroundStrip(
 }
 
 Trajectory Trajectory::GroundStripGeodeticNadir(
-    const trajectory::Orbit& anOrbit, [[maybe_unused]] const Array<Instant>& anInstantArray, [[maybe_unused]] const Celestial& aCelestial
+    const trajectory::Orbit& anOrbit,
+    [[maybe_unused]] const Array<Instant>& anInstantArray,
+    [[maybe_unused]] const Celestial& aCelestial
 )
 {
     return GeodeticNadirGroundTrack(anOrbit);

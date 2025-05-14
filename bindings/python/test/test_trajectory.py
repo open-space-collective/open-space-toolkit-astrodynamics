@@ -143,3 +143,14 @@ class TestTrajectory:
             Trajectory.ground_strip_geodetic_nadir(orbit=orbit, instants=instants)
             is not None
         )
+
+    def test_geodetic_nadir_ground_track(
+        self,
+        orbit: Orbit,
+    ):
+        assert (
+            Trajectory.geodetic_nadir_ground_track(
+                orbit=orbit,
+            )
+            is not None
+        )
