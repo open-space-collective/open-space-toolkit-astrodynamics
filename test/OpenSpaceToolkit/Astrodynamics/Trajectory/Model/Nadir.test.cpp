@@ -9,10 +9,10 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 
 #include <Global.test.hpp>
 
@@ -102,25 +102,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, CalculateStateAt)
     }
 
     {
-    const Nadir nadirModel(orbit_);
+        const Nadir nadirModel(orbit_);
 
-    const State state = nadirModel.calculateStateAt(epoch_);
+        const State state = nadirModel.calculateStateAt(epoch_);
 
-    const VectorXd coordinates = state.getCoordinates();
+        const VectorXd coordinates = state.getCoordinates();
 
-    // Value obtained from Orekit
+        // Value obtained from Orekit
 
-    const Vector6d expectedCoordinates = {
-        6378136.936099239,
-        2.6122573763132095E-4,
-        -6.584354159011127,
-        -0.07204923298218091,
-        -956.9095709619337,
-        6804.692417661864,
-    };
+        const Vector6d expectedCoordinates = {
+            6378136.936099239,
+            2.6122573763132095E-4,
+            -6.584354159011127,
+            -0.07204923298218091,
+            -956.9095709619337,
+            6804.692417661864,
+        };
 
-    EXPECT_VECTORS_ALMOST_EQUAL(coordinates, expectedCoordinates, 1e-5);
-}
+        EXPECT_VECTORS_ALMOST_EQUAL(coordinates, expectedCoordinates, 1e-5);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, Clone)
