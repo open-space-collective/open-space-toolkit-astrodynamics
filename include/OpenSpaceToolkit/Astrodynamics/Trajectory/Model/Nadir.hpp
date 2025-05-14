@@ -38,17 +38,17 @@ class Nadir : public virtual Model
     ///              Nadir nadirModel(orbit);
     /// @endcode
     ///
-    /// @param aPosition The position of the static model. Must be provided in the ITRF frame.
-    Nadir(const Orbit& orbit);
+    /// @param anOrbit The orbit of the nadir model.
+    Nadir(const Orbit& anOrbit);
 
-    /// @brief Clone the static model
+    /// @brief Clone the nadir model
     ///
     /// @code{.cpp}
     ///              Nadir nadirModel = { ... };
     ///              Nadir* clonedModel = nadirModel.clone();
     /// @endcode
     ///
-    /// @return A pointer to the cloned static model
+    /// @return A pointer to the cloned nadir model
     virtual Nadir* clone() const override;
 
     /// @brief Equality operator
@@ -59,7 +59,7 @@ class Nadir : public virtual Model
     ///              bool isEqual = (nadirModel1 == nadirModel2);
     /// @endcode
     ///
-    /// @param aNadirModel The static model to compare with
+    /// @param aNadirModel The nadir model to compare with
     /// @return True if the models are equal, false otherwise
     bool operator==(const Nadir& aNadirModel) const;
 
@@ -71,7 +71,7 @@ class Nadir : public virtual Model
     ///              bool isNotEqual = (nadirModel1 != nadirModel2);
     /// @endcode
     ///
-    /// @param aNadirModel The static model to compare with
+    /// @param aNadirModel The nadir model to compare with
     /// @return True if the models are not equal, false otherwise
     bool operator!=(const Nadir& aNadirModel) const;
 
@@ -83,11 +83,11 @@ class Nadir : public virtual Model
     /// @endcode
     ///
     /// @param anOutputStream The output stream
-    /// @param aNadirModel The static model to output
+    /// @param aNadirModel The nadir model to output
     /// @return The output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Nadir& aNadirModel);
 
-    /// @brief Check if the static model is defined
+    /// @brief Check if the nadir model is defined
     ///
     /// @code{.cpp}
     ///              Nadir nadirModel = { ... };
@@ -109,7 +109,7 @@ class Nadir : public virtual Model
     /// @return The state at the given instant
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
-    /// @brief Print the static model to an output stream
+    /// @brief Print the nadir model to an output stream
     ///
     /// @code{.cpp}
     ///              Nadir nadirModel = { ... };
