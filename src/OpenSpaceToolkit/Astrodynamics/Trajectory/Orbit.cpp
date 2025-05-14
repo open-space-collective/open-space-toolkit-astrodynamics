@@ -152,6 +152,16 @@ bool Orbit::isDefined() const
            this->celestialObjectSPtr_->isDefined();
 }
 
+const Shared<const Celestial> Orbit::accessCelestialObject() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Orbit");
+    }
+
+    return this->celestialObjectSPtr_;
+}
+
 Integer Orbit::getRevolutionNumberAt(const Instant& anInstant) const
 {
     if (!this->isDefined())

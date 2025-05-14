@@ -11,6 +11,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
@@ -31,6 +32,7 @@ using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::model::Nadir;
 
 Trajectory::Trajectory(const Model& aModel)
     : modelUPtr_(aModel.clone())
@@ -244,37 +246,20 @@ Trajectory Trajectory::GroundStrip(
 }
 
 Trajectory Trajectory::GroundStripGeodeticNadir(
-    const trajectory::Orbit& anOrbit, const Array<Instant>& anInstantArray, const Celestial& aCelestial
+    const trajectory::Orbit& anOrbit, [[maybe_unused]] const Array<Instant>& anInstantArray, [[maybe_unused]] const Celestial& aCelestial
 )
+{
+    return GeodeticNadirGroundTrack(anOrbit);
+}
+
+Trajectory Trajectory::GeodeticNadirGroundTrack(const trajectory::Orbit& anOrbit)
 {
     if (!anOrbit.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Orbit");
     }
 
-    if (anInstantArray.getSize() < 2)
-    {
-        throw ostk::core::error::RuntimeError("Atleast 2 instants must be provided.");
-    }
-
-    const Shared<Celestial> celestialSPtr = std::make_shared<Celestial>(aCelestial);
-
-    const auto positionGenerator = [&anOrbit, &celestialSPtr](const Instant& anInstant) -> physics::coordinate::Position
-    {
-        const State state = anOrbit.getStateAt(anInstant);
-
-        const LLA lla =
-            LLA::FromPosition(state.getPosition().inFrame(Frame::ITRF(), anInstant), celestialSPtr).onSurface();
-
-        const physics::coordinate::Position position =
-            physics::coordinate::Position::FromLLA(lla, celestialSPtr).inFrame(Frame::GCRF(), anInstant);
-
-        return position;
-    };
-
-    const Array<State> states = computeStates(positionGenerator, anInstantArray);
-
-    return Trajectory(states);
+    return Trajectory(Nadir(anOrbit));
 }
 
 Trajectory::Trajectory()
