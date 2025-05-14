@@ -251,6 +251,7 @@ Trajectory Trajectory::GroundStripGeodeticNadir(
     [[maybe_unused]] const Celestial& aCelestial
 )
 {
+    [[deprecated("Use Trajectory::GeodeticNadirGroundTrack instead.")]]
     return GeodeticNadirGroundTrack(anOrbit);
 }
 
