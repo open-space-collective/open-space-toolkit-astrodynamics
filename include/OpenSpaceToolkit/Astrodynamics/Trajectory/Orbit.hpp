@@ -128,6 +128,11 @@ class Orbit : public Trajectory
     /// @return True if the Orbit is defined, false otherwise.
     bool isDefined() const;
 
+    /// @brief Access the celestial object.
+    ///
+    /// @return Shared pointer to the celestial object.
+    const Shared<const Celestial> accessCelestialObject() const;
+
     /// @brief Get the revolution number at a given instant.
     ///
     /// @param anInstant Instant to get the revolution number at.
