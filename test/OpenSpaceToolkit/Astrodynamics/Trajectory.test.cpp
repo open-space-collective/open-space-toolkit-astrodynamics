@@ -713,9 +713,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GeodeticNadirGroundTrack)
 {
     {
-        EXPECT_THROW(
-            Trajectory::GeodeticNadirGroundTrack(Orbit::Undefined()), ostk::core::error::RuntimeError
-        );
+        EXPECT_THROW(Trajectory::GeodeticNadirGroundTrack(Orbit::Undefined()), ostk::core::error::RuntimeError);
     }
 
     {
@@ -723,32 +721,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GeodeticNadirGroundTrack)
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-        const Environment environment = Environment::Default(true);
-    
         const Shared<Earth> earthSPtr = std::make_shared<Earth>(earth);
-    
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
-        const Angle inclination = Angle::Degrees(98.0);
-        const Angle raan = Angle::Degrees(0.0);
-        const Angle aop = Angle::Degrees(0.0);
-        const Angle trueAnomaly = Angle::Degrees(0.0);
-    
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-    
-        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
-        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
-    
-        const Kepler keplerianModel = {
-            coe, instant, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
-        };
-    
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        EXPECT_NO_THROW(
-            Trajectory::GeodeticNadirGroundTrack(orbit)
-        );
+        const Orbit orbit = Orbit::Circular(instant, Length::Kilometers(550.0), Angle::Degrees(0.0), earthSPtr);
+
+        EXPECT_NO_THROW(Trajectory::GeodeticNadirGroundTrack(orbit));
     }
 }
