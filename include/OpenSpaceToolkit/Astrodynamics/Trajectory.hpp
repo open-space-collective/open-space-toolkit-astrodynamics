@@ -268,7 +268,7 @@ class Trajectory
     static Array<State> computeStates(
         const std::function<physics::coordinate::Position(const Instant&)>& aPositionGenerator,
         const Array<Instant>& anInstantArray,
-        const Duration& aStepSize = Duration::Seconds(1e-6)
+        const Duration& aStepSize = Duration::Seconds(1e-2)
     );
 };
 

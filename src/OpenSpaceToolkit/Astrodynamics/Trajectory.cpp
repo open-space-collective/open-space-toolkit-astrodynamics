@@ -328,7 +328,7 @@ Array<State> Trajectory::computeStates(
 
         const Velocity currentVelocity = Velocity::MetersPerSecond(velocityCoordinates, currentPosition.accessFrame());
 
-        states.add(State(currentInstant, currentPosition, currentVelocity));
+        states.add(State(currentInstant, currentPosition, currentVelocity).inFrame(Frame::GCRF()));
     }
 
     return states;
