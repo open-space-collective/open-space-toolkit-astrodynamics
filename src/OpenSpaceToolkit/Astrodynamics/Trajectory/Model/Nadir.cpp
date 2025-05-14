@@ -17,6 +17,10 @@ namespace trajectory
 namespace model
 {
 
+using ostk::core::type::String;
+
+using ostk::physics::coordinate::Position;
+
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
@@ -62,8 +66,6 @@ bool Nadir::isDefined() const
 
 State Nadir::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::physics::coordinate::Position;
-
     if (!anInstant.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Instant");
@@ -115,7 +117,7 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
         ++i;
     }
 
-    Array<Shared<const Interpolator>> interpolators = {
+    const Array<Shared<const Interpolator>> interpolators = {
         Interpolator::GenerateInterpolator(Interpolator::Type::CubicSpline, times, positionCoordinates.row(0)),
         Interpolator::GenerateInterpolator(Interpolator::Type::CubicSpline, times, positionCoordinates.row(1)),
         Interpolator::GenerateInterpolator(Interpolator::Type::CubicSpline, times, positionCoordinates.row(2)),
@@ -134,8 +136,6 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
 
 void Nadir::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    using ostk::core::type::String;
-
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Nadir") : void();
 
     orbit_.print(anOutputStream, false);

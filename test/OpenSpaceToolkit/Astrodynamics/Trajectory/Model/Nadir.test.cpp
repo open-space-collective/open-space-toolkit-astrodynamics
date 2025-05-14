@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 
 #include <Global.test.hpp>
 
@@ -21,6 +22,7 @@ using ostk::mathematics::object::Vector6d;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
@@ -33,6 +35,7 @@ using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::trajectory::model::Nadir;
+using ostk::astrodynamics::trajectory::model::Static;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
@@ -86,6 +89,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, IsDefined)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, CalculateStateAt)
 {
+    {
+        const Nadir nadirModel(orbit_);
+
+        EXPECT_THROW(nadirModel.calculateStateAt(Instant::Undefined()), ostk::core::error::runtime::Undefined);
+    }
+
+    {
+        const Nadir nadirModel(Orbit::Undefined());
+
+        EXPECT_THROW(nadirModel.calculateStateAt(epoch_), ostk::core::error::runtime::Undefined);
+    }
+
+    {
     const Nadir nadirModel(orbit_);
 
     const State state = nadirModel.calculateStateAt(epoch_);
@@ -104,6 +120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, CalculateStateAt)
     };
 
     EXPECT_VECTORS_ALMOST_EQUAL(coordinates, expectedCoordinates, 1e-5);
+}
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, Clone)
