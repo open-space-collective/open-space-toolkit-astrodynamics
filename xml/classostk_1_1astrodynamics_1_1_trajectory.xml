@@ -686,10 +686,10 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a63cffbe19f2077fa2406bb91609ae419" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_trajectory_1a03bd5289d382ee6e65f5aab855997b61" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
         <definition>Array&lt; State &gt; ostk::astrodynamics::Trajectory::computeStates</definition>
-        <argsstring>(const std::function&lt; physics::coordinate::Position(const Instant &amp;)&gt; &amp;aPositionGenerator, const Array&lt; Instant &gt; &amp;anInstantArray, const Duration &amp;aStepSize=Duration::Seconds(1e-6))</argsstring>
+        <argsstring>(const std::function&lt; physics::coordinate::Position(const Instant &amp;)&gt; &amp;aPositionGenerator, const Array&lt; Instant &gt; &amp;anInstantArray, const Duration &amp;aStepSize=Duration::Seconds(1e-2))</argsstring>
         <name>computeStates</name>
         <param>
           <type>const std::function&lt; physics::coordinate::Position(const Instant &amp;)&gt; &amp;</type>
@@ -702,7 +702,7 @@
         <param>
           <type>const Duration &amp;</type>
           <declname>aStepSize</declname>
-          <defval>Duration::Seconds(1e-6)</defval>
+          <defval>Duration::Seconds(1e-2)</defval>
         </param>
         <briefdescription>
 <para>Compute states using the provided position generator, and finite differenced velocities, at the provided instants. </para>
@@ -763,7 +763,7 @@
     <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" line="55" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory.hpp" bodystart="54" bodyend="273"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a00e0200bc70fc7c5c764b2204f3232f8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>accessModel</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a63cffbe19f2077fa2406bb91609ae419" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>computeStates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a03bd5289d382ee6e65f5aab855997b61" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>computeStates</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ab72172193ac72db5b7acf922d1b0a9b7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>getStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a828ef112e449b697c961e61825b48cbc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>getStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a9775d82dfd4fe3148838d84371021117" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Trajectory</scope><name>GroundStrip</name></member>

@@ -1692,7 +1692,7 @@
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1ae0657f4bca61121f64aa8d66643afccd" kind="function"><name>GroundStrip</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a10709f1c1b56a4ab187cfcf41c03c3be" kind="function"><name>GroundStripGeodeticNadir</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a6c0103df039a8de9701125b235de1bff" kind="function"><name>Trajectory</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a63cffbe19f2077fa2406bb91609ae419" kind="function"><name>computeStates</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a03bd5289d382ee6e65f5aab855997b61" kind="function"><name>computeStates</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kind="class"><name>ostk::astrodynamics::flight::Profile::TrajectoryTarget</name>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a999b5c9dc760876ab946b27f02f12f03" kind="variable"><name>trajectory</name></member>
