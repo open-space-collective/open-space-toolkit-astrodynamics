@@ -12,19 +12,44 @@ from ostk.astrodynamics.trajectory import State
 
 
 @pytest.fixture
-def target_scan() -> TargetScan:
-    earth: Earth = Earth.wgs84()
-    start_lla: LLA = LLA.degrees(0.0, 0.0, 0.0)
-    end_lla: LLA = LLA.degrees(0.0, 1.0, 0.0)
-    start_instant: Instant = Instant.date_time(DateTime(2023, 1, 1, 0, 0, 0), Scale.UTC)
-    end_instant: Instant = Instant.date_time(DateTime(2023, 1, 1, 0, 10, 0), Scale.UTC)
+def earth() -> Earth:
+    return Earth.WGS84()
 
+
+@pytest.fixture
+def start_lla() -> LLA:
+    return LLA.vector([0.0, 0.0, 0.0])
+
+
+@pytest.fixture
+def end_lla() -> LLA:
+    return LLA.vector([0.0, 1.0, 0.0])
+
+
+@pytest.fixture
+def start_instant() -> Instant:
+    return Instant.date_time(DateTime(2023, 1, 1, 0, 0, 0), Scale.UTC)
+
+
+@pytest.fixture
+def end_instant() -> Instant:
+    return Instant.date_time(DateTime(2023, 1, 1, 0, 10, 0), Scale.UTC)
+
+
+@pytest.fixture
+def target_scan(
+    earth: Earth,
+    start_lla: LLA,
+    end_lla: LLA,
+    start_instant: Instant,
+    end_instant: Instant,
+) -> TargetScan:
     return TargetScan(
         start_lla=start_lla,
         end_lla=end_lla,
         start_instant=start_instant,
         end_instant=end_instant,
-        earth=earth,
+        celestial=earth,
     )
 
 
@@ -43,13 +68,6 @@ class TestTargetScan:
         state: State = target_scan.calculate_state_at(instant)
         assert state is not None
 
-    def test_clone(
-        self,
-        target_scan: TargetScan,
-    ):
-        cloned_target_scan = target_scan.clone()
-        assert cloned_target_scan == target_scan
-
     def test_equality_operator(
         self,
         target_scan: TargetScan,
@@ -59,6 +77,16 @@ class TestTargetScan:
     def test_inequality_operator(
         self,
         target_scan: TargetScan,
+        start_lla: LLA,
+        end_lla: LLA,
+        start_instant: Instant,
+        earth: Earth,
     ):
-        target_scan2 = TargetScan.undefined()
+        target_scan2 = TargetScan(
+            start_lla=start_lla,
+            end_lla=end_lla,
+            start_instant=start_instant,
+            end_instant=Instant.undefined(),
+            celestial=earth,
+        )
         assert target_scan != target_scan2
