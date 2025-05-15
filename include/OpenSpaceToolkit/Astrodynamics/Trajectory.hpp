@@ -195,12 +195,14 @@ class Trajectory
     ///             duration);
     /// @endcode
     ///
+    /// @deprecated Use Trajectory::TargetScan instead.
     /// @param aStartLLA A start LLA
     /// @param anEndLLA An end LLA
     /// @param aGroundSpeed A ground speed
     /// @param aStartInstant A start instant
     /// @param aCelestial Celestial body
     /// @return GroundStrip trajectory
+    [[deprecated("Use Trajectory::TargetScan instead.")]]
     static Trajectory GroundStrip(
         const LLA& aStartLLA,
         const LLA& anEndLLA,
@@ -223,11 +225,13 @@ class Trajectory
     ///             Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants, earth);
     /// @endcode
     ///
+    /// @deprecated Use Trajectory::TargetScan instead.
     /// @param aStartLLA A start LLA
     /// @param anEndLLA An end LLA
     /// @param anInstantArray An array of instants
     /// @param aCelestial Celestial body
     /// @return GroundStrip trajectory
+    [[deprecated("Use Trajectory::TargetScan instead.")]]
     static Trajectory GroundStrip(
         const LLA& aStartLLA,
         const LLA& anEndLLA,
@@ -252,6 +256,56 @@ class Trajectory
     static Trajectory GroundStripGeodeticNadir(
         const trajectory::Orbit& anOrbit,
         const Array<Instant>& anInstantArray,
+        const Celestial& aCelestial = Earth::WGS84()
+    );
+
+    /// @brief Constructs a trajectory representing a target scan between two locations at the provided instants
+    ///
+    /// @code{.cpp}
+    ///             LLA startLLA = LLA::Vector({ 0.0, 0.0, 0.0 });
+    ///             LLA endLLA = LLA::Vector({ 1.0, 0.0, 0.0 });
+    ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
+    ///             Instant endInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:10:00"), Scale::UTC);
+    ///             Earth earth = Earth::WGS84();
+    ///             Trajectory trajectory = Trajectory::TargetScan(startLLA, endLLA, startInstant, endInstant, earth);
+    /// @endcode
+    ///
+    /// @param aStartLLA A start LLA
+    /// @param anEndLLA An end LLA
+    /// @param aStartInstant A start instant
+    /// @param anEndInstant An end instant
+    /// @param aCelestial Celestial body
+    /// @return TargetScan trajectory
+    static Trajectory TargetScan(
+        const LLA& aStartLLA,
+        const LLA& anEndLLA,
+        const Instant& aStartInstant,
+        const Instant& anEndInstant,
+        const Celestial& aCelestial = Earth::WGS84()
+    );
+
+    /// @brief Constructs a trajectory representing a target scan between two locations at the provided instants
+    ///
+    /// @code{.cpp}
+    ///             LLA startLLA = LLA::Vector({ 0.0, 0.0, 0.0 });
+    ///             LLA endLLA = LLA::Vector({ 1.0, 0.0, 0.0 });
+    ///             Derived groundSpeed = Derived(1000.0, Derived::Unit::MeterPerSecond());
+    ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
+    ///             Earth earth = Earth::WGS84();
+    ///             Trajectory trajectory = Trajectory::TargetScan(startLLA, endLLA, startInstant, endInstant, earth);
+    /// @endcode
+    ///
+    /// @param aStartLLA A start LLA
+    /// @param anEndLLA An end LLA
+    /// @param aGroundSpeed A ground speed
+    /// @param aStartInstant A start instant
+    /// @param aCelestial Celestial body
+    /// @return TargetScan trajectory
+    static Trajectory TargetScan(
+        const LLA& aStartLLA,
+        const LLA& anEndLLA,
+        const Derived& aGroundSpeed,
+        const Instant& aStartInstant,
         const Celestial& aCelestial = Earth::WGS84()
     );
 

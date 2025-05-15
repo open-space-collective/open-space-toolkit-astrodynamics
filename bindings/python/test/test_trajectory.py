@@ -7,6 +7,8 @@ from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.time import Instant
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
 from ostk.physics.time import Duration
 from ostk.physics.unit import Derived
 from ostk.physics.unit import Length
@@ -164,3 +166,43 @@ class TestTrajectory:
             Trajectory.ground_strip_geodetic_nadir(orbit=orbit, instants=instants)
             is not None
         )
+
+    def test_target_scan_with_instants(
+        self,
+        earth: Earth,
+        start_lla: LLA,
+        end_lla: LLA,
+    ):
+        start_instant = Instant.date_time(DateTime(2023, 1, 1, 0, 0, 0), Scale.UTC)
+        end_instant = Instant.date_time(DateTime(2023, 1, 1, 0, 10, 0), Scale.UTC)
+
+        trajectory: Trajectory = Trajectory.target_scan(
+            start_lla=start_lla,
+            end_lla=end_lla,
+            start_instant=start_instant,
+            end_instant=end_instant,
+            celestial=earth,
+        )
+
+        assert trajectory.is_defined()
+
+    def test_target_scan_with_ground_speed(
+        self,
+        earth: Earth,
+        start_lla: LLA,
+        end_lla: LLA,
+    ):
+        ground_speed: Derived = Derived(1000.0, Derived.Unit.meter_per_second())
+        start_instant: Instant = Instant.date_time(
+            DateTime(2023, 1, 1, 0, 0, 0), Scale.UTC
+        )
+
+        trajectory: Trajectory = Trajectory.target_scan(
+            start_lla=start_lla,
+            end_lla=end_lla,
+            ground_speed=ground_speed,
+            start_instant=start_instant,
+            celestial=earth,
+        )
+
+        assert trajectory.is_defined()

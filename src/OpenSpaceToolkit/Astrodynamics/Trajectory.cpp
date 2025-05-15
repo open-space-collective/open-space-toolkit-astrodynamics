@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 namespace ostk
@@ -31,6 +32,8 @@ using ostk::physics::time::Duration;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::trajectory::model::Nadir;
+using TargetScanModel = ostk::astrodynamics::trajectory::model::TargetScan;
+using ostk::astrodynamics::trajectory::model::Static;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::Orbit;
 
@@ -139,8 +142,6 @@ Trajectory Trajectory::Undefined()
 
 Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 {
-    using ostk::astrodynamics::trajectory::model::Static;
-
     if (!aPosition.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Position");
@@ -252,6 +253,87 @@ Trajectory Trajectory::GroundStripGeodeticNadir(
 )
 {
     [[deprecated("Use Trajectory::GeodeticNadirGroundTrack instead.")]] return Trajectory(Nadir(anOrbit));
+}
+
+Trajectory Trajectory::TargetScan(
+    const LLA& aStartLLA,
+    const LLA& anEndLLA,
+    const Instant& aStartInstant,
+    const Instant& anEndInstant,
+    const Celestial& aCelestial
+)
+{
+    if (!aStartLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Start LLA");
+    }
+
+    if (!anEndLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("End LLA");
+    }
+
+    if (!aStartInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Start instant");
+    }
+
+    if (!anEndInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("End instant");
+    }
+
+    if (!aCelestial.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial");
+    }
+
+    return Trajectory(TargetScanModel(aStartLLA, anEndLLA, aStartInstant, anEndInstant, aCelestial));
+}
+
+Trajectory Trajectory::TargetScan(
+    const LLA& aStartLLA,
+    const LLA& anEndLLA,
+    const Derived& aGroundSpeed,
+    const Instant& aStartInstant,
+    const Celestial& aCelestial
+)
+{
+    if (!aStartLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Start LLA");
+    }
+
+    if (!anEndLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("End LLA");
+    }
+
+    if (!aGroundSpeed.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Ground Speed");
+    }
+
+    if (!aStartInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Start instant");
+    }
+
+    if (!aCelestial.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial");
+    }
+
+    const Real groundSpeedMps = aGroundSpeed.in(Derived::Unit::MeterPerSecond());
+
+    const Length distance =
+        aStartLLA.calculateDistanceTo(anEndLLA, aCelestial.getEquatorialRadius(), aCelestial.getFlattening());
+
+    const Duration duration = Duration::Seconds(distance.inMeters() / groundSpeedMps);
+
+    const Instant endInstant = aStartInstant + duration;
+
+    return Trajectory(TargetScanModel(aStartLLA, anEndLLA, aStartInstant, endInstant, aCelestial));
 }
 
 Trajectory::Trajectory()

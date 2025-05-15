@@ -219,8 +219,54 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             arg("instants"),
             arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()")
         )
+        .def_static(
+            "target_scan",
+            overload_cast<const LLA&, const LLA&, const Instant&, const Instant&, const Celestial&>(
+                &Trajectory::TargetScan
+            ),
+            R"doc(
+                Create a `Trajectory` object representing a target scan between two locations at the provided instants.
 
-        ;
+                Args:
+                    start_lla (LLA): The start LLA.
+                    end_lla (LLA): The end LLA.
+                    start_instant (Instant): The start instant.
+                    end_instant (Instant): The end instant.
+                    celestial (Celestial): The celestial object. Defaults to Earth.WGS84().
+
+                Returns:
+                    Trajectory: The `Trajectory` object representing the target scan.
+            )doc",
+            arg("start_lla"),
+            arg("end_lla"),
+            arg("start_instant"),
+            arg("end_instant"),
+            arg_v("celestial", Earth::WGS84(), "Earth.WGS84()")
+        )
+        .def_static(
+            "target_scan",
+            overload_cast<const LLA&, const LLA&, const Derived&, const Instant&, const Celestial&>(
+                &Trajectory::TargetScan
+            ),
+            R"doc(
+                Create a `Trajectory` object representing a target scan between two locations with a specified ground speed.
+
+                Args:
+                    start_lla (LLA): The start LLA.
+                    end_lla (LLA): The end LLA.
+                    ground_speed (Derived): The ground speed.
+                    start_instant (Instant): The start instant.
+                    celestial (Celestial): The celestial object. Defaults to Earth.WGS84().
+
+                Returns:
+                    Trajectory: The `Trajectory` object representing the target scan.
+            )doc",
+            arg("start_lla"),
+            arg("end_lla"),
+            arg("ground_speed"),
+            arg("start_instant"),
+            arg_v("celestial", Earth::WGS84(), "Earth.WGS84()")
+        );
 
     // Create "trajectory" python submodule
     auto trajectory = aModule.def_submodule("trajectory");

@@ -703,3 +703,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
         }
     }
 }
+
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, TargetScan)
+{
+    const Earth earth = Earth::WGS84();
+    const LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
+    const LLA endLLA = LLA::Vector({0.0, 1.0, 0.0});
+    const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
+
+    // with instants
+
+    {
+        const Instant endInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 10, 0), Scale::UTC);
+
+        const Trajectory trajectory = Trajectory::TargetScan(startLLA, endLLA, startInstant, endInstant, earth);
+
+        EXPECT_TRUE(trajectory.isDefined());
+    }
+
+    // with ground speed
+
+    {
+        const Derived groundSpeed = Derived(1000.0, Derived::Unit::MeterPerSecond());
+
+        const Trajectory trajectory = Trajectory::TargetScan(startLLA, endLLA, groundSpeed, startInstant, earth);
+
+        EXPECT_TRUE(trajectory.isDefined());
+    }
+}
