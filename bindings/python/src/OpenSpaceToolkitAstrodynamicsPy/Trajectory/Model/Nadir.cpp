@@ -8,8 +8,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::mod
 
     using ostk::core::type::Shared;
 
-    using ostk::physics::time::Instant;
     using ostk::physics::time::Duration;
+    using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::model::Nadir;
     using ostk::astrodynamics::trajectory::Orbit;
