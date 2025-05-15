@@ -9,6 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::mod
     using ostk::core::type::Shared;
 
     using ostk::physics::time::Instant;
+    using ostk::physics::time::Duration;
 
     using ostk::astrodynamics::trajectory::model::Nadir;
     using ostk::astrodynamics::trajectory::Orbit;
@@ -25,17 +26,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::mod
     )
 
         .def(
-            init<const Orbit&>(),
+            init<const Orbit&, const Duration&>(),
             R"doc(
                 Construct a `Nadir` object from an orbit.
 
                 Args:
                     orbit (Orbit): The orbit.
+                    step_size (Duration): The step size for the trajectory. Defaults to 1e-2 seconds.
 
                 Returns:
                     Nadir: The `Nadir` object.
             )doc",
-            arg("orbit")
+            arg("orbit"),
+            arg("step_size") = Duration::Seconds(1e-2)
         )
 
         .def(self == self)

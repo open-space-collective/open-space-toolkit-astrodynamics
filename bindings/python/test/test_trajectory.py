@@ -75,19 +75,34 @@ def orbit() -> Orbit:
 
 
 class TestTrajectory:
-    def test_trajectory(self, states: list[State]):
+    def test_trajectory(
+        self,
+        states: list[State],
+    ):
         assert Trajectory(states) is not None
 
-    def test_is_defined(self, trajectory: Trajectory):
+    def test_is_defined(
+        self,
+        trajectory: Trajectory,
+    ):
         assert trajectory.is_defined()
 
-    def test_access_model(self, trajectory: Trajectory):
+    def test_access_model(
+        self,
+        trajectory: Trajectory,
+    ):
         assert trajectory.access_model() is not None
 
-    def test_get_state_at(self, trajectory: Trajectory):
+    def test_get_state_at(
+        self,
+        trajectory: Trajectory,
+    ):
         assert trajectory.get_state_at(Instant.J2000()) is not None
 
-    def test_get_states_at(self, trajectory: Trajectory):
+    def test_get_states_at(
+        self,
+        trajectory: Trajectory,
+    ):
         assert (
             trajectory.get_states_at(
                 [Instant.J2000(), Instant.J2000() + Duration.seconds(10.0)]
@@ -102,7 +117,10 @@ class TestTrajectory:
         assert isinstance(trajectory, Trajectory)
         assert trajectory.is_defined() is False
 
-    def test_trajectory_position(self, position: Position):
+    def test_trajectory_position(
+        self,
+        position: Position,
+    ):
         trajectory: Trajectory = Trajectory.position(position)
 
         assert trajectory is not None
@@ -131,7 +149,10 @@ class TestTrajectory:
         assert Trajectory.ground_strip(start_lla, end_lla, instants) is not None
 
     def test_ground_strip_geodetic_nadir(
-        self, orbit: Orbit, instants: list[Instant], earth: Earth
+        self,
+        orbit: Orbit,
+        instants: list[Instant],
+        earth: Earth,
     ):
         assert (
             Trajectory.ground_strip_geodetic_nadir(
@@ -141,16 +162,5 @@ class TestTrajectory:
         )
         assert (
             Trajectory.ground_strip_geodetic_nadir(orbit=orbit, instants=instants)
-            is not None
-        )
-
-    def test_geodetic_nadir_ground_track(
-        self,
-        orbit: Orbit,
-    ):
-        assert (
-            Trajectory.geodetic_nadir_ground_track(
-                orbit=orbit,
-            )
             is not None
         )

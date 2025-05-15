@@ -243,27 +243,17 @@ class Trajectory
     ///             Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(anOrbit, anInstantArray, earth);
     /// @endcode
     ///
-    /// @deprecated Use Trajectory::GeodeticNadirGroundTrack instead.
+    /// @deprecated Use Trajectory(Nadir(...)) instead.
     /// @param anOrbit An orbit
     /// @param anInstantArray An array of instants
     /// @param aCelestial Celestial body
     /// @return Trajectory
-    [[deprecated("Use Trajectory::GeodeticNadirGroundTrack instead.")]]
+    [[deprecated("Use Trajectory(Nadir(...)) instead.")]]
     static Trajectory GroundStripGeodeticNadir(
         const trajectory::Orbit& anOrbit,
         const Array<Instant>& anInstantArray,
         const Celestial& aCelestial = Earth::WGS84()
     );
-
-    /// @brief Constructs a trajectory representing a ground track that follows the geodetic nadir of the provided orbit
-    ///
-    /// @code{.cpp}
-    ///             Trajectory trajectory = Trajectory::GeodeticNadirGroundTrack(anOrbit);
-    /// @endcode
-    ///
-    /// @param anOrbit An orbit
-    /// @return Trajectory
-    static Trajectory GeodeticNadirGroundTrack(const trajectory::Orbit& anOrbit);
 
    private:
     Unique<Model> modelUPtr_;

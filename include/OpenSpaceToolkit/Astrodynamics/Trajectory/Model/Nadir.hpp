@@ -26,8 +26,6 @@ using ostk::physics::time::Interval;
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 
-#define DEFAULT_NADIR_STEP_SIZE Duration::Seconds(1e-2)
-
 /// @brief Nadir pointing trajectory model to represent the geodetic nadir position of an orbit on the surface of the
 /// earth
 class Nadir : public virtual Model
@@ -43,7 +41,7 @@ class Nadir : public virtual Model
     /// @param anOrbit The orbit of the nadir model
     /// @param aStepSize The step size for the nadir model. Defaults to 1e-2 seconds
     /// @return A nadir model
-    Nadir(const Orbit& anOrbit, const Duration& aStepSize = DEFAULT_NADIR_STEP_SIZE);
+    Nadir(const Orbit& anOrbit, const Duration& aStepSize = Duration::Seconds(1e-2));
 
     /// @brief Clone the nadir model
     ///

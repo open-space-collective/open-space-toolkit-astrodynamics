@@ -219,20 +219,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             arg("instants"),
             arg_v("celestial_object", Earth::WGS84(), "Earth.WGS84()")
         )
-        .def_static(
-            "geodetic_nadir_ground_track",
-            &Trajectory::GeodeticNadirGroundTrack,
-            R"doc(
-                Create a `Trajectory` object representing a geodetic nadir ground track.
-
-                Args:
-                    orbit (Orbit): The orbit.
-
-                Returns:
-                    Trajectory: The `Trajectory` object representing the geodetic nadir ground track.
-            )doc",
-            arg("orbit")
-        )
 
         ;
 

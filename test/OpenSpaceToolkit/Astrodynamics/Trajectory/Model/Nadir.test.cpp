@@ -72,12 +72,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir : public ::testing::
     }
 
     const Instant epoch_ = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Duration stepSize_ = Duration::Seconds(1e-2);
     Orbit orbit_ = Orbit::Undefined();
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, Constructor)
 {
     EXPECT_NO_THROW(Nadir nadirModel(orbit_));
+    EXPECT_NO_THROW(Nadir nadirModel(orbit_, stepSize_));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, IsDefined)
@@ -199,10 +201,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetOrbit)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetStepSize)
 {
-    const Duration stepSize = Duration::Seconds(0.1);
-    const Nadir nadirModel(orbit_, stepSize);
+    const Nadir nadirModel(orbit_, stepSize_);
 
-    EXPECT_EQ(nadirModel.getStepSize(), stepSize);
+    EXPECT_EQ(nadirModel.getStepSize(), stepSize_);
 
     const Nadir undefinedNadirModel(Orbit::Undefined());
 

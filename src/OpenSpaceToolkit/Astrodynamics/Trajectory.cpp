@@ -251,17 +251,7 @@ Trajectory Trajectory::GroundStripGeodeticNadir(
     [[maybe_unused]] const Celestial& aCelestial
 )
 {
-    [[deprecated("Use Trajectory::GeodeticNadirGroundTrack instead.")]] return GeodeticNadirGroundTrack(anOrbit);
-}
-
-Trajectory Trajectory::GeodeticNadirGroundTrack(const trajectory::Orbit& anOrbit)
-{
-    if (!anOrbit.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Orbit");
-    }
-
-    return Trajectory(Nadir(anOrbit));
+    [[deprecated("Use Trajectory::GeodeticNadirGroundTrack instead.")]] return Trajectory(Nadir(anOrbit));
 }
 
 Trajectory::Trajectory()

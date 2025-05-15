@@ -13,9 +13,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
 
@@ -45,9 +42,6 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::model::Tabulated;
-using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::orbit::model::Kepler;
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
@@ -707,24 +701,5 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
             const Vector3d velocity = state.getVelocity().getCoordinates();
             EXPECT_NEAR(velocity.norm(), 970.3, 1.0);
         }
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GeodeticNadirGroundTrack)
-{
-    {
-        EXPECT_THROW(Trajectory::GeodeticNadirGroundTrack(Orbit::Undefined()), ostk::core::error::RuntimeError);
-    }
-
-    {
-        const Earth earth = Earth::WGS84();
-
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-
-        const Shared<Earth> earthSPtr = std::make_shared<Earth>(earth);
-
-        const Orbit orbit = Orbit::Circular(instant, Length::Kilometers(550.0), Angle::Degrees(0.0), earthSPtr);
-
-        EXPECT_NO_THROW(Trajectory::GeodeticNadirGroundTrack(orbit));
     }
 }
