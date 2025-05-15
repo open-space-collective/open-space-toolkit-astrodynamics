@@ -11,6 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
     using ostk::physics::coordinate::spherical::LLA;
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::environment::object::celestial::Earth;
+    using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::model::TargetScan;
@@ -27,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
     )
 
         .def(
-            init<const LLA&, const LLA&, const Instant&, const Instant&, const Celestial&>(),
+            init<const LLA&, const LLA&, const Instant&, const Instant&, const Celestial&, const Duration&>(),
             R"doc(
                 Construct a `TargetScan` object.
 
@@ -37,6 +38,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
                     start_instant (Instant): The starting instant.
                     end_instant (Instant): The ending instant.
                     celestial (Celestial): The celestial body. Defaults to Earth.WGS84().
+                    step_size (Duration): The step size for the trajectory. Defaults to 1e-2 seconds.
 
                 Returns:
                     TargetScan: The `TargetScan` object.
@@ -45,7 +47,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
             arg("end_lla"),
             arg("start_instant"),
             arg("end_instant"),
-            arg("celestial") = Earth::WGS84()
+            arg("celestial") = Earth::WGS84(),
+            arg("step_size") = Duration::Seconds(1e-2)
         )
 
         .def(self == self)
@@ -77,6 +80,91 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
                     State: The state at the given instant.
             )doc",
             arg("instant")
+        )
+        .def(
+            "get_start_lla",
+            &TargetScan::getStartLLA,
+            R"doc(
+                Get the starting LLA of the target scan.
+
+                Returns:
+                    LLA: The starting LLA.
+            )doc"
+        )
+        .def(
+            "get_end_lla",
+            &TargetScan::getEndLLA,
+            R"doc(
+                Get the ending LLA of the target scan.
+
+                Returns:
+                    LLA: The ending LLA.
+            )doc"
+        )
+        .def(
+            "get_start_instant",
+            &TargetScan::getStartInstant,
+            R"doc(
+                Get the starting instant of the target scan.
+
+                Returns:
+                    Instant: The starting instant.
+            )doc"
+        )
+        .def(
+            "get_end_instant",
+            &TargetScan::getEndInstant,
+            R"doc(
+                Get the ending instant of the target scan.
+
+                Returns:
+                    Instant: The ending instant.
+            )doc"
+        )
+        .def(
+            "get_celestial",
+            &TargetScan::getCelestial,
+            R"doc(
+                Get the celestial object of the target scan.
+
+                Returns:
+                    Celestial: The celestial object.
+            )doc"
+        )
+        .def(
+            "get_step_size",
+            &TargetScan::getStepSize,
+            R"doc(
+                Get the step size of the target scan.
+
+                Returns:
+                    Duration: The step size.
+            )doc"
+        )
+
+        .def_static(
+            "from_ground_speed",
+            &TargetScan::FromGroundSpeed,
+            R"doc(
+                Construct a `TargetScan` object from ground speed.
+
+                Args:
+                    start_lla (LLA): The starting location.
+                    end_lla (LLA): The ending location.
+                    ground_speed (Derived): The ground speed.
+                    start_instant (Instant): The starting instant.
+                    celestial (Celestial): The celestial body.
+                    step_size (Duration): The step size for the trajectory.
+
+                Returns:
+                    TargetScan: The `TargetScan` object.
+            )doc",
+            arg("start_lla"),
+            arg("end_lla"),
+            arg("ground_speed"),
+            arg("start_instant"),
+            arg("celestial") = Earth::WGS84(),
+            arg("step_size") = Duration::Seconds(1e-2)
         )
 
         ;

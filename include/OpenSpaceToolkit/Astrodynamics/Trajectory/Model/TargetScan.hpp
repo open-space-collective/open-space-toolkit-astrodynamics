@@ -22,6 +22,7 @@ namespace model
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
@@ -44,12 +45,14 @@ class TargetScan : public virtual Model
     /// @param aStartInstant The starting instant of the target scan
     /// @param anEndInstant The ending instant of the target scan
     /// @param aCelestialObject The celestial object (default: Earth::WGS84())
+    /// @param aStepSize The step size for the target scan (default: 1 second)
     TargetScan(
         const LLA& aStartLLA,
         const LLA& anEndLLA,
         const Instant& aStartInstant,
         const Instant& anEndInstant,
-        const Celestial& aCelestialObject = Earth::WGS84()
+        const Celestial& aCelestialObject = Earth::WGS84(),
+        const Duration& aStepSize = Duration::Seconds(1e-2)
     );
 
     /// @brief Clone the static model
@@ -61,6 +64,66 @@ class TargetScan : public virtual Model
     ///
     /// @return A pointer to the cloned static model
     virtual TargetScan* clone() const override;
+
+    /// @brief Get the starting LLA of the target scan
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = { ... };
+    ///              LLA startLLA = targetScanModel.getStartLLA();
+    /// @endcode
+    ///
+    /// @return The starting LLA of the target scan
+    LLA getStartLLA() const;
+
+    /// @brief Get the ending LLA of the target scan
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = { ... };
+    ///              LLA endLLA = targetScanModel.getEndLLA();
+    /// @endcode
+    ///
+    /// @return The ending LLA of the target scan
+    LLA getEndLLA() const;
+
+    /// @brief Get the starting instant of the target scan
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = { ... };
+    ///              Instant startInstant = targetScanModel.getStartInstant();
+    /// @endcode
+    ///
+    /// @return The starting instant of the target scan
+    Instant getStartInstant() const;
+
+    /// @brief Get the ending instant of the target scan
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = { ... };
+    ///              Instant endInstant = targetScanModel.getEndInstant();
+    /// @endcode
+    ///
+    /// @return The ending instant of the target scan
+    Instant getEndInstant() const;
+
+    /// @brief Get the celestial object of the target scan
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = { ... };
+    ///              Celestial celestialObject = targetScanModel.getCelestial();
+    /// @endcode
+    ///
+    /// @return The celestial object of the target scan
+    Celestial getCelestial() const;
+
+    /// @brief Get the step size of the target scan
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = { ... };
+    ///              Duration stepSize = targetScanModel.getStepSize();
+    /// @endcode
+    ///
+    /// @return The step size of the target scan
+    Duration getStepSize() const;
 
     /// @brief Equality operator
     ///
@@ -131,6 +194,28 @@ class TargetScan : public virtual Model
     /// @param displayDecorator If true, display decorator
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
+    /// @brief Static method to create a TargetScan from ground speed
+    ///
+    /// @code{.cpp}
+    ///              TargetScan targetScanModel = TargetScan::FromGroundSpeed(startLLA, endLLA, groundSpeed,
+    ///              startInstant);
+    /// @endcode
+    ///
+    /// @param aStartLLA The starting LLA of the target scan
+    /// @param anEndLLA The ending LLA of the target scan
+    /// @param aGroundSpeed The ground speed of the target scan
+    /// @param aStartInstant The starting instant of the target scan
+    /// @param aCelestialObject The celestial object (default: Earth::WGS84())
+    /// @param aStepSize The step size for the target scan (default: 1e-2 second)
+    static TargetScan FromGroundSpeed(
+        const LLA& aStartLLA,
+        const LLA& anEndLLA,
+        const Derived& aGroundSpeed,
+        const Instant& aStartInstant,
+        const Celestial& aCelestialObject = Earth::WGS84(),
+        const Duration& aStepSize = Duration::Seconds(1e-2)
+    );
+
    protected:
     /// @brief Equality operator for Model base class
     ///
@@ -162,6 +247,7 @@ class TargetScan : public virtual Model
     Instant startInstant_;
     Instant endInstant_;
     Shared<const Celestial> celestialSPtr_;
+    Duration stepSize_;
 };
 
 }  // namespace model

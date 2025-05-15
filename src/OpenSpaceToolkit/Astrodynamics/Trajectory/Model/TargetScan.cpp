@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp>
 
 namespace ostk
@@ -23,20 +25,23 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Position;
+using ostk::physics::unit::Derived;
 
 TargetScan::TargetScan(
     const LLA& aStartLLA,
     const LLA& anEndLLA,
     const Instant& aStartInstant,
     const Instant& anEndInstant,
-    const Celestial& aCelestial
+    const Celestial& aCelestial,
+    const Duration& aStepSize
 )
     : Model(),
       startLLA_(aStartLLA),
       endLLA_(anEndLLA),
       startInstant_(aStartInstant),
       endInstant_(anEndInstant),
-      celestialSPtr_(std::make_shared<const Celestial>(aCelestial))
+      celestialSPtr_(std::make_shared<const Celestial>(aCelestial)),
+      stepSize_(aStepSize)
 {
 }
 
@@ -54,7 +59,7 @@ bool TargetScan::operator==(const TargetScan& aTargetScanModel) const
 
     return startLLA_ == aTargetScanModel.startLLA_ && endLLA_ == aTargetScanModel.endLLA_ &&
            startInstant_ == aTargetScanModel.startInstant_ && endInstant_ == aTargetScanModel.endInstant_ &&
-           celestialSPtr_ == aTargetScanModel.celestialSPtr_;
+           celestialSPtr_ == aTargetScanModel.celestialSPtr_ && stepSize_ == aTargetScanModel.stepSize_;
 }
 
 bool TargetScan::operator!=(const TargetScan& aTargetScanModel) const
@@ -72,7 +77,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const TargetScan& aTarget
 bool TargetScan::isDefined() const
 {
     return startLLA_.isDefined() && endLLA_.isDefined() && startInstant_.isDefined() && endInstant_.isDefined() &&
-           celestialSPtr_ != nullptr && celestialSPtr_->isDefined();
+           celestialSPtr_ != nullptr && celestialSPtr_->isDefined() && stepSize_.isDefined();
 }
 
 State TargetScan::calculateStateAt(const Instant& anInstant) const
@@ -94,14 +99,12 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
 
     // interpolate the velocity using polynomial interpolation
 
-    static const Duration stepSize = Duration::Seconds(1e-2);
-
     const Array<Instant> instants = {
-        anInstant - stepSize * 2,
-        anInstant - stepSize,
+        anInstant - stepSize_ * 2,
+        anInstant - stepSize_,
         anInstant,
-        anInstant + stepSize,
-        anInstant + stepSize * 2,
+        anInstant + stepSize_,
+        anInstant + stepSize_ * 2,
     };
 
     VectorXd times(instants.getSize());
@@ -162,6 +165,36 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
     return State(anInstant, position, velocity);
 }
 
+LLA TargetScan::getStartLLA() const
+{
+    return startLLA_;
+}
+
+LLA TargetScan::getEndLLA() const
+{
+    return endLLA_;
+}
+
+Instant TargetScan::getStartInstant() const
+{
+    return startInstant_;
+}
+
+Instant TargetScan::getEndInstant() const
+{
+    return endInstant_;
+}
+
+Celestial TargetScan::getCelestial() const
+{
+    return *celestialSPtr_;
+}
+
+Duration TargetScan::getStepSize() const
+{
+    return stepSize_;
+}
+
 void TargetScan::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     using ostk::core::type::String;
@@ -184,6 +217,9 @@ void TargetScan::print(std::ostream& anOutputStream, bool displayDecorator) cons
         << "Celestial:"
         << (celestialSPtr_ != nullptr && celestialSPtr_->isDefined() ? celestialSPtr_->getName() : "Undefined");
 
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Step Size:" << (stepSize_.isDefined() ? stepSize_.toString() : "Undefined");
+
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
@@ -197,6 +233,57 @@ bool TargetScan::operator==(const Model& aModel) const
 bool TargetScan::operator!=(const Model& aModel) const
 {
     return !((*this) == aModel);
+}
+
+TargetScan TargetScan::FromGroundSpeed(
+    const LLA& aStartLLA,
+    const LLA& anEndLLA,
+    const Derived& aGroundSpeed,
+    const Instant& aStartInstant,
+    const Celestial& aCelestial,
+    const Duration& aStepSize
+)
+{
+    if (!aStartLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Start LLA");
+    }
+
+    if (!anEndLLA.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("End LLA");
+    }
+
+    if (!aGroundSpeed.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Ground speed");
+    }
+
+    if (!aStartInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Start instant");
+    }
+
+    if (!aStepSize.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Step size");
+    }
+
+    if (aStepSize.inSeconds() <= 0.0)
+    {
+        throw ostk::core::error::RuntimeError("Step size must be positive.");
+    }
+
+    const Real groundSpeedMps = aGroundSpeed.in(Derived::Unit::MeterPerSecond());
+
+    const Length distance =
+        aStartLLA.calculateDistanceTo(anEndLLA, aCelestial.getEquatorialRadius(), aCelestial.getFlattening());
+
+    const Duration duration = Duration::Seconds(distance.inMeters() / groundSpeedMps);
+
+    const Instant endInstant = aStartInstant + duration;
+
+    return TargetScan(aStartLLA, anEndLLA, aStartInstant, endInstant, aCelestial, aStepSize);
 }
 
 }  // namespace model

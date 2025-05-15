@@ -259,56 +259,6 @@ class Trajectory
         const Celestial& aCelestial = Earth::WGS84()
     );
 
-    /// @brief Constructs a trajectory representing a target scan between two locations at the provided instants
-    ///
-    /// @code{.cpp}
-    ///             LLA startLLA = LLA::Vector({ 0.0, 0.0, 0.0 });
-    ///             LLA endLLA = LLA::Vector({ 1.0, 0.0, 0.0 });
-    ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
-    ///             Instant endInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:10:00"), Scale::UTC);
-    ///             Earth earth = Earth::WGS84();
-    ///             Trajectory trajectory = Trajectory::TargetScan(startLLA, endLLA, startInstant, endInstant, earth);
-    /// @endcode
-    ///
-    /// @param aStartLLA A start LLA
-    /// @param anEndLLA An end LLA
-    /// @param aStartInstant A start instant
-    /// @param anEndInstant An end instant
-    /// @param aCelestial Celestial body
-    /// @return TargetScan trajectory
-    static Trajectory TargetScan(
-        const LLA& aStartLLA,
-        const LLA& anEndLLA,
-        const Instant& aStartInstant,
-        const Instant& anEndInstant,
-        const Celestial& aCelestial = Earth::WGS84()
-    );
-
-    /// @brief Constructs a trajectory representing a target scan between two locations at the provided instants
-    ///
-    /// @code{.cpp}
-    ///             LLA startLLA = LLA::Vector({ 0.0, 0.0, 0.0 });
-    ///             LLA endLLA = LLA::Vector({ 1.0, 0.0, 0.0 });
-    ///             Derived groundSpeed = Derived(1000.0, Derived::Unit::MeterPerSecond());
-    ///             Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
-    ///             Earth earth = Earth::WGS84();
-    ///             Trajectory trajectory = Trajectory::TargetScan(startLLA, endLLA, startInstant, endInstant, earth);
-    /// @endcode
-    ///
-    /// @param aStartLLA A start LLA
-    /// @param anEndLLA An end LLA
-    /// @param aGroundSpeed A ground speed
-    /// @param aStartInstant A start instant
-    /// @param aCelestial Celestial body
-    /// @return TargetScan trajectory
-    static Trajectory TargetScan(
-        const LLA& aStartLLA,
-        const LLA& anEndLLA,
-        const Derived& aGroundSpeed,
-        const Instant& aStartInstant,
-        const Celestial& aCelestial = Earth::WGS84()
-    );
-
    private:
     Unique<Model> modelUPtr_;
 

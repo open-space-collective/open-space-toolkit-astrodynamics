@@ -19,6 +19,7 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::unit::Derived;
 
 using ostk::astrodynamics::trajectory::model::TargetScan;
 using ostk::astrodynamics::trajectory::State;
@@ -26,18 +27,23 @@ using ostk::astrodynamics::trajectory::State;
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan : public ::testing::Test
 {
    protected:
-    Earth earth_ = Earth::WGS84();
-    LLA startLLA_ = LLA::Vector({0.099457122261122202, -100.3695068214156, 0.0});
-    LLA endLLA_ = LLA::Vector({0.40715652013782405, -100.43336631325768, 0.0});
-    Instant startInstant_ = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-    Instant endInstant_ = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 5), Scale::UTC);
+    const Earth earth_ = Earth::WGS84();
+    const LLA startLLA_ = LLA::Vector({0.099457122261122202, -100.3695068214156, 0.0});
+    const LLA endLLA_ = LLA::Vector({0.40715652013782405, -100.43336631325768, 0.0});
+    const Instant startInstant_ = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Instant endInstant_ = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 5), Scale::UTC);
+    const Duration stepSize_ = Duration::Seconds(1e-2);
 
-    TargetScan targetScan_ = TargetScan(startLLA_, endLLA_, startInstant_, endInstant_, earth_);
+    TargetScan targetScan_ = TargetScan(startLLA_, endLLA_, startInstant_, endInstant_, earth_, stepSize_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, Constructor)
 {
+    EXPECT_NO_THROW(TargetScan targetScan(startLLA_, endLLA_, startInstant_, endInstant_, earth_, stepSize_));
+
     EXPECT_NO_THROW(TargetScan targetScan(startLLA_, endLLA_, startInstant_, endInstant_, earth_));
+
+    EXPECT_NO_THROW(TargetScan targetScan(startLLA_, endLLA_, startInstant_, endInstant_));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, IsDefined)
@@ -179,4 +185,58 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, StreamOperato
 
     const std::string output = testing::internal::GetCapturedStdout();
     EXPECT_FALSE(output.empty());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, Getters)
+{
+    EXPECT_EQ(targetScan_.getStartLLA(), startLLA_);
+    EXPECT_EQ(targetScan_.getEndLLA(), endLLA_);
+    EXPECT_EQ(targetScan_.getStartInstant(), startInstant_);
+    EXPECT_EQ(targetScan_.getEndInstant(), endInstant_);
+    EXPECT_EQ(targetScan_.getCelestial().getName(), earth_.getName());
+    EXPECT_EQ(targetScan_.getStepSize(), stepSize_);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, FromGroundSpeed)
+{
+    const Derived groundSpeed = Derived(1000.0, Derived::Unit::MeterPerSecond());
+    const Duration stepSize = Duration::Seconds(1.0);
+
+    EXPECT_NO_THROW(TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, startInstant_, earth_, stepSize));
+
+    // undefined cases
+
+    {
+        EXPECT_THROW(
+            TargetScan::FromGroundSpeed(LLA::Undefined(), endLLA_, groundSpeed, startInstant_, earth_, stepSize),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            TargetScan::FromGroundSpeed(startLLA_, LLA::Undefined(), groundSpeed, startInstant_, earth_, stepSize),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            TargetScan::FromGroundSpeed(startLLA_, endLLA_, Derived::Undefined(), startInstant_, earth_, stepSize),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, Instant::Undefined(), earth_, stepSize),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, startInstant_, earth_, Duration::Undefined()),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            TargetScan::FromGroundSpeed(
+                startLLA_, endLLA_, groundSpeed, startInstant_, earth_, Duration::Seconds(-1.0)
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
 }

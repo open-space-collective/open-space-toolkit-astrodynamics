@@ -7,6 +7,8 @@ from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
+from ostk.physics.time import Duration
+from ostk.physics.unit import Derived
 from ostk.astrodynamics.trajectory.model import TargetScan
 from ostk.astrodynamics.trajectory import State
 
@@ -90,3 +92,35 @@ class TestTargetScan:
             celestial=earth,
         )
         assert target_scan != target_scan2
+
+    def test_getters(
+        self,
+        target_scan: TargetScan,
+    ):
+        assert target_scan.get_start_lla() is not None
+        assert target_scan.get_end_lla() is not None
+        assert target_scan.get_start_instant() is not None
+        assert target_scan.get_end_instant() is not None
+        assert target_scan.get_celestial() is not None
+        assert target_scan.get_step_size() is not None
+
+    def test_from_ground_speed(
+        self,
+        start_lla: LLA,
+        end_lla: LLA,
+        start_instant: Instant,
+        earth: Earth,
+    ):
+        ground_speed: Derived = Derived(100.0, Derived.Unit.meter_per_second())
+        step_size: Duration = Duration.seconds(1.0)
+
+        target_scan = TargetScan.from_ground_speed(
+            start_lla=start_lla,
+            end_lla=end_lla,
+            ground_speed=ground_speed,
+            start_instant=start_instant,
+            celestial=earth,
+            step_size=step_size,
+        )
+
+        assert target_scan.is_defined()
