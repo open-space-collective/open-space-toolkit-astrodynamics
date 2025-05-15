@@ -116,5 +116,3 @@ class TestDisplay:
             accesses=accesses_2,
             rgb=[0, 0, 180],
         )
-
-        accesses_plot.show()
