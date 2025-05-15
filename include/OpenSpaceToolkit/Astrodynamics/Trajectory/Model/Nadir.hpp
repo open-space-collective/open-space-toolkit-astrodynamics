@@ -26,6 +26,8 @@ using ostk::physics::time::Interval;
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 
+#define DEFAULT_NADIR_STEP_SIZE Duration::Seconds(1e-2)
+
 /// @brief Nadir pointing trajectory model to represent the geodetic nadir position of an orbit on the surface of the
 /// earth
 class Nadir : public virtual Model
@@ -38,8 +40,10 @@ class Nadir : public virtual Model
     ///              Nadir nadirModel(orbit);
     /// @endcode
     ///
-    /// @param anOrbit The orbit of the nadir model.
-    Nadir(const Orbit& anOrbit);
+    /// @param anOrbit The orbit of the nadir model
+    /// @param aStepSize The step size for the nadir model. Defaults to 1e-2 seconds
+    /// @return A nadir model
+    Nadir(const Orbit& anOrbit, const Duration& aStepSize = DEFAULT_NADIR_STEP_SIZE);
 
     /// @brief Clone the nadir model
     ///
@@ -50,6 +54,26 @@ class Nadir : public virtual Model
     ///
     /// @return A pointer to the cloned nadir model
     virtual Nadir* clone() const override;
+
+    /// @brief Get the orbit of the nadir model
+    ///
+    /// @code{.cpp}
+    ///              Nadir nadirModel = { ... };
+    ///              Orbit orbit = nadirModel.getOrbit();
+    /// @endcode
+    ///
+    /// @return The orbit of the nadir model
+    Orbit getOrbit() const;
+
+    /// @brief Get the step size of the nadir model
+    ///
+    /// @code{.cpp}
+    ///              Nadir nadirModel = { ... };
+    ///              Duration stepSize = nadirModel.getStepSize();
+    /// @endcode
+    ///
+    /// @return The step size of the nadir model
+    Duration getStepSize() const;
 
     /// @brief Equality operator
     ///
@@ -147,6 +171,7 @@ class Nadir : public virtual Model
 
    private:
     Orbit orbit_;
+    Duration stepSize_;
 };
 
 }  // namespace model

@@ -26,9 +26,10 @@ using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-Nadir::Nadir(const Orbit& anOrbit)
+Nadir::Nadir(const Orbit& anOrbit, const Duration& aStepSize)
     : Model(),
-      orbit_(anOrbit)
+      orbit_(anOrbit),
+      stepSize_(aStepSize)
 {
 }
 
@@ -64,6 +65,26 @@ bool Nadir::isDefined() const
     return orbit_.isDefined();
 }
 
+Orbit Nadir::getOrbit() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Nadir");
+    }
+
+    return orbit_;
+}
+
+Duration Nadir::getStepSize() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Nadir");
+    }
+
+    return stepSize_;
+}
+
 State Nadir::calculateStateAt(const Instant& anInstant) const
 {
     if (!anInstant.isDefined())
@@ -78,20 +99,20 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
 
     // interpolate the velocity using polynomial interpolation
 
-    static const Duration stepSize = Duration::Seconds(1e-2);
-
     const Array<Instant> instants = {
-        anInstant - stepSize * 2,
-        anInstant - stepSize,
+        anInstant - stepSize_ * 2,
+        anInstant - stepSize_,
         anInstant,
-        anInstant + stepSize,
-        anInstant + stepSize * 2,
+        anInstant + stepSize_,
+        anInstant + stepSize_ * 2,
     };
 
     VectorXd times(instants.getSize());
     MatrixXd positionCoordinates(3, instants.getSize());
 
     Position position = Position::Undefined();
+
+    const Shared<const Frame> celestialBodyFrame = orbit_.accessCelestialObject()->accessFrame();
 
     Size i = 0;
     for (const auto& instant : instants)
@@ -101,7 +122,7 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
         const State state = orbit_.getStateAt(instant);
 
         const LLA lla =
-            LLA::FromPosition(state.getPosition().inFrame(Frame::ITRF(), instant), orbit_.accessCelestialObject())
+            LLA::FromPosition(state.getPosition().inFrame(celestialBodyFrame, instant), orbit_.accessCelestialObject())
                 .onSurface();
 
         const physics::coordinate::Position positionAtInstant =

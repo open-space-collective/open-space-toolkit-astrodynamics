@@ -185,3 +185,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, InequalityOperator
 
     EXPECT_TRUE(nadirModel1 != nadirModel3);
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetOrbit)
+{
+    const Nadir nadirModel(orbit_);
+
+    EXPECT_TRUE(nadirModel.getOrbit() == orbit_);
+
+    const Nadir undefinedNadirModel(Orbit::Undefined());
+
+    EXPECT_THROW(undefinedNadirModel.getOrbit(), ostk::core::error::runtime::Undefined);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetStepSize)
+{
+    const Duration stepSize = Duration::Seconds(0.1);
+    const Nadir nadirModel(orbit_, stepSize);
+
+    EXPECT_EQ(nadirModel.getStepSize(), stepSize);
+
+    const Nadir undefinedNadirModel(Orbit::Undefined());
+
+    EXPECT_THROW(undefinedNadirModel.getStepSize(), ostk::core::error::runtime::Undefined);
+}

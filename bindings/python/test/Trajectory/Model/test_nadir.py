@@ -10,6 +10,7 @@ from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 
 from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.model import Nadir
 from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
@@ -44,17 +45,43 @@ def nadir(orbit: Orbit) -> Nadir:
 
 
 class TestNadir:
-    def test_constructor(self, nadir: Nadir):
+    def test_constructor(
+        self,
+        nadir: Nadir,
+    ):
         assert nadir.is_defined()
 
-    def test_calculate_state_at(self, nadir: Nadir):
-        instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-        state = nadir.calculate_state_at(instant)
+    def test_calculate_state_at(
+        self,
+        nadir: Nadir,
+    ):
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+
+        state: State = nadir.calculate_state_at(instant)
+
         assert state is not None
 
-    def test_equality_operator(self, nadir: Nadir):
+    def test_equality_operator(
+        self,
+        nadir: Nadir,
+    ):
         assert nadir == nadir
 
-    def test_inequality_operator(self, nadir: Nadir):
+    def test_inequality_operator(
+        self,
+        nadir: Nadir,
+    ):
         nadir2 = Nadir(Orbit.undefined())
         assert nadir != nadir2
+
+    def test_get_orbit(
+        self,
+        nadir: Nadir,
+    ):
+        assert nadir.get_orbit() is not None
+
+    def test_get_step_size(
+        self,
+        nadir: Nadir,
+    ):
+        assert nadir.get_step_size() is not None

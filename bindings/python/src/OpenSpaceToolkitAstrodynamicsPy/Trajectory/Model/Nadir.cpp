@@ -68,6 +68,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::mod
             )doc",
             arg("instant")
         )
+        .def(
+            "get_orbit",
+            &Nadir::getOrbit,
+            R"doc(
+                Get the orbit of the nadir model.
+
+                Returns:
+                    Orbit: The orbit of the nadir model.
+            )doc"
+        )
+        .def(
+            "get_step_size",
+            &Nadir::getStepSize,
+            R"doc(
+                Get the step size of the nadir model.
+
+                Returns:
+                    Duration: The step size of the nadir model.
+            )doc"
+        )
 
         ;
 }
