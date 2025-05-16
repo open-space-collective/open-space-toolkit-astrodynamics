@@ -99,6 +99,13 @@ class CoordinateBroker
     /// @return True if the coordinate subset is already considered
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
+    /// @brief Get index of a coordinate subset
+    ///
+    /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
+    ///
+    /// @return The index of the coordinate subset
+    Index getSubsetIndex(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
+
     /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
     /// @param aFullCoordinatesVector the full coordinates vecctor
