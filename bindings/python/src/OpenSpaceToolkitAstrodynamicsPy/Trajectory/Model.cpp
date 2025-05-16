@@ -2,6 +2,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/Nadir.cpp>
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &aModule)
 {
     using namespace pybind11;
@@ -12,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
         aModule,
         "Model",
         R"doc(
-            Orbital model.
+            Trajectory model.
 
         )doc"
     )
@@ -77,4 +79,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
         )
 
         ;
+
+    // Create "model" python submodule
+    auto model = aModule.def_submodule("model");
+
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(model);
 }

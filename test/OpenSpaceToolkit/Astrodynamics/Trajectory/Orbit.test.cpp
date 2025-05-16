@@ -237,6 +237,40 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, accessCelestialObject)
+{
+    {
+        const Environment environment = Environment::Default();
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(45.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        EXPECT_TRUE(orbit.accessCelestialObject()->isDefined());
+    }
+
+    {
+        EXPECT_THROW(Orbit::Undefined().accessCelestialObject(), ostk::core::error::runtime::Undefined);
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 {
     {
