@@ -22,7 +22,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief Trajectory model (abstract)
+/// @brief An abstract Trajectory Model. Child classes implement different ways of calculating states of the trajectory.
 class Model
 {
    public:
