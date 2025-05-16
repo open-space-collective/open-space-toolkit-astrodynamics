@@ -119,6 +119,11 @@ State Tabulated::getLastState() const
     return lastState_;
 }
 
+Array<Shared<const Interpolator>> Tabulated::getInterpolators() const
+{
+    return interpolators_;
+}
+
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
     using ostk::core::type::Index;
