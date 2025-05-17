@@ -56,6 +56,8 @@ class Tabulated : public virtual Model
     /// @brief Constructor
     ///
     /// @param aStateArray An array of states
+    /// @deprecated Use the constructor with Interpolator::Type instead
+    [[deprecated("Use the constructor with Interpolator::Type instead")]]
     Tabulated(const Array<State>& aStateArray);
 
     /// @brief Constructor
@@ -141,8 +143,11 @@ class Tabulated : public virtual Model
     virtual bool operator!=(const Model& aModel) const override;
 
    private:
-    TabulatedTrajectory tabulated_;
+    Array<State> stateArray_;
     StateBuilder stateBuilder_;
+    Array<Shared<const Interpolator>> interpolators_;
+
+    void setMembers(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType);
 };
 
 }  // namespace model

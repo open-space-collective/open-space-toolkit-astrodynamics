@@ -9,10 +9,10 @@ using ostk::core::container::Array;
 using ostk::core::container::String;
 using ostk::core::type::Shared;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
-using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;

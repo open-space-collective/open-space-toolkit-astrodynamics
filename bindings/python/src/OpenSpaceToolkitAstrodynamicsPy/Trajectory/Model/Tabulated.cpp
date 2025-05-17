@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -10,29 +10,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
     using ostk::mathematics::curvefitting::Interpolator;
 
-    using ostk::astrodynamics::flight::profile::Model;
-    using ostk::astrodynamics::flight::profile::model::Tabulated;
+    using ostk::astrodynamics::trajectory::Model;
+    using ostk::astrodynamics::trajectory::model::Tabulated;
     using ostk::astrodynamics::trajectory::State;
 
     class_<Tabulated, Model>(
         aModule,
         "Tabulated",
         R"doc(
-            A flight profile model defined by a set of states.
+            A trajectory model defined by a set of states.
 
         )doc"
     )
-
-        .def(
-            init<Array<State>&>(),
-            R"doc(
-                Constructor.
-
-                Args:
-                    states (Array[State]): The states of the model.
-             )doc",
-            arg("states")
-        )
 
         .def(
             init<const Array<State>&, const Interpolator::Type&>(),
@@ -92,6 +81,39 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
         )
 
         .def(
+            "get_interpolation_type",
+            &Tabulated::getInterpolationType,
+            R"doc(
+                Get the interpolation type of the model.
+
+                Returns:
+                    Interpolator.Type: The interpolation type of the model.
+             )doc"
+        )
+
+        .def(
+            "get_first_state",
+            &Tabulated::getFirstState,
+            R"doc(
+                Get the first state of the model.
+
+                Returns:
+                    State: The first state of the model.
+             )doc"
+        )
+
+        .def(
+            "get_last_state",
+            &Tabulated::getLastState,
+            R"doc(
+                Get the last state of the model.
+
+                Returns:
+                    State: The last state of the model.
+             )doc"
+        )
+
+        .def(
             "calculate_state_at",
             &Tabulated::calculateStateAt,
             R"doc(
@@ -107,33 +129,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
         )
 
         .def(
-            "get_axes_at",
-            &Tabulated::getAxesAt,
+            "calculate_states_at",
+            &Tabulated::calculateStateAt,
             R"doc(
-                Get the axes of the model at a specific instant.
+                Calculate the states of the model at the specified instants.
 
                 Args:
-                    instant (Instant): The instant at which to get the axes.
+                    instants (list[Instant]): The instants at which to calculate the states.
 
                 Returns:
-                    numpy.ndarray: The axes of the model at the specified instant.
+                    list[State]: The states of the model at the specified instants.
              )doc",
-            arg("instant")
-        )
-
-        .def(
-            "get_body_frame",
-            &Tabulated::getBodyFrame,
-            R"doc(
-                Get the body frame of the model with the specified name.
-
-                Args:
-                    frame_name (str): The name of the body frame.
-
-                Returns:
-                    Frame: The body frame of the model with the specified name.
-             )doc",
-            arg("frame_name")
+            arg("instants")
         )
 
         ;
