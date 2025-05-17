@@ -79,8 +79,6 @@ class Tabulated : public virtual Model
 
     State getLastState() const;
 
-    Array<Shared<const Interpolator>> getInterpolators() const;
-
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
     virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;

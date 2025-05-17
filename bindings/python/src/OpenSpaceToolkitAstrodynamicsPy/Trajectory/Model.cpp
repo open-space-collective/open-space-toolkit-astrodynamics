@@ -2,6 +2,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/Tabulated.cpp>
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &aModule)
 {
     using namespace pybind11;
@@ -77,4 +79,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
         )
 
         ;
+
+    // create "model" python submodule
+    auto model = aModule.def_submodule("model");
+
+    // Add objects to python submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(model);
 }
