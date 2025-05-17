@@ -9,6 +9,7 @@ using ostk::core::container::Array;
 using ostk::core::container::String;
 using ostk::core::type::Shared;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
@@ -67,6 +68,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
 {
     {
         EXPECT_NO_THROW(Tabulated tabulated(states_););
+    }
+
+    {
+        EXPECT_NO_THROW(Tabulated tabulated(states_, Interpolator::Type::Linear););
     }
 }
 
