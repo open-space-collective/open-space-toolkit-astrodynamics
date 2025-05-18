@@ -130,7 +130,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
         .def(
             "calculate_states_at",
-            &Tabulated::calculateStateAt,
+            &Tabulated::calculateStatesAt,
             R"doc(
                 Calculate the states of the model at the specified instants.
 

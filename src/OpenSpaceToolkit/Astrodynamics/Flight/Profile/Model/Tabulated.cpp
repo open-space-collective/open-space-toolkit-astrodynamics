@@ -163,8 +163,8 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     }
     else
     {
-        const State& stateBefore = *it;
-        const State& stateAfter = *(it + 1);
+        const State& stateBefore = *(it - 1);
+        const State& stateAfter = *it;
 
         const Quaternion qBefore = stateBefore.getAttitude();
         const Quaternion qAfter = stateAfter.getAttitude();
@@ -328,10 +328,13 @@ void Tabulated::setMembers(const Array<State>& aStateArray, const Interpolator::
         timestamps(i) = (stateArray[i].accessInstant() - firstState.accessInstant()).inSeconds();
 
         VectorXd stateCoordinates(coordinates.cols());
+
+        Index offset = 0;
         for (Index j = 0; j < coordinateSubsets.getSize() - 1; ++j)
         {
-            stateCoordinates.segment(j * coordinateSubsets[j]->getSize(), coordinateSubsets[j]->getSize()) =
-                stateArray[i].extractCoordinate(coordinateSubsets[j]);
+            const Size subsetSize = coordinateSubsets[j]->getSize();
+            stateCoordinates.segment(offset, subsetSize) = stateArray[i].extractCoordinate(coordinateSubsets[j]);
+            offset += subsetSize;
         }
 
         coordinates.row(i) = stateCoordinates;

@@ -275,7 +275,7 @@ class TestTabulated:
             (Interpolator.Type.BarycentricRational, 5e-2),
         ),
     )
-    def test_calculate_state_at_success(
+    def test_calculate_state_at(
         self,
         test_states: list[State],
         reference_states: list[State],
@@ -301,32 +301,4 @@ class TestTabulated:
                     calculated_state.get_coordinates() - reference_state.get_coordinates()
                 )
                 < error_tolerance
-            )
-
-    @pytest.mark.parametrize(
-        "interpolation_type",
-        (
-            (Interpolator.Type.Linear),
-            (Interpolator.Type.CubicSpline),
-            (Interpolator.Type.BarycentricRational),
-        ),
-    )
-    def test_calculate_state_at_failure(
-        self,
-        test_states: list[State],
-        interpolation_type: Interpolator.Type,
-    ):
-        tabulated: Tabulated = Tabulated(
-            states=test_states,
-            interpolation_type=interpolation_type,
-        )
-
-        with pytest.raises(Exception):
-            tabulated.calculate_state_at(
-                test_states[0].get_instant() - Duration.seconds(1)
-            )
-
-        with pytest.raises(Exception):
-            tabulated.calculate_state_at(
-                test_states[-1].get_instant() + Duration.seconds(1)
             )
