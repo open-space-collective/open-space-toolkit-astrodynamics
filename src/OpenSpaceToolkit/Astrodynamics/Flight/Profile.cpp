@@ -60,11 +60,11 @@ Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
     return TrajectoryTarget(TargetType::TargetPosition, aTrajectory, anAxis, isAntiDirection);
 }
 
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetVelocity(
+Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetGroundVelocity(
     const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
 )
 {
-    return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, anAxis, isAntiDirection);
+    return TrajectoryTarget(TargetType::TargetGroundVelocity, aTrajectory, anAxis, isAntiDirection);
 }
 
 Profile::TrajectoryTarget::TrajectoryTarget(
@@ -88,7 +88,7 @@ Profile::TrajectoryTarget::TrajectoryTarget(
         );
     }
 
-    if (aType != TargetType::TargetPosition && aType != TargetType::TargetVelocity)
+    if (aType != TargetType::TargetPosition && aType != TargetType::TargetGroundVelocity)
     {
         throw ostk::core::error::runtime::Wrong("Target type");
     }
@@ -365,6 +365,15 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
                     return Profile::ComputeTargetVelocityVector(aState, targetVelocitySPtr->trajectory);
                 };
             }
+            case TargetType::TargetGroundVelocity:
+            {
+                const Shared<const TrajectoryTarget> targetVelocitySPtr =
+                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
+                return [targetVelocitySPtr](const State& aState) -> Vector3d
+                {
+                    return Profile::ComputeTargetGroundVelocityVector(aState, targetVelocitySPtr->trajectory);
+                };
+            }
             case TargetType::Sun:
                 return [](const State& aState)
                 {
@@ -477,6 +486,16 @@ Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::
 }
 
 Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
+{
+    const Vector3d targetVelocityCoordinates =
+        aTrajectory.getStateAt(aState.accessInstant()).inFrame(DEFAULT_ECI_FRAME).getVelocity().accessCoordinates();
+
+    return targetVelocityCoordinates.normalized();
+}
+
+Vector3d Profile::ComputeTargetGroundVelocityVector(
+    const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
+)
 {
     const Instant& instant = aState.accessInstant();
 

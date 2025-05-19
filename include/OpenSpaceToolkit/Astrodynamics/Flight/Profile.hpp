@@ -90,18 +90,19 @@ class Profile
 
     enum class TargetType
     {
-        GeocentricNadir,     /// Negative of the position vector of the satellite in the ECI frame
-        GeodeticNadir,       /// Negative of the geodetic normal of the satellite in the ECI frame
-        Trajectory,          /// Points towards the provided trajectory, eg. Ground Station in ECEF
-        TargetPosition,      /// Points towards the provided target position
-        TargetVelocity,      /// Points along the target velocity vector
-        Sun,                 /// The position of the Sun
-        Moon,                /// The position of the Moon
-        VelocityECI,         /// The velocity vector in the ECI frame
-        VelocityECEF,        /// The velocity vector in the ECEF frame
-        OrbitalMomentum,     /// The orbital momentum vector of the satellite in the ECI frame
-        OrientationProfile,  /// Points towards a profile of orientations in the ECI frame
-        Custom,              /// Custom target
+        GeocentricNadir,       /// Negative of the position vector of the satellite in the ECI frame
+        GeodeticNadir,         /// Negative of the geodetic normal of the satellite in the ECI frame
+        Trajectory,            /// Points towards the provided trajectory, eg. Ground Station in ECEF
+        TargetPosition,        /// Points towards the provided target position
+        TargetVelocity,        /// Points along the provided target's velocity vector
+        TargetGroundVelocity,  /// Points along the provided target's ground velocity vector (aka the scan direction)
+        Sun,                   /// The position of the Sun
+        Moon,                  /// The position of the Moon
+        VelocityECI,           /// The velocity vector in the ECI frame
+        VelocityECEF,          /// The velocity vector in the ECEF frame
+        OrbitalMomentum,       /// The orbital momentum vector of the satellite in the ECI frame
+        OrientationProfile,    /// Points towards a profile of orientations in the ECI frame
+        Custom,                /// Custom target
     };
 
     /// @brief Represents a target for alignment or pointing purposes.
@@ -149,6 +150,17 @@ class Profile
         /// @param anAxis The axis of the target.
         /// @param isAntiDirection Whether the target is in the anti-direction.
         static TrajectoryTarget TargetVelocity(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        );
+
+        /// @brief Constructs a TrajectoryTarget object of type TargetGroundVelocity, pointing along the ground velocity
+        /// vector (aka the scan direction). When choosing this as a clocking target, the resulting profile will be yaw
+        /// compensated.
+        ///
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis of the target.
+        /// @param isAntiDirection Whether the target is in the anti-direction.
+        static TrajectoryTarget TargetGroundVelocity(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
         );
 
@@ -389,6 +401,10 @@ class Profile
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 
     static Vector3d ComputeTargetVelocityVector(
+        const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
+    );
+
+    static Vector3d ComputeTargetGroundVelocityVector(
         const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
     );
 

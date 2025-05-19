@@ -246,10 +246,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-        ));
+        EXPECT_ANY_THROW(
+            Profile::Undefined().getStatesAt(
+                {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+            )
+        );
     }
 }
 
@@ -306,9 +308,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
         // Reference data setup
 
-        const File referenceDataFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
-                                   "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
+        const File referenceDataFile = File::Path(
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
+                "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -421,8 +426,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                        "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -532,8 +539,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                        "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -643,8 +652,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                        "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -847,7 +858,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Profile::Axis::X),
+            Profile::TrajectoryTarget::TargetGroundVelocity(Trajectory::Undefined(), Profile::Axis::X),
             ostk::core::error::runtime::Undefined
         );
     }
@@ -860,8 +871,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
         // Testing static factory methods
         EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X));
         EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X, true));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X, true));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetGroundVelocity(trajectory, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetGroundVelocity(trajectory, Profile::Axis::X, true));
     }
 }
 
@@ -939,7 +950,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
             Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
         ),
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetGroundVelocity(trajectory, Profile::Axis::X)
         )
     );
 
