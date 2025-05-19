@@ -243,10 +243,12 @@ class Trajectory
     ///             Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(anOrbit, anInstantArray, earth);
     /// @endcode
     ///
+    /// @deprecated Use Trajectory(Nadir(...)) instead.
     /// @param anOrbit An orbit
     /// @param anInstantArray An array of instants
     /// @param aCelestial Celestial body
     /// @return Trajectory
+    [[deprecated("Use Trajectory(Nadir(...)) instead.")]]
     static Trajectory GroundStripGeodeticNadir(
         const trajectory::Orbit& anOrbit,
         const Array<Instant>& anInstantArray,

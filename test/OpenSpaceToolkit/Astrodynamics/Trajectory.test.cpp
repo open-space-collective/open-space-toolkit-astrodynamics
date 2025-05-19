@@ -13,9 +13,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
 
@@ -45,9 +42,6 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::model::Tabulated;
-using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::orbit::model::Kepler;
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
@@ -707,98 +701,5 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStrip)
             const Vector3d velocity = state.getVelocity().getCoordinates();
             EXPECT_NEAR(velocity.norm(), 970.3, 1.0);
         }
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GroundStripGeodeticNadir)
-{
-    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-
-    const Array<Instant> instants = {instant, instant + Duration::Seconds(10.0)};
-
-    const Earth earth = Earth::WGS84();
-
-    const Environment environment = Environment::Default(true);
-
-    const Shared<Earth> earthSPtr = std::make_shared<Earth>(earth);
-
-    const Length semiMajorAxis = Length::Kilometers(7000.0);
-    const Real eccentricity = 0.0;
-    const Angle inclination = Angle::Degrees(98.0);
-    const Angle raan = Angle::Degrees(0.0);
-    const Angle aop = Angle::Degrees(0.0);
-    const Angle trueAnomaly = Angle::Degrees(0.0);
-
-    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-    const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
-    const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-    const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-    const Real J4 = EarthGravitationalModel::EGM2008.J4_;
-
-    const Kepler keplerianModel = {
-        coe, instant, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
-    };
-
-    const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
-
-    {
-        EXPECT_THROW(
-            Trajectory::GroundStripGeodeticNadir(Orbit::Undefined(), instants, earth), ostk::core::error::RuntimeError
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            Trajectory::GroundStripGeodeticNadir(orbit, Array<Instant>::Empty(), earth), ostk::core::error::RuntimeError
-        );
-    }
-
-    {
-        const Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(orbit, instants, earth);
-
-        EXPECT_TRUE(trajectory.isDefined());
-
-        const State trajectoryState = trajectory.getStateAt(instant);
-        const State orbitState = orbit.getStateAt(instant);
-
-        // check that the trajectory position is the same as the geodetic nadir coordinate of the orbit
-
-        const Vector3d orbitLLACoordinates =
-            Position::FromLLA(
-                LLA::FromPosition(orbitState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(), earthSPtr
-            )
-                .getCoordinates();
-        const Vector3d trajectoryLLACoordinates =
-            Position::FromLLA(
-                LLA::FromPosition(trajectoryState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface(),
-                earthSPtr
-            )
-                .getCoordinates();
-
-        EXPECT_VECTORS_ALMOST_EQUAL(trajectoryLLACoordinates, orbitLLACoordinates, 1e-12);
-
-        // check that the trajectory speed is the same as the geodetic nadir coordinate of the orbit
-
-        const Duration stepSize = Duration::Seconds(1.0);
-        const Instant nextInstant = instant + stepSize;
-        const LLA startLLA =
-            LLA::FromPosition(trajectoryState.inFrame(Frame::ITRF()).getPosition(), earthSPtr).onSurface();
-        const LLA endLLA =
-            LLA::FromPosition(trajectory.getStateAt(nextInstant).inFrame(Frame::ITRF()).getPosition(), earthSPtr)
-                .onSurface();
-
-        const Length groundDistance =
-            startLLA.calculateDistanceTo(endLLA, earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening());
-
-        const double expectedSpeed = groundDistance.inMeters() / stepSize.inSeconds();
-
-        EXPECT_NEAR(trajectoryState.inFrame(Frame::ITRF()).getVelocity().getCoordinates().norm(), expectedSpeed, 1.0);
-
-        // computed with Orekit
-
-        const Vector3d expectedVelocity = {-0.07204923298218091, -956.9095709619337, 6804.692417661864};
-
-        EXPECT_VECTORS_ALMOST_EQUAL(trajectoryState.getVelocity().getCoordinates(), expectedVelocity, 1e-1);
     }
 }
