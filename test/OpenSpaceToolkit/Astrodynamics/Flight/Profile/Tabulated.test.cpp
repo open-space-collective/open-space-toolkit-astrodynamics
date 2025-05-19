@@ -19,6 +19,7 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
@@ -82,9 +83,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, EqualToOp
     }
 
     {
-        const Array<State> statesSubset = {states_[0]};
-        const Tabulated tabulatedSubset = {statesSubset};
-        EXPECT_FALSE(tabulated_ == tabulatedSubset);
+        const Array<State> states = {states_[0]};
+        const Tabulated reducedTabulated = {states};
+        EXPECT_FALSE(tabulated_ == reducedTabulated);
     }
 }
 
@@ -95,9 +96,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, NotEqualT
     }
 
     {
-        const Array<State> statesSubset = {states_[0]};
-        const Tabulated tabulatedSubset = {statesSubset};
-        EXPECT_TRUE(tabulated_ != tabulatedSubset);
+        const Array<State> states = {states_[0]};
+        const Tabulated reducedTabulated = {states};
+        EXPECT_TRUE(tabulated_ != reducedTabulated);
     }
 }
 
@@ -166,6 +167,54 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
         EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), angularVelocity, 1e-10);
 
         EXPECT_TRUE(state.getPosition().accessFrame() == Frame::GCRF());
+    }
+
+    // state at the start of the interval
+    {
+        const State expectedState = states_.accessFirst();
+        const Instant instant = expectedState.accessInstant();
+        const State state = tabulated_.calculateStateAt(instant);
+
+        EXPECT_EQ(state.getInstant(), instant);
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            state.getPosition().getCoordinates(), expectedState.getPosition().getCoordinates(), 1e-15
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            state.getVelocity().getCoordinates(), expectedState.getVelocity().getCoordinates(), 1e-15
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            state.getAttitude().toVector(Quaternion::Format::XYZS),
+            expectedState.getAttitude().toVector(Quaternion::Format::XYZS),
+            1e-10
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), expectedState.getAngularVelocity(), 1e-15);
+    }
+
+    // state at the end of the interval
+    {
+        const State expectedState = states_.accessLast();
+        const Instant instant = expectedState.accessInstant();
+        const State state = tabulated_.calculateStateAt(instant);
+
+        EXPECT_EQ(state.getInstant(), instant);
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            state.getPosition().getCoordinates(), expectedState.getPosition().getCoordinates(), 1e-15
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            state.getVelocity().getCoordinates(), expectedState.getVelocity().getCoordinates(), 1e-15
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            state.getAttitude().toVector(Quaternion::Format::XYZS),
+            expectedState.getAttitude().toVector(Quaternion::Format::XYZS),
+            1e-10
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), expectedState.getAngularVelocity(), 1e-15);
+    }
+
+    // state outside the interval
+    {
+        const Instant instant = states_.accessLast().accessInstant() + Duration::Seconds(1.0);
+        EXPECT_THROW(tabulated_.calculateStateAt(instant), ostk::core::error::RuntimeError);
     }
 }
 

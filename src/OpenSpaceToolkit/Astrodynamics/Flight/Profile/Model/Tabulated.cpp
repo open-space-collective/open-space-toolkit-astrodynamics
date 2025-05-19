@@ -40,7 +40,8 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaterni
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
       stateArray_(aStateArray),
-      stateBuilder_(StateBuilder::Undefined())
+      stateBuilder_(StateBuilder::Undefined()),
+      reducedStateBuilder_(StateBuilder::Undefined())
 {
     setMembers(aStateArray, anInterpolatorType);
 }
@@ -48,7 +49,8 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
 Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
       stateArray_(aStateArray),
-      stateBuilder_(StateBuilder::Undefined())
+      stateBuilder_(StateBuilder::Undefined()),
+      reducedStateBuilder_(StateBuilder::Undefined())
 {
     setMembers(aStateArray, Interpolator::Type::Linear);
 }
@@ -122,20 +124,15 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         ));
     }
 
-    VectorXd coordinates(stateBuilder_.getSize());
+    VectorXd reducedCoordinates(reducedStateBuilder_.getSize());
 
-    // Interpolate the coordinates except for the attitude quaternion
-    Size k = 0;
-    for (Size i = 0; i < this->stateBuilder_.getCoordinateSubsets().getSize() - 1; ++i)
+    const double durationSeconds = (anInstant - interval.accessStart()).inSeconds();
+
+    // Loop through all coordinate subsets except the last one (attitude quaternion)
+    for (Size coordinateIndex = 0; coordinateIndex < interpolators_.getSize(); ++coordinateIndex)
     {
-        const auto coordinateSubset = this->stateBuilder_.getCoordinateSubsets().at(i);
-
-        for (Size j = 0; j < coordinateSubset->getSize(); ++j)
-        {
-            const auto& interpolator = this->interpolators_.at(k);
-            coordinates(k) = interpolator->evaluate((anInstant - interval.accessStart()).inSeconds());
-            ++k;
-        }
+        const auto& interpolator = this->interpolators_.at(coordinateIndex);
+        reducedCoordinates(coordinateIndex) = interpolator->evaluate(durationSeconds);
     }
 
     // Interpolate the attitude quaternion
@@ -174,9 +171,16 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         qAtInstant = Quaternion::SLERP(qBefore, qAfter, ratio);
     }
 
-    coordinates.tail<4>() = qAtInstant.toNormalized().toVector(Quaternion::Format::XYZS);
+    const State reducedState = reducedStateBuilder_.build(anInstant, reducedCoordinates);
 
-    return stateBuilder_.build(anInstant, coordinates);
+    const State attitudeQuaternionState = {
+        anInstant,
+        qAtInstant.toNormalized().toVector(Quaternion::Format::XYZS),
+        reducedStateBuilder_.accessFrame(),
+        {AttitudeQuaternion::Default()},
+    };
+
+    return stateBuilder_.expand(reducedState, attitudeQuaternionState);
 }
 
 Axes Tabulated::getAxesAt(const Instant& anInstant) const
@@ -298,14 +302,13 @@ void Tabulated::setMembers(const Array<State>& aStateArray, const Interpolator::
     }
 
     const State& firstState = aStateArray.accessFirst();
+    stateBuilder_ = StateBuilder(firstState);
 
-    Array<Shared<const CoordinateSubset>> coordinateSubsets = firstState.getCoordinateSubsets();
+    Array<Shared<const CoordinateSubset>> reucedCoordinateSubsets = firstState.getCoordinateSubsets();
+    reucedCoordinateSubsets.remove(AttitudeQuaternion::Default());
+    reducedStateBuilder_ = StateBuilder(firstState.accessFrame(), reucedCoordinateSubsets);
 
-    // ensure that the last coordinate subset is the attitude quaternion
-    coordinateSubsets.remove(AttitudeQuaternion::Default());
-    coordinateSubsets.add(AttitudeQuaternion::Default());
-
-    stateBuilder_ = StateBuilder(aStateArray[0].accessFrame(), coordinateSubsets);
+    // Ensure the states are sorted by instant
 
     Array<State> stateArray = aStateArray;
 
@@ -321,23 +324,13 @@ void Tabulated::setMembers(const Array<State>& aStateArray, const Interpolator::
     stateArray_ = stateArray;
 
     VectorXd timestamps(stateArray.getSize());
-    MatrixXd coordinates(stateArray.getSize(), firstState.getSize() - 4);  // Exclude quaternion
+    MatrixXd coordinates(stateArray.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
 
     for (Index i = 0; i < stateArray.getSize(); ++i)
     {
         timestamps(i) = (stateArray[i].accessInstant() - firstState.accessInstant()).inSeconds();
 
-        VectorXd stateCoordinates(coordinates.cols());
-
-        Index offset = 0;
-        for (Index j = 0; j < coordinateSubsets.getSize() - 1; ++j)
-        {
-            const Size subsetSize = coordinateSubsets[j]->getSize();
-            stateCoordinates.segment(offset, subsetSize) = stateArray[i].extractCoordinate(coordinateSubsets[j]);
-            offset += subsetSize;
-        }
-
-        coordinates.row(i) = stateCoordinates;
+        coordinates.row(i) = reducedStateBuilder_.reduce(stateArray[i]).accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());

@@ -63,6 +63,8 @@ class Tabulated : public virtual Model
     /// @brief Constructor
     ///
     /// @param aStateArray An array of states
+    /// @param anInterpolatorType  The type of interpolation used for all but the AttitudeQuaternion subset. Attitude
+    /// quaternions will be interpolated using spherical linear interpolation (SLERP).
     Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType);
 
     /// @brief Clone the tabulated model
@@ -146,6 +148,8 @@ class Tabulated : public virtual Model
     Array<State> stateArray_;
     StateBuilder stateBuilder_;
     Array<Shared<const Interpolator>> interpolators_;
+
+    StateBuilder reducedStateBuilder_;
 
     void setMembers(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType);
 };
