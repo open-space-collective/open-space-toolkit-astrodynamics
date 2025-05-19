@@ -223,6 +223,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, FromGroundSpe
         );
 
         EXPECT_THROW(
+            TargetScan::FromGroundSpeed(
+                startLLA_, endLLA_, Derived(-1000.0, Derived::Unit::MeterPerSecond()), startInstant_, earth_, stepSize
+            ),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
             TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, Instant::Undefined(), earth_, stepSize),
             ostk::core::error::runtime::Undefined
         );

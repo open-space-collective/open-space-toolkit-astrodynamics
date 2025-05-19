@@ -7,8 +7,6 @@ from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.time import Instant
-from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
 from ostk.physics.time import Duration
 from ostk.physics.unit import Derived
 from ostk.physics.unit import Length

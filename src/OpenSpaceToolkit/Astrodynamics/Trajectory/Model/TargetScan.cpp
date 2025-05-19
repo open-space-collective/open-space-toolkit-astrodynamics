@@ -276,6 +276,11 @@ TargetScan TargetScan::FromGroundSpeed(
 
     const Real groundSpeedMps = aGroundSpeed.in(Derived::Unit::MeterPerSecond());
 
+    if (groundSpeedMps <= 0.0)
+    {
+        throw ostk::core::error::RuntimeError("Ground speed must be positive.");
+    }
+
     const Length distance =
         aStartLLA.calculateDistanceTo(anEndLLA, aCelestial.getEquatorialRadius(), aCelestial.getFlattening());
 

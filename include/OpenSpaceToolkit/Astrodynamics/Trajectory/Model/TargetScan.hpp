@@ -48,7 +48,7 @@ class TargetScan : public virtual Model
     /// @param aStartInstant The starting instant of the target scan
     /// @param anEndInstant The ending instant of the target scan
     /// @param aCelestialObject The celestial object (default: Earth::WGS84())
-    /// @param aStepSize The step size for the target scan (default: 1 second)
+    /// @param aStepSize The step size for the target scan (default: 1e-2 second)
     TargetScan(
         const LLA& aStartLLA,
         const LLA& anEndLLA,
@@ -197,7 +197,8 @@ class TargetScan : public virtual Model
     /// @param displayDecorator If true, display decorator
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-    /// @brief Static method to create a TargetScan from ground speed
+    /// @brief Static method to create a TargetScan from ground speed. Computes the end instant based on the ground
+    /// speed, and the distance between the start and end LLA.
     ///
     /// @code{.cpp}
     ///              TargetScan targetScanModel = TargetScan::FromGroundSpeed(startLLA, endLLA, groundSpeed,
