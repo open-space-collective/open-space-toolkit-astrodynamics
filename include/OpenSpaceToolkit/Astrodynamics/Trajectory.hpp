@@ -202,7 +202,7 @@ class Trajectory
     /// @param aStartInstant A start instant
     /// @param aCelestial Celestial body
     /// @return GroundStrip trajectory
-    [[deprecated("Use Trajectory::TargetScan instead.")]]
+    [[deprecated("Use Trajectory(TargetScan::FromGroundSpeed(...)) instead.")]]
     static Trajectory GroundStrip(
         const LLA& aStartLLA,
         const LLA& anEndLLA,
@@ -231,7 +231,7 @@ class Trajectory
     /// @param anInstantArray An array of instants
     /// @param aCelestial Celestial body
     /// @return GroundStrip trajectory
-    [[deprecated("Use Trajectory::TargetScan instead.")]]
+    [[deprecated("Use Trajectory(TargetScan(...)) instead.")]]
     static Trajectory GroundStrip(
         const LLA& aStartLLA,
         const LLA& anEndLLA,

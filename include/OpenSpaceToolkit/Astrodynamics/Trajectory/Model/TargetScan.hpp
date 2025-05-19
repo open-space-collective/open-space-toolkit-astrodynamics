@@ -36,7 +36,10 @@ class TargetScan : public virtual Model
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              TargetScan targetScan = { ... };
+    ///              LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
+    ///              LLA endLLA = LLA::Vector({1.0, 1.0, 1.0});
+    ///              Instant startInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:00"), Scale::UTC);
+    ///              Instant endInstant = Instant::DateTime(DateTime::Parse("2020-01-01 00:00:10"), Scale::UTC);
     ///              TargetScan targetScanModel(startLLA, endLLA, startInstant, endInstant);
     /// @endcode
     ///
