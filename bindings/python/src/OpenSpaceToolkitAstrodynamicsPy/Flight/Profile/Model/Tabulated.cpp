@@ -41,10 +41,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
                 Args:
                     states (Array[State]): The states of the model.
-                    interpolation_type (Interpolator.Type): The type of interpolation to use for all but the AttitudeQuaternion subset. Defaults to Linear. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP).
+                    interpolator_type (Interpolator.Type): The type of interpolator to use for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP).
              )doc",
             arg("states"),
-            arg("interpolation_type") = Interpolator::Type::Linear
+            arg("interpolator_type")
         )
 
         .def(
@@ -88,6 +88,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
                 Returns:
                     Interval: The interval of the model.
+             )doc"
+        )
+        .def(
+            "get_interpolator_type",
+            &Tabulated::getInterpolatorType,
+            R"doc(
+                Get the type of interpolator used in the model.
+
+                Returns:
+                    Interpolator.Type: The type of interpolator used in the model.
              )doc"
         )
 

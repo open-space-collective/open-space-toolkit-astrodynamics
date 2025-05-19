@@ -142,6 +142,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
         EXPECT_EQ(interval.getStart(), states_.accessFirst().accessInstant());
         EXPECT_EQ(interval.getEnd(), states_.accessLast().accessInstant());
     }
+
+    {
+        const Interpolator::Type interpolatorType = tabulated_.getInterpolatorType();
+        EXPECT_EQ(interpolatorType, Interpolator::Type::Linear);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, CalculateStateAt)

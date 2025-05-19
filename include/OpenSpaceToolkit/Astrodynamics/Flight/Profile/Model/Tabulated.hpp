@@ -101,6 +101,11 @@ class Tabulated : public virtual Model
     /// @return Interval of the model
     Interval getInterval() const;
 
+    /// @brief Get the interpolator type
+    ///
+    /// @return Interpolator type
+    Interpolator::Type getInterpolatorType() const;
+
     /// @brief Calculate the state at a given instant
     ///
     /// @param anInstant An instant
@@ -146,12 +151,13 @@ class Tabulated : public virtual Model
 
    private:
     Array<State> stateArray_;
+    Interpolator::Type interpolatorType_;
     StateBuilder stateBuilder_;
     Array<Shared<const Interpolator>> interpolators_;
 
     StateBuilder reducedStateBuilder_;
 
-    void setMembers(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType);
+    void setMembers(const Array<State>& aStateArray);
 };
 
 }  // namespace model

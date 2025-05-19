@@ -40,19 +40,21 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaterni
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
       stateArray_(aStateArray),
+      interpolatorType_(anInterpolatorType),
       stateBuilder_(StateBuilder::Undefined()),
       reducedStateBuilder_(StateBuilder::Undefined())
 {
-    setMembers(aStateArray, anInterpolatorType);
+    setMembers(aStateArray);
 }
 
 Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
       stateArray_(aStateArray),
+      interpolatorType_(Interpolator::Type::Linear),
       stateBuilder_(StateBuilder::Undefined()),
       reducedStateBuilder_(StateBuilder::Undefined())
 {
-    setMembers(aStateArray, Interpolator::Type::Linear);
+    setMembers(aStateArray);
 }
 
 Tabulated* Tabulated::clone() const
@@ -98,6 +100,16 @@ Interval Tabulated::getInterval() const
     return Interval::Closed(
         this->stateArray_.accessFirst().accessInstant(), this->stateArray_.accessLast().accessInstant()
     );
+}
+
+Interpolator::Type Tabulated::getInterpolatorType() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tabulated");
+    }
+
+    return this->interpolatorType_;
 }
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
@@ -294,7 +306,7 @@ bool Tabulated::operator!=(const Model& aModel) const
     return !((*this) == aModel);
 }
 
-void Tabulated::setMembers(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
+void Tabulated::setMembers(const Array<State>& aStateArray)
 {
     if (aStateArray.getSize() < 2)
     {
@@ -337,7 +349,7 @@ void Tabulated::setMembers(const Array<State>& aStateArray, const Interpolator::
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
+        interpolators_.add(Interpolator::GenerateInterpolator(interpolatorType_, timestamps, coordinates.col(i)));
     }
 }
 
