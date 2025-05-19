@@ -27,14 +27,14 @@ using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief Nadir pointing trajectory model to represent the geodetic nadir position of an orbit on the surface of the
-/// earth
+/// celestial body
 class Nadir : public virtual Model
 {
    public:
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              Nadir nadir = { ... };
+    ///              Orbit orbit = { ... };
     ///              Nadir nadirModel(orbit);
     /// @endcode
     ///
