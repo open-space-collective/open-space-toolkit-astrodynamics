@@ -107,6 +107,9 @@ class TestTabulatedProfile:
         self,
         tabulated_model: TabulatedModel,
     ):
-        body_frame = tabulated_model.get_body_frame()
+        if Frame.exists("test"):
+            Frame.destruct("test")
+
+        body_frame = tabulated_model.get_body_frame("test")
 
         assert body_frame is not None
