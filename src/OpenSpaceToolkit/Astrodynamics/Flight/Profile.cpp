@@ -66,6 +66,13 @@ Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetVelocity(
     return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, anAxis, isAntiDirection);
 }
 
+Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetSlidingGroundVelocity(
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+)
+{
+    return TrajectoryTarget(TargetType::TargetSlidingGroundVelocity, aTrajectory, anAxis, isAntiDirection);
+}
+
 Profile::TrajectoryTarget::TrajectoryTarget(
     const TargetType& aType,
     const ostk::astrodynamics::Trajectory& aTrajectory,
@@ -87,7 +94,8 @@ Profile::TrajectoryTarget::TrajectoryTarget(
         );
     }
 
-    if (aType != TargetType::TargetPosition && aType != TargetType::TargetVelocity)
+    if (aType != TargetType::TargetPosition && aType != TargetType::TargetVelocity &&
+        aType != TargetType::TargetSlidingGroundVelocity)
     {
         throw ostk::core::error::runtime::Wrong("Target type");
     }
@@ -364,6 +372,15 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
                     return Profile::ComputeTargetVelocityVector(aState, targetVelocitySPtr->trajectory);
                 };
             }
+            case TargetType::TargetSlidingGroundVelocity:
+            {
+                const Shared<const TrajectoryTarget> targetVelocitySPtr =
+                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
+                return [targetVelocitySPtr](const State& aState) -> Vector3d
+                {
+                    return Profile::ComputeTargetSlidingGroundVelocityVector(aState, targetVelocitySPtr->trajectory);
+                };
+            }
             case TargetType::Sun:
                 return [](const State& aState)
                 {
@@ -478,22 +495,33 @@ Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::
 
 Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
+    const Vector3d targetVelocityCoordinates =
+        aTrajectory.getStateAt(aState.accessInstant()).inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates();
+
+    return targetVelocityCoordinates.normalized();
+}
+
+Vector3d Profile::ComputeTargetSlidingGroundVelocityVector(
+    const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
+)
+{
     const Instant& instant = aState.accessInstant();
 
-    const Vector3d slidingTargetGroundVelocityCoordinates =
+    const Vector3d targetSlidingGroundVelocityCoordinates =
         aTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getVelocity().accessCoordinates();
 
-    if (slidingTargetGroundVelocityCoordinates.isZero())
+    if (targetSlidingGroundVelocityCoordinates.isZero())
     {
         throw ostk::core::error::RuntimeError(
-            "Cannot compute a Target Velocity Vector if the target's sliding velocity is zero."
+            "Cannot compute a Target Sliding Ground Velocity Vector if the target's sliding velocity with respect to "
+            "the ground is zero."
         );
     }
 
     const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(DEFAULT_PROFILE_FRAME, instant);
 
     const Vector3d slidingTargetGroundVelocityCoordinatesRotated =
-        ITRF_GCRF_transform.applyToVector(slidingTargetGroundVelocityCoordinates);
+        ITRF_GCRF_transform.applyToVector(targetSlidingGroundVelocityCoordinates);
 
     return slidingTargetGroundVelocityCoordinatesRotated.normalized();
 }

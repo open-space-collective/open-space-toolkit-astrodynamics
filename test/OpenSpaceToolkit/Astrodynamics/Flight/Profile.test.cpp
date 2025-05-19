@@ -850,6 +850,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
             Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Profile::Axis::X),
             ostk::core::error::runtime::Undefined
         );
+        EXPECT_THROW(
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(Trajectory::Undefined(), Profile::Axis::X),
+            ostk::core::error::runtime::Undefined
+        );
     }
 
     {
@@ -862,6 +866,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
         EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X, true));
         EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X));
         EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X, true));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::X, true));
     }
 }
 
@@ -901,7 +907,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
 {
     const Environment environment = Environment::Default();
 
@@ -926,14 +932,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
 
     const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-    const State state = orbit.getStateAt(instant);
-
     const Array<Instant> instants =
         Interval::Closed(instant, instant + Duration::Seconds(2.0)).generateGrid(Duration::Seconds(1.0));
 
     const Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(orbit, instants, Earth::WGS84());
 
-    const Profile compensatedProfile = Profile::CustomPointing(
+    // Yaw compensated clocking profile
+    const Profile targetSlidingGroundVelocityClockedProfile = Profile::CustomPointing(
+        orbit,
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
+        ),
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::X)
+        )
+    );
+
+    // Non-yaw compensated clocking profile
+    const Profile targetVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
             Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
@@ -943,7 +959,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
         )
     );
 
-    const Profile uncompensatedProfile = Profile::CustomPointing(
+    const Profile satelliteVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
             Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
@@ -951,24 +967,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensation)
         std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X)
     );
 
-    const State compensatedState = compensatedProfile.getStateAt(instant);
-    const State uncompensatedState = uncompensatedProfile.getStateAt(instant);
+    const State targetSlidingGroundVelocityClockedState = targetSlidingGroundVelocityClockedProfile.getStateAt(instant);
+    const State targetVelocityClockedProfileState = targetVelocityClockedProfile.getStateAt(instant);
+    const State satelliteVelocityClockedState = satelliteVelocityClockedProfile.getStateAt(instant);
 
     // Values taken from Orekit for unit test
-    const Vector4d q_B_GCRF = {-0.049325536600717236, 0.7053880389500211, 0.04932501463561278, -0.7053805702431075};
     const Vector4d qCompensated_B_GCRF = {
         -0.07270744620256138, 0.7033625816898471, 0.07270667666769967, -0.7033551344187611
     };
+    const Vector4d q_B_GCRF = {-0.049325536600717236, 0.7053880389500211, 0.04932501463561278, -0.7053805702431075};
 
     EXPECT_VECTORS_ALMOST_EQUAL(
-        q_B_GCRF, uncompensatedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-10
+        qCompensated_B_GCRF,
+        targetSlidingGroundVelocityClockedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS),
+        1e-5
     );
     EXPECT_VECTORS_ALMOST_EQUAL(
-        qCompensated_B_GCRF, compensatedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-5
+        q_B_GCRF,
+        targetVelocityClockedProfileState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS),
+        1e-10
+    );
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        q_B_GCRF, satelliteVelocityClockedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-10
     );
 
     EXPECT_NEAR(
-        compensatedState.getAttitude().angularDifferenceWith(uncompensatedState.getAttitude()).inDegrees(),
+        targetSlidingGroundVelocityClockedState.getAttitude()
+            .angularDifferenceWith(targetVelocityClockedProfileState.getAttitude())
+            .inDegrees(),
         3.803545407107513,
         1e-4
     );
