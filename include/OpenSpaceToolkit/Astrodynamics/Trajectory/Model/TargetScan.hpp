@@ -128,9 +128,9 @@ class TargetScan : public virtual Model
     /// @brief Equality operator
     ///
     /// @code{.cpp}
-    ///              TargetScan targetScanModel = { ... };
-    ///              TargetScan targetScanModel = { ... };
-    ///              bool isEqual = (targetScanModel == targetScanModel);
+    ///              TargetScan targetScanModel1 = { ... };
+    ///              TargetScan targetScanModel2 = { ... };
+    ///              bool isEqual = (targetScanModel1 == targetScanModel2);
     /// @endcode
     ///
     /// @param aTargetScanModel The static model to compare with
@@ -140,9 +140,9 @@ class TargetScan : public virtual Model
     /// @brief Inequality operator
     ///
     /// @code{.cpp}
-    ///              TargetScan targetScanModel = { ... };
-    ///              TargetScan targetScanModel = { ... };
-    ///              bool isNotEqual = (targetScanModel != targetScanModel);
+    ///              TargetScan targetScanModel1 = { ... };
+    ///              TargetScan targetScanModel2 = { ... };
+    ///              bool isNotEqual = (targetScanModel1 != targetScanModel2);
     /// @endcode
     ///
     /// @param aTargetScanModel The static model to compare with
