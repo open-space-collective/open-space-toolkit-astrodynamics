@@ -103,7 +103,7 @@ class TestTabulatedProfile:
 
         assert axes is not None
 
-    def get_body_frame(
+    def test_get_body_frame(
         self,
         tabulated_model: TabulatedModel,
     ):

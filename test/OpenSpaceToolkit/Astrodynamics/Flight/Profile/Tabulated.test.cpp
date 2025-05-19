@@ -63,6 +63,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::
 
     Array<State> states_ = Array<State>::Empty();
     Tabulated tabulated_ = {states_};
+    const Tabulated tabulatedUndefined_ = {{}};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Constructor)
@@ -130,8 +131,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, IsDefined
     }
 
     {
-        const Tabulated tabulated = {{}};
-        EXPECT_FALSE(tabulated.isDefined());
+        EXPECT_FALSE(tabulatedUndefined_.isDefined());
     }
 }
 
@@ -146,6 +146,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
     {
         const Interpolator::Type interpolatorType = tabulated_.getInterpolatorType();
         EXPECT_EQ(interpolatorType, Interpolator::Type::Linear);
+        EXPECT_THROW(tabulatedUndefined_.getInterpolatorType(), ostk::core::error::runtime::Undefined);
     }
 }
 
