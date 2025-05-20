@@ -226,7 +226,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, FromGroundSpe
             TargetScan::FromGroundSpeed(
                 startLLA_, endLLA_, Derived(-1000.0, Derived::Unit::MeterPerSecond()), startInstant_, earth_, stepSize
             ),
-            ostk::core::error::runtime::RuntimeError
+            ostk::core::error::RuntimeError
         );
 
         EXPECT_THROW(
