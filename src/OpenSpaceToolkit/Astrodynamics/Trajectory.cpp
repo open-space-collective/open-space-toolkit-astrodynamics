@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 namespace ostk
@@ -31,6 +32,8 @@ using ostk::physics::time::Duration;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::trajectory::model::Nadir;
+using TargetScanModel = ostk::astrodynamics::trajectory::model::TargetScan;
+using ostk::astrodynamics::trajectory::model::Static;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::Orbit;
 
@@ -139,8 +142,6 @@ Trajectory Trajectory::Undefined()
 
 Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 {
-    using ostk::astrodynamics::trajectory::model::Static;
-
     if (!aPosition.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Position");
