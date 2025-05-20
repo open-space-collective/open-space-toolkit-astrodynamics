@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1747719178699,
+  "lastUpdate": 1747733530480,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 3198098311.2999983,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3197863271.200005 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ce7913f5d7fab75261983f899cc33c73375124c6",
+          "message": "fix: profile inertial frame use and target velocity computation (#560)\n\n* fix: profile inertial frame use and target velocity computation\n\n* refactor: only use GCRF for default frame",
+          "timestamp": "2025-05-20T09:12:12Z",
+          "tree_id": "948515eb159df629aca141d5b8ae64b1dd0a9961",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ce7913f5d7fab75261983f899cc33c73375124c6"
+        },
+        "date": 1747733528822,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 547737350.6999981,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 547333702.0000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 883182022.6999924,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 883076574.6000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3243245194.100007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3242888872.499999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3244931017.299996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3244597522.0999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3241832551.6000094,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3241586475.400001 ns\nthreads: 1"
           }
         ]
       }
