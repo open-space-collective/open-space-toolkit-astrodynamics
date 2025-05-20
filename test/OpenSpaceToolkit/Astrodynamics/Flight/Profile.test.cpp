@@ -248,12 +248,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(
-            Profile::Undefined().getStatesAt(
-                {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-            )
-        );
+        EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+        ));
     }
 }
 
@@ -310,12 +308,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
-                "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
-        );
+        const File referenceDataFile =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
+                                   "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -428,10 +423,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                        "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -541,10 +534,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                        "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -654,10 +645,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
-            )
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                        "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -922,7 +911,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
 {
-    const Environment environment = Environment::Default();
+    const Shared<const Earth> earthSPtr_ = std::make_shared<Earth>(Earth::WGS84());
 
     const Length semiMajorAxis = Length::Kilometers(7000.0);
     const Real eccentricity = 0.0;
@@ -942,22 +931,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Kepler keplerianModel = {
         coe, instant, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
     };
-
-    const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
-
-    const Array<Instant> instants =
-        Interval::Closed(instant, instant + Duration::Seconds(2.0)).generateGrid(Duration::Seconds(1.0));
-
-    const Trajectory trajectory = Trajectory::GroundStripGeodeticNadir(orbit, instants, Earth::WGS84());
+    const Orbit orbit = {keplerianModel, earthSPtr_};
+    const Trajectory targetTrajectory = Trajectory(Nadir(orbit));
 
     // Yaw compensated clocking profile
     const Profile targetSlidingGroundVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
         ),
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Profile::Axis::X)
         )
     );
 
@@ -965,17 +949,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Profile targetVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
         ),
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Profile::Axis::X)
         )
     );
 
     const Profile satelliteVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Z)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
         ),
         std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X)
     );
@@ -985,28 +969,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const State satelliteVelocityClockedState = satelliteVelocityClockedProfile.getStateAt(instant);
 
     // Values taken from Orekit for unit test
-    const Vector4d qCompensated_B_GCRF = {
+    const Vector4d expectedTargetSlidingGroundVelocityClockedQuaternion = {
         -0.07270744620256138, 0.7033625816898471, 0.07270667666769967, -0.7033551344187611
     };
-    const Vector4d q_B_GCRF = {-0.049325536600717236, 0.7053880389500211, 0.04932501463561278, -0.7053805702431075};
+    const Vector4d expectedSatelliteVelocityClockedQuaternion = {
+        -0.049325536600717236, 0.7053880389500211, 0.04932501463561278, -0.7053805702431075
+    };
 
     EXPECT_VECTORS_ALMOST_EQUAL(
-        qCompensated_B_GCRF,
+        expectedTargetSlidingGroundVelocityClockedQuaternion,
         targetSlidingGroundVelocityClockedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS),
-        1e-5
+        1e-8
     );
     EXPECT_VECTORS_ALMOST_EQUAL(
-        q_B_GCRF,
+        expectedSatelliteVelocityClockedQuaternion,
         targetVelocityClockedProfileState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS),
-        1e-10
+        1e-3  // Not as close because this is targetVelocity clocked instead of satelliteVelocity clocked
     );
     EXPECT_VECTORS_ALMOST_EQUAL(
-        q_B_GCRF, satelliteVelocityClockedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS), 1e-10
+        expectedSatelliteVelocityClockedQuaternion,
+        satelliteVelocityClockedState.getAttitude().toNormalized().toVector(Quaternion::Format::XYZS),
+        1e-8
     );
 
     EXPECT_NEAR(
         targetSlidingGroundVelocityClockedState.getAttitude()
-            .angularDifferenceWith(targetVelocityClockedProfileState.getAttitude())
+            .angularDifferenceWith(satelliteVelocityClockedState.getAttitude())
             .inDegrees(),
         3.803545407107513,
         1e-4

@@ -498,6 +498,12 @@ Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::a
     const Vector3d targetVelocityCoordinates =
         aTrajectory.getStateAt(aState.accessInstant()).inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates();
 
+    if (targetVelocityCoordinates.isZero())
+    {
+        throw ostk::core::error::RuntimeError(
+            "Cannot compute a Target Velocity Vector if the target's velocity is zero."
+        );
+    }
     return targetVelocityCoordinates.normalized();
 }
 
