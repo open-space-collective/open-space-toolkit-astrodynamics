@@ -156,8 +156,8 @@ class Profile
         );
 
         /// @brief Constructs a TrajectoryTarget object of type TargetSlidingGroundVelocity, pointing along the ground
-        /// velocity vector (aka the scan direction of the point sliding across the ground). When choosing this as a
-        /// clocking target, the resulting profile will be yaw compensated.
+        /// velocity vector (aka the scan direction of the point sliding across the ground). This will compensate for
+        /// the rotation of the referenced celestial body.
         ///
         /// @param aTrajectory The trajectory to point towards.
         /// @param anAxis The axis of the target.

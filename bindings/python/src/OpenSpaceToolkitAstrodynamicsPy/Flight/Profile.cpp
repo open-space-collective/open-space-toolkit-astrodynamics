@@ -144,7 +144,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             &Profile::TrajectoryTarget::TargetVelocity,
             R"doc(
                 Create a target, which produces a vector pointing along the scan direction.
-                When choosing this as a clocking target, the resulting profile will not be yaw compensated.
             )doc",
             arg("trajectory"),
             arg("axis"),
@@ -155,7 +154,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             &Profile::TrajectoryTarget::TargetSlidingGroundVelocity,
             R"doc(
                 Create a target, which produces a vector pointing along the ground velocity vector (aka the scan direction of the point sliding across the ground).
-                When choosing this as a clocking target, the resulting profile will be yaw compensated.
+                This will compensate for the rotation of the referenced celestial body.
             )doc",
             arg("trajectory"),
             arg("axis"),
