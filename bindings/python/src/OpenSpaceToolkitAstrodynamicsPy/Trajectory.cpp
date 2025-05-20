@@ -27,6 +27,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     using ostk::physics::unit::Derived;
 
     using ostk::astrodynamics::Trajectory;
+    using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::State;
 
     class_<Trajectory, Shared<Trajectory>>(
@@ -152,9 +153,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         )
         .def_static(
             "ground_strip",
-            overload_cast<const LLA&, const LLA&, const Derived&, const Instant&, const Celestial&, const Duration&>(
-                &Trajectory::GroundStrip
-            ),
+            +[](const LLA& aStartLLA,
+                const LLA& anEndLLA,
+                const Derived& aGroundSpeed,
+                const Instant& aStartInstant,
+                const Celestial& aCelestial,
+                const Duration& aStepSize) -> Trajectory
+            {
+                PyErr_WarnEx(
+                    PyExc_DeprecationWarning, "Use Trajectory(model=TargetScan.from_ground_speed(...)) instead.", 1
+                );
+                return Trajectory::GroundStrip(aStartLLA, anEndLLA, aGroundSpeed, aStartInstant, aCelestial, aStepSize);
+            },
             R"doc(
                 Create a `Trajectory` object representing a ground strip.
                 Computes the duration as the geodetic distance / ground speed.
@@ -181,7 +191,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         )
         .def_static(
             "ground_strip",
-            overload_cast<const LLA&, const LLA&, const Array<Instant>&, const Celestial&>(&Trajectory::GroundStrip),
+            +[](const LLA& aStartLLA,
+                const LLA& anEndLLA,
+                const Array<Instant>& anInstantArray,
+                const Celestial& aCelestial) -> Trajectory
+            {
+                PyErr_WarnEx(PyExc_DeprecationWarning, "Use Trajectory(model=TargetScan(...)) instead.", 1);
+                return Trajectory::GroundStrip(aStartLLA, anEndLLA, anInstantArray, aCelestial);
+            },
             R"doc(
                 Create a `Trajectory` object representing a ground strip.
                 This method computes the duration as the geodetic distance / ground speed.
@@ -203,7 +220,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         )
         .def_static(
             "ground_strip_geodetic_nadir",
-            &Trajectory::GroundStripGeodeticNadir,
+            +[](const Orbit& anOrbit, const Array<Instant>& anInstantArray, const Celestial& aCelestial) -> Trajectory
+            {
+                PyErr_WarnEx(PyExc_DeprecationWarning, "Use Trajectory(model=Nadir(...)) instead.", 1);
+                return Trajectory::GroundStripGeodeticNadir(anOrbit, anInstantArray, aCelestial);
+            },
             R"doc(
                 Create a `Trajectory` object representing a ground strip that follows the geodetic nadir of the provided orbit.
 
@@ -213,7 +234,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                     celestial_object (Celestial): The celestial object. Defaults to Earth.WGS84().
 
                 Returns:
-                    Trajectory: The `Trajectory` object representing the ground strip.  
+                    Trajectory: The `Trajectory` object representing the ground strip.
             )doc",
             arg("orbit"),
             arg("instants"),

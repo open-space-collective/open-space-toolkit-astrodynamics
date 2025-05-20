@@ -92,7 +92,7 @@ class Profile
     {
         GeocentricNadir,              /// Negative of the position vector of the satellite in the ECI frame
         GeodeticNadir,                /// Negative of the geodetic normal of the satellite in the ECI frame
-        Trajectory,                   /// Points towards the provided trajectory, eg. Ground Station in ECEF
+        Trajectory,                   /// DEPRECATED: Use TargetPosition instead.
         TargetPosition,               /// Points towards the provided target position
         TargetVelocity,               /// Points along the provided target's velocity vector
         TargetSlidingGroundVelocity,  /// Points along the provided target's ground velocity vector (aka the scan
@@ -128,10 +128,11 @@ class Profile
        public:
         /// @brief Constructs a TrajectoryTarget object.
         ///
+        /// @deprecated Use TrajectoryTarget::TargetPosition(...) instead.
         /// @param aTrajectory The trajectory to point towards.
         /// @param anAxis The axis of the target.
         /// @param isAntiDirection Whether the target is in the anti-direction.
-        [[deprecated("Use TrajectoryTarget::TargetPosition instead.")]]
+        [[deprecated("Use TrajectoryTarget::TargetPosition(...) instead.")]]
         TrajectoryTarget(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
         );

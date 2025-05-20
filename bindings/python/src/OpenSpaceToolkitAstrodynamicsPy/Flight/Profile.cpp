@@ -55,7 +55,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .value("GeocentricNadir", Profile::TargetType::GeocentricNadir, "Geocentric nadir")
         .value("GeodeticNadir", Profile::TargetType::GeodeticNadir, "Geodetic nadir")
-        .value("Trajectory", Profile::TargetType::Trajectory, "Trajectory")  // Deprecated in favor of TargetPosition
+        .value("Trajectory", Profile::TargetType::Trajectory, "Deprecated - Use TargetPosition instead.")
         .value("TargetPosition", Profile::TargetType::TargetPosition, "Target position")
         .value("TargetVelocity", Profile::TargetType::TargetVelocity, "Target velocity")
         .value(
@@ -114,7 +114,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     )
 
         .def(
-            init<const Trajectory&, const Profile::Axis&, const bool&&>(),
+            init(
+                +[](const Trajectory& trajectory, const Profile::Axis& axis, const bool& antiDirection
+                 ) -> Profile::TrajectoryTarget
+                {
+                    PyErr_WarnEx(PyExc_DeprecationWarning, "Use TrajectoryTarget.target_position(...) instead.", 1);
+                    return Profile::TrajectoryTarget(trajectory, axis, antiDirection);
+                }
+            ),
             R"doc(
                 Constructor.
 
