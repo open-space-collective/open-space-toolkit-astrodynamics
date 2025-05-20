@@ -27,6 +27,7 @@ OPTION (BUILD_SCRIPT "Build script" OFF)
 OPTION (BUILD_WITH_CXX_17 "Build with C++ 17 support." OFF)
 OPTION (BUILD_WITH_BOOST_STACKTRACE "Build with Boost Stacktrace instead of stacktrace basic" ON)
 OPTION (BUILD_WITH_BOOST_STATIC "Build with Boost Static lib" ON)
+OPTION (BUILD_WITHOUT_DEPRECATED_DECLARATION_WARNINGS "Build without deprecated declaration warnings" OFF)
 
 ## Setup
 
@@ -164,6 +165,14 @@ SET (CMAKE_CXX_EXTENSIONS OFF)
 IF (BUILD_WITH_DEBUG_SYMBOLS)
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+ENDIF ()
+
+### Warnings
+
+IF (BUILD_WITHOUT_DEPRECATED_DECLARATION_WARNINGS)
+
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 
 ENDIF ()
 
