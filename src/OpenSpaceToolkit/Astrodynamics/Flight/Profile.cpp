@@ -31,8 +31,7 @@ using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 
 using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
 
-static Shared<const Frame> DEFAULT_ECI_FRAME = Frame::GCRF();
-static Shared<const Frame> DEFAULT_ECEF_FRAME = Frame::ITRF();
+static const Shared<const Frame> DEFAULT_PROFILE_FRAME = Frame::GCRF();
 
 Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection)
     : type(aType),
@@ -287,7 +286,7 @@ Profile Profile::CustomPointing(
     // Copy the orbit and orientation generator to avoid dangling references.
     auto dynamicProviderGenerator = [anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
     {
-        const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_ECI_FRAME);
+        const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_PROFILE_FRAME);
 
         const Position position = state.getPosition();
         const Velocity velocity = state.getVelocity();
@@ -301,7 +300,7 @@ Profile Profile::CustomPointing(
         );
     };
 
-    return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), DEFAULT_ECI_FRAME));
+    return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), DEFAULT_PROFILE_FRAME));
 }
 
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
@@ -443,16 +442,16 @@ Profile::Profile()
 
 Vector3d Profile::ComputeGeocentricNadirDirectionVector(const State& aState)
 {
-    return -aState.inFrame(DEFAULT_ECI_FRAME).getPosition().accessCoordinates().normalized();
+    return -aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates().normalized();
 }
 
 Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
 {
-    const Transform ITRF_GCRF_transform = DEFAULT_ECEF_FRAME->getTransformTo(DEFAULT_ECI_FRAME, aState.accessInstant());
+    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(DEFAULT_PROFILE_FRAME, aState.accessInstant());
 
     const LLA lla = LLA::Cartesian(
         ITRF_GCRF_transform.getInverse().applyToPosition(
-            aState.inFrame(DEFAULT_ECI_FRAME).getPosition().accessCoordinates()
+            aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates()
         ),
         EarthGravitationalModel::EGM2008.equatorialRadius_,
         EarthGravitationalModel::EGM2008.flattening_
@@ -470,8 +469,9 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
 Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
     const Vector3d targetPositionCoordinates =
-        aTrajectory.getStateAt(aState.accessInstant()).inFrame(DEFAULT_ECI_FRAME).getPosition().accessCoordinates();
-    const Vector3d satellitePositionCoordinates = aState.inFrame(DEFAULT_ECI_FRAME).getPosition().accessCoordinates();
+        aTrajectory.getStateAt(aState.accessInstant()).inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates();
+    const Vector3d satellitePositionCoordinates =
+        aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates();
 
     return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
 }
@@ -481,7 +481,7 @@ Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::a
     const Instant& instant = aState.accessInstant();
 
     const Vector3d slidingTargetGroundVelocityCoordinates =
-        aTrajectory.getStateAt(instant).inFrame(DEFAULT_ECEF_FRAME).getVelocity().accessCoordinates();
+        aTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getVelocity().accessCoordinates();
 
     if (slidingTargetGroundVelocityCoordinates.isZero())
     {
@@ -490,7 +490,7 @@ Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::a
         );
     }
 
-    const Transform ITRF_GCRF_transform = DEFAULT_ECEF_FRAME->getTransformTo(DEFAULT_ECI_FRAME, instant);
+    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(DEFAULT_PROFILE_FRAME, instant);
 
     const Vector3d slidingTargetGroundVelocityCoordinatesRotated =
         ITRF_GCRF_transform.applyToVector(slidingTargetGroundVelocityCoordinates);
@@ -501,20 +501,21 @@ Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::a
 Vector3d Profile::ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial)
 {
     const Vector3d celestialPositionCoordinates =
-        aCelestial.getPositionIn(DEFAULT_ECI_FRAME, aState.getInstant()).accessCoordinates();
-    const Vector3d satellitePositionCoordinates = aState.inFrame(DEFAULT_ECI_FRAME).getPosition().accessCoordinates();
+        aCelestial.getPositionIn(DEFAULT_PROFILE_FRAME, aState.getInstant()).accessCoordinates();
+    const Vector3d satellitePositionCoordinates =
+        aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates();
 
     return (celestialPositionCoordinates - satellitePositionCoordinates).normalized();
 }
 
 Vector3d Profile::ComputeVelocityDirectionVector_ECI(const State& aState)
 {
-    return aState.inFrame(DEFAULT_ECI_FRAME).getVelocity().accessCoordinates().normalized();
+    return aState.inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates().normalized();
 }
 
 Vector3d Profile::ComputeVelocityDirectionVector_ECEF(const State& aState)
 {
-    return aState.inFrame(DEFAULT_ECEF_FRAME).getVelocity().accessCoordinates().normalized();
+    return aState.inFrame(Frame::ITRF()).getVelocity().accessCoordinates().normalized();
 }
 
 Vector3d Profile::ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector)
@@ -524,7 +525,7 @@ Vector3d Profile::ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVecto
 
 Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
 {
-    const State state = aState.inFrame(DEFAULT_ECI_FRAME);
+    const State state = aState.inFrame(DEFAULT_PROFILE_FRAME);
     const Vector3d positionDirection = state.getPosition().getCoordinates().normalized();
     const Vector3d velocityDirection = state.getVelocity().getCoordinates().normalized();
 
