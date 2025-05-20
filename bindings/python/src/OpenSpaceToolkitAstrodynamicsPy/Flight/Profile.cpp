@@ -58,6 +58,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         .value("Trajectory", Profile::TargetType::Trajectory, "Trajectory")  // Deprecated in favor of TargetPosition
         .value("TargetPosition", Profile::TargetType::TargetPosition, "Target position")
         .value("TargetVelocity", Profile::TargetType::TargetVelocity, "Target velocity")
+        .value(
+            "TargetSlidingGroundVelocity",
+            Profile::TargetType::TargetSlidingGroundVelocity,
+            "Target sliding ground velocity"
+        )
         .value("Sun", Profile::TargetType::Sun, "Sun")
         .value("Moon", Profile::TargetType::Moon, "Moon")
         .value("VelocityECI", Profile::TargetType::VelocityECI, "Velocity in ECI")
@@ -138,7 +143,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             "target_velocity",
             &Profile::TrajectoryTarget::TargetVelocity,
             R"doc(
-                Create a target, which produces a vector pointing along the target velocity.
+                Create a target, which produces a vector pointing along the scan direction.
+            )doc",
+            arg("trajectory"),
+            arg("axis"),
+            arg("anti_direction") = false
+        )
+        .def_static(
+            "target_sliding_ground_velocity",
+            &Profile::TrajectoryTarget::TargetSlidingGroundVelocity,
+            R"doc(
+                Create a target, which produces a vector pointing along the ground velocity vector (aka the scan direction of the point sliding across the ground).
+                This will compensate for the rotation of the referenced celestial body.
             )doc",
             arg("trajectory"),
             arg("axis"),
