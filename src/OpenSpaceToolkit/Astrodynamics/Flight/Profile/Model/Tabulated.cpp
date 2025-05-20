@@ -39,7 +39,6 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaterni
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
-      stateArray_(aStateArray),
       interpolatorType_(anInterpolatorType),
       stateBuilder_(StateBuilder::Undefined()),
       reducedStateBuilder_(StateBuilder::Undefined())
@@ -49,7 +48,6 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
 
 Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
-      stateArray_(aStateArray),
       interpolatorType_(Interpolator::Type::Linear),
       stateBuilder_(StateBuilder::Undefined()),
       reducedStateBuilder_(StateBuilder::Undefined())
@@ -310,7 +308,7 @@ void Tabulated::setMembers(const Array<State>& aStateArray)
 {
     if (aStateArray.getSize() < 2)
     {
-        return;
+        throw ostk::core::error::RuntimeError("State array must have at least length 2.")
     }
 
     const State& firstState = aStateArray.accessFirst();
@@ -321,28 +319,25 @@ void Tabulated::setMembers(const Array<State>& aStateArray)
     reducedStateBuilder_ = StateBuilder(firstState.accessFrame(), reucedCoordinateSubsets);
 
     // Ensure the states are sorted by instant
-
-    Array<State> stateArray = aStateArray;
+    stateArray_ = aStateArray;
 
     std::sort(
-        stateArray.begin(),
-        stateArray.end(),
+        stateArray_.begin(),
+        stateArray_.end(),
         [](const auto& lhs, const auto& rhs)
         {
             return lhs.getInstant() < rhs.getInstant();
         }
     );
 
-    stateArray_ = stateArray;
+    VectorXd timestamps(stateArray_.getSize());
+    MatrixXd coordinates(stateArray_.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
 
-    VectorXd timestamps(stateArray.getSize());
-    MatrixXd coordinates(stateArray.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
-
-    for (Index i = 0; i < stateArray.getSize(); ++i)
+    for (Index i = 0; i < stateArray_.getSize(); ++i)
     {
-        timestamps(i) = (stateArray[i].accessInstant() - firstState.accessInstant()).inSeconds();
+        timestamps(i) = (stateArray_[i].accessInstant() - firstState.accessInstant()).inSeconds();
 
-        coordinates.row(i) = reducedStateBuilder_.reduce(stateArray[i]).accessCoordinates();
+        coordinates.row(i) = reducedStateBuilder_.reduce(stateArray_[i]).accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());
