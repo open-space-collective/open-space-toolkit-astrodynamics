@@ -27,6 +27,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
@@ -71,6 +72,7 @@ using ostk::astrodynamics::flight::Profile;
 using ostk::astrodynamics::flight::profile::model::Tabulated;
 using ostk::astrodynamics::flight::profile::model::Transform;
 using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::trajectory::model::Nadir;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
@@ -246,10 +248,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-        ));
+        EXPECT_ANY_THROW(
+            Profile::Undefined().getStatesAt(
+                {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+            )
+        );
     }
 }
 
@@ -306,9 +310,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
         // Reference data setup
 
-        const File referenceDataFile =
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
-                                   "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"));
+        const File referenceDataFile = File::Path(
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/InertialPointing/Satellite "
+                "t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -421,8 +428,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                        "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                "Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -532,8 +541,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                        "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                "Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -643,8 +654,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
-                        "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/LocalOrbitalFramePointing/VVLH/"
+                "Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv"
+            )
         );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
@@ -1164,20 +1177,85 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
     }
 }
 
-class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized
+class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes
     : public ::testing::TestWithParam<
           std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>
 {
+   protected:
+    const Map<Profile::Axis, Vector3d> axisMap_ = {
+        {Profile::Axis::X, {1.0, 0.0, 0.0}},
+        {Profile::Axis::Y, {0.0, 1.0, 0.0}},
+        {Profile::Axis::Z, {0.0, 0.0, 1.0}},
+    };
+
+    const Instant epoch_ = Instant::J2000();
+
+    const Shared<Earth> earthSPtr_ = std::make_shared<Earth>(Earth::Default());
+
+    const Orbit orbit_ = Orbit::SunSynchronous(epoch_, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr_);
+
+    const State state_ = orbit_.getStateAt(epoch_);
+
+    const std::function<Vector3d(const Profile::TargetType&, const State&)> getExpectedDirectionVector_ =
+        [this](const Profile::TargetType& aTargetType, const State& aState) -> Vector3d
+    {
+        switch (aTargetType)
+        {
+            case Profile::TargetType::GeocentricNadir:
+                return -aState.getPosition().getCoordinates().normalized();
+                break;
+
+            case Profile::TargetType::GeodeticNadir:
+            {
+                const LLA lla = LLA::Cartesian(
+                    aState.inFrame(Frame::ITRF()).getPosition().getCoordinates(),
+                    earthSPtr_->getEquatorialRadius(),
+                    earthSPtr_->getFlattening()
+                );
+                const LLA llaOnSurface = LLA(lla.getLatitude(), lla.getLongitude(), Length::Meters(0.0));
+                Vector3d positionOnSurface =
+                    Position::Meters(
+                        llaOnSurface.toCartesian(earthSPtr_->getEquatorialRadius(), earthSPtr_->getFlattening()),
+                        Frame::ITRF()
+                    )
+                        .inFrame(Frame::GCRF(), aState.accessInstant())
+                        .getCoordinates();
+                return (positionOnSurface - aState.getPosition().getCoordinates()).normalized();
+            }
+            break;
+
+            case Profile::TargetType::VelocityECI:
+                return aState.getVelocity().getCoordinates().normalized();
+                break;
+
+            case Profile::TargetType::Sun:
+            {
+                const Sun sun = Sun::Default();
+                return (sun.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
+                        aState.getPosition().getCoordinates())
+                    .normalized();
+            }
+            break;
+
+            case Profile::TargetType::Moon:
+            {
+                const Moon moon = Moon::Default();
+                return (moon.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
+                        aState.getPosition().getCoordinates())
+                    .normalized();
+            }
+            break;
+
+            default:
+                return Vector3d::Zero();
+                break;
+        }
+    };
 };
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConstrain)
+TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes, AlignAndConstrain)
 {
-    const auto param = GetParam();
-    Profile::TargetType alignmentTargetType;
-    Profile::TargetType clockingTargetType;
-    Profile::Axis alignmentAxis;
-    Profile::Axis clockingAxis;
-    std::tie(alignmentAxis, clockingAxis, alignmentTargetType, clockingTargetType) = param;
+    const auto& [alignmentAxis, clockingAxis, alignmentTargetType, clockingTargetType] = GetParam();
 
     const Shared<const Profile::Target> alignmentTargetSPtr =
         std::make_shared<Profile::Target>(alignmentTargetType, alignmentAxis);
@@ -1214,98 +1292,28 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConst
         return;
     }
 
-    const Instant epoch = Instant::J2000();
-
-    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
-
-    const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
-
-    const State state = orbit.getStateAt(epoch);
-
-    static const Map<Profile::Axis, Vector3d> axisMap = {
-        {Profile::Axis::X, {1.0, 0.0, 0.0}},
-        {Profile::Axis::Y, {0.0, 1.0, 0.0}},
-        {Profile::Axis::Z, {0.0, 0.0, 1.0}},
-    };
-
     const std::function<Quaternion(const State&)> orientation =
         Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr);
 
-    const Quaternion q_B_GCRF = orientation(state);
-
-    const auto getExpectedDirectionVector =
-        [&earthSPtr](const Profile::TargetType& aTargetType, const State& aState) -> Vector3d
-    {
-        switch (aTargetType)
-        {
-            case Profile::TargetType::GeocentricNadir:
-                return -aState.getPosition().getCoordinates().normalized();
-                break;
-
-            case Profile::TargetType::GeodeticNadir:
-            {
-                const LLA lla = LLA::Cartesian(
-                    aState.inFrame(Frame::ITRF()).getPosition().getCoordinates(),
-                    earthSPtr->getEquatorialRadius(),
-                    earthSPtr->getFlattening()
-                );
-                const LLA llaOnSurface = LLA(lla.getLatitude(), lla.getLongitude(), Length::Meters(0.0));
-                Vector3d positionOnSurface =
-                    Position::Meters(
-                        llaOnSurface.toCartesian(earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()),
-                        Frame::ITRF()
-                    )
-                        .inFrame(Frame::GCRF(), aState.accessInstant())
-                        .getCoordinates();
-                return (positionOnSurface - aState.getPosition().getCoordinates()).normalized();
-            }
-            break;
-
-            case Profile::TargetType::VelocityECI:
-                return aState.getVelocity().getCoordinates().normalized();
-                break;
-
-            case Profile::TargetType::Sun:
-            {
-                const Sun sun = Sun::Default();
-                return (sun.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
-                        aState.getPosition().getCoordinates())
-                    .normalized();
-            }
-            break;
-
-            case Profile::TargetType::Moon:
-            {
-                const Moon moon = Moon::Default();
-                return (moon.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
-                        aState.getPosition().getCoordinates())
-                    .normalized();
-            }
-            break;
-
-            default:
-                return Vector3d::Zero();
-                break;
-        }
-    };
+    const Quaternion q_B_GCRF = orientation(state_);
 
     // check alignment axis
 
-    const Vector3d alignmentAxisVector = axisMap.at(alignmentAxis);
+    const Vector3d alignmentAxisVector = axisMap_.at(alignmentAxis);
 
     const Vector3d estimatedAlignmentDirection = (q_B_GCRF.toConjugate() * alignmentAxisVector);
 
-    const Vector3d expectedAlignmentDirection = getExpectedDirectionVector(alignmentTargetType, state);
+    const Vector3d expectedAlignmentDirection = getExpectedDirectionVector_(alignmentTargetType, state_);
 
     EXPECT_VECTORS_ALMOST_EQUAL(expectedAlignmentDirection, estimatedAlignmentDirection, 1e-12);
 
     // check clocking axis
 
-    const Vector3d clockingAxisVector = axisMap.at(clockingAxis);
+    const Vector3d clockingAxisVector = axisMap_.at(clockingAxis);
 
     const Vector3d estimatedClockingDirection = (q_B_GCRF.toConjugate() * clockingAxisVector);
 
-    const Vector3d expectedClockingDirection = getExpectedDirectionVector(clockingTargetType, state);
+    const Vector3d expectedClockingDirection = getExpectedDirectionVector_(clockingTargetType, state_);
 
     // TBI: These tests can be improved in the future
     if (alignmentTargetType == Profile::TargetType::VelocityECI && clockingTargetType == Profile::TargetType::Sun)
@@ -1322,27 +1330,19 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized, AlignAndConst
     }
 }
 
-std::string ParamNameGenerator(
-    const ::testing::TestParamInfo<std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>&
-        info
-)
-{
-    std::string name = "Axis" + std::to_string(static_cast<int>(std::get<0>(info.param))) + "_Axis" +
-                       std::to_string(static_cast<int>(std::get<1>(info.param))) + "_Target" +
-                       std::to_string(static_cast<int>(std::get<2>(info.param))) + "_Target" +
-                       std::to_string(static_cast<int>(std::get<3>(info.param)));
-    return name;
-}
-
 INSTANTIATE_TEST_SUITE_P(
-    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_Values,
-    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized,
+    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes_Values,
+    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes,
     ::testing::Combine(
+        // alignmentAxis
         ::testing::Values(Profile::Axis::X),
+        // clockingAxis
         ::testing::Values(Profile::Axis::Y),
+        // alignmentTargetType
         ::testing::Values(
             Profile::TargetType::GeocentricNadir, Profile::TargetType::GeodeticNadir, Profile::TargetType::VelocityECI
         ),
+        // clockingTargetType
         ::testing::Values(
             Profile::TargetType::GeocentricNadir,
             Profile::TargetType::GeodeticNadir,
@@ -1350,5 +1350,118 @@ INSTANTIATE_TEST_SUITE_P(
             Profile::TargetType::Sun
         )
     ),
-    ParamNameGenerator
+    [](const ::testing::TestParamInfo<
+        std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>& paramInfo)
+    {
+        return "Axis" + std::to_string(static_cast<int>(std::get<0>(paramInfo.param))) + "_Axis" +
+               std::to_string(static_cast<int>(std::get<1>(paramInfo.param))) + "_Target" +
+               std::to_string(static_cast<int>(std::get<2>(paramInfo.param))) + "_Target" +
+               std::to_string(static_cast<int>(std::get<3>(paramInfo.param)));
+    }
+);
+
+class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTargetTypes
+    : public ::testing::TestWithParam<std::tuple<Angle, Angle, Vector3d, Vector3d, Vector3d>>
+{
+   protected:
+    const Instant instant_ = Instant::J2000();
+    const Shared<const Earth> earthSPtr_ = std::make_shared<Earth>(Earth::WGS84());
+
+    // Simple perfectly polar keplerian orbit with epoch at the ascending node
+    const Length semiMajorAxis_ = Length::Kilometers(7000.0);
+    const Real eccentricity_ = 0.0;
+    const Angle raan_ = Angle::Degrees(0.0);
+    const Angle aop_ = Angle::Degrees(0.0);
+};
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTargetTypes, AlignAndConstrain)
+{
+    const auto& [inclination, trueAnomaly, expectedTargetPositionDirection, expectedTargetVelocityDirection, expectedTargetSlidingGroundVelocityDirection] =
+        GetParam();
+
+    const COE coe = {semiMajorAxis_, eccentricity_, inclination, raan_, aop_, trueAnomaly};
+    const Kepler keplerianModel = {coe, instant_, *earthSPtr_, Kepler::PerturbationType::None};
+    const Orbit orbit = {keplerianModel, earthSPtr_};
+    const State state = orbit.getStateAt(instant_);
+    const Trajectory targetTrajectory = Trajectory(Nadir(orbit));
+
+    const Shared<const Profile::TrajectoryTarget> targetPositionSPtr =
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::X)
+        );
+
+    const Shared<const Profile::TrajectoryTarget> targetVelocitySPtr =
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Profile::Axis::X)
+        );
+    const Shared<const Profile::TrajectoryTarget> targetSlidingGroundVelocitySPtr =
+        std::make_shared<const Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Profile::Axis::X)
+        );
+
+    const Shared<const Profile::Target> clockingTargetSPtr =
+        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y);
+
+    const std::function<Quaternion(const State&)> orientationTargetPositionAlignement =
+        Profile::AlignAndConstrain(targetPositionSPtr, clockingTargetSPtr);
+    const std::function<Quaternion(const State&)> orientationTargetVelocityAlignement =
+        Profile::AlignAndConstrain(targetVelocitySPtr, clockingTargetSPtr);
+    const std::function<Quaternion(const State&)> orientationTargetSlidingGroundVelocityAlignement =
+        Profile::AlignAndConstrain(targetSlidingGroundVelocitySPtr, clockingTargetSPtr);
+
+    const Vector3d targetPositionDirection =
+        orientationTargetPositionAlignement(state).toInverse() * Vector3d(1.0, 0.0, 0.0);
+    const Vector3d targetVelocityDirection =
+        orientationTargetVelocityAlignement(state).toInverse() * Vector3d(1.0, 0.0, 0.0);
+    const Vector3d targetSlidingGroundVelocityDirection =
+        orientationTargetSlidingGroundVelocityAlignement(state).toInverse() * Vector3d(1.0, 0.0, 0.0);
+
+    EXPECT_VECTORS_ALMOST_EQUAL(targetPositionDirection, expectedTargetPositionDirection, 1e-3);
+    EXPECT_VECTORS_ALMOST_EQUAL(targetVelocityDirection, expectedTargetVelocityDirection, 1e-3);
+    EXPECT_VECTORS_ALMOST_EQUAL(
+        targetSlidingGroundVelocityDirection, expectedTargetSlidingGroundVelocityDirection, 1e-3
+    );
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTargetTypes_Values,
+    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTargetTypes,
+    ::testing::Values(
+        // Ascending node
+        std::make_tuple(
+            Angle::Degrees(90.0),       // Inclination
+            Angle::Degrees(0.0),        // TrueAnomaly
+            Vector3d {-1.0, 0.0, 0.0},  // ExpectedTargetPositionDirection
+            Vector3d {0.0, 0.0, 1.0},   // ExpectedTargetVelocityDirection
+            Vector3d {0.0, -0.0675, 0.9977}
+            // ExpectedTargetSlidingGroundVelocityDirection - pointing westwards to compensate for Earth rotation
+        ),
+        // North point
+        std::make_tuple(
+            Angle::Degrees(90.0),       // Inclination
+            Angle::Degrees(90.0),       // TrueAnomaly
+            Vector3d {0.0, 0.0, -1.0},  // ExpectedTargetPositionDirection
+            Vector3d {-1.0, 0.0, 0.0},  // ExpectedTargetVelocityDirection
+            Vector3d {-1.0, 0.0, 0.0}
+            // ExpectedTargetSlidingGroundVelocityDirection - same as velocity direction because no rotation at pole
+        ),
+        // Descending node
+        std::make_tuple(
+            Angle::Degrees(90.0),       // Inclination
+            Angle::Degrees(180.0),      // TrueAnomaly
+            Vector3d {1.0, 0.0, 0.0},   // ExpectedTargetPositionDirection
+            Vector3d {0.0, 0.0, -1.0},  // ExpectedTargetVelocityDirection
+            Vector3d {0.0, 0.0675, -0.9977}
+            // ExpectedTargetSlidingGroundVelocityDirection - pointing westwards to compensate for Earth rotation
+        ),
+        // South point
+        std::make_tuple(
+            Angle::Degrees(90.0),      // Inclination
+            Angle::Degrees(270.0),     // TrueAnomaly
+            Vector3d {0.0, 0.0, 1.0},  // ExpectedTargetPositionDirection
+            Vector3d {1.0, 0.0, 0.0},  // ExpectedTargetVelocityDirection
+            Vector3d {1.0, 0.0, 0.0}
+            // ExpectedTargetSlidingGroundVelocityDirection - same as velocity direction because no rotation at pole
+        )
+    )
 );
