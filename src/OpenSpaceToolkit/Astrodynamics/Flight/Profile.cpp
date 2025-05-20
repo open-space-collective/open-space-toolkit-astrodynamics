@@ -90,7 +90,7 @@ Profile::TrajectoryTarget::TrajectoryTarget(
     if (aType == TargetType::Trajectory)
     {
         throw ostk::core::error::RuntimeError(
-            "TrajectoryTarget::Trajectory is deprecated. Use TrajectoryTarget::TargetPosition instead."
+            "TargetType::Trajectory is deprecated. Use TargetType::TargetPosition instead."
         );
     }
 

@@ -195,7 +195,7 @@ class Trajectory
     ///             duration);
     /// @endcode
     ///
-    /// @deprecated Use Trajectory::TargetScan instead.
+    /// @deprecated Use Trajectory(TargetScan::FromGroundSpeed(...)) instead.
     /// @param aStartLLA A start LLA
     /// @param anEndLLA An end LLA
     /// @param aGroundSpeed A ground speed
@@ -225,7 +225,7 @@ class Trajectory
     ///             Trajectory trajectory = Trajectory::GroundStrip(startLLA, endLLA, instants, earth);
     /// @endcode
     ///
-    /// @deprecated Use Trajectory::TargetScan instead.
+    /// @deprecated Use Trajectory(TargetScan(...)) instead.
     /// @param aStartLLA A start LLA
     /// @param anEndLLA An end LLA
     /// @param anInstantArray An array of instants

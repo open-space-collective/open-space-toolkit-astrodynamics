@@ -97,6 +97,10 @@ def profile(request) -> Profile:
 @pytest.fixture(
     params=[
         Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X),
+        Profile.TrajectoryTarget(
+            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            Profile.Axis.X,
+        ),
         Profile.TrajectoryTarget.target_position(
             Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
             Profile.Axis.X,

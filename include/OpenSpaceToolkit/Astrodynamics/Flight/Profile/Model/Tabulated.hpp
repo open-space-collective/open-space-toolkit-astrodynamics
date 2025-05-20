@@ -56,8 +56,8 @@ class Tabulated : public virtual Model
     /// @brief Constructor
     ///
     /// @param aStateArray An array of states
-    /// @deprecated Use the constructor with Interpolator::Type instead
-    [[deprecated("Use the constructor with Interpolator::Type instead")]]
+    /// @deprecated Use the constructor with Interpolator::Type instead.
+    [[deprecated("Use the constructor with Interpolator::Type instead.")]]
     Tabulated(const Array<State>& aStateArray);
 
     /// @brief Constructor
