@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
@@ -8,6 +9,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
 
 namespace ostk
 {
@@ -20,24 +23,38 @@ namespace profile
 namespace model
 {
 
-using ostk::core::container::Unpack;
-using ostk::core::type::Real;
+using ostk::core::type::Size;
 using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
-using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Transform;
-using ostk::physics::coordinate::Velocity;
-using ostk::physics::time::Duration;
+
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
+
+Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
+    : Model(),
+      stateArray_(aStateArray),
+      interpolatorType_(anInterpolatorType),
+      stateBuilder_(StateBuilder::Undefined()),
+      reducedStateBuilder_(StateBuilder::Undefined())
+{
+    setMembers(aStateArray);
+}
 
 Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
-      states_(aStateArray),
-      stateIndex_(0)
+      stateArray_(aStateArray),
+      interpolatorType_(Interpolator::Type::Linear),
+      stateBuilder_(StateBuilder::Undefined()),
+      reducedStateBuilder_(StateBuilder::Undefined())
 {
+    setMembers(aStateArray);
 }
 
 Tabulated* Tabulated::clone() const
@@ -52,7 +69,8 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         return false;
     }
 
-    return this->states_ == aTabulatedModel.states_;
+    return this->stateArray_ == aTabulatedModel.stateArray_ && this->stateBuilder_ == aTabulatedModel.stateBuilder_ &&
+           this->interpolators_ == aTabulatedModel.interpolators_;
 }
 
 bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
@@ -69,7 +87,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
 
 bool Tabulated::isDefined() const
 {
-    return !this->states_.isEmpty();
+    return !this->interpolators_.isEmpty() && !this->stateArray_.isEmpty() && this->stateBuilder_.isDefined();
 }
 
 Interval Tabulated::getInterval() const
@@ -79,7 +97,19 @@ Interval Tabulated::getInterval() const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return Interval::Closed(this->states_.accessFirst().accessInstant(), this->states_.accessLast().accessInstant());
+    return Interval::Closed(
+        this->stateArray_.accessFirst().accessInstant(), this->stateArray_.accessLast().accessInstant()
+    );
+}
+
+Interpolator::Type Tabulated::getInterpolatorType() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tabulated");
+    }
+
+    return this->interpolatorType_;
 }
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
@@ -94,53 +124,75 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    const Pair<const State*, const State*> stateRange = this->accessStateRangeAt(anInstant);
+    const Interval interval = this->getInterval();
 
-    if ((stateRange.first != nullptr) && (stateRange.second != nullptr))
+    if (anInstant < interval.accessStart() || anInstant > interval.accessEnd())
     {
-        const State& previousState = *(stateRange.first);
-        const State& nextState = *(stateRange.second);
-
-        const Real ratio = Duration::Between(previousState.accessInstant(), anInstant).inSeconds() /
-                           Duration::Between(previousState.accessInstant(), nextState.accessInstant()).inSeconds();
-
-        return State(
-                   anInstant,
-                   Position(
-                       previousState.getPosition().accessCoordinates() +
-                           ratio * (nextState.getPosition().accessCoordinates() -
-                                    previousState.getPosition().accessCoordinates()),
-                       previousState.getPosition().getUnit(),
-                       previousState.getPosition().accessFrame()
-                   ),
-                   Velocity(
-                       previousState.getVelocity().accessCoordinates() +
-                           ratio * (nextState.getVelocity().accessCoordinates() -
-                                    previousState.getVelocity().accessCoordinates()),
-                       previousState.getVelocity().getUnit(),
-                       previousState.getVelocity().accessFrame()
-                   ),
-                   Quaternion::SLERP(previousState.getAttitude(), nextState.getAttitude(), ratio),
-                   Vector3d(
-                       previousState.getAngularVelocity() +
-                       ratio * (nextState.getAngularVelocity() - previousState.getAngularVelocity())
-                   ),
-                   previousState.getFrame()
-        )
-            .inFrame(Frame::GCRF());
-    }
-    else if (stateRange.first != nullptr)
-    {
-        return (*(stateRange.first)).inFrame(Frame::GCRF());
-    }
-    else if (stateRange.second != nullptr)
-    {
-        return (*(stateRange.second)).inFrame(Frame::GCRF());
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Provided instant [{}] is outside of interpolation range [{}, {}].",
+            anInstant.toString(),
+            interval.accessStart().toString(),
+            interval.accessEnd().toString()
+        ));
     }
 
-    throw ostk::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString());
+    VectorXd reducedCoordinates(reducedStateBuilder_.getSize());
 
-    return State::Undefined();
+    const double durationSeconds = (anInstant - interval.accessStart()).inSeconds();
+
+    // Loop through all coordinate subsets except the last one (attitude quaternion)
+    for (Size coordinateIndex = 0; coordinateIndex < interpolators_.getSize(); ++coordinateIndex)
+    {
+        const auto& interpolator = this->interpolators_.at(coordinateIndex);
+        reducedCoordinates(coordinateIndex) = interpolator->evaluate(durationSeconds);
+    }
+
+    // Interpolate the attitude quaternion
+    // find the state before and after the instant
+    // for an std vector
+    const auto it = std::lower_bound(
+        this->stateArray_.begin(),
+        this->stateArray_.end(),
+        anInstant,
+        [](const State& state, const Instant& instant)
+        {
+            return state.accessInstant() < instant;
+        }
+    );
+
+    Quaternion qAtInstant = Quaternion::Undefined();
+
+    if (it == this->stateArray_.begin())
+    {
+        qAtInstant = stateArray_.accessFirst().getAttitude();
+    }
+    else if (it == this->stateArray_.end())
+    {
+        qAtInstant = stateArray_.accessLast().getAttitude();
+    }
+    else
+    {
+        const State& stateBefore = *(it - 1);
+        const State& stateAfter = *it;
+
+        const Quaternion qBefore = stateBefore.getAttitude();
+        const Quaternion qAfter = stateAfter.getAttitude();
+
+        const double ratio = (anInstant - stateBefore.accessInstant()).inSeconds() /
+                             (stateAfter.accessInstant() - stateBefore.accessInstant()).inSeconds();
+        qAtInstant = Quaternion::SLERP(qBefore, qAfter, ratio);
+    }
+
+    const State reducedState = reducedStateBuilder_.build(anInstant, reducedCoordinates);
+
+    const State attitudeQuaternionState = {
+        anInstant,
+        qAtInstant.toNormalized().toVector(Quaternion::Format::XYZS),
+        reducedStateBuilder_.accessFrame(),
+        {AttitudeQuaternion::Default()},
+    };
+
+    return stateBuilder_.expand(reducedState, attitudeQuaternionState);
 }
 
 Axes Tabulated::getAxesAt(const Instant& anInstant) const
@@ -181,12 +233,13 @@ Shared<const Frame> Tabulated::getBodyFrame(const String& aFrameName) const
         [this](const Instant& anInstant) -> Transform
         {
             const State state = this->calculateStateAt(anInstant);
+
             return Transform::Passive(
                 anInstant,
                 -state.getPosition().getCoordinates(),
                 -state.getVelocity().getCoordinates(),
                 state.getAttitude().normalize(),
-                Vector3d::Zero()
+                state.getAngularVelocity()
             );
         }
     };
@@ -194,7 +247,7 @@ Shared<const Frame> Tabulated::getBodyFrame(const String& aFrameName) const
     return Frame::Construct(
         aFrameName,
         false,
-        this->states_.accessFirst().accessFrame(),
+        this->stateBuilder_.accessFrame(),
         std::make_shared<const DynamicProvider>(dynamicTransformProvider)
     );
 }
@@ -211,8 +264,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Separator(anOutputStream);
 
     {
-        const State firstState =
-            this->isDefined() ? this->calculateStateAt(this->getInterval().accessStart()) : State::Undefined();
+        const State firstState = this->isDefined() ? stateArray_.accessFirst() : State::Undefined();
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "First state:"
@@ -226,8 +278,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     {
-        const State lastState =
-            this->isDefined() ? this->calculateStateAt(this->getInterval().accessEnd()) : State::Undefined();
+        const State lastState = this->isDefined() ? stateArray_.accessLast() : State::Undefined();
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "Last state:"
@@ -255,98 +306,51 @@ bool Tabulated::operator!=(const Model& aModel) const
     return !((*this) == aModel);
 }
 
-Pair<const State*, const State*> Tabulated::accessStateRangeAt(const Instant& anInstant) const
+void Tabulated::setMembers(const Array<State>& aStateArray)
 {
-    State const* previousStatePtr = nullptr;
-    State const* nextStatePtr = nullptr;
-
-    while (true)  // To be improved
+    if (aStateArray.getSize() < 2)
     {
-        Unpack(previousStatePtr, nextStatePtr) = this->accessStateRangeAtIndex(stateIndex_);  // Check index cache
-
-        if ((previousStatePtr != nullptr) && (nextStatePtr != nullptr))
-        {
-            if ((previousStatePtr->accessInstant() <= anInstant) && (anInstant <= nextStatePtr->accessInstant()))
-            {
-                if (previousStatePtr->accessInstant() == anInstant)
-                {
-                    return {nullptr, previousStatePtr};
-                }
-                else if (nextStatePtr->accessInstant() == anInstant)
-                {
-                    return {nextStatePtr, nullptr};
-                }
-
-                return {previousStatePtr, nextStatePtr};
-            }
-            else
-            {
-                if (anInstant < previousStatePtr->accessInstant())
-                {
-                    if (stateIndex_ > 0)
-                    {
-                        stateIndex_--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if ((states_.getSize() > 0) && (stateIndex_ < (states_.getSize() - 1)))
-                    {
-                        stateIndex_++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-        else if (previousStatePtr != nullptr)
-        {
-            if (previousStatePtr->accessInstant() == anInstant)
-            {
-                return {nullptr, previousStatePtr};
-            }
-            else
-            {
-                if (anInstant < previousStatePtr->accessInstant())
-                {
-                    if (stateIndex_ > 0)
-                    {
-                        stateIndex_--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    return {nullptr, nullptr};
-                }
-            }
-        }
-        else
-        {
-            stateIndex_ = 0;
-
-            break;
-        }
+        return;
     }
 
-    return {nullptr, nullptr};
-}
+    const State& firstState = aStateArray.accessFirst();
+    stateBuilder_ = StateBuilder(firstState);
 
-Pair<const State*, const State*> Tabulated::accessStateRangeAtIndex(const Index& anIndex) const
-{
-    const State* previousStatePtr = (anIndex < states_.getSize()) ? &(states_.at(anIndex)) : nullptr;
-    const State* nextStatePtr = ((anIndex + 1) < states_.getSize()) ? &(states_.at(anIndex + 1)) : nullptr;
+    Array<Shared<const CoordinateSubset>> reucedCoordinateSubsets = firstState.getCoordinateSubsets();
+    reucedCoordinateSubsets.remove(AttitudeQuaternion::Default());
+    reducedStateBuilder_ = StateBuilder(firstState.accessFrame(), reucedCoordinateSubsets);
 
-    return {previousStatePtr, nextStatePtr};
+    // Ensure the states are sorted by instant
+
+    Array<State> stateArray = aStateArray;
+
+    std::sort(
+        stateArray.begin(),
+        stateArray.end(),
+        [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.getInstant() < rhs.getInstant();
+        }
+    );
+
+    stateArray_ = stateArray;
+
+    VectorXd timestamps(stateArray.getSize());
+    MatrixXd coordinates(stateArray.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
+
+    for (Index i = 0; i < stateArray.getSize(); ++i)
+    {
+        timestamps(i) = (stateArray[i].accessInstant() - firstState.accessInstant()).inSeconds();
+
+        coordinates.row(i) = reducedStateBuilder_.reduce(stateArray[i]).accessCoordinates();
+    }
+
+    interpolators_.reserve(coordinates.cols());
+
+    for (Index i = 0; i < Size(coordinates.cols()); ++i)
+    {
+        interpolators_.add(Interpolator::GenerateInterpolator(interpolatorType_, timestamps, coordinates.col(i)));
+    }
 }
 
 }  // namespace model

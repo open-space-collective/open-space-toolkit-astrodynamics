@@ -3,6 +3,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/Nadir.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/Tabulated.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &aModule)
 {
@@ -83,5 +84,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
     // Create "model" python submodule
     auto model = aModule.def_submodule("model");
 
+    // Add objects to python submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(model);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(model);
 }

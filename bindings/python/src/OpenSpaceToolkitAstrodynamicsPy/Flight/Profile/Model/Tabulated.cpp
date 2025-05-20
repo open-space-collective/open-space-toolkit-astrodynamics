@@ -8,6 +8,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
     using ostk::core::container::Array;
 
+    using ostk::mathematics::curvefitting::Interpolator;
+
     using ostk::astrodynamics::flight::profile::Model;
     using ostk::astrodynamics::flight::profile::model::Tabulated;
     using ostk::astrodynamics::trajectory::State;
@@ -30,6 +32,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
                     states (Array[State]): The states of the model.
              )doc",
             arg("states")
+        )
+
+        .def(
+            init<const Array<State>&, const Interpolator::Type&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    states (Array[State]): The states of the model.
+                    interpolator_type (Interpolator.Type): The type of interpolator to use for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP).
+             )doc",
+            arg("states"),
+            arg("interpolator_type")
         )
 
         .def(
@@ -73,6 +88,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
                 Returns:
                     Interval: The interval of the model.
+             )doc"
+        )
+        .def(
+            "get_interpolator_type",
+            &Tabulated::getInterpolatorType,
+            R"doc(
+                Get the type of interpolator used in the model.
+
+                Returns:
+                    Interpolator.Type: The type of interpolator used in the model.
              )doc"
         )
 
@@ -120,8 +145,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
              )doc",
             arg("frame_name")
         )
-
-        // .def_static("load", &Tabulated::Load, arg("file"))
 
         ;
 }

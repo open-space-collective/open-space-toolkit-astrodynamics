@@ -270,6 +270,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker, Operati
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_FALSE(broker.hasSubset(subset_2));
         EXPECT_FALSE(broker.hasSubset(subset_3));
+        EXPECT_EQ(broker.getSubsetIndex(subset_1), 0);
 
         // Add subset 2
         EXPECT_EQ(1, broker.addSubset(subset_2));
@@ -279,6 +280,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker, Operati
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_TRUE(broker.hasSubset(subset_2));
         EXPECT_FALSE(broker.hasSubset(subset_3));
+        EXPECT_EQ(broker.getSubsetIndex(subset_2), 1);
+        EXPECT_THROW(broker.getSubsetIndex(subset_3), ostk::core::error::RuntimeError);
 
         // Add subset 3
         EXPECT_EQ(3, broker.addSubset(subset_3));
