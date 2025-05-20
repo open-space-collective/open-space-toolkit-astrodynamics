@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1747715194338,
+  "lastUpdate": 1747719178699,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 3189435124.700009,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3189202457.9000025 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d9752e71062b9d24e7c8bbc4408d1217aba47ad9",
+          "message": "feat: target scan trajectory model (#555)\n\n* feat: add TargetScan trajectory model\n\n* feat: fix tests\n\n* feat: address remaining feedback\n\n* Apply suggestions from code review\n\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>\n\n* chore: small cleanup\n\n* feat: address feedback\n\n---------\n\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>",
+          "timestamp": "2025-05-20T05:12:31Z",
+          "tree_id": "9c0928a25bca24aa586f7a57184943e301dda042",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/d9752e71062b9d24e7c8bbc4408d1217aba47ad9"
+        },
+        "date": 1747719176793,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 543899662.9000087,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 543734516.8000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 882410955.6000111,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 882326508.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3195603337.5999937,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3195326184.5999994 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3194870278.499991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3194728963.8999977 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3198098311.2999983,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3197863271.200005 ns\nthreads: 1"
           }
         ]
       }
