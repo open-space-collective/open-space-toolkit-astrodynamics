@@ -18,6 +18,21 @@
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1guidancelaw">ostk::astrodynamics::guidancelaw</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1solver">ostk::astrodynamics::solver</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory">ostk::astrodynamics::trajectory</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1a90fb31185a26557266b5d010daba8394" prot="public" static="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">ostk::astrodynamics::trajectory::model::TargetScan</ref></type>
+        <definition>using ostk::astrodynamics::TargetScanModel = typedef ostk::astrodynamics::trajectory::model::TargetScan</definition>
+        <argsstring></argsstring>
+        <name>TargetScanModel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="35" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1a5e6d159c5e5080292415c001bfeeb5a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -251,7 +266,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="75" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="75" bodyend="80"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="80" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="80" bodyend="85"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

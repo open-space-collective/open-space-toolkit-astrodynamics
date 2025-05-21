@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="327" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="327" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="332" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="332" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac63825246d6347c7431328a7e83c938f" prot="private" static="no" mutable="no">
         <type>Shared&lt; const Celestial &gt;</type>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="329" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="329" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="334" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="334" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1aa60bc82dc85cd9d93f68b27ae69eef5e" prot="private" static="no" mutable="yes">
         <type>std::mutex</type>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="331" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="331" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="336" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="336" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1aa8292e63125f136f11d9de5e29309e7c" prot="private" static="no" mutable="yes">
         <type>Map&lt; Integer, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;</type>
@@ -144,7 +144,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="332" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="332" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="337" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="337" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -389,6 +389,23 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="129" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="149" bodyend="153"/>
       </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1af4ceca24cbf9d682651f1eab4f8c4bb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const Celestial &gt;</type>
+        <definition>const Shared&lt; const Celestial &gt; ostk::astrodynamics::trajectory::Orbit::accessCelestialObject</definition>
+        <argsstring>() const</argsstring>
+        <name>accessCelestialObject</name>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> the celestial object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to the celestial object. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="134" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="155" bodyend="163"/>
+      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a67553e524c37d74359548676bb501cb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
         <definition>Integer ostk::astrodynamics::trajectory::Orbit::getRevolutionNumberAt</definition>
@@ -417,7 +434,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="135" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="155" bodyend="163"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="140" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="165" bodyend="173"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac699476394541956810059e89b7b5732" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref></type>
@@ -447,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="141" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="165" bodyend="173"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="146" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="175" bodyend="183"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a6a5639866b5487f0a72960f3247a7685" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref></type>
@@ -490,7 +507,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="148" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="175" bodyend="319"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="153" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="185" bodyend="329"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a93ae8d3ec26e41d848b4742bda05e771" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;</type>
@@ -520,7 +537,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="156" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="321" bodyend="368"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="161" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="331" bodyend="378"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ab53a007a76ed06ff7901edcbede3a853" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -550,7 +567,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="162" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="370" bodyend="723"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="167" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="380" bodyend="733"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1acfc9841a0a122ab45e9a7b945130a0dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -592,7 +609,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="168" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="725" bodyend="743"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="173" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="735" bodyend="753"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -611,7 +628,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="173" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="745" bodyend="748"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="178" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="755" bodyend="758"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a7e32f0d281ea72dbba2199f2d91c93cc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -678,7 +695,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="184" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="750" bodyend="792"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="189" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="760" bodyend="802"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1afd7b71443830562d589158667a678952" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -745,7 +762,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="200" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="794" bodyend="848"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="205" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="804" bodyend="858"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a172a47f4555fa3b3f8e3863f5b8459fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -800,7 +817,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="215" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="850" bodyend="855"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="220" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="860" bodyend="865"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a5dadd77b377ec8db4d9f74012716df9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -867,7 +884,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="228" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="857" bodyend="922"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="233" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="867" bodyend="932"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1addbf182a308b0ea313d2dd2f5828477d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -948,7 +965,7 @@
         <inbodydescription>
 <para>Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292</para>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="245" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="924" bodyend="1079"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="250" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="934" bodyend="1089"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1abfe96c2c860e18c24672daff8e9b9062" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
@@ -1080,7 +1097,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="285" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1081" bodyend="1115"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="290" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1091" bodyend="1125"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a1f1c1d83a8aca5f924e053a7e197c2a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -1110,7 +1127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="300" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1117" bodyend="1154"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="305" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1127" bodyend="1164"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a970789fecee44d1fb733b9ada798f0d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Pair&lt; Index, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt; &gt;</type>
@@ -1152,7 +1169,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="307" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1164" bodyend="1219"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="312" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1174" bodyend="1229"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ae548778fd251f1099f1aa1c2445ca559" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kindref="compound">Pass</ref> &gt;</type>
@@ -1218,7 +1235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="319" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1221" bodyend="1308"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="324" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1231" bodyend="1318"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -1237,7 +1254,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="334" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1156" bodyend="1162"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="339" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1166" bodyend="1172"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -1305,7 +1322,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="345" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1310" bodyend="1326"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="350" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1320" bodyend="1336"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ad995d450ecf4656c3c30c496d83aee9e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Tuple&lt; Instant, Instant, Instant, Instant &gt;</type>
@@ -1384,7 +1401,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="362" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1328" bodyend="1450"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="367" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp" bodystart="1338" bodyend="1460"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1417,8 +1434,9 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="62" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="61" bodyend="369"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" line="62" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp" bodystart="61" bodyend="374"/>
     <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1af4ceca24cbf9d682651f1eab4f8c4bb1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>accessCelestialObject</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_trajectory_1a00e0200bc70fc7c5c764b2204f3232f8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>accessModel</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1ac63825246d6347c7431328a7e83c938f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>celestialObjectSPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit_1a7e32f0d281ea72dbba2199f2d91c93cc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Orbit</scope><name>Circular</name></member>

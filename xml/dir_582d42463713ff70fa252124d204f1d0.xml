@@ -2,8 +2,10 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_582d42463713ff70fa252124d204f1d0" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model</compoundname>
+    <innerfile refid="_nadir_8hpp">Nadir.hpp</innerfile>
     <innerfile refid="_static_8hpp">Static.hpp</innerfile>
     <innerfile refid="_trajectory_2_model_2_tabulated_8hpp">Tabulated.hpp</innerfile>
+    <innerfile refid="_target_scan_8hpp">TargetScan.hpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

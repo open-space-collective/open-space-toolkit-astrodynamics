@@ -203,65 +203,70 @@
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a73e0a0d0fe5602968cafb364b056c685" kindref="member">hasSubset</ref>(aCoordinateSubsetSPtr-&gt;getId());</highlight></codeline>
 <codeline lineno="108"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" kindref="member">CoordinateBroker::extractCoordinate</ref>(</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CoordinateSubset&amp;<sp/>aCoordinateSubset</highlight></codeline>
-<codeline lineno="112"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="113"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aFullCoordinatesVector.segment(this-&gt;getSubsetIndex(aCoordinateSubset.getId()),<sp/>aCoordinateSubset.getSize());</highlight></codeline>
-<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8f150ae5d47df5277fccf195db201ea8" kindref="member">CoordinateBroker::extractCoordinates</ref>(</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;&amp;<sp/>aCoordinateSubsetsArray</highlight></codeline>
-<codeline lineno="119"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="120"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>coordinateSubsetsSize<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>subset<sp/>:<sp/>aCoordinateSubsetsArray)</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinateSubsetsSize<sp/>+=<sp/>subset-&gt;getSize();</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>coordinateSubsetsVector(coordinateSubsetsSize);</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>startIndex<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>subset<sp/>:<sp/>aCoordinateSubsetsArray)</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinateSubsetsVector.segment(startIndex,<sp/>subset-&gt;getSize())<sp/>=</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aFullCoordinatesVector.segment(this-&gt;getSubsetIndex(subset-&gt;getId()),<sp/>subset-&gt;getSize());</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>startIndex<sp/>+=<sp/>subset-&gt;getSize();</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>coordinateSubsetsVector;</highlight></codeline>
-<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"></highlight></codeline>
-<codeline lineno="141"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" kindref="member">CoordinateBroker::extractCoordinate</ref>(</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr</highlight></codeline>
-<codeline lineno="143"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="144"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" kindref="member">extractCoordinate</ref>(aFullCoordinatesVector,<sp/>*aCoordinateSubsetSPtr);</highlight></codeline>
-<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"></highlight></codeline>
-<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a73e0a0d0fe5602968cafb364b056c685" kindref="member">CoordinateBroker::hasSubset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>anId)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">Index<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ac5cde850ec68bc33734a4839e758f24f" kindref="member">CoordinateBroker::getSubsetIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="111"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ac5cde850ec68bc33734a4839e758f24f" kindref="member">getSubsetIndex</ref>(aCoordinateSubsetSPtr-&gt;getId());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" kindref="member">CoordinateBroker::extractCoordinate</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CoordinateSubset&amp;<sp/>aCoordinateSubset</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="118"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>aFullCoordinatesVector.segment(this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ac5cde850ec68bc33734a4839e758f24f" kindref="member">getSubsetIndex</ref>(aCoordinateSubset.getId()),<sp/>aCoordinateSubset.getSize());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a8f150ae5d47df5277fccf195db201ea8" kindref="member">CoordinateBroker::extractCoordinates</ref>(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;&amp;<sp/>aCoordinateSubsetsArray</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="125"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>coordinateSubsetsSize<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>subset<sp/>:<sp/>aCoordinateSubsetsArray)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinateSubsetsSize<sp/>+=<sp/>subset-&gt;getSize();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>coordinateSubsetsVector(coordinateSubsetsSize);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>startIndex<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>subset<sp/>:<sp/>aCoordinateSubsetsArray)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinateSubsetsVector.segment(startIndex,<sp/>subset-&gt;getSize())<sp/>=</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aFullCoordinatesVector.segment(this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ac5cde850ec68bc33734a4839e758f24f" kindref="member">getSubsetIndex</ref>(subset-&gt;getId()),<sp/>subset-&gt;getSize());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>startIndex<sp/>+=<sp/>subset-&gt;getSize();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>coordinateSubsetsVector;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" kindref="member">CoordinateBroker::extractCoordinate</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="149"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;coordinateSubsetsIndexMap_.count(anId)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a44cdc28dd947c4e5c06bfd6de8493ea6" kindref="member">extractCoordinate</ref>(aFullCoordinatesVector,<sp/>*aCoordinateSubsetSPtr);</highlight></codeline>
 <codeline lineno="151"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="152"><highlight class="normal"></highlight></codeline>
-<codeline lineno="153"><highlight class="normal">Index<sp/>CoordinateBroker::getSubsetIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>anId)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1a73e0a0d0fe5602968cafb364b056c685" kindref="member">CoordinateBroker::hasSubset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>anId)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="154"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>search<sp/>=<sp/>this-&gt;coordinateSubsetsIndexMap_.find(anId);</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(search<sp/>==<sp/>this-&gt;coordinateSubsetsIndexMap_.end())</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Coordinates<sp/>subset<sp/>[{}]<sp/>not<sp/>found&quot;</highlight><highlight class="normal">,<sp/>anId);</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;coordinateSubsetsIndexMap_.count(anId)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">Index<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker_1ac5cde850ec68bc33734a4839e758f24f" kindref="member">CoordinateBroker::getSubsetIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>anId)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="159"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>search<sp/>=<sp/>this-&gt;coordinateSubsetsIndexMap_.find(anId);</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>search-&gt;second;</highlight></codeline>
-<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight></codeline>
-<codeline lineno="165"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>state</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="166"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="168"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(search<sp/>==<sp/>this-&gt;coordinateSubsetsIndexMap_.end())</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Coordinates<sp/>subset<sp/>[{}]<sp/>not<sp/>found&quot;</highlight><highlight class="normal">,<sp/>anId);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>search-&gt;second;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp"/>
   </compounddef>

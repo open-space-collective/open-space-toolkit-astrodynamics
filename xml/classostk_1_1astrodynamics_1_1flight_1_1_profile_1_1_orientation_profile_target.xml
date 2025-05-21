@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="193" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="193" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="208" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="208" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="196" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="196" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="211" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="211" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="181" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="94" bodyend="123"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="196" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="104" bodyend="133"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_orientation_profile_target_1aac2d8cf6c63df0285ac1eead41bb8d68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Vector3d</type>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="191" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="125" bodyend="137"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="206" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="135" bodyend="147"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -156,7 +156,7 @@
         <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="174" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="173" bodyend="197"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="189" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="188" bodyend="212"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a64c09bafe204f7fb7b2e152ff7c49d00" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>antiDirection</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a6c746cc29caea39fbd308fc78b415fbc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::OrientationProfileTarget</scope><name>axis</name></member>

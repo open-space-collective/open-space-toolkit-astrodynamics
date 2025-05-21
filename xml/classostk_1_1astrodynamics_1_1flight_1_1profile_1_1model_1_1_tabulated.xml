@@ -5,31 +5,70 @@
     <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model" prot="public" virt="virtual">ostk::astrodynamics::flight::profile::Model</basecompoundref>
     <includes refid="_flight_2_profile_2_model_2_tabulated_8hpp" local="no">Tabulated.hpp</includes>
       <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a7a8a5b8ddd0e7d20ee4392be50d7ca63" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1adbac7681b3179891183cbc83b7e0daab" prot="private" static="no" mutable="no">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
-        <definition>Array&lt;State&gt; ostk::astrodynamics::flight::profile::model::Tabulated::states_</definition>
+        <definition>Array&lt;State&gt; ostk::astrodynamics::flight::profile::model::Tabulated::stateArray_</definition>
         <argsstring></argsstring>
-        <name>states_</name>
+        <name>stateArray_</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="76" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="76" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="153" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="153" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aedf9e9efcbbd06177efc8a1c87dd4265" prot="private" static="no" mutable="yes">
-        <type>Index</type>
-        <definition>Index ostk::astrodynamics::flight::profile::model::Tabulated::stateIndex_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a805c33fd36c3e4858e005276c063a53c" prot="private" static="no" mutable="no">
+        <type>Interpolator::Type</type>
+        <definition>Interpolator::Type ostk::astrodynamics::flight::profile::model::Tabulated::interpolatorType_</definition>
         <argsstring></argsstring>
-        <name>stateIndex_</name>
+        <name>interpolatorType_</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="77" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="77" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="154" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a53dcb9535d2608347189bea58ac59f54" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref></type>
+        <definition>StateBuilder ostk::astrodynamics::flight::profile::model::Tabulated::stateBuilder_</definition>
+        <argsstring></argsstring>
+        <name>stateBuilder_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="155" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1abbe2fb29dbb84514511f474e03518a5e" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; const Interpolator &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const Interpolator&gt; &gt; ostk::astrodynamics::flight::profile::model::Tabulated::interpolators_</definition>
+        <argsstring></argsstring>
+        <name>interpolators_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="156" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a060263a5b1e86be9f12f3f2a5139b74f" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref></type>
+        <definition>StateBuilder ostk::astrodynamics::flight::profile::model::Tabulated::reducedStateBuilder_</definition>
+        <argsstring></argsstring>
+        <name>reducedStateBuilder_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="158" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="158" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -43,12 +82,64 @@
           <declname>aStateArray</declname>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of states </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use the constructor with Interpolator::Type instead. </para>
+</xrefdescription></xrefsect></para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="46" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="36" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="61" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1a82b8753c71947aa939463d852c785c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::profile::model::Tabulated::Tabulated</definition>
+        <argsstring>(const Array&lt; State &gt; &amp;aStateArray, const Interpolator::Type &amp;anInterpolatorType)</argsstring>
+        <name>Tabulated</name>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>aStateArray</declname>
+        </param>
+        <param>
+          <type>const Interpolator::Type &amp;</type>
+          <declname>anInterpolatorType</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of states </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterpolatorType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of interpolation used for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="68" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="40" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d9eb6c894a7840cc60a813a3d17254f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> *</type>
@@ -57,12 +148,16 @@
         <name>clone</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1aac46947479dc4ea97a4928123f3de026">clone</reimplements>
         <briefdescription>
+<para>Clone the tabulated model. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the cloned tabulated model </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="48" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="43" bodyend="46"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="73" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="60" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1ae490082070779658d14b916af39a5edd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -74,12 +169,25 @@
           <declname>aTabulatedModel</declname>
         </param>
         <briefdescription>
+<para>Equal to operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another tabulated model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are equal </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="50" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="48" bodyend="56"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="65" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1ac179252e482ba74f3c06b2bafce8d5e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -91,12 +199,25 @@
           <declname>aTabulatedModel</declname>
         </param>
         <briefdescription>
+<para>Not equal to operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another tabulated model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are not equal </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="52" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="58" bodyend="61"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="76" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a7903e9a4e4059b4aa53f4abd498c7de8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -105,12 +226,16 @@
         <name>isDefined</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92">isDefined</reimplements>
         <briefdescription>
+<para>Check if the tabulated model is defined. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>True if the model is defined </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="56" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="70" bodyend="73"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="97" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="88" bodyend="91"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a17bbc3eb3937088dad85194414776dd5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interval</type>
@@ -118,12 +243,33 @@
         <argsstring>() const</argsstring>
         <name>getInterval</name>
         <briefdescription>
+<para>Get the interval of the tabulated model. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>Interval of the model </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="58" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="75" bodyend="83"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="102" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="93" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aea7795b637195ac290f4eac14bf7b7cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Interpolator::Type</type>
+        <definition>Interpolator::Type ostk::astrodynamics::flight::profile::model::Tabulated::getInterpolatorType</definition>
+        <argsstring>() const</argsstring>
+        <name>getInterpolatorType</name>
+        <briefdescription>
+<para>Get the interpolator type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Interpolator type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="107" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="105" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a90790cac830cafbda9cc942053616be1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -136,12 +282,25 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Calculate the state at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>State at the given instant </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="60" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="85" bodyend="144"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="113" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="115" bodyend="196"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aa149a11f3392bddf97fee17203a9cd05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Axes</type>
@@ -154,12 +313,25 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Get the axes at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Axes at the given instant </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="62" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="146" bodyend="166"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="119" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="198" bodyend="218"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a477a959c4e3d55b88bc5d64e508908b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -172,12 +344,25 @@
           <declname>aFrameName</declname>
         </param>
         <briefdescription>
+<para>Get the body frame for a given frame name. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the frame </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to the frame </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="64" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="168" bodyend="200"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="125" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="220" bodyend="253"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aa6f460540db47fd1c36b61f4c28a4208" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -195,12 +380,31 @@
           <defval>true</defval>
         </param>
         <briefdescription>
+<para>Print the tabulated model to an output stream. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="66" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="202" bodyend="244"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="131" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="255" bodyend="295"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -218,12 +422,33 @@
           <declname>aTabulatedModel</declname>
         </param>
         <briefdescription>
+<para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A tabulated model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="54" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="63" bodyend="68"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="92" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="81" bodyend="86"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -237,12 +462,25 @@
           <declname>aFile</declname>
         </param>
         <briefdescription>
+<para>Load a tabulated model from a file. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> model </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="68" column="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="137" column="22"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -257,12 +495,25 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Equal to operator for the base model. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are equal </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="71" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="246" bodyend="251"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="144" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="297" bodyend="302"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1ad55eded7684a195754f9f389757e3527" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -275,23 +526,36 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Not equal to operator for the base model. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are not equal </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="73" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="253" bodyend="256"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="150" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="304" bodyend="307"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d7d1e06b1f62d7691f14ac633cd3601" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Pair&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> *, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> * &gt;</type>
-        <definition>Pair&lt; const State *, const State * &gt; ostk::astrodynamics::flight::profile::model::Tabulated::accessStateRangeAt</definition>
-        <argsstring>(const Instant &amp;anInstant) const</argsstring>
-        <name>accessStateRangeAt</name>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1adbf900a1a0d2824daf3f1f972083cde9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::flight::profile::model::Tabulated::setMembers</definition>
+        <argsstring>(const Array&lt; State &gt; &amp;aStateArray)</argsstring>
+        <name>setMembers</name>
         <param>
-          <type>const Instant &amp;</type>
-          <declname>anInstant</declname>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <declname>aStateArray</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -299,30 +563,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="258" bodyend="342"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a39df0e022c9f6b7805aacc588ab03c85" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Pair&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> *, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> * &gt;</type>
-        <definition>Pair&lt; const State *, const State * &gt; ostk::astrodynamics::flight::profile::model::Tabulated::accessStateRangeAtIndex</definition>
-        <argsstring>(const Index &amp;anIndex) const</argsstring>
-        <name>accessStateRangeAtIndex</name>
-        <param>
-          <type>const Index &amp;</type>
-          <declname>anIndex</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="81" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="344" bodyend="350"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="160" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="309" bodyend="354"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> profile model. </para>
     </briefdescription>
     <detaileddescription>
+<para>Represents a tabulated profile model based on a set of states. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -348,17 +596,18 @@
         <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="43" bodyend="82"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="54" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="53" bodyend="161"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d7d1e06b1f62d7691f14ac633cd3601" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>accessStateRangeAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a39df0e022c9f6b7805aacc588ab03c85" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>accessStateRangeAtIndex</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a90790cac830cafbda9cc942053616be1" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a49434a67dfcbbe324264b25b19da3d5c" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>calculateStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d9eb6c894a7840cc60a813a3d17254f" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aa149a11f3392bddf97fee17203a9cd05" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>getAxesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a477a959c4e3d55b88bc5d64e508908b4" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>getBodyFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aea7795b637195ac290f4eac14bf7b7cb" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>getInterpolatorType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a17bbc3eb3937088dad85194414776dd5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>getInterval</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1abbe2fb29dbb84514511f474e03518a5e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>interpolators_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a805c33fd36c3e4858e005276c063a53c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>interpolatorType_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>is</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a7903e9a4e4059b4aa53f4abd498c7de8" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a2813f0578752804dbacce417c77b321a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>Load</name></member>
@@ -369,9 +618,12 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1ae490082070779658d14b916af39a5edd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1ad52b629dd364dec990c036edb65856" prot="protected" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aa6f460540db47fd1c36b61f4c28a4208" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1aedf9e9efcbbd06177efc8a1c87dd4265" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>stateIndex_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a7a8a5b8ddd0e7d20ee4392be50d7ca63" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>states_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a060263a5b1e86be9f12f3f2a5139b74f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>reducedStateBuilder_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1adbf900a1a0d2824daf3f1f972083cde9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>setMembers</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1adbac7681b3179891183cbc83b7e0daab" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>stateArray_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a53dcb9535d2608347189bea58ac59f54" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>stateBuilder_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a72a86fee75a883f0fa30b23aea029381" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>Tabulated</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1a82b8753c71947aa939463d852c785c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>Tabulated</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1abbc19a00caf6c2c526921bcf0f20599a" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::model::Tabulated</scope><name>~Model</name></member>
     </listofallmembers>
   </compounddef>

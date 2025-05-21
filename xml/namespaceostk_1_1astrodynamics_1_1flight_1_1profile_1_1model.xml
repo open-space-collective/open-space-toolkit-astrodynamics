@@ -5,6 +5,19 @@
     <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated" prot="public">ostk::astrodynamics::flight::profile::model::Tabulated</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" prot="public">ostk::astrodynamics::flight::profile::model::Transform</innerclass>
       <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a3f18d765ced384de6737f362418f1f67" prot="public" static="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated" kindref="compound">ostk::astrodynamics::trajectory::model::Tabulated</ref></type>
+        <definition>using ostk::astrodynamics::flight::profile::model::TabulatedTrajectory = typedef ostk::astrodynamics::trajectory::model::Tabulated</definition>
+        <argsstring></argsstring>
+        <name>TabulatedTrajectory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="46" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1aaa0373529fefab449f97fd611e64d420" prot="public" static="no">
         <type>ostk::physics::coordinate::frame::provider::Dynamic</type>
         <definition>typedef ostk::physics::coordinate::frame::provider::Dynamic ostk::astrodynamics::flight::profile::model::DynamicProvider</definition>
@@ -36,10 +49,30 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A tabulated model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="63" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="63" bodyend="68"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="81" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="81" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a9d89a7d2993371420d8d24c2ac80d92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -67,6 +100,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="26" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp" line="30" column="1"/>
   </compounddef>
 </doxygen>

@@ -1,0 +1,770 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::model::TargetScan</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" prot="public" virt="virtual">ostk::astrodynamics::trajectory::Model</basecompoundref>
+    <includes refid="_target_scan_8hpp" local="no">TargetScan.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a80f7980648dd4c5fb6307365436174e1" prot="private" static="no" mutable="no">
+        <type>LLA</type>
+        <definition>LLA ostk::astrodynamics::trajectory::model::TargetScan::startLLA_</definition>
+        <argsstring></argsstring>
+        <name>startLLA_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="249" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ac26092eb88a3ff2524e6a1938847b8b6" prot="private" static="no" mutable="no">
+        <type>LLA</type>
+        <definition>LLA ostk::astrodynamics::trajectory::model::TargetScan::endLLA_</definition>
+        <argsstring></argsstring>
+        <name>endLLA_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="250" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a59c2b11845815507fef5e068c146d6a7" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::model::TargetScan::startInstant_</definition>
+        <argsstring></argsstring>
+        <name>startInstant_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="251" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1af6deef3a825d3fd8e39b05fea3df6f34" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::model::TargetScan::endInstant_</definition>
+        <argsstring></argsstring>
+        <name>endInstant_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="252" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a429b21801d0d0bb88f8bfa86df6fd3fa" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Celestial &gt;</type>
+        <definition>Shared&lt;const Celestial&gt; ostk::astrodynamics::trajectory::model::TargetScan::celestialSPtr_</definition>
+        <argsstring></argsstring>
+        <name>celestialSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="253" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a65509a4263361d75eba65a89d1bdb81b" prot="private" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::model::TargetScan::stepSize_</definition>
+        <argsstring></argsstring>
+        <name>stepSize_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="254" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::model::TargetScan::TargetScan</definition>
+        <argsstring>(const LLA &amp;aStartLLA, const LLA &amp;anEndLLA, const Instant &amp;aStartInstant, const Instant &amp;anEndInstant, const Celestial &amp;aCelestialObject=Earth::WGS84(), const Duration &amp;aStepSize=Duration::Seconds(1e-2))</argsstring>
+        <name>TargetScan</name>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>aStartLLA</declname>
+        </param>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>anEndLLA</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>aStartInstant</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEndInstant</declname>
+        </param>
+        <param>
+          <type>const Celestial &amp;</type>
+          <declname>aCelestialObject</declname>
+          <defval>Earth::WGS84()</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aStepSize</declname>
+          <defval>Duration::Seconds(1e-2)</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">LLA<sp/>startLLA<sp/>=<sp/>LLA::Vector({0.0,<sp/>0.0,<sp/>0.0});</highlight></codeline>
+<codeline><highlight class="normal">LLA<sp/>endLLA<sp/>=<sp/>LLA::Vector({1.0,<sp/>1.0,<sp/>1.0});</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>startInstant<sp/>=<sp/>Instant::DateTime(DateTime::Parse(</highlight><highlight class="stringliteral">&quot;2020-01-01<sp/>00:00:00&quot;</highlight><highlight class="normal">),<sp/>Scale::UTC);</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>endInstant<sp/>=<sp/>Instant::DateTime(DateTime::Parse(</highlight><highlight class="stringliteral">&quot;2020-01-01<sp/>00:00:10&quot;</highlight><highlight class="normal">),<sp/>Scale::UTC);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel(startLLA,<sp/>endLLA,<sp/>startInstant,<sp/>endInstant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStartLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting LLA of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ending LLA of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStartInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting instant of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ending instant of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestialObject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The celestial object (default: Earth::WGS84()) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step size for the target scan (default: 1e-2 second) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="30" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a0f2755ad9d4a7468ac36e03d008f7a48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref> *</type>
+        <definition>TargetScan * ostk::astrodynamics::trajectory::model::TargetScan::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd">clone</reimplements>
+        <briefdescription>
+<para>Clone the static model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref>*<sp/>clonedModel<sp/>=<sp/>targetScanModel.clone();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A pointer to the cloned static model </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="69" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aab8c2230f365413ee5609064920409d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>LLA</type>
+        <definition>LLA ostk::astrodynamics::trajectory::model::TargetScan::getStartLLA</definition>
+        <argsstring>() const</argsstring>
+        <name>getStartLLA</name>
+        <briefdescription>
+<para>Get the starting LLA of the target scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">LLA<sp/>startLLA<sp/>=<sp/>targetScanModel.getStartLLA();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The starting LLA of the target scan </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="79" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a27e06147a188961379dc86f8dfe580ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>LLA</type>
+        <definition>LLA ostk::astrodynamics::trajectory::model::TargetScan::getEndLLA</definition>
+        <argsstring>() const</argsstring>
+        <name>getEndLLA</name>
+        <briefdescription>
+<para>Get the ending LLA of the target scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">LLA<sp/>endLLA<sp/>=<sp/>targetScanModel.getEndLLA();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The ending LLA of the target scan </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="89" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="173" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a1d4cbb2737179350ec10f06069dee0b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::model::TargetScan::getStartInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getStartInstant</name>
+        <briefdescription>
+<para>Get the starting instant of the target scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>startInstant<sp/>=<sp/>targetScanModel.getStartInstant();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The starting instant of the target scan </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="99" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a8c85a9d31fa670229ce9d93b8d724a90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::model::TargetScan::getEndInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getEndInstant</name>
+        <briefdescription>
+<para>Get the ending instant of the target scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>endInstant<sp/>=<sp/>targetScanModel.getEndInstant();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The ending instant of the target scan </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="109" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="183" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a2910840101d43cdfbdfb79f26f864b73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Celestial</type>
+        <definition>Celestial ostk::astrodynamics::trajectory::model::TargetScan::getCelestial</definition>
+        <argsstring>() const</argsstring>
+        <name>getCelestial</name>
+        <briefdescription>
+<para>Get the celestial object of the target scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Celestial<sp/>celestialObject<sp/>=<sp/>targetScanModel.getCelestial();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The celestial object of the target scan </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="119" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="188" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a8c6830480aaa2d6825031c729810e27f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::model::TargetScan::getStepSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getStepSize</name>
+        <briefdescription>
+<para>Get the step size of the target scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Duration<sp/>stepSize<sp/>=<sp/>targetScanModel.getStepSize();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The step size of the target scan </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="129" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="193" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a028afc98010a0ea2bb1ab09eac3fe48f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::TargetScan::operator==</definition>
+        <argsstring>(const TargetScan &amp;aTargetScanModel) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref> &amp;</type>
+          <declname>aTargetScanModel</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel1<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel2<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/>(targetScanModel1<sp/>==<sp/>targetScanModel2);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTargetScanModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="141" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aaffa6d8345699038a95e817a436d1b38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::TargetScan::operator!=</definition>
+        <argsstring>(const TargetScan &amp;aTargetScanModel) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref> &amp;</type>
+          <declname>aTargetScanModel</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel1<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel2<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/>(targetScanModel1<sp/>!=<sp/>targetScanModel2);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTargetScanModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are not equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="153" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1abbbcf0ddb2c131007c33e33da32b8ce0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::TargetScan::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481">isDefined</reimplements>
+        <briefdescription>
+<para>Check if the static model is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1abbbcf0ddb2c131007c33e33da32b8ce0" kindref="member">isDefined</ref><sp/>=<sp/>targetScanModel.isDefined();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the model is defined, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="175" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aef489244fe28239fc380d45a150cd334" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::trajectory::model::TargetScan::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>calculateStateAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a6fb011dadcbafb410efd0b02cb8ade57">calculateStateAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the state at a given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>targetScanModel.calculateStateAt(instant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to calculate the state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The state at the given instant </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="187" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="83" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ab7482c810778fe7d9c3ef82464dfb2ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::trajectory::model::TargetScan::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a4c369772dbc81298959e594cbfbc7270">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the static model to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">targetScanModel.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="198" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="198" bodyend="224"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1af8c8b509431d861325a8a6b1f8d81cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const TargetScan &amp;aTargetScanModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref> &amp;</type>
+          <declname>aTargetScanModel</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>targetScanModel;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetScanModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to output </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="165" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aa7014cdec8ae0b815127d472a092721d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref></type>
+        <definition>TargetScan ostk::astrodynamics::trajectory::model::TargetScan::FromGroundSpeed</definition>
+        <argsstring>(const LLA &amp;aStartLLA, const LLA &amp;anEndLLA, const Derived &amp;aGroundSpeed, const Instant &amp;aStartInstant, const Celestial &amp;aCelestialObject=Earth::WGS84(), const Duration &amp;aStepSize=Duration::Seconds(1e-2))</argsstring>
+        <name>FromGroundSpeed</name>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>aStartLLA</declname>
+        </param>
+        <param>
+          <type>const LLA &amp;</type>
+          <declname>anEndLLA</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGroundSpeed</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>aStartInstant</declname>
+        </param>
+        <param>
+          <type>const Celestial &amp;</type>
+          <declname>aCelestialObject</declname>
+          <defval>Earth::WGS84()</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aStepSize</declname>
+          <defval>Duration::Seconds(1e-2)</defval>
+        </param>
+        <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static" kindref="compound">Static</ref> method to create a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref> from ground speed. Computes the end instant based on the ground speed, and the distance between the start and end LLA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aa7014cdec8ae0b815127d472a092721d" kindref="member">TargetScan::FromGroundSpeed</ref>(startLLA,<sp/>endLLA,<sp/>groundSpeed,</highlight></codeline>
+<codeline><highlight class="normal">startInstant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStartLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting LLA of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEndLLA</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ending LLA of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGroundSpeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ground speed of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStartInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting instant of the target scan </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCelestialObject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The celestial object (default: Earth::WGS84()) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step size for the target scan (default: 1e-2 second) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="214" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="238" bodyend="292"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a961aa0514cc3889cf37190e530d18b5b" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::TargetScan::operator==</definition>
+        <argsstring>(const Model &amp;aModel) const override</argsstring>
+        <name>operator==</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a3815cac54f418dcc69a94935de307d89">operator==</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> base class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kindref="member">Model</ref><sp/>model<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/>(targetScanModel<sp/>==<sp/>model);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="234" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ac9141f1b13751f7394af8e5761ce3adf" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::TargetScan::operator!=</definition>
+        <argsstring>(const Model &amp;aModel) const override</argsstring>
+        <name>operator!=</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d">operator!=</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> base class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" kindref="member">TargetScan</ref><sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kindref="member">Model</ref><sp/>model<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/>(targetScanModel<sp/>!=<sp/>model);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are not equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="246" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Target scanning pointing trajectory model to represent the target scanning of a spacecraft. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::model::TargetScan</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::trajectory::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::model::TargetScan</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::trajectory::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp" bodystart="33" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>as</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aef489244fe28239fc380d45a150cd334" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>calculateStatesAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a429b21801d0d0bb88f8bfa86df6fd3fa" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>celestialSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a0f2755ad9d4a7468ac36e03d008f7a48" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1af6deef3a825d3fd8e39b05fea3df6f34" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>endInstant_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ac26092eb88a3ff2524e6a1938847b8b6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>endLLA_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aa7014cdec8ae0b815127d472a092721d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>FromGroundSpeed</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a2910840101d43cdfbdfb79f26f864b73" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>getCelestial</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a8c85a9d31fa670229ce9d93b8d724a90" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>getEndInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a27e06147a188961379dc86f8dfe580ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>getEndLLA</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a1d4cbb2737179350ec10f06069dee0b2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>getStartInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aab8c2230f365413ee5609064920409d8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>getStartLLA</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a8c6830480aaa2d6825031c729810e27f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>getStepSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>is</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1abbbcf0ddb2c131007c33e33da32b8ce0" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>Model</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aaffa6d8345699038a95e817a436d1b38" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ac9141f1b13751f7394af8e5761ce3adf" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1af8c8b509431d861325a8a6b1f8d81cf6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a028afc98010a0ea2bb1ab09eac3fe48f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a961aa0514cc3889cf37190e530d18b5b" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ab7482c810778fe7d9c3ef82464dfb2ca" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a59c2b11845815507fef5e068c146d6a7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>startInstant_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a80f7980648dd4c5fb6307365436174e1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>startLLA_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a65509a4263361d75eba65a89d1bdb81b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>stepSize_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aecea004ed0353f34c89d7639055cda99" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>TargetScan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1adebca9a08d93d81f289670a61c7cac37" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::model::TargetScan</scope><name>~Model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

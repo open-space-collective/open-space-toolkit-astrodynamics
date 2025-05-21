@@ -2,9 +2,55 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::trajectory::model</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" prot="public">ostk::astrodynamics::trajectory::model::Nadir</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static" prot="public">ostk::astrodynamics::trajectory::model::Static</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated" prot="public">ostk::astrodynamics::trajectory::model::Tabulated</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" prot="public">ostk::astrodynamics::trajectory::model::TargetScan</innerclass>
       <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model_1ab93893d07a314daf51db838e3618664e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::trajectory::model::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Nadir &amp;aNadirModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kindref="compound">Nadir</ref> &amp;</type>
+          <declname>aNadirModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Nadir<sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>nadirModel;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aNadirModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nadir model to output </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" line="56" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model_1af450595a7de997fb6323b9cae8c51d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
         <definition>std::ostream&amp; ostk::astrodynamics::trajectory::model::operator&lt;&lt;</definition>
@@ -70,11 +116,55 @@
         </inbodydescription>
         <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" line="79" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="79" bodyend="84"/>
       </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model_1af03768edb9415f2084b23945ef0b8c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::trajectory::model::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const TargetScan &amp;aTargetScanModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">TargetScan</ref> &amp;</type>
+          <declname>aTargetScanModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">TargetScan<sp/>targetScanModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>targetScanModel;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetScanModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The static model to output </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" line="70" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="19" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="20" column="1"/>
   </compounddef>
 </doxygen>

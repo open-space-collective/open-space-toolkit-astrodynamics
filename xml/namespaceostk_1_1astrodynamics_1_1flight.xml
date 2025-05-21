@@ -48,6 +48,22 @@
         <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" line="32" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="32" bodyend="-1"/>
       </memberdef>
       </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1flight_1a24dcd73ea7f8f0d665a9b171c8e6db03" prot="public" static="yes" mutable="no">
+        <type>const Shared&lt; const Frame &gt;</type>
+        <definition>const Shared&lt;const Frame&gt; ostk::astrodynamics::flight::DEFAULT_PROFILE_FRAME</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_PROFILE_FRAME</name>
+        <initializer>= Frame::GCRF()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" line="34" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1aa54f8e7262be1edca4187c5a0f876b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -133,7 +149,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" line="167" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="167" bodyend="172"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" line="177" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="177" bodyend="182"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1a3f02271c4a8be10bf322c36065c4d5d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>

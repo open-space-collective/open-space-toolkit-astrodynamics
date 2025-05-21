@@ -42,6 +42,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="16">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp</label>
+        <link refid="_target_scan_8cpp"/>
+      </node>
       <node id="2">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp</label>
         <link refid="_orbit_8hpp"/>
@@ -53,16 +57,20 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="17">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp</label>
         <link refid="_trajectory_2_orbit_2_model_8cpp"/>
       </node>
@@ -102,21 +110,25 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
+      <node id="13">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp</label>
+        <link refid="_nadir_8cpp"/>
+      </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp</label>
         <link refid="_pass_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="15">
+      <node id="19">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp</label>
         <link refid="_pass_8cpp"/>
       </node>
-      <node id="13">
+      <node id="18">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</label>
         <link refid="_orbit_8cpp"/>
       </node>
@@ -126,9 +138,25 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="15">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp</label>
+        <link refid="_target_scan_8hpp"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
       <node id="9">
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp</label>
         <link refid="_profile_8cpp"/>
+      </node>
+      <node id="12">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp</label>
+        <link refid="_nadir_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp</label>

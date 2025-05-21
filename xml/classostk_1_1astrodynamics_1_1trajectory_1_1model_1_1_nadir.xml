@@ -1,0 +1,484 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::model::Nadir</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" prot="public" virt="virtual">ostk::astrodynamics::trajectory::Model</basecompoundref>
+    <includes refid="_nadir_8hpp" local="no">Nadir.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a813b409cf7aa55bfe0834589b569db24" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
+        <definition>Orbit ostk::astrodynamics::trajectory::model::Nadir::orbit_</definition>
+        <argsstring></argsstring>
+        <name>orbit_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="171" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a4d7f1f7c766c2c9c684f99bfdc6c57de" prot="private" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::model::Nadir::stepSize_</definition>
+        <argsstring></argsstring>
+        <name>stepSize_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="172" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::model::Nadir::Nadir</definition>
+        <argsstring>(const Orbit &amp;anOrbit, const Duration &amp;aStepSize=Duration::Seconds(1e-2))</argsstring>
+        <name>Nadir</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> &amp;</type>
+          <declname>anOrbit</declname>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aStepSize</declname>
+          <defval>Duration::Seconds(1e-2)</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Orbit<sp/>orbit<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel(orbit);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOrbit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbit of the nadir model </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step size for the nadir model. Defaults to 1e-2 seconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A nadir model </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="44" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="29" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aaf10d3ddc3eac1e6124b5a1beea95498" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kindref="compound">Nadir</ref> *</type>
+        <definition>Nadir * ostk::astrodynamics::trajectory::model::Nadir::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd">clone</reimplements>
+        <briefdescription>
+<para>Clone the nadir model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref>*<sp/>clonedModel<sp/>=<sp/>nadirModel.clone();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A pointer to the cloned nadir model </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="54" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a5478a17cf28c095ddfb67d229a818c7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
+        <definition>Orbit ostk::astrodynamics::trajectory::model::Nadir::getOrbit</definition>
+        <argsstring>() const</argsstring>
+        <name>getOrbit</name>
+        <briefdescription>
+<para>Get the orbit of the nadir model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Orbit<sp/>orbit<sp/>=<sp/>nadirModel.getOrbit();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The orbit of the nadir model </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="64" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="68" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9a43e58a77bdb10e8ce8dd6216e633fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::model::Nadir::getStepSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getStepSize</name>
+        <briefdescription>
+<para>Get the step size of the nadir model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Duration<sp/>stepSize<sp/>=<sp/>nadirModel.getStepSize();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The step size of the nadir model </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="74" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="78" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a90654991834bf14b413cd60f3a4675f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::Nadir::operator==</definition>
+        <argsstring>(const Nadir &amp;aNadirModel) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kindref="compound">Nadir</ref> &amp;</type>
+          <declname>aNadirModel</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel1<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel2<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/>(nadirModel1<sp/>==<sp/>nadirModel2);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aNadirModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nadir model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="86" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="41" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ad390842185d7b08c6bd2d9c6a9815fbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::Nadir::operator!=</definition>
+        <argsstring>(const Nadir &amp;aNadirModel) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kindref="compound">Nadir</ref> &amp;</type>
+          <declname>aNadirModel</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel1<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel2<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/>(nadirModel1<sp/>!=<sp/>nadirModel2);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aNadirModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nadir model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are not equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="98" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aec835ee1356e36ad19e82337db0d2b91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::Nadir::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481">isDefined</reimplements>
+        <briefdescription>
+<para>Check if the nadir model is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aec835ee1356e36ad19e82337db0d2b91" kindref="member">isDefined</ref><sp/>=<sp/>nadirModel.isDefined();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the model is defined, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="120" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ac40a9c726cc4abe79918547a1f3cf89a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::trajectory::model::Nadir::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>calculateStateAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a6fb011dadcbafb410efd0b02cb8ade57">calculateStateAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the state at a given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>nadirModel.calculateStateAt(instant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to calculate the state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The state at the given instant </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="132" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="88" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ae18bcb196132c33366a906f4e4b2fe28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::trajectory::model::Nadir::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a4c369772dbc81298959e594cbfbc7270">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the nadir model to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">nadirModel.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="143" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="158" bodyend="165"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a8c1c3b7cc1eb3aba0ed649a28f30199d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Nadir &amp;aNadirModel)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kindref="compound">Nadir</ref> &amp;</type>
+          <declname>aNadirModel</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>nadirModel;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aNadirModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nadir model to output </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="110" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9bb3828fb4482e4c711b8f1b36840354" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::Nadir::operator==</definition>
+        <argsstring>(const Model &amp;aModel) const override</argsstring>
+        <name>operator==</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a3815cac54f418dcc69a94935de307d89">operator==</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> base class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kindref="member">Model</ref><sp/>model<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/>(nadirModel<sp/>==<sp/>model);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="156" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="167" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9d2223e8479c9a26a4b5f238f1e44f00" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::model::Nadir::operator!=</definition>
+        <argsstring>(const Model &amp;aModel) const override</argsstring>
+        <name>operator!=</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d">operator!=</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Inequality operator for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">Model</ref> base class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" kindref="member">Nadir</ref><sp/>nadirModel<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" kindref="member">Model</ref><sp/>model<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/>(nadirModel<sp/>!=<sp/>model);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The model to compare with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the models are not equal, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="168" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="174" bodyend="177"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir" kindref="compound">Nadir</ref> pointing trajectory model to represent the geodetic nadir position of an orbit on the surface of the celestial body. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::trajectory::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::model::Nadir</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ostk::astrodynamics::trajectory::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::model::Nadir</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp" bodystart="31" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>as</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ac40a9c726cc4abe79918547a1f3cf89a" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>calculateStatesAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aaf10d3ddc3eac1e6124b5a1beea95498" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a5478a17cf28c095ddfb67d229a818c7c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>getOrbit</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9a43e58a77bdb10e8ce8dd6216e633fe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>getStepSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>is</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aec835ee1356e36ad19e82337db0d2b91" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>Model</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1afadda76df6e40576297cc924f732e449" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>Nadir</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ad390842185d7b08c6bd2d9c6a9815fbe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9d2223e8479c9a26a4b5f238f1e44f00" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a8c1c3b7cc1eb3aba0ed649a28f30199d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a90654991834bf14b413cd60f3a4675f3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9bb3828fb4482e4c711b8f1b36840354" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a813b409cf7aa55bfe0834589b569db24" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>orbit_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ae18bcb196132c33366a906f4e4b2fe28" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a4d7f1f7c766c2c9c684f99bfdc6c57de" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>stepSize_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1adebca9a08d93d81f289670a61c7cac37" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::model::Nadir</scope><name>~Model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

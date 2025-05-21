@@ -37,8 +37,8 @@
         <definition>virtual Model* ostk::astrodynamics::flight::profile::Model::clone</definition>
         <argsstring>() const =0</argsstring>
         <name>clone</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d9eb6c894a7840cc60a813a3d17254f">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a95e5dd1e797403c6b99f89e2368d2541">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d9eb6c894a7840cc60a813a3d17254f">clone</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -52,8 +52,8 @@
         <definition>virtual bool ostk::astrodynamics::flight::profile::Model::operator==</definition>
         <argsstring>(const Model &amp;aModel) const =0</argsstring>
         <name>operator==</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1ad52b629dd364dec990c036edb65856">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e">operator==</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1ad52b629dd364dec990c036edb65856">operator==</reimplementedby>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
           <declname>aModel</declname>
