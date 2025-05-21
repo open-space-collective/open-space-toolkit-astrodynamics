@@ -308,7 +308,7 @@ void Tabulated::setMembers(const Array<State>& aStateArray)
 {
     if (aStateArray.getSize() < 2)
     {
-        throw ostk::core::error::RuntimeError("State array must have at least length 2.")
+        throw ostk::core::error::RuntimeError("State array must have at least length 2.");
     }
 
     const State& firstState = aStateArray.accessFirst();
