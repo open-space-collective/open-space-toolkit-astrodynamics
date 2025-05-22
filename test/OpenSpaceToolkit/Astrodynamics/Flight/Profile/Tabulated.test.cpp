@@ -30,7 +30,7 @@ using ostk::astrodynamics::trajectory::State;
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::testing::Test
 {
    protected:
-    Array<State> states_ = {
+    const Array<State> states_ = {
         State(
             Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 0), Scale::UTC),
             Position::Meters({755972.142139276024, -3390511.949699319433, 5955672.751532567665}, Frame::GCRF()),
@@ -48,7 +48,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::
             Frame::GCRF()
         )
     };
-    Tabulated tabulated_ = Tabulated(states_);
+    const Tabulated tabulated_ = Tabulated(states_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Constructor)
@@ -66,6 +66,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, EqualToOp
 {
     {
         EXPECT_TRUE(tabulated_ == tabulated_);
+    }
+
+    {
+        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}};
+        EXPECT_FALSE(tabulated_ == tabulated);
     }
 }
 
