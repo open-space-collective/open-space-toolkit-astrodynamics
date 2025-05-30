@@ -203,13 +203,36 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
         .def(
             "extract_maneuvers",
-            &Segment::Solution::extractManeuvers,
+            overload_cast<const Shared<const Frame>&>(&Segment::Solution::extractManeuvers, const_),
             arg("frame"),
             R"doc(
-            Extract maneuvers from the (maneuvering) segment.
+                Extract maneuvers from the (maneuvering) segment.
 
-            Returns:
-                list[Maneuver]: The list of maneuvers.
+                Args:
+                    frame (Frame): The frame.
+
+                Returns:
+                    list[Maneuver]: The list of maneuvers.
+
+            )doc"
+        )
+
+        .def(
+            "extract_maneuvers",
+            overload_cast<const Shared<const Frame>&, const Shared<Dynamics>&>(
+                &Segment::Solution::extractManeuvers, const_
+            ),
+            arg("frame"),
+            arg("dynamics"),
+            R"doc(
+                Extract maneuvers from the (maneuvering) segment.
+
+                Args:
+                    frame (Frame): The frame.
+                    dynamics (Dynamics): The dynamics with which the maneuver was generated.
+
+                Returns:
+                    list[Maneuver]: The list of maneuvers.
 
             )doc"
         )

@@ -124,7 +124,9 @@ Mass Segment::Solution::computeDeltaMass() const
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
 }
 
-Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
+Array<FlightManeuver> Segment::Solution::extractManeuvers(
+    const Shared<const Frame>& aFrameSPtr, const Shared<Dynamics>& aDynamicsSPtr
+) const
 {
     if (this->states.isEmpty())
     {
@@ -136,25 +138,8 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         return {};
     }
 
-    // Loop through dynamics to find Thruster dynamics
-    Shared<Thruster> thrusterDynamics = nullptr;
-    for (const Shared<Dynamics>& dynamic : this->dynamics)
-    {
-        thrusterDynamics = std::dynamic_pointer_cast<Thruster>(dynamic);
-
-        if (thrusterDynamics)
-        {
-            break;
-        }
-    }
-
-    if (thrusterDynamics == nullptr)
-    {
-        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
-    }
-
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
-        thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
 
     const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
@@ -208,7 +193,7 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         }
     };
 
-    Array<flightManeuver> extractedManeuvers = Array<flightManeuver>::Empty();
+    Array<FlightManeuver> extractedManeuvers = Array<FlightManeuver>::Empty();
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
@@ -234,10 +219,42 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
             maneuverStatesBlock.add(stateBuilder.build(state.accessInstant(), coordinates));
         }
 
-        extractedManeuvers.add(flightManeuver(maneuverStatesBlock));
+        extractedManeuvers.add(FlightManeuver(maneuverStatesBlock));
     }
 
     return extractedManeuvers;
+}
+
+Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
+{
+    if (this->states.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No states exist within Segment Solution.");
+    }
+
+    if (this->segmentType != Segment::Type::Maneuver)
+    {
+        return {};
+    }
+
+    // Loop through dynamics to find Thruster dynamics
+    Shared<Thruster> thrusterDynamics = nullptr;
+    for (const Shared<Dynamics>& dynamic : this->dynamics)
+    {
+        thrusterDynamics = std::dynamic_pointer_cast<Thruster>(dynamic);
+
+        if (thrusterDynamics)
+        {
+            break;
+        }
+    }
+
+    if (thrusterDynamics == nullptr)
+    {
+        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
+    }
+
+    return this->extractManeuvers(aFrameSPtr, thrusterDynamics);
 }
 
 Array<State> Segment::Solution::calculateStatesAt(

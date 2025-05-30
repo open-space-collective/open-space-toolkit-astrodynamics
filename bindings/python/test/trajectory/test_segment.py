@@ -186,8 +186,15 @@ class TestSegmentSolution:
     def test_extract_maneuvers(
         self,
         segment_solution: Segment.Solution,
+        thruster_dynamics: Thruster,
     ):
         assert segment_solution.extract_maneuvers(Frame.GCRF()) is not None
+        assert (
+            segment_solution.extract_maneuvers(
+                frame=Frame.GCRF(), dynamics=thruster_dynamics
+            )
+            is not None
+        )
 
     def test_calculate_states_at(
         self,
