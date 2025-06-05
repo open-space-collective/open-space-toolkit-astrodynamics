@@ -3,6 +3,10 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 
+#include <cvode/cvode.h>
+#include <nvector/nvector_serial.h>
+#include <sundials/sundials_types.h>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
@@ -66,9 +70,11 @@ class NumericalSolver : public MathNumericalSolver
         const NumericalSolver::StepperType& aStepperType,
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver = RootSolver::Default()
+        const Real& anAbsoluteTolerance
     );
+
+    /// @brief Destructor
+    ~NumericalSolver();
 
     /// @brief Access observed states
     ///
@@ -203,9 +209,18 @@ class NumericalSolver : public MathNumericalSolver
     const Array<MathNumericalSolver::Solution>& accessObservedStateVectors() const = delete;
 
    private:
-    RootSolver rootSolver_;
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
+
+    // CVODE specific members
+    void* cvode_mem;
+    N_Vector y;
+    SUNContext sun_ctx;
+    const SystemOfEquationsWrapper* current_system_of_equations_;
+    const EventCondition* current_event_condition_;
+    Instant initial_instant_;
+    coordinate::CoordinateBrokerSharedPtr current_coordinate_broker_;
+    frame::FrameCPtr current_frame_;
 
     /// @brief Constructor
     ///
@@ -230,11 +245,13 @@ class NumericalSolver : public MathNumericalSolver
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver,
         const std::function<void(const State&)>& stateLogger
     );
 
     void observeState(const State& aState);
+
+    static int c_rhs_function_wrapper(sunrealtype t, N_Vector y_cvode, N_Vector ydot_cvode, void *user_data);
+    static int c_root_function_wrapper(sunrealtype t, N_Vector y_cvode, sunrealtype *gout, void *user_data);
 };
 
 }  // namespace state
