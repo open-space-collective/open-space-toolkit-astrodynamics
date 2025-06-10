@@ -79,6 +79,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, NotEqualT
     {
         EXPECT_FALSE(tabulated_ != tabulated_);
     }
+
+    {
+        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}};
+        EXPECT_TRUE(tabulated_ != tabulated);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, StreamOperator)
