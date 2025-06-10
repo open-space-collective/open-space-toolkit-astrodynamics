@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1747831219769,
+  "lastUpdate": 1749582157055,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,60 @@ window.BENCHMARK_DATA = {
             "value": 3186861893.499997,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3186689348 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d69d3cf4bf2d981bda08c71b3509a84f005c9a8c",
+          "message": "fix: tabulated profile implementation (#563)\n\n* fix: tabulated profile implementation\n\n* Update src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp\n\n* test: make tests pass\n\n* test: re-add equal to test",
+          "timestamp": "2025-06-10T17:54:16Z",
+          "tree_id": "cd365943574b7ce053a895c80cd5f09a98ff8adf",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/d69d3cf4bf2d981bda08c71b3509a84f005c9a8c"
+        },
+        "date": 1749582155161,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 554903900.3999894,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 554831727.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 884718189.699987,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 884526217.1999996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3197469475.500003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3197152573.700001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3195130257.900018,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3194902572.499999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3197902222.9999943,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3197611576.199998 ns\nthreads: 1"
           }
         ]
       }
