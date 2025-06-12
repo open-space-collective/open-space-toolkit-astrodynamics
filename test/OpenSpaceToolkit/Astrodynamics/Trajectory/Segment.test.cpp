@@ -350,6 +350,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
         EXPECT_EQ(1, maneuvers.getSize());
         EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getStates().getSize());
 
+        // Check that a maneuver can be extracted when a thruster dynamics is provided as argument
+        {
+            const Array<Maneuver> maneuversWithThruster =
+                maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_, defaultThrusterDynamicsSPtr_);
+
+            EXPECT_EQ(1, maneuvers.getSize());
+            EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getStates().getSize());
+        }
+
         for (Size i = 0; i < maneuvers[0].getStates().getSize(); i++)
         {
             EXPECT_EQ(
