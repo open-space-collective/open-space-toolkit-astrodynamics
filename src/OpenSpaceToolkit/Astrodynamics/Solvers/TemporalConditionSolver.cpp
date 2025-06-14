@@ -141,14 +141,14 @@ bool TemporalConditionSolver::EvaluateConditionAt(
     const Instant& anInstant, const Array<TemporalConditionSolver::Condition>& aConditionArray
 )
 {
-    return std::all_of(
-        aConditionArray.begin(),
-        aConditionArray.end(),
-        [&anInstant](const TemporalConditionSolver::Condition& aCondition)
+    for (const auto& condition : aConditionArray)
+    {
+        if (!condition(anInstant))
         {
-            return aCondition(anInstant);
+            return false;
         }
-    );
+    }
+    return true;
 }
 
 }  // namespace solver
