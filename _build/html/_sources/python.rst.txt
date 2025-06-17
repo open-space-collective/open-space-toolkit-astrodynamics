@@ -24,6 +24,7 @@ Python API Documentation
    ostk.astrodynamics.guidance_law
    ostk.astrodynamics.solver
    ostk.astrodynamics.trajectory
+   ostk.astrodynamics.trajectory.model
    ostk.astrodynamics.trajectory.orbit
    ostk.astrodynamics.trajectory.orbit.message.spacex
    ostk.astrodynamics.trajectory.orbit.model

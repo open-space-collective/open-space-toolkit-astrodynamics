@@ -16,6 +16,7 @@ ostk.astrodynamics.trajectory.Orbit
    .. autosummary::
       :nosignatures:
    
+      ~Orbit.access_celestial_object
       ~Orbit.access_kepler_model
       ~Orbit.access_model
       ~Orbit.access_propagated_model
