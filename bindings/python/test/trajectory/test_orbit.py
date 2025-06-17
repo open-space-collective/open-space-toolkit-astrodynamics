@@ -3,6 +3,7 @@
 import pytest
 
 from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.environment.object import Celestial
 from ostk.physics.unit import Length, Angle
 from ostk.physics.time import Scale, Instant, DateTime, Time, Duration, Interval
 
@@ -57,6 +58,12 @@ class TestOrbit:
 
         assert state is not None
         assert isinstance(state, State)
+
+    def test_access_celestial_object(self, orbit: Orbit):
+        celestial_object = orbit.access_celestial_object()
+
+        assert celestial_object is not None
+        assert isinstance(celestial_object, Celestial)
 
     @pytest.mark.parametrize(
         "frame_type",
