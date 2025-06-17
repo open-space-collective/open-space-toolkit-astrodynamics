@@ -110,6 +110,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def(
+                "access_celestial_object",
+                &Orbit::accessCelestialObject,
+                return_value_policy::reference,
+                R"doc(
+                    Access the celestial object.
+
+                    Returns:
+                        Celestial: The celestial object.
+
+                )doc"
+            )
+
+            .def(
                 "access_model",
                 &Orbit::accessModel,
                 return_value_policy::reference,
