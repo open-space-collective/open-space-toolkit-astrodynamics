@@ -227,8 +227,7 @@ void ModifiedEquinoctial::print(std::ostream& anOutputStream, bool displayDecora
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Modified Equinoctial") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Semi-latus rectum:"
-        << (semiLatusRectum_.isDefined() ? semiLatusRectum_.toString() : "Undefined");
+        << "Semi-latus rectum:" << (semiLatusRectum_.isDefined() ? semiLatusRectum_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Eccentricity X:" << (eccentricityX_.isDefined() ? eccentricityX_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
