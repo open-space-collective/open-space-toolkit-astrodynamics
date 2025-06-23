@@ -1,43 +1,42 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/MEOE.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Angle.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp>
 
 namespace py = pybind11;
 
-using ostk::astrodynamics::trajectory::orbit::model::MEOE;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial;
 
-using ostk::core::type::Real;
 using ostk::core::container::Pair;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
-using ostk::physics::unit::Length;
-using ostk::physics::unit::Angle;
-using ostk::physics::unit::Derived;
+using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
-using ostk::physics::coordinate::Frame; // Required for Shared<Frame> in getCartesianState
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
 
-// Trampoline class for virtual methods if MEOE were to be inherited in Python and have virtuals
-// Not strictly necessary for MEOE as it's a concrete class here.
-
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial(pybind11::module& aModule)
 {
     using namespace pybind11;
 
-    py::class_<MEOE, std::shared_ptr<MEOE>>(
+    py::class_<ModifiedEquinoctial, Shared<ModifiedEquinoctial>>(
         aModule,
-        "MEOE",
+        "ModifiedEquinoctial",
         R"doc(
-            Modified Equinoctial Orbital Elements (MEOE).
+            Modified Equinoctial Orbital Elements (ModifiedEquinoctial).
 
-            The Modified Equinoctial Orbital Elements (MEOE) provide a non-singular representation of an orbit,
+            The Modified Equinoctial Orbital Elements (ModifiedEquinoctial) provide a non-singular representation of an orbit,
             useful for a wide range of eccentricities and inclinations (except for i = 180 deg).
 
             Elements:
@@ -52,66 +51,45 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
     )
         .def(
             init<const Length&, const Real&, const Real&, const Real&, const Real&, const Angle&>(),
-            arg("p"),
-            arg("f"),
-            arg("g"),
-            arg("h"),
-            arg("k"),
-            arg("L"),
+            arg("semi_latus_rectum"),
+            arg("eccentricity_x"),
+            arg("eccentricity_y"),
+            arg("node_x"),
+            arg("node_y"),
+            arg("true_longitude"),
             R"doc(
                 Constructor.
 
                 Args:
-                    p (Length): Semi-latus rectum.
-                    f (float): x-component of eccentricity vector.
-                    g (float): y-component of eccentricity vector.
-                    h (float): x-component of node vector.
-                    k (float): y-component of node vector.
-                    L (Angle): True longitude.
+                    semi_latus_rectum (Length): Semi-latus rectum.
+                    eccentricity_x (float): x-component of eccentricity vector.
+                    eccentricity_y (float): y-component of eccentricity vector.
+                    node_x (float): x-component of node vector.
+                    node_y (float): y-component of node vector.
+                    true_longitude (Angle): True longitude.
             )doc"
         )
 
-        .def(self == self, "Equality operator.")
-        .def(self != self, "Inequality operator.")
+        .def(self == self)
+        .def(self != self)
 
-        .def(
-            "__str__",
-            [](const MEOE& self)
-            {
-                std::ostringstream oss;
-                self.print(oss, true);  // Use decorator for __str__
-                return oss.str();
-            }
-        )
-        .def(
-            "__repr__",
-            [](const MEOE& self)
-            {
-                if (!self.isDefined()) {
-                    return "MEOE.undefined()";
-                }
-                std::ostringstream oss;
-                oss << "MEOE(p=" << self.getSemiLatusRectum().toString() << ", f=" << self.getF().toString()
-                    << ", g=" << self.getG().toString() << ", h=" << self.getH().toString()
-                    << ", k=" << self.getK().toString() << ", L=" << self.getTrueLongitude().toString() << ")";
-                return oss.str();
-            }
-        )
+        .def("__str__", &(shiftToString<ModifiedEquinoctial>))
+        .def("__repr__", &(shiftToString<ModifiedEquinoctial>))
 
         .def(
             "is_defined",
-            &MEOE::isDefined,
+            &ModifiedEquinoctial::isDefined,
             R"doc(
-                Check if MEOE is defined.
+                Check if ModifiedEquinoctial is defined.
 
                 Returns:
-                    bool: True if MEOE is defined.
+                    bool: True if ModifiedEquinoctial is defined.
             )doc"
         )
 
         .def(
             "get_semi_latus_rectum",
-            &MEOE::getSemiLatusRectum,
+            &ModifiedEquinoctial::getSemiLatusRectum,
             R"doc(
                 Get semi-latus rectum (p).
 
@@ -120,8 +98,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
             )doc"
         )
         .def(
-            "get_f",
-            &MEOE::getF,
+            "get_eccentricity_x",
+            &ModifiedEquinoctial::getEccentricityX,
             R"doc(
                 Get x-component of eccentricity vector (f).
 
@@ -130,8 +108,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
             )doc"
         )
         .def(
-            "get_g",
-            &MEOE::getG,
+            "get_eccentricity_y",
+            &ModifiedEquinoctial::getEccentricityY,
             R"doc(
                 Get y-component of eccentricity vector (g).
 
@@ -140,8 +118,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
             )doc"
         )
         .def(
-            "get_h",
-            &MEOE::getH,
+            "get_node_x",
+            &ModifiedEquinoctial::getNodeX,
             R"doc(
                 Get x-component of node vector (h).
 
@@ -150,8 +128,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
             )doc"
         )
         .def(
-            "get_k",
-            &MEOE::getK,
+            "get_node_y",
+            &ModifiedEquinoctial::getNodeY,
             R"doc(
                 Get y-component of node vector (k).
 
@@ -161,7 +139,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
         )
         .def(
             "get_true_longitude",
-            &MEOE::getTrueLongitude,
+            &ModifiedEquinoctial::getTrueLongitude,
             R"doc(
                 Get true longitude (L).
 
@@ -172,11 +150,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
 
         .def(
             "get_cartesian_state",
-            &MEOE::getCartesianState,
+            &ModifiedEquinoctial::getCartesianState,
             arg("gravitational_parameter"),
             arg("frame"),
             R"doc(
-                Get Cartesian state (position, velocity) from MEOE.
+                Get Cartesian state (position, velocity) from ModifiedEquinoctial.
 
                 Args:
                     gravitational_parameter (Derived): Gravitational parameter of the central body.
@@ -189,9 +167,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
 
         .def(
             "get_si_vector",
-            &MEOE::getSIVector,
+            &ModifiedEquinoctial::getSIVector,
             R"doc(
-                Get MEOE elements as a 6D vector in SI units.
+                Get ModifiedEquinoctial elements as a 6D vector in SI units.
                 [p (m), f, g, h, k, L (rad)]
 
                 Returns:
@@ -201,31 +179,45 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(pybind11
 
         .def_static(
             "undefined",
-            &MEOE::Undefined,
+            &ModifiedEquinoctial::Undefined,
             R"doc(
-                Create an undefined MEOE object.
+                Create an undefined ModifiedEquinoctial object.
 
                 Returns:
-                    MEOE: Undefined MEOE object.
+                    ModifiedEquinoctial: Undefined ModifiedEquinoctial object.
             )doc"
         )
         .def_static(
             "cartesian",
-            &MEOE::Cartesian,
+            &ModifiedEquinoctial::Cartesian,
             arg("cartesian_state"),
             arg("gravitational_parameter"),
             R"doc(
-                Create MEOE from Cartesian state (position, velocity).
+                Create ModifiedEquinoctial from Cartesian state (position, velocity).
 
                 Args:
                     cartesian_state (tuple[Position, Velocity]): Cartesian state (Position, Velocity).
                     gravitational_parameter (Derived): Gravitational parameter of the central body.
 
                 Returns:
-                    MEOE: MEOE object.
+                    ModifiedEquinoctial: ModifiedEquinoctial object.
             )doc"
         )
-        // MEOE::Element and MEOE::StringFromElement are not bound as they are mainly C++ utility
-        // The __repr__ and getters provide sufficient Python introspection.
+
+        .def_static(
+            "coe",
+            &ModifiedEquinoctial::COE,
+            arg("coe"),
+            R"doc(
+                Create Modified Equinoctial elements from Classical Orbital Elements (COE).
+
+                Args:
+                    coe (COE): Classical Orbital Elements.
+
+                Returns:
+                    ModifiedEquinoctial: Modified Equinoctial Elements.
+            )doc"
+        )
+
         ;
 }

@@ -209,9 +209,7 @@ ENDFOREACH ()
 SET (LIBRARY_NAME ${PROJECT_PACKAGE_NAME})
 SET (LIBRARY_TARGET "${LIBRARY_NAME}")
 
-FILE (GLOB_RECURSE PROJECT_CXX_SRCS "${PROJECT_SOURCE_DIR}/src/*.cxx")
-FILE (GLOB_RECURSE PROJECT_CPP_SRCS "${PROJECT_SOURCE_DIR}/src/*.cpp") # Add this line for .cpp files
-SET (PROJECT_SRCS ${PROJECT_CXX_SRCS} ${PROJECT_CPP_SRCS}) # Combine the lists
+FILE (GLOB_RECURSE PROJECT_SRCS "${PROJECT_SOURCE_DIR}/src/*.cxx")
 
 # Global library target
 ADD_CUSTOM_TARGET (${LIBRARY_TARGET})
@@ -219,7 +217,6 @@ ADD_CUSTOM_TARGET (${LIBRARY_TARGET})
 # Build python-specific shared library targets (.so)
 FOREACH (PYTHON_VERSION ${PYTHON_VERSIONS})
     MESSAGE (STATUS "Building shared library for python ${PYTHON_VERSION}...")
-    # Ensure PROJECT_SRCS is used here if it was defined above, otherwise use the direct globbing result if preferred
     PY_ADD_MODULE ("${LIBRARY_TARGET}_${PYTHON_VERSION}" ${PROJECT_SRCS} PYTHON_VERSION ${PYTHON_VERSION})
     ADD_DEPENDENCIES (${LIBRARY_TARGET} "${LIBRARY_TARGET}_${PYTHON_VERSION}")
 

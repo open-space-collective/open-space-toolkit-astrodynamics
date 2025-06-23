@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/BrouwerLyddaneMean.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/MEOE.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Propagated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Tabulated.cpp>
@@ -207,5 +207,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(model);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(model);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean(model);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_MEOE(model);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial(model);
 }
