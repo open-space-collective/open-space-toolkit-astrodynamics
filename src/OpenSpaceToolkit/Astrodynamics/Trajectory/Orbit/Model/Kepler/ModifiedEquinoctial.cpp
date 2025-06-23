@@ -207,14 +207,14 @@ Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
 
     // Inertial frame components
 
-    const Real x = sSquaredInverse * (x_pf * (1.0 + alpha_squared) + 2.0 * h_val * k_val * y_pf);
-    const Real y = sSquaredInverse * (x_pf * (2.0 * h_val * k_val) + y_pf * (1.0 - alpha_squared));
+    const Real x = sSquaredInverse * (x_pf * (1.0 + alphaSquared) + 2.0 * h_val * k_val * y_pf);
+    const Real y = sSquaredInverse * (x_pf * (2.0 * h_val * k_val) + y_pf * (1.0 - alphaSquared));
     const Real z = sSquaredInverse * (-2.0 * k_val * x_pf + 2.0 * h_val * y_pf);
 
     const Position position = Position::Meters({x, y, z}, aFrameSPtr);
 
-    const Real vx = sSquaredInverse * (vx_pf * (1.0 + alpha_squared) + 2.0 * h_val * k_val * vy_pf);
-    const Real vy = sSquaredInverse * (vx_pf * (2.0 * h_val * k_val) + vy_pf * (1.0 - alpha_squared));
+    const Real vx = sSquaredInverse * (vx_pf * (1.0 + alphaSquared) + 2.0 * h_val * k_val * vy_pf);
+    const Real vy = sSquaredInverse * (vx_pf * (2.0 * h_val * k_val) + vy_pf * (1.0 - alphaSquared));
     const Real vz = sSquaredInverse * (-2.0 * k_val * vx_pf + 2.0 * h_val * vy_pf);
 
     const Velocity velocity = Velocity::MetersPerSecond({vx, vy, vz}, aFrameSPtr);
