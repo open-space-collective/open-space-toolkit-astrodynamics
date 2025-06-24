@@ -51,7 +51,8 @@ using KeplerianCOE = ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 /// @brief Modified Equinoctial Orbital Elements (ModifiedEquinoctial)
 ///
-/// @ref https://spsu.edu/math/npetulante/mathematica/AppliedOrbitalMechanicsSupplement.pdf
+/// @ref https://degenerateconic.com/modified-equinoctial-elements.html
+/// @ref https://spsweb.fltops.jpl.nasa.gov/portaldataops/mpg/MPG_Docs/Source%20Docs/EquinoctalElements-modified.pdf
 
 class ModifiedEquinoctial
 {
@@ -164,7 +165,6 @@ class ModifiedEquinoctial
     static ModifiedEquinoctial Undefined();
 
     /// @brief Create ModifiedEquinoctial from Cartesian state
-    /// @ref https://spsweb.fltops.jpl.nasa.gov/portaldataops/mpg/MPG_Docs/Source%20Docs/EquinoctalElements-modified.pdf
     ///
     /// @param [in] aCartesianState Cartesian state (position, velocity)
     /// @param [in] aGravitationalParameter Gravitational parameter

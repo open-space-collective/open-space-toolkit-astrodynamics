@@ -89,6 +89,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, GetCartesianState)
+{
+    {
+        EXPECT_THROW(
+            modifiedEquinoctial_.getCartesianState(Derived::Undefined(), gcrf_), ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            modifiedEquinoctial_.getCartesianState(earthGravitationalParameter_, Frame::ITRF()),
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            modifiedEquinoctial_.getCartesianState(earthGravitationalParameter_, nullptr),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Operators)
 {
     const Length p1 = Length::Kilometers(7000.0);
@@ -135,15 +158,71 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(trueLongitude_.inRadians(), siVector[5], TOLERANCE);
 }
 
-// Reference values for conversions are often taken from trusted sources or other validated tools.
-// For this example, I'll use some values derived from Keplerian elements.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian)
+{
+    {
+        const Position position = Position::Meters({1000000.0, 2000000.0, 3000000.0}, Frame::ITRF());
+        const Velocity velocity = Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::ITRF());
+        const Pair<Position, Velocity> cartesianState = {position, velocity};
 
-// General Elliptical Orbit (Example from Vallado, similar to GTO)
-// COE: a = 24396.137 km, e = 0.7308, i = 7.0 deg, RAAN = 45.0 deg, AOP = 90.0 deg, TA = 0.0 deg
-// ModifiedEquinoctial (approx): p = 11263.5 km, f = -0.51675, g = 0.51675, h = 0.04305, k = 0.04305, L = 135.0 deg
+        EXPECT_THROW(
+            ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_),
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        const Position position = Position::Undefined();
+        const Velocity velocity = Velocity::Undefined();
+        const Pair<Position, Velocity> cartesianState = {position, velocity};
+
+        EXPECT_THROW(
+            ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        const Position position = Position::Meters({1000000.0, 2000000.0, 3000000.0}, gcrf_);
+        const Velocity velocity = Velocity::MetersPerSecond({1.0, 2.0, 3.0}, gcrf_);
+        const Pair<Position, Velocity> cartesianState = {position, velocity};
+
+        EXPECT_THROW(
+            ModifiedEquinoctial::Cartesian(cartesianState, Derived::Undefined()), ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+// Test for q == 0 in getCartesianState
+// q = 1 + f*cosL + g*sinL. To make q = 0, need 1 + f*cosL + g*sinL = 0
+// Example: L = 0 (cosL=1, sinL=0). Then 1 + f = 0 => f = -1.
+// This means e * cos(aop+raan) = -1. If e=1, then cos(aop+raan)=-1 => aop+raan = PI.
+// This corresponds to a parabolic trajectory where the point is at infinity in the direction opposite to periapsis.
+// Or a rectilinear ellipse passing through the focus.
 TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, CartesianToMEOE_GeneralElliptical
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, GetCartesianState_QZeroSingularity
 )
+{
+    // Case 1: f = -1, L = 0
+    const ModifiedEquinoctial meoe_q_zero1(Length::Kilometers(7000.0), -1.0, 0.0, 0.0, 0.0, Angle::Radians(0.0));
+    EXPECT_THROW(meoe_q_zero1.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
+
+    // Case 2: g = -1, L = PI/2
+    const ModifiedEquinoctial meoe_q_zero2(
+        Length::Kilometers(7000.0), 0.0, -1.0, 0.0, 0.0, Angle::Radians(Real::Pi() / 2.0)
+    );
+    EXPECT_THROW(meoe_q_zero2.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
+
+    // Case 3: f = 1/sqrt(2), g = 1/sqrt(2), L = 5PI/4 (cosL = -1/sqrt(2), sinL = -1/sqrt(2))
+    // q = 1 + (1/sqrt(2))*(-1/sqrt(2)) + (1/sqrt(2))*(-1/sqrt(2)) = 1 - 1/2 - 1/2 = 0
+    const Real val = 1.0 / std::sqrt(2.0);
+    const ModifiedEquinoctial meoe_q_zero3(
+        Length::Kilometers(7000.0), val, val, 0.0, 0.0, Angle::Radians(5.0 * Real::Pi() / 4.0)
+    );
+    EXPECT_THROW(meoe_q_zero3.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_GeneralElliptical)
 {
     const Length sma = Length::Kilometers(24396.137);
     const Real ecc = 0.7308;
@@ -180,7 +259,7 @@ TEST_F(
     EXPECT_NEAR(L_expected_rad, modifiedEquinoctial.getTrueLongitude().inRadians(), ANGLE_TOLERANCE);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, CartesianToMEOE_Circular)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_Circular)
 {
     const Length sma = Length::Kilometers(7000.0);  // LEO
     const Real ecc = 0.0;                           // Circular
@@ -220,7 +299,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(L_expected_rad, modifiedEquinoctial.getTrueLongitude().inRadians(), ANGLE_TOLERANCE);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, CartesianToMEOE_Equatorial)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_Equatorial)
 {
     const Length sma = Length::Kilometers(7000.0);
     const Real ecc = 0.05;
@@ -259,9 +338,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(L_expected_rad, modifiedEquinoctial.getTrueLongitude().inRadians(), ANGLE_TOLERANCE);
 }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, CartesianToMEOE_CircularEquatorial
-)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_CircularEquatorial)
 {
     const Length sma = Length::Kilometers(42164.0);  // GEO
     const Real ecc = 0.0;
@@ -287,8 +364,7 @@ TEST_F(
 }
 
 TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial,
-    CartesianToMEOE_InclinationPiSingularity
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_InclinationPiSingularity
 )
 {
     // Create a COE with inclination = 180 degrees (PI radians)
@@ -374,38 +450,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     ASSERT_EQ("TrueLongitude", ModifiedEquinoctial::StringFromElement(ModifiedEquinoctial::Element::TrueLongitude));
 }
 
-// Test for q == 0 in getCartesianState
-// q = 1 + f*cosL + g*sinL. To make q = 0, need 1 + f*cosL + g*sinL = 0
-// Example: L = 0 (cosL=1, sinL=0). Then 1 + f = 0 => f = -1.
-// This means e * cos(aop+raan) = -1. If e=1, then cos(aop+raan)=-1 => aop+raan = PI.
-// This corresponds to a parabolic trajectory where the point is at infinity in the direction opposite to periapsis.
-// Or a rectilinear ellipse passing through the focus.
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, getCartesianState_QZeroSingularity
-)
-{
-    // Case 1: f = -1, L = 0
-    const ModifiedEquinoctial meoe_q_zero1(Length::Kilometers(7000.0), -1.0, 0.0, 0.0, 0.0, Angle::Radians(0.0));
-    EXPECT_THROW(meoe_q_zero1.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
-
-    // Case 2: g = -1, L = PI/2
-    const ModifiedEquinoctial meoe_q_zero2(
-        Length::Kilometers(7000.0), 0.0, -1.0, 0.0, 0.0, Angle::Radians(Real::Pi() / 2.0)
-    );
-    EXPECT_THROW(meoe_q_zero2.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
-
-    // Case 3: f = 1/sqrt(2), g = 1/sqrt(2), L = 5PI/4 (cosL = -1/sqrt(2), sinL = -1/sqrt(2))
-    // q = 1 + (1/sqrt(2))*(-1/sqrt(2)) + (1/sqrt(2))*(-1/sqrt(2)) = 1 - 1/2 - 1/2 = 0
-    const Real val = 1.0 / std::sqrt(2.0);
-    const ModifiedEquinoctial meoe_q_zero3(
-        Length::Kilometers(7000.0), val, val, 0.0, 0.0, Angle::Radians(5.0 * Real::Pi() / 4.0)
-    );
-    EXPECT_THROW(meoe_q_zero3.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
-}
-
 // Test based on Orekit testEquinoctialToEquinoctialEll
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, COE_OrekitElliptical)
 {
+    {
+        EXPECT_THROW(ModifiedEquinoctial::COE(COE::Undefined()), ostk::core::error::runtime::Undefined);
+    }
+
     // Values from Orekit testEquinoctialToEquinoctialEll
     const Length sma = Length::Meters(42166712.0);
     const Real ecc = 0.5;  // This is quite high eccentricity
@@ -582,4 +633,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
     // Should return undefined for parabolic orbits
     ASSERT_FALSE(meoe.isDefined());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, StreamOperator)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << modifiedEquinoctial_ << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(modifiedEquinoctial_.print(std::cout, true));
+        EXPECT_NO_THROW(modifiedEquinoctial_.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
 }
