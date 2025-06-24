@@ -1,0 +1,62 @@
+window.BENCHMARK_DATA = {
+  "lastUpdate": 1750770249145,
+  "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
+  "entries": {
+    "Benchmark": [
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "403931799fb9c19575cc37d9e836ee417a411fcc",
+          "message": "feat: Modified Equinoctial Orbital Elements (MEOE) (#566)\n\n* Add Modified Equinoctial Orbital Elements (MEOE)\n\nThis commit introduces the Modified Equinoctial Orbital Elements (MEOE) class, providing an alternative to Classical Orbital Elements (COE) for representing satellite orbits, particularly useful for orbits with small eccentricities or inclinations.\n\nThe MEOE set includes:\n- p: semi-latus rectum\n- f: x-component of eccentricity vector (e * cos(RAAN + AOP))\n- g: y-component of eccentricity vector (e * sin(RAAN + AOP))\n- h: x-component of node vector (tan(i/2) * cos(RAAN))\n- k: y-component of node vector (tan(i/2) * sin(RAAN))\n- L: true longitude (RAAN + AOP + True Anomaly)\n\nKey features implemented:\n1.  **MEOE Class:**\n    *   Defined in `OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/MEOE.hpp` and implemented in `MEOE.cpp`.\n    *   Includes constructors, getters for each element, equality operators, and print/string representations.\n2.  **Cartesian Conversions:**\n    *   `MEOE::Cartesian()`: Converts Cartesian state (position, velocity) to MEOE. This is achieved by first converting to COE and then to MEOE, handling singularities like 180-degree inclination.\n    *   `MEOE::getCartesianState()`: Converts MEOE to Cartesian state using direct formulas from JPL documentation.\n3.  **Unit Tests (C++):**\n    *   Added `MEOE.test.cpp` with comprehensive tests for constructors, getters, conversions (including round-trip), and edge cases (circular, equatorial, 180-deg inclination orbits, p<=0, q=0 singularities).\n4.  **CMake Integration:**\n    *   The new files are automatically included in the build process due to existing `FILE(GLOB_RECURSE)` patterns in CMakeLists.txt.\n5.  **Python Bindings:**\n    *   Exposed the `MEOE` class and its methods to Python via Pybind11.\n    *   Created `bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/MEOE.cpp` for the binding code.\n    *   Updated Python binding CMakeLists to correctly include `.cpp` source files.\n6.  **Python Tests:**\n    *   Added `bindings/python/test/trajectory/orbit/models/test_meoe.py` with a comprehensive suite of tests mirroring the C++ tests, ensuring the Python interface is robust and correct.\n\nThe implementation aims to be consistent with the existing COE class structure and provides a valuable new tool for orbital mechanics analysis within OpenSpace Toolkit.\n\n* fix: tests\n\n* fix: tests\n\n* chore: style\n\n* feat: address remaining feedback\n\n* Apply suggestions from code review\n\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>\n\n* feat: address remaining feedback\n\n---------\n\nCo-authored-by: google-labs-jules[bot] <161369871+google-labs-jules[bot]@users.noreply.github.com>\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>",
+          "timestamp": "2025-06-24T07:44:08-05:00",
+          "tree_id": "50e05f7a0512814dbe4cdbd72a94cc5084584879",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/403931799fb9c19575cc37d9e836ee417a411fcc"
+        },
+        "date": 1750770247638,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 559342110.7999859,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 559270574.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 887594581.4000032,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 887511680.3 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3204631761.699994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3204375442 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3204415811.8000154,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3203924668.399999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3206589707.1999984,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3206231950 ns\nthreads: 1"
+          }
+        ]
+      }
+    ]
+  }
+}
