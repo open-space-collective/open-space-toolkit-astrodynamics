@@ -158,7 +158,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
 
                 Args:
                     gravitational_parameter (Derived): Gravitational parameter of the central body.
-                    frame (Frame): The reference frame for the output Cartesian state.
+                    frame (Frame): The reference frame for the output Cartesian state. Must be an inertial frame.
 
                 Returns:
                     tuple[Position, Velocity]: Position and Velocity.
@@ -196,7 +196,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
                 Create ModifiedEquinoctial from Cartesian state (position, velocity).
 
                 Args:
-                    cartesian_state (tuple[Position, Velocity]): Cartesian state (Position, Velocity).
+                    cartesian_state (tuple[Position, Velocity]): Cartesian state (Position, Velocity). Must be in an inertial frame.
                     gravitational_parameter (Derived): Gravitational parameter of the central body.
 
                 Returns:

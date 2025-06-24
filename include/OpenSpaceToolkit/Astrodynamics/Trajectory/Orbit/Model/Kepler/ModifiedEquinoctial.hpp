@@ -147,7 +147,7 @@ class ModifiedEquinoctial
     /// @brief Convert ModifiedEquinoctial to Cartesian state
     ///
     /// @param [in] aGravitationalParameter Gravitational parameter
-    /// @param [in] aFrameSPtr Frame in which the Cartesian state is expressed
+    /// @param [in] aFrameSPtr Frame in which the Cartesian state is expressed. Must be an inertial frame.
     /// @return Cartesian state
     Pair<Position, Velocity> getCartesianState(
         const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
@@ -166,8 +166,8 @@ class ModifiedEquinoctial
 
     /// @brief Create ModifiedEquinoctial from Cartesian state
     ///
-    /// @param [in] aCartesianState Cartesian state (position, velocity)
-    /// @param [in] aGravitationalParameter Gravitational parameter
+    /// @param [in] aCartesianState Cartesian state (position, velocity). Must be in an inertial frame.
+    /// @param [in] aGravitationalParameter Gravitational parameter.
     /// @return ModifiedEquinoctial
     static ModifiedEquinoctial Cartesian(
         const Pair<Position, Velocity>& aCartesianState, const Derived& aGravitationalParameter

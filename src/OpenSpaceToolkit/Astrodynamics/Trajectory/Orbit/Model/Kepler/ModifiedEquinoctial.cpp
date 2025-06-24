@@ -67,8 +67,10 @@ bool ModifiedEquinoctial::operator==(const ModifiedEquinoctial& aModifiedEquinoc
            (std::abs(eccentricityY_ - aModifiedEquinoctial.eccentricityY_) <= tolerance) &&
            (std::abs(nodeX_ - aModifiedEquinoctial.nodeX_) <= tolerance) &&
            (std::abs(nodeY_ - aModifiedEquinoctial.nodeY_) <= tolerance) &&
-           (std::abs(trueLongitude_.inRadians(0.0, Real::TwoPi()) - aModifiedEquinoctial.trueLongitude_.inRadians(0.0, Real::TwoPi())) <=
-            Angle::Radians(tolerance).inRadians());
+           (std::abs(
+                trueLongitude_.inRadians(0.0, Real::TwoPi()) -
+                aModifiedEquinoctial.trueLongitude_.inRadians(0.0, Real::TwoPi())
+            ) <= Angle::Radians(tolerance).inRadians());
 }
 
 bool ModifiedEquinoctial::operator!=(const ModifiedEquinoctial& aModifiedEquinoctial) const
