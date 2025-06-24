@@ -144,6 +144,12 @@ class ModifiedEquinoctial
     /// @return ModifiedEquinoctial elements as a 6D vector in SI units
     Vector6d getSIVector() const;
 
+    /// @brief Convert ModifiedEquinoctial to Classical Orbital Elements
+    ///
+    /// @param [in] aGravitationalParameter Gravitational parameter
+    /// @return Classical Orbital Elements
+    KeplerianCOE toCOE(const Derived& aGravitationalParameter) const;
+
     /// @brief Convert ModifiedEquinoctial to Cartesian state
     ///
     /// @param [in] aGravitationalParameter Gravitational parameter
