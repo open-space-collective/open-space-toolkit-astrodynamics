@@ -5,9 +5,11 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
 namespace ostk
@@ -27,8 +29,10 @@ using ostk::physics::coordinate::Velocity;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::Instant;
+using ostk::physics::unit::Length;
 
-using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
 const Shared<const CoordinateSubset> TLESolver::InclinationSubset =
@@ -297,11 +301,12 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
 {
     const State cartesianStateTEME = aCartesianState.inFrame(Frame::TEME());
 
-    // Convert to Brouwer-Lyddane mean elements
-    const BrouwerLyddaneMeanLong coe = BrouwerLyddaneMeanLong::Cartesian(
+    const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
         {cartesianStateTEME.getPosition(), cartesianStateTEME.getVelocity()},
         EarthGravitationalModel::EGM2008.gravitationalParameter_
     );
+
+    const COE coe = modifiedEquinoctial.toCOE(EarthGravitationalModel::EGM2008.gravitationalParameter_);
 
     Array<double> coordinates = {
         coe.getInclination().inRadians(),
