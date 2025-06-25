@@ -675,13 +675,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
         EXPECT_NEAR(ecc, convertedCoe.getEccentricity(), TOLERANCE);
         EXPECT_NEAR(inc.inRadians(), convertedCoe.getInclination().inRadians(), ANGLE_TOLERANCE);
 
-        const Real raan_normalized = Angle::Radians(raan.inRadians()).inRadians(0.0, Real::TwoPi());
-        const Real aop_normalized = Angle::Radians(aop.inRadians()).inRadians(0.0, Real::TwoPi());
-        const Real ta_normalized = Angle::Radians(ta.inRadians()).inRadians(0.0, Real::TwoPi());
-
-        EXPECT_NEAR(raan_normalized, raan.inRadians(), ANGLE_TOLERANCE);
-        EXPECT_NEAR(aop_normalized, aop.inRadians(), ANGLE_TOLERANCE);
-        EXPECT_NEAR(ta_normalized, ta.inRadians(), ANGLE_TOLERANCE);
+        EXPECT_NEAR(convertedCoe.getRaan().inRadians(), raan.inRadians(), ANGLE_TOLERANCE);
+        EXPECT_NEAR(convertedCoe.getAop().inRadians(), aop.inRadians(), ANGLE_TOLERANCE);
+        EXPECT_NEAR(convertedCoe.getTrueAnomaly().inRadians(), ta.inRadians(), ANGLE_TOLERANCE);
     }
 }
 
