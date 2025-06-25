@@ -155,6 +155,36 @@ Vector6d ModifiedEquinoctial::getSIVector() const
     );
 }
 
+KeplerianCOE ModifiedEquinoctial::toCOE(const Derived& aGravitationalParameter) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
+    }
+
+    if (!aGravitationalParameter.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Gravitational Parameter");
+    }
+
+    const double semiLatusRectum = semiLatusRectum_.inMeters();
+    const double inclination = 2.0 * std::atan(std::sqrt(std::pow(nodeX_, 2) + std::pow(nodeY_, 2)));
+    const double raan = std::atan2(nodeY_, nodeX_);
+    const double eccentricity = std::sqrt(eccentricityX_ * eccentricityX_ + eccentricityY_ * eccentricityY_);
+    const double aop = std::atan2(eccentricityY_, eccentricityX_) - raan;
+    const double trueAnomaly = trueLongitude_.inRadians() - raan - aop;
+    const double semiMajorAxis = semiLatusRectum / (1.0 - eccentricity * eccentricity);
+
+    return KeplerianCOE(
+        Length::Meters(semiMajorAxis),
+        eccentricity,
+        Angle::Radians(inclination),
+        Angle::Radians(raan),
+        Angle::Radians(aop),
+        Angle::Radians(trueAnomaly)
+    );
+}
+
 Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
     const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
 ) const

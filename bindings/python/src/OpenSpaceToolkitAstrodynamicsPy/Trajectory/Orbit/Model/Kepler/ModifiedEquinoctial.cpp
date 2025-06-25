@@ -177,6 +177,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
             )doc"
         )
 
+        .def(
+            "to_coe",
+            &ModifiedEquinoctial::toCOE,
+            arg("gravitational_parameter"),
+            R"doc(
+                Convert Modified Equinoctial to Classical Orbital Elements (COE).
+
+                Args:
+                    gravitational_parameter (Derived): Gravitational parameter of the central body.
+
+                Returns:
+                    COE: Classical Orbital Elements.
+            )doc"
+        )
+
         .def_static(
             "undefined",
             &ModifiedEquinoctial::Undefined,
