@@ -36,7 +36,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             init<const Instant&, const Position&, const Velocity&>(),
             R"doc(
                  Utility constructor for Position/Velocity only.
-                 
+
                  Args:
                      instant (Instant): An instant
                      position (Position): The cartesian position at the instant
@@ -56,7 +56,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 const Shared<const Frame>&>(),
             R"doc(
                  Utility constructor for Position/Velocity/Attitude/Angular velocity.
-                 
+
                  Args:
                      instant (Instant): An instant
                      position (Position): The cartesian position at the instant
@@ -76,7 +76,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             init<const Instant&, const VectorXd&, const Shared<const Frame>&, const Shared<const CoordinateBroker>&>(),
             R"doc(
                  Constructor with a pre-defined Coordinates Broker.
-                 
+
                  Args:
                      instant (Instant): An instant
                      coordinates (numpy.ndarray): The coordinates at the instant in International System of Units
@@ -96,7 +96,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 const Array<Shared<const CoordinateSubset>>&>(),
             R"doc(
                  Constructor with coordinate subsets.
-                 
+
                  Args:
                      instant (Instant): An instant
                      coordinates (numpy.ndarray): The coordinates at the instant in International System of Units
@@ -277,6 +277,43 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("frame")
         )
 
+        .def(
+            "is_near",
+            overload_cast<const State&, const std::unordered_map<Shared<const CoordinateSubset>, Real>&>(
+                &State::isNear, const_
+            ),
+            R"doc(
+                Check if the state is near another state.
+
+                Args:
+                    state (State): The state to compare to.
+                    tolerance_map (dict[CoordinateSubset, float]): The tolerance map for the comparison.
+
+                Returns:
+                    dict[CoordinateSubset, bool]: The map of coordinate subsets and whether or not the state is near the other state.
+            )doc",
+            arg("state"),
+            arg("tolerance_map")
+        )
+
+        .def(
+            "is_near",
+            overload_cast<const State&, const std::unordered_map<Shared<const CoordinateSubset>, VectorXd>&>(
+                &State::isNear, const_
+            ),
+            R"doc(
+                Check if the state is near another state.
+
+                Args:
+                    state (State): The state to compare to.
+                    tolerance_array_map (dict[CoordinateSubset, np.ndarray]): The tolerance array map for the comparison.
+
+                Returns:
+                    dict[CoordinateSubset, list[bool]]: The map of coordinate subsets and whether or not the state is near the other state.
+            )doc",
+            arg("state"),
+            arg("tolerance_array_map")
+        )
         .def_static(
             "undefined",
             &State::Undefined,
