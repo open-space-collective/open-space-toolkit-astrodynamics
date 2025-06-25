@@ -329,8 +329,6 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         currentRmsError = std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
         steps.add(Step(currentRmsError, xHat));
 
-        std::cout << steps.accessLast() << std::endl;
-
         // Check convergence
         if (std::abs(currentRmsError - previousRmsError) < rmsUpdateThreshold_)
         {

@@ -20,7 +20,10 @@ from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 
 @pytest.fixture
 def least_squares_solver() -> LeastSquaresSolver:
-    return LeastSquaresSolver.default()
+    return LeastSquaresSolver(
+        maximum_iteration_count=100,
+        rms_update_threshold=1e-1,
+    )
 
 
 @pytest.fixture
@@ -120,6 +123,7 @@ class TestTLESolver:
             initial_guess=(initial_state, 1e-4),
             observations=observations,
         )
+
         assert isinstance(analysis, TLESolver.Analysis)
         assert isinstance(analysis.estimated_tle, TLE)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
