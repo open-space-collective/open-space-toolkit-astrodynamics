@@ -60,12 +60,12 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class TLESolver
 {
    public:
-    static const Shared<const CoordinateSubset> InclinationSubset;
-    static const Shared<const CoordinateSubset> RaanSubset;
-    static const Shared<const CoordinateSubset> EccentricitySubset;
-    static const Shared<const CoordinateSubset> AopSubset;
-    static const Shared<const CoordinateSubset> MeanAnomalySubset;
-    static const Shared<const CoordinateSubset> MeanMotionSubset;
+    static const Shared<const CoordinateSubset> SemiLatusRectumSubset;
+    static const Shared<const CoordinateSubset> NodeXSubset;
+    static const Shared<const CoordinateSubset> NodeYSubset;
+    static const Shared<const CoordinateSubset> EccentricityXSubset;
+    static const Shared<const CoordinateSubset> EccentricityYSubset;
+    static const Shared<const CoordinateSubset> TrueLongitudeSubset;
     static const Shared<const CoordinateSubset> BStarSubset;
 
     class Analysis

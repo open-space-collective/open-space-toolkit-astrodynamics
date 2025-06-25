@@ -35,15 +35,16 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 
-const Shared<const CoordinateSubset> TLESolver::InclinationSubset =
-    std::make_shared<CoordinateSubset>("INCLINATION", 1);
-const Shared<const CoordinateSubset> TLESolver::RaanSubset = std::make_shared<CoordinateSubset>("RAAN", 1);
-const Shared<const CoordinateSubset> TLESolver::EccentricitySubset =
-    std::make_shared<CoordinateSubset>("ECCENTRICITY", 1);
-const Shared<const CoordinateSubset> TLESolver::AopSubset = std::make_shared<CoordinateSubset>("AOP", 1);
-const Shared<const CoordinateSubset> TLESolver::MeanAnomalySubset =
-    std::make_shared<CoordinateSubset>("MEAN_ANOMALY", 1);
-const Shared<const CoordinateSubset> TLESolver::MeanMotionSubset = std::make_shared<CoordinateSubset>("MEAN_MOTION", 1);
+const Shared<const CoordinateSubset> TLESolver::SemiLatusRectumSubset =
+    std::make_shared<CoordinateSubset>("SEMI_LATUS_RECTUM", 1);
+const Shared<const CoordinateSubset> TLESolver::EccentricityXSubset =
+    std::make_shared<CoordinateSubset>("ECCENTRICITY_X", 1);
+const Shared<const CoordinateSubset> TLESolver::EccentricityYSubset =
+    std::make_shared<CoordinateSubset>("ECCENTRICITY_Y", 1);
+const Shared<const CoordinateSubset> TLESolver::NodeXSubset = std::make_shared<CoordinateSubset>("NODE_X", 1);
+const Shared<const CoordinateSubset> TLESolver::NodeYSubset = std::make_shared<CoordinateSubset>("NODE_Y", 1);
+const Shared<const CoordinateSubset> TLESolver::TrueLongitudeSubset =
+    std::make_shared<CoordinateSubset>("TRUE_LONGITUDE", 1);
 const Shared<const CoordinateSubset> TLESolver::BStarSubset = std::make_shared<CoordinateSubset>("B_STAR", 1);
 
 TLESolver::Analysis::Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis)
@@ -95,12 +96,12 @@ TLESolver::TLESolver(
 {
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-        InclinationSubset,
-        RaanSubset,
-        EccentricitySubset,
-        AopSubset,
-        MeanAnomalySubset,
-        MeanMotionSubset,
+        SemiLatusRectumSubset,
+        EccentricityXSubset,
+        EccentricityYSubset,
+        NodeXSubset,
+        NodeYSubset,
+        TrueLongitudeSubset,
     };
 
     if (estimateBStar_)
@@ -258,13 +259,20 @@ Orbit TLESolver::estimateOrbit(
 
 State TLESolver::TLEToTLEState(const TLE& aTLE) const
 {
+    const SGP4 sgp4(aTLE);
+    const State state = sgp4.calculateStateAt(aTLE.getEpoch());
+
+    const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
+        {state.getPosition(), state.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+
     Array<double> coordinates = {
-        aTLE.getInclination().inRadians(),
-        aTLE.getRaan().inRadians(),
-        aTLE.getEccentricity(),
-        aTLE.getAop().inRadians(),
-        aTLE.getMeanAnomaly().inRadians(),
-        aTLE.getMeanMotion().in(Derived::Unit::RevolutionPerDay())
+        modifiedEquinoctial.getSemiLatusRectum().inMeters(),
+        modifiedEquinoctial.getEccentricityX(),
+        modifiedEquinoctial.getEccentricityY(),
+        modifiedEquinoctial.getNodeX(),
+        modifiedEquinoctial.getNodeY(),
+        modifiedEquinoctial.getTrueLongitude().inRadians(),
     };
 
     if (estimateBStar_)
@@ -277,6 +285,17 @@ State TLESolver::TLEToTLEState(const TLE& aTLE) const
 
 TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
 {
+    const ModifiedEquinoctial modifiedEquinoctial = {
+        Length::Meters(aTLEState.extractCoordinate(SemiLatusRectumSubset)[0]),
+        aTLEState.extractCoordinate(EccentricityXSubset)[0],
+        aTLEState.extractCoordinate(EccentricityYSubset)[0],
+        aTLEState.extractCoordinate(NodeXSubset)[0],
+        aTLEState.extractCoordinate(NodeYSubset)[0],
+        Angle::Radians(aTLEState.extractCoordinate(TrueLongitudeSubset)[0]),
+    };
+
+    const COE coe = modifiedEquinoctial.toCOE(EarthGravitationalModel::EGM2008.gravitationalParameter_);
+
     return TLE::Construct(
         satelliteNumber_,
         "U",
@@ -287,12 +306,12 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
         estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
         ephemerisType_,
         elementSetNumber_,
-        Angle::Radians(aTLEState.extractCoordinate(InclinationSubset)[0]),
-        Angle::Radians(aTLEState.extractCoordinate(RaanSubset)[0]),
-        std::max(0.0, aTLEState.extractCoordinate(EccentricitySubset)[0]),
-        Angle::Radians(aTLEState.extractCoordinate(AopSubset)[0]),
-        Angle::Radians(aTLEState.extractCoordinate(MeanAnomalySubset)[0]),
-        Derived(aTLEState.extractCoordinate(MeanMotionSubset)[0], Derived::Unit::RevolutionPerDay()),
+        coe.getInclination(),
+        coe.getRaan(),
+        coe.getEccentricity(),
+        coe.getAop(),
+        coe.getMeanAnomaly(),
+        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
         revolutionNumber_
     );
 }
@@ -306,16 +325,13 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
         EarthGravitationalModel::EGM2008.gravitationalParameter_
     );
 
-    const COE coe = modifiedEquinoctial.toCOE(EarthGravitationalModel::EGM2008.gravitationalParameter_);
-
     Array<double> coordinates = {
-        coe.getInclination().inRadians(),
-        coe.getRaan().inRadians(),
-        coe.getEccentricity(),
-        coe.getAop().inRadians(),
-        coe.getMeanAnomaly().inRadians(),
-        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_)
-            .in(Derived::Unit::RevolutionPerDay())
+        modifiedEquinoctial.getSemiLatusRectum().inMeters(),
+        modifiedEquinoctial.getEccentricityX(),
+        modifiedEquinoctial.getEccentricityY(),
+        modifiedEquinoctial.getNodeX(),
+        modifiedEquinoctial.getNodeY(),
+        modifiedEquinoctial.getTrueLongitude().inRadians(0.0, Real::TwoPi()),
     };
 
     if (estimateBStar_)
