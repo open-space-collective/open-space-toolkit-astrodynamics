@@ -21,7 +21,7 @@ from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 @pytest.fixture
 def least_squares_solver() -> LeastSquaresSolver:
     return LeastSquaresSolver(
-        maximum_iteration_count=100,
+        maximum_iteration_count=20,
         rms_update_threshold=1e-1,
     )
 
