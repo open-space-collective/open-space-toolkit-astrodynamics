@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1750770249145,
+  "lastUpdate": 1752674317182,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,60 @@ window.BENCHMARK_DATA = {
             "value": 3206589707.1999984,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3206231950 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "578d85b045d62fa62c99429a482bd92a9454bfdf",
+          "message": "feat: add COE getCartesianState frame check (#571)\n\n* feat: add COE getCartesianState frame check\n\n* Update COE.cpp\n\n* Update ModifiedEquinoctial.cpp\n\n* Update ModifiedEquinoctial.test.cpp\n\n* Update COE.test.cpp\n\n* Update ModifiedEquinoctial.test.cpp\n\n* Update COE.test.cpp\n\n* fix: format\n\n* fix: compilation\n\n* fix: format",
+          "timestamp": "2025-07-16T13:32:07Z",
+          "tree_id": "463a7a8aa647c8e3b7a06a3b54684af1366ffacb",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/578d85b045d62fa62c99429a482bd92a9454bfdf"
+        },
+        "date": 1752674315674,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 560687687.4999983,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 560534319.1000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 894225445.6000057,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 894160387.7 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3199233972.999997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3199055625.6 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3200229137.799994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3200043039.900001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3198133568.500015,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3197954794.0999975 ns\nthreads: 1"
           }
         ]
       }
