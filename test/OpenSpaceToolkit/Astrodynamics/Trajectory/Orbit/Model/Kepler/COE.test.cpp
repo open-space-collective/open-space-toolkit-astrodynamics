@@ -20,8 +20,8 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::container::Tuple;
 using ostk::core::container::Pair;
+using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::String;
 
