@@ -260,14 +260,14 @@ Orbit TLESolver::estimateOrbit(
 State TLESolver::TLEToTLEState(const TLE& aTLE) const
 {
     const SGP4 sgp4(aTLE);
-    const State state = sgp4.calculateStateAt(aTLE.getEpoch());
+    const State state = sgp4.calculateStateAt(aTLE.getEpoch()).inFrame(Frame::TEME());
 
     const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
         {state.getPosition(), state.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_
     );
 
     Array<double> coordinates = {
-        modifiedEquinoctial.getSemiLatusRectum().inMeters(),
+        modifiedEquinoctial.getSemiLatusRectum().inKilometers(),
         modifiedEquinoctial.getEccentricityX(),
         modifiedEquinoctial.getEccentricityY(),
         modifiedEquinoctial.getNodeX(),
@@ -286,7 +286,7 @@ State TLESolver::TLEToTLEState(const TLE& aTLE) const
 TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
 {
     const ModifiedEquinoctial modifiedEquinoctial = {
-        Length::Meters(aTLEState.extractCoordinate(SemiLatusRectumSubset)[0]),
+        Length::Kilometers(aTLEState.extractCoordinate(SemiLatusRectumSubset)[0]),
         aTLEState.extractCoordinate(EccentricityXSubset)[0],
         aTLEState.extractCoordinate(EccentricityYSubset)[0],
         aTLEState.extractCoordinate(NodeXSubset)[0],
@@ -326,7 +326,7 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
     );
 
     Array<double> coordinates = {
-        modifiedEquinoctial.getSemiLatusRectum().inMeters(),
+        modifiedEquinoctial.getSemiLatusRectum().inKilometers(),
         modifiedEquinoctial.getEccentricityX(),
         modifiedEquinoctial.getEccentricityY(),
         modifiedEquinoctial.getNodeX(),
