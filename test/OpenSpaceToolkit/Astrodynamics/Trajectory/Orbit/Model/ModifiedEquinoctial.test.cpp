@@ -100,7 +100,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     {
         EXPECT_THROW(
             modifiedEquinoctial_.getCartesianState(earthGravitationalParameter_, Frame::ITRF()),
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
@@ -167,7 +167,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
         EXPECT_THROW(
             ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_),
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
