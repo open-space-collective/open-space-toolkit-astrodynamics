@@ -315,7 +315,7 @@ COE::CartesianState COE::getCartesianState(
     {
         throw ostk::core::error::runtime::Undefined("COE");
     }
-    
+
     if (!aGravitationalParameter.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
@@ -459,11 +459,11 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     }
 
     if (!aCartesianState.first.accessFrame()->isQuasiInertial() ||
-    !aCartesianState.second.accessFrame()->isQuasiInertial())
+        !aCartesianState.second.accessFrame()->isQuasiInertial())
     {
         throw ostk::core::error::RuntimeError("Frame must be Quasi Inertial");
     }
-    
+
     static const Real tolerance = 1e-11;
 
     const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);

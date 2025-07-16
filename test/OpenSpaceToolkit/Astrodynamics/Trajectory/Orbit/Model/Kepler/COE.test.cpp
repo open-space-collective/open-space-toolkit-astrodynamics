@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
-#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -21,8 +21,8 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Pair;
+using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
@@ -682,8 +682,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
         const Pair<Position, Velocity> cartesianState = {position, velocity};
 
         EXPECT_THROW(
-            COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_),
-            ostk::core::error::RuntimeError
+            COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_), ostk::core::error::RuntimeError
         );
     }
 
