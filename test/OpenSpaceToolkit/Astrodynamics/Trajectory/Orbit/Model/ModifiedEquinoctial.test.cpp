@@ -97,10 +97,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
         );
     }
 
+    // Non-quasi inertial Frame
     {
         EXPECT_THROW(
             modifiedEquinoctial_.getCartesianState(earthGravitationalParameter_, Frame::ITRF()),
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
@@ -160,6 +161,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian)
 {
+    // Non-quasi inertial Frame
     {
         const Position position = Position::Meters({1000000.0, 2000000.0, 3000000.0}, Frame::ITRF());
         const Velocity velocity = Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::ITRF());
@@ -167,7 +169,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
         EXPECT_THROW(
             ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_),
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
