@@ -90,7 +90,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
     {
         const Instant instant = Instant::J2000();
         const Shared<const Frame> fromFrame = Frame::GCRF();
-        const Shared<const Frame> toFrame = Frame::TEME();
+        const Shared<const Frame> toFrame = Frame::ITRF();
         VectorXd fullCoordinatesVector(6);
         fullCoordinatesVector << 1.0e6, 2.0e6, 3.0e5, 4.0e3, -5.0e3, 6.0e3;
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {

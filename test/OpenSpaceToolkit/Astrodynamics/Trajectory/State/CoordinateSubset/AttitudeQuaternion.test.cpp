@@ -47,7 +47,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Attitude
     {
         const Instant instant = Instant::J2000();
         const Shared<const Frame> fromFrame = Frame::GCRF();
-        const Shared<const Frame> toFrame = Frame::TEME();
+        const Shared<const Frame> toFrame = Frame::ITRF();
         VectorXd fullCoordinatesVector(4);
         fullCoordinatesVector << 0.0, 0.0, 0.0, 1.0;
         const Shared<const CoordinateBroker> brokerkSPtr = defaultCoordinateBroker_;

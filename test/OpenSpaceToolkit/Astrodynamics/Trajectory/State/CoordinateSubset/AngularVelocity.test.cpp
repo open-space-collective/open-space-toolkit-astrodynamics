@@ -49,7 +49,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_AngularV
     {
         const Instant instant = Instant::J2000();
         const Shared<const Frame> fromFrame = Frame::GCRF();
-        const Shared<const Frame> toFrame = Frame::TEME();
+        const Shared<const Frame> toFrame = Frame::ITRF();
         VectorXd fullCoordinatesVector(7);
         fullCoordinatesVector << 0.0, 0.0, 0.0, 1.0, 1.0, 2.0, 3.0;
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {

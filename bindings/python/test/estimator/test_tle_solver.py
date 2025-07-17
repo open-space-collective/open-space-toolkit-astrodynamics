@@ -203,11 +203,11 @@ class TestTLESolver:
         initial_state_with_b_star: tuple[State, float],
         observations: list[State],
     ):
-        # Convert observations to TEME frame
-        teme_observations = [obs.in_frame(Frame.TEME()) for obs in observations]
+        # Convert observations to ITRF frame
+        itrf_observations = [obs.in_frame(Frame.ITRF()) for obs in observations]
 
         analysis: TLESolver.Analysis = tle_solver.estimate(
-            initial_guess=initial_state_with_b_star, observations=teme_observations
+            initial_guess=initial_state_with_b_star, observations=itrf_observations
         )
         assert isinstance(analysis, TLESolver.Analysis)
         assert isinstance(analysis.estimated_tle, TLE)

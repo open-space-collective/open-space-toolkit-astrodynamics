@@ -84,7 +84,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
    protected:
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
     const Instant defaultInstant_ = Instant::J2000();
-    const Shared<const Frame> defaultFrame_ = Frame::TEME();
+    const Shared<const Frame> defaultFrame_ = Frame::GCRF();
     State currentState_ = State::Undefined();
     State previousState_ = State::Undefined();
 };
