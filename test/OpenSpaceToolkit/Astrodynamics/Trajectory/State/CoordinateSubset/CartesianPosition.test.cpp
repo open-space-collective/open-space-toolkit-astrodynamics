@@ -86,7 +86,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
     {
         const Instant instant = Instant::J2000();
         const Shared<const Frame> fromFrame = Frame::GCRF();
-        const Shared<const Frame> toFrame = Frame::TEME();
+        const Shared<const Frame> toFrame = Frame::ITRF();
         VectorXd fullCoordinatesVector(3);
         fullCoordinatesVector << 1.0e7, -1e7, 5e6;
         const Shared<const CoordinateBroker> brokerkSPtr = defaultCoordinateBroker_;

@@ -267,17 +267,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
             environment_, numericalSolver_, leastSquaresSolver_, estimationFrame
         };
 
-        const Array<State> observationStatesInTEME = observationStates_.map<State>(
+        const Array<State> observationStatesInITRF = observationStates_.map<State>(
             [](const State& aState) -> State
             {
-                return aState.inFrame(Frame::TEME());
+                return aState.inFrame(Frame::ITRF());
             }
         );
 
         const State initialGuessStateInGCRF = observationStates_[0].inFrame(Frame::GCRF());
 
         const OrbitDeterminationSolver::Analysis analysis =
-            odSolver.estimate(initialGuessStateInGCRF, observationStatesInTEME);
+            odSolver.estimate(initialGuessStateInGCRF, observationStatesInITRF);
 
         EXPECT_EQ(*estimationFrame, *analysis.estimatedState.accessFrame());
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
