@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1752778598987,
+  "lastUpdate": 1753121697323,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 3202840742.4999895,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3202412963.500001 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ec7db90cc36ce23e8f1c0873ce25cfc93e006d51",
+          "message": "feat: add eclipse generator (#573)\n\n* feat: add eclipse generator\n\n* Apply suggestions from code review\n\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\n\n---------\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>",
+          "timestamp": "2025-07-21T17:36:45Z",
+          "tree_id": "8ab8bcd201e1decdb11e20185e84b6a7c8d59d5d",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ec7db90cc36ce23e8f1c0873ce25cfc93e006d51"
+        },
+        "date": 1753121695338,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 551478150.4999859,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 551352752.7999997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 891423239.3000021,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 891352029.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3194481556.200003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3194254641.7000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3193152919.700009,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3192785597.7 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3193194771.000003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3193027134.2999988 ns\nthreads: 1"
           }
         ]
       }
