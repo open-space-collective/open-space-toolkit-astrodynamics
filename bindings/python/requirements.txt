@@ -3,4 +3,4 @@
 open-space-toolkit-core~=5.0
 open-space-toolkit-io~=4.0
 open-space-toolkit-mathematics~=4.3
-open-space-toolkit-physics~=12.0
+open-space-toolkit-physics~=12.5
