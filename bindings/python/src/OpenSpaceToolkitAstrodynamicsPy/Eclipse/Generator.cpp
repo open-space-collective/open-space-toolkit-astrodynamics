@@ -18,7 +18,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(pybind11::module& 
     using ostk::astrodynamics::eclipse::Generator;
     using ostk::astrodynamics::Trajectory;
 
-    class_<Generator, Shared<Generator>>(
+    class_<Generator>(
         aModule,
         "Generator",
         R"doc(
@@ -32,9 +32,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(pybind11::module& 
                 Constructor.
 
                 Args:
-                    environment (Environment): The Environment to use during the search. Defaults to the default environment.
-                    search_step_size (Duration): The step size to use during the search. Defaults to 60 seconds.
-                    search_tolerance (Duration): The tolerance to use during the search. Defaults to 1 millisecond.
+                    environment (Environment): The Environment to use during the search. Defaults to the Environment.default().
+                    search_step_size (Duration): The step size to use during the search. Defaults to Duration.seconds(60.0).
+                    search_tolerance (Duration): The tolerance to use during the search. Defaults to Duration.milliseconds(1.0).
             )doc",
             arg("environment") = Environment::Default(),
             arg("search_step_size") = Duration::Seconds(60.0),
