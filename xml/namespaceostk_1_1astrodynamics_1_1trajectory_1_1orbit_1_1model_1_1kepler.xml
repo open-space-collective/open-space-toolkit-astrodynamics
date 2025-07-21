@@ -3,10 +3,24 @@
   <compounddef id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::trajectory::orbit::model::kepler</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" prot="public">ostk::astrodynamics::trajectory::orbit::model::kepler::COE</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" prot="public">ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</innerclass>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1a2964688a083595b9507974ce1d3df7ae" prot="public" static="no">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ab279e7e0dff525efc212354b8cac4403" prot="public" static="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">ostk::astrodynamics::trajectory::orbit::model::kepler::COE</ref></type>
+        <definition>using ostk::astrodynamics::trajectory::orbit::model::kepler::KeplerianCOE = typedef ostk::astrodynamics::trajectory::orbit::model::kepler::COE</definition>
+        <argsstring></argsstring>
+        <name>KeplerianCOE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="50" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1a573fc0da6ece36f8f098c34bfc7e5507" prot="public" static="no">
         <type>ostk::physics::unit::Time</type>
-        <definition>using ostk::astrodynamics::trajectory::orbit::model::kepler::TimeUnit = typedef ostk::physics::unit::Time</definition>
+        <definition>typedef ostk::physics::unit::Time ostk::astrodynamics::trajectory::orbit::model::kepler::TimeUnit</definition>
         <argsstring></argsstring>
         <name>TimeUnit</name>
         <briefdescription>
@@ -99,6 +113,21 @@
         </inbodydescription>
         <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="49" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="49" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ac099f370dafe9f1f38bb1711071988bc" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astrodynamics::trajectory::orbit::model::kepler::GravitationalParameterSIUnit</definition>
+        <argsstring></argsstring>
+        <name>GravitationalParameterSIUnit</name>
+        <initializer>=
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, TimeUnit::Unit::Second)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" line="36" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1aa326f2c05044d69b40e29fc3e4912f59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -143,6 +172,47 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" line="97" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="97" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ae7b9389800febcb5d5338bcd91779de3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::trajectory::orbit::model::kepler::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const ModifiedEquinoctial &amp;aModifiedEquinoctial)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref> &amp;</type>
+          <declname>aModifiedEquinoctial</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aMEOE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" line="81" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="81" bodyend="85"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

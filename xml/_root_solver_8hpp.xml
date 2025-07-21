@@ -5,7 +5,7 @@
     <includes local="no">OpenSpaceToolkit/Core/Type/Real.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Core/Type/Size.hpp</includes>
     <includedby refid="_numerical_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</includedby>
-    <includedby refid="_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</includedby>
+    <includedby refid="_access_2_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</includedby>
     <includedby refid="_root_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp</includedby>
     <includedby refid="_temporal_condition_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</includedby>
     <includedby refid="_orbit_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</includedby>
@@ -125,7 +125,7 @@
       </node>
       <node id="32">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
-        <link refid="_generator_8cpp"/>
+        <link refid="_access_2_generator_8cpp"/>
       </node>
       <node id="10">
         <label>include/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp</label>

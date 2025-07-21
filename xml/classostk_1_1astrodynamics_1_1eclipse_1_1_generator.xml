@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::eclipse::Generator</compoundname>
+    <includes refid="_eclipse_2_generator_8hpp" local="no">Generator.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1ae6c02d483d2cd26e865d67a74b18fc4c" prot="private" static="no" mutable="no">
+        <type>Environment</type>
+        <definition>Environment ostk::astrodynamics::eclipse::Generator::environment_</definition>
+        <argsstring></argsstring>
+        <name>environment_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="97" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1ae12be0b74bb44b8721660e3b90bfd074" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" kindref="compound">TemporalConditionSolver</ref></type>
+        <definition>TemporalConditionSolver ostk::astrodynamics::eclipse::Generator::temporalConditionSolver_</definition>
+        <argsstring></argsstring>
+        <name>temporalConditionSolver_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="98" column="29" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a642c01597c938abebc90a5fc5df5c384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::eclipse::Generator::Generator</definition>
+        <argsstring>(const Environment &amp;anEnvironment=Environment::Default(), const Duration &amp;aSearchStepSize=Duration::Seconds(60.0), const Duration &amp;aSearchTolerance=Duration::Milliseconds(1.0))</argsstring>
+        <name>Generator</name>
+        <param>
+          <type>const Environment &amp;</type>
+          <declname>anEnvironment</declname>
+          <defval>Environment::Default()</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aSearchStepSize</declname>
+          <defval>Duration::Seconds(60.0)</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aSearchTolerance</declname>
+          <defval>Duration::Milliseconds(1.0)</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a642c01597c938abebc90a5fc5df5c384" kindref="member">Generator</ref><sp/>eclipseGenerator<sp/>=<sp/>{<sp/>environment,<sp/>Duration::Seconds(60.0),<sp/>Duration::Milliseconds(1.0)<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEnvironment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Environment to use during the search. Defaults to the default environment. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSearchStepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step size to use during the search. Defaults to 60 seconds. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSearchTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The tolerance to use during the search. Defaults to 1 millisecond. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a4427e80159b62b4d8e66b518b77ecfce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::eclipse::Generator::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if eclipse generator is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if eclipse generator is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="61" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1ab157fbc061c85c574dc7cd66fd7c3cc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Environment</type>
+        <definition>Environment ostk::astrodynamics::eclipse::Generator::getEnvironment</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnvironment</name>
+        <briefdescription>
+<para>Get the environment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Environment </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="66" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="43" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a0d12a17a019c22cd032f4b874cc83c2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::eclipse::Generator::getSearchStepSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSearchStepSize</name>
+        <briefdescription>
+<para>Get the search step size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Search step size </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="71" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1acb29bf24c899d2ae5f630bc3553591ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::eclipse::Generator::getSearchTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getSearchTolerance</name>
+        <briefdescription>
+<para>Get the search tolerance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Search tolerance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="76" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a16c4a05973c7eebbe442f641173acc01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Eclipse &gt;</type>
+        <definition>Array&lt; Eclipse &gt; ostk::astrodynamics::eclipse::Generator::generate</definition>
+        <argsstring>(const Trajectory &amp;aTrajectory, const Interval &amp;anAnalysisInterval, const String &amp;anOccultedCelestialObjectName=&quot;Sun&quot;, const String &amp;anOccultingCelestialObjectName=&quot;Earth&quot;) const</argsstring>
+        <name>generate</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>anAnalysisInterval</declname>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>anOccultedCelestialObjectName</declname>
+          <defval>&quot;Sun&quot;</defval>
+        </param>
+        <param>
+          <type>const String &amp;</type>
+          <declname>anOccultingCelestialObjectName</declname>
+          <defval>&quot;Earth&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Generate eclipses for a given trajectory over the provided analysis interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;Eclipse&gt;<sp/>eclipses<sp/>=<sp/>eclipseGenerator.generate(trajectory,<sp/>analysisInterval,<sp/></highlight><highlight class="stringliteral">&quot;Sun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Earth&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to search for eclipses </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAnalysisInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The analysis interval </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOccultedCelestialObjectName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the occulted celestial object (default &quot;Sun&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOccultingCelestialObjectName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the occulting celestial object (default &quot;Earth&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of eclipses </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="89" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="73" bodyend="179"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Eclipse generator for trajectory analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Generates eclipses for a given trajectory over a specified analysis interval. </para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="41" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" bodystart="40" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1ae6c02d483d2cd26e865d67a74b18fc4c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>environment_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a16c4a05973c7eebbe442f641173acc01" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>generate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a642c01597c938abebc90a5fc5df5c384" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>Generator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1ab157fbc061c85c574dc7cd66fd7c3cc5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>getEnvironment</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a0d12a17a019c22cd032f4b874cc83c2b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>getSearchStepSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1acb29bf24c899d2ae5f630bc3553591ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>getSearchTolerance</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1a4427e80159b62b4d8e66b518b77ecfce" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eclipse_1_1_generator_1ae12be0b74bb44b8721660e3b90bfd074" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eclipse::Generator</scope><name>temporalConditionSolver_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="classostk_1_1astrodynamics_1_1access_1_1_access_target" kind="class" language="C++" prot="public">
     <compoundname>ostk::astrodynamics::access::AccessTarget</compoundname>
-    <includes refid="_generator_8hpp" local="no">Generator.hpp</includes>
+    <includes refid="_access_2_generator_8hpp" local="no">Generator.hpp</includes>
       <sectiondef kind="public-type">
       <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ae6147bc96ca275abe2b999ec9028f297" prot="public" static="no" strong="yes">
         <type></type>

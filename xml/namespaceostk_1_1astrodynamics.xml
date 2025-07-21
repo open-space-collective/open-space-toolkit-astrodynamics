@@ -12,6 +12,7 @@
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction">ostk::astrodynamics::conjunction</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1data">ostk::astrodynamics::data</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1dynamics">ostk::astrodynamics::dynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1eclipse">ostk::astrodynamics::eclipse</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1estimator">ostk::astrodynamics::estimator</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1eventcondition">ostk::astrodynamics::eventcondition</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1flight">ostk::astrodynamics::flight</innernamespace>

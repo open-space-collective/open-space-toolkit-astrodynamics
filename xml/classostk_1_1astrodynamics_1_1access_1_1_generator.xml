@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="classostk_1_1astrodynamics_1_1access_1_1_generator" kind="class" language="C++" prot="public">
     <compoundname>ostk::astrodynamics::access::Generator</compoundname>
-    <includes refid="_generator_8hpp" local="no">Generator.hpp</includes>
+    <includes refid="_access_2_generator_8hpp" local="no">Generator.hpp</includes>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad018f05018c20eb8fba73c35b4ddf191" prot="private" static="no" mutable="no">
         <type>Environment</type>
@@ -83,12 +83,12 @@
         <param>
           <type>const Duration &amp;</type>
           <declname>aStep</declname>
-          <defval><ref refid="_generator_8hpp_1a7ce1d4cc8c33e65c078f721b17b975ea" kindref="member">DEFAULT_STEP</ref></defval>
+          <defval><ref refid="_access_2_generator_8hpp_1a7ce1d4cc8c33e65c078f721b17b975ea" kindref="member">DEFAULT_STEP</ref></defval>
         </param>
         <param>
           <type>const Duration &amp;</type>
           <declname>aTolerance</declname>
-          <defval><ref refid="_generator_8hpp_1a0e355e0dcb761f1b89524e0e77fd14bd" kindref="member">DEFAULT_TOLERANCE</ref></defval>
+          <defval><ref refid="_access_2_generator_8hpp_1a0e355e0dcb761f1b89524e0e77fd14bd" kindref="member">DEFAULT_TOLERANCE</ref></defval>
         </param>
         <param>
           <type>const std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt; &amp;</type>

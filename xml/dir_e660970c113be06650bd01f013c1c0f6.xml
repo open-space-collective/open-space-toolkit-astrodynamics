@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_e660970c113be06650bd01f013c1c0f6" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Access</compoundname>
-    <innerfile refid="_generator_8hpp">Generator.hpp</innerfile>
+    <innerfile refid="_access_2_generator_8hpp">Generator.hpp</innerfile>
     <innerfile refid="_visibility_criterion_8hpp">VisibilityCriterion.hpp</innerfile>
     <briefdescription>
     </briefdescription>

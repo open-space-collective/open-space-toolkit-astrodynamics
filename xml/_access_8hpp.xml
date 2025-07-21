@@ -8,7 +8,7 @@
     <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Interval.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</includes>
-    <includedby refid="_generator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp</includedby>
+    <includedby refid="_access_2_generator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp</includedby>
     <includedby refid="_access_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access.cpp</includedby>
     <incdepgraph>
       <node id="7">
@@ -49,7 +49,7 @@
     <invincdepgraph>
       <node id="3">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
-        <link refid="_generator_8cpp"/>
+        <link refid="_access_2_generator_8cpp"/>
       </node>
       <node id="4">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access.cpp</label>
@@ -57,7 +57,7 @@
       </node>
       <node id="2">
         <label>include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp</label>
-        <link refid="_generator_8hpp"/>
+        <link refid="_access_2_generator_8hpp"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>

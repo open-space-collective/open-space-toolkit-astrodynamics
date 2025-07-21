@@ -1,0 +1,122 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+epoch = Instant.date_time(DateTime(2018, 9, 5, 0, 0, 0), Scale.UTC)
+
+keplerian_model = Kepler(
+    coe, epoch, earth, Kepler.PerturbationType.No, True
+)  # True = COE expressed in ITRF frame
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+Cell [0;32mIn[6], line 3[0m
+[1;32m      1[0m epoch [38;5;241m=[39m Instant[38;5;241m.[39mdate_time(DateTime([38;5;241m2018[39m, [38;5;241m9[39m, [38;5;241m5[39m, [38;5;241m0[39m, [38;5;241m0[39m, [38;5;241m0[39m), Scale[38;5;241m.[39mUTC)
+[0;32m----> 3[0m keplerian_model [38;5;241m=[39m [43mKepler[49m[43m([49m
+[1;32m      4[0m [43m    [49m[43mcoe[49m[43m,[49m[43m [49m[43mepoch[49m[43m,[49m[43m [49m[43mearth[49m[43m,[49m[43m [49m[43mKepler[49m[38;5;241;43m.[39;49m[43mPerturbationType[49m[38;5;241;43m.[39;49m[43mNo[49m[43m,[49m[43m [49m[38;5;28;43;01mTrue[39;49;00m
+[1;32m      5[0m [43m)[49m  [38;5;66;03m# True = COE expressed in ITRF frame[39;00m
+
+[0;31mRuntimeError[0m:  0# ostk::core::error::RuntimeError::RuntimeError<>(char const*) at /usr/local/include/OpenSpaceToolkit/Core/Error/RuntimeError.hpp:33
+ 1# ostk::astrodynamics::trajectory::orbit::model::kepler::COE::getCartesianState(ostk::physics::unit::Derived const&, std::shared_ptr<ostk::physics::coordinate::Frame const> const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp:331
+ 2# ostk::astrodynamics::trajectory::orbit::model::Kepler::InertialCoeFromFixedCoe(ostk::astrodynamics::trajectory::orbit::model::kepler::COE const&, ostk::physics::time::Instant const&, ostk::physics::environment::object::Celestial const&) at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp:318
+ 3# ostk::astrodynamics::trajectory::orbit::model::Kepler::Kepler(ostk::astrodynamics::trajectory::orbit::model::kepler::COE const&, ostk::physics::time::Instant const&, ostk::physics::environment::object::Celestial const&, ostk::astrodynamics::trajectory::orbit::model::Kepler::PerturbationType const&, bool) at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp:57
+ 4# 0x00007F94DEE6657E in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 5# 0x00007F94DED8D247 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 6# 0x00007F94DF06E68A in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 7# 0x00007F94DF032EF6 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 8# 0x00007F94DEFC14B7 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 9# 0x00007F94DEFC16D9 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+10# 0x00007F94DEC87C28 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+11# 0x00000000005EDDA9 in /usr/bin/python3.11
+12# _PyObject_MakeTpCall in /usr/bin/python3.11
+13# 0x0000000000639FFA in /usr/bin/python3.11
+14# _PyObject_Call in /usr/bin/python3.11
+15# 0x00000000005C819B in /usr/bin/python3.11
+16# 0x00000000005D6834 in /usr/bin/python3.11
+17# 0x00007F94E67C1B7D in /usr/local/lib/python3.11/dist-packages/ostk/core/OpenSpaceToolkitCorePy.cpython-311-x86_64-linux-gnu.so
+18# _PyObject_MakeTpCall in /usr/bin/python3.11
+19# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+20# 0x00000000006E142F in /usr/bin/python3.11
+21# PyEval_EvalCode in /usr/bin/python3.11
+22# 0x00000000006E32F3 in /usr/bin/python3.11
+23# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+24# 0x000000000070F37C in /usr/bin/python3.11
+25# PyIter_Send in /usr/bin/python3.11
+26# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+27# 0x000000000070F37C in /usr/bin/python3.11
+28# PyIter_Send in /usr/bin/python3.11
+29# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+30# 0x000000000070F37C in /usr/bin/python3.11
+31# 0x000000000070F617 in /usr/bin/python3.11
+32# 0x000000000062AB87 in /usr/bin/python3.11
+33# PyObject_Vectorcall in /usr/bin/python3.11
+34# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+35# 0x000000000056567E in /usr/bin/python3.11
+36# 0x0000000000639869 in /usr/bin/python3.11
+37# PyObject_Call in /usr/bin/python3.11
+38# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+39# 0x000000000070F37C in /usr/bin/python3.11
+40# PyIter_Send in /usr/bin/python3.11
+41# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+42# 0x000000000070F37C in /usr/bin/python3.11
+43# PyIter_Send in /usr/bin/python3.11
+44# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+45# 0x000000000070F37C in /usr/bin/python3.11
+46# PyIter_Send in /usr/bin/python3.11
+47# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+48# 0x000000000070F37C in /usr/bin/python3.11
+49# PyIter_Send in /usr/bin/python3.11
+50# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+51# 0x000000000070F37C in /usr/bin/python3.11
+52# PyIter_Send in /usr/bin/python3.11
+53# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+54# 0x000000000070F37C in /usr/bin/python3.11
+55# PyIter_Send in /usr/bin/python3.11
+56# 0x00007F952332EB7C in /usr/lib/python3.11/lib-dynload/_asyncio.cpython-311-x86_64-linux-gnu.so
+57# 0x00007F952332F3A7 in /usr/lib/python3.11/lib-dynload/_asyncio.cpython-311-x86_64-linux-gnu.so
+58# 0x00000000005EDF12 in /usr/bin/python3.11
+59# 0x000000000049BB80 in /usr/bin/python3.11
+60# 0x000000000049BBF8 in /usr/bin/python3.11
+61# 0x00000000005EDE6B in /usr/bin/python3.11
+62# PyObject_Call in /usr/bin/python3.11
+63# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+64# 0x00000000006E142F in /usr/bin/python3.11
+65# PyEval_EvalCode in /usr/bin/python3.11
+66# 0x00000000006E32F3 in /usr/bin/python3.11
+67# 0x00000000005EDE6B in /usr/bin/python3.11
+68# PyObject_Vectorcall in /usr/bin/python3.11
+69# _PyEval_EvalFrameDefault in /usr/bin/python3.11
+70# _PyFunction_Vectorcall in /usr/bin/python3.11
+71# PyObject_Call in /usr/bin/python3.11
+72# 0x00000000006B3270 in /usr/bin/python3.11
+73# Py_RunMain in /usr/bin/python3.11
+74# Py_BytesMain in /usr/bin/python3.11
+75# __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
+76# _start in /usr/bin/python3.11
+Frame must be Quasi Inertial
+

@@ -3,6 +3,7 @@
   <compounddef id="dir_7f2e965ce8e3cd03a72d3e55e02cbb1b" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler</compoundname>
     <innerfile refid="_c_o_e_8hpp">COE.hpp</innerfile>
+    <innerfile refid="_modified_equinoctial_8hpp">ModifiedEquinoctial.hpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

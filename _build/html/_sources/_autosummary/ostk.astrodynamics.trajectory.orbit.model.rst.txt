@@ -22,6 +22,7 @@
    
       BrouwerLyddaneMean
       Kepler
+      ModifiedEquinoctial
       Propagated
       SGP4
       Tabulated

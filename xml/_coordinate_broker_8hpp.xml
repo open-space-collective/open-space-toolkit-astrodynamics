@@ -201,7 +201,7 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="116">
+      <node id="118">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.cpp</label>
         <link refid="_coordinate_subset_8cpp"/>
       </node>
@@ -284,7 +284,7 @@
         </childnode>
         <childnode refid="99" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
         <childnode refid="101" relation="include">
         </childnode>
@@ -306,11 +306,13 @@
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
         <childnode refid="107" relation="include">
         </childnode>
         <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
@@ -363,10 +365,10 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
         <link refid="_constant_thrust_8cpp"/>
       </node>
-      <node id="111">
+      <node id="113">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp</label>
         <link refid="_o_p_m_8hpp"/>
-        <childnode refid="112" relation="include">
+        <childnode refid="114" relation="include">
         </childnode>
       </node>
       <node id="40">
@@ -403,7 +405,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
         <link refid="_t_l_e_solver_8cpp"/>
       </node>
-      <node id="115">
+      <node id="117">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.cpp</label>
         <link refid="_coordinate_broker_8cpp"/>
       </node>
@@ -573,7 +575,11 @@
       </node>
       <node id="109">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
-        <link refid="_generator_8cpp"/>
+        <link refid="_access_2_generator_8cpp"/>
+      </node>
+      <node id="111">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp</label>
+        <link refid="_eclipse_2_generator_8cpp"/>
       </node>
       <node id="88">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp</label>
@@ -605,7 +611,7 @@
         <childnode refid="33" relation="include">
         </childnode>
       </node>
-      <node id="110">
+      <node id="112">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.cpp</label>
         <link refid="_trajectory_2_model_8cpp"/>
       </node>
@@ -653,7 +659,7 @@
         <childnode refid="53" relation="include">
         </childnode>
       </node>
-      <node id="114">
+      <node id="116">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp</label>
         <link refid="_state_builder_8cpp"/>
       </node>
@@ -679,7 +685,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp</label>
         <link refid="_position_derivative_8cpp"/>
       </node>
-      <node id="112">
+      <node id="114">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.cpp</label>
         <link refid="_o_p_m_8cpp"/>
       </node>
@@ -713,7 +719,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.cpp</label>
         <link refid="_orbit_8cpp"/>
       </node>
-      <node id="113">
+      <node id="115">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
         <link refid="_state_builder_8hpp"/>
         <childnode refid="68" relation="include">
@@ -736,7 +742,7 @@
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
       </node>
       <node id="72">
@@ -759,7 +765,7 @@
       </node>
       <node id="108">
         <label>include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp</label>
-        <link refid="_generator_8hpp"/>
+        <link refid="_access_2_generator_8hpp"/>
         <childnode refid="109" relation="include">
         </childnode>
       </node>
@@ -780,7 +786,7 @@
         </childnode>
         <childnode refid="107" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
       </node>
       <node id="78">
@@ -896,6 +902,8 @@
         <link refid="_trajectory_8hpp"/>
         <childnode refid="108" relation="include">
         </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
         <childnode refid="73" relation="include">
         </childnode>
         <childnode refid="105" relation="include">
@@ -922,15 +930,15 @@
         </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
       </node>
       <node id="97">
@@ -1006,6 +1014,12 @@
       <node id="64">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</label>
         <link refid="_real_condition_8cpp"/>
+      </node>
+      <node id="110">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp</label>
+        <link refid="_eclipse_2_generator_8hpp"/>
+        <childnode refid="111" relation="include">
+        </childnode>
       </node>
       <node id="20">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>

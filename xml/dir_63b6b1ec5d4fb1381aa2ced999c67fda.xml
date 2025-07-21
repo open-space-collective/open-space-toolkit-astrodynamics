@@ -6,6 +6,7 @@
     <innerdir refid="dir_27bf2a9effe12d13a0dd0b2a43415894">include/OpenSpaceToolkit/Astrodynamics/Conjunction</innerdir>
     <innerdir refid="dir_b8e3bad181d55bad3c8175acd0b67119">include/OpenSpaceToolkit/Astrodynamics/Data</innerdir>
     <innerdir refid="dir_0b6608e3d374155cbf0f51bbaa9dd801">include/OpenSpaceToolkit/Astrodynamics/Dynamics</innerdir>
+    <innerdir refid="dir_71cc0e096d950071a28f47e772ef9930">include/OpenSpaceToolkit/Astrodynamics/Eclipse</innerdir>
     <innerdir refid="dir_75a484116466ea922e244b5afcfed527">include/OpenSpaceToolkit/Astrodynamics/Estimator</innerdir>
     <innerdir refid="dir_e41b2cba089ed3ee71bd9bdec1b42eda">include/OpenSpaceToolkit/Astrodynamics/EventCondition</innerdir>
     <innerdir refid="dir_a9475479c97067a34c1b41ad9be87160">include/OpenSpaceToolkit/Astrodynamics/Flight</innerdir>
