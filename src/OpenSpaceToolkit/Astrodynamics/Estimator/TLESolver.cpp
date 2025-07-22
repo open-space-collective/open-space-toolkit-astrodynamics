@@ -208,9 +208,6 @@ TLESolver::Analysis TLESolver::estimate(
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
     }
 
-    // Convert inputs to an inertial frame for estimation
-    initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
-
     const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
         [this](const State& aState) -> State
         {
