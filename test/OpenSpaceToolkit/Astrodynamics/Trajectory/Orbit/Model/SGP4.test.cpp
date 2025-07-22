@@ -125,9 +125,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             EXPECT_GT(10.0, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm());
             EXPECT_GT(1e-2, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm());
 
-            const Shared<const Frame> temeOfEpochFrame = Frame::TEMEOfEpoch(tle.getEpoch());
+            const Shared<const Frame> teme = Frame::TEME();
 
-            const State state_TEME = state_GCRF.inFrame(temeOfEpochFrame);
+            const State state_TEME = state_GCRF.inFrame(teme);
 
             const Position position_TEME = state_TEME.getPosition();
             const Velocity velocity_TEME = state_TEME.getVelocity();
@@ -164,14 +164,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
             // std::cout << "position_GCRF 1 = " << std::endl << position_GCRF << std::endl;
             // std::cout << "position_GCRF 2 = " << std::endl <<
-            // state_GCRF.inFrame(temeOfEpochFrame).inFrame(Frame::GCRF()).getPosition() << std::endl;
+            // state_GCRF.inFrame(teme).inFrame(Frame::GCRF()).getPosition() << std::endl;
 
             // std::cout << "position_TEME 1 = " << std::endl << position_TEME << std::endl;
             // std::cout << "position_TEME 2 = " << std::endl <<
-            // state_TEME.inFrame(Frame::GCRF()).inFrame(temeOfEpochFrame).getPosition() << std::endl;
+            // state_TEME.inFrame(Frame::GCRF()).inFrame(teme).getPosition() << std::endl;
 
-            EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *position_TEME.accessFrame());
-            EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *velocity_TEME.accessFrame());
+            EXPECT_EQ(*Frame::TEME(), *position_TEME.accessFrame());
+            EXPECT_EQ(*Frame::TEME(), *velocity_TEME.accessFrame());
 
             EXPECT_GT(10.0, (position_TEME.accessCoordinates() - referencePosition_TEME).norm());
             EXPECT_GT(1e-2, (velocity_TEME.accessCoordinates() - referenceVelocity_TEME).norm());

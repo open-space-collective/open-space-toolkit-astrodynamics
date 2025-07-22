@@ -57,7 +57,7 @@ def reference_cartesian_state(
 
 
 @pytest.fixture
-def meoe_object(meoe_default_values) -> ModifiedEquinoctial:
+def modified_equinoctial(meoe_default_values: dict) -> ModifiedEquinoctial:
     return ModifiedEquinoctial(
         meoe_default_values["p"],
         meoe_default_values["f"],
@@ -72,16 +72,16 @@ class TestModifiedEquinoctial:
 
     def test_constructor_and_getters(
         self,
-        meoe_object: ModifiedEquinoctial,
-        meoe_default_values,
+        modified_equinoctial: ModifiedEquinoctial,
+        meoe_default_values: dict,
     ):
-        assert meoe_object.is_defined()
-        assert meoe_object.get_semi_latus_rectum() == meoe_default_values["p"]
-        assert meoe_object.get_eccentricity_x() == meoe_default_values["f"]
-        assert meoe_object.get_eccentricity_y() == meoe_default_values["g"]
-        assert meoe_object.get_node_x() == meoe_default_values["h"]
-        assert meoe_object.get_node_y() == meoe_default_values["k"]
-        assert meoe_object.get_true_longitude() == meoe_default_values["L"]
+        assert modified_equinoctial.is_defined()
+        assert modified_equinoctial.get_semi_latus_rectum() == meoe_default_values["p"]
+        assert modified_equinoctial.get_eccentricity_x() == meoe_default_values["f"]
+        assert modified_equinoctial.get_eccentricity_y() == meoe_default_values["g"]
+        assert modified_equinoctial.get_node_x() == meoe_default_values["h"]
+        assert modified_equinoctial.get_node_y() == meoe_default_values["k"]
+        assert modified_equinoctial.get_true_longitude() == meoe_default_values["L"]
 
     def test_undefined_state(self):
         meoe_undefined = ModifiedEquinoctial.undefined()
@@ -89,9 +89,9 @@ class TestModifiedEquinoctial:
 
     def test_get_si_vector(
         self,
-        meoe_object: ModifiedEquinoctial,
+        modified_equinoctial: ModifiedEquinoctial,
     ):
-        si_vector = meoe_object.get_si_vector()
+        si_vector = modified_equinoctial.get_si_vector()
         assert len(si_vector) == 6
 
     def test_cartesian(
@@ -109,12 +109,12 @@ class TestModifiedEquinoctial:
 
     def test_get_cartesian_state(
         self,
-        meoe_object: ModifiedEquinoctial,
+        modified_equinoctial: ModifiedEquinoctial,
         gcrf: Frame,
         earth_gravitational_parameter: Derived,
     ):
         assert (
-            meoe_object.get_cartesian_state(
+            modified_equinoctial.get_cartesian_state(
                 earth_gravitational_parameter,
                 gcrf,
             )
@@ -122,7 +122,6 @@ class TestModifiedEquinoctial:
         )
 
     def test_coe_method_general_elliptical(self):
-        """Test COE method with general elliptical orbit."""
         sma = Length.kilometers(24396.137)
         ecc = 0.7308
         inc = Angle.degrees(7.0)
@@ -133,3 +132,11 @@ class TestModifiedEquinoctial:
         coe = COE(sma, ecc, inc, raan, aop, ta)
 
         assert ModifiedEquinoctial.coe(coe) is not None
+
+    def test_to_coe(
+        self,
+        modified_equinoctial: ModifiedEquinoctial,
+        earth_gravitational_parameter: Derived,
+    ):
+        coe = modified_equinoctial.to_coe(earth_gravitational_parameter)
+        assert coe.is_defined()

@@ -120,6 +120,7 @@ class TestTLESolver:
             initial_guess=(initial_state, 1e-4),
             observations=observations,
         )
+
         assert isinstance(analysis, TLESolver.Analysis)
         assert isinstance(analysis.estimated_tle, TLE)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)

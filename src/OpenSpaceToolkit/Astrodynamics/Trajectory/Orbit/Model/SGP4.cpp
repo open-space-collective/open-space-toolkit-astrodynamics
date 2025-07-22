@@ -45,7 +45,7 @@ class SGP4::Impl
 SGP4::Impl::Impl(const TLE& aTle)
     : tle_(aTle),
       sgp4_(libsgp4::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
-      temeFrameOfEpochSPtr_(Frame::TEMEOfEpoch(tle_.getEpoch()))
+      temeFrameOfEpochSPtr_(Frame::TEME())
 {
 }
 

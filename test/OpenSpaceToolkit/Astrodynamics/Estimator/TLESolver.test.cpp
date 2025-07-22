@@ -12,6 +12,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -21,6 +23,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <Global.test.hpp>
@@ -43,9 +46,12 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::estimator::TLESolver;
@@ -53,6 +59,7 @@ using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
@@ -399,6 +406,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Failures)
             ostk::core::error::RuntimeError
         );
     }
+}
+
+// Data taken from Issue #533
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NegativeEccentricity)
+{
+    const State initialState = State(
+        Instant::DateTime(DateTime::Parse("2024-12-04T23:50:00"), Scale::UTC),
+        Position::Meters({-130897.3295, 1348403.6866, -6841471.7888}, Frame::GCRF()),
+        Velocity::MetersPerSecond({5678.9079, -4865.1520, -1075.1813}, Frame::GCRF())
+    );
+
+    const Shared<const Earth> earthSPtr = std::make_shared<Earth>(Earth::Spherical());
+
+    const Environment environment = Environment(Instant::J2000(), {earthSPtr});
+
+    const Propagator propagator = Propagator::Default(environment);
+
+    const Interval interval =
+        Interval::Closed(initialState.getInstant(), initialState.getInstant() + Duration::Days(1.0));
+
+    const Array<Instant> instants = interval.generateGrid(Duration::Minutes(10.0));
+
+    const Array<State> observations = propagator.calculateStatesAt(initialState, instants);
+
+    const TLESolver tleSolver = {LeastSquaresSolver::Default(), 0, "00001A", 0, false};
+
+    const TLESolver::Analysis analysis = tleSolver.estimate(observations[0], observations);
+
+    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)

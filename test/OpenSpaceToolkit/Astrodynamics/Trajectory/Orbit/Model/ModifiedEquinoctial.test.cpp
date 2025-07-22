@@ -637,6 +637,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     ASSERT_FALSE(meoe.isDefined());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, ToCOE)
+{
+    // undefined ModifiedEquinoctial
+    {
+        const ModifiedEquinoctial undefinedMeoe = ModifiedEquinoctial::Undefined();
+
+        EXPECT_THROW(undefinedMeoe.toCOE(earthGravitationalParameter_), ostk::core::error::runtime::Undefined);
+    }
+
+    // invalid gravitational parameter
+    {
+        const Derived invalidGravitationalParameter = Derived::Undefined();
+
+        EXPECT_THROW(modifiedEquinoctial_.toCOE(invalidGravitationalParameter), ostk::core::error::runtime::Undefined);
+    }
+
+    // general elliptical orbit
+    {
+        const Length sma = Length::Kilometers(24396.137);
+        const Real ecc = 0.7308;
+        const Angle inc = Angle::Degrees(7.0);
+        const Angle raan = Angle::Degrees(45.0);
+        const Angle aop = Angle::Degrees(90.0);
+        const Angle ta = Angle::Degrees(0.0);
+
+        const COE originalCoe(sma, ecc, inc, raan, aop, ta);
+        const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(originalCoe);
+
+        ASSERT_TRUE(meoe.isDefined());
+
+        const COE convertedCoe = meoe.toCOE(earthGravitationalParameter_);
+
+        ASSERT_TRUE(convertedCoe.isDefined());
+
+        EXPECT_NEAR(sma.inMeters(), convertedCoe.getSemiMajorAxis().inMeters(), POSITION_TOLERANCE);
+        EXPECT_NEAR(ecc, convertedCoe.getEccentricity(), TOLERANCE);
+        EXPECT_NEAR(inc.inRadians(), convertedCoe.getInclination().inRadians(), ANGLE_TOLERANCE);
+
+        EXPECT_NEAR(convertedCoe.getRaan().inRadians(), raan.inRadians(), ANGLE_TOLERANCE);
+        EXPECT_NEAR(convertedCoe.getAop().inRadians(), aop.inRadians(), ANGLE_TOLERANCE);
+        EXPECT_NEAR(convertedCoe.getTrueAnomaly().inRadians(), ta.inRadians(), ANGLE_TOLERANCE);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, StreamOperator)
 {
     {
