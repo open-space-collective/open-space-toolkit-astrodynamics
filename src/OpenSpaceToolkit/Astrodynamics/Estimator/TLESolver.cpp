@@ -215,8 +215,9 @@ TLESolver::Analysis TLESolver::estimate(
         }
     );
 
-    // TBI: This will do nothing except just change the frame value as the initial state consists of Modified Equinoctial elements
-    // We should remove the estimationFrameSPtr_ as an input and just use TEME consistently across the board.
+    // TBI: This will do nothing except just change the frame value as the initial state consists of Modified
+    // Equinoctial elements We should remove the estimationFrameSPtr_ as an input and just use TEME consistently across
+    // the board.
     initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
 
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
