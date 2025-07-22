@@ -215,6 +215,10 @@ TLESolver::Analysis TLESolver::estimate(
         }
     );
 
+    // TBI: This will do nothing except just change the frame value as the initial state consists of Modified Equinoctial elements
+    // We should remove the estimationFrameSPtr_ as an input and just use TEME consistently across the board.
+    initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
+
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
@@ -257,7 +261,7 @@ Orbit TLESolver::estimateOrbit(
 State TLESolver::TLEToTLEState(const TLE& aTLE) const
 {
     const SGP4 sgp4(aTLE);
-    const State state = sgp4.calculateStateAt(aTLE.getEpoch()).inFrame(Frame::TEME());
+    const State state = sgp4.calculateStateAt(aTLE.getEpoch()).inFrame(tleStateBuilder_.getFrame());
 
     const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
         {state.getPosition(), state.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_
@@ -315,7 +319,7 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
 
 State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, const Real& aBStar) const
 {
-    const State cartesianStateTEME = aCartesianState.inFrame(Frame::TEME());
+    const State cartesianStateTEME = aCartesianState.inFrame(tleStateBuilder_.getFrame());
 
     const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
         {cartesianStateTEME.getPosition(), cartesianStateTEME.getVelocity()},
@@ -328,7 +332,7 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
         modifiedEquinoctial.getEccentricityY(),
         modifiedEquinoctial.getNodeX(),
         modifiedEquinoctial.getNodeY(),
-        modifiedEquinoctial.getTrueLongitude().inRadians(0.0, Real::TwoPi()),
+        modifiedEquinoctial.getTrueLongitude().inRadians(),
     };
 
     if (estimateBStar_)

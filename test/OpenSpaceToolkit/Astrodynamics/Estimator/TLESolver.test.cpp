@@ -408,6 +408,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Failures)
     }
 }
 
+// Data taken from Issue #533
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NegativeEccentricity)
 {
     const State initialState = State(
