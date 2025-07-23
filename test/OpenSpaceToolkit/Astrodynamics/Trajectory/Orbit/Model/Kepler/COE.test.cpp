@@ -1,6 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -20,7 +19,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::String;
@@ -549,23 +547,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCart
         // [TBI] Add more tests
     }
 
-    // Non-quasi inertial Frame
-    {
-        const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.05;
-        const Angle inclination = Angle::Degrees(45.0);
-        const Angle raan = Angle::Degrees(10.0);
-        const Angle aop = Angle::Degrees(20.0);
-        const Angle trueAnomaly = Angle::Degrees(30.0);
-
-        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
-
-        EXPECT_THROW(
-            coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::ITRF()),
-            ostk::core::error::RuntimeError
-        );
-    }
-
     {
         EXPECT_ANY_THROW(COE::Undefined().getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF()));
     }
@@ -673,17 +654,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
         EXPECT_ANY_THROW(COE::Cartesian(
             COE::CartesianState({Position::Undefined(), Velocity::Undefined()}), Earth::EGM2008.gravitationalParameter_
         ));
-    }
-
-    // Non-quasi inertial Frame
-    {
-        const Position position = Position::Meters({1000000.0, 2000000.0, 3000000.0}, Frame::ITRF());
-        const Velocity velocity = Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::ITRF());
-        const Pair<Position, Velocity> cartesianState = {position, velocity};
-
-        EXPECT_THROW(
-            COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_), ostk::core::error::RuntimeError
-        );
     }
 
     {
