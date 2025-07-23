@@ -89,7 +89,7 @@
     Estimated TLE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     --                                      Two-Line Elements -------------------------------------------------------------------------------
     Line 1:                                  1 99999U 00001A   20002.56593506  .00000000  00000-0  00000-0 0    02 
-    Line 2:                                  2 99999  96.0053  29.5295 0081092 211.9303 146.5718 15.27048789    15 
+    Line 2:                                  2 99999  96.0054  29.5294 0081091 211.9303 146.5718 15.27048790    16 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     Satellite Name:                                                                   
     Satellite Number:                        99999                                    
@@ -101,38 +101,38 @@
     B* Drag Term:                            0.0                                      
     Ephemeris Type:                          0                                        
     Element Set Number:                      0                                        
-    Inclination:                             96.005300000000005 [deg]                 
-    Right Ascension of the Ascending Node :  29.529499999999999 [deg]                 
-    Eccentricity:                            0.0081092000000000004                    
+    Inclination:                             96.005399999999995 [deg]                 
+    Right Ascension of the Ascending Node :  29.529399999999999 [deg]                 
+    Eccentricity:                            0.0081090999999999993                    
     Argument of Periapsis:                   211.93029999999999 [deg]                 
     Mean Anomaly:                            146.5718 [deg]                           
-    Mean Motion:                             15.27048789 [rev/day]                    
+    Mean Motion:                             15.270487899999999 [rev/day]             
     Revolution Number at Epoch:              1                                        
 ----------------------------------------------------------------------------------------------------
  
     Analysis - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 -- Least Squares Solver Analysis -------------------------------------------------------------------
-    RMS Error:                               569.239                                  
+    RMS Error:                               569.273                                  
     Iteration Count:                         4                                        
     Termination Criteria:                    RMS Update Threshold                     
     Estimated State - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     Instant:                                 2020-01-02 13:34:56.789 [UTC]            
     Frame:                                   GCRF                                     
-    INCLINATION                              [1.6756]                                 
-    RAAN                                     [0.5154]                                 
-    ECCENTRICITY                             [0.0081]                                 
-    AOP                                      [-2.5843]                                
-    MEAN_ANOMALY                             [8.8413]                                 
-    MEAN_MOTION                              [15.2705]                                
+    SEMI_LATUS_RECTUM                        [6862.3259]                              
+    ECCENTRICITY_X                           [-0.0039]                                
+    ECCENTRICITY_Y                           [-0.0071]                                
+    NODE_X                                   [0.9664]                                 
+    NODE_Y                                   [0.5474]                                 
+    TRUE_LONGITUDE                           [0.4981]                                 
     Steps - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    RMS Error:                               266537                                   
-    X Hat:                                   [0.0000, 0.0000, -0.0001, -0.0091, 0.0091, -0.0107] 
-    RMS Error:                               609.299                                  
-    X Hat:                                   [0.0000, -0.0000, 0.0000, -0.0002, 0.0003, 0.0000] 
-    RMS Error:                               569.234                                  
-    X Hat:                                   [-0.0000, 0.0000, -0.0000, 0.0000, -0.0000, -0.0000] 
-    RMS Error:                               569.239                                  
-    X Hat:                                   [0.0000, -0.0000, -0.0000, 0.0000, 0.0000, -0.0000] 
+    RMS Error:                               513516                                   
+    X Hat:                                   [-6.2855, 0.0001, -0.0011, 0.0001, 0.0001, 0.0019] 
+    RMS Error:                               829.846                                  
+    X Hat:                                   [0.0049, -0.0000, -0.0000, -0.0000, 0.0000, 0.0002] 
+    RMS Error:                               569.313                                  
+    X Hat:                                   [0.0000, 0.0000, 0.0000, -0.0000, -0.0000, -0.0000] 
+    RMS Error:                               569.273                                  
+    X Hat:                                   [-0.0000, -0.0000, -0.0000, -0.0000, 0.0000, 0.0000] 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
@@ -148,7 +148,7 @@
     <span class=p >)</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >figure</span> <span class=o >=</span> <span class=n >px</span><span class=o >.</span><span class=n >scatter</span><span class=p >(</span><span class=n >data</span><span class=p >,</span> <span class=n >x</span><span class=o >=</span><span class=s2 >"timestamp"</span><span class=p >,</span> <span class=n >y</span><span class=o >=</span><span class=s2 >"dr [m]"</span><span class=p >,</span> <span class=n >title</span><span class=o >=</span><span class=s2 >"Definitive position residuals"</span><span class=p >)</span>
 <span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/308cc0296416ade467e37bb1cf3b36841971cf378dee57dccc06c59e8f3d0b6a.svg" src="../_images/308cc0296416ade467e37bb1cf3b36841971cf378dee57dccc06c59e8f3d0b6a.svg"/> </div> </div> </section> <section id=solve-with-b-estimation > <h2 id=solve-with-b-estimation >Solve with B* estimation<a class=headerlink  href="#solve-with-b-estimation" title="Link to this heading">¶</a></h2> <ul class=simple > <li><p>Generate observations for a longer time interval, which is beneficial for B* estimation</p> </ul> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >tle_solver_with_b_star_estimation</span><span class=p >:</span> <span class=n >TLESolver</span> <span class=o >=</span> <span class=n >TLESolver</span><span class=p >(</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/66b8a314d5a7dfd05489a4afd25b43d66aba367d88f591f8862a5149885aae23.svg" src="../_images/66b8a314d5a7dfd05489a4afd25b43d66aba367d88f591f8862a5149885aae23.svg"/> </div> </div> </section> <section id=solve-with-b-estimation > <h2 id=solve-with-b-estimation >Solve with B* estimation<a class=headerlink  href="#solve-with-b-estimation" title="Link to this heading">¶</a></h2> <ul class=simple > <li><p>Generate observations for a longer time interval, which is beneficial for B* estimation</p> </ul> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >tle_solver_with_b_star_estimation</span><span class=p >:</span> <span class=n >TLESolver</span> <span class=o >=</span> <span class=n >TLESolver</span><span class=p >(</span>
     <span class=n >solver</span><span class=o >=</span><span class=n >LeastSquaresSolver</span><span class=o >.</span><span class=n >default</span><span class=p >(),</span>
     <span class=n >satellite_number</span><span class=o >=</span><span class=mi >99999</span><span class=p >,</span>
     <span class=n >revolution_number</span><span class=o >=</span><span class=mi >1</span><span class=p >,</span>
@@ -165,8 +165,8 @@
 </pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>-- Analysis ----------------------------------------------------------------------------------------
     Estimated TLE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     --                                      Two-Line Elements -------------------------------------------------------------------------------
-    Line 1:                                  1 99999U 00001A   20002.56593506  .00000000  00000-0 -10286-5 0    05 
-    Line 2:                                  2 99999  96.0054  29.5295 0081229 211.8839 146.6208 15.27046805    13 
+    Line 1:                                  1 99999U 00001A   20002.56593506  .00000000  00000-0 -96372-6 0    06 
+    Line 2:                                  2 99999  96.0054  29.5296 0081229 211.8840 146.6209 15.27046800    12 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     Satellite Name:                                                                   
     Satellite Number:                        99999                                    
@@ -175,42 +175,44 @@
     Epoch:                                   2020-01-02 13:34:56.789.184 [UTC]        
     Mean Motion First Time Der. / 2:         0.0                                      
     Mean Motion Second Time Der. / 6:        0.0                                      
-    B* Drag Term:                            -1.0286e-06                              
+    B* Drag Term:                            -9.637199999999999e-07                   
     Ephemeris Type:                          0                                        
     Element Set Number:                      0                                        
     Inclination:                             96.005399999999995 [deg]                 
-    Right Ascension of the Ascending Node :  29.529499999999999 [deg]                 
+    Right Ascension of the Ascending Node :  29.529599999999999 [deg]                 
     Eccentricity:                            0.0081229000000000006                    
-    Argument of Periapsis:                   211.88390000000001 [deg]                 
-    Mean Anomaly:                            146.6208 [deg]                           
-    Mean Motion:                             15.27046805 [rev/day]                    
+    Argument of Periapsis:                   211.88399999999999 [deg]                 
+    Mean Anomaly:                            146.62090000000001 [deg]                 
+    Mean Motion:                             15.270467999999999 [rev/day]             
     Revolution Number at Epoch:              1                                        
 ----------------------------------------------------------------------------------------------------
  
     Analysis - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 -- Least Squares Solver Analysis -------------------------------------------------------------------
-    RMS Error:                               644.42                                   
-    Iteration Count:                         4                                        
+    RMS Error:                               644.45                                   
+    Iteration Count:                         5                                        
     Termination Criteria:                    RMS Update Threshold                     
     Estimated State - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     Instant:                                 2020-01-02 13:34:56.789 [UTC]            
     Frame:                                   GCRF                                     
-    INCLINATION                              [1.6756]                                 
-    RAAN                                     [0.5154]                                 
-    ECCENTRICITY                             [0.0081]                                 
-    AOP                                      [-2.5851]                                
-    MEAN_ANOMALY                             [8.8422]                                 
-    MEAN_MOTION                              [15.2705]                                
+    SEMI_LATUS_RECTUM                        [6862.3303]                              
+    ECCENTRICITY_X                           [-0.0039]                                
+    ECCENTRICITY_Y                           [-0.0071]                                
+    NODE_X                                   [0.9664]                                 
+    NODE_Y                                   [0.5474]                                 
+    TRUE_LONGITUDE                           [0.4982]                                 
     B_STAR                                   [-0.0000]                                
     Steps - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    RMS Error:                               804001                                   
-    X Hat:                                   [0.0000, 0.0000, -0.0000, -0.0094, 0.0094, -0.0107, -0.0001] 
-    RMS Error:                               3380.38                                  
-    X Hat:                                   [0.0000, -0.0000, -0.0000, -0.0008, 0.0008, 0.0000, 0.0000] 
-    RMS Error:                               644.374                                  
-    X Hat:                                   [-0.0000, 0.0000, 0.0000, -0.0000, 0.0000, 0.0000, -0.0000] 
-    RMS Error:                               644.42                                   
-    X Hat:                                   [-0.0000, 0.0000, -0.0000, 0.0000, 0.0000, 0.0000, -0.0000] 
+    RMS Error:                               1.52822e+06                              
+    X Hat:                                   [-6.2111, -0.0000, -0.0012, 0.0001, 0.0001, 0.0025, 0.0004] 
+    RMS Error:                               8021.49                                  
+    X Hat:                                   [-0.0638, 0.0001, 0.0001, -0.0000, 0.0000, -0.0003, -0.0005] 
+    RMS Error:                               725.598                                  
+    X Hat:                                   [-0.0013, 0.0000, 0.0000, -0.0000, -0.0000, 0.0000, -0.0000] 
+    RMS Error:                               644.679                                  
+    X Hat:                                   [-0.0000, 0.0000, -0.0000, 0.0000, 0.0000, 0.0000, 0.0000] 
+    RMS Error:                               644.45                                   
+    X Hat:                                   [0.0000, 0.0000, 0.0000, -0.0000, -0.0000, -0.0000, -0.0000] 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
@@ -226,4 +228,4 @@
     <span class=p >)</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >figure</span> <span class=o >=</span> <span class=n >px</span><span class=o >.</span><span class=n >scatter</span><span class=p >(</span><span class=n >data</span><span class=p >,</span> <span class=n >x</span><span class=o >=</span><span class=s2 >"timestamp"</span><span class=p >,</span> <span class=n >y</span><span class=o >=</span><span class=s2 >"dr [m]"</span><span class=p >,</span> <span class=n >title</span><span class=o >=</span><span class=s2 >"Definitive position residuals"</span><span class=p >)</span>
 <span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/b15643b6e1035b9bc8eb862555c9fe6fd24f0224525d2a8e21a4cd7024e94338.svg" src="../_images/b15643b6e1035b9bc8eb862555c9fe6fd24f0224525d2a8e21a4cd7024e94338.svg"/> </div> </div> <hr class=docutils /> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" title="Altitude + Eccentricity Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Altitude + Eccentricity Station-keeping Sequence </span> </div> </a> <a href="Target%20Tracking.html" title="Target Tracking" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Target Tracking </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/3559cead84fd7516a99ac7016ea5609f065afa54e0fd106dd0560e85f6e86186.svg" src="../_images/3559cead84fd7516a99ac7016ea5609f065afa54e0fd106dd0560e85f6e86186.svg"/> </div> </div> <hr class=docutils /> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="Station-Keeping%20Sequence%20%5BQLaw%5D.html" title="Altitude + Eccentricity Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Altitude + Eccentricity Station-keeping Sequence </span> </div> </a> <a href="Target%20Tracking.html" title="Target Tracking" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Target Tracking </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>

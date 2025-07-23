@@ -23,6 +23,7 @@
     <includedby refid="_brouwer_lyddane_mean_short_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</includedby>
     <includedby refid="_modified_equinoctial_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp</includedby>
     <includedby refid="_kepler_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp</includedby>
+    <includedby refid="_t_l_e_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</includedby>
     <includedby refid="_c_o_e_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp</includedby>
     <includedby refid="_modified_equinoctial_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp</includedby>
     <incdepgraph>
@@ -97,11 +98,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="13">
+      <node id="12">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp</label>
         <link refid="_brouwer_lyddane_mean_short_8cpp"/>
       </node>
-      <node id="11">
+      <node id="10">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp</label>
         <link refid="_brouwer_lyddane_mean_long_8cpp"/>
       </node>
@@ -109,9 +110,11 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp</label>
         <link refid="_kepler_8cpp"/>
       </node>
-      <node id="15">
+      <node id="14">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp</label>
         <link refid="_modified_equinoctial_8hpp"/>
+        <childnode refid="15" relation="include">
+        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
       </node>
@@ -119,7 +122,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp</label>
         <link refid="_c_o_e_8cpp"/>
       </node>
-      <node id="10">
+      <node id="15">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
         <link refid="_t_l_e_solver_8cpp"/>
       </node>
@@ -136,10 +139,8 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
       </node>
-      <node id="14">
+      <node id="13">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.cpp</label>
         <link refid="_brouwer_lyddane_mean_8cpp"/>
       </node>
@@ -148,9 +149,9 @@
         <link refid="_brouwer_lyddane_mean_8hpp"/>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -176,11 +177,13 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -199,12 +202,12 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="11">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</label>
         <link refid="_brouwer_lyddane_mean_short_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="16">

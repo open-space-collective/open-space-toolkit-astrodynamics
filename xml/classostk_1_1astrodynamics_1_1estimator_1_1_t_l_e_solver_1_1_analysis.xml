@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="75" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="45" bodyend="49"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="75" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="50" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis_1a6df47478ffe2995f69689aae653c62c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="81" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="58" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="81" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="63" bodyend="74"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -94,7 +94,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="78" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="51" bodyend="56"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="78" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="56" bodyend="61"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

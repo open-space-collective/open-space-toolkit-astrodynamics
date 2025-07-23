@@ -856,6 +856,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a0249537897c2c1796bbeab3bfab2ac1e" kind="function"><name>getNodeY</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a14ec20b93e4c2455ed86320169af0176" kind="function"><name>getTrueLongitude</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aee686c5a21bfee461fed7fc031961b72" kind="function"><name>getSIVector</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a502249dbf44c3fba3ce60734fb2bdb53" kind="function"><name>toCOE</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aed1820b5c31158d65c73937aff08ee6a" kind="function"><name>getCartesianState</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b6f8c3f259ff82c39b250d1643f9966" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa71e1eaa18a1ad38c273f715d8cde250" kind="friend"><name>operator&lt;&lt;</name></member>
@@ -1726,12 +1727,12 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a20f8eb4e66e207c43f767d29804ea66a" kind="function"><name>ParseReal</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver" kind="class"><name>ostk::astrodynamics::estimator::TLESolver</name>
-    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a66060545018a264b2518f76c05cccc44" kind="variable"><name>InclinationSubset</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab3dfd74c2cd2c47133378ca488af5050" kind="variable"><name>RaanSubset</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a60e57d5223b8f53831ab7b4a794d6155" kind="variable"><name>EccentricitySubset</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a196e78627030375a3faf9a216ed266bf" kind="variable"><name>AopSubset</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a15c82777f036b3c0c0396746f255daaf" kind="variable"><name>MeanAnomalySubset</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1afd81b89bc988dcbce1b3605e0ec91c3b" kind="variable"><name>MeanMotionSubset</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae3b1813ec84dbbc2a73972178d571e20" kind="variable"><name>SemiLatusRectumSubset</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a595843b215a4465d471c554d12ecd03b" kind="variable"><name>NodeXSubset</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a05ea5f746d0d78f77959c2a3126a63dd" kind="variable"><name>NodeYSubset</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1acb11721b3f68f44499796c533c35584f" kind="variable"><name>EccentricityXSubset</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa6f4eb35f6b9c4eb1503998891d1da2d" kind="variable"><name>EccentricityYSubset</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a201be13c294cf32dd555bc179c17b5d5" kind="variable"><name>TrueLongitudeSubset</name></member>
     <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7cd7ce6314c7273dbb14bf723c836779" kind="variable"><name>BStarSubset</name></member>
     <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a1cbbe7cb9488fb530bf3f17461ea29bb" kind="variable"><name>solver_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a645ed44e4b5acb58b30b9cd934b51036" kind="variable"><name>satelliteNumber_</name></member>

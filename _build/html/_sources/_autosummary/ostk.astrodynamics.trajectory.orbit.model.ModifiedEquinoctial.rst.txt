@@ -27,6 +27,7 @@ ostk.astrodynamics.trajectory.orbit.model.ModifiedEquinoctial
       ~ModifiedEquinoctial.get_si_vector
       ~ModifiedEquinoctial.get_true_longitude
       ~ModifiedEquinoctial.is_defined
+      ~ModifiedEquinoctial.to_coe
       ~ModifiedEquinoctial.undefined
    
    

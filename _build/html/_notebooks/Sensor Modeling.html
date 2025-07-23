@@ -50,92 +50,6 @@
 <span class=n >keplerian_model</span> <span class=o >=</span> <span class=n >Kepler</span><span class=p >(</span>
     <span class=n >coe</span><span class=p >,</span> <span class=n >epoch</span><span class=p >,</span> <span class=n >earth</span><span class=p >,</span> <span class=n >Kepler</span><span class=o >.</span><span class=n >PerturbationType</span><span class=o >.</span><span class=n >No</span><span class=p >,</span> <span class=kc >True</span>
 <span class=p >)</span>  <span class=c1 ># True = COE expressed in ITRF frame</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output traceback highlight-ipythontb notranslate"><div class=highlight ><pre><span></span><span class=gt >---------------------------------------------------------------------------</span>
-<span class=ne >RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class=n >Cell</span> <span class=n >In</span><span class=p >[</span><span class=mi >6</span><span class=p >],</span> <span class=n >line</span> <span class=mi >3</span>
-<span class="g g-Whitespace">      </span><span class=mi >1</span> <span class=n >epoch</span> <span class=o >=</span> <span class=n >Instant</span><span class=o >.</span><span class=n >date_time</span><span class=p >(</span><span class=n >DateTime</span><span class=p >(</span><span class=mi >2018</span><span class=p >,</span> <span class=mi >9</span><span class=p >,</span> <span class=mi >5</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >),</span> <span class=n >Scale</span><span class=o >.</span><span class=n >UTC</span><span class=p >)</span>
-<span class=ne >----&gt; </span><span class=mi >3</span> <span class=n >keplerian_model</span> <span class=o >=</span> <span class=n >Kepler</span><span class=p >(</span>
-<span class="g g-Whitespace">      </span><span class=mi >4</span>     <span class=n >coe</span><span class=p >,</span> <span class=n >epoch</span><span class=p >,</span> <span class=n >earth</span><span class=p >,</span> <span class=n >Kepler</span><span class=o >.</span><span class=n >PerturbationType</span><span class=o >.</span><span class=n >No</span><span class=p >,</span> <span class=kc >True</span>
-<span class="g g-Whitespace">      </span><span class=mi >5</span> <span class=p >)</span>  <span class=c1 ># True = COE expressed in ITRF frame</span>
-
-<span class=ne >RuntimeError</span>:  0# ostk::core::error::RuntimeError::RuntimeError&lt;&gt;(char const*) at /usr/local/include/OpenSpaceToolkit/Core/Error/RuntimeError.hpp:33
-<span class="g g-Whitespace"> </span><span class=mi >1</span><span class=c1 ># ostk::astrodynamics::trajectory::orbit::model::kepler::COE::getCartesianState(ostk::physics::unit::Derived const&amp;, std::shared_ptr&lt;ostk::physics::coordinate::Frame const&gt; const&amp;) const at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp:331</span>
-<span class="g g-Whitespace"> </span><span class=mi >2</span><span class=c1 ># ostk::astrodynamics::trajectory::orbit::model::Kepler::InertialCoeFromFixedCoe(ostk::astrodynamics::trajectory::orbit::model::kepler::COE const&amp;, ostk::physics::time::Instant const&amp;, ostk::physics::environment::object::Celestial const&amp;) at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp:318</span>
-<span class="g g-Whitespace"> </span><span class=mi >3</span><span class=c1 ># ostk::astrodynamics::trajectory::orbit::model::Kepler::Kepler(ostk::astrodynamics::trajectory::orbit::model::kepler::COE const&amp;, ostk::physics::time::Instant const&amp;, ostk::physics::environment::object::Celestial const&amp;, ostk::astrodynamics::trajectory::orbit::model::Kepler::PerturbationType const&amp;, bool) at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp:57</span>
-<span class="g g-Whitespace"> </span><span class=mi >4</span><span class=c1 ># 0x00007F94DEE6657E in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class="g g-Whitespace"> </span><span class=mi >5</span><span class=c1 ># 0x00007F94DED8D247 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class="g g-Whitespace"> </span><span class=mi >6</span><span class=c1 ># 0x00007F94DF06E68A in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class="g g-Whitespace"> </span><span class=mi >7</span><span class=c1 ># 0x00007F94DF032EF6 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class="g g-Whitespace"> </span><span class=mi >8</span><span class=c1 ># 0x00007F94DEFC14B7 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class="g g-Whitespace"> </span><span class=mi >9</span><span class=c1 ># 0x00007F94DEFC16D9 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class=mi >10</span><span class=c1 ># 0x00007F94DEC87C28 in /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so</span>
-<span class=mi >11</span><span class=c1 ># 0x00000000005EDDA9 in /usr/bin/python3.11</span>
-<span class=mi >12</span><span class=c1 ># _PyObject_MakeTpCall in /usr/bin/python3.11</span>
-<span class=mi >13</span><span class=c1 ># 0x0000000000639FFA in /usr/bin/python3.11</span>
-<span class=mi >14</span><span class=c1 ># _PyObject_Call in /usr/bin/python3.11</span>
-<span class=mi >15</span><span class=c1 ># 0x00000000005C819B in /usr/bin/python3.11</span>
-<span class=mi >16</span><span class=c1 ># 0x00000000005D6834 in /usr/bin/python3.11</span>
-<span class=mi >17</span><span class=c1 ># 0x00007F94E67C1B7D in /usr/local/lib/python3.11/dist-packages/ostk/core/OpenSpaceToolkitCorePy.cpython-311-x86_64-linux-gnu.so</span>
-<span class=mi >18</span><span class=c1 ># _PyObject_MakeTpCall in /usr/bin/python3.11</span>
-<span class=mi >19</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >20</span><span class=c1 ># 0x00000000006E142F in /usr/bin/python3.11</span>
-<span class=mi >21</span><span class=c1 ># PyEval_EvalCode in /usr/bin/python3.11</span>
-<span class=mi >22</span><span class=c1 ># 0x00000000006E32F3 in /usr/bin/python3.11</span>
-<span class=mi >23</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >24</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >25</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >26</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >27</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >28</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >29</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >30</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >31</span><span class=c1 ># 0x000000000070F617 in /usr/bin/python3.11</span>
-<span class=mi >32</span><span class=c1 ># 0x000000000062AB87 in /usr/bin/python3.11</span>
-<span class=mi >33</span><span class=c1 ># PyObject_Vectorcall in /usr/bin/python3.11</span>
-<span class=mi >34</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >35</span><span class=c1 ># 0x000000000056567E in /usr/bin/python3.11</span>
-<span class=mi >36</span><span class=c1 ># 0x0000000000639869 in /usr/bin/python3.11</span>
-<span class=mi >37</span><span class=c1 ># PyObject_Call in /usr/bin/python3.11</span>
-<span class=mi >38</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >39</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >40</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >41</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >42</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >43</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >44</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >45</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >46</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >47</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >48</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >49</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >50</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >51</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >52</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >53</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >54</span><span class=c1 ># 0x000000000070F37C in /usr/bin/python3.11</span>
-<span class=mi >55</span><span class=c1 ># PyIter_Send in /usr/bin/python3.11</span>
-<span class=mi >56</span><span class=c1 ># 0x00007F952332EB7C in /usr/lib/python3.11/lib-dynload/_asyncio.cpython-311-x86_64-linux-gnu.so</span>
-<span class=mi >57</span><span class=c1 ># 0x00007F952332F3A7 in /usr/lib/python3.11/lib-dynload/_asyncio.cpython-311-x86_64-linux-gnu.so</span>
-<span class=mi >58</span><span class=c1 ># 0x00000000005EDF12 in /usr/bin/python3.11</span>
-<span class=mi >59</span><span class=c1 ># 0x000000000049BB80 in /usr/bin/python3.11</span>
-<span class=mi >60</span><span class=c1 ># 0x000000000049BBF8 in /usr/bin/python3.11</span>
-<span class=mi >61</span><span class=c1 ># 0x00000000005EDE6B in /usr/bin/python3.11</span>
-<span class=mi >62</span><span class=c1 ># PyObject_Call in /usr/bin/python3.11</span>
-<span class=mi >63</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >64</span><span class=c1 ># 0x00000000006E142F in /usr/bin/python3.11</span>
-<span class=mi >65</span><span class=c1 ># PyEval_EvalCode in /usr/bin/python3.11</span>
-<span class=mi >66</span><span class=c1 ># 0x00000000006E32F3 in /usr/bin/python3.11</span>
-<span class=mi >67</span><span class=c1 ># 0x00000000005EDE6B in /usr/bin/python3.11</span>
-<span class=mi >68</span><span class=c1 ># PyObject_Vectorcall in /usr/bin/python3.11</span>
-<span class=mi >69</span><span class=c1 ># _PyEval_EvalFrameDefault in /usr/bin/python3.11</span>
-<span class=mi >70</span><span class=c1 ># _PyFunction_Vectorcall in /usr/bin/python3.11</span>
-<span class=mi >71</span><span class=c1 ># PyObject_Call in /usr/bin/python3.11</span>
-<span class=mi >72</span><span class=c1 ># 0x00000000006B3270 in /usr/bin/python3.11</span>
-<span class=mi >73</span><span class=c1 ># Py_RunMain in /usr/bin/python3.11</span>
-<span class=mi >74</span><span class=c1 ># Py_BytesMain in /usr/bin/python3.11</span>
-<span class=mi >75</span><span class=c1 ># __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6</span>
-<span class=mi >76</span><span class=c1 ># _start in /usr/bin/python3.11</span>
-<span class=n >Frame</span> <span class=n >must</span> <span class=n >be</span> <span class=n >Quasi</span> <span class=n >Inertial</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >keplerian_model</span><span class=o >.</span><span class=n >get_classical_orbital_elements</span><span class=p >()</span>
 </pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output text_plain highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>-- Classical Orbital Elements ----------------------------------------------------------------------
     Semi-major axis:                         6999999.9999999972 [m]                   
@@ -391,7 +305,7 @@
 <span class=p >)</span>
 
 <span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/dc4e60d68e0ac31a66af7433145ddd1ca8f861e430b58f2bb0d6bdace791f251.svg" src="../_images/dc4e60d68e0ac31a66af7433145ddd1ca8f861e430b58f2bb0d6bdace791f251.svg"/> </div> </div> <p>3D plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >data</span> <span class=o >=</span> <span class=p >[]</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/a2c8a5d4e8b86fc3fa8b6f5a6bd10e4f94c1c267c86fcda8d7f05d283c4173d0.svg" src="../_images/a2c8a5d4e8b86fc3fa8b6f5a6bd10e4f94c1c267c86fcda8d7f05d283c4173d0.svg"/> </div> </div> <p>3D plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >data</span> <span class=o >=</span> <span class=p >[]</span>
 
 <span class=n >data</span><span class=o >.</span><span class=n >append</span><span class=p >(</span>
     <span class=n >go</span><span class=o >.</span><span class=n >Scattergeo</span><span class=p >(</span>
@@ -438,7 +352,7 @@
 <span class=p >)</span>
 
 <span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/5e81417c5d11f063ba6c213cecc8b23b6e13886ba016b94547e5cd6295a9a010.svg" src="../_images/5e81417c5d11f063ba6c213cecc8b23b6e13886ba016b94547e5cd6295a9a010.svg"/> </div> </div> <p>Satellite body frame orientation plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span><span class=w > </span><span class=nf >earth_data</span><span class=p >(</span><span class=n >earth</span><span class=p >):</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/016b1ec424f71db9e0e65f42f27313daa3a45858e35d02eda0940aa64217fd71.svg" src="../_images/016b1ec424f71db9e0e65f42f27313daa3a45858e35d02eda0940aa64217fd71.svg"/> </div> </div> <p>Satellite body frame orientation plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span><span class=w > </span><span class=nf >earth_data</span><span class=p >(</span><span class=n >earth</span><span class=p >):</span>
     <span class=n >theta</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >linspace</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=mi >2</span> <span class=o >*</span> <span class=n >np</span><span class=o >.</span><span class=n >pi</span><span class=p >,</span> <span class=mi >30</span><span class=p >)</span>
     <span class=n >phi</span> <span class=o >=</span> <span class=n >np</span><span class=o >.</span><span class=n >linspace</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=n >np</span><span class=o >.</span><span class=n >pi</span><span class=p >,</span> <span class=mi >30</span><span class=p >)</span>
 
@@ -550,4 +464,4 @@
 <span class=p >)</span>
 
 <span class=n >figure</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"png"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/d83e46fdc052c2b005bb4da128719adb066ead75bcc9a35d592243780248da7d.png" src="../_images/d83e46fdc052c2b005bb4da128719adb066ead75bcc9a35d592243780248da7d.png"/> </div> </div> <hr class=docutils /> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="QLaw%20Examples.html" title="Orbit Station-keeping with QLaw" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Orbit Station-keeping with QLaw </span> </div> </a> <a href="Station-Keeping%20Sequence.html" title="Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Station-keeping Sequence </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/b296865785cfa8fee6434f6c2f5794cc2acad0a2cb367c8100fec2ec6c8d2643.png" src="../_images/b296865785cfa8fee6434f6c2f5794cc2acad0a2cb367c8100fec2ec6c8d2643.png"/> </div> </div> <hr class=docutils /> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="QLaw%20Examples.html" title="Orbit Station-keeping with QLaw" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Orbit Station-keeping with QLaw </span> </div> </a> <a href="Station-Keeping%20Sequence.html" title="Station-keeping Sequence" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Station-keeping Sequence </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>

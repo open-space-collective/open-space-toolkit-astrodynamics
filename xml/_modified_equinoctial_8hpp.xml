@@ -15,6 +15,7 @@
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Unit/Length.hpp</includes>
     <includes refid="_c_o_e_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</includes>
+    <includedby refid="_t_l_e_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</includedby>
     <includedby refid="_modified_equinoctial_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp</includedby>
     <incdepgraph>
       <node id="3">
@@ -129,8 +130,14 @@
         <link refid="_modified_equinoctial_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
+        <link refid="_t_l_e_solver_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp</label>
         <link refid="_modified_equinoctial_8cpp"/>
       </node>
@@ -243,39 +250,41 @@
 <codeline lineno="141"><highlight class="normal"></highlight></codeline>
 <codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector6d<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aee686c5a21bfee461fed7fc031961b72" kindref="member">getSIVector</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="146"><highlight class="normal"></highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>Pair&lt;Position,<sp/>Velocity&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aed1820b5c31158d65c73937aff08ee6a" kindref="member">getCartesianState</ref>(</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b6f8c3f259ff82c39b250d1643f9966" kindref="member">print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorators<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">KeplerianCOE</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a502249dbf44c3fba3ce60734fb2bdb53" kindref="member">toCOE</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>Pair&lt;Position,<sp/>Velocity&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aed1820b5c31158d65c73937aff08ee6a" kindref="member">getCartesianState</ref>(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af83dc0e24fc306e646001b4ce5431b01" kindref="member">Undefined</ref>();</highlight></codeline>
-<codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1abcaaccebf8ee5a74bad014dccd683498" kindref="member">Cartesian</ref>(</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Position,<sp/>Velocity&gt;&amp;<sp/>aCartesianState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"></highlight></codeline>
-<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b72a058fe21af1d8993f75a57454214" kindref="member">COE</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">KeplerianCOE</ref>&amp;<sp/>aKeplerianElements);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b6f8c3f259ff82c39b250d1643f9966" kindref="member">print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorators<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af83dc0e24fc306e646001b4ce5431b01" kindref="member">Undefined</ref>();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1abcaaccebf8ee5a74bad014dccd683498" kindref="member">Cartesian</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Position,<sp/>Velocity&gt;&amp;<sp/>aCartesianState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Derived&amp;<sp/>aGravitationalParameter</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="181"><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5580958b378a768233842c9a576d2ecf" kindref="member">StringFromElement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ab9caa667dda3fdeb8e7782dcc00e0a10" kindref="member">Element</ref>&amp;<sp/>anElement);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b72a058fe21af1d8993f75a57454214" kindref="member">COE</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">KeplerianCOE</ref>&amp;<sp/>aKeplerianElements);</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"></highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>Length<sp/>semiLatusRectum_;<sp/><sp/></highlight></codeline>
-<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>eccentricityX_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>eccentricityY_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>nodeX_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>nodeY_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>Angle<sp/>trueLongitude_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"></highlight></codeline>
-<codeline lineno="197"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>kepler</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="198"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>model</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="199"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>orbit</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="200"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="201"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="203"><highlight class="normal"></highlight></codeline>
-<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/>//<sp/>__OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial__</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5580958b378a768233842c9a576d2ecf" kindref="member">StringFromElement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ab9caa667dda3fdeb8e7782dcc00e0a10" kindref="member">Element</ref>&amp;<sp/>anElement);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>Length<sp/>semiLatusRectum_;<sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>eccentricityX_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>eccentricityY_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>nodeX_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>nodeY_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>Angle<sp/>trueLongitude_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>kepler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>orbit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/>//<sp/>__OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial__</highlight></codeline>
     </programlisting>
     <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp"/>
   </compounddef>
