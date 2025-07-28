@@ -130,7 +130,7 @@ Array<Eclipse> Generator::generate(
 
     Array<Eclipse> eclipses = Array<Eclipse>::Empty();
     eclipses.reserve(penumbraAndUmbraIntervals.getSize());
-        
+
     // Process each penumbra and umbra interval
     for (const Interval& penumbraAndUmbraInterval : penumbraAndUmbraIntervals)
     {
@@ -143,7 +143,7 @@ Array<Eclipse> Generator::generate(
         // Create eclipse phases
         Array<EclipsePhase> phases = Array<EclipsePhase>::Empty();
         phases.reserve(penumbraIntervals.getSize() + umbraIntervals.getSize());
-        
+
         // Add penumbra phases
         for (const Interval& penumbraInterval : penumbraIntervals)
         {
