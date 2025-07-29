@@ -148,7 +148,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 ## Open Space Toolkit ▸ Physics
 
 ARG TARGETPLATFORM
-ARG OSTK_PHYSICS_MAJOR="12"
+ARG OSTK_PHYSICS_MAJOR="13"
 
 ## Force an image rebuild when new Physics minor or patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR} /tmp/open-space-toolkit-physics/versions.json
