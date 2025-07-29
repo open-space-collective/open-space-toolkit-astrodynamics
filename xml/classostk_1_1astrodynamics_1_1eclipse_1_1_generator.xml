@@ -225,7 +225,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="89" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="73" bodyend="179"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp" line="89" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp" bodystart="73" bodyend="181"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
