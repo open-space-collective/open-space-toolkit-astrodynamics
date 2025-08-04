@@ -1064,6 +1064,15 @@ Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun
     return Time::Hours(meanLTAN);
 }
 
+Time COE::ComputeMeanLTDN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+{
+    const Real meanLTAN = COE::ComputeMeanLTAN(raan, anInstant, aSun).getTotalFloatingHours();
+
+    const Real meanLTDN = std::fmod(meanLTAN + 12.0, 24.0);
+
+    return Time::Hours(meanLTDN);
+}
+
 Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
 {
     // Calculate sun position
@@ -1079,6 +1088,15 @@ Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aS
     const Real LTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
 
     return Time::Hours(LTAN);
+}
+
+Time COE::ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+{
+    const Real LTAN = COE::ComputeLTAN(raan, anInstant, aSun).getTotalFloatingHours();
+
+    const Real LTDN = std::fmod(LTAN + 12.0, 24.0);
+
+    return Time::Hours(LTDN);
 }
 
 String COE::StringFromElement(const COE::Element& anElement)
