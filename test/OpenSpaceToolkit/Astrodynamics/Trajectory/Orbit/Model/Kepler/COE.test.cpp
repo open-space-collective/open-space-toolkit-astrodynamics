@@ -27,7 +27,6 @@ using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
-using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
