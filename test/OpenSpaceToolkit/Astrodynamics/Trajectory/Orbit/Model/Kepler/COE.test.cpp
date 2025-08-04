@@ -1,8 +1,10 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -21,10 +23,12 @@
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
 using ostk::core::type::Real;
+using ostk::core::type::Size;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -301,21 +305,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 {
     {
         const Instant instant = Instant::DateTime(DateTime::Parse("2024-01-01T01:34:36.978"), Scale::UTC);
-        const Time expectedMeanLTAN = Time::Parse("11:59:55.403");
-        const Angle raan = Angle::Degrees(279.823758664135426);
 
+        const Time startMeanLTAN = Time::Parse("11:59:55.403");
+        const Angle startRaan = Angle::Degrees(279.823758664135426);
+
+        for (Size i = 0; i < 24; ++i)
         {
-            const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant);
+            const Angle raan = startRaan + Angle::Degrees(15.0 * i);
+            const Time expectedMeanLTAN = Time::Hours(std::fmod(startMeanLTAN.getTotalFloatingHours() + 1.0 * i, 24.0));
+            {
+                const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant);
 
-            EXPECT_EQ(meanLTAN.getHour(), expectedMeanLTAN.getHour());
-            EXPECT_NEAR(meanLTAN.getMinute(), expectedMeanLTAN.getMinute(), 5.0);
-        }
+                EXPECT_EQ(meanLTAN.getHour(), expectedMeanLTAN.getHour());
+                EXPECT_NEAR(meanLTAN.getMinute(), expectedMeanLTAN.getMinute(), 1.0);
+                EXPECT_NEAR(meanLTAN.getSecond(), expectedMeanLTAN.getSecond(), 15.0);
+            }
 
-        {
-            const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant, Sun::Default());
+            {
+                const Time meanLTAN = COE::ComputeMeanLTAN(raan, instant, Sun::Default());
 
-            EXPECT_EQ(meanLTAN.getHour(), expectedMeanLTAN.getHour());
-            EXPECT_NEAR(meanLTAN.getMinute(), expectedMeanLTAN.getMinute(), 5.0);
+                EXPECT_EQ(meanLTAN.getHour(), expectedMeanLTAN.getHour());
+                EXPECT_NEAR(meanLTAN.getMinute(), expectedMeanLTAN.getMinute(), 1.0);
+                EXPECT_NEAR(meanLTAN.getSecond(), expectedMeanLTAN.getSecond(), 15.0);
+            }
         }
     }
 }
@@ -324,21 +336,94 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 {
     {
         const Instant instant = Instant::DateTime(DateTime::Parse("2024-01-01T01:34:36.978"), Scale::UTC);
-        const Time expectedLTAN = Time::Parse("11:56:50.133");
-        const Angle raan = Angle::Degrees(279.823758664135426);
 
+        const Time startLTAN = Time::Parse("11:56:50.133");
+        const Angle startRaan = Angle::Degrees(279.823758664135426);
+
+        for (Size i = 0; i < 24; ++i)
         {
-            const Time LTAN = COE::ComputeLTAN(raan, instant);
+            const Angle raan = startRaan + Angle::Degrees(15.0 * i);
+            const Time expectedLTAN = Time::Hours(std::fmod(startLTAN.getTotalFloatingHours() + 1.0 * i, 24.0));
 
-            EXPECT_EQ(LTAN.getHour(), expectedLTAN.getHour());
-            EXPECT_NEAR(LTAN.getMinute(), expectedLTAN.getMinute(), 5.0);
+            {
+                const Time LTAN = COE::ComputeLTAN(raan, instant);
+
+                EXPECT_EQ(LTAN.getHour(), expectedLTAN.getHour());
+                EXPECT_NEAR(LTAN.getMinute(), expectedLTAN.getMinute(), 1.0);
+                EXPECT_NEAR(LTAN.getSecond(), expectedLTAN.getSecond(), 15.0);
+            }
+
+            {
+                const Time LTAN = COE::ComputeLTAN(raan, instant, Sun::Default());
+
+                EXPECT_EQ(LTAN.getHour(), expectedLTAN.getHour());
+                EXPECT_NEAR(LTAN.getMinute(), expectedLTAN.getMinute(), 1.0);
+                EXPECT_NEAR(LTAN.getSecond(), expectedLTAN.getSecond(), 15.0);
+            }
         }
+    }
+}
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeMeanLTDN)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime::Parse("2024-01-01T01:34:36.978"), Scale::UTC);
+
+        const Time startMeanLTDN = Time::Parse("23:59:55.403");
+        const Angle startRaan = Angle::Degrees(279.823758664135426);
+
+        for (Size i = 0; i < 24; ++i)
         {
-            const Time LTAN = COE::ComputeLTAN(raan, instant, Sun::Default());
+            const Angle raan = startRaan + Angle::Degrees(15.0 * i);
+            const Time expectedMeanLTDN = Time::Hours(std::fmod(startMeanLTDN.getTotalFloatingHours() + 1.0 * i, 24.0));
 
-            EXPECT_EQ(LTAN.getHour(), expectedLTAN.getHour());
-            EXPECT_NEAR(LTAN.getMinute(), expectedLTAN.getMinute(), 5.0);
+            {
+                const Time meanLTDN = COE::ComputeMeanLTDN(raan, instant);
+
+                EXPECT_EQ(meanLTDN.getHour(), expectedMeanLTDN.getHour());
+                EXPECT_NEAR(meanLTDN.getMinute(), expectedMeanLTDN.getMinute(), 1.0);
+                EXPECT_NEAR(meanLTDN.getSecond(), expectedMeanLTDN.getSecond(), 15.0);
+            }
+
+            {
+                const Time meanLTDN = COE::ComputeMeanLTDN(raan, instant, Sun::Default());
+
+                EXPECT_EQ(meanLTDN.getHour(), expectedMeanLTDN.getHour());
+                EXPECT_NEAR(meanLTDN.getMinute(), expectedMeanLTDN.getMinute(), 1.0);
+                EXPECT_NEAR(meanLTDN.getSecond(), expectedMeanLTDN.getSecond(), 15.0);
+            }
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeLTDN)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime::Parse("2024-01-01T01:34:36.978"), Scale::UTC);
+
+        const Time startLTDN = Time::Parse("23:56:50.133");
+        const Angle startRaan = Angle::Degrees(279.823758664135426);
+
+        for (Size i = 0; i < 24; ++i)
+        {
+            const Angle raan = startRaan + Angle::Degrees(15.0 * i);
+            const Time expectedLTDN = Time::Hours(std::fmod(startLTDN.getTotalFloatingHours() + 1.0 * i, 24.0));
+
+            {
+                const Time LTDN = COE::ComputeLTDN(raan, instant);
+
+                EXPECT_EQ(LTDN.getHour(), expectedLTDN.getHour());
+                EXPECT_NEAR(LTDN.getMinute(), expectedLTDN.getMinute(), 1.0);
+                EXPECT_NEAR(LTDN.getSecond(), expectedLTDN.getSecond(), 15.0);
+            }
+
+            {
+                const Time LTDN = COE::ComputeLTDN(raan, instant, Sun::Default());
+
+                EXPECT_EQ(LTDN.getHour(), expectedLTDN.getHour());
+                EXPECT_NEAR(LTDN.getMinute(), expectedLTDN.getMinute(), 1.0);
+                EXPECT_NEAR(LTDN.getSecond(), expectedLTDN.getSecond(), 15.0);
+            }
         }
     }
 }
