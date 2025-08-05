@@ -160,7 +160,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
                     generate_state_coordinates (function): The function to generate the state coordinates.
 
                 Returns:
-                    np.array: The gradient.
+                    np.array: The gradient of the state, matching the coordinates from generate_state_coordinates.
             )doc",
             arg("state"),
             arg("generate_state_coordinates")
