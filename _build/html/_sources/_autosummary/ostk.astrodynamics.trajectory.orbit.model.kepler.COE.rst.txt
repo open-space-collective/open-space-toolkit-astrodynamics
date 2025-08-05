@@ -19,7 +19,9 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.cartesian
       ~COE.compute_angular_momentum
       ~COE.compute_ltan
+      ~COE.compute_ltdn
       ~COE.compute_mean_ltan
+      ~COE.compute_mean_ltdn
       ~COE.compute_radial_distance
       ~COE.compute_semi_latus_rectum
       ~COE.eccentric_anomaly_from_mean_anomaly
