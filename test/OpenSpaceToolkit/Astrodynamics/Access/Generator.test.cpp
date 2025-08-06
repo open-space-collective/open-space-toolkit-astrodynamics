@@ -842,7 +842,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
         const AccessTarget trajectoryTarget = AccessTarget::FromTrajectory(visibilityCriterion, orbit);
 
-        // array of targets
+        // Array of targets
 
         {
             EXPECT_THROW(
@@ -868,7 +868,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             );
         }
 
-        // single target
+        // Single target
 
         {
             EXPECT_THROW(
@@ -1107,7 +1107,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_5)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
 {
-    // Ensure no interpolation is performed outside of the analysis interval
+    // Ensure no interpolation is performed outside of the analysis interval at the end of the interval
+    // Expects a single complete access ending somewhere between [analysis end - step, analysis end]
 
     {
         const Instant instant = Instant::J2000();
@@ -1127,8 +1128,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
             defaultEarthSPtr_
         };
 
+        // The interval is chosen such that there is a single complete access ending somewhere between [analysis end -
+        // step, analysis end]
+
         const Interval interval = Interval::Closed(
-            Instant::Parse("2000-01-01 12:15:30.000.000.000", Scale::UTC),
+            Instant::Parse("2000-01-01 15:00:30.000.000.000", Scale::UTC),
             Instant::Parse("2000-01-01 16:34:00.000.000.000", Scale::UTC)
         );
 
@@ -1150,20 +1154,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0));
 
-        const AccessTarget accessTarget = AccessTarget::FromPosition(
-            visibilityCriterion,
-            Position::Meters(
-                lla.toCartesian(defaultEarthSPtr_->getEquatorialRadius(), defaultEarthSPtr_->getFlattening()),
-                Frame::ITRF()
-            )
-        );
+        const AccessTarget accessTarget =
+            AccessTarget::FromPosition(visibilityCriterion, Position::FromLLA(lla, defaultEarthSPtr_));
 
         const Generator generator =
             Generator(defaultEnvironment_, Duration::Minutes(1.0), Duration::Seconds(5.0), {}, {});
 
         const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, tabulatedOrbit);
 
-        EXPECT_EQ(accesses.getSize(), 3);
+        EXPECT_EQ(accesses.getSize(), 1);
+
+        EXPECT_EQ(accesses[0].getType(), Access::Type::Complete);
+
+        EXPECT_LT(interval.getEnd() - accesses[0].getLossOfSignal(), generator.getStep());
     }
 }
 
