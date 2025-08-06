@@ -33,6 +33,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Constructor
 
         EXPECT_NO_THROW(TLE(firstLine, secondLine));
     }
+
+    // Wrong checksum
+    {
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563533";
+
+        EXPECT_THROW(TLE(firstLine, secondLine), ostk::core::error::runtime::Wrong);
+    }
+
+    // Invalid first and second lines
+    {
+        const String firstLine = "Some random string";
+        const String secondLine = "Another string that is random";
+
+        EXPECT_THROW(TLE(firstLine, secondLine), ostk::core::error::runtime::Wrong);
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, EqualToOperator)

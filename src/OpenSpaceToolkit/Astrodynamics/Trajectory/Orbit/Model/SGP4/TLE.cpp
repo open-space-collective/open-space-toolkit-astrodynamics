@@ -31,7 +31,9 @@ TLE::TLE(const String& aFirstLine, const String& aSecondLine)
 {
     if (((!aFirstLine.isEmpty()) || (!aSecondLine.isEmpty())) && (!TLE::CanParse(aFirstLine, aSecondLine)))
     {
-        throw ostk::core::error::runtime::Wrong("TLE");
+        throw ostk::core::error::runtime::Wrong(
+            "TLE", String::Format("First line: [{}], Second line: [{}]", aFirstLine, aSecondLine)
+        );
     }
 }
 
@@ -42,7 +44,9 @@ TLE::TLE(const String& aSatelliteName, const String& aFirstLine, const String& a
 {
     if (((!aFirstLine.isEmpty()) || (!aSecondLine.isEmpty())) && (!TLE::CanParse(aFirstLine, aSecondLine)))
     {
-        throw ostk::core::error::runtime::Wrong("TLE");
+        throw ostk::core::error::runtime::Wrong(
+            "TLE", String::Format("First line: [{}], Second line: [{}]", aFirstLine, aSecondLine)
+        );
     }
 }
 
