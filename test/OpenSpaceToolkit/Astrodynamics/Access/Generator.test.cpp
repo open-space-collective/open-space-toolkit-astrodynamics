@@ -34,6 +34,7 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
@@ -66,6 +67,7 @@ using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Access_Generator : public ::testing::Test
@@ -840,7 +842,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
         const AccessTarget trajectoryTarget = AccessTarget::FromTrajectory(visibilityCriterion, orbit);
 
-        // array of targets
+        // Array of targets
 
         {
             EXPECT_THROW(
@@ -866,7 +868,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             );
         }
 
-        // single target
+        // Single target
 
         {
             EXPECT_THROW(
@@ -1100,6 +1102,71 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_5)
             generator.computeAccesses(Interval::Closed(instant, instant + Duration::Hours(6.0)), accessTarget, orbit);
 
         EXPECT_EQ(accesses.getSize(), 3);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
+{
+    // Ensure no interpolation is performed outside of the analysis interval at the end of the interval
+    // Expects a single complete access ending somewhere between [analysis end - step, analysis end]
+
+    {
+        const Instant instant = Instant::J2000();
+        const Position position = Position::Meters({7e6, 0.0, 0.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({0.0, 0.0, 8e3}, Frame::GCRF());
+
+        const Orbit orbit = {
+            Kepler(
+                COE::Cartesian({position, velocity}, defaultEarthSPtr_->getGravitationalParameter()),
+                instant,
+                defaultEarthSPtr_->getGravitationalParameter(),
+                defaultEarthSPtr_->getEquatorialRadius(),
+                EarthGravitationalModel::EGM2008.J2_,
+                EarthGravitationalModel::EGM2008.J4_,
+                Kepler::PerturbationType::J2
+            ),
+            defaultEarthSPtr_
+        };
+
+        // The interval is chosen such that there is a single complete access ending somewhere between [analysis end -
+        // step, analysis end]
+
+        const Interval interval = Interval::Closed(
+            Instant::Parse("2000-01-01 15:00:30.000.000.000", Scale::UTC),
+            Instant::Parse("2000-01-01 16:34:00.000.000.000", Scale::UTC)
+        );
+
+        const Orbit tabulatedOrbit = {
+            Tabulated(
+                orbit.getStatesAt(interval.generateGrid(Duration::Seconds(20.0))),
+                1,
+                Interpolator::Type::BarycentricRational
+            ),
+            defaultEarthSPtr_
+        };
+
+        const LLA lla = {
+            Angle::Degrees(90.0),
+            Angle::Degrees(0.0),
+            Length::Meters(0.0),
+        };
+
+        const VisibilityCriterion visibilityCriterion =
+            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0));
+
+        const AccessTarget accessTarget =
+            AccessTarget::FromPosition(visibilityCriterion, Position::FromLLA(lla, defaultEarthSPtr_));
+
+        const Generator generator =
+            Generator(defaultEnvironment_, Duration::Minutes(1.0), Duration::Seconds(5.0), {}, {});
+
+        const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, tabulatedOrbit);
+
+        EXPECT_EQ(accesses.getSize(), 1);
+
+        EXPECT_EQ(accesses[0].getType(), Access::Type::Complete);
+
+        EXPECT_LT(interval.getEnd() - accesses[0].getLossOfSignal(), generator.getStep());
     }
 }
 

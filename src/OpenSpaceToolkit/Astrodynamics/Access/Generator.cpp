@@ -839,8 +839,8 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
         Instant intervalStart = anAnalysisInterval.getStart();
 
-        // compute start crossing if it is not the start of the requested analysis interval
-        if (lowerBoundInstant != anAnalysisInterval.getStart())
+        // Compute start crossing if both bounding instants are within the analysis interval
+        if (lowerBoundPreviousInstant >= anAnalysisInterval.getStart())
         {
             const auto startCrossingDurationSeconds = rootSolver.solve(
                 [&lowerBoundPreviousInstant, &condition](double aDurationInSeconds) -> double
@@ -854,12 +854,12 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         }
 
         const Instant upperBoundInstant = interval.getEnd();
-        const Instant upperBoundNextInstant = interval.getEnd() + this->step_;
+        const Instant upperBoundNextInstant = std::min(interval.getEnd() + this->step_, anAnalysisInterval.getEnd());
 
         Instant intervalEnd = anAnalysisInterval.getEnd();
 
-        // compute end crossing if it is not the end of the requested analysis interval
-        if (upperBoundInstant != anAnalysisInterval.getEnd())
+        // Compute end crossing if both bounding instants are within the analysis interval
+        if (upperBoundNextInstant <= anAnalysisInterval.getEnd() && upperBoundNextInstant != upperBoundInstant)
         {
             const auto endCrossingDurationSeconds = rootSolver.solve(
                 [&upperBoundInstant, &condition](double aDurationInSeconds) -> double
