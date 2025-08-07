@@ -206,7 +206,7 @@ Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
 
     if (!aFrameSPtr->isQuasiInertial())
     {
-        throw ostk::core::error::runtime::Wrong("Frame");
+        throw ostk::core::error::runtime::Wrong("Frame", aFrameSPtr->getName());
     }
 
     const Real p_m = semiLatusRectum_.inMeters();
@@ -308,7 +308,7 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
     if (!aCartesianState.first.accessFrame()->isQuasiInertial() ||
         !aCartesianState.second.accessFrame()->isQuasiInertial())
     {
-        throw ostk::core::error::runtime::Wrong("Frame");
+        throw ostk::core::error::runtime::Wrong("Frame", String::Format("Position frame: {}, Velocity frame: {}", aCartesianState.first.accessFrame()->getName(), aCartesianState.second.accessFrame()->getName()));
     }
 
     const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);

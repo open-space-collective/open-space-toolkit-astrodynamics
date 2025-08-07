@@ -21,12 +21,12 @@ CoordinateSubset::CoordinateSubset(const String& aName, const Size& aSize)
 {
     if (aName.isEmpty())
     {
-        throw ostk::core::error::runtime::Wrong("Name");
+        throw ostk::core::error::runtime::Wrong("Name", aName);
     }
 
     if (aSize == 0)
     {
-        throw ostk::core::error::runtime::Wrong("Size");
+        throw ostk::core::error::runtime::Wrong("Size", aSize.toString());
     }
 }
 

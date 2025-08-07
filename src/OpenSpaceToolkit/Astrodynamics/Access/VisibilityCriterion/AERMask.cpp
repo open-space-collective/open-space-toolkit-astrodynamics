@@ -27,14 +27,14 @@ VisibilityCriterion::AERMask::AERMask(
     if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
         (anAzimuthElevationMask.rbegin()->first > 360.0))
     {
-        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask", String::Format("Empty: {}, Min azimuth: {}, Max azimuth: {}", anAzimuthElevationMask.empty(), anAzimuthElevationMask.empty() ? 0.0 : anAzimuthElevationMask.begin()->first, anAzimuthElevationMask.empty() ? 0.0 : anAzimuthElevationMask.rbegin()->first));
     }
 
     for (const auto& azimuthElevationPair : anAzimuthElevationMask)
     {
         if ((azimuthElevationPair.second).abs() > 90.0)
         {
-            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask", String::Format("Azimuth: {}, Elevation: {}", azimuthElevationPair.first, azimuthElevationPair.second));
         }
     }
 

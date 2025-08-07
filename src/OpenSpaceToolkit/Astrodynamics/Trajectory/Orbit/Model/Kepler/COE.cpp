@@ -459,7 +459,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     if (mu == 0.0)
     {
-        throw ostk::core::error::runtime::Wrong("Gravitational parameter");
+        throw ostk::core::error::runtime::Wrong("Gravitational parameter", String::Format("{}", mu));
     }
 
     const Vector3d& positionVector = aCartesianState.first.accessCoordinates();
@@ -470,7 +470,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     if (position == 0.0)
     {
-        throw ostk::core::error::runtime::Wrong("Position vector");
+        throw ostk::core::error::runtime::Wrong("Position vector", String::Format("{}", position));
     }
 
     // Angular momentum
@@ -481,7 +481,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     if (angularMomentum == 0.0)
     {
-        throw ostk::core::error::runtime::Wrong("Angular momentum");
+        throw ostk::core::error::runtime::Wrong("Angular momentum", String::Format("{}", angularMomentum));
     }
 
     // Node
@@ -508,7 +508,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     if (E == 0.0)
     {
-        throw ostk::core::error::runtime::Wrong("Specific orbital energy");
+        throw ostk::core::error::runtime::Wrong("Specific orbital energy", String::Format("{}", E));
     }
 
     const Real a_m = -mu / (2.0 * E);

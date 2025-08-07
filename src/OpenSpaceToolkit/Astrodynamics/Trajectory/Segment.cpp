@@ -258,7 +258,7 @@ Array<State> Segment::Solution::calculateStatesAt(
     {
         if (anInstantArray[k] > anInstantArray[k + 1])
         {
-            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array");
+            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array", String::Format("Index {}: {} > Index {}: {}", k, anInstantArray[k].toString(), k + 1, anInstantArray[k + 1].toString()));
         }
     }
 

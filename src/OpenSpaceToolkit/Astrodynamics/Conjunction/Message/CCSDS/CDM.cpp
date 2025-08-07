@@ -378,7 +378,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 
         else
         {
-            throw ostk::core::error::runtime::Wrong("Frame type in not supported for CCSDS CDM");
+            throw ostk::core::error::runtime::Wrong("Frame type", aDictionary["SAT1_REF_FRAME"].getString());
         }
     };
 

@@ -171,7 +171,7 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
 
     if (aState.accessFrame() != this->frameSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("State Frame");
+        throw ostk::core::error::runtime::Wrong("State Frame", String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), aState.accessFrame()->getName()));
     }
 
     if (!defaultState.isDefined())
@@ -181,7 +181,7 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
 
     if (defaultState.accessFrame() != this->frameSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("Default State Frame");
+        throw ostk::core::error::runtime::Wrong("Default State Frame", String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), defaultState.accessFrame()->getName()));
     }
 
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
