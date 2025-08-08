@@ -99,7 +99,9 @@ Size CrossValidator::FindMaxDeltaIndex(const Array<VectorXd>& allDeltasWithTool,
 {
     if (aCoordinateSubsetIndex >= allDeltasWithTool[0].size())
     {
-        throw ostk::core::error::runtime::Wrong("Coordinate subset index out of bounds", String::Format("{}", aCoordinateSubsetIndex));
+        throw ostk::core::error::runtime::Wrong(
+            "Coordinate subset index out of bounds", String::Format("{}", aCoordinateSubsetIndex)
+        );
     };
 
     const auto currentDeltaCompare = [&aCoordinateSubsetIndex](const VectorXd& a, const VectorXd& b) -> bool

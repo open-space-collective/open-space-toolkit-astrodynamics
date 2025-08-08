@@ -378,7 +378,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 
         else
         {
-            throw ostk::core::error::runtime::Wrong("Frame type", aDictionary["SAT1_REF_FRAME"].getString());
+            throw ostk::core::error::runtime::Wrong("Frame type", referenceFrameString);
         }
     };
 

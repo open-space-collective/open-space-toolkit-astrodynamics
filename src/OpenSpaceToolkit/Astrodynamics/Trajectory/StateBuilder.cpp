@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -10,6 +11,8 @@ namespace astrodynamics
 {
 namespace trajectory
 {
+
+using ostk::core::type::String;
 
 StateBuilder::StateBuilder(
     const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
@@ -171,7 +174,10 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
 
     if (aState.accessFrame() != this->frameSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("State Frame", String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), aState.accessFrame()->getName()));
+        throw ostk::core::error::runtime::Wrong(
+            "State Frame",
+            String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), aState.accessFrame()->getName())
+        );
     }
 
     if (!defaultState.isDefined())
@@ -181,7 +187,10 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
 
     if (defaultState.accessFrame() != this->frameSPtr_)
     {
-        throw ostk::core::error::runtime::Wrong("Default State Frame", String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), defaultState.accessFrame()->getName()));
+        throw ostk::core::error::runtime::Wrong(
+            "Default State Frame",
+            String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), defaultState.accessFrame()->getName())
+        );
     }
 
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());

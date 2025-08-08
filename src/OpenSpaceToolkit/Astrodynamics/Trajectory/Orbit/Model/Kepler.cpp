@@ -246,7 +246,7 @@ Integer Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
             );
 
         default:
-                throw ostk::core::error::runtime::Wrong("Perturbation type", StringFromPerturbationType(perturbationType_));
+            throw ostk::core::error::runtime::Wrong("Perturbation type", StringFromPerturbationType(perturbationType_));
     }
 
     return Integer::Undefined();

@@ -133,7 +133,9 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
                 }
                 else
                 {
-                    throw ostk::core::error::runtime::Wrong("Earth gravitational model", force["data"]["model"].accessString());
+                    throw ostk::core::error::runtime::Wrong(
+                        "Earth gravitational model", force["data"]["model"].accessString()
+                    );
                 }
             }
             else if (force["data"]["body"].accessString() == "SUN")
@@ -163,7 +165,9 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
                 }
                 else
                 {
-                    throw ostk::core::error::runtime::Wrong("Earth atmospheric model", force["data"]["model"].accessString());
+                    throw ostk::core::error::runtime::Wrong(
+                        "Earth atmospheric model", force["data"]["model"].accessString()
+                    );
                 }
             }
             else
@@ -218,7 +222,9 @@ Sequence Parser::CreateSequence(
     }
     else
     {
-        throw ostk::core::error::runtime::Wrong("Propagator type", aDictionary["data"]["sequence"]["propagator"]["type"].accessString());
+        throw ostk::core::error::runtime::Wrong(
+            "Propagator type", aDictionary["data"]["sequence"]["propagator"]["type"].accessString()
+        );
     }
 
     Array<Segment> segments = Array<Segment>::Empty();
@@ -305,12 +311,16 @@ Segment Parser::CreateSegment(
         }
         else
         {
-            throw ostk::core::error::runtime::Wrong("Time scale", segmentDictionary["data"]["stop-condition"]["data"]["time-scale"].accessString());
+            throw ostk::core::error::runtime::Wrong(
+                "Time scale", segmentDictionary["data"]["stop-condition"]["data"]["time-scale"].accessString()
+            );
         }
     }
     else
     {
-        throw ostk::core::error::runtime::Wrong("Segment event condition type", segmentDictionary["data"]["stop-condition"]["type"].accessString());
+        throw ostk::core::error::runtime::Wrong(
+            "Segment event condition type", segmentDictionary["data"]["stop-condition"]["type"].accessString()
+        );
     }
 
     // Create thrust or coast segment
@@ -323,12 +333,16 @@ Segment Parser::CreateSegment(
         if ((segmentDictionary["data"]["attitude"]["type"].accessString() != "LOF") ||
             (segmentDictionary["data"]["attitude"]["data"]["lof"].accessString() != "VNC"))
         {
-            throw ostk::core::error::runtime::Wrong("Attitude type or local orbital type", segmentDictionary["data"]["attitude"]["type"].accessString());
+            throw ostk::core::error::runtime::Wrong(
+                "Attitude type or local orbital type", segmentDictionary["data"]["attitude"]["type"].accessString()
+            );
         }
 
         if (segmentDictionary["data"]["attitude"]["data"]["parent"].accessString() != "GCRF")
         {
-            throw ostk::core::error::runtime::Wrong("Maneuver parent frame", segmentDictionary["data"]["attitude"]["data"]["parent"].accessString());
+            throw ostk::core::error::runtime::Wrong(
+                "Maneuver parent frame", segmentDictionary["data"]["attitude"]["data"]["parent"].accessString()
+            );
         }
 
         // Create thruster dynamics

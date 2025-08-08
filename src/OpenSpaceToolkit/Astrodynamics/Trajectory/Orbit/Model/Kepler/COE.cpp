@@ -457,7 +457,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
-    if (mu == 0.0)
+    if (std::abs(mu) < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Wrong("Gravitational parameter", String::Format("{}", mu));
     }
@@ -468,7 +468,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     const Real position = positionVector.norm();
     const Real velocity = velocityVector.norm();
 
-    if (position == 0.0)
+    if (std::abs(position) < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Wrong("Position vector", String::Format("{}", position));
     }
@@ -479,7 +479,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     const Real angularMomentum = angularMomentumVector.norm();
 
-    if (angularMomentum == 0.0)
+    if (std::abs(angularMomentum) < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Wrong("Angular momentum", String::Format("{}", angularMomentum));
     }
@@ -506,7 +506,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     const Real E = (0.5 * velocity * velocity) - (mu / position);
 
-    if (E == 0.0)
+    if (std::abs(E) < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Wrong("Specific orbital energy", String::Format("{}", E));
     }
@@ -530,7 +530,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     if ((e >= tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance))))  // Non-circular, inclined
     {
-        if (node == 0.0)
+        if (std::abs(node) < Real::Epsilon())
         {
             throw ostk::core::error::runtime::Undefined("Node");
         }
@@ -586,7 +586,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     }
     else if ((e < tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance))))  // Circular, inclined
     {
-        if (node == 0.0)
+        if (std::abs(node) < Real::Epsilon())
         {
             throw ostk::core::error::runtime::Undefined("Node");
         }
@@ -696,11 +696,11 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("Equatorial Radius");
     }
-    if (!aJ2.isDefined() || aJ2 == 0.0)
+    if (!aJ2.isDefined() || aJ2 < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Undefined("J2");
     }
-    if (!aJ3.isDefined() || aJ3 == 0.0)
+    if (!aJ3.isDefined() || aJ3 < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Undefined("J3");
     }

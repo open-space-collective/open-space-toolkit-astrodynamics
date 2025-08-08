@@ -229,7 +229,9 @@ Sequence::Sequence(
     }
     else
     {
-        throw ostk::core::error::runtime::Wrong("verbosity level", String::Format("{}", static_cast<int>(aVerbosityLevel)));
+        throw ostk::core::error::runtime::Wrong(
+            "verbosity level", String::Format("{}", static_cast<int>(aVerbosityLevel))
+        );
     }
 }
 

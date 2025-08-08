@@ -61,7 +61,9 @@ Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anIn
     // This is only optional, we can allow it if we want to support "frozen lof concept".
     if (anInstant != transform_.getInstant())
     {
-        throw ostk::core::error::runtime::Wrong("Instant", String::Format("Expected: {}, Got: {}", transform_.getInstant().toString(), anInstant.toString()));
+        throw ostk::core::error::runtime::Wrong(
+            "Instant", String::Format("Expected: {}, Got: {}", transform_.getInstant().toString(), anInstant.toString())
+        );
     }
 
     return transform_;

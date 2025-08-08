@@ -127,7 +127,9 @@ State Propagated::calculateStateAt(const Instant& anInstant) const
 
     if (propagatedStateArray.getSize() != 1)
     {
-        throw ostk::core::error::runtime::Wrong("Propagated state array size", String::Format("Expected: 1, Got: {}", propagatedStateArray.getSize()));
+        throw ostk::core::error::runtime::Wrong(
+            "Propagated state array size", String::Format("Expected: 1, Got: {}", propagatedStateArray.getSize())
+        );
     }
 
     return propagatedStateArray[0];
@@ -149,7 +151,16 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
     {
         if (anInstantArray[k] > anInstantArray[k + 1])
         {
-            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array", String::Format("Index {}: {} > Index {}: {}", k, anInstantArray[k].toString(), k + 1, anInstantArray[k + 1].toString()));
+            throw ostk::core::error::runtime::Wrong(
+                "Unsorted Instant Array",
+                String::Format(
+                    "Index {}: {} > Index {}: {}",
+                    k,
+                    anInstantArray[k].toString(),
+                    k + 1,
+                    anInstantArray[k + 1].toString()
+                )
+            );
         }
     }
 
@@ -418,7 +429,11 @@ void Propagated::sanitizeCachedArray() const
     {
         throw ostk::core::error::runtime::Wrong(
             "State array with States at same instant but different position/velocity were found in cachedStateArray",
-            String::Format("Original size: {}, Unique size: {}", cachedStateArray_.getSize(), cachedStateArrayUnique.getSize())
+            String::Format(
+                "Array size: {}, Unique Instants Array size: {}",
+                cachedStateArray_.getSize(),
+                cachedStateArrayUnique.getSize()
+            )
         );
     }
 }
