@@ -330,7 +330,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The gradient. </para>
+<simplesect kind="return"><para>The gradient of the state, matching the coordinates from generateStateCoordinates. </para>
 </simplesect>
 </para>
         </detaileddescription>
