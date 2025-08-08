@@ -173,7 +173,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
     {
         case FiniteDifferenceSolver::Type::Forward:
         {
-            const VectorXd& coordinates = aState.accessCoordinates();
+            const VectorXd& coordinates = generateStateCoordinates(aState, aState.getInstant());
 
             const Instant instant = aState.accessInstant() + stepDuration_;
             const VectorXd forwardCoordinates = generateStateCoordinates(aState, instant);
@@ -183,7 +183,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
 
         case FiniteDifferenceSolver::Type::Backward:
         {
-            const VectorXd& coordinates = aState.accessCoordinates();
+            const VectorXd& coordinates = generateStateCoordinates(aState, aState.getInstant());
 
             const Instant instant = aState.accessInstant() - stepDuration_;
             const VectorXd backwardCoordinates = generateStateCoordinates(aState, instant);

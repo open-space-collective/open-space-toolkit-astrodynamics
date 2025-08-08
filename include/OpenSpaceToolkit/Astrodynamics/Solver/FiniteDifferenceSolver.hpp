@@ -118,7 +118,7 @@ class FiniteDifferenceSolver
     /// @param generateStateCoordinates Callable to generate coordinates of a State at the
     /// requested Instant.
     ///
-    /// @return The gradient.
+    /// @return The gradient of the state, matching the coordinates from generateStateCoordinates.
     VectorXd computeGradient(
         const State& aState, const std::function<VectorXd(const State&, const Instant&)>& generateStateCoordinates
     ) const;

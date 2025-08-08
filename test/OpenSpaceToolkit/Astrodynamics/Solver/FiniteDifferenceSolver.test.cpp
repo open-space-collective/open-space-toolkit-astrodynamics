@@ -298,6 +298,71 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
 
         EXPECT_TRUE(gradient.isApprox(expectedGradient, 1e-6));
     }
+
+    // Test the case where the state has different coordinate subsets to the generator (Issue #577)
+    {
+        VectorXd reducedCoordinates(1);
+        reducedCoordinates << 1.0;
+
+        State baseState = {
+            Instant::J2000(),
+            reducedCoordinates,
+            Frame::GCRF(),
+            {std::make_shared<const CoordinateSubset>(CoordinateSubset("Position", 1))}
+        };
+
+        // A dummy coordinate generator that returns the same coordinates as the base state, plus an extra coordinate
+        // equal to the step size. Equivalent to a gradient of 0.0 in the first coordinate, and 1.0 in the second.
+        // e.g.
+        //  t  | base state | generated coordinates
+        // 0.0 |  (1.0, ?)  | (1.0, 0.0)
+        // 0.1 |     ---    | (1.0, 0.1)
+        const auto generateStateCoordinates = [](const State& aState, const Instant& anInstant) -> VectorXd
+        {
+            const Real offset = (anInstant - aState.accessInstant()).inSeconds();
+
+            VectorXd coordinates(2, 1);
+            coordinates << aState.getCoordinates(), offset;
+
+            return coordinates;
+        };
+
+        VectorXd expectedDummyGradient(2);
+        expectedDummyGradient << 0.0, 1.0;
+
+        {
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Central,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const VectorXd dummyGradient = solver.computeGradient(baseState, generateStateCoordinates);
+
+            EXPECT_TRUE(dummyGradient.isApprox(expectedDummyGradient, 1e-6));
+        }
+
+        {
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Forward,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const VectorXd dummyGradient = solver.computeGradient(baseState, generateStateCoordinates);
+
+            EXPECT_TRUE(dummyGradient.isApprox(expectedDummyGradient, 1e-6));
+        }
+
+        {
+            const FiniteDifferenceSolver solver = {
+                FiniteDifferenceSolver::Type::Backward,
+                defaultStepPercentage_,
+                defaultStepDuration_,
+            };
+            const VectorXd dummyGradient = solver.computeGradient(baseState, generateStateCoordinates);
+
+            EXPECT_TRUE(dummyGradient.isApprox(expectedDummyGradient, 1e-6));
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGradient_TwoBodyProblem)
