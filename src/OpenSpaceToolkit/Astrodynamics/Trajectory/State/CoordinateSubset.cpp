@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -14,6 +15,8 @@ namespace trajectory
 namespace state
 {
 
+using ostk::core::type::String;
+
 CoordinateSubset::CoordinateSubset(const String& aName, const Size& aSize)
     : name_(aName),
       size_(aSize),
@@ -21,12 +24,12 @@ CoordinateSubset::CoordinateSubset(const String& aName, const Size& aSize)
 {
     if (aName.isEmpty())
     {
-        throw ostk::core::error::runtime::Wrong("Name");
+        throw ostk::core::error::runtime::Wrong("Name", aName);
     }
 
     if (aSize == 0)
     {
-        throw ostk::core::error::runtime::Wrong("Size");
+        throw ostk::core::error::runtime::Wrong("Size", aSize);
     }
 }
 

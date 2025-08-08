@@ -781,7 +781,9 @@ Integer TLE::GenerateChecksum(const String& aLine)
 
     if (aLine.getLength() != 69)
     {
-        throw ostk::core::error::runtime::Wrong("Line");
+        throw ostk::core::error::runtime::Wrong(
+            "Line", String::Format("Expected length: 69, Got: {}", aLine.getLength())
+        );
     }
 
     int checksum = 0;

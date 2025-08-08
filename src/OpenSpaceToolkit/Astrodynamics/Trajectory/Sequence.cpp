@@ -229,7 +229,9 @@ Sequence::Sequence(
     }
     else
     {
-        throw ostk::core::error::runtime::Wrong("verbosity level");
+        throw ostk::core::error::runtime::Wrong(
+            "verbosity level", String::Format("{}", static_cast<int>(aVerbosityLevel))
+        );
     }
 }
 
@@ -289,7 +291,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
 {
     if (aRepetitionCount <= 0)
     {
-        throw ostk::core::error::runtime::Wrong("Repetition count.");
+        throw ostk::core::error::runtime::Wrong("Repetition count", String::Format("{}", aRepetitionCount));
     }
 
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();

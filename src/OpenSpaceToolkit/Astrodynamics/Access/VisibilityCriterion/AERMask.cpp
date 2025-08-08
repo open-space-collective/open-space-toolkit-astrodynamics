@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
@@ -8,6 +10,8 @@ namespace astrodynamics
 {
 namespace access
 {
+
+using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector2d;
 
@@ -27,14 +31,25 @@ VisibilityCriterion::AERMask::AERMask(
     if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) ||
         (anAzimuthElevationMask.rbegin()->first > 360.0))
     {
-        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+        throw ostk::core::error::runtime::Wrong(
+            "Azimuth-Elevation Mask",
+            String::Format(
+                "Empty: {}, Min azimuth: {}, Max azimuth: {}",
+                anAzimuthElevationMask.empty(),
+                anAzimuthElevationMask.empty() ? Real::Zero() : anAzimuthElevationMask.begin()->first,
+                anAzimuthElevationMask.empty() ? Real::Zero() : anAzimuthElevationMask.rbegin()->first
+            )
+        );
     }
 
     for (const auto& azimuthElevationPair : anAzimuthElevationMask)
     {
         if ((azimuthElevationPair.second).abs() > 90.0)
         {
-            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask");
+            throw ostk::core::error::runtime::Wrong(
+                "Azimuth-Elevation Mask",
+                String::Format("Azimuth: {}, Elevation: {}", azimuthElevationPair.first, azimuthElevationPair.second)
+            );
         }
     }
 

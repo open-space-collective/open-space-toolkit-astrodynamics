@@ -723,7 +723,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
         }
 
         default:
-            throw ostk::core::error::runtime::Wrong("Frame type");
+            throw ostk::core::error::runtime::Wrong("Frame type", StringFromFrameType(aFrameType));
             break;
     }
 
