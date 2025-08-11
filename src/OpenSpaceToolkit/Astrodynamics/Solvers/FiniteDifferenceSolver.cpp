@@ -118,7 +118,7 @@ Array<MatrixXd> FiniteDifferenceSolver::computeStateTransitionMatrix(
             break;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
+            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type", StringFromType(type_));
     }
 
     const MatrixXd matrixResult = generateStatesCoordinates(aState, {aState.accessInstant()});
@@ -203,7 +203,7 @@ VectorXd FiniteDifferenceSolver::computeGradient(
         }
 
         default:
-            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
+            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type", StringFromType(type_));
     }
 }
 
@@ -281,7 +281,7 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
             break;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type.");
+            throw ostk::core::error::runtime::Wrong("Finite Difference Solver Type", StringFromType(type_));
     }
 
     for (Index i = 0; i < stateVectorDimension; ++i)

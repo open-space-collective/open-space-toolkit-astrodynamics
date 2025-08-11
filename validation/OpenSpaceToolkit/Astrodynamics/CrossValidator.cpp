@@ -99,7 +99,9 @@ Size CrossValidator::FindMaxDeltaIndex(const Array<VectorXd>& allDeltasWithTool,
 {
     if (aCoordinateSubsetIndex >= allDeltasWithTool[0].size())
     {
-        throw ostk::core::error::runtime::Wrong("Coordinate subset index out of bounds");
+        throw ostk::core::error::runtime::Wrong(
+            "Coordinate subset index out of bounds", String::Format("{}", aCoordinateSubsetIndex)
+        );
     };
 
     const auto currentDeltaCompare = [&aCoordinateSubsetIndex](const VectorXd& a, const VectorXd& b) -> bool
@@ -127,7 +129,7 @@ String CrossValidator::QuantityToString(const Quantity& aQuantity)
         case MANEUVER_ACCELERATION_J2000:
             return "MANEUVER_ACCELERATION_J2000";
         default:
-            throw ostk::core::error::runtime::Wrong("Quantity not recognized.");
+            throw ostk::core::error::runtime::Wrong("Quantity not recognized");
     }
 }
 
@@ -140,7 +142,7 @@ String CrossValidator::ToolToString(const Tool& aTool)
         case Tool::OREKIT:
             return "OREKIT";
         default:
-            throw ostk::core::error::runtime::Wrong("Tool not recognized.");
+            throw ostk::core::error::runtime::Wrong("Tool not recognized");
     }
 }
 
@@ -153,7 +155,7 @@ String CrossValidator::ToolToPath(const Tool& aTool)
         case Tool::OREKIT:
             return "orekit_astrodynamics";
         default:
-            throw ostk::core::error::runtime::Wrong("Tool not recognized.");
+            throw ostk::core::error::runtime::Wrong("Tool not recognized");
     }
 }
 

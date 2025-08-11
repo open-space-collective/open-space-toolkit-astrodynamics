@@ -206,7 +206,7 @@ Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
 
     if (!aFrameSPtr->isQuasiInertial())
     {
-        throw ostk::core::error::runtime::Wrong("Frame");
+        throw ostk::core::error::runtime::Wrong("Frame", aFrameSPtr->getName());
     }
 
     const Real p_m = semiLatusRectum_.inMeters();
@@ -222,7 +222,7 @@ Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
     const Real sinL = std::sin(L_rad);
 
     const Real w = 1.0 + f_val * cosL + g_val * sinL;
-    if (w == 0.0)
+    if (w < Real::Epsilon())
     {
         throw ostk::core::error::RuntimeError("w is zero (singularity).");
     }
@@ -308,7 +308,14 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
     if (!aCartesianState.first.accessFrame()->isQuasiInertial() ||
         !aCartesianState.second.accessFrame()->isQuasiInertial())
     {
-        throw ostk::core::error::runtime::Wrong("Frame");
+        throw ostk::core::error::runtime::Wrong(
+            "Frame",
+            String::Format(
+                "Position frame: {}, Velocity frame: {}",
+                aCartesianState.first.accessFrame()->getName(),
+                aCartesianState.second.accessFrame()->getName()
+            )
+        );
     }
 
     const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
