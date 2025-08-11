@@ -696,11 +696,11 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("Equatorial Radius");
     }
-    if (!aJ2.isDefined() || aJ2 < Real::Epsilon())
+    if (!aJ2.isDefined() || std::abs(aJ2) < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Undefined("J2");
     }
-    if (!aJ3.isDefined() || aJ3 < Real::Epsilon())
+    if (!aJ3.isDefined() || std::abs(aJ3) < Real::Epsilon())
     {
         throw ostk::core::error::runtime::Undefined("J3");
     }
