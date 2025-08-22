@@ -1170,6 +1170,71 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_7)
+{
+    // Ensure we do not overshoot a gap in accesses at the end of the analysis interval.
+
+    {
+        // Create an orbit that is directly overhead the North Pole at its epoch.
+        const Instant orbitEpoch = Instant::Parse("2025-01-01T00:00:00", Scale::UTC, DateTime::Format::ISO8601);
+        const Position position = Position::Meters({0.0, 0.0, 7e6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({8e3, 0.0, 0.0}, Frame::GCRF());
+
+        const Orbit orbit = {
+            Kepler(
+                COE::Cartesian({position, velocity}, defaultEarthSPtr_->getGravitationalParameter()),
+                orbitEpoch,
+                defaultEarthSPtr_->getGravitationalParameter(),
+                defaultEarthSPtr_->getEquatorialRadius(),
+                EarthGravitationalModel::EGM2008.J2_,
+                EarthGravitationalModel::EGM2008.J4_,
+                Kepler::PerturbationType::J2
+            ),
+            defaultEarthSPtr_
+        };
+
+        // Create an AccessTarget at the North Pole, with a "blind spot" between 85 and 90 degrees elevation (i.e.
+        // directly overhead)
+        const LLA lla = {
+            Angle::Degrees(90.0),
+            Angle::Degrees(0.0),
+            Length::Meters(0.0),
+        };
+
+        const VisibilityCriterion visibilityCriterion =
+            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(0.0, 85.0));
+
+        const AccessTarget accessTarget =
+            AccessTarget::FromPosition(visibilityCriterion, Position::FromLLA(lla, defaultEarthSPtr_));
+
+        // Compute Accesses
+        // Choose the analysis interval and step size such that:
+        // - Exactly 1 coarse instant is out-of-access (at the orbitEpoch).
+        // - The final coarse instant is less than one step after the previous, and is in-access.
+        // - The final coarse instant, minus one step (2024-12-31 23:59:30), is in-access.
+        // 2024-12-31 23:57:00 [UTC] | inAccess: 1
+        // 2024-12-31 23:58:00 [UTC] | inAccess: 1
+        // 2024-12-31 23:59:00 [UTC] | inAccess: 1
+        // 2025-01-01 00:00:00 [UTC] | inAccess: 0
+        // 2025-01-01 00:00:30 [UTC] | inAccess: 1
+        const Interval accessAnalysisInterval =
+            Interval::Closed(orbitEpoch - Duration::Minutes(3.0), orbitEpoch + Duration::Seconds(30.0));
+
+        const Generator generator =
+            Generator(defaultEnvironment_, Duration::Seconds(60.0), Duration::Seconds(5.0), {}, {});
+
+        const Array<Access> accesses = generator.computeAccesses(accessAnalysisInterval, accessTarget, orbit);
+
+        // Expect 2 partial accesses; one before the satellite reaches overhead, and one ending at the end of the
+        // analysis interval.
+        EXPECT_EQ(accesses.getSize(), 2);
+
+        EXPECT_EQ(accesses[0].getType(), Access::Type::Partial);
+        EXPECT_EQ(accesses[1].getType(), Access::Type::Partial);
+        EXPECT_EQ(accesses[1].getInterval().getEnd(), accessAnalysisInterval.getEnd());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
 {
     {

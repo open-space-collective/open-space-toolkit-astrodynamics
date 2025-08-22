@@ -834,7 +834,25 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     {
         const physics::time::Interval& interval = accessIntervals[i];
 
-        const Instant lowerBoundPreviousInstant = interval.getStart() - this->step_;
+        // If the analysisInterval is Closed on the right-half, then the final Instant is possibly less than `step_`
+        // after the previous Instant. If we take `step_` back, we could "overshoot" the previous coarse step and
+        // potentially miss a gap in the access.
+        //
+        // e.g. if `step_` = 10s:
+        // t  | coarse step | inAccess
+        // 0  |      y      | true
+        // 10 |      y      | true
+        // 20 |      y      | true
+        // 25 |             | true
+        // 26 |             | false
+        // 30 |      y      | false
+        // 35 |      y      | true   <- end of analysisInterval
+        //
+        // At t=35, if we took a 10s back to t=25, then both endpoints appear to be in an access, and the root finding
+        // will fail. Instead, we should start from the end of the previous Interval at t=20, and take a 10s forward.
+        const Instant lowerBoundPreviousInstant =
+            i == 0 ? (interval.getStart() - this->step_) : (accessIntervals[i - 1].getEnd() + this->step_);
+
         const Instant lowerBoundInstant = interval.getStart();
 
         Instant intervalStart = anAnalysisInterval.getStart();
