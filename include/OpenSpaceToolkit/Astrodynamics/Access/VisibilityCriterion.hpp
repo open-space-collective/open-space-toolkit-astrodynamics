@@ -49,9 +49,9 @@ class VisibilityCriterion
 
         /// @brief Constructs an AERInterval.
         ///
-        /// @param anAzimuth The azimuth interval.
-        /// @param anElevation The elevation interval.
-        /// @param aRange The range interval.
+        /// @param anAzimuth The azimuth interval in degrees.
+        /// @param anElevation The elevation interval in degrees.
+        /// @param aRange The range interval in meters.
         AERInterval(const Interval<Real>& anAzimuth, const Interval<Real>& anElevation, const Interval<Real>& aRange);
 
         /// @brief Checks if the given AER satisfies the criterion.
@@ -89,8 +89,8 @@ class VisibilityCriterion
 
         /// @brief Constructs an AERMask.
         ///
-        /// @param anAzimuthElevationMask The azimuth-elevation mask.
-        /// @param aRange The range interval.
+        /// @param anAzimuthElevationMask The azimuth-elevation mask in degrees.
+        /// @param aRange The range interval in meters.
         AERMask(const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRange);
 
         /// @brief Checks if the given AER satisfies the criterion.
@@ -160,7 +160,7 @@ class VisibilityCriterion
 
         /// @brief Constructs an ElevationInterval.
         ///
-        /// @param anElevationInterval The elevation interval.
+        /// @param anElevationInterval The elevation interval in degrees.
         ElevationInterval(const Interval<Real>& anElevationInterval);
 
         /// @brief Checks if the given elevation angle satisfies the criterion.
@@ -202,8 +202,8 @@ class VisibilityCriterion
 
     /// @brief Creates a visibility criterion from azimuth, elevation, and range intervals.
     ///
-    /// @param anAzimuthInterval Azimuth interval in radians.
-    /// @param anElevationInterval Elevation interval in radians.
+    /// @param anAzimuthInterval Azimuth interval in degrees.
+    /// @param anElevationInterval Elevation interval in degrees.
     /// @param aRangeInterval Range interval in meters.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromAERInterval(
@@ -214,7 +214,7 @@ class VisibilityCriterion
 
     /// @brief Creates a visibility criterion from an azimuth-elevation mask and range interval.
     ///
-    /// @param anAzimuthElevationMask A map of azimuth angles to elevation angles in radians.
+    /// @param anAzimuthElevationMask A map of azimuth angles to elevation angles in degrees.
     /// @param aRangeInterval Range interval in meters.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromAERMask(
@@ -229,7 +229,7 @@ class VisibilityCriterion
 
     /// @brief Creates a visibility criterion from an elevation interval.
     ///
-    /// @param anElevationInterval The elevation interval in radians.
+    /// @param anElevationInterval The elevation interval in degrees.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromElevationInterval(const Interval<Real>& anElevationInterval);
 

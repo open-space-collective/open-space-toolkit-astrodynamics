@@ -338,7 +338,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                 Creates a visibility criterion from an elevation interval.
 
                 Args:
-                    elevation_interval (RealInterval): The elevation interval in radians.
+                    elevation_interval (RealInterval): The elevation interval in degrees.
 
                 Returns:
                     VisibilityCriterion: The visibility criterion instance.
