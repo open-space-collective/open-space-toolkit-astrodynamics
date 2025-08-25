@@ -38,7 +38,7 @@
 <parametername>anElevationInterval</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The elevation interval. </para>
+<para>The elevation interval in degrees. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>

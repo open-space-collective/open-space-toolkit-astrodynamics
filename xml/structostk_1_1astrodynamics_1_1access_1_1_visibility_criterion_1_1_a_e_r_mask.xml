@@ -56,7 +56,7 @@
 <parametername>anAzimuthElevationMask</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The azimuth-elevation mask. </para>
+<para>The azimuth-elevation mask in degrees. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -64,7 +64,7 @@
 <parametername>aRange</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The range interval. </para>
+<para>The range interval in meters. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="94" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="14" bodyend="61"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="94" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="18" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="100" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="63" bodyend="70"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="100" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="78" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a0a9e2e5e5a4316368f3291a0fe512270" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -156,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="72" bodyend="93"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="87" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8ab8b08a45597347b567fc1789577255" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -186,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="114" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="95" bodyend="98"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="114" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="110" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a5d4b622efb12b326250fbac5abd338fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -216,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="120" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="100" bodyend="103"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="120" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp" bodystart="115" bodyend="118"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

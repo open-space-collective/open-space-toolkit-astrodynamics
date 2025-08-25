@@ -74,7 +74,7 @@
 <parametername>anAzimuth</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The azimuth interval. </para>
+<para>The azimuth interval in degrees. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -82,7 +82,7 @@
 <parametername>anElevation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The elevation interval. </para>
+<para>The elevation interval in degrees. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -90,7 +90,7 @@
 <parametername>aRange</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The range interval. </para>
+<para>The range interval in meters. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>

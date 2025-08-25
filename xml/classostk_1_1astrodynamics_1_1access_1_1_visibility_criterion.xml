@@ -173,7 +173,7 @@
 <parametername>anAzimuthInterval</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Azimuth interval in radians. </para>
+<para>Azimuth interval in degrees. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -181,7 +181,7 @@
 <parametername>anElevationInterval</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elevation interval in radians. </para>
+<para>Elevation interval in degrees. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -223,7 +223,7 @@
 <parametername>anAzimuthElevationMask</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A map of azimuth angles to elevation angles in radians. </para>
+<para>A map of azimuth angles to elevation angles in degrees. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -291,7 +291,7 @@
 <parametername>anElevationInterval</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The elevation interval in radians. </para>
+<para>The elevation interval in degrees. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
