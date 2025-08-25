@@ -149,7 +149,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
-                    EXPECT_EQ("{KEPLERIAN initial conditions not yet supported} is wrong.", e.getMessage());
+                    EXPECT_EQ("Orbit type = KEPLERIAN is wrong.", e.getMessage());
                     throw;
                 }
             },
@@ -168,7 +168,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
-                    EXPECT_EQ("{Time scale} is wrong.", e.getMessage());
+                    EXPECT_EQ("Time scale = TAI is wrong.", e.getMessage());
                     throw;
                 }
             },
@@ -187,7 +187,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
-                    EXPECT_EQ("{Initial Condition frame} is wrong.", e.getMessage());
+                    EXPECT_EQ("Initial Condition frame = ITRF is wrong.", e.getMessage());
                     throw;
                 }
             },
