@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from typing import Any
 
 import pandas as pd
@@ -10,13 +11,11 @@ import plotly.graph_objs as go
 
 from ostk.mathematics.object import RealInterval
 
-from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.environment.object import Celestial
 from ostk.physics.time import Duration
 from ostk.physics.time import Instant
-from ostk.physics.unit import Length
 
 from ostk.astrodynamics import Access
 from ostk.astrodynamics import Trajectory
@@ -81,7 +80,9 @@ DEFAULT_LAYOUT_3D: go.Layout = go.Layout(
 
 
 def convert_to_ground_track_plotting_data(
-    longitude: list, latitude: list, color: str = DEFAULT_COLOR
+    longitude: list,
+    latitude: list,
+    color: str = DEFAULT_COLOR,
 ) -> go.Scattergeo:
     return go.Scattergeo(
         lon=longitude,
@@ -94,18 +95,25 @@ def convert_to_ground_track_plotting_data(
     )
 
 
-def create_plotly_figure(data: Any, layout: go.Layout) -> go.Figure:
+def create_plotly_figure(
+    data: Any,
+    layout: go.Layout,
+) -> go.Figure:
     return go.Figure(
         data=data,
         layout=layout,
     )
 
 
-def create_2d_map(data: Any) -> go.Figure:
+def create_2d_map(
+    data: Any,
+) -> go.Figure:
     return create_plotly_figure(data, DEFAULT_LAYOUT_2D)
 
 
-def create_3d_globe(data: Any) -> go.Figure:
+def create_3d_globe(
+    data: Any,
+) -> go.Figure:
     return create_plotly_figure(data, DEFAULT_LAYOUT_3D)
 
 
@@ -121,36 +129,26 @@ class AccessesPlot:
         interval: RealInterval,
         trajectory_step: Duration,
         access_step: Duration,
-        ground_station_lla: LLA,
-        color: str,
+        ground_station_lla: LLA | None = None,
+        color: str | None = None,
     ):
+        if ground_station_lla is not None and color is not None:
+            warnings.warn(
+                "Ground station and color are deprecated, please use add_ground_station instead.",
+                DeprecationWarning,
+            )
+            self.add_ground_station(ground_station_lla, color)
+
         self._earth = earth
         self._trajectory_grid: list[Instant] = interval.generate_grid(trajectory_step)
         self._access_step: Instant = access_step
-        self._ned_frame: Frame = self._earth.get_frame_at(
-            ground_station_lla, self._earth.FrameType.NED
-        )
-        self._ground_station_position_ned: Position = Position(
-            [0.0, 0.0, 0.0],
-            Length.Unit.Meter,
-            self._ned_frame,
-        )
         self._data = []
-        self._data.append(
-            dict(
-                type="scattergeo",
-                lon=[float(ground_station_lla.get_longitude().in_degrees())],
-                lat=[float(ground_station_lla.get_latitude().in_degrees())],
-                mode="markers",
-                marker=dict(
-                    size=10,
-                    color=color,
-                ),
-            )
-        )
 
     def _generate_and_append_data(
-        self, data: list[list[float]], trajectory: Trajectory, grid: list[Instant]
+        self,
+        data: list[list[float]],
+        trajectory: Trajectory,
+        grid: list[Instant],
     ) -> None:
         for state in trajectory.get_states_at(grid):
             lla: LLA = LLA.cartesian(
@@ -168,7 +166,11 @@ class AccessesPlot:
             )
 
     def _append_line(
-        self, df: pd.DataFrame, width: int, rgb: list[int], alpha: float
+        self,
+        df: pd.DataFrame,
+        width: int,
+        rgb: list[int],
+        alpha: float,
     ) -> None:
         self._data.append(
             dict(
@@ -183,25 +185,45 @@ class AccessesPlot:
             )
         )
 
-    def add_satellite(
-        self, trajectory: Trajectory, accesses: list[Access], rgb: list[int]
+    def add_ground_station(
+        self,
+        ground_station_lla: LLA,
+        color: str,
     ) -> None:
         """
-        Add a satellite trajectory to the plot, including a highligh ot the interference
-        accesses.
+        Add a ground station to the plot.
+
+        Args:
+            ground_station_lla (LLA): The ground station location.
+            color (str): The color of the ground station.
         """
-
-        # Satellite trajectory
-        satellite_trajectory_data: list[list[float]] = []
-        self._generate_and_append_data(
-            satellite_trajectory_data, trajectory, self._trajectory_grid
+        self._data.append(
+            dict(
+                type="scattergeo",
+                lon=[float(ground_station_lla.get_longitude().in_degrees())],
+                lat=[float(ground_station_lla.get_latitude().in_degrees())],
+                mode="markers",
+                marker=dict(
+                    size=10,
+                    color=color,
+                ),
+            )
         )
-        satellite_trajectory_df: pd.Dataframe = pd.DataFrame(
-            satellite_trajectory_data, columns=["Longitude", "Latitude"]
-        )
-        self._append_line(satellite_trajectory_df, 1, rgb, 0.1)
 
-        # Satellite accesses
+    def add_accesses(
+        self,
+        trajectory: Trajectory,
+        accesses: list[Access],
+        rgb: list[int],
+    ) -> None:
+        """
+        Add accesses to the plot.
+
+        Args:
+            trajectory (Trajectory): The satellite trajectory.
+            accesses (list[Access]): The list of accesses.
+            rgb (list[int]): The RGB color of the accesses.
+        """
         for access in accesses:
             satellite_access_data: list[list[float]] = []
             self._generate_and_append_data(
@@ -210,9 +232,60 @@ class AccessesPlot:
                 access.get_interval().generate_grid(self._access_step),
             )
             satellite_access_df: pd.Dataframe = pd.DataFrame(
-                satellite_access_data, columns=["Longitude", "Latitude"]
+                satellite_access_data,
+                columns=["Longitude", "Latitude"],
             )
-            self._append_line(satellite_access_df, 2, rgb, 1.0)
+            self._append_line(
+                satellite_access_df,
+                2,
+                rgb,
+                1.0,
+            )
+
+    def add_satellite(
+        self,
+        trajectory: Trajectory,
+        accesses: list[Access],
+        rgb: list[int],
+        opacity: float = 0.3,
+    ) -> None:
+        """
+        Add a satellite trajectory to the plot, including a highligh of the accesses.
+
+        Args:
+            trajectory (Trajectory): The satellite trajectory.
+            accesses (list[Access]): The list of accesses.
+            rgb (list[int]): The RGB color of the satellite.
+            opacity (float): The opacity of the accesses.
+        """
+        if accesses:
+            warnings.warn(
+                "Providing accesses with the satellite is deprecated, please use add_accesses instead.",
+                DeprecationWarning,
+            )
+            self.add_accesses(
+                trajectory,
+                accesses,
+                rgb,
+            )
+
+        # Satellite trajectory
+        satellite_trajectory_data: list[list[float]] = []
+        self._generate_and_append_data(
+            satellite_trajectory_data,
+            trajectory,
+            self._trajectory_grid,
+        )
+        satellite_trajectory_df: pd.Dataframe = pd.DataFrame(
+            satellite_trajectory_data,
+            columns=["Longitude", "Latitude"],
+        )
+        self._append_line(
+            satellite_trajectory_df,
+            1,
+            rgb,
+            opacity,
+        )
 
     def show(self):
         """
