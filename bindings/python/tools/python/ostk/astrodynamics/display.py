@@ -132,17 +132,18 @@ class AccessesPlot:
         ground_station_lla: LLA | None = None,
         color: str | None = None,
     ):
-        if ground_station_lla is not None and color is not None:
-            warnings.warn(
-                "Ground station and color are deprecated, please use add_ground_station instead.",
-                DeprecationWarning,
-            )
-            self.add_ground_station(ground_station_lla, color)
-
+        self._data = []
         self._earth = earth
         self._trajectory_grid: list[Instant] = interval.generate_grid(trajectory_step)
-        self._access_step: Instant = access_step
-        self._data = []
+        self._access_step: Duration = access_step
+
+        if ground_station_lla is not None and color is not None:
+            warnings.warn(
+                "Ground station and color are deprecated; use add_ground_station instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            self.add_ground_station(ground_station_lla, color)
 
     def _generate_and_append_data(
         self,
@@ -231,7 +232,7 @@ class AccessesPlot:
                 trajectory,
                 access.get_interval().generate_grid(self._access_step),
             )
-            satellite_access_df: pd.Dataframe = pd.DataFrame(
+            satellite_access_df: pd.DataFrame = pd.DataFrame(
                 satellite_access_data,
                 columns=["Longitude", "Latitude"],
             )
@@ -260,8 +261,9 @@ class AccessesPlot:
         """
         if accesses:
             warnings.warn(
-                "Providing accesses with the satellite is deprecated, please use add_accesses instead.",
+                "Passing accesses to add_satellite() is deprecated; use add_accesses() instead.",
                 DeprecationWarning,
+                stacklevel=2,
             )
             self.add_accesses(
                 trajectory,
@@ -276,7 +278,7 @@ class AccessesPlot:
             trajectory,
             self._trajectory_grid,
         )
-        satellite_trajectory_df: pd.Dataframe = pd.DataFrame(
+        satellite_trajectory_df: pd.DataFrame = pd.DataFrame(
             satellite_trajectory_data,
             columns=["Longitude", "Latitude"],
         )
