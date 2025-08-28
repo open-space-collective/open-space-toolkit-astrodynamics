@@ -188,16 +188,16 @@ class AccessesPlot:
     def add_ground_station(
         self,
         ground_station_lla: LLA,
-        color: str | tuple[float, float, float],
+        color: str | tuple[int, int, int],
     ) -> None:
         """
         Add a ground station to the plot.
 
         Args:
             ground_station_lla (LLA): The ground station location.
-            color (str | tuple[float, float, float]): The color of the ground station.
+            color (str | tuple[int, int, int]): The color of the ground station.
         """
-        if isinstance(color, tuple):
+        if isinstance(color, (tuple, list)):
             color = f"rgba({str(color[0])},{str(color[1])},{str(color[2])},1.0)"
 
         self._data.append(
@@ -227,7 +227,7 @@ class AccessesPlot:
             accesses (list[Access]): The list of accesses.
             rgb (str | tuple[int, int, int]): The color of the accesses, as a string or tuple of RGB values.
         """
-        if isinstance(rgb, tuple):
+        if isinstance(rgb, (tuple, list)):
             rgb = f"rgba({str(rgb[0])},{str(rgb[1])},{str(rgb[2])},1.0)"
 
         for access in accesses:
@@ -267,7 +267,7 @@ class AccessesPlot:
         if rgb is None:
             rgb = f"rgba(255, 0, 0, {opacity})"
 
-        elif isinstance(rgb, tuple):
+        elif isinstance(rgb, (tuple, list)):
             rgb = f"rgba({str(rgb[0])},{str(rgb[1])},{str(rgb[2])},{opacity})"
 
         if accesses is not None:

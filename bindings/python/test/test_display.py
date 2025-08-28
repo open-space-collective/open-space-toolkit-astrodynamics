@@ -2,8 +2,6 @@
 
 import pytest
 
-from ostk.mathematics.object import RealInterval
-
 from ostk.physics import Environment
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate.spherical import LLA
@@ -37,7 +35,7 @@ def earth(environment: Environment) -> Celestial:
 
 
 @pytest.fixture
-def search_interval() -> RealInterval:
+def search_interval() -> Interval:
     start_instant: Instant = Instant.date_time(
         DateTime(2023, 1, 3, 0, 0, 0),
         Scale.UTC,
@@ -111,7 +109,7 @@ def access_generator(environment: Environment) -> AccessGenerator:
 def satellite_1_accesses(
     satellite_1_trajectory: Orbit,
     environment: Environment,
-    search_interval: RealInterval,
+    search_interval: Interval,
     access_target: AccessTarget,
     access_generator: AccessGenerator,
 ) -> list[Access]:
@@ -126,7 +124,7 @@ def satellite_1_accesses(
 def satellite_2_accesses(
     satellite_2_trajectory: Orbit,
     environment: Environment,
-    search_interval: RealInterval,
+    search_interval: Interval,
     access_target: AccessTarget,
     access_generator: AccessGenerator,
 ) -> list[Access]:
@@ -142,7 +140,7 @@ class TestDisplay:
         self,
         environment: Environment,
         earth: Celestial,
-        search_interval: RealInterval,
+        search_interval: Interval,
         access_target: AccessTarget,
         ground_station_lla: LLA,
         satellite_1_trajectory: Orbit,
@@ -189,7 +187,7 @@ class TestDisplay:
         self,
         environment: Environment,
         earth: Celestial,
-        search_interval: RealInterval,
+        search_interval: Interval,
         access_target: AccessTarget,
         satellite_1_trajectory: Orbit,
         satellite_2_trajectory: Orbit,
@@ -197,23 +195,31 @@ class TestDisplay:
         satellite_2_accesses: list[Access],
         ground_station_lla: LLA,
     ):
-        accesses_plot = display.AccessesPlot(
-            earth=earth,
-            interval=search_interval,
-            trajectory_step=Duration.minutes(5.0),
-            access_step=Duration.seconds(10.0),
-            ground_station_lla=ground_station_lla,
-            color="green",
-        )
+        with pytest.warns(
+            DeprecationWarning,
+            match="Ground station and color are deprecated",
+        ):
+            accesses_plot = display.AccessesPlot(
+                earth=earth,
+                interval=search_interval,
+                trajectory_step=Duration.minutes(5.0),
+                access_step=Duration.seconds(10.0),
+                ground_station_lla=ground_station_lla,
+                color="green",
+            )
 
-        accesses_plot.add_satellite(
-            trajectory=satellite_1_trajectory,
-            accesses=satellite_1_accesses,
-            rgb=[180, 0, 0],
-        )
+        with pytest.warns(
+            DeprecationWarning,
+            match="Passing accesses to add_satellite\(\) is deprecated.*",
+        ):
+            accesses_plot.add_satellite(
+                trajectory=satellite_1_trajectory,
+                accesses=satellite_1_accesses,
+                rgb=[180, 0, 0],
+            )
 
-        accesses_plot.add_satellite(
-            trajectory=satellite_2_trajectory,
-            accesses=satellite_2_accesses,
-            rgb=[0, 0, 180],
-        )
+            accesses_plot.add_satellite(
+                trajectory=satellite_2_trajectory,
+                accesses=satellite_2_accesses,
+                rgb=[0, 0, 180],
+            )
