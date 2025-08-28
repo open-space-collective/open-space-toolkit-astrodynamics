@@ -1,7 +1,6 @@
 {
     "name": "Open Space Toolkit Astrodynamics",
     "image": "openspacecollective/open-space-toolkit-astrodynamics-development-non-root:latest",
-    // "initializeCommand": "make build-development-image-non-root && mkdir -p ${localWorkspaceFolder}/build",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
     "workspaceFolder": "/app",
     "containerUser": "developer",
