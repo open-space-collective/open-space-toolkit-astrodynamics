@@ -251,13 +251,14 @@ class AccessesPlot:
         opacity: float = 0.3,
     ) -> None:
         """
-        Add a satellite trajectory to the plot, including a highligh of the accesses.
+        Add a satellite trajectory to the plot. If `accesses` is provided (deprecated),
+        they will be plotted and a deprecation warning will be emitted.
 
         Args:
             trajectory (Trajectory): The satellite trajectory.
-            accesses (list[Access]): The list of accesses.
+            accesses (list[Access]): (Deprecated) Accesses to plot; use add_accesses().
             rgb (list[int]): The RGB color of the satellite.
-            opacity (float): The opacity of the accesses.
+            opacity (float): Opacity of the satellite trajectory line.
         """
         if accesses:
             warnings.warn(
