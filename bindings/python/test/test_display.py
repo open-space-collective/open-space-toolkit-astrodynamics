@@ -6,7 +6,6 @@ from ostk.mathematics.object import RealInterval
 
 from ostk.physics import Environment
 from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.environment.object import Celestial
 from ostk.physics.time import DateTime
@@ -22,9 +21,9 @@ from ostk.astrodynamics.access import Generator as AccessGenerator
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.model import SGP4
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
+from ostk.astrodynamics import Access
 from ostk.astrodynamics.access import AccessTarget
 from ostk.astrodynamics.access import VisibilityCriterion
-from ostk.astrodynamics.access import Access
 
 
 @pytest.fixture
@@ -33,12 +32,12 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def earth() -> Celestial:
+def earth(environment: Environment) -> Celestial:
     return environment.access_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
-def search_interval(earth: Celestial) -> RealInterval:
+def search_interval() -> RealInterval:
     start_instant: Instant = Instant.date_time(
         DateTime(2023, 1, 3, 0, 0, 0),
         Scale.UTC,
@@ -100,20 +99,41 @@ def access_target(
 
 
 @pytest.fixture
+def access_generator(environment: Environment) -> AccessGenerator:
+    return AccessGenerator(
+        environment=environment,
+        step=Duration.seconds(10.0),
+        tolerance=Duration.seconds(1.0),
+    )
+
+
+@pytest.fixture
 def satellite_1_accesses(
     satellite_1_trajectory: Orbit,
     environment: Environment,
     search_interval: RealInterval,
     access_target: AccessTarget,
+    access_generator: AccessGenerator,
 ) -> list[Access]:
-    return AccessGenerator(
-        environment=environment,
-        step=Duration.seconds(10.0),
-        tolerance=Duration.seconds(1.0),
-    ).compute_accesses(
+    return access_generator.compute_accesses(
         interval=search_interval,
         access_target=access_target,
         to_trajectory=satellite_1_trajectory,
+    )
+
+
+@pytest.fixture
+def satellite_2_accesses(
+    satellite_2_trajectory: Orbit,
+    environment: Environment,
+    search_interval: RealInterval,
+    access_target: AccessTarget,
+    access_generator: AccessGenerator,
+) -> list[Access]:
+    return access_generator.compute_accesses(
+        interval=search_interval,
+        access_target=access_target,
+        to_trajectory=satellite_2_trajectory,
     )
 
 
@@ -140,13 +160,11 @@ class TestDisplay:
 
         accesses_plot.add_satellite(
             trajectory=satellite_1_trajectory,
-            accesses=[],
             rgb=[180, 0, 0],
         )
 
         accesses_plot.add_satellite(
             trajectory=satellite_2_trajectory,
-            accesses=[],
             rgb=[0, 0, 180],
         )
 
@@ -162,7 +180,10 @@ class TestDisplay:
             rgb=[0, 0, 180],
         )
 
-        accesses_plot.add_ground_station(ground_station_lla)
+        accesses_plot.add_ground_station(
+            ground_station_lla,
+            color="green",
+        )
 
     def test_accesses_plot_backwards_compatibility(
         self,

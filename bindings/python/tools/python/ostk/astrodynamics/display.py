@@ -170,8 +170,7 @@ class AccessesPlot:
         self,
         df: pd.DataFrame,
         width: int,
-        rgb: list[int],
-        alpha: float,
+        rgb: str,
     ) -> None:
         self._data.append(
             dict(
@@ -181,7 +180,7 @@ class AccessesPlot:
                 mode="lines",
                 line=dict(
                     width=width,
-                    color=f"rgba({str(rgb[0])},{str(rgb[1])},{str(rgb[2])},{str(alpha)})",
+                    color=rgb,
                 ),
             )
         )
@@ -189,15 +188,18 @@ class AccessesPlot:
     def add_ground_station(
         self,
         ground_station_lla: LLA,
-        color: str,
+        color: str | tuple[float, float, float],
     ) -> None:
         """
         Add a ground station to the plot.
 
         Args:
             ground_station_lla (LLA): The ground station location.
-            color (str): The color of the ground station.
+            color (str | tuple[float, float, float]): The color of the ground station.
         """
+        if isinstance(color, tuple):
+            color = f"rgba({str(color[0])},{str(color[1])},{str(color[2])},1.0)"
+
         self._data.append(
             dict(
                 type="scattergeo",
@@ -215,7 +217,7 @@ class AccessesPlot:
         self,
         trajectory: Trajectory,
         accesses: list[Access],
-        rgb: list[int],
+        rgb: str | tuple[int, int, int],
     ) -> None:
         """
         Add accesses to the plot.
@@ -223,8 +225,11 @@ class AccessesPlot:
         Args:
             trajectory (Trajectory): The satellite trajectory.
             accesses (list[Access]): The list of accesses.
-            rgb (list[int]): The RGB color of the accesses.
+            rgb (str | tuple[int, int, int]): The color of the accesses, as a string or tuple of RGB values.
         """
+        if isinstance(rgb, tuple):
+            rgb = f"rgba({str(rgb[0])},{str(rgb[1])},{str(rgb[2])},1.0)"
+
         for access in accesses:
             satellite_access_data: list[list[float]] = []
             self._generate_and_append_data(
@@ -240,14 +245,13 @@ class AccessesPlot:
                 satellite_access_df,
                 2,
                 rgb,
-                1.0,
             )
 
     def add_satellite(
         self,
         trajectory: Trajectory,
-        accesses: list[Access],
-        rgb: list[int],
+        accesses: list[Access] | None = None,
+        rgb: str | tuple[int, int, int] | None = None,
         opacity: float = 0.3,
     ) -> None:
         """
@@ -256,11 +260,17 @@ class AccessesPlot:
 
         Args:
             trajectory (Trajectory): The satellite trajectory.
-            accesses (list[Access]): (Deprecated) Accesses to plot; use add_accesses().
-            rgb (list[int]): The RGB color of the satellite.
-            opacity (float): Opacity of the satellite trajectory line.
+            accesses (list[Access] | None, optional): (Deprecated) Accesses to plot; use add_accesses().
+            rgb (str | tuple[int, int, int] | None, optional): The color of the satellite, as a string or tuple of RGB values.
+            opacity (float, optional): Opacity of the satellite trajectory line.
         """
-        if accesses:
+        if rgb is None:
+            rgb = f"rgba(255, 0, 0, {opacity})"
+
+        elif isinstance(rgb, tuple):
+            rgb = f"rgba({str(rgb[0])},{str(rgb[1])},{str(rgb[2])},{opacity})"
+
+        if accesses is not None:
             warnings.warn(
                 "Passing accesses to add_satellite() is deprecated; use add_accesses() instead.",
                 DeprecationWarning,
@@ -272,7 +282,6 @@ class AccessesPlot:
                 rgb,
             )
 
-        # Satellite trajectory
         satellite_trajectory_data: list[list[float]] = []
         self._generate_and_append_data(
             satellite_trajectory_data,
@@ -287,7 +296,6 @@ class AccessesPlot:
             satellite_trajectory_df,
             1,
             rgb,
-            opacity,
         )
 
     def show(self):
