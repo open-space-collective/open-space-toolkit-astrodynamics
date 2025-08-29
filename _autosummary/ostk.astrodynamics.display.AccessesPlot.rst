@@ -16,6 +16,8 @@ ostk.astrodynamics.display.AccessesPlot
    .. autosummary::
       :nosignatures:
    
+      ~AccessesPlot.add_accesses
+      ~AccessesPlot.add_ground_station
       ~AccessesPlot.add_satellite
       ~AccessesPlot.show
    
