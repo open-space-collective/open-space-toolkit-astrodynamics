@@ -1,7 +1,6 @@
 {
     "name": "Open Space Toolkit Astrodynamics",
     "image": "openspacecollective/open-space-toolkit-astrodynamics-development-non-root:latest",
-    "initializeCommand": "make build-development-image-non-root && mkdir -p ${localWorkspaceFolder}/build",
     "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
     "workspaceFolder": "/app",
     "containerUser": "developer",
@@ -9,7 +8,6 @@
     "runArgs": [
         "--name",
         "open-space-toolkit-astrodynamics-dev-non-root"
-
     ],
     "mounts": [
         "source=ostk_astrodynamics_vscode_extensions,target=/home/developer/.vscode-server/extensions,type=volume",
