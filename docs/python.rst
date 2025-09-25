@@ -16,6 +16,7 @@ Python API Documentation
    ostk.astrodynamics.display
    ostk.astrodynamics.dynamics
    ostk.astrodynamics.event_condition
+   ostk.astrodynamics.eclipse
    ostk.astrodynamics.estimator
    ostk.astrodynamics.flight
    ostk.astrodynamics.flight.profile
