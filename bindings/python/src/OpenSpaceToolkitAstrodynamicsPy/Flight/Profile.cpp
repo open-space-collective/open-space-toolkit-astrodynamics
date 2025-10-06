@@ -326,7 +326,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def(
             "get_body_frame",
-            &Profile::getBodyFrame,
+            +[](const Profile& profile, const String& frame_name) -> Frame
+            {
+                PyErr_WarnEx(PyExc_DeprecationWarning, "Use profile.construct_body_frame(...) instead.", 1);
+                return profile.getBodyFrame(frame_name);
+            },
             R"doc(
                 Get the body frame of the profile.
 
@@ -337,6 +341,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     Frame: The body frame of the profile.
             )doc",
             arg("frame_name")
+        )
+
+        .def(
+            "construct_body_frame",
+            &Profile::constructBodyFrame,
+            R"doc(
+                Construct the body frame of the profile.
+
+                Args:
+                    frame_name (str): The name of the frame.
+                    overwrite (bool): If True, destruct existing frame with same name. Defaults to False.
+
+                Returns:
+                    Frame: The body frame of the profile.
+            )doc",
+            arg("frame_name"),
+            arg("overwrite") = false
         )
 
         .def_static(

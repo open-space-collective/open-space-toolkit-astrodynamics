@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
@@ -50,6 +51,7 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector4d;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::frame::Manager;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Velocity;
@@ -262,6 +264,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetBodyFrame)
         EXPECT_THROW(
             profile_.getBodyFrame("name"), ostk::core::error::RuntimeError
         );  // Frame with same name already exists
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstructBodyFrame)
+{
+    {
+        const String frameName = "test_construct_body_frame";
+
+        // Test basic construction
+        EXPECT_NO_THROW(profile_.constructBodyFrame(frameName));
+
+        // Test that frame was created
+        EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
+
+        // Test that calling again without overwrite throws
+        EXPECT_THROW(profile_.constructBodyFrame(frameName), ostk::core::error::RuntimeError);
+
+        // Test that calling with overwrite = false throws
+        EXPECT_THROW(profile_.constructBodyFrame(frameName, false), ostk::core::error::RuntimeError);
+
+        // Test that calling with overwrite = true succeeds
+        EXPECT_NO_THROW(profile_.constructBodyFrame(frameName, true));
+
+        // Verify frame still exists after overwrite
+        EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
     }
 }
 
