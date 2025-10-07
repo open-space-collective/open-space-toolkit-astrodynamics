@@ -37,7 +37,7 @@ class PyGuidanceLaw : public GuidanceLaw
         const Vector3d& aVelocityCoordinates,
         const Real& aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
-    ) const
+    ) const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
             Vector3d,
