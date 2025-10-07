@@ -326,7 +326,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def(
             "get_body_frame",
-            +[](const Profile& profile, const String& frame_name) -> Frame
+            +[](const Profile& profile, const String& frame_name) -> Shared<const Frame>
             {
                 PyErr_WarnEx(PyExc_DeprecationWarning, "Use profile.construct_body_frame(...) instead.", 1);
                 return profile.getBodyFrame(frame_name);
