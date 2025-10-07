@@ -272,22 +272,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstructBodyFrame)
     {
         const String frameName = "test_construct_body_frame";
 
-        // Test basic construction
+        // basic construction
         EXPECT_NO_THROW(profile_.constructBodyFrame(frameName));
-
-        // Test that frame was created
         EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
 
-        // Test that calling again without overwrite throws
+        // undefined constructor throws
+        EXPECT_THROW(Profile::Undefined().constructBodyFrame(frameName), ostk::core::error::RuntimeError);
+
+        // calling again without overwrite (default false) throws
         EXPECT_THROW(profile_.constructBodyFrame(frameName), ostk::core::error::RuntimeError);
 
-        // Test that calling with overwrite = false throws
+        // calling with overwrite = false throws
         EXPECT_THROW(profile_.constructBodyFrame(frameName, false), ostk::core::error::RuntimeError);
 
-        // Test that calling with overwrite = true succeeds
+        // calling with overwrite = true succeeds
         EXPECT_NO_THROW(profile_.constructBodyFrame(frameName, true));
 
-        // Verify frame still exists after overwrite
+        // frame still exists after overwrite
         EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
     }
 }
