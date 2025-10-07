@@ -309,7 +309,15 @@ class Profile
     ///
     /// @param aFrameName A body frame name
     /// @return Shared pointer to body frame
+    [[deprecated("Use profile.construct_body_frame(...) instead.")]]
     Shared<const Frame> getBodyFrame(const String& aFrameName) const;
+
+    /// @brief Construct body frame
+    ///
+    /// @param aFrameName A body frame name
+    /// @param overwrite If true, destruct existing frame with same name
+    /// @return Shared pointer to body frame
+    Shared<const Frame> constructBodyFrame(const String& aFrameName, const bool& overwrite = false) const;
 
     /// @brief Print flight profile to output stream
     ///

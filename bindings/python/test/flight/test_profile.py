@@ -180,6 +180,18 @@ class TestProfile:
         assert frame is not None
         assert isinstance(frame, Frame)
 
+    def test_construct_body_frame(self, profile: Profile):
+        frame_name: str = "test_construct_body_frame"
+
+        if Frame.exists(frame_name):
+            Frame.destruct(frame_name)
+
+        frame: Frame = profile.construct_body_frame(frame_name)
+        assert frame is not None
+
+        frame_2: Frame = profile.construct_body_frame(frame_name, True)
+        assert frame_2 is not None
+
     def test_undefined(self):
         profile: Profile = Profile.undefined()
 

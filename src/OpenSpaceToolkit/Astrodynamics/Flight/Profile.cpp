@@ -241,6 +241,28 @@ Shared<const Frame> Profile::getBodyFrame(const String& aFrameName) const
     return modelUPtr_->getBodyFrame(aFrameName);
 }
 
+Shared<const Frame> Profile::constructBodyFrame(const String& aFrameName, const bool& overwrite) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Profile");
+    }
+
+    if (Manager::Get().hasFrameWithName(aFrameName))
+    {
+        if (overwrite)
+        {
+            Manager::Get().removeFrameWithName(aFrameName);
+        }
+        else
+        {
+            throw ostk::core::error::RuntimeError("A frame with the same name already exists.");
+        }
+    }
+
+    return modelUPtr_->getBodyFrame(aFrameName);
+}
+
 void Profile::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Flight Profile") : void();
