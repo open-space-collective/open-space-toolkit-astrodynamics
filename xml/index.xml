@@ -1089,6 +1089,7 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a024e820df226aa5873725e60f865ca76" kind="function"><name>getStatesAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aeb8721e2f031d5569ea192510f807b16" kind="function"><name>getAxesAt</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affb473c8ce59ff6f14520c8579ea7278" kind="function"><name>getBodyFrame</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a053646c0be60f757ac04a53e5b3bdfb2" kind="function"><name>constructBodyFrame</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1afc2e113ef038e3dd84d9e65da38161da" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a8747e69fc10f1b068a0dd02d79da3b95" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ab6edc8d4ac9424bb95716d217f258dc3" kind="function"><name>Undefined</name></member>

@@ -18,6 +18,7 @@ ostk.astrodynamics.flight.Profile
    
       ~Profile.access_model
       ~Profile.align_and_constrain
+      ~Profile.construct_body_frame
       ~Profile.custom_pointing
       ~Profile.get_axes_at
       ~Profile.get_body_frame
