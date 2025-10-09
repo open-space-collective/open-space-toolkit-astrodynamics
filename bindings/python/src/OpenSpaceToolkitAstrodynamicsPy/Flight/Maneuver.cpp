@@ -130,6 +130,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                     Tabulated: The tabulated dynamics.
             )doc"
         )
+        .def(
+            "to_constant_local_orbital_frame_direction_maneuver",
+            &Maneuver::toConstantLocalOrbitalFrameDirectionManeuver,
+            arg("local_orbital_frame_factory"),
+            R"doc(
+                Create a new version of this maneuver with a constant thrust acceleration direction in the Local Orbital Frame.
+
+                The new Maneuver contains the same states as the original Maneuver, but the thrust acceleration direction is 
+                constant in the Local Orbital Frame. Said direction is the mean direction of the thrust acceleration directions 
+                in the Local Orbital Frame of the original Maneuver. The thrust acceleration magnitude profile is the same as the original.
+
+                Args:
+                    local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
+
+                Returns:
+                    Maneuver: The constant local orbital frame direction maneuver.
+            )doc"
+        )
         .def_static(
             "constant_mass_flow_rate_profile",
             &Maneuver::ConstantMassFlowRateProfile,

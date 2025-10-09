@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -47,6 +48,7 @@ using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
 using flightManeuver = ostk::astrodynamics::flight::Maneuver;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
@@ -174,6 +176,12 @@ class Segment
         Array<State> states;               // Array of states for the segment.
         bool conditionIsSatisfied;         // True if the event condition is satisfied.
         Segment::Type segmentType;         // Type of segment.
+       private:
+        mutable Array<flightManeuver> maneuvers_ =
+            Array<flightManeuver>::Empty();        // Array of maneuvers for the segment.
+        mutable bool maneuversAreCached_ = false;  // True if the maneuvers are cached.
+
+        friend class Segment;
     };
 
     /// @brief Output stream operator
@@ -258,20 +266,48 @@ class Segment
         const NumericalSolver& aNumericalSolver
     );
 
+    /// @brief Create a maneuvering segment where raw maneuvers are trasnformed to constant local orbital frame
+    /// direction maneuvers when solving the segment.
+    ///
+    /// @param aName A name
+    /// @param anEventConditionSPtr An event condition
+    /// @param aThrusterDynamics Dynamics for the thruster
+    /// @param aDynamicsArray Array of dynamics
+    /// @param aNumericalSolver Numerical solver
+    /// @param localOrbitalFrameFactory A local orbital frame factory.
+    static Segment ConstantLocalOrbitalFrameDirectionManeuver(
+        const String& aName,
+        const Shared<EventCondition>& anEventConditionSPtr,
+        const Shared<Thruster>& aThrusterDynamics,
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const NumericalSolver& aNumericalSolver,
+        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory
+    );
+
    private:
     String name_;
     Type type_;
     Shared<EventCondition> eventCondition_;
     Array<Shared<Dynamics>> dynamics_;
     NumericalSolver numericalSolver_;
+    Shared<const LocalOrbitalFrameFactory> constantManeuverDirectionLocalOrbitalFrameFactory_;
 
     Segment(
         const String& aName,
         const Type& aType,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver
+        const NumericalSolver& aNumericalSolver,
+        const Shared<const LocalOrbitalFrameFactory>& constantManeuverDirectionLocalOrbitalFrameFactory =
+            LocalOrbitalFrameFactory::Undefined()
     );
+
+    /// @brief Identify the Thruster dynamics from an array of dynamics, throwing an error if no or multiple Thruster
+    /// dynamics are found.
+    ///
+    /// @param aDynamicsArray Array of dynamics to search.
+    /// @return Shared pointer to the Thruster dynamics.
+    static const Shared<Thruster> identifyThrusterDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
 };
 
 }  // namespace trajectory

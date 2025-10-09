@@ -14,6 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
     using ostk::astrodynamics::Dynamics;
     using ostk::astrodynamics::flight::Maneuver;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
     using ostk::astrodynamics::trajectory::Segment;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
     using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -414,6 +415,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     thruster_dynamics (ThrusterDynamics): The thruster dynamics.
                     dynamics (Dynamics): The dynamics.
                     numerical_solver (NumericalSolver): The numerical solver.
+
+                Returns:
+                    Segment: The maneuver segment.
+            )doc"
+        )
+
+        .def_static(
+            "constant_local_orbital_frame_direction_maneuver",
+            &Segment::ConstantLocalOrbitalFrameDirectionManeuver,
+            arg("name"),
+            arg("event_condition"),
+            arg("thruster_dynamics"),
+            arg("dynamics"),
+            arg("numerical_solver"),
+            arg("local_orbital_frame_factory"),
+            R"doc(
+                Create a maneuver segment where raw maneuvers are trasnformed to constant local orbital frame direction maneuvers when solving the segment.
+
+                Args:
+                    name (str): The name of the segment.
+                    event_condition (EventCondition): The event condition.
+                    thruster_dynamics (ThrusterDynamics): The thruster dynamics.
+                    dynamics (Dynamics): The dynamics.
+                    numerical_solver (NumericalSolver): The numerical solver.
+                    local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
 
                 Returns:
                     Segment: The maneuver segment.

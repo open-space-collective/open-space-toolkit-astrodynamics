@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+/// Apache License 2.0
+
 #include <numeric>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -8,9 +10,11 @@
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -24,6 +28,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
 const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
@@ -264,6 +269,64 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
     return std::make_shared<Tabulated>(
         Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
     );
+}
+
+Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+) const
+{
+    if ((aLocalOrbitalFrameFactorySPtr == nullptr) || !aLocalOrbitalFrameFactorySPtr->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
+    }
+
+    Array<Shared<const Frame>> lofFrames = Array<Shared<const Frame>>::Empty();
+    lofFrames.reserve(states_.getSize());
+    Vector3d sumInLof = Vector3d::Zero();
+
+    for (const auto& state : states_)
+    {
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+        lofFrames.add(lofFrame);
+
+        const Vector3d thrustAcceleration = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr);
+        const auto transform = state.accessFrame()->getTransformTo(lofFrame, state.accessInstant());
+        const Vector3d thrustAccelerationInLof = transform.applyToVector(thrustAcceleration);
+        sumInLof += thrustAccelerationInLof;
+    }
+
+    if (sumInLof.norm() < 1e-12)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Sum of thrust acceleration directions in Local Orbital Frame is too close to zero."
+        );
+    }
+
+    const Vector3d meanDirInLof = sumInLof.normalized();
+
+    Array<State> newStates = Array<State>::Empty();
+    newStates.reserve(states_.getSize());
+
+    for (Size i = 0; i < states_.getSize(); ++i)
+    {
+        const auto& state = states_[i];
+
+        const Shared<const Frame>& stateFrame = state.accessFrame();
+        const Instant& instant = state.accessInstant();
+
+        const Real originalMag = state.extractCoordinate(CartesianAcceleration::ThrustAcceleration()).norm();
+        const Vector3d newThrustAccelerationLof = meanDirInLof * originalMag;
+        const auto transform = lofFrames[i]->getTransformTo(stateFrame, instant);
+        const Vector3d newThrustAcceleration = transform.applyToVector(newThrustAccelerationLof);
+
+        const StateBuilder fullStateBuilder = StateBuilder(stateFrame, RequiredCoordinateSubsets);
+        const State partialState = State(
+            state.accessInstant(), newThrustAcceleration, stateFrame, {CartesianAcceleration::ThrustAcceleration()}
+        );
+        newStates.add(fullStateBuilder.expand(partialState, state));
+    }
+
+    return Maneuver(newStates);
 }
 
 void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const

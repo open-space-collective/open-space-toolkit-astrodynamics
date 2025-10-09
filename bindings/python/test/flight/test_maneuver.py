@@ -12,6 +12,7 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Mass
 
 from ostk.astrodynamics.flight import Maneuver
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.dynamics import Tabulated as TabulatedDynamics
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
@@ -184,12 +185,21 @@ class TestManeuver:
 
         assert tabulated_dynamics.access_frame() == frame
 
+    def test_to_constant_local_orbital_frame_direction_maneuver(
+        self,
+        maneuver: Maneuver,
+    ):
+        maneuver: Maneuver = maneuver.to_constant_local_orbital_frame_direction_maneuver(
+            local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+        )
+        assert maneuver.is_defined()
+
     def test_from_constant_mass_flow_rate(
         self,
         states: list[State],
     ):
         mass_flow_rate: float = -1.0e-5
-        maneuver = Maneuver.constant_mass_flow_rate_profile(
+        maneuver: Maneuver = Maneuver.constant_mass_flow_rate_profile(
             states=states,
             mass_flow_rate=mass_flow_rate,
         )
