@@ -14,12 +14,14 @@
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -41,12 +43,14 @@ using ostk::mathematics::object::MatrixXd;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
+using ostk::physics::unit::Angle;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
 using flightManeuver = ostk::astrodynamics::flight::Maneuver;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
@@ -258,13 +262,50 @@ class Segment
         const NumericalSolver& aNumericalSolver
     );
 
+    /// @brief Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital
+    /// frame.
+    ///
+    /// The provided thruster dynamics are used to solve the segment at first. The maneuvers produced by this segement
+    /// solution are then used to create a new thruster dynamics with a constant direction in the local orbital frame.
+    /// This new thruster dynamics is then used to actually solve the segment.
+    ///
+    /// If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thruster
+    /// dynamics and the mean thrust direction is violated.
+    ///
+    /// @param aName A name
+    /// @param anEventConditionSPtr An event condition
+    /// @param aThrusterDynamics Dynamics for the thruster
+    /// @param aDynamicsArray Array of dynamics
+    /// @param aNumericalSolver Numerical solver
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory.
+    /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults
+    /// to Undefined.
+    static Segment ConstantLocalOrbitalFrameDirectionManeuver(
+        const String& aName,
+        const Shared<EventCondition>& anEventConditionSPtr,
+        const Shared<Thruster>& aThrusterDynamics,
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const NumericalSolver& aNumericalSolver,
+        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
+    );
+
    private:
     String name_;
     Type type_;
     Shared<EventCondition> eventCondition_;
     Array<Shared<Dynamics>> dynamics_;
     NumericalSolver numericalSolver_;
+    Shared<const LocalOrbitalFrameFactory> constantManeuverDirectionLocalOrbitalFrameFactory_;
+    Angle constantManeuverDirectionMaximumAllowedAngularOffset_;
 
+    /// @brief Constructor
+    ///
+    /// @param aName The name of the segment
+    /// @param aType The type of the segment
+    /// @param anEventConditionSPtr The event condition
+    /// @param aDynamicsArray The dynamics array
+    /// @param aNumericalSolver The numerical solver
     Segment(
         const String& aName,
         const Type& aType,
@@ -272,6 +313,27 @@ class Segment
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver
     );
+
+    /// @brief Solve the segment using the given dynamics and event condition
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param aDynamicsArray The dynamics array
+    /// @param anEventConditionSPtr The event condition
+    /// @return The segment solution
+    Segment::Solution Solve_(
+        const State& aState,
+        const Duration& maximumPropagationDuration,
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const Shared<EventCondition>& anEventConditionSPtr
+    ) const;
+
+    /// @brief Find the Thruster dynamics from an array of dynamics, throwing an error if none or multiple Thruster
+    /// dynamics are found.
+    ///
+    /// @param aDynamicsArray Array of dynamics to search.
+    /// @return Shared pointer to the Thruster dynamics.
+    static const Shared<Thruster> FindThrusterDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
 };
 
 }  // namespace trajectory

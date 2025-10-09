@@ -2,16 +2,26 @@
 
 import pytest
 
-from ostk.physics.time import Instant
+import numpy as np
+
 from ostk.physics.time import DateTime
+from ostk.physics.time import Duration
+from ostk.physics.time import Instant
 from ostk.physics.time import Scale
+from ostk.physics.unit import Angle
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 
 from ostk.astrodynamics import GuidanceLaw
+from ostk.astrodynamics.flight import Maneuver
 from ostk.astrodynamics.guidance_law import ConstantThrust
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianAcceleration
 
 
 @pytest.fixture
@@ -54,6 +64,64 @@ def frame() -> Frame:
     return Frame.GCRF()
 
 
+@pytest.fixture
+def instants() -> list[Instant]:
+    return [
+        Instant.J2000(),
+        Instant.J2000() + Duration.seconds(30.0),
+        Instant.J2000() + Duration.seconds(35.0),
+        Instant.J2000() + Duration.seconds(37.0),
+    ]
+
+
+@pytest.fixture
+def acceleration_profile() -> list[np.ndarray]:
+    return [
+        np.array([1.0e-3, 0.0e-3, 0.0e-3]),
+        np.array([0.0e-3, 1.0e-3, 0.0e-3]),
+        np.array([0.0e-3, 0.0e-3, 1.0e-3]),
+        np.array([1.0e-3, 1.0e-3, 1.0e-3]),
+    ]
+
+
+@pytest.fixture
+def mass_flow_rate_profile() -> list[float]:
+    return [-1.0e-5, -1.1e-5, -0.9e-5, -1.0e-5]
+
+
+@pytest.fixture
+def coordinate_subsets() -> list[CoordinateSubset]:
+    return [
+        CartesianPosition.default(),
+        CartesianVelocity.default(),
+        CartesianAcceleration.thrust_acceleration(),
+        CoordinateSubset.mass_flow_rate(),
+    ]
+
+
+@pytest.fixture
+def maneuver(
+    instants: list[Instant],
+    acceleration_profile: list[np.ndarray],
+    mass_flow_rate_profile: list[float],
+    frame: Frame,
+    coordinate_subsets: list[CoordinateSubset],
+) -> Maneuver:
+    states = []
+    for instant, acceleration, mass_flow_rate in zip(
+        instants, acceleration_profile, mass_flow_rate_profile
+    ):
+        states.append(
+            State(
+                instant,
+                [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, *acceleration, mass_flow_rate],
+                frame,
+                coordinate_subsets,
+            )
+        )
+    return Maneuver(states)
+
+
 class TestConstantThrust:
     def test_constructors(self, guidance_law: ConstantThrust):
         assert guidance_law is not None
@@ -89,3 +157,21 @@ class TestConstantThrust:
 
         assert len(contribution) == 3
         assert contribution == pytest.approx([0.0, 0.009523809523809525, 0.0], abs=5e-11)
+
+    def test_from_maneuver(self, maneuver: Maneuver):
+        constant_thrust = ConstantThrust.from_maneuver(
+            maneuver=maneuver,
+            local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+        )
+        assert isinstance(constant_thrust, ConstantThrust)
+
+        constant_thrust_with_maximum_allowed_angular_offset = (
+            ConstantThrust.from_maneuver(
+                maneuver=maneuver,
+                local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+                maximum_allowed_angular_offset=Angle.degrees(180.0),
+            )
+        )
+        assert isinstance(
+            constant_thrust_with_maximum_allowed_angular_offset, ConstantThrust
+        )

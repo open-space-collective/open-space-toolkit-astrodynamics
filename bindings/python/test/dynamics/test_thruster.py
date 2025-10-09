@@ -22,7 +22,6 @@ from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
-from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.guidance_law import ConstantThrust
 
@@ -96,11 +95,27 @@ def state(coordinate_broker: CoordinateBroker) -> State:
 
 
 class TestThruster:
-    def test_constructors(self, dynamics: Thruster):
-        assert dynamics is not None
-        assert isinstance(dynamics, Thruster)
-        assert isinstance(dynamics, Dynamics)
-        assert dynamics.is_defined()
+    def test_constructors(
+        self,
+        guidance_law: ConstantThrust,
+        satellite_system: SatelliteSystem,
+    ):
+        thrusters = [
+            Thruster(
+                satellite_system=satellite_system,
+                guidance_law=guidance_law,
+            ),
+            Thruster(
+                satellite_system=satellite_system,
+                guidance_law=guidance_law,
+                name="A name",
+            ),
+        ]
+
+        for thruster in thrusters:
+            assert thruster is not None
+            assert isinstance(thruster, Thruster)
+            assert thruster.is_defined()
 
     def test_getters(self, dynamics: Thruster):
         assert dynamics.get_satellite_system() is not None

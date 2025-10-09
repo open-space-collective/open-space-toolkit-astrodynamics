@@ -4,16 +4,18 @@ import pytest
 
 import numpy as np
 
-
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Mass
+from ostk.physics.unit import Angle
 
-from ostk.astrodynamics.flight import Maneuver
-from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.dynamics import Tabulated as TabulatedDynamics
+from ostk.astrodynamics.flight import Maneuver
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
@@ -184,12 +186,44 @@ class TestManeuver:
 
         assert tabulated_dynamics.access_frame() == frame
 
+    def test_calculate_mean_thrust_direction_and_maximum_angular_offset(
+        self,
+        maneuver: Maneuver,
+    ):
+        mean_thrust_direction_and_maximum_angular_offset = (
+            maneuver.calculate_mean_thrust_direction_and_maximum_angular_offset(
+                local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+            )
+        )
+        assert isinstance(
+            mean_thrust_direction_and_maximum_angular_offset[0],
+            LocalOrbitalFrameDirection,
+        )
+        assert isinstance(mean_thrust_direction_and_maximum_angular_offset[1], Angle)
+
+    def test_to_constant_local_orbital_frame_direction_maneuver(
+        self,
+        maneuver: Maneuver,
+    ):
+        maneuver: Maneuver = maneuver.to_constant_local_orbital_frame_direction_maneuver(
+            local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+        )
+        assert maneuver.is_defined()
+
+        maneuver_with_maximum_allowed_angular_offset: Maneuver = (
+            maneuver.to_constant_local_orbital_frame_direction_maneuver(
+                local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+                maximum_allowed_angular_offset=Angle.degrees(180.0),
+            )
+        )
+        assert maneuver_with_maximum_allowed_angular_offset.is_defined()
+
     def test_from_constant_mass_flow_rate(
         self,
         states: list[State],
     ):
         mass_flow_rate: float = -1.0e-5
-        maneuver = Maneuver.constant_mass_flow_rate_profile(
+        maneuver: Maneuver = Maneuver.constant_mass_flow_rate_profile(
             states=states,
             mass_flow_rate=mass_flow_rate,
         )

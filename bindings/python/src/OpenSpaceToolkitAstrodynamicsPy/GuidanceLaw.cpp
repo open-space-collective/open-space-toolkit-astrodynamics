@@ -4,6 +4,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ConstantThrust.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/QLaw.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/SequentialGuidanceLaw.cpp>
 
 using namespace pybind11;
 
@@ -120,4 +121,5 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
     // Add objects to "guidance_law" submodule
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(guidance_law);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(guidance_law);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_SequentialGuidanceLaw(guidance_law);
 }

@@ -112,7 +112,7 @@ void Thruster::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Thruster") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << this->getName();
     satelliteSystem_.print(anOutputStream, false);
     guidanceLaw_->print(anOutputStream, false);
 

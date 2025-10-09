@@ -11,9 +11,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using ostk::core::type::String;
 
     using ostk::physics::time::Duration;
+    using ostk::physics::unit::Angle;
 
     using ostk::astrodynamics::Dynamics;
     using ostk::astrodynamics::flight::Maneuver;
+    using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
     using ostk::astrodynamics::trajectory::Segment;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
     using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -414,6 +416,40 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     thruster_dynamics (ThrusterDynamics): The thruster dynamics.
                     dynamics (Dynamics): The dynamics.
                     numerical_solver (NumericalSolver): The numerical solver.
+
+                Returns:
+                    Segment: The maneuver segment.
+            )doc"
+        )
+
+        .def_static(
+            "constant_local_orbital_frame_direction_maneuver",
+            &Segment::ConstantLocalOrbitalFrameDirectionManeuver,
+            arg("name"),
+            arg("event_condition"),
+            arg("thruster_dynamics"),
+            arg("dynamics"),
+            arg("numerical_solver"),
+            arg("local_orbital_frame_factory"),
+            arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()"),
+            R"doc(
+                Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital frame.
+
+                The provided thruster dynamics are used to solve the segment at first. The maneuvers produced by this segement solution
+                are then used to create a new thruster dynamics with a constant direction in the local orbital frame. This new thruster dynamics
+                is then used to actually solve the segment.
+
+                If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thruster dynamics
+                and the mean thrust direction is violated.
+
+                Args:
+                    name (str): The name of the segment.
+                    event_condition (EventCondition): The event condition.
+                    thruster_dynamics (ThrusterDynamics): The thruster dynamics.
+                    dynamics (Dynamics): The dynamics.
+                    numerical_solver (NumericalSolver): The numerical solver.
+                    local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
+                    maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Angle.undefined().
 
                 Returns:
                     Segment: The maneuver segment.
