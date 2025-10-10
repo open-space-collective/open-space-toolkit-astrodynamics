@@ -43,6 +43,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
@@ -96,6 +97,7 @@ using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::Segment;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
@@ -149,19 +151,24 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSpherical_),
     };
+
     const NumericalSolver defaultNumericalSolver_ = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaDopri5,
         5.0,
-        1.0e-12,
-        1.0e-12,
+        1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
+        1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
     };
+
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
         InstantCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(15.0)
     );
 
+    const Shared<const LocalOrbitalFrameFactory> defaultLocalOrbitalFrameFactorySPtr_ =
+        LocalOrbitalFrameFactory::VNC(defaultFrameSPtr_);
+
     const Shared<const ConstantThrust> constantThrustSPtr_ = std::make_shared<ConstantThrust>(
-        LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(defaultFrameSPtr_))
+        LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, defaultLocalOrbitalFrameFactorySPtr_)
     );
 
     const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
@@ -177,6 +184,54 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         CartesianVelocity::Default(),
         CoordinateSubset::Mass(),
     }));
+
+    const COE defaultCurrentCOE_ = {
+        Length::Meters(6800.0e3),
+        0.01,
+        Angle::Degrees(80.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(90.0),
+    };
+
+    const COE defaultTargetCOE_ = {
+        defaultCurrentCOE_.getSemiMajorAxis(),
+        defaultCurrentCOE_.getEccentricity(),
+        defaultCurrentCOE_.getInclination() + Angle::Degrees(0.1),
+        defaultCurrentCOE_.getRaan(),
+        defaultCurrentCOE_.getAop(),
+        defaultCurrentCOE_.getTrueAnomaly(),
+    };
+
+    const QLaw::Parameters defaultQLawParameters_ = {
+        {
+            {
+                COE::Element::Inclination,
+                {
+                    1.0,   // Control element weight
+                    1e-4,  // Convergence threshold of 0.0001
+                },
+            },
+        },
+        3,                           // M value
+        4,                           // N value
+        2,                           // R value
+        0.01,                        // B value
+        100,                         // K value
+        1.0,                         // Periapsis weight
+        Length::Kilometers(6578.0),  // Minimum periapsis
+        0.5,                         // Absolute effectivity threshold
+    };
+
+    const QLaw defaultQLaw_ = {
+        defaultTargetCOE_,
+        EarthGravitationalModel::EGM2008.gravitationalParameter_,
+        defaultQLawParameters_,
+        QLaw::GradientStrategy::Analytical,
+    };
+
+    const Shared<Thruster> defaultQLawThrusterDynamicsSPtr_ =
+        std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<QLaw>(defaultQLaw_));
 
     State initialStateWithMass_ = State::Undefined();
     State intermediateStateWithMass_ = State::Undefined();
@@ -321,8 +376,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
         );
 
         // Create maneuvering segment
-        Segment maneuverSegment = Segment::Maneuver(
-            "Maneuvring Segment",
+        Segment maneuveringSegment = Segment::Maneuver(
+            "Maneuvering Segment",
             durationCondition,
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
@@ -344,7 +399,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             Instant::J2000(), initialCoordinatesWithWetMass, Frame::GCRF(), thrustCoordinateBrokerSPtr_
         };
 
-        const Segment::Solution maneuveringSegmentSolution = maneuverSegment.solve(initialStateWithWetMass);
+        const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(initialStateWithWetMass);
 
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         EXPECT_EQ(1, maneuvers.getSize());
@@ -390,77 +445,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
     // Check that multiple (or no) maneuvers can be extracted when more than one maneuvers are carried out per
     // maneuvering segment
     {
-        const COE currentCOE = {
-            Length::Meters(6800.0e3),
-            0.01,
-            Angle::Degrees(80.0),
-            Angle::Degrees(0.0),
-            Angle::Degrees(0.0),
-            Angle::Degrees(90.0),
-        };
-
-        const COE targetCOE = {
-            currentCOE.getSemiMajorAxis(),
-            currentCOE.getEccentricity(),
-            currentCOE.getInclination() + Angle::Degrees(0.1),
-            currentCOE.getRaan(),
-            currentCOE.getAop(),
-            currentCOE.getTrueAnomaly(),
-        };
-
-        const QLaw::Parameters qLawParameters = {
-            {
-                {
-                    COE::Element::Inclination,
-                    {
-                        1.0,   // Control element weight
-                        1e-4,  // Convergence threshold of 0.0001
-                    },
-                },
-            },
-            3,                           // M value
-            4,                           // N value
-            2,                           // R value
-            0.01,                        // B value
-            100,                         // K value
-            1.0,                         // Periapsis weight
-            Length::Kilometers(6578.0),  // Minimum periapsis
-            0.5,                         // Absolute effectivity threshold
-        };
-
-        const QLaw qlaw = {
-            targetCOE,
-            EarthGravitationalModel::EGM2008.gravitationalParameter_,
-            qLawParameters,
-            QLaw::GradientStrategy::Analytical,
-        };
-
-        const Shared<Thruster> qLawThrusterDynamicsSPtr =
-            std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<QLaw>(qlaw));
-
         const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
             RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
         );
 
         // Create maneuvering segment
-        Segment maneuverSegment = Segment::Maneuver(
-            "Maneuvring Segment",
+        Segment maneuveringSegment = Segment::Maneuver(
+            "Maneuvering Segment",
             durationCondition,
-            qLawThrusterDynamicsSPtr,
+            defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
-            {
-                NumericalSolver::LogType::NoLog,
-                NumericalSolver::StepperType::RungeKuttaDopri5,
-                5.0,
-                1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
-                1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
-            }
+            defaultNumericalSolver_
         );
 
         // Check that multiple maneuvers can be extracted when more than one maneuvers are carried out per maneuvering
         // segment
         {
-            const COE::CartesianState cartesianStatePair = currentCOE.getCartesianState(
+            const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
                 EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
             );
             VectorXd currentCoordinates(7);
@@ -473,7 +474,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 thrustCoordinateBrokerSPtr_,
             };
 
-            const Segment::Solution maneuveringSegmentSolution = maneuverSegment.solve(currentState);
+            const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
 
             const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
@@ -512,7 +513,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
         // Check that when no thrusting is performed in a maneuvering segment that no maneuvers are outputted
         {
             // Pretend that we are already at the target COE, so no thrusting will occur
-            const COE::CartesianState cartesianStatePair = targetCOE.getCartesianState(
+            const COE::CartesianState cartesianStatePair = defaultTargetCOE_.getCartesianState(
                 EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
             );
             VectorXd currentCoordinates(7);
@@ -525,7 +526,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 thrustCoordinateBrokerSPtr_,
             };
 
-            const Segment::Solution maneuveringSegmentSolution = maneuverSegment.solve(currentState);
+            const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
 
             const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
@@ -882,6 +883,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ConstantLocalOrbitalFrameDirectionManeuver)
+{
+    {
+        EXPECT_NO_THROW(Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            defaultLocalOrbitalFrameFactorySPtr_
+        ));
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetName)
 {
     EXPECT_EQ(defaultName_, defaultCoastSegment_.getName());
@@ -959,6 +974,124 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
 
         EXPECT_TRUE(solution.states.getSize() > 0);
         EXPECT_FALSE(solution.conditionIsSatisfied);
+    }
+
+    {
+        // Create maneuvering segment
+        Segment rawManeuveringSegment = Segment::Maneuver(
+            "Raw Maneuvering Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+            "Constant Local Orbital Frame Direction Maneuver Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            defaultLocalOrbitalFrameFactorySPtr_
+        );
+
+        // Check that multiple maneuvers can be extracted when more than one maneuvers are carried out per maneuvering
+        // segment
+        {
+            const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
+                EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
+            );
+            VectorXd currentCoordinates(7);
+            currentCoordinates << cartesianStatePair.first.accessCoordinates(),
+                cartesianStatePair.second.accessCoordinates(), 200.0;
+            const State currentState = {
+                Instant::J2000(),
+                currentCoordinates,
+                defaultFrameSPtr_,
+                thrustCoordinateBrokerSPtr_,
+            };
+
+            const Segment::Solution rawManeuveringSegmentSolution = rawManeuveringSegment.solve(currentState);
+            const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
+                constantLofDirectionManeuveringSegment.solve(currentState);
+
+            const Array<Maneuver> rawManeuvers = rawManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+            const Array<Maneuver> constantLofDirectionManeuvers =
+                constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
+            EXPECT_TRUE(rawManeuveringSegmentSolution.accessStartInstant().isNear(
+                constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
+            ));
+            EXPECT_TRUE(rawManeuveringSegmentSolution.accessEndInstant().isNear(
+                constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
+            ));
+            EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
+            EXPECT_TRUE(rawManeuveringSegmentSolution.conditionIsSatisfied);
+            EXPECT_EQ(2, rawManeuvers.getSize());
+            EXPECT_EQ(2, constantLofDirectionManeuvers.getSize());
+
+            // Check that the intervals for each maneuver pair are the same
+            for (Size i = 0; i < rawManeuvers.getSize(); ++i)
+            {
+                EXPECT_EQ(rawManeuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval());
+            }
+
+            // Build the expected propagator of the constant local orbital frame direction maneuvering segment solution
+            Propagator expectedPropagator = {
+                defaultNumericalSolver_,
+                defaultDynamics_,
+            };
+
+            for (const auto& maneuver : rawManeuvers)
+            {
+                expectedPropagator.addManeuver(
+                    maneuver.toConstantLocalOrbitalFrameDirectionManeuver(defaultLocalOrbitalFrameFactorySPtr_)
+                );
+            }
+
+            const State expectedFinalState = expectedPropagator.calculateStateAt(
+                currentState, constantLofDirectionManeuveringSegmentSolution.accessEndInstant()
+            );
+
+            // Check it against the final state of the segment solution
+            const State finalState = constantLofDirectionManeuveringSegmentSolution.states.accessLast();
+            EXPECT_EQ(finalState.getInstant(), expectedFinalState.getInstant());
+            EXPECT_TRUE(finalState.getPosition().getCoordinates().isApprox(
+                expectedFinalState.getPosition().getCoordinates(), 1e-2
+            ));
+            EXPECT_TRUE(finalState.getVelocity().getCoordinates().isApprox(
+                expectedFinalState.getVelocity().getCoordinates(), 1e-6
+            ));
+
+            // Check it against the calculated final state of the segment solution
+            const State calculatedFinalState = constantLofDirectionManeuveringSegmentSolution.calculateStatesAt(
+                {expectedFinalState.getInstant()}, defaultNumericalSolver_
+            )[0];
+            EXPECT_TRUE(calculatedFinalState.getPosition().getCoordinates().isApprox(
+                expectedFinalState.getPosition().getCoordinates(), 1e-2
+            ));
+            EXPECT_TRUE(calculatedFinalState.getVelocity().getCoordinates().isApprox(
+                expectedFinalState.getVelocity().getCoordinates(), 1e-6
+            ));
+
+            // Check it against the propagated state using the segment solution's dynamics
+            const Propagator propagator = {
+                defaultNumericalSolver_,
+                constantLofDirectionManeuveringSegmentSolution.dynamics,
+            };
+            const State propagatedFinalState =
+                propagator.calculateStateAt(currentState, expectedFinalState.getInstant());
+            EXPECT_TRUE(propagatedFinalState.getPosition().getCoordinates().isApprox(
+                expectedFinalState.getPosition().getCoordinates(), 1e-2
+            ));
+            EXPECT_TRUE(propagatedFinalState.getVelocity().getCoordinates().isApprox(
+                expectedFinalState.getVelocity().getCoordinates(), 1e-6
+            ));
+        }
     }
 }
 

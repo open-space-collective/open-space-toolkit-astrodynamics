@@ -126,6 +126,11 @@ Mass Segment::Solution::computeDeltaMass() const
 
 Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
 {
+    if (this->maneuversAreCached_)
+    {
+        return this->maneuvers_;
+    }
+
     if (this->states.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No states exist within Segment Solution.");
@@ -136,22 +141,7 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         return {};
     }
 
-    // Loop through dynamics to find Thruster dynamics
-    Shared<Thruster> thrusterDynamics = nullptr;
-    for (const Shared<Dynamics>& dynamic : this->dynamics)
-    {
-        thrusterDynamics = std::dynamic_pointer_cast<Thruster>(dynamic);
-
-        if (thrusterDynamics)
-        {
-            break;
-        }
-    }
-
-    if (thrusterDynamics == nullptr)
-    {
-        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
-    }
+    const Shared<Thruster> thrusterDynamics = identifyThrusterDynamics(this->dynamics);
 
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
         thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
@@ -236,6 +226,9 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
 
         extractedManeuvers.add(flightManeuver(maneuverStatesBlock));
     }
+
+    this->maneuvers_ = extractedManeuvers;
+    this->maneuversAreCached_ = true;
 
     return extractedManeuvers;
 }
@@ -432,13 +425,15 @@ Segment::Segment(
     const Segment::Type& aType,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver
+    const NumericalSolver& aNumericalSolver,
+    const Shared<const LocalOrbitalFrameFactory>& constantManeuverDirectionLocalOrbitalFrameFactory
 )
     : name_(aName),
       type_(aType),
       eventCondition_(anEventConditionSPtr),
       dynamics_(aDynamicsArray),
-      numericalSolver_(aNumericalSolver)
+      numericalSolver_(aNumericalSolver),
+      constantManeuverDirectionLocalOrbitalFrameFactory_(constantManeuverDirectionLocalOrbitalFrameFactory)
 {
     if (eventCondition_ == nullptr)
     {
@@ -525,13 +520,80 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
     }
 
-    return {
+    const Segment::Solution rawSolution = {
         name_,
         dynamics_,
         states,
         conditionSolution.conditionIsSatisfied,
         type_,
     };
+
+    if (!this->constantManeuverDirectionLocalOrbitalFrameFactory_->isDefined())
+    {
+        return rawSolution;
+    }
+
+    // If we're forcing a constant maneuver direction in the Local Orbital Frame
+    const Array<flightManeuver> rawManeuvers = rawSolution.extractManeuvers(aState.accessFrame());
+
+    if (rawManeuvers.isEmpty())
+    {
+        return rawSolution;
+    }
+
+    Array<flightManeuver> newManeuvers = Array<flightManeuver>::Empty();
+    newManeuvers.reserve(rawManeuvers.getSize());
+    for (const auto& maneuver : rawManeuvers)
+    {
+        newManeuvers.add(maneuver.toConstantLocalOrbitalFrameDirectionManeuver(
+            this->constantManeuverDirectionLocalOrbitalFrameFactory_
+        ));
+    }
+
+    Array<Shared<Dynamics>> newDynamics = Array<Shared<Dynamics>>::Empty();
+    const Shared<Dynamics> thrusterDynamics = identifyThrusterDynamics(dynamics_);
+    for (const auto& dynamic : dynamics_)
+    {
+        if (dynamic != thrusterDynamics)
+        {
+            newDynamics.add(dynamic);
+        }
+    }
+
+    for (const auto& maneuver : newManeuvers)
+    {
+        newDynamics.add(maneuver.toTabulatedDynamics(aState.accessFrame()));
+    }
+
+    const Propagator newPropagator = {
+        numericalSolver_,
+        newDynamics,
+    };
+
+    const NumericalSolver::ConditionSolution newConditionSolution = newPropagator.calculateStateToCondition(
+        aState, aState.accessInstant() + maximumPropagationDuration, *eventCondition_
+    );
+
+    Array<State> newStates = Array<State>::Empty();
+    newStates.reserve(newPropagator.accessNumericalSolver().accessObservedStates().getSize());
+
+    for (const State& newState : newPropagator.accessNumericalSolver().accessObservedStates())
+    {
+        newStates.add(stateBuilder.expand(newState.inFrame(aState.accessFrame()), aState));
+    }
+
+    Segment::Solution newSolution = {
+        name_,
+        newDynamics,
+        newStates,
+        newConditionSolution.conditionIsSatisfied,
+        type_,
+    };
+
+    newSolution.maneuvers_ = newManeuvers;
+    newSolution.maneuversAreCached_ = true;
+
+    return newSolution;
 }
 
 void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -594,6 +656,54 @@ Segment Segment::Maneuver(
         aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
         aNumericalSolver,
     };
+}
+
+Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+    const String& aName,
+    const Shared<EventCondition>& anEventConditionSPtr,
+    const Shared<Thruster>& aThrusterDynamics,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
+    const NumericalSolver& aNumericalSolver,
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory
+)
+{
+    return {
+        aName,
+        Segment::Type::Maneuver,
+        anEventConditionSPtr,
+        aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
+        aNumericalSolver,
+        aLocalOrbitalFrameFactory,
+    };
+}
+
+const Shared<Thruster> Segment::identifyThrusterDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
+{
+    // Loop through dynamics to find Thruster dynamics
+    Shared<Thruster> thrusterDynamics = nullptr;
+    bool thrusterDynamicsFound = false;
+    for (const Shared<Dynamics>& dynamic : aDynamicsArray)
+    {
+        Shared<Thruster> candidateThruster = std::dynamic_pointer_cast<Thruster>(dynamic);
+
+        if (candidateThruster)
+        {
+            if (thrusterDynamicsFound)
+            {
+                throw ostk::core::error::RuntimeError("Multiple Thruster dynamics found in Maneuvering segment.");
+            }
+
+            thrusterDynamics = candidateThruster;
+            thrusterDynamicsFound = true;
+        }
+    }
+
+    if (thrusterDynamics == nullptr)
+    {
+        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
+    }
+
+    return thrusterDynamics;
 }
 
 }  // namespace trajectory

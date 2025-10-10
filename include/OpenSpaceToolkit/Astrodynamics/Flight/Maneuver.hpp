@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
@@ -48,6 +49,7 @@ using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 #define DEFAULT_MANEUVER_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
@@ -174,6 +176,26 @@ class Maneuver
     Shared<Tabulated> toTabulatedDynamics(
         const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr,
         const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
+    ) const;
+
+    /// @brief Create a new version of this maneuver with a constant thrust acceleration direction in the Local Orbital
+    /// Frame.
+    ///
+    /// The new Maneuver contains the same states as the original Maneuver, but the thrust acceleration direction is
+    /// constant in the Local Orbital Frame. Said direction is the mean direction of the thrust acceleration directions
+    /// in the Local Orbital Frame of the original Maneuver. The thrust acceleration magnitude profile is the same as
+    /// the original.
+    ///
+    /// @code{.cpp}
+    ///                  Maneuver newManeuver =
+    ///                  maneuver.toConstantLocalOrbitalFrameDirectionManeuver(LocalOrbitalFrameFactory::TNW(Frame::GCRF()));
+    /// @endcode
+    ///
+    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory
+    ///
+    /// @return A new maneuver
+    Maneuver toConstantLocalOrbitalFrameDirectionManeuver(
+        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
     ) const;
 
     /// @brief Print Maneuver
