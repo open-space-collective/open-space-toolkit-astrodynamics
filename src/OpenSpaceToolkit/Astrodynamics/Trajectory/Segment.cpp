@@ -686,7 +686,7 @@ const Shared<Thruster> Segment::identifyThrusterDynamics(const Array<Shared<Dyna
     {
         Shared<Thruster> candidateThruster = std::dynamic_pointer_cast<Thruster>(dynamic);
 
-        if (candidateThruster && !thrusterDynamicsFound)
+        if (candidateThruster)
         {
             if (thrusterDynamicsFound)
             {
