@@ -31,20 +31,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )doc"
     );
 
-    enum_<Profile::Axis>(
-        profileClass,
-        "Axis",
-        R"doc(
-            The axis of the profile.
-        )doc"
-    )
-
-        .value("X", Profile::Axis::X, "X axis")
-        .value("Y", Profile::Axis::Y, "Y axis")
-        .value("Z", Profile::Axis::Z, "Z axis")
-
-        ;
-
     enum_<Profile::TargetType>(
         profileClass,
         "TargetType",
@@ -82,25 +68,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     )
 
         .def(
-            init<const Profile::TargetType&, const Profile::Axis&, const bool&>(),
+            init<const Profile::TargetType&, const Vector3d&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     type (Profile.TargetType): The target type.
-                    axis (Profile.Axis): The axis.
-                    anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
+                    direction (Vector3d): The direction.
             )doc",
             arg("type"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
 
         .def_readonly("type", &Profile::Target::type, "The type of the target.")
-        .def_readonly("axis", &Profile::Target::axis, "The axis of the target.")
-        .def_readonly(
-            "anti_direction", &Profile::Target::antiDirection, "True if the direction is flipped, False otherwise."
-        )
+        .def_readonly("direction", &Profile::Target::direction, "The direction of the target.")
 
         ;
 
@@ -115,11 +96,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def(
             init(
-                +[](const Trajectory& trajectory, const Profile::Axis& axis, const bool& antiDirection
-                 ) -> Profile::TrajectoryTarget
+                +[](const Trajectory& trajectory, const Vector3d& direction) -> Profile::TrajectoryTarget
                 {
                     PyErr_WarnEx(PyExc_DeprecationWarning, "Use TrajectoryTarget.target_position(...) instead.", 1);
-                    return Profile::TrajectoryTarget(trajectory, axis, antiDirection);
+                    return Profile::TrajectoryTarget(trajectory, direction);
                 }
             ),
             R"doc(
@@ -127,12 +107,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     trajectory (Trajectory): The trajectory, required only if the target type is `Trajectory`.
-                    axis (Profile.Axis): The axis.
-                    anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
+                    direction (Vector3d): The direction.
             )doc",
             arg("trajectory"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
 
         .def_static(
@@ -142,8 +120,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Create a target, which produces a vector pointing from the observer to the target position.
             )doc",
             arg("trajectory"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
 
         .def_static(
@@ -153,8 +130,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Create a target, which produces a vector pointing along the scan direction.
             )doc",
             arg("trajectory"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
         .def_static(
             "target_sliding_ground_velocity",
@@ -164,8 +140,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 This will compensate for the rotation of the referenced celestial body.
             )doc",
             arg("trajectory"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
 
         .def_readonly(
@@ -186,18 +161,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     )
 
         .def(
-            init<const Array<Pair<Instant, Vector3d>>&, const Profile::Axis&, const bool&&>(),
+            init<const Array<Pair<Instant, Vector3d>>&, const Vector3d&>(),
             R"doc(
                 Constructor.
 
                 Args:
-                    orientation_profile (list[tuple[Instant, Vector3d]]): The orientation profile.
-                    axis (Profile.Axis): The axis.
-                    anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
+                    orientation_profile (list[Tuple[Instant, Vector3d]]): The orientation profile.
+                    direction (Vector3d): The direction.
             )doc",
             arg("orientation_profile"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
 
         .def_readonly(
@@ -218,18 +191,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     )
 
         .def(
-            init<const std::function<Vector3d(const State&)>&, const Profile::Axis&, const bool&&>(),
+            init<const std::function<Vector3d(const State&)>&, const Vector3d&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     orientation_generator (Callable[np.ndarray, State]]): The orientation generator, accepts a state and returns a size 3 array of directions.
-                    axis (Profile.Axis): The axis.
-                    anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
+                    direction (Vector3d): The direction.
             )doc",
             arg("orientation_generator"),
-            arg("axis"),
-            arg("anti_direction") = false
+            arg("direction")
         )
 
         .def_readonly(
@@ -425,11 +396,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "custom_pointing",
-            overload_cast<
-                const Orbit&,
-                const Shared<const Profile::Target>&,
-                const Shared<const Profile::Target>&,
-                const Angle&>(&Profile::CustomPointing),
+            overload_cast<const Orbit&, const Shared<const Profile::Target>&, const Shared<const Profile::Target>&>(
+                &Profile::CustomPointing
+            ),
             R"doc(
                 Create a custom pointing profile.
 
@@ -437,7 +406,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     orbit (Orbit): The orbit.
                     alignment_target (Profile.Target): The alignment target.
                     clocking_target (Profile.Target): The clocking target.
-                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:
                     Profile: The custom pointing profile.
@@ -445,8 +413,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             )doc",
             arg("orbit"),
             arg("alignment_target"),
-            arg("clocking_target"),
-            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+            arg("clocking_target")
         )
 
         .def_static(
@@ -458,15 +425,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Args:
                     alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
                     clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
-                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:
                     callable[Quaternion, State]: The custom orientation.
 
             )doc",
             arg("alignment_target"),
-            arg("clocking_target"),
-            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+            arg("clocking_target")
         )
 
         ;

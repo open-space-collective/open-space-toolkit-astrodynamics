@@ -81,13 +81,6 @@ class Profile
         Custom      ///< Custom pointing mode
     };
 
-    enum class Axis
-    {
-        X,
-        Y,
-        Z
-    };
-
     enum class TargetType
     {
         GeocentricNadir,              /// Negative of the position vector of the satellite in the ECI frame
@@ -113,13 +106,11 @@ class Profile
         /// @brief Constructs a Target object.
         ///
         /// @param aType The type of the target.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
-        Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection = false);
+        /// @param aDirection The direction of the target.
+        Target(const TargetType& aType, const Vector3d& aDirection);
 
         TargetType type;     ///< The type of the target.
-        Axis axis;           ///< The axis of the target.
-        bool antiDirection;  ///< Whether the target is in the anti-direction.
+        Vector3d direction;  ///< The direction of the target.
     };
 
     /// @brief Represents a target that points towards a trajectory.
@@ -130,30 +121,25 @@ class Profile
         ///
         /// @deprecated Use TrajectoryTarget::TargetPosition(...) instead.
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction of the target.
         [[deprecated("Use TrajectoryTarget::TargetPosition(...) instead.")]]
-        TrajectoryTarget(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
-        );
+        TrajectoryTarget(const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection);
 
         /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction of the target.
         static TrajectoryTarget TargetPosition(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
         );
 
         /// @brief Constructs a TrajectoryTarget object of type TargetVelocity, pointing along the scan direction. When
         /// choosing this as a clocking target, the resulting profile will not be yaw compensated.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction of the target.
         static TrajectoryTarget TargetVelocity(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
         );
 
         /// @brief Constructs a TrajectoryTarget object of type TargetSlidingGroundVelocity, pointing along the ground
@@ -161,10 +147,9 @@ class Profile
         /// the rotation of the referenced celestial body.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction of the target.
         static TrajectoryTarget TargetSlidingGroundVelocity(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
         );
 
         ostk::astrodynamics::Trajectory trajectory;  ///< The trajectory to point towards.
@@ -174,13 +159,9 @@ class Profile
         ///
         /// @param aType The type of the target.
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction of the target.
         TrajectoryTarget(
-            const TargetType& aType,
-            const ostk::astrodynamics::Trajectory& aTrajectory,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false
+            const TargetType& aType, const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
         );
     };
 
@@ -191,12 +172,9 @@ class Profile
         /// @brief Constructs an OrientationProfileTarget object.
         ///
         /// @param anOrientationProfile The profile of orientations.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction of the target.
         OrientationProfileTarget(
-            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false
+            const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection
         );
 
         /// @brief Gets the alignment vector at a specific instant.
@@ -214,11 +192,7 @@ class Profile
     class CustomTarget : public Target
     {
        public:
-        CustomTarget(
-            std::function<Vector3d(const State&)> anOrientationGenerator,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false
-        );
+        CustomTarget(std::function<Vector3d(const State&)> anOrientationGenerator, const Vector3d& aDirection);
 
         std::function<Vector3d(const State&)> orientationGenerator;
     };
@@ -369,25 +343,20 @@ class Profile
     /// @param anOrbit An orbit
     /// @param anAlignmentTarget An alignment target
     /// @param aClockingTarget A clocking target
-    /// @param anAngularOffset An angular offset
     /// @return Flight profile
     static Profile CustomPointing(
         const trajectory::Orbit& anOrbit,
         const Shared<const Target>& anAlignmentTargetSPtr,
-        const Shared<const Target>& aClockingTargetSPtr,
-        const Angle& anAngularOffset = Angle::Zero()
+        const Shared<const Target>& aClockingTargetSPtr
     );
 
     /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.
     ///
-    /// @param anAlignmentAxis An alignment axis
-    /// @param aClockingAxis A clocking axis
-    /// @param anAngularOffset An angular offset applied to the clocking axis
+    /// @param anAlignmentTargetSPtr An alignment target
+    /// @param aClockingTargetSPtr A clocking target
 
     static std::function<Quaternion(const State&)> AlignAndConstrain(
-        const Shared<const Target>& anAlignmentTargetSPtr,
-        const Shared<const Target>& aClockingTargetSPtr,
-        const Angle& anAngularOffset = Angle::Zero()
+        const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const Target>& aClockingTargetSPtr
     );
 
    private:
@@ -418,13 +387,15 @@ class Profile
 
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 
-    static Vector3d ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
+    static Vector3d ComputeAchievableClockingVector(
+        const Vector3d& anAligmentVector, const Vector3d& aDesirableClockingVector
+    );
 
     static Quaternion ComputeBodyToECIQuaternion(
-        const Axis& anAlignmentAxis,
-        const Axis& aClockingAxis,
-        const Vector3d& anAlignmentAxisVector,
-        const Vector3d& aClockingAxisVector
+        const Vector3d& anAlignmentDirection,
+        const Vector3d& anAchievableClockingDirection,
+        const Vector3d& anAlignmentTarget,
+        const Vector3d& anAchievableClockingTarget
     );
 };
 
