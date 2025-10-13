@@ -33,17 +33,16 @@ using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
 
 static const Shared<const Frame> DEFAULT_PROFILE_FRAME = Frame::GCRF();
 
-Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection)
+Profile::Target::Target(const TargetType& aType, const Vector3d& aDirection)
     : type(aType),
-      axis(anAxis),
-      antiDirection(isAntiDirection)
+      direction(aDirection)
 {
 }
 
 Profile::TrajectoryTarget::TrajectoryTarget(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
 )
-    : Target(TargetType::Trajectory, anAxis, isAntiDirection),
+    : Target(TargetType::Trajectory, aDirection),
       trajectory(aTrajectory)
 {
     if (!trajectory.isDefined())
@@ -53,33 +52,30 @@ Profile::TrajectoryTarget::TrajectoryTarget(
 }
 
 Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
 )
 {
-    return TrajectoryTarget(TargetType::TargetPosition, aTrajectory, anAxis, isAntiDirection);
+    return TrajectoryTarget(TargetType::TargetPosition, aTrajectory, aDirection);
 }
 
 Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetVelocity(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
 )
 {
-    return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, anAxis, isAntiDirection);
+    return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, aDirection);
 }
 
 Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetSlidingGroundVelocity(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
 )
 {
-    return TrajectoryTarget(TargetType::TargetSlidingGroundVelocity, aTrajectory, anAxis, isAntiDirection);
+    return TrajectoryTarget(TargetType::TargetSlidingGroundVelocity, aTrajectory, aDirection);
 }
 
 Profile::TrajectoryTarget::TrajectoryTarget(
-    const TargetType& aType,
-    const ostk::astrodynamics::Trajectory& aTrajectory,
-    const Axis& anAxis,
-    const bool& isAntiDirection
+    const TargetType& aType, const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
 )
-    : Target(aType, anAxis, isAntiDirection),
+    : Target(aType, aDirection),
       trajectory(aTrajectory)
 {
     if (!trajectory.isDefined())
@@ -102,9 +98,9 @@ Profile::TrajectoryTarget::TrajectoryTarget(
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Axis& anAxis, const bool& isAntiDirection
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection
 )
-    : Target(TargetType::OrientationProfile, anAxis, isAntiDirection),
+    : Target(TargetType::OrientationProfile, aDirection),
       orientationProfile(anOrientationProfile)
 {
     if (orientationProfile.isEmpty())
@@ -147,9 +143,9 @@ Vector3d Profile::OrientationProfileTarget::getAlignmentVectorAt(const Instant& 
 }
 
 Profile::CustomTarget::CustomTarget(
-    std::function<Vector3d(const State&)> anOrientationGenerator, const Axis& anAxis, const bool& isAntiDirection
+    std::function<Vector3d(const State&)> anOrientationGenerator, const Vector3d& aDirection
 )
-    : Target(TargetType::Custom, anAxis, isAntiDirection),
+    : Target(TargetType::Custom, aDirection),
       orientationGenerator(anOrientationGenerator)
 {
 }
@@ -299,12 +295,10 @@ Profile Profile::LocalOrbitalFramePointing(
 Profile Profile::CustomPointing(
     const trajectory::Orbit& anOrbit,
     const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr,
-    const Angle& anAngularOffset
+    const Shared<const Target>& aClockingTargetSPtr
 )
 {
-    const auto orientationGenerator =
-        Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
+    const auto orientationGenerator = Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr);
 
     return Profile::CustomPointing(anOrbit, orientationGenerator);
 }
@@ -334,9 +328,7 @@ Profile Profile::CustomPointing(
 }
 
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
-    const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr,
-    const Angle& anAngularOffset
+    const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const Target>& aClockingTargetSPtr
 )
 {
     if ((anAlignmentTargetSPtr->type == TargetType::VelocityECEF) ||
@@ -350,9 +342,9 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
     }
 
-    if (anAlignmentTargetSPtr->axis == aClockingTargetSPtr->axis)
+    if (anAlignmentTargetSPtr->direction == aClockingTargetSPtr->direction)
     {
-        throw ostk::core::error::RuntimeError("Alignment and clocking axis cannot be the same.");
+        throw ostk::core::error::RuntimeError("Alignment and clocking direction cannot be the same.");
     }
 
     if (std::set<TargetType>({anAlignmentTargetSPtr->type, aClockingTargetSPtr->type}) ==
@@ -366,8 +358,8 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         );
     }
 
-    const auto axisVectorGenerator = [](const Shared<const Target>& aTargetSPtr
-                                     ) -> std::function<Vector3d(const State&)>
+    const auto targetVectorGenerator = [](const Shared<const Target>& aTargetSPtr
+                                       ) -> std::function<Vector3d(const State&)>
     {
         switch (aTargetSPtr->type)
         {
@@ -442,34 +434,23 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         }
     };
 
-    const auto alignmentAxisVectorFunction = axisVectorGenerator(anAlignmentTargetSPtr);
-    const auto clockingAxisVectorFunction = axisVectorGenerator(aClockingTargetSPtr);
+    const Vector3d alignmentDirection = anAlignmentTargetSPtr->direction;
+    const Vector3d achievableClockingDirection =
+        Profile::ComputeAchievableClockingVector(alignmentDirection, aClockingTargetSPtr->direction);
+    const auto alignmentTargetVectorFunction = targetVectorGenerator(anAlignmentTargetSPtr);
+    const auto clockingTargetVectorFunction = targetVectorGenerator(aClockingTargetSPtr);
 
-    const Integer alignmentSign = anAlignmentTargetSPtr->antiDirection ? -1 : 1;
-    const Integer clockingSign = aClockingTargetSPtr->antiDirection ? -1 : 1;
-
-    return [anAngularOffset,
-            alignmentAxisVectorFunction,
-            clockingAxisVectorFunction,
-            anAlignmentTargetSPtr,
-            aClockingTargetSPtr,
-            alignmentSign,
-            clockingSign](const State& aState) -> Quaternion
+    return [alignmentTargetVectorFunction,
+            clockingTargetVectorFunction,
+            alignmentDirection,
+            achievableClockingDirection](const State& aState) -> Quaternion
     {
-        const Vector3d alignemntAxisVector = alignmentAxisVectorFunction(aState) * alignmentSign;
-        const Vector3d clockingVector = clockingAxisVectorFunction(aState) * clockingSign;
-
-        const Vector3d clockingAxisVector = Profile::ComputeClockingAxisVector(alignemntAxisVector, clockingVector);
-
-        const Real thetaOffsetRad = anAngularOffset.inRadians();
-
-        const Vector3d rotatedClockingAxisVector =
-            (clockingAxisVector * std::cos(thetaOffsetRad) +
-             (alignemntAxisVector.cross(clockingAxisVector)) * std::sin(thetaOffsetRad) +
-             alignemntAxisVector * (alignemntAxisVector.dot(clockingAxisVector)) * (1.0 - std::cos(thetaOffsetRad)));
+        const Vector3d alignmentTarget = alignmentTargetVectorFunction(aState);
+        const Vector3d achievableClockingTarget =
+            Profile::ComputeAchievableClockingVector(alignmentTarget, clockingTargetVectorFunction(aState));
 
         return Profile::ComputeBodyToECIQuaternion(
-            anAlignmentTargetSPtr->axis, aClockingTargetSPtr->axis, alignemntAxisVector, rotatedClockingAxisVector
+            alignmentDirection, achievableClockingDirection, alignmentTarget, achievableClockingTarget
         );
     };
 }
@@ -574,11 +555,6 @@ Vector3d Profile::ComputeVelocityDirectionVector_ECEF(const State& aState)
     return aState.inFrame(Frame::ITRF()).getVelocity().accessCoordinates().normalized();
 }
 
-Vector3d Profile::ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector)
-{
-    return (anAlignmentAxisVector.cross(aClockingVector)).cross(anAlignmentAxisVector).normalized();
-}
-
 Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
 {
     const State state = aState.inFrame(DEFAULT_PROFILE_FRAME);
@@ -588,49 +564,32 @@ Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
     return positionDirection.cross(velocityDirection).normalized();
 }
 
-Quaternion Profile::ComputeBodyToECIQuaternion(
-    const Axis& anAlignmentAxis,
-    const Axis& aClockingAxis,
-    const Vector3d& anAlignmentAxisVector,
-    const Vector3d& aClockingAxisVector
+Vector3d Profile::ComputeAchievableClockingVector(
+    const Vector3d& anAlignmentVector, const Vector3d& aDesirableClockingVector
 )
 {
-    static const Map<Axis, Integer> axisIndexMap = {
-        {Axis::X, 0},
-        {Axis::Y, 1},
-        {Axis::Z, 2},
-    };
+    return (anAlignmentVector.cross(aDesirableClockingVector)).cross(anAlignmentVector).normalized();
+}
 
-    static const Map<Tuple<Axis, Axis>, Tuple<Integer, Integer>> triadAxisIndexMap = {
-        {{Axis::X, Axis::Y}, {0, 1}},
-        {{Axis::X, Axis::Z}, {2, 0}},
-        {{Axis::Y, Axis::X}, {0, 1}},
-        {{Axis::Y, Axis::Z}, {1, 2}},
-        {{Axis::Z, Axis::X}, {2, 0}},
-        {{Axis::Z, Axis::Y}, {1, 2}},
-    };
-    static const std::set<Axis> allAxes = {Axis::X, Axis::Y, Axis::Z};
+Quaternion Profile::ComputeBodyToECIQuaternion(
+    const Vector3d& anAlignmentDirection,
+    const Vector3d& anAchievableClockingDirection,
+    const Vector3d& anAlignmentTarget,
+    const Vector3d& anAchievableClockingTarget
+)
+{
+    Matrix3d uMatrix = Matrix3d::Zero();
+    uMatrix.row(0) = anAlignmentTarget.normalized();
+    uMatrix.row(1) = anAchievableClockingTarget.normalized();
+    uMatrix.row(2) = anAlignmentTarget.cross(anAchievableClockingTarget).normalized();
 
-    const std::set<Axis> usedAxes = {anAlignmentAxis, aClockingAxis};
+    Matrix3d vMatrix = Matrix3d::Zero();
+    vMatrix.row(0) = anAlignmentDirection.normalized();
+    vMatrix.row(1) = anAchievableClockingDirection.normalized();
+    vMatrix.row(2) = anAlignmentDirection.cross(anAchievableClockingDirection).normalized();
 
-    std::vector<Axis> difference;
-    std::set_difference(
-        allAxes.begin(), allAxes.end(), usedAxes.begin(), usedAxes.end(), std::inserter(difference, difference.begin())
-    );
-    const Axis triadAxis = difference.front();
-
-    Integer firstAxisVectorIndex = Integer::Undefined();
-    Integer secondAxisVectorIndex = Integer::Undefined();
-    std::tie(firstAxisVectorIndex, secondAxisVectorIndex) =
-        triadAxisIndexMap.at(Tuple<Axis, Axis> {anAlignmentAxis, aClockingAxis});
-
-    Matrix3d rotationMatrix = Matrix3d::Zero();
-
-    rotationMatrix.row(axisIndexMap.at(anAlignmentAxis)) = anAlignmentAxisVector;
-    rotationMatrix.row(axisIndexMap.at(aClockingAxis)) = aClockingAxisVector;
-    rotationMatrix.row(axisIndexMap.at(triadAxis)) =
-        rotationMatrix.row(firstAxisVectorIndex).cross(rotationMatrix.row(secondAxisVectorIndex));
-
+    // Build a rotation matrix where u_i is the image of v_1
+    Matrix3d rotationMatrix = uMatrix * vMatrix.transpose();
     return Quaternion::RotationMatrix(rotationMatrix);
 }
 

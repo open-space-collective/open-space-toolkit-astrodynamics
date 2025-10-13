@@ -859,7 +859,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
 {
     {
-        EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Vector3d::X()));
     }
 }
 
@@ -867,37 +867,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
 {
     {
         EXPECT_THROW(
-            Profile::TrajectoryTarget(Trajectory::Undefined(), Profile::Axis::X), ostk::core::error::runtime::Undefined
+            Profile::TrajectoryTarget(Trajectory::Undefined(), Vector3d::X()), ostk::core::error::runtime::Undefined
         );
     }
 
     {
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetPosition(Trajectory::Undefined(), Profile::Axis::X),
+            Profile::TrajectoryTarget::TargetPosition(Trajectory::Undefined(), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Profile::Axis::X),
+            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(Trajectory::Undefined(), Profile::Axis::X),
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(Trajectory::Undefined(), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
     }
 
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Profile::Axis::X, true));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Vector3d::X()));
 
         // Testing static factory methods
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X, true));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::X, true));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::X, true));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Vector3d::X()));
     }
 }
 
@@ -910,11 +906,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomTarget)
         };
 
         {
-            EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Profile::Axis::X));
-        }
-
-        {
-            EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Profile::Axis::X, true));
+            EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Vector3d::X()));
         }
     }
 }
@@ -922,7 +914,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomTarget)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
 {
     {
-        EXPECT_THROW(Profile::OrientationProfileTarget({}, Profile::Axis::X), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Profile::OrientationProfileTarget({}, Vector3d::X()), ostk::core::error::runtime::Undefined);
     }
 
     {
@@ -933,7 +925,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
             {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(.0), Vector3d::X()},
         };
-        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X));
+        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Vector3d::X()));
     }
 }
 
@@ -966,10 +958,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Profile targetSlidingGroundVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Vector3d::Z())
         ),
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Vector3d::X())
         )
     );
 
@@ -977,19 +969,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Profile targetVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Vector3d::Z())
         ),
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Vector3d::X())
         )
     );
 
     const Profile satelliteVelocityClockedProfile = Profile::CustomPointing(
         orbit,
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Vector3d::Z())
         ),
-        std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X)
+        std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::X())
     );
 
     const State targetSlidingGroundVelocityClockedState = targetSlidingGroundVelocityClockedProfile.getStateAt(instant);
@@ -1034,8 +1026,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
     {
         EXPECT_THROW(
             Profile::AlignAndConstrain(
-                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Profile::Axis::X),
-                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Profile::Axis::Y)
+                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Vector3d::X()),
+                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::Y())
             ),
             ostk::core::error::runtime::ToBeImplemented
         );
@@ -1044,8 +1036,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
     {
         EXPECT_THROW(
             Profile::AlignAndConstrain(
-                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Profile::Axis::Y),
-                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Profile::Axis::X)
+                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::Y()),
+                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Vector3d::X())
             ),
             ostk::core::error::runtime::ToBeImplemented
         );
@@ -1064,8 +1056,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         {
             const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::TrajectoryTarget>(trajectory, Profile::Axis::X, false),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+                std::make_shared<Profile::TrajectoryTarget>(trajectory, Vector3d::X()),
+                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 
             const Quaternion q_B_GCRF = orientation(state);
@@ -1086,8 +1078,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             };
 
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::OrientationProfileTarget>(orientationProfile, Profile::Axis::X),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+                std::make_shared<Profile::OrientationProfileTarget>(orientationProfile, Vector3d::X()),
+                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 
             const Quaternion q_B_GCRF = orientation(state);
@@ -1103,8 +1095,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             };
 
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::CustomTarget>(orientationGenerator, Profile::Axis::X, false),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y)
+                std::make_shared<Profile::CustomTarget>(orientationGenerator, Vector3d::X()),
+                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 
             const Quaternion q_B_GCRF = orientation(state);
@@ -1123,10 +1115,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
     const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
     const Shared<const Profile::Target> alignmentTargetSPtr =
-        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X);
+        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::X());
 
     const Shared<const Profile::Target> clockingTargetSPtr =
-        std::make_shared<Profile::Target>(Profile::TargetType::OrbitalMomentum, Profile::Axis::Y);
+        std::make_shared<Profile::Target>(Profile::TargetType::OrbitalMomentum, Vector3d::Y());
 
     {
         // VNC frame
@@ -1194,16 +1186,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
 }
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes
-    : public ::testing::TestWithParam<
-          std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>
+    : public ::testing::TestWithParam<std::tuple<Vector3d, Vector3d, Profile::TargetType, Profile::TargetType>>
 {
    protected:
-    const Map<Profile::Axis, Vector3d> axisMap_ = {
-        {Profile::Axis::X, {1.0, 0.0, 0.0}},
-        {Profile::Axis::Y, {0.0, 1.0, 0.0}},
-        {Profile::Axis::Z, {0.0, 0.0, 1.0}},
-    };
-
     const Instant epoch_ = Instant::J2000();
 
     const Shared<Earth> earthSPtr_ = std::make_shared<Earth>(Earth::Default());
@@ -1271,17 +1256,17 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTyp
 
 TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes, AlignAndConstrain)
 {
-    const auto& [alignmentAxis, clockingAxis, alignmentTargetType, clockingTargetType] = GetParam();
+    const auto& [alignmentDirection, clockingDirection, alignmentTargetType, clockingTargetType] = GetParam();
 
     const Shared<const Profile::Target> alignmentTargetSPtr =
-        std::make_shared<Profile::Target>(alignmentTargetType, alignmentAxis);
+        std::make_shared<Profile::Target>(alignmentTargetType, alignmentDirection);
 
     const Shared<const Profile::Target> clockingTargetSPtr =
-        std::make_shared<Profile::Target>(clockingTargetType, clockingAxis);
+        std::make_shared<Profile::Target>(clockingTargetType, clockingDirection);
 
     // check failure conditions
 
-    if (alignmentAxis == clockingAxis)
+    if (alignmentDirection == clockingDirection)
     {
         EXPECT_THROW(
             Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr), ostk::core::error::RuntimeError
@@ -1313,21 +1298,17 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTy
 
     const Quaternion q_B_GCRF = orientation(state_);
 
-    // check alignment axis
+    // check alignment direction
 
-    const Vector3d alignmentAxisVector = axisMap_.at(alignmentAxis);
-
-    const Vector3d estimatedAlignmentDirection = (q_B_GCRF.toConjugate() * alignmentAxisVector);
+    const Vector3d estimatedAlignmentDirection = (q_B_GCRF.toConjugate() * alignmentDirection);
 
     const Vector3d expectedAlignmentDirection = getExpectedDirectionVector_(alignmentTargetType, state_);
 
     EXPECT_VECTORS_ALMOST_EQUAL(expectedAlignmentDirection, estimatedAlignmentDirection, 1e-12);
 
-    // check clocking axis
+    // check clocking direction
 
-    const Vector3d clockingAxisVector = axisMap_.at(clockingAxis);
-
-    const Vector3d estimatedClockingDirection = (q_B_GCRF.toConjugate() * clockingAxisVector);
+    const Vector3d estimatedClockingDirection = (q_B_GCRF.toConjugate() * clockingDirection);
 
     const Vector3d expectedClockingDirection = getExpectedDirectionVector_(clockingTargetType, state_);
 
@@ -1350,10 +1331,10 @@ INSTANTIATE_TEST_SUITE_P(
     OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes_Values,
     OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTypes,
     ::testing::Combine(
-        // alignmentAxis
-        ::testing::Values(Profile::Axis::X),
-        // clockingAxis
-        ::testing::Values(Profile::Axis::Y),
+        // alignmentDirection
+        ::testing::Values(Vector3d::X()),
+        // clockingDirection
+        ::testing::Values(Vector3d::Y()),
         // alignmentTargetType
         ::testing::Values(
             Profile::TargetType::GeocentricNadir, Profile::TargetType::GeodeticNadir, Profile::TargetType::VelocityECI
@@ -1366,13 +1347,28 @@ INSTANTIATE_TEST_SUITE_P(
             Profile::TargetType::Sun
         )
     ),
-    [](const ::testing::TestParamInfo<
-        std::tuple<Profile::Axis, Profile::Axis, Profile::TargetType, Profile::TargetType>>& paramInfo)
+    [](const ::testing::TestParamInfo<std::tuple<Vector3d, Vector3d, Profile::TargetType, Profile::TargetType>>&
+           paramInfo)
     {
-        return "Axis" + std::to_string(static_cast<int>(std::get<0>(paramInfo.param))) + "_Axis" +
-               std::to_string(static_cast<int>(std::get<1>(paramInfo.param))) + "_Target" +
-               std::to_string(static_cast<int>(std::get<2>(paramInfo.param))) + "_Target" +
-               std::to_string(static_cast<int>(std::get<3>(paramInfo.param)));
+        // For Vector3d, print as string; for enums, print as int
+        const auto& alignmentDirection = std::get<0>(paramInfo.param);
+        const auto& clockingDirection = std::get<1>(paramInfo.param);
+        const auto& alignmentTargetType = std::get<2>(paramInfo.param);
+        const auto& clockingTargetType = std::get<3>(paramInfo.param);
+
+        auto vecToStr = [](const Vector3d& v)
+        {
+            std::ostringstream oss;
+            oss << (v.x() < 0 ? "m" : "") << std::abs(v.x()) << (v.y() < 0 ? "m" : "") << std::abs(v.y())
+                << (v.z() < 0 ? "m" : "") << std::abs(v.z());
+            return oss.str();
+        };
+
+        // Patch: GTest requires test name to match: ^[A-Za-z_][A-Za-z0-9_]*$
+        // So, make a string that only uses alphanumerics and '_'
+        return "Align_" + vecToStr(alignmentDirection) + "_Clock_" + vecToStr(clockingDirection) + "_AlignTarget" +
+               std::to_string(static_cast<int>(alignmentTargetType)) + "_ClockTarget" +
+               std::to_string(static_cast<int>(clockingTargetType));
     }
 );
 
@@ -1403,20 +1399,20 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTarg
 
     const Shared<const Profile::TrajectoryTarget> targetPositionSPtr =
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Vector3d::X())
         );
 
     const Shared<const Profile::TrajectoryTarget> targetVelocitySPtr =
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Vector3d::X())
         );
     const Shared<const Profile::TrajectoryTarget> targetSlidingGroundVelocitySPtr =
         std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Profile::Axis::X)
+            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Vector3d::X())
         );
 
     const Shared<const Profile::Target> clockingTargetSPtr =
-        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::Y);
+        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y());
 
     const std::function<Quaternion(const State&)> orientationTargetPositionAlignement =
         Profile::AlignAndConstrain(targetPositionSPtr, clockingTargetSPtr);
