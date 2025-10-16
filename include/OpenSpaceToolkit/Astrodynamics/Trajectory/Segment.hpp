@@ -46,7 +46,7 @@ using ostk::physics::unit::Mass;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
-using flightManeuver = ostk::astrodynamics::flight::Maneuver;
+using FlightManeuver = ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
@@ -117,8 +117,17 @@ class Segment
         /// @brief Extract maneuvers from the (maneuvering) segment
         ///
         /// @param aFrameSPtr Frame
+        /// @param aDynamicsSPtr Dynamics
         /// @return Array of maneuvers
-        Array<flightManeuver> extractManeuvers(const Shared<const Frame>& aFrameSPtr) const;
+        Array<FlightManeuver> extractManeuvers(
+            const Shared<const Frame>& aFrameSPtr, const Shared<Dynamics>& aDynamicsSPtr
+        ) const;
+
+        /// @brief Extract maneuvers from the (maneuvering) segment
+        ///
+        /// @param aFrameSPtr Frame
+        /// @return Array of maneuvers
+        Array<FlightManeuver> extractManeuvers(const Shared<const Frame>& aFrameSPtr) const;
 
         /// @brief Calculate intermediate states at specified Instants using the provided Numerical Solver
         ///
