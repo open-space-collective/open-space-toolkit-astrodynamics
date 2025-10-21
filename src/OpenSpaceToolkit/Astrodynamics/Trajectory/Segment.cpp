@@ -130,7 +130,7 @@ Mass Segment::Solution::computeDeltaMass() const
 
 Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
 {
-    if (!aFrameSPtr->isDefined())
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }

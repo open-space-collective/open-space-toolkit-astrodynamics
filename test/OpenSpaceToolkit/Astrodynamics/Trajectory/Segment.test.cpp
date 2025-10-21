@@ -346,6 +346,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             {
                 try
                 {
+                    segmentSolution.extractManeuvers(nullptr);
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ("{Frame} is undefined.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
                     segmentSolution.extractManeuvers(Frame::Undefined());
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
