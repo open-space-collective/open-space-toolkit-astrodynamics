@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1_guidance_law" prot="public" virt="non-virtual">ostk::astrodynamics::GuidanceLaw</basecompoundref>
+    <includes refid="_heterogeneous_guidance_law_8hpp" local="no">HeterogeneousGuidanceLaw.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a31cb08cc7d091f48a304bb48929c5e46" prot="private" static="no" mutable="no">
+        <type>Array&lt; Interval &gt;</type>
+        <definition>Array&lt;Interval&gt; ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw::intervals_</definition>
+        <argsstring></argsstring>
+        <name>intervals_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="82" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ad3d3068c5dde97479168429deab199e3" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;GuidanceLaw&gt; &gt; ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw::guidanceLaws_</definition>
+        <argsstring></argsstring>
+        <name>guidanceLaws_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="83" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a6c0fe762c46a167379b141a95c6b359a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw</definition>
+        <argsstring>(const Array&lt; Pair&lt; Shared&lt; GuidanceLaw &gt;, Interval &gt;&gt; &amp;aGuidanceLawWithIntervalArray=Array&lt; Pair&lt; Shared&lt; GuidanceLaw &gt;, Interval &gt;&gt;::Empty())</argsstring>
+        <name>HeterogeneousGuidanceLaw</name>
+        <param>
+          <type>const Array&lt; Pair&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;, Interval &gt;&gt; &amp;</type>
+          <declname>aGuidanceLawWithIntervalArray</declname>
+          <defval>Array&lt; Pair&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;, Interval &gt;&gt;::Empty()</defval>
+        </param>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGuidanceLawWithIntervalArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of tuples containing the guidance law and their corresponding interval. Defaults to empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="48" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.cpp" bodystart="30" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a7182cbcc95e32a765ff06762f2a80aed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Pair&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;, Interval &gt; &gt;</type>
+        <definition>Array&lt; Pair&lt; Shared&lt; GuidanceLaw &gt;, Interval &gt; &gt; ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals</definition>
+        <argsstring>() const</argsstring>
+        <name>getGuidanceLawsWithIntervals</name>
+        <briefdescription>
+<para>Get guidance laws with their corresponding intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Array of tuples containing the guidance laws and their corresponding intervals </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="56" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a75301d15ac0cb70086dc851834849d63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw::addGuidanceLaw</definition>
+        <argsstring>(const Shared&lt; GuidanceLaw &gt; &amp;aGuidanceLawSPtr, const Interval &amp;anInterval)</argsstring>
+        <name>addGuidanceLaw</name>
+        <param>
+          <type>const Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt; &amp;</type>
+          <declname>aGuidanceLawSPtr</declname>
+        </param>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <briefdescription>
+<para>Add a guidance law with its corresponding interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGuidanceLawSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The guidance law to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The interval during which the guidance law is active </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="62" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.cpp" bodystart="54" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw::calculateThrustAccelerationAt</definition>
+        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, const Real &amp;aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const override</argsstring>
+        <name>calculateThrustAccelerationAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346">calculateThrustAccelerationAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aPositionCoordinates</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aVelocityCoordinates</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aThrustAcceleration</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>outputFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Calculate thrust acceleration at a given instant and state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPositionCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aVelocityCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The velocity coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outputFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The frame in which the acceleration is expressed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The acceleration at the provided coordinates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="73" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.cpp" bodystart="80" bodyend="100"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The Heterogeneous Guidance Law encompasses a sequence of one or more guidance laws to be used over specific time intervals. At each point in time, the applicable guidance law is selected and used to calculate the thrust acceleration. Guidance laws don&apos;t need to be contiguous, and can be added in any order. If the instant does not fall within any of the intervals, the thrust acceleration is zero. The guidance law intervals must not intersect each other. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::GuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>String</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::GuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" line="42" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp" bodystart="41" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a75301d15ac0cb70086dc851834849d63" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>addGuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>calculateThrustAccelerationAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a7182cbcc95e32a765ff06762f2a80aed" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>getGuidanceLawsWithIntervals</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>GuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ad3d3068c5dde97479168429deab199e3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>guidanceLaws_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a6c0fe762c46a167379b141a95c6b359a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>HeterogeneousGuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a31cb08cc7d091f48a304bb48929c5e46" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>intervals_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9ccb9065feabe9baff67daba6759106e" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a6efc5c9384e96c01924c73e72ff7a33b" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</scope><name>~GuidanceLaw</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

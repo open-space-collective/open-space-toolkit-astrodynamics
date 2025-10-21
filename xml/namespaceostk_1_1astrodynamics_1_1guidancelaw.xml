@@ -3,6 +3,7 @@
   <compounddef id="namespaceostk_1_1astrodynamics_1_1guidancelaw" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::guidancelaw</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust" prot="public">ostk::astrodynamics::guidancelaw::ConstantThrust</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" prot="public">ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law" prot="public">ostk::astrodynamics::guidancelaw::QLaw</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" prot="public" static="no">
@@ -64,18 +65,18 @@
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>in]</parametername>
+<parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>anOutputStream An output stream </para>
+<para>An output stream </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>aThruster</parametername>
+<parametername>aConstantThrust</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A constant thrust thruster dynamics </para>
+<para>A constant thrust guidance law </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -85,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="34" bodyend="39"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" line="38" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="38" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1ae9af1f9a09af20284e4f895169fcf19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -135,6 +136,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="20" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="23" column="1"/>
   </compounddef>
 </doxygen>

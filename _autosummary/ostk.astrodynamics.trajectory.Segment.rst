@@ -17,6 +17,7 @@ ostk.astrodynamics.trajectory.Segment
       :nosignatures:
    
       ~Segment.coast
+      ~Segment.constant_local_orbital_frame_direction_maneuver
       ~Segment.get_dynamics
       ~Segment.get_event_condition
       ~Segment.get_name

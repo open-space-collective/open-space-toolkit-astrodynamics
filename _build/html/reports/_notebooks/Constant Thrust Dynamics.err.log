@@ -1,17 +1,10 @@
 Traceback (most recent call last):
-  File "/usr/local/lib/python3.11/dist-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
-    asyncio.get_running_loop()
-RuntimeError: no running event loop
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
   File "/usr/local/lib/python3.11/dist-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
     executenb(
   File "/usr/local/lib/python3.11/dist-packages/nbclient/client.py", line 1319, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+  File "/usr/local/lib/python3.11/dist-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
@@ -48,5 +41,5 @@ Cell [0;32mIn[3], line 31[0m, in [0;36mThrusterDynamics.compute_contribution
 [0;31mTypeError[0m: generate_frame(): incompatible function arguments. The following argument types are supported:
     1. (self: ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory, state: ostk::astrodynamics::trajectory::State) -> ostk.physics.coordinate.Frame
 
-Invoked with: <ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory object at 0x7fa6f082b330>, 2000-01-01 11:58:55.816 [UTC], array([7000000.,       0.,       0.]), array([   0.        , 5335.86545062, 5335.86545062])
+Invoked with: <ostk.astrodynamics.trajectory.LocalOrbitalFrameFactory object at 0x7f683050c4b0>, 2000-01-01 11:58:55.816 [UTC], array([7000000.,       0.,       0.]), array([   0.        , 5335.86545062, 5335.86545062])
 

@@ -3,6 +3,7 @@
   <compounddef id="classostk_1_1astrodynamics_1_1_guidance_law" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>ostk::astrodynamics::GuidanceLaw</compoundname>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust" prot="public" virt="non-virtual">ostk::astrodynamics::guidancelaw::ConstantThrust</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" prot="public" virt="non-virtual">ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law" prot="public" virt="non-virtual">ostk::astrodynamics::guidancelaw::QLaw</derivedcompoundref>
     <includes refid="_guidance_law_8hpp" local="no">GuidanceLaw.hpp</includes>
       <sectiondef kind="protected-attrib">
@@ -128,6 +129,7 @@
         <definition>virtual Vector3d ostk::astrodynamics::GuidanceLaw::calculateThrustAccelerationAt</definition>
         <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, const Real &amp;aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const =0</argsstring>
         <name>calculateThrustAccelerationAt</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81">calculateThrustAccelerationAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85">calculateThrustAccelerationAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1add770ececad5c96ad2e6711d0c295121">calculateThrustAccelerationAt</reimplementedby>
         <param>
@@ -256,7 +258,7 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="3">
+      <node id="4">
         <label>ostk::astrodynamics::guidancelaw::QLaw</label>
         <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law"/>
         <childnode refid="1" relation="public-inheritance">
@@ -265,6 +267,12 @@
       <node id="1">
         <label>ostk::astrodynamics::GuidanceLaw</label>
         <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
       </node>
       <node id="2">
         <label>ostk::astrodynamics::guidancelaw::ConstantThrust</label>

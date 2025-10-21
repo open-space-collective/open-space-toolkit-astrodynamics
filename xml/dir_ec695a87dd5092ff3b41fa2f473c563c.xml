@@ -3,6 +3,7 @@
   <compounddef id="dir_ec695a87dd5092ff3b41fa2f473c563c" kind="dir">
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw</compoundname>
     <innerfile refid="_constant_thrust_8cpp">ConstantThrust.cpp</innerfile>
+    <innerfile refid="_heterogeneous_guidance_law_8cpp">HeterogeneousGuidanceLaw.cpp</innerfile>
     <innerfile refid="_q_law_8cpp">QLaw.cpp</innerfile>
     <briefdescription>
     </briefdescription>

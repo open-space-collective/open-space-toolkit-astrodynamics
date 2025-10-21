@@ -16,6 +16,7 @@
     <includedby refid="_q_law_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</includedby>
     <includedby refid="_least_squares_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp</includedby>
     <includedby refid="_orbit_determination_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp</includedby>
+    <includedby refid="_maneuver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</includedby>
     <includedby refid="_finite_difference_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp</includedby>
     <includedby refid="_local_orbital_frame_factory_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp</includedby>
     <includedby refid="_propagated_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</includedby>
@@ -154,15 +155,19 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="12">
+      <node id="13">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/FiniteDifferenceSolver.cpp</label>
         <link refid="_finite_difference_solver_8cpp"/>
       </node>
-      <node id="17">
+      <node id="12">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</label>
+        <link refid="_maneuver_8cpp"/>
+      </node>
+      <node id="18">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp</label>
         <link refid="_numerical_solver_8cpp"/>
       </node>
-      <node id="13">
+      <node id="14">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp</label>
         <link refid="_local_orbital_frame_factory_8cpp"/>
       </node>
@@ -178,7 +183,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp</label>
         <link refid="_least_squares_solver_8cpp"/>
       </node>
-      <node id="15">
+      <node id="16">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
         <link refid="_propagator_8cpp"/>
       </node>
@@ -192,7 +197,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp</label>
         <link refid="_flight_2_profile_2_model_2_tabulated_8cpp"/>
       </node>
-      <node id="18">
+      <node id="19">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.cpp</label>
         <link refid="_state_builder_8cpp"/>
       </node>
@@ -221,6 +226,8 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
@@ -248,11 +255,11 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="17">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
         <link refid="_segment_8cpp"/>
       </node>
-      <node id="14">
+      <node id="15">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</label>
         <link refid="_propagated_8cpp"/>
       </node>

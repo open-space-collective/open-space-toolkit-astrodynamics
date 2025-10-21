@@ -142,23 +142,41 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="9">
+      <node id="21">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp</label>
         <link refid="_local_orbital_frame_direction_8hpp"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="9">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
+        <link refid="_propagator_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</label>
+        <link refid="_maneuver_8cpp"/>
+      </node>
+      <node id="22">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp</label>
         <link refid="_local_orbital_frame_direction_8cpp"/>
       </node>
-      <node id="11">
+      <node id="7">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
         <link refid="_constant_thrust_8cpp"/>
       </node>
-      <node id="14">
+      <node id="24">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp</label>
         <link refid="_local_orbital_frame_factory_8cpp"/>
       </node>
@@ -167,10 +185,10 @@
         <link refid="_local_orbital_frame_transform_provider_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="19">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
         <link refid="_t_l_e_solver_8cpp"/>
       </node>
@@ -178,9 +196,21 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp</label>
         <link refid="_orbit_determination_solver_8cpp"/>
       </node>
-      <node id="8">
+      <node id="20">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp</label>
         <link refid="_least_squares_solver_8cpp"/>
+      </node>
+      <node id="5">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp</label>
+        <link refid="_maneuver_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp</label>
@@ -189,44 +219,96 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
+        <link refid="_propagator_8cpp"/>
+      </node>
+      <node id="11">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
+        <link refid="_sequence_8hpp"/>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="10">
-        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</label>
-        <link refid="_constant_thrust_8hpp"/>
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp</label>
+        <link refid="_propagated_8hpp"/>
         <childnode refid="11" relation="include">
         </childnode>
-      </node>
-      <node id="6">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp</label>
-        <link refid="_t_l_e_solver_8hpp"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp</label>
-        <link refid="_least_squares_solver_8hpp"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="6">
+        <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</label>
+        <link refid="_constant_thrust_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp</label>
+        <link refid="_t_l_e_solver_8hpp"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp</label>
+        <link refid="_least_squares_solver_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
       <node id="15">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
+        <link refid="_segment_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
+        <link refid="_sequence_8cpp"/>
+      </node>
+      <node id="25">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp</label>
         <link refid="_local_orbital_frame_transform_provider_8cpp"/>
       </node>
-      <node id="13">
+      <node id="23">
         <label>src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp</label>
         <link refid="_off_nadir_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
+        <link refid="_segment_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</label>
+        <link refid="_propagated_8cpp"/>
       </node>
       <node id="3">
         <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp</label>

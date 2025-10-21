@@ -21,6 +21,7 @@
       :nosignatures:
    
       ConstantThrust
+      HeterogeneousGuidanceLaw
       QLaw
    
    
