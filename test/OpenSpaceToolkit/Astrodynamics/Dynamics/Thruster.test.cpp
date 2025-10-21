@@ -50,7 +50,7 @@ class MockGuidanceLaw : public GuidanceLaw
         [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {
-        return {0.0, 0.0, 0.0};
+        return {1.0, 2.0, 3.0};
     }
 };
 
@@ -61,7 +61,6 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster : public ::testing::Test
         std::make_shared<MockGuidanceLaw>(MockGuidanceLaw("test guidance law"));
     const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
     const String defaultName_ = "TestThruster";
-
     const Thruster defaultThruster_ = {defaultSatelliteSystem_, defaultGuidanceLaw_, defaultName_};
 };
 
@@ -156,9 +155,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, ComputeContribution)
         const VectorXd acceleration =
             defaultThruster_.computeContribution(Instant::J2000(), coordinates, Frame::GCRF());
 
-        VectorXd expectedAcceleration(4);
-        expectedAcceleration << 0.0, 0.0, 0.0, 0.0;
-
-        EXPECT_TRUE(acceleration.isNear(expectedAcceleration, 1e-12));
+        EXPECT_DOUBLE_EQ(acceleration[0], 1.0);
+        EXPECT_DOUBLE_EQ(acceleration[1], 2.0);
+        EXPECT_DOUBLE_EQ(acceleration[2], 3.0);
+        EXPECT_LT(acceleration[3], 0.0);
     }
 }

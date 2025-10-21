@@ -21,17 +21,20 @@
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 #include <Global.test.hpp>
 
@@ -59,6 +62,7 @@ using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
 using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
@@ -72,6 +76,7 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
@@ -79,6 +84,7 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testing::Test
 {
@@ -98,9 +104,11 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testi
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
+    const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactorySPtr_ =
+        LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
     LocalOrbitalFrameDirection localOrbitalFrameDirection_ = {
         {1.0, 0.0, 0.0},
-        LocalOrbitalFrameFactory::VNC(gcrfSPtr_),
+        localOrbitalFrameFactorySPtr_,
     };
 
     const ConstantThrust defaultConstantThrust_ = {localOrbitalFrameDirection_};
@@ -300,6 +308,79 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Intrack)
         EXPECT_TRUE(
             constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory()->getProviderType() ==
             LocalOrbitalFrameTransformProvider::Type::VNC
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
+{
+    const StateBuilder stateBuilder = StateBuilder(gcrfSPtr_, Maneuver::RequiredCoordinateSubsets);
+    const Maneuver maneuver = Maneuver({
+        stateBuilder.build(
+            Instant::J2000() + Duration::Seconds(0.0),
+            (VectorXd(10) << 7.0e6, 0.0, 0.0, 0.0, 8.0e3, 0.0, 1.0, 2.0, 3.0, -1.0e-5).finished()
+        ),
+        stateBuilder.build(
+            Instant::J2000() + Duration::Seconds(10.0),
+            (VectorXd(10) << 0.0, 7.0e6, 0.0, -8.0e3, 0.0, 0.0, 4.0, 5.0, 6.0, -1.0e-5).finished()
+        ),
+    });
+    const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
+        maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr_);
+
+    {
+        EXPECT_THROW(
+            try {
+                ConstantThrust::FromManeuver(maneuver, LocalOrbitalFrameFactory::Undefined());
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Local Orbital Frame Factory} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    // Not considering maximum allowed angular offset for now
+    {
+        ConstantThrust constantThrust = ConstantThrust::FromManeuver(maneuver, localOrbitalFrameFactorySPtr_);
+        EXPECT_EQ(
+            constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
+        );
+        EXPECT_EQ(
+            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr_
+        );
+    }
+
+    // Considering a maximum allowed angular offset, but it's not violated
+    {
+        ConstantThrust constantThrust = ConstantThrust::FromManeuver(
+            maneuver,
+            localOrbitalFrameFactorySPtr_,
+            Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
+        );
+        EXPECT_EQ(
+            constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
+        );
+        EXPECT_EQ(
+            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr_
+        );
+    }
+
+    // Considering a maximum allowed angular offset, and it's violated
+    {
+        EXPECT_THROW(
+            try {
+                ConstantThrust::FromManeuver(
+                    maneuver,
+                    localOrbitalFrameFactorySPtr_,
+                    Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
+                );
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_NE(e.getMessage().find("Maximum angular offset"), std::string::npos);
+                EXPECT_NE(e.getMessage().find(" is greater than the maximum allowed ("), std::string::npos);
+                throw;
+            },
+            ostk::core::error::RuntimeError
         );
     }
 }

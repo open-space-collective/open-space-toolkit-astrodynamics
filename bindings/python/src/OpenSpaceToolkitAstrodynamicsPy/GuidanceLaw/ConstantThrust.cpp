@@ -18,7 +18,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
             aModule,
             "ConstantThrust",
             R"doc(
-                Constant Thrust, Constant Direction dynamics.
+                Constant Thrust, Constant Direction guidance law.
 
             )doc"
         )
@@ -78,17 +78,40 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
                 "intrack",
                 &ConstantThrust::Intrack,
                 R"doc(
-                    Create a constant thrust in the in-track direction.
+                    Create a constant thrust guidance law in the in-track direction.
 
                     Args:
-                        satellite_system (SatelliteSystem): The satellite system.
-                        velocity_direction (bool, optional): If True, the thrust is applied in the velocity direction. Otherwise, it is applied in the opposite direction.
-                        frame (Frame, optional): The reference frame.
+                        velocity_direction (bool, optional): If True, the thrust is applied in the velocity direction. Otherwise, it is applied in the opposite direction. Defaults to True.
 
                     Returns:
-                        ConstantThrust: The constant thrust.
+                        ConstantThrust: The constant thrust guidance law in the in-track direction.
                 )doc",
-                arg("velocity_direction") = true
+                arg_v("velocity_direction", true, "True")
+            )
+
+            .def_static(
+                "from_maneuver",
+                &ConstantThrust::FromManeuver,
+                R"doc(
+                    Create a constant thrust guidance law from a maneuver.
+
+                    The local orbital frame maneuver's mean thrust direction is calculated and used to create a 
+                    constant thrust guidance law in said direction.
+                    
+                    If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration 
+                    direction and the mean thrust direction is violated.
+
+                    Args:
+                        maneuver (Maneuver): The maneuver.
+                        local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
+                        maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Undefined.
+
+                    Returns:
+                        ConstantThrust: The constant thrust guidance law.
+                )doc",
+                arg("maneuver"),
+                arg("local_orbital_frame_factory"),
+                arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()")
             )
 
             ;

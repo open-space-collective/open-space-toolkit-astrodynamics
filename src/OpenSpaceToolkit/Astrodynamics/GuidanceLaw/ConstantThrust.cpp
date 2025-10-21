@@ -15,11 +15,15 @@ namespace astrodynamics
 namespace guidancelaw
 {
 
+using ostk::core::type::Real;
+
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::unit::Angle;
 
+using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
@@ -95,6 +99,32 @@ ConstantThrust ConstantThrust::Intrack(const bool& velocityDirection)
         LocalOrbitalFrameDirection(direction, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
     return {localOrbitalFrameDirection};
+}
+
+ConstantThrust ConstantThrust::FromManeuver(
+    const Maneuver& aManeuver,
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
+    const Angle& aMaximumAllowedAngularOffset
+)
+{
+    const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
+        aManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);
+
+    if (aMaximumAllowedAngularOffset.isDefined())
+    {
+        const Real maximumAllowedAngularOffsetDegrees = aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0);
+        const Real maximumAngularOffsetDegrees = meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0);
+        if (maximumAngularOffsetDegrees > maximumAllowedAngularOffsetDegrees)
+        {
+            throw ostk::core::error::RuntimeError(String::Format(
+                "Maximum angular offset ({:.6f} deg) is greater than the maximum allowed ({:.6f} deg).",
+                maximumAngularOffsetDegrees,
+                maximumAllowedAngularOffsetDegrees
+            ));
+        }
+    }
+
+    return {meanDirectionAndMaximumAngularOffset.first};
 }
 
 }  // namespace guidancelaw

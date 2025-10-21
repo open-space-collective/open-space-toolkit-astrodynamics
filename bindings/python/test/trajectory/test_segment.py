@@ -10,6 +10,7 @@ from ostk.physics.time import Scale
 from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.unit import Angle
 
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics import Dynamics
@@ -17,6 +18,7 @@ from ostk.astrodynamics.dynamics import CentralBodyGravity
 from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.dynamics import Thruster
 from ostk.astrodynamics.guidance_law import ConstantThrust
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.event_condition import InstantCondition
@@ -76,6 +78,11 @@ def dynamics(
 
 
 @pytest.fixture
+def local_orbital_frame_factory() -> LocalOrbitalFrameFactory:
+    return LocalOrbitalFrameFactory.VNC(Frame.GCRF())
+
+
+@pytest.fixture
 def numerical_solver() -> NumericalSolver:
     return NumericalSolver.default_conditional()
 
@@ -119,6 +126,51 @@ def maneuver_segment(
         thruster_dynamics=thruster_dynamics,
         dynamics=dynamics,
         numerical_solver=numerical_solver,
+    )
+
+
+@pytest.fixture
+def maximum_allowed_angular_offset() -> Angle:
+    return Angle.degrees(180.0)
+
+
+@pytest.fixture
+def constant_local_orbital_frame_direction_maneuver_segment(
+    name: str,
+    instant_condition: InstantCondition,
+    thruster_dynamics: Thruster,
+    dynamics: list,
+    numerical_solver: NumericalSolver,
+    local_orbital_frame_factory: LocalOrbitalFrameFactory,
+) -> Segment:
+    return Segment.constant_local_orbital_frame_direction_maneuver(
+        name=name,
+        event_condition=instant_condition,
+        thruster_dynamics=thruster_dynamics,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+        local_orbital_frame_factory=local_orbital_frame_factory,
+    )
+
+
+@pytest.fixture
+def constant_local_orbital_frame_direction_maneuver_segment_with_maximum_allowed_angular_offset(
+    name: str,
+    instant_condition: InstantCondition,
+    thruster_dynamics: Thruster,
+    dynamics: list,
+    numerical_solver: NumericalSolver,
+    local_orbital_frame_factory: LocalOrbitalFrameFactory,
+    maximum_allowed_angular_offset: Angle,
+) -> Segment:
+    return Segment.constant_local_orbital_frame_direction_maneuver(
+        name=name,
+        event_condition=instant_condition,
+        thruster_dynamics=thruster_dynamics,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+        local_orbital_frame_factory=local_orbital_frame_factory,
+        maximum_allowed_angular_offset=maximum_allowed_angular_offset,
     )
 
 
@@ -293,6 +345,41 @@ class TestSegment:
             is not None
         )
 
+    def test_constant_local_orbital_frame_direction_maneuver(
+        self,
+        name: str,
+        instant_condition: InstantCondition,
+        thruster_dynamics: ConstantThrust,
+        dynamics: list,
+        numerical_solver: NumericalSolver,
+        local_orbital_frame_factory: LocalOrbitalFrameFactory,
+        maximum_allowed_angular_offset: Angle,
+    ):
+        assert (
+            Segment.constant_local_orbital_frame_direction_maneuver(
+                name=name,
+                event_condition=instant_condition,
+                thruster_dynamics=thruster_dynamics,
+                dynamics=dynamics,
+                numerical_solver=numerical_solver,
+                local_orbital_frame_factory=local_orbital_frame_factory,
+            )
+            is not None
+        )
+
+        assert (
+            Segment.constant_local_orbital_frame_direction_maneuver(
+                name=name,
+                event_condition=instant_condition,
+                thruster_dynamics=thruster_dynamics,
+                dynamics=dynamics,
+                numerical_solver=numerical_solver,
+                local_orbital_frame_factory=local_orbital_frame_factory,
+                maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+            )
+            is not None
+        )
+
     def test_create_solution(
         self,
         dynamics: list,
@@ -310,7 +397,7 @@ class TestSegment:
 
         assert segment_solution is not None
 
-    def test_solve(
+    def test_solve_maneuver_segment(
         self,
         state: State,
         end_instant: Instant,
@@ -318,7 +405,7 @@ class TestSegment:
         instants: list[Instant],
         numerical_solver: NumericalSolver,
     ):
-        solution = maneuver_segment.solve(state)
+        solution: Segment.Solution = maneuver_segment.solve(state)
 
         assert (
             pytest.approx(
@@ -400,3 +487,21 @@ class TestSegment:
             solution.get_dynamics_acceleration_contribution(
                 solution.dynamics[0], state.get_frame()
             )
+
+    def test_solve_constant_local_orbital_frame_direction_maneuver_segment(
+        self,
+        state: State,
+        constant_local_orbital_frame_direction_maneuver_segment: Segment,
+        constant_local_orbital_frame_direction_maneuver_segment_with_maximum_allowed_angular_offset: Segment,
+    ):
+        solution: Segment.Solution = (
+            constant_local_orbital_frame_direction_maneuver_segment.solve(state)
+        )
+        assert solution is not None
+
+        solution_with_maximum_allowed_angular_offset: Segment.Solution = (
+            constant_local_orbital_frame_direction_maneuver_segment_with_maximum_allowed_angular_offset.solve(
+                state
+            )
+        )
+        assert solution_with_maximum_allowed_angular_offset is not None

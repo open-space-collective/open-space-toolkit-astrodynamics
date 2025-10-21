@@ -85,8 +85,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(pybind11::module& 
                 Args:
                     satellite_system (SatelliteSystem): The satellite system.
                     guidance_law (GuidanceLaw): The guidance law used to compute the acceleration vector.
-                    name (str): The name of the thruster.
-
+                    name (str, optional): The name of the thruster. Defaults to String.empty().
             )doc"
         )
 

@@ -92,8 +92,6 @@ class Thruster : public Dynamics
    private:
     const SatelliteSystem satelliteSystem_;
     const Shared<const GuidanceLaw> guidanceLaw_;
-    const String name_;
-
     const Real massFlowRateCache_;
 };
 

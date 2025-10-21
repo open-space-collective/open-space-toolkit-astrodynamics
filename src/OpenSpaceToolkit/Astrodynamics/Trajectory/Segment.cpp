@@ -5,6 +5,8 @@
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -24,6 +26,8 @@ namespace trajectory
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -126,6 +130,11 @@ Mass Segment::Solution::computeDeltaMass() const
 
 Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
 {
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
     if (this->states.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No states exist within Segment Solution.");
@@ -136,22 +145,7 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         return {};
     }
 
-    // Loop through dynamics to find Thruster dynamics
-    Shared<Thruster> thrusterDynamics = nullptr;
-    for (const Shared<Dynamics>& dynamic : this->dynamics)
-    {
-        thrusterDynamics = std::dynamic_pointer_cast<Thruster>(dynamic);
-
-        if (thrusterDynamics)
-        {
-            break;
-        }
-    }
-
-    if (thrusterDynamics == nullptr)
-    {
-        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
-    }
+    const Shared<Thruster> thrusterDynamics = FindThrusterDynamics(this->dynamics);
 
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
         thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
@@ -375,8 +369,6 @@ MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
 Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // TBI: Use smart caching for multiple calls in the future
-
     // Each MatrixXd contains the contribution of a single dynamics for all the segment states
     Map<Shared<Dynamics>, MatrixXd> dynamicsContributionsMap = Map<Shared<Dynamics>, MatrixXd>();
 
@@ -438,7 +430,9 @@ Segment::Segment(
       type_(aType),
       eventCondition_(anEventConditionSPtr),
       dynamics_(aDynamicsArray),
-      numericalSolver_(aNumericalSolver)
+      numericalSolver_(aNumericalSolver),
+      constantManeuverDirectionLocalOrbitalFrameFactory_(nullptr),
+      constantManeuverDirectionMaximumAllowedAngularOffset_(Angle::Undefined())
 {
     if (eventCondition_ == nullptr)
     {
@@ -505,33 +499,55 @@ const NumericalSolver& Segment::accessNumericalSolver() const
 
 Segment::Solution Segment::solve(const State& aState, const Duration& maximumPropagationDuration) const
 {
-    const Propagator propagator = {
-        numericalSolver_,
-        dynamics_,
-    };
+    const Segment::Solution solution = this->Solve_(aState, maximumPropagationDuration, dynamics_, eventCondition_);
 
-    const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
-        aState, aState.accessInstant() + maximumPropagationDuration, *eventCondition_
-    );
-
-    // Expand states based on input state
-    const StateBuilder stateBuilder = {aState};
-
-    Array<State> states = Array<State>::Empty();
-    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
-
-    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    // If we're not forcing a constant maneuver direction in the Local Orbital Frame, return the solution
+    if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
+        !this->constantManeuverDirectionLocalOrbitalFrameFactory_->isDefined())
     {
-        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+        return solution;
     }
 
-    return {
-        name_,
-        dynamics_,
-        states,
-        conditionSolution.conditionIsSatisfied,
-        type_,
-    };
+    const Array<flightManeuver> solutionManeuvers = solution.extractManeuvers(aState.accessFrame());
+    if (solutionManeuvers.isEmpty())
+    {
+        return solution;
+    }
+
+    Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
+        std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
+
+    // TBI: in the future, we might want to solve in-between maneuvers.
+    for (const flightManeuver& solutionManeuver : solutionManeuvers)
+    {
+        const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
+            solutionManeuver,
+            this->constantManeuverDirectionLocalOrbitalFrameFactory_,
+            this->constantManeuverDirectionMaximumAllowedAngularOffset_
+        ));
+        heterogeneousGuidanceLaw->addGuidanceLaw(constantThrust, solutionManeuver.getInterval());
+    }
+
+    const Shared<Thruster> thrusterDynamics = FindThrusterDynamics(dynamics_);
+    const Shared<Thruster> heterogeneousThrustDynamics = std::make_shared<Thruster>(
+        thrusterDynamics->getSatelliteSystem(),
+        heterogeneousGuidanceLaw,
+        thrusterDynamics->getName() + " (With Heterogeneous Guidance Law)"
+    );
+
+    Array<Shared<Dynamics>> dynamicsToUseWithHeterogeneousGuidanceLaw = Array<Shared<Dynamics>>::Empty();
+    dynamicsToUseWithHeterogeneousGuidanceLaw.reserve(dynamics_.getSize());
+
+    for (const Shared<Dynamics>& dynamic : dynamics_)
+    {
+        if (dynamic != thrusterDynamics)
+        {
+            dynamicsToUseWithHeterogeneousGuidanceLaw.add(dynamic);
+        }
+    }
+    dynamicsToUseWithHeterogeneousGuidanceLaw.add(heterogeneousThrustDynamics);
+
+    return this->Solve_(aState, maximumPropagationDuration, dynamicsToUseWithHeterogeneousGuidanceLaw, eventCondition_);
 }
 
 void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -594,6 +610,95 @@ Segment Segment::Maneuver(
         aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
         aNumericalSolver,
     };
+}
+
+Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+    const String& aName,
+    const Shared<EventCondition>& anEventConditionSPtr,
+    const Shared<Thruster>& aThrusterDynamics,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
+    const NumericalSolver& aNumericalSolver,
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+    const Angle& aMaximumAllowedAngularOffset
+)
+{
+    Segment segment = {
+        aName,
+        Segment::Type::Maneuver,
+        anEventConditionSPtr,
+        aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
+        aNumericalSolver,
+    };
+
+    segment.constantManeuverDirectionLocalOrbitalFrameFactory_ = aLocalOrbitalFrameFactory;
+    segment.constantManeuverDirectionMaximumAllowedAngularOffset_ = aMaximumAllowedAngularOffset;
+
+    return segment;
+}
+
+Segment::Solution Segment::Solve_(
+    const State& aState,
+    const Duration& maximumPropagationDuration,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
+    const Shared<EventCondition>& anEventConditionSPtr
+) const
+{
+    const Propagator propagator = {
+        numericalSolver_,
+        aDynamicsArray,
+    };
+
+    const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+        aState, aState.accessInstant() + maximumPropagationDuration, *anEventConditionSPtr
+    );
+
+    // Expand states based on input state
+    const StateBuilder stateBuilder = {aState};
+
+    Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    return {
+        name_,
+        aDynamicsArray,
+        states,
+        conditionSolution.conditionIsSatisfied,
+        type_,
+    };
+}
+
+const Shared<Thruster> Segment::FindThrusterDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
+{
+    // Loop through dynamics to find Thruster dynamics
+    Shared<Thruster> thrusterDynamics = nullptr;
+    bool thrusterDynamicsFound = false;
+    for (const Shared<Dynamics>& dynamic : aDynamicsArray)
+    {
+        const Shared<Thruster> candidateThruster = std::dynamic_pointer_cast<Thruster>(dynamic);
+
+        if (candidateThruster)
+        {
+            if (thrusterDynamicsFound)
+            {
+                throw ostk::core::error::RuntimeError("Multiple Thruster dynamics found in Maneuvering segment.");
+            }
+
+            thrusterDynamics = candidateThruster;
+            thrusterDynamicsFound = true;
+        }
+    }
+
+    if (thrusterDynamics == nullptr)
+    {
+        throw ostk::core::error::RuntimeError("No Thruster dynamics found in Maneuvering segment.");
+    }
+
+    return thrusterDynamics;
 }
 
 }  // namespace trajectory

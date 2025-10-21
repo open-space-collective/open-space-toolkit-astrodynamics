@@ -5,12 +5,15 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -19,11 +22,13 @@ namespace astrodynamics
 namespace flight
 {
 
+using ostk::physics::coordinate::Transform;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 const Shared<const Frame> Maneuver::DefaultAccelFrameSPtr = Frame::GCRF();
 const Duration Maneuver::MinimumRecommendedDuration = Duration::Seconds(30.0);
@@ -264,6 +269,101 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
     return std::make_shared<Tabulated>(
         Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
     );
+}
+
+Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDirectionAndMaximumAngularOffset(
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+) const
+{
+    if ((aLocalOrbitalFrameFactorySPtr == nullptr) || !aLocalOrbitalFrameFactorySPtr->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
+    }
+
+    Array<Vector3d> thrustAccelerationsInLof = Array<Vector3d>::Empty();
+    thrustAccelerationsInLof.reserve(states_.getSize());
+    Vector3d sumInLof = Vector3d::Zero();
+    Angle maximumAngularOffset = Angle::Zero();
+
+    for (const auto& state : states_)
+    {
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+
+        const Vector3d thrustAcceleration = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr);
+        const Transform transform = state.accessFrame()->getTransformTo(lofFrame, state.accessInstant());
+        const Vector3d thrustAccelerationInLof = transform.applyToVector(thrustAcceleration);
+        thrustAccelerationsInLof.add(thrustAccelerationInLof);
+
+        sumInLof += thrustAccelerationInLof;
+    }
+
+    Vector3d meanThrustDirectionInLof;
+    try
+    {
+        meanThrustDirectionInLof = sumInLof.normalized();
+    }
+    catch (const std::exception& e)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Error computing Maneuver's normalized mean thrust direction: [{}].", e.what()
+        );
+    }
+
+    for (const auto& thrustAccelerationInLof : thrustAccelerationsInLof)
+    {
+        const Angle offset = Angle::Between(thrustAccelerationInLof, meanThrustDirectionInLof);
+        if (offset.inDegrees(0.0, 360.0) > maximumAngularOffset.inDegrees(0.0, 360.0))
+        {
+            maximumAngularOffset = offset;
+        }
+    }
+
+    const LocalOrbitalFrameDirection meanLocalOrbitalFrameDirection =
+        LocalOrbitalFrameDirection(meanThrustDirectionInLof, aLocalOrbitalFrameFactorySPtr);
+    return {meanLocalOrbitalFrameDirection, maximumAngularOffset};
+}
+
+Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
+    const Angle& aMaximumAllowedAngularOffset
+) const
+{
+    const MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
+        this->calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);
+
+    if (aMaximumAllowedAngularOffset.isDefined() && meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0) >
+                                                        aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0))
+    {
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Maximum angular offset ({:.6f} deg) is greater than the maximum allowed ({:.6f} deg).",
+            meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0),
+            aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0)
+        ));
+    }
+
+    const Vector3d meanDirectionInLof = meanDirectionAndMaximumAngularOffset.first.getValue();
+
+    Array<State> newStates = Array<State>::Empty();
+    newStates.reserve(states_.getSize());
+
+    for (const auto& state : states_)
+    {
+        const Instant& instant = state.accessInstant();
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+        const Shared<const Frame>& stateFrame = state.accessFrame();
+
+        const Real originalMagnitude = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
+        const Vector3d newThrustAccelerationLof = meanDirectionInLof * originalMagnitude;
+        const Transform transform = lofFrame->getTransformTo(stateFrame, instant);
+        const Vector3d newThrustAcceleration = transform.applyToVector(newThrustAccelerationLof);
+
+        const StateBuilder fullStateBuilder = StateBuilder(stateFrame, RequiredCoordinateSubsets);
+        const State partialState =
+            State(state.accessInstant(), newThrustAcceleration, stateFrame, {DefaultAccelerationCoordinateSubsetSPtr});
+        newStates.add(fullStateBuilder.expand(partialState, state));
+    }
+
+    return Maneuver(newStates);
 }
 
 void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
