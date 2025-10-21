@@ -39,8 +39,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/SequentialGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
@@ -94,8 +94,8 @@ using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
+using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
-using ostk::astrodynamics::guidancelaw::SequentialGuidanceLaw;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
@@ -1199,11 +1199,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
             ));
         }
 
-        const Shared<SequentialGuidanceLaw> sequentialGuidanceLaw =
-            std::make_shared<SequentialGuidanceLaw>(SequentialGuidanceLaw());
+        const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
+            std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
-            sequentialGuidanceLaw->addGuidanceLaw(
+            heterogeneousGuidanceLaw->addGuidanceLaw(
                 std::make_shared<ConstantThrust>(
                     ConstantThrust::FromManeuver(maneuvers[i], defaultLocalOrbitalFrameFactorySPtr_)
                 ),
@@ -1218,8 +1218,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
             ),
             std::make_shared<Thruster>(
                 defaultQLawThrusterDynamicsSPtr_->getSatelliteSystem(),
-                sequentialGuidanceLaw,
-                defaultQLawThrusterDynamicsSPtr_->getName() + " (With Sequential Guidance Law)"
+                heterogeneousGuidanceLaw,
+                defaultQLawThrusterDynamicsSPtr_->getName() + " (With Heterogeneous Guidance Law)"
             ),
             defaultDynamics_,
             defaultNumericalSolver_

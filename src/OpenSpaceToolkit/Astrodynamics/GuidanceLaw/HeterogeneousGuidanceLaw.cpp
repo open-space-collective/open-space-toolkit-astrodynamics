@@ -4,7 +4,7 @@
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/SequentialGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 
 namespace ostk
 {
@@ -14,7 +14,7 @@ namespace guidancelaw
 {
 
 using ostk::core::container::Array;
-using ostk::core::container::Tuple;
+using ostk::core::container::Pair;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -27,31 +27,31 @@ using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::GuidanceLaw;
 
-SequentialGuidanceLaw::SequentialGuidanceLaw(
-    const Array<Tuple<Shared<GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray
+HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw(
+    const Array<Pair<Shared<GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray
 )
-    : GuidanceLaw("Sequential Guidance Law"),
+    : GuidanceLaw("Heterogeneous Guidance Law"),
       intervals_(Array<Interval>::Empty()),
       guidanceLaws_(Array<Shared<GuidanceLaw>>::Empty())
 {
-    for (const Tuple<Shared<GuidanceLaw>, Interval>& guidanceLawWithInterval : aGuidanceLawWithIntervalArray)
+    for (const Pair<Shared<GuidanceLaw>, Interval>& guidanceLawWithInterval : aGuidanceLawWithIntervalArray)
     {
-        this->addGuidanceLaw(std::get<0>(guidanceLawWithInterval), std::get<1>(guidanceLawWithInterval));
+        this->addGuidanceLaw(guidanceLawWithInterval.first, guidanceLawWithInterval.second);
     }
 }
 
-Array<Tuple<Shared<GuidanceLaw>, Interval>> SequentialGuidanceLaw::getGuidanceLawsWithIntervals() const
+Array<Pair<Shared<GuidanceLaw>, Interval>> HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals() const
 {
-    Array<Tuple<Shared<GuidanceLaw>, Interval>> guidanceLawsWithIntervals =
-        Array<Tuple<Shared<GuidanceLaw>, Interval>>::Empty();
+    Array<Pair<Shared<GuidanceLaw>, Interval>> guidanceLawsWithIntervals =
+        Array<Pair<Shared<GuidanceLaw>, Interval>>::Empty();
     for (Size i = 0; i < intervals_.getSize(); ++i)
     {
-        guidanceLawsWithIntervals.add(Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaws_[i], intervals_[i]));
+        guidanceLawsWithIntervals.add(Pair<Shared<GuidanceLaw>, Interval>(guidanceLaws_[i], intervals_[i]));
     }
     return guidanceLawsWithIntervals;
 }
 
-void SequentialGuidanceLaw::addGuidanceLaw(const Shared<GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval)
+void HeterogeneousGuidanceLaw::addGuidanceLaw(const Shared<GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval)
 {
     if (aGuidanceLawSPtr == nullptr)
     {
@@ -77,7 +77,7 @@ void SequentialGuidanceLaw::addGuidanceLaw(const Shared<GuidanceLaw>& aGuidanceL
     guidanceLaws_.add(aGuidanceLawSPtr);
 }
 
-Vector3d SequentialGuidanceLaw::calculateThrustAccelerationAt(
+Vector3d HeterogeneousGuidanceLaw::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,

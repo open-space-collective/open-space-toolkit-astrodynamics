@@ -1,13 +1,12 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/SequentialGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 
 using namespace pybind11;
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
+using ostk::core::container::Pair;
 using ostk::core::type::Shared;
-using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 
@@ -16,13 +15,13 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::GuidanceLaw;
-using ostk::astrodynamics::guidancelaw::SequentialGuidanceLaw;
+using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_SequentialGuidanceLaw(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw(pybind11::module& aModule)
 {
-    class_<SequentialGuidanceLaw, GuidanceLaw, Shared<SequentialGuidanceLaw>>(
+    class_<HeterogeneousGuidanceLaw, GuidanceLaw, Shared<HeterogeneousGuidanceLaw>>(
         aModule,
-        "SequentialGuidanceLaw",
+        "HeterogeneousGuidanceLaw",
         R"doc(
             A guidance law that sequences multiple guidance laws over specific time intervals.
             
@@ -34,13 +33,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_SequentialGuidanceLaw(py
     )
 
         .def(
-            init<const Array<Tuple<Shared<GuidanceLaw>, Interval>>&>(),
-            arg_v("guidance_laws_with_intervals", Array<Tuple<Shared<GuidanceLaw>, Interval>>::Empty(), "[]"),
+            init<const Array<Pair<Shared<GuidanceLaw>, Interval>>&>(),
+            arg_v("guidance_laws_with_intervals", Array<Pair<Shared<GuidanceLaw>, Interval>>::Empty(), "[]"),
             R"doc(
                 Constructor.
 
                 Args:
-                    guidance_laws_with_intervals (List[Tuple[GuidanceLaw, Interval]], optional): Array of tuples containing the guidance laws and their corresponding intervals. Defaults to empty array.
+                    guidance_laws_with_intervals (list[tuple[GuidanceLaw, Interval]], optional): Array of tuples containing the guidance laws and their corresponding intervals. Defaults to empty array.
 
                 Raises:
                     RuntimeError: If any interval is undefined, if the guidance law is null or if the interval intersects with an existing interval.
@@ -49,18 +48,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_SequentialGuidanceLaw(py
 
         .def(
             "get_guidance_laws_with_intervals",
-            &SequentialGuidanceLaw::getGuidanceLawsWithIntervals,
+            &HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals,
             R"doc(
                 Get the guidance laws with their corresponding intervals.
 
                 Returns:
-                    List[Tuple[GuidanceLaw, Interval]]: Array of tuples containing the guidance laws and their corresponding intervals.
+                    list[tuple[GuidanceLaw, Interval]]: Array of tuples containing the guidance laws and their corresponding intervals.
             )doc"
         )
 
         .def(
             "add_guidance_law",
-            &SequentialGuidanceLaw::addGuidanceLaw,
+            &HeterogeneousGuidanceLaw::addGuidanceLaw,
             arg("guidance_law"),
             arg("interval"),
             R"doc(
@@ -77,7 +76,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_SequentialGuidanceLaw(py
 
         .def(
             "calculate_thrust_acceleration_at",
-            &SequentialGuidanceLaw::calculateThrustAccelerationAt,
+            &HeterogeneousGuidanceLaw::calculateThrustAccelerationAt,
             arg("instant"),
             arg("position_coordinates"),
             arg("velocity_coordinates"),
@@ -98,8 +97,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_SequentialGuidanceLaw(py
             )doc"
         )
 
-        .def("__str__", &(shiftToString<SequentialGuidanceLaw>))
-        .def("__repr__", &(shiftToString<SequentialGuidanceLaw>))
+        .def("__str__", &(shiftToString<HeterogeneousGuidanceLaw>))
+        .def("__repr__", &(shiftToString<HeterogeneousGuidanceLaw>))
 
         ;
 }

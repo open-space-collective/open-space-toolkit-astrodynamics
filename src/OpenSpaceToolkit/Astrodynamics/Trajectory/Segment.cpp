@@ -6,7 +6,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/SequentialGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -27,7 +27,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
-using ostk::astrodynamics::guidancelaw::SequentialGuidanceLaw;
+using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -514,8 +514,8 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
         return solution;
     }
 
-    Shared<SequentialGuidanceLaw> sequentialGuidanceLaw =
-        std::make_shared<SequentialGuidanceLaw>(SequentialGuidanceLaw());
+    Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
+        std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
 
     // TBI: in the future, we might want to solve in-between maneuvers.
     for (const flightManeuver& solutionManeuver : solutionManeuvers)
@@ -525,29 +525,29 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
             this->constantManeuverDirectionLocalOrbitalFrameFactory_,
             this->constantManeuverDirectionMaximumAllowedAngularOffset_
         ));
-        sequentialGuidanceLaw->addGuidanceLaw(constantThrust, solutionManeuver.getInterval());
+        heterogeneousGuidanceLaw->addGuidanceLaw(constantThrust, solutionManeuver.getInterval());
     }
 
     const Shared<Thruster> thrusterDynamics = FindThrusterDynamics(dynamics_);
-    const Shared<Thruster> sequentialThrustDynamics = std::make_shared<Thruster>(
+    const Shared<Thruster> heterogeneousThrustDynamics = std::make_shared<Thruster>(
         thrusterDynamics->getSatelliteSystem(),
-        sequentialGuidanceLaw,
-        thrusterDynamics->getName() + " (With Sequential Guidance Law)"
+        heterogeneousGuidanceLaw,
+        thrusterDynamics->getName() + " (With Heterogeneous Guidance Law)"
     );
 
-    Array<Shared<Dynamics>> dynamicsToUseWithSequentialGuidanceLaw = Array<Shared<Dynamics>>::Empty();
-    dynamicsToUseWithSequentialGuidanceLaw.reserve(dynamics_.getSize());
+    Array<Shared<Dynamics>> dynamicsToUseWithHeterogeneousGuidanceLaw = Array<Shared<Dynamics>>::Empty();
+    dynamicsToUseWithHeterogeneousGuidanceLaw.reserve(dynamics_.getSize());
 
     for (const Shared<Dynamics>& dynamic : dynamics_)
     {
         if (dynamic != thrusterDynamics)
         {
-            dynamicsToUseWithSequentialGuidanceLaw.add(dynamic);
+            dynamicsToUseWithHeterogeneousGuidanceLaw.add(dynamic);
         }
     }
-    dynamicsToUseWithSequentialGuidanceLaw.add(sequentialThrustDynamics);
+    dynamicsToUseWithHeterogeneousGuidanceLaw.add(heterogeneousThrustDynamics);
 
-    return this->Solve_(aState, maximumPropagationDuration, dynamicsToUseWithSequentialGuidanceLaw, eventCondition_);
+    return this->Solve_(aState, maximumPropagationDuration, dynamicsToUseWithHeterogeneousGuidanceLaw, eventCondition_);
 }
 
 void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const

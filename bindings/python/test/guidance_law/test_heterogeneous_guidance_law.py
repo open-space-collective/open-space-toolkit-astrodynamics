@@ -9,7 +9,7 @@ from ostk.physics.time import Instant
 from ostk.physics.time import Duration
 from ostk.physics.time import Interval
 from ostk.astrodynamics import GuidanceLaw
-from ostk.astrodynamics.guidance_law import SequentialGuidanceLaw
+from ostk.astrodynamics.guidance_law import HeterogeneousGuidanceLaw
 
 
 @pytest.fixture
@@ -75,13 +75,13 @@ def guidance_law_2() -> GuidanceLaw:
 
 
 @pytest.fixture
-def sequential_guidance_law(
+def heterogeneous_guidance_law(
     interval_1: Interval,
     guidance_law_1: GuidanceLaw,
     interval_2: Interval,
     guidance_law_2: GuidanceLaw,
-) -> SequentialGuidanceLaw:
-    return SequentialGuidanceLaw(
+) -> HeterogeneousGuidanceLaw:
+    return HeterogeneousGuidanceLaw(
         guidance_laws_with_intervals=[
             (guidance_law_1, interval_1),
             (guidance_law_2, interval_2),
@@ -89,7 +89,7 @@ def sequential_guidance_law(
     )
 
 
-class TestSequentialGuidanceLaw:
+class TestHeterogeneousGuidanceLaw:
     def test_constructor_and_getters(
         self,
         interval_1: Interval,
@@ -97,15 +97,15 @@ class TestSequentialGuidanceLaw:
         interval_2: Interval,
         guidance_law_2: GuidanceLaw,
     ):
-        sequential_guidance_law = SequentialGuidanceLaw(
+        heterogeneous_guidance_law = HeterogeneousGuidanceLaw(
             guidance_laws_with_intervals=[
                 (guidance_law_1, interval_1),
                 (guidance_law_2, interval_2),
             ],
         )
-        assert sequential_guidance_law is not None
-        assert isinstance(sequential_guidance_law, SequentialGuidanceLaw)
-        assert sequential_guidance_law.get_guidance_laws_with_intervals() == [
+        assert heterogeneous_guidance_law is not None
+        assert isinstance(heterogeneous_guidance_law, HeterogeneousGuidanceLaw)
+        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == [
             (guidance_law_1, interval_1),
             (guidance_law_2, interval_2),
         ]
@@ -117,18 +117,18 @@ class TestSequentialGuidanceLaw:
         interval_2: Interval,
         guidance_law_2: GuidanceLaw,
     ):
-        sequential_guidance_law = SequentialGuidanceLaw()
+        heterogeneous_guidance_law = HeterogeneousGuidanceLaw()
 
-        assert isinstance(sequential_guidance_law, SequentialGuidanceLaw)
-        assert sequential_guidance_law.get_guidance_laws_with_intervals() == []
+        assert isinstance(heterogeneous_guidance_law, HeterogeneousGuidanceLaw)
+        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == []
 
-        sequential_guidance_law.add_guidance_law(guidance_law_1, interval_1)
-        assert sequential_guidance_law.get_guidance_laws_with_intervals() == [
+        heterogeneous_guidance_law.add_guidance_law(guidance_law_1, interval_1)
+        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == [
             (guidance_law_1, interval_1),
         ]
 
-        sequential_guidance_law.add_guidance_law(guidance_law_2, interval_2)
-        assert sequential_guidance_law.get_guidance_laws_with_intervals() == [
+        heterogeneous_guidance_law.add_guidance_law(guidance_law_2, interval_2)
+        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == [
             (guidance_law_1, interval_1),
             (guidance_law_2, interval_2),
         ]
@@ -148,12 +148,12 @@ class TestSequentialGuidanceLaw:
     )
     def test_calculate_thrust_acceleration_at(
         self,
-        sequential_guidance_law: SequentialGuidanceLaw,
+        heterogeneous_guidance_law: HeterogeneousGuidanceLaw,
         instant: Instant,
         expected_thrust_acceleration: np.array,
     ):
         assert np.array_equal(
-            sequential_guidance_law.calculate_thrust_acceleration_at(
+            heterogeneous_guidance_law.calculate_thrust_acceleration_at(
                 instant=instant,
                 position_coordinates=np.array([0.0, 0.0, 0.0]),
                 velocity_coordinates=np.array([0.0, 0.0, 0.0]),

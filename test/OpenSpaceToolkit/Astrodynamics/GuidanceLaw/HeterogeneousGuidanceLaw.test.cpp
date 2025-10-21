@@ -8,12 +8,12 @@
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/SequentialGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::container::Tuple;
+using ostk::core::container::Pair;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
@@ -26,7 +26,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::GuidanceLaw;
-using ostk::astrodynamics::guidancelaw::SequentialGuidanceLaw;
+using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 
 class MockGuidanceLaw1 : public GuidanceLaw
 {
@@ -68,7 +68,7 @@ class MockGuidanceLaw2 : public GuidanceLaw
     }
 };
 
-class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw : public ::testing::Test
 {
    protected:
     const Interval interval1_ = Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Seconds(100.0));
@@ -79,25 +79,25 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw : public 
     const Shared<GuidanceLaw> guidanceLaw1_ = std::make_shared<MockGuidanceLaw1>("My Guidance Law 1");
     const Shared<GuidanceLaw> guidanceLaw2_ = std::make_shared<MockGuidanceLaw2>("My Guidance Law 2");
 
-    const SequentialGuidanceLaw sequentialGuidanceLaw_ =
-        SequentialGuidanceLaw(Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-            {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+    const HeterogeneousGuidanceLaw heterogeneousGuidanceLaw_ =
+        HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
+            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         ));
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Constructor)
 {
     // No arguments
     {
-        EXPECT_NO_THROW(SequentialGuidanceLaw());
+        EXPECT_NO_THROW(HeterogeneousGuidanceLaw());
     }
 
     // With arguments
     {
-        EXPECT_NO_THROW(SequentialGuidanceLaw(Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-            {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        EXPECT_NO_THROW(HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
+            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         )));
     }
 
@@ -105,8 +105,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Constru
     {
         EXPECT_THROW(
             try {
-                SequentialGuidanceLaw(Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-                    {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, Interval::Undefined())}
+                HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
+                    {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, Interval::Undefined())}
                 ));
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Interval} is undefined.", e.getMessage());
@@ -120,8 +120,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Constru
     {
         EXPECT_THROW(
             try {
-                SequentialGuidanceLaw(Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-                    {Tuple<Shared<GuidanceLaw>, Interval>(std::shared_ptr<GuidanceLaw>(nullptr), interval1_)}
+                HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
+                    {Pair<Shared<GuidanceLaw>, Interval>(std::shared_ptr<GuidanceLaw>(nullptr), interval1_)}
                 ));
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_EQ("Guidance law cannot be null.", e.getMessage());
@@ -135,9 +135,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Constru
     {
         EXPECT_THROW(
             try {
-                SequentialGuidanceLaw(Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-                    {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-                     Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval1_)}
+                HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
+                    {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+                     Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval1_)}
                 ));
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_NE(e.getMessage().find("Interval intersects"), std::string::npos);
@@ -148,72 +148,72 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Constru
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Getters)
 {
     {
-        const SequentialGuidanceLaw sequentialGuidanceLaw =
-            SequentialGuidanceLaw(Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-                {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-                 Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        const HeterogeneousGuidanceLaw heterogeneousGuidanceLaw =
+            HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
+                {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+                 Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
             ));
 
-        const auto expected = Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-            {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        const auto expected = Array<Pair<Shared<GuidanceLaw>, Interval>>(
+            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         );
 
-        const auto actual = sequentialGuidanceLaw.getGuidanceLawsWithIntervals();
+        const auto actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
 
         EXPECT_EQ(actual.getSize(), expected.getSize());
         for (size_t i = 0; i < expected.getSize(); ++i)
         {
-            EXPECT_EQ(std::get<0>(actual[i]), std::get<0>(expected[i]));
-            EXPECT_EQ(std::get<1>(actual[i]), std::get<1>(expected[i]));
+            EXPECT_EQ(actual[i].first, expected[i].first);
+            EXPECT_EQ(actual[i].second, expected[i].second);
         }
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, AddGuidanceLaw)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, AddGuidanceLaw)
 {
     // Adding guidance laws one by one
     {
-        SequentialGuidanceLaw sequentialGuidanceLaw = SequentialGuidanceLaw();
+        HeterogeneousGuidanceLaw heterogeneousGuidanceLaw = HeterogeneousGuidanceLaw();
 
-        EXPECT_TRUE(sequentialGuidanceLaw.getGuidanceLawsWithIntervals().isEmpty());
+        EXPECT_TRUE(heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals().isEmpty());
 
-        sequentialGuidanceLaw.addGuidanceLaw(guidanceLaw1_, interval1_);
+        heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw1_, interval1_);
 
         auto expected =
-            Array<Tuple<Shared<GuidanceLaw>, Interval>>({Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_)
-            });
-        auto actual = sequentialGuidanceLaw.getGuidanceLawsWithIntervals();
+            Array<Pair<Shared<GuidanceLaw>, Interval>>({Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_)}
+            );
+        auto actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
         EXPECT_EQ(actual.getSize(), expected.getSize());
         for (size_t i = 0; i < expected.getSize(); ++i)
         {
-            EXPECT_EQ(std::get<0>(actual[i]), std::get<0>(expected[i]));
-            EXPECT_EQ(std::get<1>(actual[i]), std::get<1>(expected[i]));
+            EXPECT_EQ(actual[i].first, expected[i].first);
+            EXPECT_EQ(actual[i].second, expected[i].second);
         }
 
-        sequentialGuidanceLaw.addGuidanceLaw(guidanceLaw2_, interval2_);
-        expected = Array<Tuple<Shared<GuidanceLaw>, Interval>>(
-            {Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Tuple<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw2_, interval2_);
+        expected = Array<Pair<Shared<GuidanceLaw>, Interval>>(
+            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         );
-        actual = sequentialGuidanceLaw.getGuidanceLawsWithIntervals();
+        actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
         EXPECT_EQ(actual.getSize(), expected.getSize());
         for (size_t i = 0; i < expected.getSize(); ++i)
         {
-            EXPECT_EQ(std::get<0>(actual[i]), std::get<0>(expected[i]));
-            EXPECT_EQ(std::get<1>(actual[i]), std::get<1>(expected[i]));
+            EXPECT_EQ(actual[i].first, expected[i].first);
+            EXPECT_EQ(actual[i].second, expected[i].second);
         }
     }
 
     // Undefined interval
     {
-        SequentialGuidanceLaw sequentialGuidanceLaw = SequentialGuidanceLaw();
+        HeterogeneousGuidanceLaw heterogeneousGuidanceLaw = HeterogeneousGuidanceLaw();
         EXPECT_THROW(
             try {
-                sequentialGuidanceLaw.addGuidanceLaw(guidanceLaw1_, Interval::Undefined());
+                heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw1_, Interval::Undefined());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Interval} is undefined.", e.getMessage());
                 throw;
@@ -224,10 +224,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, AddGuid
 
     // Null guidance law
     {
-        SequentialGuidanceLaw sequentialGuidanceLaw = SequentialGuidanceLaw();
+        HeterogeneousGuidanceLaw heterogeneousGuidanceLaw = HeterogeneousGuidanceLaw();
         EXPECT_THROW(
             try {
-                sequentialGuidanceLaw.addGuidanceLaw(std::shared_ptr<GuidanceLaw>(nullptr), interval1_);
+                heterogeneousGuidanceLaw.addGuidanceLaw(std::shared_ptr<GuidanceLaw>(nullptr), interval1_);
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_EQ("Guidance law cannot be null.", e.getMessage());
                 throw;
@@ -237,12 +237,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, AddGuid
     }
     // Intersecting intervals
     {
-        SequentialGuidanceLaw sequentialGuidanceLaw = SequentialGuidanceLaw();
-        sequentialGuidanceLaw.addGuidanceLaw(guidanceLaw1_, interval1_);
+        HeterogeneousGuidanceLaw heterogeneousGuidanceLaw = HeterogeneousGuidanceLaw();
+        heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw1_, interval1_);
 
         EXPECT_THROW(
             try {
-                sequentialGuidanceLaw.addGuidanceLaw(guidanceLaw2_, interval1_);
+                heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw2_, interval1_);
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_NE(e.getMessage().find("Interval intersects"), std::string::npos);
                 throw;
@@ -252,7 +252,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, AddGuid
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, CalculateThrustAccelerationAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, CalculateThrustAccelerationAt)
 {
     {
         struct TestCase
@@ -271,7 +271,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_SequentialGuidanceLaw, Calcula
 
         for (const auto& testCase : testCases)
         {
-            const Vector3d acceleration = sequentialGuidanceLaw_.calculateThrustAccelerationAt(
+            const Vector3d acceleration = heterogeneousGuidanceLaw_.calculateThrustAccelerationAt(
                 testCase.instant, Vector3d::Zero(), Vector3d::Zero(), 1.0, Frame::GCRF()
             );
 

@@ -191,7 +191,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Constructor.
 
                 Args:
-                    orientation_profile (list[Tuple[Instant, Vector3d]]): The orientation profile.
+                    orientation_profile (list[tuple[Instant, Vector3d]]): The orientation profile.
                     axis (Profile.Axis): The axis.
                     anti_direction (bool): True if the direction is flipped, False otherwise. Defaults to False.
             )doc",
