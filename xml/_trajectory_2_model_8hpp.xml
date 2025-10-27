@@ -225,6 +225,10 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp</label>
         <link refid="_static_8cpp"/>
       </node>
+      <node id="43">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8cpp"/>
+      </node>
       <node id="26">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
         <link refid="_t_l_e_solver_8cpp"/>
@@ -273,7 +277,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
         <link refid="_access_2_generator_8cpp"/>
       </node>
-      <node id="43">
+      <node id="45">
         <label>src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp</label>
         <link refid="_eclipse_2_generator_8cpp"/>
       </node>
@@ -285,7 +289,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp</label>
         <link refid="_flight_2_profile_2_model_2_tabulated_8cpp"/>
       </node>
-      <node id="44">
+      <node id="46">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.cpp</label>
         <link refid="_trajectory_2_model_8cpp"/>
       </node>
@@ -334,7 +338,7 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
       </node>
       <node id="30">
@@ -349,6 +353,12 @@
         <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8hpp"/>
+        <childnode refid="43" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -382,6 +392,8 @@
         </childnode>
         <childnode refid="42" relation="include">
         </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
         <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
@@ -413,10 +425,10 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="42">
+      <node id="44">
         <label>include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp</label>
         <link refid="_eclipse_2_generator_8hpp"/>
-        <childnode refid="43" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
       </node>
       <node id="24">

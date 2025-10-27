@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::CloseApproach</compoundname>
+    <includes refid="_close_approach_8hpp" local="no">CloseApproach.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a742f88be007418cd9ed7a4e23b54b542" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::conjunction::CloseApproach::object1State_</definition>
+        <argsstring></argsstring>
+        <name>object1State_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="189" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a88d97877c2e872c5796307ab74023b09" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::conjunction::CloseApproach::object2State_</definition>
+        <argsstring></argsstring>
+        <name>object2State_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="190" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a31edb7f87704f994ead79315d504afe9" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref></type>
+        <definition>StateBuilder ostk::astrodynamics::conjunction::CloseApproach::stateBuilder_</definition>
+        <argsstring></argsstring>
+        <name>stateBuilder_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="191" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::CloseApproach::CloseApproach</definition>
+        <argsstring>(const State &amp;anObject1State, const State &amp;anObject2State)</argsstring>
+        <name>CloseApproach</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anObject1State</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anObject2State</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>object1State,<sp/>object2State<sp/>};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anObject1State</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObject2State</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state of Object 2 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="50" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="35" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1aed57599864a20921737f27dde57ac1b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::CloseApproach::operator==</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">closeApproach<sp/>==<sp/>anotherCloseApproach<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if close approaches are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="61" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1ada1c6860bd867d9065430d8e9bfdec88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::CloseApproach::operator!=</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">closeApproach<sp/>!=<sp/>anotherCloseApproach<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if close approaches are not equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="72" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a9a771e9fa2ad01bfee8af85a1fdc2676" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::CloseApproach::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if the close approach is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">closeApproach.isDefined()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if close approach is defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="93" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1ae2ff497e8541697fb6da907a9dcba389" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::conjunction::CloseApproach::getObject1State</definition>
+        <argsstring>() const</argsstring>
+        <name>getObject1State</name>
+        <briefdescription>
+<para>Get the state of Object 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>object1State<sp/>=<sp/>closeApproach.getObject1State()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The state of Object 1 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="103" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1af9600eb16d550eaacd4540c82d303617" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::conjunction::CloseApproach::getObject2State</definition>
+        <argsstring>() const</argsstring>
+        <name>getObject2State</name>
+        <briefdescription>
+<para>Get the state of Object 2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>object2State<sp/>=<sp/>closeApproach.getObject2State()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The state of Object 2 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="113" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a0a0a9a7a5b677b0719fe3c32512ca2e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::conjunction::CloseApproach::getInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getInstant</name>
+        <briefdescription>
+<para>Get the instant of the close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>closeApproach.getInstant()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The instant </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="123" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="104" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1ab76a5b29eab1591ff92ecf052c5e3497" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::conjunction::CloseApproach::getMissDistance</definition>
+        <argsstring>() const</argsstring>
+        <name>getMissDistance</name>
+        <briefdescription>
+<para>Get the miss distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Length<sp/>missDistance<sp/>=<sp/>closeApproach.getMissDistance()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The miss distance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="133" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="114" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a065ea978f7df432f1f22174632fa7994" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::conjunction::CloseApproach::getRelativeState</definition>
+        <argsstring>() const</argsstring>
+        <name>getRelativeState</name>
+        <briefdescription>
+<para>Get the relative state (Object 2 relative to Object 1) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>relativeState<sp/>=<sp/>closeApproach.getRelativeState()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The relative state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="143" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a2477c522abee1ccbde5f1fc21b0d7e7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple&lt; Length, Length, Length &gt;</type>
+        <definition>Tuple&lt; Length, Length, Length &gt; ostk::astrodynamics::conjunction::CloseApproach::computeMissDistanceComponentsInFrame</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrame) const</argsstring>
+        <name>computeMissDistanceComponentsInFrame</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrame</declname>
+        </param>
+        <briefdescription>
+<para>Compute the miss distance components in the desired frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Tuple&lt;Length,<sp/>Length,<sp/>Length&gt;<sp/>missDistanceComponents<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>closeApproach.computeMissDistanceComponentsInFrame(Frame::GCRF())<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The frame in which to resolve the miss distance components </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The miss distance components (x, y, z) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="155" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="141" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a0e7d083c992996311bf439d9789fa9b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple&lt; Length, Length, Length &gt;</type>
+        <definition>Tuple&lt; Length, Length, Length &gt; ostk::astrodynamics::conjunction::CloseApproach::computeMissDistanceComponentsInLocalOrbitalFrame</definition>
+        <argsstring>(const Shared&lt; const LocalOrbitalFrameFactory &gt; &amp;aLocalOrbitalFrameFactorySPtr) const</argsstring>
+        <name>computeMissDistanceComponentsInLocalOrbitalFrame</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt; &amp;</type>
+          <declname>aLocalOrbitalFrameFactorySPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the miss distance components in a local orbital frame (generated from Object 1 state) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Shared&lt;const<sp/>LocalOrbitalFrameFactory&gt;<sp/>lofFactorySPtr<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Tuple&lt;Length,<sp/>Length,<sp/>Length&gt;<sp/>missDistanceComponents<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(lofFactorySPtr)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aLocalOrbitalFrameFactorySPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The local orbital frame factory (generated from Object 1 state) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The miss distance components (radial, in-track, cross-track or similar depending on the factory) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="168" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="161" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1abea17bb027c2de811403db043b92d0dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::conjunction::CloseApproach::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream where the close approach will be printed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A boolean indicating whether or not to display decorator during printing </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="177" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="183" bodyend="200"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a02b89a8d9e187a359b5a0c0094c9ad5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const CloseApproach &amp;aCloseApproach)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>closeApproach<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="83" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1afb9bee87579d6add3d8de4c38cbe3f95" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref></type>
+        <definition>CloseApproach ostk::astrodynamics::conjunction::CloseApproach::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Construct an undefined close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" kindref="member">CloseApproach</ref><sp/>closeApproach<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1afb9bee87579d6add3d8de4c38cbe3f95" kindref="member">CloseApproach::Undefined</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined close approach </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="186" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="202" bodyend="205"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Close approach between two objects. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class represents a close approach event between two objects, providing access to the states of both objects at the time of closest approach, the miss distance, and the relative state. </para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="40" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="39" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a08a0000be2805921108563db056f17d6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>CloseApproach</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a2477c522abee1ccbde5f1fc21b0d7e7d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>computeMissDistanceComponentsInFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a0e7d083c992996311bf439d9789fa9b0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>computeMissDistanceComponentsInLocalOrbitalFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a0a0a9a7a5b677b0719fe3c32512ca2e3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>getInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1ab76a5b29eab1591ff92ecf052c5e3497" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>getMissDistance</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1ae2ff497e8541697fb6da907a9dcba389" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>getObject1State</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1af9600eb16d550eaacd4540c82d303617" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>getObject2State</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a065ea978f7df432f1f22174632fa7994" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>getRelativeState</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a9a771e9fa2ad01bfee8af85a1fdc2676" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a742f88be007418cd9ed7a4e23b54b542" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>object1State_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a88d97877c2e872c5796307ab74023b09" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>object2State_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1ada1c6860bd867d9065430d8e9bfdec88" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a02b89a8d9e187a359b5a0c0094c9ad5b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1aed57599864a20921737f27dde57ac1b6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1abea17bb027c2de811403db043b92d0dd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a31edb7f87704f994ead79315d504afe9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>stateBuilder_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1afb9bee87579d6add3d8de4c38cbe3f95" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach</scope><name>Undefined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -5,6 +5,8 @@
     <includes refid="_coordinate_subset_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</includes>
     <includes refid="_cartesian_position_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</includes>
     <includedby refid="_cartesian_acceleration_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp</includedby>
+    <includedby refid="_conjunction_2_close_approach_2_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp</includedby>
+    <includedby refid="_close_approach_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp</includedby>
     <includedby refid="_atmospheric_drag_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</includedby>
     <includedby refid="_central_body_gravity_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp</includedby>
     <includedby refid="_position_derivative_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp</includedby>
@@ -98,11 +100,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="7">
+      <node id="9">
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp</label>
         <link refid="_central_body_gravity_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.cpp</label>
         <link refid="_third_body_gravity_8cpp"/>
       </node>
@@ -114,17 +116,25 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp</label>
         <link refid="_cartesian_acceleration_8cpp"/>
       </node>
-      <node id="11">
+      <node id="13">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp</label>
         <link refid="_local_orbital_frame_factory_8cpp"/>
       </node>
-      <node id="12">
+      <node id="6">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8cpp"/>
+      </node>
+      <node id="14">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.cpp</label>
         <link refid="_cartesian_velocity_8cpp"/>
       </node>
-      <node id="6">
+      <node id="8">
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.cpp</label>
         <link refid="_atmospheric_drag_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp</label>
+        <link refid="_close_approach_8cpp"/>
       </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp</label>
@@ -141,22 +151,26 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
-      <node id="13">
+      <node id="15">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp</label>
         <link refid="_state_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.cpp</label>
         <link refid="_position_derivative_8cpp"/>
       </node>
@@ -170,7 +184,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="12">
         <label>src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp</label>
         <link refid="_thruster_8cpp"/>
       </node>

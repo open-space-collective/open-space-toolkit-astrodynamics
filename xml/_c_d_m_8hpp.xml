@@ -242,7 +242,7 @@
 <codeline lineno="29"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
 <codeline lineno="31"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="32" refid="namespaceostk_1_1astrodynamics_1_1conjunction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">conjunction</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">conjunction</highlight></codeline>
 <codeline lineno="33"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="34" refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1message" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">message</highlight></codeline>
 <codeline lineno="35"><highlight class="normal">{</highlight></codeline>

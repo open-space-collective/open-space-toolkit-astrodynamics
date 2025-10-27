@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_conjunction_2_close_approach_2_generator_8hpp" kind="file" language="C++">
+    <compoundname>Generator.hpp</compoundname>
+    <includes local="no">OpenSpaceToolkit/Core/Container/Array.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Core/Type/Real.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Time/Duration.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
+    <includes local="no">OpenSpaceToolkit/Physics/Time/Interval.hpp</includes>
+    <includes refid="_close_approach_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp</includes>
+    <includes refid="_temporal_condition_solver_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</includes>
+    <includes refid="_trajectory_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</includes>
+    <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
+    <includedby refid="_conjunction_2_close_approach_2_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
+      </node>
+      <node id="28">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
+      </node>
+      <node id="22">
+        <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp</label>
+      </node>
+      <node id="36">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp</label>
+      </node>
+      <node id="20">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
+        <link refid="_state_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp</label>
+      </node>
+      <node id="17">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp</label>
+        <link refid="_local_orbital_frame_transform_provider_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
+      </node>
+      <node id="18">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
+      </node>
+      <node id="5">
+        <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="12">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp</label>
+        <link refid="_local_orbital_frame_factory_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
+      </node>
+      <node id="21">
+        <label>OpenSpaceToolkit/Core/Type/Size.hpp</label>
+      </node>
+      <node id="7">
+        <label>OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp</label>
+        <link refid="_close_approach_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>OpenSpaceToolkit/Physics/Time/Interval.hpp</label>
+      </node>
+      <node id="27">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
+        <link refid="_coordinate_subset_8hpp"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
+      </node>
+      <node id="15">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp</label>
+      </node>
+      <node id="33">
+        <label>OpenSpaceToolkit/Core/Type/Unique.hpp</label>
+      </node>
+      <node id="14">
+        <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
+      </node>
+      <node id="29">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp</label>
+        <link refid="_state_builder_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>OpenSpaceToolkit/Core/Type/Integer.hpp</label>
+      </node>
+      <node id="38">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp</label>
+        <link refid="_trajectory_2_model_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
+      </node>
+      <node id="8">
+        <label>OpenSpaceToolkit/Core/Container/Tuple.hpp</label>
+      </node>
+      <node id="35">
+        <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp</label>
+      </node>
+      <node id="31">
+        <label>OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</label>
+        <link refid="_temporal_condition_solver_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>OpenSpaceToolkit/Core/Type/Index.hpp</label>
+      </node>
+      <node id="23">
+        <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
+      </node>
+      <node id="32">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</label>
+        <link refid="_trajectory_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
+      </node>
+      <node id="24">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</label>
+        <link refid="_coordinate_broker_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>OpenSpaceToolkit/Physics/Unit/Derived.hpp</label>
+      </node>
+      <node id="4">
+        <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Physics/Coordinate/Transform.hpp</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator" prot="public">ostk::astrodynamics::conjunction::closeapproach::Generator</innerclass>
+    <innernamespace refid="namespaceostk">ostk</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics">ostk::astrodynamics</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction">ostk::astrodynamics::conjunction</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach">ostk::astrodynamics::conjunction::closeapproach</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Container/Array.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Type/Real.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Duration.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Interval.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_close_approach_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_temporal_condition_solver_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_trajectory_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="_state_8hpp" kindref="compound">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22" refid="namespaceostk_1_1astrodynamics_1_1conjunction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">conjunction</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24" refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">closeapproach</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::container::Array;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Real;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Duration;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Interval;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">ostk::astrodynamics::conjunction::CloseApproach</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver" kindref="compound">ostk::astrodynamics::solver::TemporalConditionSolver</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">ostk::astrodynamics::trajectory::State</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator" kindref="compound">Generator</ref></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a9da0a203104bbd66e578ac55bfee83e9" kindref="member">Generator</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref>&amp;<sp/>aReferenceTrajectory,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aStep<sp/>=<sp/>Duration::Seconds(15.0),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTolerance<sp/>=<sp/>Duration::Milliseconds(1.0)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a652b672b3f7ffa88e1cd2b38ef44ed04" kindref="member">isDefined</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a760fc584eb9787a7d119d23c93c905d3" kindref="member">getReferenceTrajectory</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1ad9a45f7c69fb314c02a73d37acb2d120" kindref="member">getStep</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1acd16b1bdcda001ad4aab835acce1a958" kindref="member">getTolerance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;CloseApproach&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a41fc274d50437e6003bceca1ec97ad4e" kindref="member">computeCloseApproaches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref>&amp;<sp/>aTrajectory,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>aSearchInterval)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a51687a29db2de0de9a0a3594bf028f18" kindref="member">setStep</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aStep);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a556abca81c9a26ef5f078880f25fb5b1" kindref="member">setTolerance</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTolerance);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator" kindref="compound">Generator</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1adb5607f561d2cbd8c1be5f91b9df3c0a" kindref="member">Undefined</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref><sp/>referenceTrajectory_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>step_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>tolerance_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Real<sp/>ComputeRelativeDistanceDerivative_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;<sp/>aState1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;<sp/>aState2);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>closeapproach</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>conjunction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp"/>
+  </compounddef>
+</doxygen>

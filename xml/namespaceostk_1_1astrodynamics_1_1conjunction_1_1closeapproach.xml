@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::conjunction::closeapproach</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator" prot="public">ostk::astrodynamics::conjunction::closeapproach::Generator</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1aa853d2edd75cbc5ef3bfd1f57abe9f18" prot="public" static="yes" mutable="no">
+        <type>const Shared&lt; const Frame &gt;</type>
+        <definition>const Shared&lt;const Frame&gt; ostk::astrodynamics::conjunction::closeapproach::relativeDistanceDerivativeFrame</definition>
+        <argsstring></argsstring>
+        <name>relativeDistanceDerivativeFrame</name>
+        <initializer>= Frame::GCRF()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp" line="41" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1a4d20190354d67a7246734eaf2b4444d7" prot="public" static="yes" mutable="no">
+        <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>const Array&lt;Shared&lt;const CoordinateSubset&gt; &gt; ostk::astrodynamics::conjunction::closeapproach::relativeStateCoordinateSubsets</definition>
+        <argsstring></argsstring>
+        <name>relativeStateCoordinateSubsets</name>
+        <initializer>= {
+    <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>(),
+    <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>(),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp" line="42" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1ad659e9e4d3401dc91954f3deb6f7dfa3" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref></type>
+        <definition>const StateBuilder ostk::astrodynamics::conjunction::closeapproach::relativeDistanceDerivativeStateBuilder</definition>
+        <argsstring></argsstring>
+        <name>relativeDistanceDerivativeStateBuilder</name>
+        <initializer>=
+    <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref>(relativeDistanceDerivativeFrame, relativeStateCoordinateSubsets)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp" line="46" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp" line="25" column="1"/>
+  </compounddef>
+</doxygen>

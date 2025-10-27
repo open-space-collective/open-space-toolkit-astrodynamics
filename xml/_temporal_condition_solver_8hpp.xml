@@ -7,6 +7,7 @@
     <includes local="no">OpenSpaceToolkit/Physics/Time/Duration.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Time/Interval.hpp</includes>
+    <includedby refid="_conjunction_2_close_approach_2_generator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp</includedby>
     <includedby refid="_eclipse_2_generator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp</includedby>
     <includedby refid="_access_2_generator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</includedby>
     <includedby refid="_temporal_condition_solver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</includedby>
@@ -42,15 +43,19 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="5">
+      <node id="7">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp</label>
         <link refid="_temporal_condition_solver_8cpp"/>
       </node>
-      <node id="4">
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.cpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp</label>
         <link refid="_access_2_generator_8cpp"/>
       </node>
-      <node id="3">
+      <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.cpp</label>
         <link refid="_eclipse_2_generator_8cpp"/>
       </node>
@@ -61,13 +66,21 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="2">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp</label>
+        <link refid="_conjunction_2_close_approach_2_generator_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
         <label>include/OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp</label>
         <link refid="_eclipse_2_generator_8hpp"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

@@ -2,7 +2,9 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_27bf2a9effe12d13a0dd0b2a43415894" kind="dir">
     <compoundname>include/OpenSpaceToolkit/Astrodynamics/Conjunction</compoundname>
+    <innerdir refid="dir_06e248bc9b18805850255f2a4f7f0a37">include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach</innerdir>
     <innerdir refid="dir_5fac6e120990567f74645e21e5a6b2aa">include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message</innerdir>
+    <innerfile refid="_close_approach_8hpp">CloseApproach.hpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

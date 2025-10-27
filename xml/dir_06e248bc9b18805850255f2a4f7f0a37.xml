@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_06e248bc9b18805850255f2a4f7f0a37" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach</compoundname>
+    <innerfile refid="_conjunction_2_close_approach_2_generator_8hpp">Generator.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/"/>
+  </compounddef>
+</doxygen>

@@ -2,11 +2,58 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceostk_1_1astrodynamics_1_1conjunction" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::conjunction</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" prot="public">ostk::astrodynamics::conjunction::CloseApproach</innerclass>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach">ostk::astrodynamics::conjunction::closeapproach</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1message">ostk::astrodynamics::conjunction::message</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1conjunction_1a63c462979f6f65a9a713d49de255a500" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::conjunction::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const CloseApproach &amp;aCloseApproach)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>closeApproach<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" line="72" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="33" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp" line="23" column="1"/>
   </compounddef>
 </doxygen>
