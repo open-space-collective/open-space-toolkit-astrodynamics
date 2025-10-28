@@ -47,7 +47,8 @@ Segment::Solution::Solution(
       dynamics(aDynamicsArray),
       states(aStateArray),
       conditionIsSatisfied(aConditionIsSatisfied),
-      segmentType(aSegmentType)
+      segmentType(aSegmentType),
+      cachedManeuvers_({nullptr, Array<flightManeuver>::Empty()})
 {
 }
 
@@ -145,6 +146,12 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         return {};
     }
 
+    // Check cache: if the frame matches, return cached maneuvers
+    if (cachedManeuvers_.first != nullptr && (*cachedManeuvers_.first) == (*aFrameSPtr))
+    {
+        return cachedManeuvers_.second;
+    }
+
     const Shared<Thruster> thrusterDynamics = FindThrusterDynamics(this->dynamics);
 
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
@@ -231,7 +238,28 @@ Array<flightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         extractedManeuvers.add(flightManeuver(maneuverStatesBlock));
     }
 
+    // Update cache
+    cachedManeuvers_ = {aFrameSPtr, extractedManeuvers};
+
     return extractedManeuvers;
+}
+
+Array<Interval> Segment::Solution::getManeuverIntervals() const
+{
+    if (cachedManeuvers_.second.isEmpty())
+    {
+        this->extractManeuvers(Frame::GCRF());
+    }
+
+    Array<Interval> intervals = Array<Interval>::Empty();
+    intervals.reserve(cachedManeuvers_.second.getSize());
+
+    for (const flightManeuver& maneuver : cachedManeuvers_.second)
+    {
+        intervals.add(maneuver.getInterval());
+    }
+
+    return intervals;
 }
 
 Array<State> Segment::Solution::calculateStatesAt(
@@ -424,15 +452,23 @@ Segment::Segment(
     const Segment::Type& aType,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver
+    const NumericalSolver& aNumericalSolver,
+    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+    const Angle& aMaximumAllowedAngularOffset,
+    const Duration& aMinimumManeuverDuration,
+    const Duration& aMinimumManeuverGap,
+    const Integer& aMaximumManeuverCount
 )
     : name_(aName),
       type_(aType),
       eventCondition_(anEventConditionSPtr),
       dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver),
-      constantManeuverDirectionLocalOrbitalFrameFactory_(nullptr),
-      constantManeuverDirectionMaximumAllowedAngularOffset_(Angle::Undefined())
+      constantManeuverDirectionLocalOrbitalFrameFactory_(aLocalOrbitalFrameFactory),
+      constantManeuverDirectionMaximumAllowedAngularOffset_(aMaximumAllowedAngularOffset),
+      minimumManeuverDuration_(aMinimumManeuverDuration),
+      minimumManeuverGap_(aMinimumManeuverGap),
+      maximumManeuverCount_(aMaximumManeuverCount)
 {
     if (eventCondition_ == nullptr)
     {
@@ -592,6 +628,11 @@ Segment Segment::Coast(
         anEventConditionSPtr,
         aDynamicsArray,
         aNumericalSolver,
+        nullptr,
+        Angle::Undefined(),
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Integer::Undefined(),
     };
 }
 
@@ -600,7 +641,10 @@ Segment Segment::Maneuver(
     const Shared<EventCondition>& anEventConditionSPtr,
     const Shared<Thruster>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver
+    const NumericalSolver& aNumericalSolver,
+    const Duration& aMinimumManeuverDuration,
+    const Duration& aMinimumManeuverGap,
+    const Integer& aMaximumManeuverCount
 )
 {
     return {
@@ -609,6 +653,11 @@ Segment Segment::Maneuver(
         anEventConditionSPtr,
         aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
         aNumericalSolver,
+        nullptr,
+        Angle::Undefined(),
+        aMinimumManeuverDuration,
+        aMinimumManeuverGap,
+        aMaximumManeuverCount,
     };
 }
 
@@ -619,21 +668,24 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver,
     const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
-    const Angle& aMaximumAllowedAngularOffset
+    const Angle& aMaximumAllowedAngularOffset,
+    const Duration& aMinimumManeuverDuration,
+    const Duration& aMinimumManeuverGap,
+    const Integer& aMaximumManeuverCount
 )
 {
-    Segment segment = {
+    return {
         aName,
         Segment::Type::Maneuver,
         anEventConditionSPtr,
         aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
         aNumericalSolver,
+        aLocalOrbitalFrameFactory,
+        aMaximumAllowedAngularOffset,
+        aMinimumManeuverDuration,
+        aMinimumManeuverGap,
+        aMaximumManeuverCount,
     };
-
-    segment.constantManeuverDirectionLocalOrbitalFrameFactory_ = aLocalOrbitalFrameFactory;
-    segment.constantManeuverDirectionMaximumAllowedAngularOffset_ = aMaximumAllowedAngularOffset;
-
-    return segment;
 }
 
 Segment::Solution Segment::Solve_(
@@ -661,6 +713,97 @@ Segment::Solution Segment::Solve_(
     for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
     {
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    // Check maneuver constraints if applicable
+    if (type_ == Segment::Type::Maneuver &&
+        (minimumManeuverDuration_.isDefined() || minimumManeuverGap_.isDefined() || maximumManeuverCount_.isDefined()))
+    {
+        // Create preliminary solution to extract maneuvers
+        const Segment::Solution preliminarySolution = {
+            name_,
+            aDynamicsArray,
+            states,
+            conditionSolution.conditionIsSatisfied,
+            type_,
+        };
+
+        const Array<flightManeuver> maneuvers = preliminarySolution.extractManeuvers(aState.accessFrame());
+
+        // Check if we need to truncate based on constraints
+        Size maneuverCountLimit = maneuvers.getSize();
+
+        for (Size i = 0; i < maneuvers.getSize(); ++i)
+        {
+            const flightManeuver& currentManeuver = maneuvers[i];
+
+            // Check minimum maneuver duration
+            if (minimumManeuverDuration_.isDefined())
+            {
+                const Duration maneuverDuration = currentManeuver.getInterval().getDuration();
+                if (maneuverDuration < minimumManeuverDuration_)
+                {
+                    maneuverCountLimit = i;
+                    break;
+                }
+            }
+
+            // Check minimum maneuver gap (if not the first maneuver)
+            if (minimumManeuverGap_.isDefined() && i > 0)
+            {
+                const Instant previousManeuverEnd = maneuvers[i - 1].getInterval().accessEnd();
+                const Instant currentManeuverStart = currentManeuver.getInterval().accessStart();
+                const Duration gap = currentManeuverStart - previousManeuverEnd;
+
+                if (gap < minimumManeuverGap_)
+                {
+                    maneuverCountLimit = i;
+                    break;
+                }
+            }
+
+            // Check maximum maneuver count
+            if (maximumManeuverCount_.isDefined() && (i + 1) > static_cast<Size>(maximumManeuverCount_))
+            {
+                maneuverCountLimit = i;
+                break;
+            }
+        }
+
+        // Truncate states if necessary
+        if (maneuverCountLimit < maneuvers.getSize())
+        {
+            // Find the first instant of the first excluded maneuver
+            const Instant firstExcludedManeuverStart = maneuvers[maneuverCountLimit].getInterval().accessStart();
+
+            // Find the first state at or after the excluded maneuver start
+            Size truncationIndex = 0;
+            for (Size j = 0; j < states.getSize(); ++j)
+            {
+                if (states[j].accessInstant() >= firstExcludedManeuverStart)
+                {
+                    truncationIndex = j;
+                    break;
+                }
+            }
+
+            // Truncate the states array to exclude the first excluded maneuver and everything after
+            Array<State> truncatedStates = Array<State>::Empty();
+            if (truncationIndex > 0)
+            {
+                truncatedStates.reserve(truncationIndex);
+                for (Size j = 0; j < truncationIndex; ++j)
+                {
+                    truncatedStates.add(states[j]);
+                }
+            }
+            else
+            {
+                // If the first excluded maneuver starts at or before the first state, return only the initial state
+                truncatedStates.add(states.accessFirst());
+            }
+            states = truncatedStates;
+        }
     }
 
     return {

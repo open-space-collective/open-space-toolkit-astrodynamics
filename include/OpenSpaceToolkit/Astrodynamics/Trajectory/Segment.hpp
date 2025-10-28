@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -25,6 +26,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+
 namespace ostk
 {
 namespace astrodynamics
@@ -34,12 +37,14 @@ namespace trajectory
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::MatrixXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
@@ -124,6 +129,11 @@ class Segment
         /// @return Array of maneuvers
         Array<flightManeuver> extractManeuvers(const Shared<const Frame>& aFrameSPtr) const;
 
+        /// @brief Get maneuver intervals
+        ///
+        /// @return Array of intervals
+        Array<Interval> getManeuverIntervals() const;
+
         /// @brief Calculate intermediate states at specified Instants using the provided Numerical Solver
         ///
         /// @param aNumericalSolver a numerical solver to use for the propagation between states
@@ -178,6 +188,9 @@ class Segment
         Array<State> states;               // Array of states for the segment.
         bool conditionIsSatisfied;         // True if the event condition is satisfied.
         Segment::Type segmentType;         // Type of segment.
+
+       private:
+        mutable Pair<Shared<const Frame>, Array<flightManeuver>> cachedManeuvers_;  // Cached maneuvers with frame
     };
 
     /// @brief Output stream operator
@@ -253,13 +266,19 @@ class Segment
     /// @param aThrusterDynamics Dynamics for the thruster
     /// @param aDynamicsArray Array of dynamics
     /// @param aNumericalSolver Numerical solver
+    /// @param aMinimumManeuverDuration Minimum maneuver duration (optional)
+    /// @param aMinimumManeuverGap Minimum gap between maneuvers (optional)
+    /// @param aMaximumManeuverCount Maximum maneuver count (optional)
     /// @return A Segment for maneuvering
     static Segment Maneuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Shared<Thruster>& aThrusterDynamics,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver
+        const NumericalSolver& aNumericalSolver,
+        const Duration& aMinimumManeuverDuration = Duration::Undefined(),
+        const Duration& aMinimumManeuverGap = Duration::Undefined(),
+        const Integer& aMaximumManeuverCount = Integer::Undefined()
     );
 
     /// @brief Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital
@@ -280,6 +299,9 @@ class Segment
     /// @param aLocalOrbitalFrameFactory A local orbital frame factory.
     /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults
     /// to Undefined.
+    /// @param aMinimumManeuverDuration Minimum maneuver duration (optional)
+    /// @param aMinimumManeuverGap Minimum gap between maneuvers (optional)
+    /// @param aMaximumManeuverCount Maximum maneuver count (optional)
     static Segment ConstantLocalOrbitalFrameDirectionManeuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
@@ -287,7 +309,10 @@ class Segment
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver,
         const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
+        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
+        const Duration& aMinimumManeuverDuration = Duration::Undefined(),
+        const Duration& aMinimumManeuverGap = Duration::Undefined(),
+        const Integer& aMaximumManeuverCount = Integer::Undefined()
     );
 
    private:
@@ -298,6 +323,9 @@ class Segment
     NumericalSolver numericalSolver_;
     Shared<const LocalOrbitalFrameFactory> constantManeuverDirectionLocalOrbitalFrameFactory_;
     Angle constantManeuverDirectionMaximumAllowedAngularOffset_;
+    Duration minimumManeuverDuration_;
+    Duration minimumManeuverGap_;
+    Integer maximumManeuverCount_;
 
     /// @brief Constructor
     ///
@@ -306,12 +334,22 @@ class Segment
     /// @param anEventConditionSPtr The event condition
     /// @param aDynamicsArray The dynamics array
     /// @param aNumericalSolver The numerical solver
+    /// @param aLocalOrbitalFrameFactory Local orbital frame factory for constant maneuver direction (optional)
+    /// @param aMaximumAllowedAngularOffset Maximum allowed angular offset for constant maneuver direction (optional)
+    /// @param aMinimumManeuverDuration Minimum maneuver duration (optional)
+    /// @param aMinimumManeuverGap Minimum gap between maneuvers (optional)
+    /// @param aMaximumManeuverCount Maximum maneuver count (optional)
     Segment(
         const String& aName,
         const Type& aType,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver
+        const NumericalSolver& aNumericalSolver,
+        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory = nullptr,
+        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
+        const Duration& aMinimumManeuverDuration = Duration::Undefined(),
+        const Duration& aMinimumManeuverGap = Duration::Undefined(),
+        const Integer& aMaximumManeuverCount = Integer::Undefined()
     );
 
     /// @brief Solve the segment using the given dynamics and event condition

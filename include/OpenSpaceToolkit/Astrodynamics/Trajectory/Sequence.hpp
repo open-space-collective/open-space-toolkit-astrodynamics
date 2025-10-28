@@ -234,6 +234,22 @@ class Sequence
     Array<Shared<Dynamics>> dynamics_;
     Duration segmentPropagationDurationLimit_;
     Duration minimumManeuverDuration_;
+
+    /// @brief Process a single segment and add it to the solution array
+    ///
+    /// @param aSegment The segment to process
+    /// @param aSegmentSolutions Array to add the segment solution to
+    /// @param anInitialState The initial state for the segment
+    /// @param aSegmentPropagationLimit The propagation duration limit for this segment
+    /// @param aSegmentNameSuffix Suffix to add to the segment solution name
+    /// @return True if segment was processed successfully, false if segment condition not satisfied
+    bool solve_(
+        const Segment& aSegment,
+        Array<Segment::Solution>& aSegmentSolutions,
+        State& anInitialState,
+        const Duration& aSegmentPropagationLimit,
+        const String& aSegmentNameSuffix
+    ) const;
 };
 
 }  // namespace trajectory

@@ -295,48 +295,18 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
     }
 
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
-
     State initialState = aState;
-    State finalState = State::Undefined();
 
     for (Size i = 0; i < aRepetitionCount; ++i)
     {
         for (const Segment& segment : segments_)
         {
-            segment.accessEventCondition()->updateTarget(initialState);
-
-            BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
-
-            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit_);
-
-            segmentSolution.name =
-                String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
-
-            BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
-
-            if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
+            const String segmentNameSuffix = String::Format(" - {}", i);
+            
+            if (!solve_(segment, segmentSolutions, initialState, segmentPropagationDurationLimit_, segmentNameSuffix))
             {
-                if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)
-                {
-                    BOOST_LOG_TRIVIAL(debug)
-                        << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
-                        << std::endl;
-
-                    continue;
-                }
-            }
-
-            segmentSolutions.add(segmentSolution);
-
-            // Terminate Sequence unsuccessfully if the segment condition was not satisfied
-            if (!segmentSolution.conditionIsSatisfied)
-            {
-                BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
-
                 return {segmentSolutions, false};
             }
-
-            initialState = segmentSolution.states.accessLast();
         }
     }
 
@@ -348,12 +318,8 @@ Sequence::Solution Sequence::solveToCondition(
 ) const
 {
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
-
     State initialState = aState;
-    State finalState = State::Undefined();
-
     bool eventConditionIsSatisfied = false;
-
     Duration propagationDuration = Duration::Zero();
 
     const Unique<EventCondition> sequenceCondition(anEventCondition.clone());
@@ -363,55 +329,31 @@ Sequence::Solution Sequence::solveToCondition(
     {
         for (const Segment& segment : segments_)
         {
-            segment.accessEventCondition()->updateTarget(initialState);
-
-            BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
-
             const Duration segmentPropagationDurationLimit =
                 std::min(segmentPropagationDurationLimit_, aMaximumPropagationDuration - propagationDuration);
 
-            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit);
-
-            segmentSolution.name =
-                String::Format("{} - {}", segmentSolution.name, segment.getEventCondition()->getName());
-
-            BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
-
-            // Skip maneuver if it is less than the minimum maneuver duration
-            if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
+            const Size segmentSolutionSizeBefore = segmentSolutions.getSize();
+            
+            if (!solve_(segment, segmentSolutions, initialState, segmentPropagationDurationLimit, ""))
             {
-                if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)
-                {
-                    BOOST_LOG_TRIVIAL(debug)
-                        << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
-                        << std::endl;
-
-                    continue;
-                }
-            }
-
-            segmentSolutions.add(segmentSolution);
-
-            // Terminate Sequence unsuccessfully if the segment condition was not satisfied
-            if (!segmentSolution.conditionIsSatisfied)
-            {
-                BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
-
                 return {segmentSolutions, false};
             }
 
-            eventConditionIsSatisfied =
-                sequenceCondition->isSatisfied(segmentSolution.states.accessLast(), initialState);
-
-            // Terminate Sequence successfully if a provided event condition was satisfied
-            if (eventConditionIsSatisfied)
+            // Check if a segment solution was added (it might have been skipped due to minimum maneuver duration)
+            if (segmentSolutions.getSize() > segmentSolutionSizeBefore)
             {
-                return {segmentSolutions, true};
+                const Segment::Solution& segmentSolution = segmentSolutions.accessLast();
+
+                eventConditionIsSatisfied = sequenceCondition->isSatisfied(segmentSolution.states.accessLast(), initialState);
+
+                // Terminate Sequence successfully if the provided event condition was satisfied
+                if (eventConditionIsSatisfied)
+                {
+                    return {segmentSolutions, true};
+                }
+
+                propagationDuration += segmentSolution.getPropagationDuration();
             }
-
-            propagationDuration += segmentSolution.getPropagationDuration();
-
-            initialState = segmentSolution.states.accessLast();
         }
     }
 
@@ -457,6 +399,55 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
     {
         ostk::core::utils::Print::Footer(anOutputStream);
     }
+}
+
+bool Sequence::solve_(
+    const Segment& aSegment,
+    Array<Segment::Solution>& aSegmentSolutions,
+    State& anInitialState,
+    const Duration& aSegmentPropagationLimit,
+    const String& aSegmentNameSuffix
+) const
+{
+    aSegment.accessEventCondition()->updateTarget(anInitialState);
+
+    BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << aSegment << std::endl;
+
+    Segment::Solution segmentSolution = aSegment.solve(anInitialState, aSegmentPropagationLimit);
+
+    segmentSolution.name = String::Format("{} - {}{}", segmentSolution.name, aSegment.getEventCondition()->getName(), aSegmentNameSuffix);
+
+    BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
+
+    // Skip maneuver if any maneuver interval is less than the minimum maneuver duration
+    if (aSegment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
+    {
+        const Array<Interval> maneuverIntervals = segmentSolution.getManeuverIntervals();
+
+        for (const Interval& interval : maneuverIntervals)
+        {
+            if (interval.getDuration() < minimumManeuverDuration_)
+            {
+                BOOST_LOG_TRIVIAL(debug)
+                    << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
+                    << std::endl;
+
+                return true;  // Continue to next segment
+            }
+        }
+    }
+
+    aSegmentSolutions.add(segmentSolution);
+
+    // Terminate if the segment condition was not satisfied
+    if (!segmentSolution.conditionIsSatisfied)
+    {
+        BOOST_LOG_TRIVIAL(warning) << "Segment condition is not satisfied." << std::endl;
+        return false;  // Don't continue
+    }
+
+    anInitialState = segmentSolution.states.accessLast();
+    return true;  // Continue to next segment
 }
 
 }  // namespace trajectory

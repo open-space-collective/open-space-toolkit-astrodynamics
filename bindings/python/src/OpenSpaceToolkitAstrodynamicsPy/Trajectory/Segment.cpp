@@ -7,6 +7,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using namespace pybind11;
 
     using ostk::core::container::Array;
+    using ostk::core::type::Integer;
     using ostk::core::type::Shared;
     using ostk::core::type::String;
 
@@ -217,6 +218,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )
 
         .def(
+            "get_maneuver_intervals",
+            &Segment::Solution::getManeuverIntervals,
+            R"doc(
+            Get the intervals of maneuvers in the segment.
+
+            If maneuvers are already cached, returns their intervals directly.
+            Otherwise, extracts maneuvers using the GCRF frame and returns the intervals.
+
+            Returns:
+                list[Interval]: The list of maneuver intervals.
+
+            )doc"
+        )
+
+        .def(
             "calculate_states_at",
             &Segment::Solution::calculateStatesAt,
             arg("instants"),
@@ -407,6 +423,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg("thruster_dynamics"),
             arg("dynamics"),
             arg("numerical_solver"),
+            arg_v("minimum_maneuver_duration", Duration::Undefined(), "Duration.undefined()"),
+            arg_v("minimum_maneuver_gap", Duration::Undefined(), "Duration.undefined()"),
+            arg_v("maximum_maneuver_count", Integer::Undefined(), "Integer.undefined()"),
             R"doc(
                 Create a maneuver segment.
 
@@ -416,6 +435,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     thruster_dynamics (ThrusterDynamics): The thruster dynamics.
                     dynamics (Dynamics): The dynamics.
                     numerical_solver (NumericalSolver): The numerical solver.
+                    minimum_maneuver_duration (Duration, optional): The minimum maneuver duration. Defaults to Duration.undefined().
+                    minimum_maneuver_gap (Duration, optional): The minimum gap between maneuvers. Defaults to Duration.undefined().
+                    maximum_maneuver_count (Integer, optional): The maximum maneuver count. Defaults to Integer.undefined().
 
                 Returns:
                     Segment: The maneuver segment.
@@ -432,6 +454,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg("numerical_solver"),
             arg("local_orbital_frame_factory"),
             arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()"),
+            arg_v("minimum_maneuver_duration", Duration::Undefined(), "Duration.undefined()"),
+            arg_v("minimum_maneuver_gap", Duration::Undefined(), "Duration.undefined()"),
+            arg_v("maximum_maneuver_count", Integer::Undefined(), "Integer.undefined()"),
             R"doc(
                 Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital frame.
 
@@ -450,6 +475,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     numerical_solver (NumericalSolver): The numerical solver.
                     local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
                     maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Angle.undefined().
+                    minimum_maneuver_duration (Duration, optional): The minimum maneuver duration. Defaults to Duration.undefined().
+                    minimum_maneuver_gap (Duration, optional): The minimum gap between maneuvers. Defaults to Duration.undefined().
+                    maximum_maneuver_count (Integer, optional): The maximum maneuver count. Defaults to Integer.undefined().
 
                 Returns:
                     Segment: The maneuver segment.
