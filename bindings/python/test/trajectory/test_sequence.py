@@ -284,6 +284,21 @@ def segments(
 
 
 @pytest.fixture
+def minimum_maneuver_duration() -> Duration:
+    return Duration.seconds(1.0)
+
+
+@pytest.fixture
+def minimum_maneuver_separation() -> Duration:
+    return Duration.seconds(5.0)
+
+
+@pytest.fixture
+def maximum_maneuver_duration() -> Duration:
+    return Duration.days(2.0)
+
+
+@pytest.fixture
 def maximum_propagation_duration() -> Duration:
     return Duration.days(2.0)
 
@@ -299,13 +314,22 @@ def sequence(
     numerical_solver: NumericalSolver,
     dynamics: list,
     maximum_propagation_duration: Duration,
+    minimum_maneuver_duration: Duration,
+    minimum_maneuver_separation: Duration,
+    maximum_maneuver_duration: Duration,
 ):
-    return Sequence(
+    sequence: Sequence = Sequence(
         segments=segments,
         dynamics=dynamics,
         numerical_solver=numerical_solver,
         maximum_propagation_duration=maximum_propagation_duration,
     )
+
+    sequence.set_minimum_maneuver_duration(minimum_maneuver_duration)
+    sequence.set_minimum_maneuver_separation(minimum_maneuver_separation)
+    sequence.set_maximum_maneuver_duration(maximum_maneuver_duration)
+
+    return sequence
 
 
 @pytest.fixture
@@ -338,28 +362,6 @@ def sequence_solution(
             segment_solution,
         ],
         execution_is_complete=True,
-    )
-
-
-@pytest.fixture
-def minimum_maneuver_duration():
-    return Duration.minutes(1.0)
-
-
-@pytest.fixture
-def sequence_with_minimum_maneuver_duration(
-    segments: list[Segment],
-    numerical_solver: NumericalSolver,
-    dynamics: list,
-    maximum_propagation_duration: Duration,
-    minimum_maneuver_duration: Duration,
-):
-    return Sequence(
-        segments=segments,
-        dynamics=dynamics,
-        numerical_solver=numerical_solver,
-        maximum_propagation_duration=maximum_propagation_duration,
-        minimum_maneuver_duration=minimum_maneuver_duration,
     )
 
 
@@ -426,6 +428,16 @@ class TestSequence:
     ):
         assert len(sequence.get_dynamics()) == len(dynamics)
 
+    def test_get_and_set_maximum_maneuver_duration(
+        self,
+        sequence: Sequence,
+    ):
+        new_maximum_maneuver_duration: Duration = (
+            2 * sequence.get_maximum_maneuver_duration()
+        )
+        sequence.set_maximum_maneuver_duration(new_maximum_maneuver_duration)
+        assert sequence.get_maximum_maneuver_duration() == new_maximum_maneuver_duration
+
     def test_get_maximum_propagation_duration(
         self,
         sequence: Sequence,
@@ -433,14 +445,38 @@ class TestSequence:
     ):
         assert sequence.get_maximum_propagation_duration() == maximum_propagation_duration
 
-    def test_get_minimum_maneuver_duration(
+    def test_get_and_set_minimum_maneuver_duration(
         self,
-        sequence_with_minimum_maneuver_duration: Sequence,
-        minimum_maneuver_duration: Duration,
+        sequence: Sequence,
     ):
+        new_minimum_maneuver_duration: Duration = (
+            2 * sequence.get_minimum_maneuver_duration()
+        )
+        sequence.set_minimum_maneuver_duration(new_minimum_maneuver_duration)
+        assert sequence.get_minimum_maneuver_duration() == new_minimum_maneuver_duration
+
+    def test_get_and_set_minimum_maneuver_separation(
+        self,
+        sequence: Sequence,
+    ):
+        new_minimum_maneuver_separation: Duration = (
+            2 * sequence.get_minimum_maneuver_separation()
+        )
+        sequence.set_minimum_maneuver_separation(new_minimum_maneuver_separation)
         assert (
-            sequence_with_minimum_maneuver_duration.get_minimum_maneuver_duration()
-            == minimum_maneuver_duration
+            sequence.get_minimum_maneuver_separation() == new_minimum_maneuver_separation
+        )
+
+    def test_get_and_set_maximum_maneuver_duration_strategy(
+        self,
+        sequence: Sequence,
+    ):
+        sequence.set_maximum_maneuver_duration_strategy(
+            Sequence.MaximumManeuverDurationStrategy.Slice
+        )
+        assert (
+            sequence.get_maximum_maneuver_duration_strategy()
+            == Sequence.MaximumManeuverDurationStrategy.Slice
         )
 
     def test_add_segment(

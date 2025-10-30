@@ -28,6 +28,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             )doc"
     );
 
+    enum_<Sequence::MaximumManeuverDurationStrategy>(sequence, "MaximumManeuverDurationStrategy")
+
+        .value("Fail", Sequence::MaximumManeuverDurationStrategy::Fail)
+        .value("Skip", Sequence::MaximumManeuverDurationStrategy::Skip)
+        .value("Slice", Sequence::MaximumManeuverDurationStrategy::Slice)
+        .value("Center", Sequence::MaximumManeuverDurationStrategy::Center)
+
+        ;
+
     class_<Sequence::Solution>(
         sequence,
         "Solution",
@@ -109,7 +118,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc"
         )
-
         .def(
             "get_states",
             &Sequence::Solution::getStates,
@@ -180,7 +188,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
             )doc"
         )
+        .def(
+            "extract_maneuvers",
+            &Sequence::Solution::extractManeuvers,
+            R"doc(
+                Extract maneuvers from all segment solutions.
 
+                Args:
+                    frame (Frame): The frame.
+
+                Returns:
+                    list[Maneuver]: The list of maneuvers.
+
+            )doc",
+            arg("frame")
+        )
         .def(
             "calculate_states_at",
             &Sequence::Solution::calculateStatesAt,
@@ -284,6 +306,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 )doc"
             )
             .def(
+                "get_maximum_maneuver_duration",
+                &Sequence::getMaximumManeuverDuration,
+                R"doc(
+                    Get the maximum maneuver duration.
+
+                    Returns:
+                        Duration: The maximum maneuver duration.
+
+                )doc"
+            )
+            .def(
+                "get_maximum_maneuver_duration_strategy",
+                &Sequence::getMaximumManeuverDurationStrategy,
+                R"doc(
+                    Get the maximum maneuver duration strategy.
+
+                    Returns:
+                        MaximumManeuverDurationStrategy: The maximum maneuver duration strategy.
+
+                )doc"
+            )
+            .def(
                 "get_minimum_maneuver_duration",
                 &Sequence::getMinimumManeuverDuration,
                 R"doc(
@@ -294,7 +338,65 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 )doc"
             )
+            .def(
+                "get_minimum_maneuver_separation",
+                &Sequence::getMinimumManeuverSeparation,
+                R"doc(
+                    Get the minimum maneuver separation.
 
+                    Returns:
+                        Duration: The minimum maneuver separation.
+
+                )doc"
+            )
+            .def(
+                "set_maximum_maneuver_duration",
+                &Sequence::setMaximumManeuverDuration,
+                R"doc(
+                    Set the maximum maneuver duration.
+
+                    Args:
+                        maximum_maneuver_duration (Duration): The maximum maneuver duration.
+
+                )doc",
+                arg("maximum_maneuver_duration")
+            )
+            .def(
+                "set_maximum_maneuver_duration_strategy",
+                &Sequence::setMaximumManeuverDurationStrategy,
+                R"doc(
+                    Set the maximum maneuver duration strategy.
+
+                    Args:
+                        maximum_maneuver_duration_strategy (MaximumManeuverDurationStrategy): The maximum maneuver duration strategy.
+
+                )doc",
+                arg("maximum_maneuver_duration_strategy")
+            )
+            .def(
+                "set_minimum_maneuver_duration",
+                &Sequence::setMinimumManeuverDuration,
+                R"doc(
+                    Set the minimum maneuver duration.
+
+                    Args:
+                        minimum_maneuver_duration (Duration): The minimum maneuver duration.
+
+                )doc",
+                arg("minimum_maneuver_duration")
+            )
+            .def(
+                "set_minimum_maneuver_separation",
+                &Sequence::setMinimumManeuverSeparation,
+                R"doc(
+                    Set the minimum maneuver separation.
+
+                    Args:
+                        minimum_maneuver_separation (Duration): The minimum maneuver separation.
+
+                )doc",
+                arg("minimum_maneuver_separation")
+            )
             .def(
                 "add_segment",
                 &Sequence::addSegment,

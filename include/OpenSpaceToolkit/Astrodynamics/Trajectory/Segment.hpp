@@ -21,6 +21,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -107,6 +108,10 @@ class Segment
         /// @brief Get propagation duration
         /// @return Propagation duration
         Duration getPropagationDuration() const;
+
+        /// @brief Get thruster dynamics from the solution
+        /// @return Thruster dynamics
+        Shared<Thruster> getThrusterDynamics() const;
 
         /// @brief Compute delta V
         ///
@@ -199,9 +204,17 @@ class Segment
     /// @return Dynamics
     Array<Shared<Dynamics>> getDynamics() const;
 
+    /// @brief Get coast dynamics array
+    /// @return Coast dynamics array
+    Array<Shared<Dynamics>> getCoastDynamics() const;
+
     /// @brief Get numerical solver
     /// @return Numerical solver
     NumericalSolver getNumericalSolver() const;
+
+    /// @brief Get thruster dynamics
+    /// @return Thruster dynamics
+    Shared<Thruster> getThrusterDynamics() const;
 
     /// @brief Get type
     /// @return Type of segment
@@ -219,12 +232,34 @@ class Segment
     /// @return Numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
-    /// @brief Solve the segment
+    /// @brief Build a coast segment from the current instance.
+    ///
+    /// @param aName Optional name for the new segment. If not provided, uses the current segment's name
+    /// @return A new coast segment
+    Segment toCoastSegment(const String& aName = String::Empty()) const;
+
+    /// @brief Build a maneuver segment from the current instance.
+    ///
+    /// @param aThrusterDynamics The thruster dynamics for the new maneuver segment
+    /// @param aName Optional name for the new segment. If not provided, uses the current segment's name
+    /// @return A new maneuver segment
+    Segment toManeuverSegment(const Shared<Thruster>& aThrusterDynamics, const String& aName = String::Empty()) const;
+
+    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
     ///
     /// @param aState Initial state for the segment
     /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
     /// @return A Solution representing the result of the solve
     Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
+
+    /// @brief Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be
+    /// solved until its event condition is satisfied or the maximum propagation duration is reached.
+    ///
+    /// @param aState Initial state for the segment
+    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
+    /// @return A Solution representing the result of the solve
+    Solution solveNextManeuver(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0))
+        const;
 
     /// @brief Print the segment
     ///
@@ -294,7 +329,8 @@ class Segment
     String name_;
     Type type_;
     Shared<EventCondition> eventCondition_;
-    Array<Shared<Dynamics>> dynamics_;
+    Array<Shared<Dynamics>> coastDynamicsArray_;
+    Shared<Thruster> thrusterDynamicsSPtr_;
     NumericalSolver numericalSolver_;
     Shared<const LocalOrbitalFrameFactory> constantManeuverDirectionLocalOrbitalFrameFactory_;
     Angle constantManeuverDirectionMaximumAllowedAngularOffset_;
@@ -304,36 +340,47 @@ class Segment
     /// @param aName The name of the segment
     /// @param aType The type of the segment
     /// @param anEventConditionSPtr The event condition
-    /// @param aDynamicsArray The dynamics array
+    /// @param aCoastDynamicsArray The coast dynamics array
+    /// @param aThrusterDynamics The thruster dynamics
     /// @param aNumericalSolver The numerical solver
+    /// @param aLocalOrbitalFrameFactory The local orbital frame factory
+    /// @param aMaximumAllowedAngularOffset The maximum allowed angular offset
     Segment(
         const String& aName,
         const Type& aType,
         const Shared<EventCondition>& anEventConditionSPtr,
-        const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver
+        const Array<Shared<Dynamics>>& aCoastDynamicsArray,
+        const Shared<Thruster>& aThrusterDynamics,
+        const NumericalSolver& aNumericalSolver,
+        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory = nullptr,
+        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
     );
 
-    /// @brief Solve the segment using the given dynamics and event condition
+    /// @brief Internal solve method
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aDynamicsArray The dynamics array
-    /// @param anEventConditionSPtr The event condition
+    /// @param allowMultipleManeuvers True if multiple maneuvers are allowed
     /// @return The segment solution
-    Segment::Solution Solve_(
-        const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Array<Shared<Dynamics>>& aDynamicsArray,
-        const Shared<EventCondition>& anEventConditionSPtr
+    Segment::Solution solve_(
+        const State& aState, const Duration& maximumPropagationDuration, const bool& allowMultipleManeuvers
     ) const;
 
-    /// @brief Find the Thruster dynamics from an array of dynamics, throwing an error if none or multiple Thruster
-    /// dynamics are found.
+    /// @brief Solve the segment using the given dynamics
     ///
-    /// @param aDynamicsArray Array of dynamics to search.
-    /// @return Shared pointer to the Thruster dynamics.
-    static const Shared<Thruster> FindThrusterDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param aCoastDynamicsArray The coast dynamics array
+    /// @param aThrusterDynamics The thruster dynamics
+    /// @param allowMultipleManeuvers True if multiple maneuvers are allowed
+    /// @return The segment solution
+    Segment::Solution solveWithDynamics_(
+        const State& aState,
+        const Duration& maximumPropagationDuration,
+        const Array<Shared<Dynamics>>& aCoastDynamicsArray,
+        const Shared<Thruster>& aThrusterDynamics,
+        const bool& allowMultipleManeuvers
+    ) const;
 };
 
 }  // namespace trajectory
