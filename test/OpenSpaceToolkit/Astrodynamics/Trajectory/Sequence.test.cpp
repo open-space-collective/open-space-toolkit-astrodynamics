@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -25,10 +27,12 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 using ostk::core::type::Index;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
+using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
@@ -64,6 +68,7 @@ using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
@@ -77,6 +82,38 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+
+class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
+{
+   public:
+    CustomGuidanceLaw(const Array<Interval>& anIntervalArray)
+        : GuidanceLaw("Custom Guidance Law"),
+          intervals_(anIntervalArray)
+    {
+    }
+
+    ostk::mathematics::object::Vector3d calculateThrustAccelerationAt(
+        const Instant& anInstant,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
+        [[maybe_unused]] const Real& aThrustAcceleration,
+        [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
+    ) const override
+    {
+        // Check if anInstant is contained in any of the intervals
+        for (const Interval& interval : intervals_)
+        {
+            if (interval.contains(anInstant))
+            {
+                return {1.0 * aThrustAcceleration, 0.0, 0.0};
+            }
+        }
+        return {0.0, 0.0, 0.0};
+    }
+
+   private:
+    Array<Interval> intervals_;
+};
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
 {
@@ -299,6 +336,154 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Calc
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_ExtractManeuvers)
+{
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> dynamicsSPtr = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+    };
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 1.0, 1.0e-12, 1.0e-12
+    };
+
+    const SatelliteSystem satelliteSystem = SatelliteSystem::Default();
+
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+
+    VectorXd coordinates(7);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const State initialState = {
+        Instant::J2000(),
+        coordinates,
+        Frame::GCRF(),
+        coordinatesBrokerSPtr,
+    };
+
+    const Duration maximumPropagationDuration = Duration::Minutes(200.0);
+    const Shared<const Frame> frameSPtr = Frame::GCRF();
+
+    // With no maneuvers
+    {
+        Segment segment1 = Segment::Maneuver(
+            "Segment 1",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+            ),
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<CustomGuidanceLaw>(Array<Interval> {})),
+            dynamicsSPtr,
+            numericalSolver
+        );
+
+        Segment segment2 = Segment::Maneuver(
+            "Segment 2",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+            ),
+            std::make_shared<Thruster>(satelliteSystem, std::make_shared<CustomGuidanceLaw>(Array<Interval> {})),
+            dynamicsSPtr,
+            numericalSolver
+        );
+
+        Sequence sequence = {
+            {
+                segment1,
+                segment2,
+            },
+            numericalSolver,
+            dynamicsSPtr,
+            maximumPropagationDuration,
+        };
+
+        const Sequence::Solution solution = sequence.solve(initialState, 2);
+
+        const Array<Maneuver> maneuvers = solution.extractManeuvers(frameSPtr);
+        EXPECT_EQ(maneuvers.getSize(), 0);
+    }
+
+    // With Maneuvers
+    {
+        Segment segment1 = Segment::Maneuver(
+            "Segment 1",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+            ),
+            std::make_shared<Thruster>(
+                satelliteSystem,
+                std::make_shared<CustomGuidanceLaw>(Array<Interval> {
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(0.0), Instant::J2000() + Duration::Minutes(10.0)
+                    ),
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(31.0), Instant::J2000() + Duration::Minutes(37.0)
+                    ),
+                })
+            ),
+            dynamicsSPtr,
+            numericalSolver
+        );
+
+        Segment segment2 = Segment::Maneuver(
+            "Segment 2",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+            ),
+            std::make_shared<Thruster>(
+                satelliteSystem,
+                std::make_shared<CustomGuidanceLaw>(Array<Interval> {
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(50.0), Instant::J2000() + Duration::Minutes(55.0)
+                    ),
+                })
+            ),
+            dynamicsSPtr,
+            numericalSolver
+        );
+
+        Sequence sequence = {
+            {
+                segment1,
+                segment2,
+            },
+            numericalSolver,
+            dynamicsSPtr,
+            maximumPropagationDuration,
+        };
+
+        const Sequence::Solution solution = sequence.solve(initialState, 2);
+
+        const Array<Maneuver> extractedManeuvers = solution.extractManeuvers(frameSPtr);
+        EXPECT_EQ(extractedManeuvers.getSize(), 3);
+
+        const Array<Segment::Solution> segmentSolutions = solution.segmentSolutions;
+        EXPECT_EQ(segmentSolutions.getSize(), 4);
+
+        Array<Maneuver> expectedManeuvers = Array<Maneuver>::Empty();
+
+        const Array<Maneuver> segmentSolution1Maneuvers = segmentSolutions[0].extractManeuvers(frameSPtr);
+        EXPECT_EQ(segmentSolution1Maneuvers.getSize(), 1);
+        expectedManeuvers.add(segmentSolution1Maneuvers[0]);
+        const Array<Maneuver> segmentSolution2Maneuvers = segmentSolutions[1].extractManeuvers(frameSPtr);
+        EXPECT_EQ(segmentSolution2Maneuvers.getSize(), 0);
+        const Array<Maneuver> segmentSolution3Maneuvers = segmentSolutions[2].extractManeuvers(frameSPtr);
+        EXPECT_EQ(segmentSolution3Maneuvers.getSize(), 1);
+        expectedManeuvers.add(segmentSolution3Maneuvers[0]);
+        const Array<Maneuver> segmentSolution4Maneuvers = segmentSolutions[3].extractManeuvers(frameSPtr);
+        EXPECT_EQ(segmentSolution4Maneuvers.getSize(), 1);
+        expectedManeuvers.add(segmentSolution4Maneuvers[0]);
+
+        for (Size idx = 0; idx < extractedManeuvers.getSize(); ++idx)
+        {
+            EXPECT_EQ(extractedManeuvers[idx], expectedManeuvers[idx]);
+        }
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Print)
 {
     {
@@ -360,53 +545,126 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
         ));
     }
 
-    // Testing duration validation
     {
-        // Test negative maximum propagation duration
         EXPECT_THROW(
-            Sequence sequence(
-                defaultSegments_,
-                defaultNumericalSolver_,
-                defaultDynamics_,
-                Duration::Seconds(-1.0),
-                defaultMinimumManeuverDuration_
-            ),
-            ostk::core::error::RuntimeError
+            {
+                try
+                {
+                    Sequence sequence(
+                        defaultSegments_,
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        Duration::Undefined(),
+                        defaultMinimumManeuverDuration_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(e.getMessage().find("Maximum propagation duration must be defined."), std::string::npos);
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Sequence sequence(
+                        defaultSegments_,
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        Duration::Seconds(-1.0),
+                        defaultMinimumManeuverDuration_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Maximum propagation duration must be strictly positive."),
+                        std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
         );
 
-        // Test negative minimum maneuver duration
         EXPECT_THROW(
-            Sequence sequence(
-                defaultSegments_,
-                defaultNumericalSolver_,
-                defaultDynamics_,
-                defaultMaximumPropagationDuration_,
-                Duration::Seconds(-1.0)
-            ),
-            ostk::core::error::RuntimeError
+            {
+                try
+                {
+                    Sequence sequence(
+                        defaultSegments_,
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        Duration::Zero(),
+                        defaultMinimumManeuverDuration_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Maximum propagation duration must be strictly positive."),
+                        std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
         );
+    }
 
-        // Test zero durations
+    {
         EXPECT_THROW(
-            Sequence sequence(
-                defaultSegments_,
-                defaultNumericalSolver_,
-                defaultDynamics_,
-                defaultMaximumPropagationDuration_,
-                Duration::Zero()
-            ),
-            ostk::core::error::RuntimeError
+            {
+                try
+                {
+                    Sequence sequence(
+                        defaultSegments_,
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        defaultMaximumPropagationDuration_,
+                        Duration::Zero()
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
         );
+    }
 
+    {
         EXPECT_THROW(
-            Sequence sequence(
-                defaultSegments_,
-                defaultNumericalSolver_,
-                defaultDynamics_,
-                Duration::Zero(),
-                defaultMinimumManeuverDuration_
-            ),
-            ostk::core::error::RuntimeError
+            {
+                try
+                {
+                    Sequence sequence(
+                        defaultSegments_,
+                        defaultNumericalSolver_,
+                        defaultDynamics_,
+                        defaultMaximumPropagationDuration_,
+                        Duration::Seconds(-1.0)
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
         );
     }
 
@@ -472,9 +730,244 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetMaximumPropagation
     EXPECT_EQ(defaultMaximumPropagationDuration_, defaultSequence_.getMaximumPropagationDuration());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetMinimumManeuverDuration)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMaximumManeuverDuration)
 {
-    EXPECT_EQ(defaultMinimumManeuverDuration_, defaultSequence_.getMinimumManeuverDuration());
+    // Valid case - set a positive duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_NO_THROW(sequence.setMaximumManeuverDuration(Duration::Minutes(20.0)));
+        EXPECT_EQ(Duration::Minutes(20.0), sequence.getMaximumManeuverDuration());
+    }
+
+    // Valid case - set undefined duration
+    {
+        Sequence sequence = defaultSequence_;
+        sequence.setMaximumManeuverDuration(Duration::Minutes(10.0));  // First set it to something
+        EXPECT_NO_THROW(sequence.setMaximumManeuverDuration(Duration::Undefined()));
+        EXPECT_FALSE(sequence.getMaximumManeuverDuration().isDefined());
+    }
+
+    // Invalid case - negative duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMaximumManeuverDuration(Duration::Seconds(-1.0));
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Maximum maneuver duration must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Invalid case - zero duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMaximumManeuverDuration(Duration::Zero());
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Maximum maneuver duration must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Invalid case - maximum less than minimum
+    {
+        Sequence sequence = defaultSequence_;
+        sequence.setMinimumManeuverDuration(Duration::Minutes(10.0));
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMaximumManeuverDuration(Duration::Minutes(5.0));
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find(
+                            "Maximum maneuver duration must be greater than or equal to the minimum maneuver duration."
+                        ),
+                        std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeuverDuration)
+{
+    // Valid case - set a positive duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_NO_THROW(sequence.setMinimumManeuverDuration(Duration::Minutes(5.0)));
+        EXPECT_EQ(Duration::Minutes(5.0), sequence.getMinimumManeuverDuration());
+    }
+
+    // Valid case - set undefined duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_NO_THROW(sequence.setMinimumManeuverDuration(Duration::Undefined()));
+        EXPECT_FALSE(sequence.getMinimumManeuverDuration().isDefined());
+    }
+
+    // Invalid case - negative duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMinimumManeuverDuration(Duration::Seconds(-1.0));
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Invalid case - zero duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMinimumManeuverDuration(Duration::Zero());
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Invalid case - minimum more than maximum
+    {
+        Sequence sequence = defaultSequence_;
+        sequence.setMaximumManeuverDuration(Duration::Minutes(5.0));
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMinimumManeuverDuration(Duration::Minutes(10.0));
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find(
+                            "Minimum maneuver duration must be less than or equal to the maximum maneuver duration."
+                        ),
+                        std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeuverSeparation)
+{
+    // Valid case - set a positive duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_NO_THROW(sequence.setMinimumManeuverSeparation(Duration::Minutes(15.0)));
+        EXPECT_EQ(Duration::Minutes(15.0), sequence.getMinimumManeuverSeparation());
+    }
+
+    // Invalid case - undefined duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMinimumManeuverSeparation(Duration::Undefined());
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(e.getMessage().find("Minimum maneuver separation must be defined."), std::string::npos);
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Invalid case - negative duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMinimumManeuverSeparation(Duration::Seconds(-1.0));
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Minimum maneuver separation must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Invalid case - zero duration
+    {
+        Sequence sequence = defaultSequence_;
+        EXPECT_THROW(
+            {
+                try
+                {
+                    sequence.setMinimumManeuverSeparation(Duration::Zero());
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Minimum maneuver separation must be strictly positive."), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
@@ -851,34 +1344,224 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMinimumManeuverDuration)
+// Define parameter structure for parametrized Sequence maneuvering constraints tests
+struct ManeuveringConstraintsTestParams
 {
-    // Setup
-    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::FromModels(
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined)
-    ));
+    String description;
+    Array<Tuple<Duration, Duration>> maneuverIntervals;
+    Duration minimumManeuverSeparation;
+    Duration minimumManeuverDuration;
+    Duration maximumManeuverDuration;
+    Array<Tuple<Duration, Duration, bool>> expectedManeuverIntervals;  // bool: true if we should use a loose tolerance
+                                                                       // for the start of the expected interval
+};
 
-    const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    ));
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence_ManeuveringConstraints_Parameterized
+    : public ::testing::TestWithParam<ManeuveringConstraintsTestParams>
+{
+   protected:
+    const Shared<Celestial> earthSPtr_ = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> dynamicsSPtr_ = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr_),
+    };
+    const NumericalSolver numericalSolver_ = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 1.0, 1.0e-12, 1.0e-12
+    };
+    const SatelliteSystem satelliteSystem_ = SatelliteSystem::Default();
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+};
 
-    const PropulsionSystem propulsionSystem = PropulsionSystem(1.0, 1500.0);
+INSTANTIATE_TEST_SUITE_P(
+    ManeuveringConstraintsTests,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence_ManeuveringConstraints_Parameterized,
+    ::testing::Values(
+        // No Maneuvers
+        ManeuveringConstraintsTestParams {
+            "NoManeuvers",
+            Array<Tuple<Duration, Duration>>::Empty(),
+            Duration::Seconds(30.0),
+            Duration::Seconds(30.0),
+            Duration::Undefined(),
+            Array<Tuple<Duration, Duration, bool>>::Empty()
+        },
+        // With Minimum Maneuver Duration Constraint
+        ManeuveringConstraintsTestParams {
+            "MinimumManeuverDuration",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(7.0)},  // Too short, skipped
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(21.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(25.0), Duration::Minutes(30.0)},  // Too short, skipped
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(85.0), Duration::Minutes(110.0)}
+            },
+            Duration::Seconds(30.0),
+            Duration::Minutes(10.0),
+            Duration::Undefined(),
+            Array<Tuple<Duration, Duration, bool>> {
+                Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(85.0), Duration::Minutes(100.0), false}
+            }
+        },
+        // With Minimum Maneuver Separation Constraint
+        ManeuveringConstraintsTestParams {
+            "MinimumManeuverSeparation",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(7.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(12.0)},  // Too soon, skipped
+                Tuple<Duration, Duration> {Duration::Minutes(25.0), Duration::Minutes(30.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(75.0), Duration::Minutes(110.0)}  // Too soon, delayed
+            },
+            Duration::Minutes(10.0),
+            Duration::Seconds(30.0),
+            Duration::Undefined(),
+            Array<Tuple<Duration, Duration, bool>> {
+                Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
+                Tuple<Duration, Duration, bool> {
+                    Duration::Minutes(80.0), Duration::Minutes(100.0), true
+                }  // Lose tolerance as the maneuver start will be delayed to satisfy the minimum separation, and it
+                   // might start slightly later (due to the numerical step)
+            }
+        },
+        // With Maximum Maneuver Duration Constraint
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDuration",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(14.0)},  // Too long, shortened
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Too long, shortened
+                Tuple<Duration, Duration> {Duration::Minutes(70.0), Duration::Minutes(110.0)}  // Too long, shortened
+            },
+            Duration::Seconds(30.0),
+            Duration::Seconds(30.0),
+            Duration::Minutes(10.0),
+            Array<Tuple<Duration, Duration, bool>> {
+                Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(35.0), Duration::Minutes(45.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(80.0), Duration::Minutes(90.0), false}
+            }
+        }
+    ),
+    [](const ::testing::TestParamInfo<ManeuveringConstraintsTestParams>& paramInfo)
+    {
+        return paramInfo.param.description;
+    }
+);
 
-    const SatelliteSystem satelliteSystem = {
-        Mass::Kilograms(100.0),
-        satelliteGeometry,
-        Matrix3d::Identity(),
-        500.0,
-        2.1,
-        propulsionSystem,
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence_ManeuveringConstraints_Parameterized, ManeuverConstraintScenarios
+)
+{
+    const auto params = GetParam();
+
+    VectorXd coordinates(7);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const Instant referenceInstant = Instant::J2000();
+    const State initialState = {
+        referenceInstant,
+        coordinates,
+        Frame::GCRF(),
+        coordinatesBrokerSPtr_,
     };
 
-    const Array<Shared<Dynamics>> dynamics = {
+    const Shared<RealCondition> maneuverSegmentConditionSPtr = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(100.0))
+    );
+
+    const Shared<RealCondition> sequenceConditionSPtr = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(100.0))
+    );
+
+    const Duration maximumPropagationDuration = Duration::Minutes(200.0);
+    const Duration tolerance = Duration::Milliseconds(10.0);
+
+    Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
+    for (const auto& durationTuple : params.maneuverIntervals)
+    {
+        guidanceLawIntervals.add(Interval::Closed(
+            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+        ));
+    }
+
+    const Shared<Thruster> customThrusterDynamicsSPtr =
+        std::make_shared<Thruster>(satelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
+
+    Segment maneuverSegment = Segment::Maneuver(
+        "Maneuvering Segment", maneuverSegmentConditionSPtr, customThrusterDynamicsSPtr, dynamicsSPtr_, numericalSolver_
+    );
+
+    Sequence sequence = {
+        {maneuverSegment},
+        numericalSolver_,
+        dynamicsSPtr_,
+        maximumPropagationDuration,
+    };
+
+    sequence.setMinimumManeuverSeparation(params.minimumManeuverSeparation);
+    sequence.setMinimumManeuverDuration(params.minimumManeuverDuration);
+    if (params.maximumManeuverDuration.isDefined())
+    {
+        sequence.setMaximumManeuverDuration(params.maximumManeuverDuration);
+    }
+
+    // Solve sequence using both methods
+    const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
+    const Sequence::Solution solutionUsingCondition =
+        sequence.solveToCondition(initialState, *sequenceConditionSPtr, maximumPropagationDuration);
+
+    EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
+    EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getStart().isNear(referenceInstant, tolerance));
+    EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getEnd().isNear(
+        referenceInstant + Duration::Minutes(100.0), tolerance
+    ));
+
+    // Extract maneuvers from both solutions
+    const Array<Maneuver> maneuversUsingRepetitionCount = solutionUsingRepetitionCount.extractManeuvers(Frame::GCRF());
+    const Array<Maneuver> maneuversUsingCondition = solutionUsingCondition.extractManeuvers(Frame::GCRF());
+
+    EXPECT_EQ(maneuversUsingRepetitionCount.getSize(), params.expectedManeuverIntervals.getSize());
+    EXPECT_EQ(maneuversUsingCondition.getSize(), params.expectedManeuverIntervals.getSize());
+
+    for (Size idx = 0; idx < params.expectedManeuverIntervals.getSize(); ++idx)
+    {
+        const Instant expectedStart = referenceInstant + std::get<0>(params.expectedManeuverIntervals[idx]);
+        const Instant expectedEnd = referenceInstant + std::get<1>(params.expectedManeuverIntervals[idx]);
+        const Duration startTolerance =
+            std::get<2>(params.expectedManeuverIntervals[idx]) ? Duration::Seconds(5.0) : tolerance;
+
+        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getStart().isNear(expectedStart, startTolerance));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getEnd().isNear(expectedEnd, tolerance));
+
+        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getStart().isNear(expectedStart, startTolerance));
+        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getEnd().isNear(expectedEnd, tolerance));
+    }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence,
+    Solve_WithMinimumManeuverSeparationConstraintConcatenatingSegments
+)
+{
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> dynamicsSPtr = {
         std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSPtr),
     };
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 1.0, 1.0e-12, 1.0e-12
+    };
+
+    const SatelliteSystem satelliteSystem = SatelliteSystem::Default();
 
     const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
         CartesianPosition::Default(),
@@ -887,116 +1570,175 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMinimumMane
     }));
 
     VectorXd coordinates(7);
-    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 105.0;
-    const State state = {
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const State initialState = {
         Instant::J2000(),
         coordinates,
         Frame::GCRF(),
         coordinatesBrokerSPtr,
     };
 
-    // Case 1: Maneuver segment with duration less than minimum - should be skipped
+    const Duration maximumPropagationDuration = Duration::Minutes(200.0);
+    const Duration tolerance = Duration::Milliseconds(10.0);
+
+    // With Minimum Maneuver Separation Constraint between Segments
     {
-        Sequence sequence = {
-            Array<Segment>::Empty(),
-            defaultNumericalSolver_,
-            dynamics,
-            defaultMaximumPropagationDuration_,
-            Duration::Seconds(60.0),
-            0
-        };
-
-        // Add a coast segment
-        sequence.addCoastSegment(std::make_shared<RealCondition>(
-            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
-        ));
-
-        // Add a short maneuver segment (should be skipped)
-        sequence.addManeuverSegment(
+        Segment maneuverSegment1 = Segment::Maneuver(
+            "Maneuvering Segment 1",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
             ),
-            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
+            std::make_shared<Thruster>(
+                satelliteSystem,
+                std::make_shared<CustomGuidanceLaw>(Array<Interval> {
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(-5.0), Instant::J2000() + Duration::Minutes(12.0)
+                    ),
+                })
+            ),
+            dynamicsSPtr,
+            numericalSolver
+        );
+        Segment maneuverSegment2 = Segment::Maneuver(
+            "Maneuvering Segment 2",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+            ),
+            std::make_shared<Thruster>(
+                satelliteSystem,
+                std::make_shared<CustomGuidanceLaw>(Array<Interval> {
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(16.0),  // Too soon, completely skipped
+                        Instant::J2000() + Duration::Minutes(20.0)
+                    ),
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(23.0), Instant::J2000() + Duration::Minutes(28.0)
+                    ),
+                })
+            ),
+            dynamicsSPtr,
+            numericalSolver
         );
 
-        const Sequence::Solution solution = sequence.solve(state, 1);
+        Sequence sequence = {
+            {
+                maneuverSegment1,
+                maneuverSegment2,
+            },
+            numericalSolver,
+            dynamicsSPtr,
+            maximumPropagationDuration,
+        };
 
-        // Only the coast segment should be in the solution
-        EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
-        EXPECT_EQ(solution.segmentSolutions[0].segmentType, Segment::Type::Coast);
+        sequence.setMinimumManeuverSeparation(Duration::Minutes(10.0));
+        sequence.setMinimumManeuverDuration(Duration::Seconds(30.0));
+
+        const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
+        const Sequence::Solution solutionUsingCondition = sequence.solveToCondition(
+            initialState,
+            RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(29.0))
+        );
+
+        EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
+        EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getStart().isNear(Instant::J2000(), tolerance));
+        EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(30.0), tolerance
+        ));
+
+        EXPECT_TRUE(solutionUsingCondition.executionIsComplete);
+        EXPECT_TRUE(solutionUsingCondition.getInterval().getStart().isNear(Instant::J2000(), tolerance));
+        EXPECT_TRUE(
+            solutionUsingCondition.getInterval().getEnd().isNear(Instant::J2000() + Duration::Minutes(30.0), tolerance)
+        );
+
+        const Array<Maneuver> maneuversUsingRepetitionCount =
+            solutionUsingRepetitionCount.extractManeuvers(Frame::GCRF());
+        const Array<Maneuver> maneuversUsingCondition = solutionUsingCondition.extractManeuvers(Frame::GCRF());
+
+        EXPECT_EQ(maneuversUsingRepetitionCount.getSize(), 2);
+        EXPECT_EQ(maneuversUsingCondition.getSize(), 2);
+
+        EXPECT_TRUE(maneuversUsingRepetitionCount[0].getInterval().getStart().isNear(
+            Instant::J2000() + Duration::Minutes(0.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[0].getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(12.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[1].getInterval().getStart().isNear(
+            Instant::J2000() + Duration::Minutes(23.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[1].getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(28.0), tolerance
+        ));
+
+        EXPECT_TRUE(maneuversUsingCondition[0].getInterval().getStart().isNear(
+            Instant::J2000() + Duration::Minutes(0.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingCondition[0].getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(12.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingCondition[1].getInterval().getStart().isNear(
+            Instant::J2000() + Duration::Minutes(23.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingCondition[1].getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(28.0), tolerance
+        ));
     }
 
-    // Case 2: Maneuver segment with duration greater than minimum - should be included
+    // With Minimum Maneuver Separation Constraint between repetitions
     {
-        Sequence sequence = {
-            Array<Segment>::Empty(),
-            defaultNumericalSolver_,
-            dynamics,
-            defaultMaximumPropagationDuration_,
-            Duration::Seconds(5.0),
-            0
-        };
-
-        // Add a coast segment
-        sequence.addCoastSegment(std::make_shared<RealCondition>(
-            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
-        ));
-
-        // Add a maneuver segment with duration > minimum (should be included)
-        sequence.addManeuverSegment(
+        Segment maneuverSegment = Segment::Maneuver(
+            "Maneuvering Segment 1",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
             ),
-            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
+            std::make_shared<Thruster>(
+                satelliteSystem,
+                std::make_shared<CustomGuidanceLaw>(Array<Interval> {
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(-5.0), Instant::J2000() + Duration::Minutes(12.0)
+                    ),
+                    // First repetition will end here (at 15.0 minutes)
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(16.0),  // Too soon, completely skipped
+                        Instant::J2000() + Duration::Minutes(20.0)
+                    ),
+                    Interval::Closed(
+                        Instant::J2000() + Duration::Minutes(23.0), Instant::J2000() + Duration::Minutes(28.0)
+                    ),
+                })
+            ),
+            dynamicsSPtr,
+            numericalSolver
         );
-
-        const Sequence::Solution solution = sequence.solve(state, 1);
-
-        // Both segments should be in the solution
-        EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 2);
-        EXPECT_EQ(solution.segmentSolutions[0].segmentType, Segment::Type::Coast);
-        EXPECT_EQ(solution.segmentSolutions[1].segmentType, Segment::Type::Maneuver);
-    }
-
-    // Case 3: SolveToCondition with minimum maneuver duration
-    {
         Sequence sequence = {
-            Array<Segment>::Empty(),
-            defaultNumericalSolver_,
-            dynamics,
-            defaultMaximumPropagationDuration_,
-            Duration::Seconds(60.0),
-            0
+            {maneuverSegment},
+            numericalSolver,
+            dynamicsSPtr,
+            maximumPropagationDuration,
         };
-
-        // Add a coast segment
-        sequence.addCoastSegment(std::make_shared<RealCondition>(
-            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
+        sequence.setMinimumManeuverSeparation(Duration::Minutes(10.0));
+        sequence.setMinimumManeuverDuration(Duration::Seconds(30.0));
+        const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 2);
+        EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
+        EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getStart().isNear(Instant::J2000(), tolerance));
+        EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(30.0), tolerance
         ));
-
-        // Add a short maneuver segment (should be skipped)
-        sequence.addManeuverSegment(
-            std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
-            ),
-            std::make_shared<Thruster>(satelliteSystem, std::make_shared<ConstantThrust>(ConstantThrust::Intrack()))
-        );
-
-        // Target condition after 30 seconds
-        const RealCondition eventCondition =
-            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(30.0));
-
-        const Sequence::Solution solution = sequence.solveToCondition(state, eventCondition, Duration::Minutes(1.0));
-
-        // Only the coast segment should be in the solution, and we should repeat it 3 times to meet the condition
-        EXPECT_TRUE(solution.executionIsComplete);
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 3);
-        for (const auto& segmentSolution : solution.segmentSolutions)
-        {
-            EXPECT_EQ(segmentSolution.segmentType, Segment::Type::Coast);
-        }
+        Array<Maneuver> maneuversUsingRepetitionCount = solutionUsingRepetitionCount.extractManeuvers(Frame::GCRF());
+        EXPECT_EQ(maneuversUsingRepetitionCount.getSize(), 2);
+        EXPECT_TRUE(maneuversUsingRepetitionCount[0].getInterval().getStart().isNear(
+            Instant::J2000() + Duration::Minutes(0.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[0].getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(12.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[1].getInterval().getStart().isNear(
+            Instant::J2000() + Duration::Minutes(23.0), tolerance
+        ));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[1].getInterval().getEnd().isNear(
+            Instant::J2000() + Duration::Minutes(28.0), tolerance
+        ));
     }
 }
 

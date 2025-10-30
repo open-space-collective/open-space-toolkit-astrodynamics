@@ -2,9 +2,12 @@
 
 #include <numeric>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
@@ -23,9 +26,14 @@ namespace astrodynamics
 namespace trajectory
 {
 
+using ostk::mathematics::object::Vector3d;
+
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using ostk::physics::coordinate::Velocity;
 
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
+using ostk::astrodynamics::eventcondition::LogicalCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
@@ -482,6 +490,11 @@ Segment::Type Segment::getType() const
     return type_;
 }
 
+Shared<Thruster> Segment::getThrusterDynamics() const
+{
+    return FindThrusterDynamics(dynamics_);
+}
+
 const Shared<EventCondition>& Segment::accessEventCondition() const
 {
     return eventCondition_;
@@ -499,55 +512,12 @@ const NumericalSolver& Segment::accessNumericalSolver() const
 
 Segment::Solution Segment::solve(const State& aState, const Duration& maximumPropagationDuration) const
 {
-    const Segment::Solution solution = this->Solve_(aState, maximumPropagationDuration, dynamics_, eventCondition_);
+    return solve_(aState, maximumPropagationDuration, true);
+}
 
-    // If we're not forcing a constant maneuver direction in the Local Orbital Frame, return the solution
-    if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
-        !this->constantManeuverDirectionLocalOrbitalFrameFactory_->isDefined())
-    {
-        return solution;
-    }
-
-    const Array<flightManeuver> solutionManeuvers = solution.extractManeuvers(aState.accessFrame());
-    if (solutionManeuvers.isEmpty())
-    {
-        return solution;
-    }
-
-    Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
-        std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
-
-    // TBI: in the future, we might want to solve in-between maneuvers.
-    for (const flightManeuver& solutionManeuver : solutionManeuvers)
-    {
-        const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
-            solutionManeuver,
-            this->constantManeuverDirectionLocalOrbitalFrameFactory_,
-            this->constantManeuverDirectionMaximumAllowedAngularOffset_
-        ));
-        heterogeneousGuidanceLaw->addGuidanceLaw(constantThrust, solutionManeuver.getInterval());
-    }
-
-    const Shared<Thruster> thrusterDynamics = FindThrusterDynamics(dynamics_);
-    const Shared<Thruster> heterogeneousThrustDynamics = std::make_shared<Thruster>(
-        thrusterDynamics->getSatelliteSystem(),
-        heterogeneousGuidanceLaw,
-        thrusterDynamics->getName() + " (With Heterogeneous Guidance Law)"
-    );
-
-    Array<Shared<Dynamics>> dynamicsToUseWithHeterogeneousGuidanceLaw = Array<Shared<Dynamics>>::Empty();
-    dynamicsToUseWithHeterogeneousGuidanceLaw.reserve(dynamics_.getSize());
-
-    for (const Shared<Dynamics>& dynamic : dynamics_)
-    {
-        if (dynamic != thrusterDynamics)
-        {
-            dynamicsToUseWithHeterogeneousGuidanceLaw.add(dynamic);
-        }
-    }
-    dynamicsToUseWithHeterogeneousGuidanceLaw.add(heterogeneousThrustDynamics);
-
-    return this->Solve_(aState, maximumPropagationDuration, dynamicsToUseWithHeterogeneousGuidanceLaw, eventCondition_);
+Segment::Solution Segment::solveNextManeuver(const State& aState, const Duration& maximumPropagationDuration) const
+{
+    return solve_(aState, maximumPropagationDuration, false);
 }
 
 void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -636,20 +606,110 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
     return segment;
 }
 
-Segment::Solution Segment::Solve_(
+Segment::Solution Segment::solve_(
+    const State& aState, const Duration& maximumPropagationDuration, const bool& allowMultipleManeuvers
+) const
+{
+    const Segment::Solution solution =
+        this->solveWithDynamics_(aState, maximumPropagationDuration, dynamics_, allowMultipleManeuvers);
+
+    // If we're not forcing a constant maneuver direction in the Local Orbital Frame, return the solution
+    if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
+        !this->constantManeuverDirectionLocalOrbitalFrameFactory_->isDefined())
+    {
+        return solution;
+    }
+
+    const Array<flightManeuver> solutionManeuvers = solution.extractManeuvers(aState.accessFrame());
+    if (solutionManeuvers.isEmpty())
+    {
+        return solution;
+    }
+
+    Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
+        std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
+
+    // TBI: in the future, we might want to solve in-between maneuvers.
+    for (const flightManeuver& solutionManeuver : solutionManeuvers)
+    {
+        const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
+            solutionManeuver,
+            this->constantManeuverDirectionLocalOrbitalFrameFactory_,
+            this->constantManeuverDirectionMaximumAllowedAngularOffset_
+        ));
+        heterogeneousGuidanceLaw->addGuidanceLaw(constantThrust, solutionManeuver.getInterval());
+    }
+
+    const Shared<Thruster> thrusterDynamics = FindThrusterDynamics(dynamics_);
+    const Shared<Thruster> heterogeneousThrustDynamics = std::make_shared<Thruster>(
+        thrusterDynamics->getSatelliteSystem(),
+        heterogeneousGuidanceLaw,
+        thrusterDynamics->getName() + " (With Heterogeneous Guidance Law)"
+    );
+
+    Array<Shared<Dynamics>> dynamicsToUseWithHeterogeneousGuidanceLaw = Array<Shared<Dynamics>>::Empty();
+    dynamicsToUseWithHeterogeneousGuidanceLaw.reserve(dynamics_.getSize());
+
+    for (const Shared<Dynamics>& dynamic : dynamics_)
+    {
+        if (dynamic != thrusterDynamics)
+        {
+            dynamicsToUseWithHeterogeneousGuidanceLaw.add(dynamic);
+        }
+    }
+    dynamicsToUseWithHeterogeneousGuidanceLaw.add(heterogeneousThrustDynamics);
+
+    return this->solveWithDynamics_(
+        aState, maximumPropagationDuration, dynamicsToUseWithHeterogeneousGuidanceLaw, allowMultipleManeuvers
+    );
+}
+
+Segment::Solution Segment::solveWithDynamics_(
     const State& aState,
     const Duration& maximumPropagationDuration,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Shared<EventCondition>& anEventConditionSPtr
+    const bool& allowMultipleManeuvers
 ) const
 {
+    // Determine the event condition to use for solving
+    Shared<EventCondition> eventConditionToUse = eventCondition_;
+    bool needsConditionReevaluation = false;
+
+    if (type_ != Segment::Type::Coast && !allowMultipleManeuvers)
+    {
+        const Shared<const GuidanceLaw> guidanceLaw = FindThrusterDynamics(aDynamicsArray)->getGuidanceLaw();
+        const std::function<Real(const State&)> thrustAccelerationNormEvaluator = [guidanceLaw](const State& state
+                                                                                  ) -> Real
+        {
+            const Vector3d positionCoordinates = state.getPosition().inMeters().accessCoordinates();
+            const Vector3d velocityCoordinates =
+                state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+            const Vector3d thrustAcceleration = guidanceLaw->calculateThrustAccelerationAt(
+                state.accessInstant(), positionCoordinates, velocityCoordinates, 1.0, state.accessFrame()
+            );
+            return thrustAcceleration.norm();
+        };
+
+        const Shared<RealCondition> thrustOffCondition = std::make_shared<RealCondition>(
+            "Thrust Off Condition", RealCondition::Criterion::NegativeCrossing, thrustAccelerationNormEvaluator, 0.5
+        );
+
+        eventConditionToUse = std::make_shared<LogicalCondition>(
+            "Combined Event or Thrust Off Condition",
+            LogicalCondition::Type::Or,
+            Array<Shared<EventCondition>> {eventCondition_, thrustOffCondition}
+        );
+
+        needsConditionReevaluation = true;
+    }
+
     const Propagator propagator = {
         numericalSolver_,
         aDynamicsArray,
     };
 
     const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
-        aState, aState.accessInstant() + maximumPropagationDuration, *anEventConditionSPtr
+        aState, aState.accessInstant() + maximumPropagationDuration, *eventConditionToUse
     );
 
     // Expand states based on input state
@@ -663,11 +723,34 @@ Segment::Solution Segment::Solve_(
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
     }
 
+    // Determine the final conditionIsSatisfied value
+    bool finalConditionIsSatisfied = conditionSolution.conditionIsSatisfied;
+    if (needsConditionReevaluation && states.getSize() >= 2)
+    {
+        const State& lastState = states.accessLast();
+        const State& secondToLastState = states[states.getSize() - 2];
+
+        const Duration stepDuration = lastState.accessInstant() - secondToLastState.accessInstant();
+
+        const Propagator reevaluationPropagator = {
+            numericalSolver_,
+            aDynamicsArray,
+        };
+
+        const Array<State> propagatedStates =
+            reevaluationPropagator.calculateStatesAt(lastState, {lastState.accessInstant() + stepDuration});
+
+        if (!propagatedStates.isEmpty())
+        {
+            finalConditionIsSatisfied = eventCondition_->isSatisfied(propagatedStates.accessLast(), secondToLastState);
+        }
+    }
+
     return {
         name_,
         aDynamicsArray,
         states,
-        conditionSolution.conditionIsSatisfied,
+        finalConditionIsSatisfied,
         type_,
     };
 }
