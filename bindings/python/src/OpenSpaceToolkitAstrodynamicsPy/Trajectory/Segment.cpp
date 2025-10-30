@@ -175,6 +175,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
+        .def(
+            "get_thruster_dynamics",
+            &Segment::Solution::getThrusterDynamics,
+            R"doc(
+                Get the thruster dynamics from the solution.
+
+                Returns:
+                    Thruster: The thruster dynamics.
+
+            )doc"
+        )
 
         .def(
             "compute_delta_v",
@@ -338,6 +349,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
         .def(
+            "get_coast_dynamics",
+            &Segment::getCoastDynamics,
+            R"doc(
+                Get the coast dynamics array.
+
+                Returns:
+                    list[Dynamics]: The coast dynamics array.
+
+            )doc"
+        )
+        .def(
             "get_numerical_solver",
             &Segment::getNumericalSolver,
             R"doc(
@@ -345,6 +367,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                 Returns:
                     NumericalSolver: The numerical solver.
+
+            )doc"
+        )
+        .def(
+            "get_thruster_dynamics",
+            &Segment::getThrusterDynamics,
+            R"doc(
+                Get the thruster dynamics.
+
+                Returns:
+                    Thruster: The thruster dynamics.
 
             )doc"
         )
@@ -359,14 +392,63 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
+        .def(
+            "to_coast_segment",
+            &Segment::toCoastSegment,
+            arg_v("name", String::Empty(), "''"),
+            R"doc(
+                Convert the segment to a coast segment.
 
+                Args:
+                    name (str, optional): Optional name for the new segment. If not provided, uses the current segment's name.
+
+                Returns:
+                    Segment: A new coast segment.
+
+            )doc"
+        )
+        .def(
+            "to_maneuver_segment",
+            &Segment::toManeuverSegment,
+            arg("thruster_dynamics"),
+            arg_v("name", String::Empty(), "''"),
+            R"doc(
+                Convert the segment to a maneuver segment.
+
+                Args:
+                    thruster_dynamics (Thruster): The thruster dynamics for the new maneuver segment.
+                    name (str, optional): Optional name for the new segment. If not provided, uses the current segment's name.
+
+                Returns:
+                    Segment: A new maneuver segment.
+
+            )doc"
+        )
         .def(
             "solve",
             &Segment::solve,
             arg("state"),
             arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
             R"doc(
-                Solve the segment.
+                Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
+
+                Args:
+                    state (State): The state.
+                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
+
+                Returns:
+                    SegmentSolution: The segment solution.
+
+            )doc"
+        )
+
+        .def(
+            "solve_next_maneuver",
+            &Segment::solveNextManeuver,
+            arg("state"),
+            arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
+            R"doc(
+                Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be solved until its event condition is satisfied or the maximum propagation duration is reached.
 
                 Args:
                     state (State): The state.

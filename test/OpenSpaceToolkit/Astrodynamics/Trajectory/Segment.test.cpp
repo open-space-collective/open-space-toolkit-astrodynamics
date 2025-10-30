@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -57,6 +58,7 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -107,6 +109,38 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+
+class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
+{
+   public:
+    CustomGuidanceLaw(const Array<Interval>& anIntervalArray)
+        : GuidanceLaw("Custom Guidance Law"),
+          intervals_(anIntervalArray)
+    {
+    }
+
+    ostk::mathematics::object::Vector3d calculateThrustAccelerationAt(
+        const Instant& anInstant,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
+        [[maybe_unused]] const Real& aThrustAcceleration,
+        [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
+    ) const override
+    {
+        // Check if anInstant is contained in any of the intervals
+        for (const Interval& interval : intervals_)
+        {
+            if (interval.contains(anInstant))
+            {
+                return {1.0 * aThrustAcceleration, 0.0, 0.0};
+            }
+        }
+        return {0.0, 0.0, 0.0};
+    }
+
+   private:
+    Array<Interval> intervals_;
+};
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
@@ -331,6 +365,93 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetThrusterDynamics)
+{
+    // Coast segment solution should throw when trying to get thruster dynamics
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Coast
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    segmentSolution.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Cannot get thruster dynamics from a Coast segment solution.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment solution with no thruster dynamics should throw
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Maneuver
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    segmentSolution.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("No Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment solution with multiple thruster dynamics should throw
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_,
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_, defaultThrusterDynamicsSPtr_},
+            {initialStateWithMass_, finalStateWithMass_},
+            true,
+            Segment::Type::Maneuver
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    segmentSolution.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Multiple Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment solution should return thruster dynamics
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_,
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_},
+            {initialStateWithMass_, finalStateWithMass_},
+            true,
+            Segment::Type::Maneuver
+        );
+
+        const Shared<Thruster> thrusterDynamics = segmentSolution.getThrusterDynamics();
+        EXPECT_EQ(defaultThrusterDynamicsSPtr_, thrusterDynamics);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ExtractManeuvers)
 {
     {
@@ -406,7 +527,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("No Thruster dynamics found in Maneuvering segment.", e.getMessage());
+                    EXPECT_EQ("No Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
                     throw;
                 }
             },
@@ -431,7 +552,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("Multiple Thruster dynamics found in Maneuvering segment.", e.getMessage());
+                    EXPECT_EQ("Multiple Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
                     throw;
                 }
             },
@@ -946,18 +1067,70 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Coast)
             ostk::core::error::runtime::Undefined
         );
     }
+
+    {
+        const Array<Shared<Dynamics>> dynamicsWithThruster =
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::Coast(
+                        defaultName_, defaultInstantCondition_, dynamicsWithThruster, defaultNumericalSolver_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Coast dynamics array cannot contain Thruster dynamics"), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
 {
     {
-        EXPECT_NO_THROW(Segment::Maneuver(
+        const Segment segment = Segment::Maneuver(
             defaultName_,
             defaultInstantCondition_,
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_
-        ));
+        );
+    }
+
+    {
+        const Array<Shared<Dynamics>> dynamicsWithThruster =
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::Maneuver(
+                        defaultName_,
+                        defaultInstantCondition_,
+                        defaultThrusterDynamicsSPtr_,
+                        dynamicsWithThruster,
+                        defaultNumericalSolver_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Coast dynamics array cannot contain Thruster dynamics"), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
     }
 }
 
@@ -990,6 +1163,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetDynamics)
     EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getDynamics());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, getCoastDynamics)
+{
+    EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getCoastDynamics());
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.getNumericalSolver());
@@ -998,6 +1176,41 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetNumericalSolver)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetType)
 {
     EXPECT_EQ(Segment::Type::Coast, defaultCoastSegment_.getType());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetThrusterDynamics)
+{
+    // Coast segment should throw when trying to get thruster dynamics
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    defaultCoastSegment_.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Coast segment does not have thruster dynamics.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment should return thruster dynamics
+    {
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        const Shared<Thruster> thrusterDynamics = maneuverSegment.getThrusterDynamics();
+        EXPECT_EQ(defaultThrusterDynamicsSPtr_, thrusterDynamics);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessEventCondition)
@@ -1013,6 +1226,82 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessDynamics)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.accessNumericalSolver());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ToCoastSegment)
+{
+    // Coast segment to coast segment
+    {
+        const Segment newCoastSegment = defaultCoastSegment_.toCoastSegment("New Coast Segment");
+
+        EXPECT_EQ("New Coast Segment", newCoastSegment.getName());
+        EXPECT_EQ(Segment::Type::Coast, newCoastSegment.getType());
+        EXPECT_EQ(defaultInstantCondition_, newCoastSegment.getEventCondition());
+        EXPECT_EQ(defaultDynamics_, newCoastSegment.accessDynamics());
+        EXPECT_EQ(defaultNumericalSolver_, newCoastSegment.getNumericalSolver());
+    }
+
+    // Maneuver segment to coast segment with custom name
+    {
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        const String newName = "New Coast Segment";
+        const Segment coastSegment = maneuverSegment.toCoastSegment(newName);
+
+        EXPECT_EQ(newName, coastSegment.getName());
+        EXPECT_EQ(Segment::Type::Coast, coastSegment.getType());
+        EXPECT_EQ(defaultInstantCondition_, coastSegment.getEventCondition());
+        EXPECT_EQ(defaultDynamics_, coastSegment.accessDynamics());
+        EXPECT_EQ(defaultNumericalSolver_, coastSegment.getNumericalSolver());
+        EXPECT_THROW(coastSegment.getThrusterDynamics(), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ToManeuverSegment)
+{
+    // Convert maneuver segment to maneuver segment
+    {
+        const Segment originalManeuverSegment = Segment::Maneuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        const Shared<Thruster> newThrusterDynamics =
+            std::make_shared<Thruster>(defaultSatelliteSystem_, constantThrustSPtr_);
+
+        const Segment newManeuverSegment =
+            originalManeuverSegment.toManeuverSegment(newThrusterDynamics, "New Maneuver Segment");
+
+        EXPECT_EQ("New Maneuver Segment", newManeuverSegment.getName());
+        EXPECT_EQ(Segment::Type::Maneuver, newManeuverSegment.getType());
+        EXPECT_EQ(defaultInstantCondition_, newManeuverSegment.getEventCondition());
+        EXPECT_EQ(defaultDynamics_, newManeuverSegment.accessDynamics());
+        EXPECT_EQ(defaultNumericalSolver_, newManeuverSegment.getNumericalSolver());
+        EXPECT_EQ(newThrusterDynamics, newManeuverSegment.getThrusterDynamics());
+        EXPECT_NE(defaultThrusterDynamicsSPtr_, newManeuverSegment.getThrusterDynamics());
+    }
+
+    // Convert coast segment to maneuver segment
+    {
+        const Segment maneuverSegment =
+            defaultCoastSegment_.toManeuverSegment(defaultThrusterDynamicsSPtr_, "New Maneuver Segment");
+
+        EXPECT_EQ("New Maneuver Segment", maneuverSegment.getName());
+        EXPECT_EQ(Segment::Type::Maneuver, maneuverSegment.getType());
+        EXPECT_EQ(defaultInstantCondition_, maneuverSegment.getEventCondition());
+        EXPECT_EQ(defaultDynamics_, maneuverSegment.accessDynamics());
+        EXPECT_EQ(defaultNumericalSolver_, maneuverSegment.getNumericalSolver());
+        EXPECT_EQ(defaultThrusterDynamicsSPtr_, maneuverSegment.getThrusterDynamics());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StreamOperator)
@@ -1054,7 +1343,67 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         EXPECT_FALSE(solution.conditionIsSatisfied);
     }
 
-    // Check maximum allowed angular offset behaviour
+    // No maneuvers should be produced
+    {
+        const NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaDopri5,
+            1.0,
+            1.0e-12,
+            1.0e-12,
+        };
+
+        VectorXd initialCoordinates(7);
+        initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+        const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
+
+        const Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::AnyCrossing, Instant::J2000() + Duration::Minutes(60.0)
+        );
+
+        const Duration tolerance = Duration::Milliseconds(1.0);
+
+        const Shared<Thruster> customThrusterDynamics = std::make_shared<Thruster>(
+            defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(Array<Interval>::Empty())
+        );
+
+        Segment segment = Segment::Maneuver(
+            "Maneuvering Segment with Custom Guidance Law",
+            eventCondition,
+            customThrusterDynamics,
+            defaultDynamics_,
+            numericalSolver
+        );
+
+        {
+            const Segment::Solution solution = segment.solve(initialState, Duration::Minutes(80.0));
+
+            ASSERT_FALSE(solution.states.isEmpty());
+            EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
+            EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
+                initialState.getInstant() + Duration::Minutes(60.0), tolerance
+            ));
+            EXPECT_TRUE(solution.conditionIsSatisfied);
+            EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).isEmpty());
+        }
+
+        {
+            const Segment::Solution solution = segment.solveNextManeuver(initialState, Duration::Minutes(80.0));
+
+            ASSERT_FALSE(solution.states.isEmpty());
+            EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
+            EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
+                initialState.getInstant() + Duration::Minutes(60.0), tolerance
+            ));
+            EXPECT_TRUE(solution.conditionIsSatisfied);
+            EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).isEmpty());
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAngularOffset)
+{
+    // Single Maneuver
     {
         Segment maneuveringSegment = Segment::Maneuver(
             "Maneuvering Segment",
@@ -1265,6 +1614,334 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         const State finalState = constantLofDirectionManeuveringSegmentSolution.states.accessLast();
         const State expectedFinalState = expectedEquivalentSegmentSolution.states.accessLast();
         EXPECT_EQ(finalState, expectedFinalState);
+    }
+}
+
+// Define parameter structure for parametrized tests
+struct SolveTestParams
+{
+    String description;
+    Array<Tuple<Duration, Duration>> maneuverIntervals;
+    bool solveMultipleManeuvers;
+    Duration expectedFinalDuration;
+    bool expectedConditionSatisfied;
+    Array<Tuple<Duration, Duration>> expectedManeuverIntervals;
+};
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized
+    : public ::testing::TestWithParam<SolveTestParams>
+{
+   protected:
+    const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
+    const Shared<Celestial> earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> defaultDynamics_ = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSpherical_),
+    };
+    const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
+    const Shared<CoordinateBroker> thrustCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    SolveParameterizedTests,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized,
+    ::testing::Values(
+        // Leading edge maneuver - allow multiple
+        SolveTestParams {
+            "LeadingEdge_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-10.0), Duration::Minutes(10.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(10.0)}
+            }
+        },
+        // Leading edge maneuver - single only
+        SolveTestParams {
+            "LeadingEdge_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-10.0), Duration::Minutes(10.0)}
+            },
+            false,
+            Duration::Minutes(10.0),
+            false,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(10.0)}
+            }
+        },
+        // Middle maneuver - allow multiple
+        SolveTestParams {
+            "Middle_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)}
+            }
+        },
+        // Middle maneuver - single only
+        SolveTestParams {
+            "Middle_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)}
+            },
+            false,
+            Duration::Minutes(20.0),
+            false,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)}
+            }
+        },
+        // Trailing edge maneuver - allow multiple
+        SolveTestParams {
+            "TrailingEdge_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Trailing edge maneuver - single only
+        SolveTestParams {
+            "TrailingEdge_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)}
+            },
+            false,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Maneuver spans entire interval - allow multiple
+        SolveTestParams {
+            "SpansEntireInterval_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-10.0), Duration::Minutes(70.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Maneuver spans entire interval - single only
+        SolveTestParams {
+            "SpansEntireInterval_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-10.0), Duration::Minutes(70.0)}
+            },
+            false,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Maneuver ends at condition time - allow multiple
+        SolveTestParams {
+            "EndsAtCondition_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(60.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Maneuver ends at condition time - single only
+        SolveTestParams {
+            "EndsAtCondition_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(60.0)}
+            },
+            false,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Leading edge + middle maneuvers - allow multiple
+        SolveTestParams {
+            "LeadingAndMiddle_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-10.0), Duration::Minutes(10.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(10.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            }
+        },
+        // Leading edge + middle maneuvers - single only
+        SolveTestParams {
+            "LeadingAndMiddle_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-10.0), Duration::Minutes(10.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            },
+            false,
+            Duration::Minutes(10.0),
+            false,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(10.0)}
+            }
+        },
+        // Two middle maneuvers - allow multiple
+        SolveTestParams {
+            "TwoMiddle_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            }
+        },
+        // Two middle maneuvers - single only
+        SolveTestParams {
+            "TwoMiddle_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            },
+            false,
+            Duration::Minutes(20.0),
+            false,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(10.0), Duration::Minutes(20.0)}
+            }
+        },
+        // Trailing maneuver with one beyond condition - allow multiple
+        SolveTestParams {
+            "TrailingWithBeyond_MultipleManeuvers",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(80.0), Duration::Minutes(90.0)}
+            },
+            true,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(60.0)}
+            }
+        },
+        // Trailing maneuver with one beyond condition - single only
+        SolveTestParams {
+            "TrailingWithBeyond_NextOnly",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(80.0), Duration::Minutes(90.0)}
+            },
+            false,
+            Duration::Minutes(60.0),
+            true,
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(60.0)}
+            }
+        }
+    ),
+    [](const ::testing::TestParamInfo<SolveTestParams>& paramInfo)
+    {
+        return paramInfo.param.description;
+    }
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, ManeuverScenarios)
+{
+    const auto params = GetParam();
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        1.0,
+        1.0e-12,
+        1.0e-12,
+    };
+
+    VectorXd initialCoordinates(7);
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const Instant referenceInstant = Instant::J2000();
+    const State initialState = {referenceInstant, initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
+
+    const Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::AnyCrossing, referenceInstant + Duration::Minutes(60.0)
+    );
+
+    const Duration tolerance = Duration::Milliseconds(1.0);
+
+    Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
+    for (const auto& durationTuple : params.maneuverIntervals)
+    {
+        guidanceLawIntervals.add(Interval::Closed(
+            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+        ));
+    }
+
+    const Shared<Thruster> customThrusterDynamics =
+        std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
+
+    Segment segment = Segment::Maneuver(
+        "Maneuvering Segment with Custom Guidance Law",
+        eventCondition,
+        customThrusterDynamics,
+        defaultDynamics_,
+        numericalSolver
+    );
+
+    const Segment::Solution solution = params.solveMultipleManeuvers
+                                         ? segment.solve(initialState, Duration::Minutes(80.0))
+                                         : segment.solveNextManeuver(initialState, Duration::Minutes(80.0));
+
+    Array<Interval> expectedManeuverIntervals = Array<Interval>::Empty();
+    for (const auto& durationTuple : params.expectedManeuverIntervals)
+    {
+        expectedManeuverIntervals.add(Interval::Closed(
+            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+        ));
+    }
+
+    ASSERT_FALSE(solution.states.isEmpty());
+    EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
+    EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
+        initialState.getInstant() + params.expectedFinalDuration, tolerance
+    ));
+    EXPECT_EQ(solution.conditionIsSatisfied, params.expectedConditionSatisfied);
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), expectedManeuverIntervals.getSize());
+
+    for (Size idx = 0; idx < expectedManeuverIntervals.getSize(); ++idx)
+    {
+        EXPECT_TRUE(expectedManeuverIntervals[idx].getStart().isNear(maneuvers[idx].getInterval().getStart(), tolerance)
+        );
+        EXPECT_TRUE(expectedManeuverIntervals[idx].getEnd().isNear(maneuvers[idx].getInterval().getEnd(), tolerance));
     }
 }
 
