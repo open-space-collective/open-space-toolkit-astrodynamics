@@ -309,6 +309,13 @@ class TestSegment:
     ):
         assert coast_duration_segment.get_numerical_solver() == numerical_solver
 
+    def test_get_thruster_dynamics(
+        self,
+        thruster_dynamics: Thruster,
+        maneuver_segment: Segment,
+    ):
+        assert maneuver_segment.get_thruster_dynamics() == thruster_dynamics
+
     def test_get_type(
         self,
         coast_duration_segment: Segment,
@@ -505,3 +512,11 @@ class TestSegment:
             )
         )
         assert solution_with_maximum_allowed_angular_offset is not None
+
+    def test_solve_next_maneuver(
+        self,
+        state: State,
+        maneuver_segment: Segment,
+    ):
+        solution: Segment.Solution = maneuver_segment.solve(state)
+        assert solution is not None

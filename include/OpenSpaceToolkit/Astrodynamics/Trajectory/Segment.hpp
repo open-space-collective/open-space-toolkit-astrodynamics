@@ -21,6 +21,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -203,6 +204,10 @@ class Segment
     /// @return Numerical solver
     NumericalSolver getNumericalSolver() const;
 
+    /// @brief Get thruster dynamics
+    /// @return Thruster dynamics
+    Shared<Thruster> getThrusterDynamics() const;
+
     /// @brief Get type
     /// @return Type of segment
     Type getType() const;
@@ -219,12 +224,21 @@ class Segment
     /// @return Numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
-    /// @brief Solve the segment
+    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
     ///
     /// @param aState Initial state for the segment
     /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
     /// @return A Solution representing the result of the solve
     Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
+
+    /// @brief Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be
+    /// solved until its event condition is satisfied or the maximum propagation duration is reached.
+    ///
+    /// @param aState Initial state for the segment
+    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
+    /// @return A Solution representing the result of the solve
+    Solution solveNextManeuver(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0))
+        const;
 
     /// @brief Print the segment
     ///
@@ -314,18 +328,28 @@ class Segment
         const NumericalSolver& aNumericalSolver
     );
 
-    /// @brief Solve the segment using the given dynamics and event condition
+    /// @brief Internal solve method
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param allowMultipleManeuvers True if multiple maneuvers are allowed
+    /// @return The segment solution
+    Segment::Solution solve_(
+        const State& aState, const Duration& maximumPropagationDuration, const bool& allowMultipleManeuvers
+    ) const;
+
+    /// @brief Solve the segment using the given dynamics
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
     /// @param aDynamicsArray The dynamics array
-    /// @param anEventConditionSPtr The event condition
+    /// @param allowMultipleManeuvers True if multiple maneuvers are allowed
     /// @return The segment solution
-    Segment::Solution Solve_(
+    Segment::Solution solveWithDynamics_(
         const State& aState,
         const Duration& maximumPropagationDuration,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const Shared<EventCondition>& anEventConditionSPtr
+        const bool& allowMultipleManeuvers
     ) const;
 
     /// @brief Find the Thruster dynamics from an array of dynamics, throwing an error if none or multiple Thruster

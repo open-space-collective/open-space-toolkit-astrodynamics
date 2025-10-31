@@ -349,6 +349,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
         .def(
+            "get_thruster_dynamics",
+            &Segment::getThrusterDynamics,
+            R"doc(
+                Get the thruster dynamics.
+
+                Returns:
+                    Thruster: The thruster dynamics.
+
+            )doc"
+        )
+        .def(
             "get_type",
             &Segment::getType,
             R"doc(
@@ -359,14 +370,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
-
         .def(
             "solve",
             &Segment::solve,
             arg("state"),
             arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
             R"doc(
-                Solve the segment.
+                Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
+
+                Args:
+                    state (State): The state.
+                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
+
+                Returns:
+                    SegmentSolution: The segment solution.
+
+            )doc"
+        )
+
+        .def(
+            "solve_next_maneuver",
+            &Segment::solveNextManeuver,
+            arg("state"),
+            arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
+            R"doc(
+                Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be solved until its event condition is satisfied or the maximum propagation duration is reached.
 
                 Args:
                     state (State): The state.
