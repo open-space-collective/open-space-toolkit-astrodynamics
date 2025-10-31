@@ -28,6 +28,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             )doc"
     );
 
+    enum_<Sequence::MaximumManeuverDurationStrategy>(sequence, "MaximumManeuverDurationStrategy")
+
+        .value("Fail", Sequence::MaximumManeuverDurationStrategy::Fail)
+        .value("Skip", Sequence::MaximumManeuverDurationStrategy::Skip)
+        .value("Slice", Sequence::MaximumManeuverDurationStrategy::Slice)
+        .value("Center", Sequence::MaximumManeuverDurationStrategy::Center)
+
+        ;
+
     class_<Sequence::Solution>(
         sequence,
         "Solution",
@@ -308,6 +317,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 )doc"
             )
             .def(
+                "get_maximum_maneuver_duration_strategy",
+                &Sequence::getMaximumManeuverDurationStrategy,
+                R"doc(
+                    Get the maximum maneuver duration strategy.
+
+                    Returns:
+                        MaximumManeuverDurationStrategy: The maximum maneuver duration strategy.
+
+                )doc"
+            )
+            .def(
                 "get_minimum_maneuver_duration",
                 &Sequence::getMinimumManeuverDuration,
                 R"doc(
@@ -340,6 +360,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 )doc",
                 arg("maximum_maneuver_duration")
+            )
+            .def(
+                "set_maximum_maneuver_duration_strategy",
+                &Sequence::setMaximumManeuverDurationStrategy,
+                R"doc(
+                    Set the maximum maneuver duration strategy.
+
+                    Args:
+                        maximum_maneuver_duration_strategy (MaximumManeuverDurationStrategy): The maximum maneuver duration strategy.
+
+                )doc",
+                arg("maximum_maneuver_duration_strategy")
             )
             .def(
                 "set_minimum_maneuver_duration",

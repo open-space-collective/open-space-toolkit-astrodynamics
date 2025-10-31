@@ -46,6 +46,17 @@ using ostk::astrodynamics::trajectory::State;
 class Sequence
 {
    public:
+    /// @brief If the maximum maneuver duration is specified, this strategy determines how to handle maneuvers that
+    /// exceed said constraint.
+    enum class MaximumManeuverDurationStrategy
+    {
+        Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
+        Skip,   ///< The maneuver will be skipped entirely.
+        Slice,  ///< The maneuver will be sliced into one or more maneuvers starting from the beginning and solving
+                ///< iteratively.
+        Center  ///< The maneuver will be shortened and centered around its midpoint.
+    };
+
     /// @brief Once a sequence is set up with one or more segments, it can be solved, resulting in this sequences's
     /// Solution.
     struct Solution
@@ -187,6 +198,11 @@ class Sequence
     /// @return Maximum maneuver duration.
     Duration getMaximumManeuverDuration() const;
 
+    /// @brief Get maximum maneuver duration strategy.
+    ///
+    /// @return Maximum maneuver duration strategy.
+    MaximumManeuverDurationStrategy getMaximumManeuverDurationStrategy() const;
+
     /// @brief Get maximum propagation duration.
     ///
     /// @return Maximum propagation duration.
@@ -206,6 +222,11 @@ class Sequence
     ///
     /// @param aMaximumManeuverDuration Maximum maneuver duration.
     void setMaximumManeuverDuration(const Duration& aMaximumManeuverDuration);
+
+    /// @brief Set maximum maneuver duration strategy.
+    ///
+    /// @param aMaximumManeuverDurationStrategy Maximum maneuver duration strategy.
+    void setMaximumManeuverDurationStrategy(const MaximumManeuverDurationStrategy& aMaximumManeuverDurationStrategy);
 
     /// @brief Set minimum maneuver separation.
     ///
@@ -317,6 +338,7 @@ class Sequence
     Duration minimumManeuverDuration_;
     Duration minimumManeuverSeparation_;
     Duration maximumManeuverDuration_;
+    MaximumManeuverDurationStrategy maximumManeuverDurationStrategy_;
 };
 
 }  // namespace trajectory

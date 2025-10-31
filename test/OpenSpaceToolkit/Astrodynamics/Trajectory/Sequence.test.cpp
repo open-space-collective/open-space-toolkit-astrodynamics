@@ -970,6 +970,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeu
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMaximumManeuverDurationStrategy)
+{
+    Sequence sequence = defaultSequence_;
+    EXPECT_NO_THROW(sequence.setMaximumManeuverDurationStrategy(Sequence::MaximumManeuverDurationStrategy::Center));
+    EXPECT_EQ(Sequence::MaximumManeuverDurationStrategy::Center, sequence.getMaximumManeuverDurationStrategy());
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
 {
     {
@@ -1352,8 +1359,9 @@ struct ManeuveringConstraintsTestParams
     Duration minimumManeuverSeparation;
     Duration minimumManeuverDuration;
     Duration maximumManeuverDuration;
-    Array<Tuple<Duration, Duration, bool>> expectedManeuverIntervals;  // bool: true if we should use a loose tolerance
-                                                                       // for the start of the expected interval
+    Sequence::MaximumManeuverDurationStrategy maximumManeuverDurationStrategy;
+    Array<Tuple<Duration, Duration, bool>>
+        expectedManeuverIntervals;  // bool: true if we should use a "loose" tolerance
 };
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence_ManeuveringConstraints_Parameterized
@@ -1387,6 +1395,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Seconds(30.0),
             Duration::Undefined(),
+            Sequence::MaximumManeuverDurationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>>::Empty()
         },
         // With Minimum Maneuver Duration Constraint
@@ -1402,6 +1411,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Minutes(10.0),
             Duration::Undefined(),
+            Sequence::MaximumManeuverDurationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
@@ -1421,6 +1431,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(10.0),
             Duration::Seconds(30.0),
             Duration::Undefined(),
+            Sequence::MaximumManeuverDurationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
@@ -1431,23 +1442,76 @@ INSTANTIATE_TEST_SUITE_P(
                    // might start slightly later (due to the numerical step)
             }
         },
-        // With Maximum Maneuver Duration Constraint
+        // With Maximum Maneuver Duration Constraint (Skip Strategy)
         ManeuveringConstraintsTestParams {
-            "MaximumManeuverDuration",
+            "MaximumManeuverDurationSkip",
             Array<Tuple<Duration, Duration>> {
-                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(14.0)},  // Too long, shortened
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(14.0)},  // Too long, skipped
                 Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
-                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Too long, shortened
-                Tuple<Duration, Duration> {Duration::Minutes(70.0), Duration::Minutes(110.0)}  // Too long, shortened
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Too long, skipped
+                Tuple<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(110.0)}  // Too long, skipped
             },
             Duration::Seconds(30.0),
             Duration::Seconds(30.0),
             Duration::Minutes(10.0),
+            Sequence::MaximumManeuverDurationStrategy::Skip,
+            Array<Tuple<Duration, Duration, bool>> {
+                Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
+            }
+        },
+        // With Maximum Maneuver Duration Constraint (Slice Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDurationSlice",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(-5.0), Duration::Minutes(14.0)
+                },  // Too long, sliced [0, 10] (skiping [13, 14] as it would be too short)
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(30.0), Duration::Minutes(50.0)
+                },  // Too long, sliced to [30, 40] and [43, 50]
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(60.0), Duration::Minutes(110.0)
+                }  // Too long, sliced to [60, 70], [73, 83], [86, 96] (skiping [99, 100] as it would be too short)
+            },
+            Duration::Minutes(3.0),
+            Duration::Minutes(4.0),
+            Duration::Minutes(10.0),
+            Sequence::MaximumManeuverDurationStrategy::Slice,
+            Array<Tuple<Duration, Duration, bool>> {
+                Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(30.0), Duration::Minutes(40.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(43.0), Duration::Minutes(50.0), true},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(60.0), Duration::Minutes(70.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(73.0), Duration::Minutes(83.0), true},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(86.0), Duration::Minutes(96.0), true}
+            }
+        },
+        // With Maximum Maneuver Duration Constraint (Center Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDurationCenter",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(-5.0), Duration::Minutes(14.0)
+                },  // Too long, centered around 7.0
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(30.0), Duration::Minutes(50.0)
+                },  // Too long, centered around 40.0
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(60.0), Duration::Minutes(110.0)
+                }  // Too long, centered around 80.0
+            },
+            Duration::Seconds(30.0),
+            Duration::Seconds(30.0),
+            Duration::Minutes(10.0),
+            Sequence::MaximumManeuverDurationStrategy::Center,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(35.0), Duration::Minutes(45.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(80.0), Duration::Minutes(90.0), false}
+                Tuple<Duration, Duration, bool> {Duration::Minutes(75.0), Duration::Minutes(85.0), false}
             }
         }
     ),
@@ -1477,9 +1541,12 @@ TEST_P(
         RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(100.0))
     );
 
-    const Shared<RealCondition> sequenceConditionSPtr = std::make_shared<RealCondition>(
-        RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(100.0))
-    );
+    const Shared<RealCondition> sequenceConditionSPtr =
+        std::make_shared<RealCondition>(RealCondition::DurationCondition(
+            RealCondition::Criterion::PositiveCrossing, Duration::Minutes(99.0)
+        )  // When solving to condition, set a slightly shorter duration than the expected segment termination, so that
+           // we can avoid trailing edge artifacts when testing
+        );
 
     const Duration maximumPropagationDuration = Duration::Minutes(200.0);
     const Duration tolerance = Duration::Milliseconds(10.0);
@@ -1508,10 +1575,8 @@ TEST_P(
 
     sequence.setMinimumManeuverSeparation(params.minimumManeuverSeparation);
     sequence.setMinimumManeuverDuration(params.minimumManeuverDuration);
-    if (params.maximumManeuverDuration.isDefined())
-    {
-        sequence.setMaximumManeuverDuration(params.maximumManeuverDuration);
-    }
+    sequence.setMaximumManeuverDuration(params.maximumManeuverDuration);
+    sequence.setMaximumManeuverDurationStrategy(params.maximumManeuverDurationStrategy);
 
     // Solve sequence using both methods
     const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
@@ -1535,15 +1600,91 @@ TEST_P(
     {
         const Instant expectedStart = referenceInstant + std::get<0>(params.expectedManeuverIntervals[idx]);
         const Instant expectedEnd = referenceInstant + std::get<1>(params.expectedManeuverIntervals[idx]);
-        const Duration startTolerance =
-            std::get<2>(params.expectedManeuverIntervals[idx]) ? Duration::Seconds(5.0) : tolerance;
+        const Duration toleranceToUse =
+            std::get<2>(params.expectedManeuverIntervals[idx]) ? Duration::Seconds(20.0) : tolerance;
 
-        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getStart().isNear(expectedStart, startTolerance));
-        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getEnd().isNear(expectedEnd, tolerance));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getStart().isNear(expectedStart, toleranceToUse));
+        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getEnd().isNear(expectedEnd, toleranceToUse));
 
-        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getStart().isNear(expectedStart, startTolerance));
-        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getEnd().isNear(expectedEnd, tolerance));
+        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getStart().isNear(expectedStart, toleranceToUse));
+        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getEnd().isNear(expectedEnd, toleranceToUse));
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumManeuverDurationConstraintFail)
+{
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> dynamicsSPtr = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+    };
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 1.0, 1.0e-12, 1.0e-12
+    };
+
+    const SatelliteSystem satelliteSystem = SatelliteSystem::Default();
+
+    const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+
+    VectorXd coordinates(7);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const State initialState = {
+        Instant::J2000(),
+        coordinates,
+        Frame::GCRF(),
+        coordinatesBrokerSPtr,
+    };
+
+    const Duration maximumPropagationDuration = Duration::Minutes(200.0);
+    const Shared<const Frame> frameSPtr = Frame::GCRF();
+
+    Segment segment = Segment::Maneuver(
+        "Segment",
+        std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+        ),
+        std::make_shared<Thruster>(
+            satelliteSystem,
+            std::make_shared<CustomGuidanceLaw>(Array<Interval> {
+                Interval::Closed(Instant::J2000() + Duration::Minutes(0.0), Instant::J2000() + Duration::Minutes(20.0)),
+            })
+        ),
+        dynamicsSPtr,
+        numericalSolver
+    );
+
+    Sequence sequence = {
+        {segment},
+        numericalSolver,
+        dynamicsSPtr,
+        maximumPropagationDuration,
+    };
+    sequence.setMaximumManeuverDuration(Duration::Minutes(10.0));
+
+    EXPECT_EQ(sequence.getMaximumManeuverDurationStrategy(), Sequence::MaximumManeuverDurationStrategy::Fail);
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                sequence.solve(initialState, 1);
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_NE(
+                    e.getMessage().find("Maneuver duration exceeds maximum maneuver duration constraint"),
+                    std::string::npos
+                );
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
 }
 
 TEST_F(

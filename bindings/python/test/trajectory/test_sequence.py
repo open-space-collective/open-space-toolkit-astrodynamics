@@ -467,6 +467,18 @@ class TestSequence:
             sequence.get_minimum_maneuver_separation() == new_minimum_maneuver_separation
         )
 
+    def test_get_and_set_maximum_maneuver_duration_strategy(
+        self,
+        sequence: Sequence,
+    ):
+        sequence.set_maximum_maneuver_duration_strategy(
+            Sequence.MaximumManeuverDurationStrategy.Slice
+        )
+        assert (
+            sequence.get_maximum_maneuver_duration_strategy()
+            == Sequence.MaximumManeuverDurationStrategy.Slice
+        )
+
     def test_add_segment(
         self,
         sequence: Sequence,
