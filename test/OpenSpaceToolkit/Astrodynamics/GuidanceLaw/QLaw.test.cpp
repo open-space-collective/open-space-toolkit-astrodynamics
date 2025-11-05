@@ -196,6 +196,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetGra
     EXPECT_EQ(qlaw_.getGradientStrategy(), gradientStrategy_);
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetCOEDomain)
+{
+    // Default should be Osculating
+    EXPECT_EQ(qlaw_.getCOEDomain(), QLaw::COEDomain::Osculating);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, SetCOEDomain)
+{
+    QLaw qlaw = {
+        targetCOE_,
+        gravitationalParameter_,
+        parameters_,
+        gradientStrategy_,
+    };
+
+    // Test setting to BrouwerLyddaneMeanLong
+    qlaw.setCOEDomain(QLaw::COEDomain::BrouwerLyddaneMeanLong);
+    EXPECT_EQ(qlaw.getCOEDomain(), QLaw::COEDomain::BrouwerLyddaneMeanLong);
+
+    // Test setting to BrouwerLyddaneMeanShort
+    qlaw.setCOEDomain(QLaw::COEDomain::BrouwerLyddaneMeanShort);
+    EXPECT_EQ(qlaw.getCOEDomain(), QLaw::COEDomain::BrouwerLyddaneMeanShort);
+
+    // Test setting back to Osculating
+    qlaw.setCOEDomain(QLaw::COEDomain::Osculating);
+    EXPECT_EQ(qlaw.getCOEDomain(), QLaw::COEDomain::Osculating);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeOrbitalElementsMaximalChange)
 {
     {

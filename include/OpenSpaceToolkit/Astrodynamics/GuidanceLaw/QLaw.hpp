@@ -109,6 +109,13 @@ class QLaw : public GuidanceLaw
         FiniteDifference
     };
 
+    enum class COEDomain
+    {
+        Osculating,
+        BrouwerLyddaneMeanLong,
+        BrouwerLyddaneMeanShort
+    };
+
     /// @brief Constructor
     ///
     /// @param aCOE A target orbit described by Classical Orbital Elements.
@@ -151,6 +158,16 @@ class QLaw : public GuidanceLaw
     ///
     /// @return Gradient Strategy
     GradientStrategy getGradientStrategy() const;
+
+    /// @brief Get COE Domain
+    ///
+    /// @return COE Domain
+    COEDomain getCOEDomain() const;
+
+    /// @brief Set COE Domain
+    ///
+    /// @param aCOEDomain A COE Domain
+    void setCOEDomain(const COEDomain& aCOEDomain);
 
     /// @brief Print guidance law
     ///
@@ -232,6 +249,7 @@ class QLaw : public GuidanceLaw
     const GradientStrategy gradientStrategy_;
     const FiniteDifferenceSolver finiteDifferenceSolver_;
     const StateBuilder stateBuilder_;
+    COEDomain coeDomain_;
 
     const VectorXd trueAnomalyAngles_ = VectorXd::LinSpaced(50, 0.0, 2.0 * M_PI);
 

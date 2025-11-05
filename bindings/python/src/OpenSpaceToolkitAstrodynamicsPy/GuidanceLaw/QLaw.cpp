@@ -207,6 +207,20 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
         ;
 
+    enum_<QLaw::COEDomain>(
+        qLaw,
+        "COEDomain",
+        R"doc(
+            COE domain.
+        )doc"
+    )
+
+        .value("Osculating", QLaw::COEDomain::Osculating, "Osculating")
+        .value("BrouwerLyddaneMeanLong", QLaw::COEDomain::BrouwerLyddaneMeanLong, "Brouwer Lyddane Mean Long")
+        .value("BrouwerLyddaneMeanShort", QLaw::COEDomain::BrouwerLyddaneMeanShort, "Brouwer Lyddane Mean Short")
+
+        ;
+
     qLaw
 
         .def("__str__", &(shiftToString<QLaw>))
@@ -259,6 +273,27 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Returns:
                     QLaw.GradientStrategy: The gradient strategy.
             )doc"
+        )
+        .def(
+            "get_coe_domain",
+            &QLaw::getCOEDomain,
+            R"doc(
+                Get the COE domain.
+
+                Returns:
+                    QLaw.COEDomain: The COE domain.
+            )doc"
+        )
+        .def(
+            "set_coe_domain",
+            &QLaw::setCOEDomain,
+            R"doc(
+                Set the COE domain.
+
+                Args:
+                    coe_domain (QLaw.COEDomain): The COE domain.
+            )doc",
+            arg("coe_domain")
         )
 
         .def(
