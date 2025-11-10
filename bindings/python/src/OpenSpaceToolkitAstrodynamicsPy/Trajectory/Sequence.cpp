@@ -28,12 +28,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             )doc"
     );
 
-    enum_<Sequence::MaximumManeuverDurationStrategy>(sequence, "MaximumManeuverDurationStrategy")
+    enum_<Sequence::MaximumManeuverDurationViolationStrategy>(sequence, "MaximumManeuverDurationViolationStrategy")
 
-        .value("Fail", Sequence::MaximumManeuverDurationStrategy::Fail)
-        .value("Skip", Sequence::MaximumManeuverDurationStrategy::Skip)
-        .value("Slice", Sequence::MaximumManeuverDurationStrategy::Slice)
-        .value("Center", Sequence::MaximumManeuverDurationStrategy::Center)
+        .value("Fail", Sequence::MaximumManeuverDurationViolationStrategy::Fail)
+        .value("Skip", Sequence::MaximumManeuverDurationViolationStrategy::Skip)
+        .value("Split", Sequence::MaximumManeuverDurationViolationStrategy::Split)
+        .value("Center", Sequence::MaximumManeuverDurationViolationStrategy::Center)
 
         ;
 
@@ -323,7 +323,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Get the maximum maneuver duration strategy.
 
                     Returns:
-                        MaximumManeuverDurationStrategy: The maximum maneuver duration strategy.
+                        MaximumManeuverDurationViolationStrategy: The maximum maneuver duration strategy.
 
                 )doc"
             )
@@ -368,7 +368,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Set the maximum maneuver duration strategy.
 
                     Args:
-                        maximum_maneuver_duration_strategy (MaximumManeuverDurationStrategy): The maximum maneuver duration strategy.
+                        maximum_maneuver_duration_strategy (MaximumManeuverDurationViolationStrategy): The maximum maneuver duration strategy.
 
                 )doc",
                 arg("maximum_maneuver_duration_strategy")

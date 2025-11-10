@@ -465,7 +465,7 @@ Segment::Segment(
     const String& aName,
     const Segment::Type& aType,
     const Shared<EventCondition>& anEventConditionSPtr,
-    const Array<Shared<Dynamics>>& aCoastDynamicsArray,
+    const Array<Shared<Dynamics>>& aFreeDynamicsArray,
     const Shared<Thruster>& aThrusterDynamics,
     const NumericalSolver& aNumericalSolver,
     const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
@@ -474,7 +474,7 @@ Segment::Segment(
     : name_(aName),
       type_(aType),
       eventCondition_(anEventConditionSPtr),
-      coastDynamicsArray_(aCoastDynamicsArray),
+      freeDynamicsArray_(aFreeDynamicsArray),
       thrusterDynamicsSPtr_(aThrusterDynamics),
       numericalSolver_(aNumericalSolver),
       constantManeuverDirectionLocalOrbitalFrameFactory_(aLocalOrbitalFrameFactory),
@@ -485,7 +485,7 @@ Segment::Segment(
         throw ostk::core::error::runtime::Undefined("Event condition");
     }
 
-    if (coastDynamicsArray_.isEmpty())
+    if (freeDynamicsArray_.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("Coast dynamics");
     }
@@ -511,7 +511,7 @@ Segment::Segment(
     }
 
     // Check that coast dynamics doesn't contain any Thruster dynamics
-    for (const Shared<Dynamics>& dynamic : coastDynamicsArray_)
+    for (const Shared<Dynamics>& dynamic : freeDynamicsArray_)
     {
         const Shared<Thruster> candidateThruster = std::dynamic_pointer_cast<Thruster>(dynamic);
         if (candidateThruster != nullptr)
@@ -542,7 +542,7 @@ Shared<EventCondition> Segment::getEventCondition() const
 
 Array<Shared<Dynamics>> Segment::getDynamics() const
 {
-    Array<Shared<Dynamics>> allDynamics = coastDynamicsArray_;
+    Array<Shared<Dynamics>> allDynamics = freeDynamicsArray_;
     if (thrusterDynamicsSPtr_ != nullptr)
     {
         allDynamics.add(thrusterDynamicsSPtr_);
@@ -550,9 +550,9 @@ Array<Shared<Dynamics>> Segment::getDynamics() const
     return allDynamics;
 }
 
-Array<Shared<Dynamics>> Segment::getCoastDynamics() const
+Array<Shared<Dynamics>> Segment::getFreeDynamics() const
 {
-    return coastDynamicsArray_;
+    return freeDynamicsArray_;
 }
 
 NumericalSolver Segment::getNumericalSolver() const
@@ -579,11 +579,6 @@ const Shared<EventCondition>& Segment::accessEventCondition() const
     return eventCondition_;
 }
 
-const Array<Shared<Dynamics>>& Segment::accessDynamics() const
-{
-    return coastDynamicsArray_;
-}
-
 const NumericalSolver& Segment::accessNumericalSolver() const
 {
     return numericalSolver_;
@@ -595,7 +590,7 @@ Segment Segment::toCoastSegment(const String& aName) const
         aName.isEmpty() ? name_ : aName,
         Segment::Type::Coast,
         eventCondition_,
-        coastDynamicsArray_,
+        freeDynamicsArray_,
         nullptr,
         numericalSolver_,
         constantManeuverDirectionLocalOrbitalFrameFactory_,
@@ -609,7 +604,7 @@ Segment Segment::toManeuverSegment(const Shared<Thruster>& aThrusterDynamics, co
         aName.isEmpty() ? name_ : aName,
         Segment::Type::Maneuver,
         eventCondition_,
-        coastDynamicsArray_,
+        freeDynamicsArray_,
         aThrusterDynamics,
         numericalSolver_,
         constantManeuverDirectionLocalOrbitalFrameFactory_,
@@ -622,7 +617,7 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
     return solve_(aState, maximumPropagationDuration, true);
 }
 
-Segment::Solution Segment::solveNextManeuver(const State& aState, const Duration& maximumPropagationDuration) const
+Segment::Solution Segment::solveToNextManeuver(const State& aState, const Duration& maximumPropagationDuration) const
 {
     return solve_(aState, maximumPropagationDuration, false);
 }
@@ -641,7 +636,7 @@ void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream);
 
     ostk::core::utils::Print::Separator(anOutputStream, "Dynamics");
-    for (const auto& dynamics : coastDynamicsArray_)
+    for (const auto& dynamics : freeDynamicsArray_)
     {
         dynamics->print(anOutputStream, false);
     }
@@ -722,7 +717,7 @@ Segment::Solution Segment::solve_(
 ) const
 {
     const Segment::Solution solution = this->solveWithDynamics_(
-        aState, maximumPropagationDuration, coastDynamicsArray_, thrusterDynamicsSPtr_, allowMultipleManeuvers
+        aState, maximumPropagationDuration, freeDynamicsArray_, thrusterDynamicsSPtr_, allowMultipleManeuvers
     );
 
     // If we're not forcing a constant maneuver direction in the Local Orbital Frame, return the solution
@@ -759,20 +754,20 @@ Segment::Solution Segment::solve_(
     );
 
     return this->solveWithDynamics_(
-        aState, maximumPropagationDuration, coastDynamicsArray_, heterogeneousThrustDynamicsSPtr, allowMultipleManeuvers
+        aState, maximumPropagationDuration, freeDynamicsArray_, heterogeneousThrustDynamicsSPtr, allowMultipleManeuvers
     );
 }
 
 Segment::Solution Segment::solveWithDynamics_(
     const State& aState,
     const Duration& maximumPropagationDuration,
-    const Array<Shared<Dynamics>>& aCoastDynamicsArray,
+    const Array<Shared<Dynamics>>& aFreeDynamicsArray,
     const Shared<Thruster>& aThrusterDynamics,
     const bool& allowMultipleManeuvers
 ) const
 {
-    // Combine coast and thruster dynamics into a single array
-    Array<Shared<Dynamics>> aDynamicsArray = aCoastDynamicsArray;
+    // Combine free dynamics and thruster dynamics into a single array
+    Array<Shared<Dynamics>> aDynamicsArray = aFreeDynamicsArray;
     if (aThrusterDynamics != nullptr)
     {
         aDynamicsArray.add(aThrusterDynamics);
@@ -791,12 +786,15 @@ Segment::Solution Segment::solveWithDynamics_(
             const Vector3d positionCoordinates = state.getPosition().inMeters().accessCoordinates();
             const Vector3d velocityCoordinates =
                 state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+
+            // Set the thrust acceleration to 1.0, as we're only interested to see if it's on or off.
             const Vector3d thrustAcceleration = guidanceLaw->calculateThrustAccelerationAt(
                 state.accessInstant(), positionCoordinates, velocityCoordinates, 1.0, state.accessFrame()
             );
             return thrustAcceleration.norm();
         };
 
+        // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm will either be 1.0 if on, or 0.0 if off.
         const Shared<RealCondition> thrustOffCondition = std::make_shared<RealCondition>(
             "Thrust Off Condition", RealCondition::Criterion::NegativeCrossing, thrustAccelerationNormEvaluator, 0.5
         );
@@ -830,14 +828,14 @@ Segment::Solution Segment::solveWithDynamics_(
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
     }
 
-    // Determine the final conditionIsSatisfied value
+    // Since the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
+    // segment event condition to see if it's satisfied.
+
     bool finalConditionIsSatisfied = conditionSolution.conditionIsSatisfied;
     if (needsConditionReevaluation && states.getSize() >= 2)
     {
-        const State& lastState = states.accessLast();
+        const State& lastState = states[states.getSize() - 1];
         const State& secondToLastState = states[states.getSize() - 2];
-
-        const Duration stepDuration = lastState.accessInstant() - secondToLastState.accessInstant();
 
         const Propagator reevaluationPropagator = {
             numericalSolver_,
@@ -845,12 +843,14 @@ Segment::Solution Segment::solveWithDynamics_(
         };
 
         const Array<State> propagatedStates =
-            reevaluationPropagator.calculateStatesAt(lastState, {lastState.accessInstant() + stepDuration});
+            propagator.calculateStatesAt(lastState, {secondToLastState.accessInstant()});
 
         if (!propagatedStates.isEmpty())
         {
             finalConditionIsSatisfied = eventCondition_->isSatisfied(propagatedStates.accessLast(), secondToLastState);
         }
+
+        // finalConditionIsSatisfied = eventCondition_->isSatisfied(lastState, secondToLastState);
     }
 
     return {
