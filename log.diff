@@ -1,0 +1,461 @@
+diff --git a/bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Sequence.cpp b/bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Sequence.cpp
+index 79d87a767..b6fa57216 100644
+--- a/bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Sequence.cpp
++++ b/bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Sequence.cpp
+@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
+ 
+         .value("Fail", Sequence::MaximumManeuverDurationViolationStrategy::Fail)
+         .value("Skip", Sequence::MaximumManeuverDurationViolationStrategy::Skip)
+-        .value("Split", Sequence::MaximumManeuverDurationViolationStrategy::Split)
++        .value("Slice", Sequence::MaximumManeuverDurationViolationStrategy::Slice)
+         .value("Center", Sequence::MaximumManeuverDurationViolationStrategy::Center)
+ 
+         ;
+diff --git a/bindings/python/test/trajectory/test_sequence.py b/bindings/python/test/trajectory/test_sequence.py
+index 28e007e37..556ea4b27 100644
+--- a/bindings/python/test/trajectory/test_sequence.py
++++ b/bindings/python/test/trajectory/test_sequence.py
+@@ -472,11 +472,11 @@ class TestSequence:
+         sequence: Sequence,
+     ):
+         sequence.set_maximum_maneuver_duration_strategy(
+-            Sequence.MaximumManeuverDurationViolationStrategy.Split
++            Sequence.MaximumManeuverDurationViolationStrategy.Slice
+         )
+         assert (
+             sequence.get_maximum_maneuver_duration_strategy()
+-            == Sequence.MaximumManeuverDurationViolationStrategy.Split
++            == Sequence.MaximumManeuverDurationViolationStrategy.Slice
+         )
+ 
+     def test_add_segment(
+diff --git a/include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp b/include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp
+index f35b9509b..258c67145 100644
+--- a/include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp
++++ b/include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp
+@@ -52,7 +52,7 @@ class Sequence
+     {
+         Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
+         Skip,   ///< The maneuver will be skipped entirely.
+-        Split,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
++        Slice,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
+                 ///< until the last maneuver which will be equal or shorter than the maximum duration.
+         Center  ///< The maneuver will be shortened to the maximum duraiton and centered around its midpoint.
+     };
+@@ -318,6 +318,31 @@ class Sequence
+         const Segment& aSegment, const Array<Interval>& aManeuverIntervals, const String& aSuffix
+     ) const;
+ 
++    /// @brief Check if a maneuver satisfies the minimum duration constraint.
++    ///
++    /// @param aManeuver The maneuver to check
++    /// @return True if maneuver meets minimum duration or constraint is undefined, false otherwise
++    bool satisfiesMinimumDurationConstraint_(const Maneuver& aManeuver) const;
++
++    /// @brief Check if a maneuver violates the maximum duration constraint and determine handling.
++    ///
++    /// @param aManeuver The maneuver to check
++    /// @param aSegment The segment containing the maneuver (used for strategy application)
++    /// @param outModifiedSegment [Output] Modified segment if strategy requires it (Split/Center)
++    /// @param outNextCoastInstant [Output] Instant to coast to after handling
++    /// @return True if maneuver is accepted (within max or undefined), false if rejected/modified
++    bool checkMaximumDurationConstraint_(
++        const Maneuver& aManeuver, const Segment& aSegment, Segment& outModifiedSegment, Instant& outNextCoastInstant
++    ) const;
++
++    /// @brief Calculate the instant to coast to for minimum maneuver separation enforcement.
++    ///
++    /// @param aLastManeuverInterval The interval of the last maneuver
++    /// @param aCurrentInstant The current instant
++    /// @return Instant to coast to, or Undefined if no separation needed
++    Instant calculateSeparationCoastTarget_(const Interval& aLastManeuverInterval, const Instant& aCurrentInstant)
++        const;
++
+     Array<Segment> segments_;
+     NumericalSolver numericalSolver_;
+     Array<Shared<Dynamics>> dynamics_;
+diff --git a/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp b/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp
+index f7a1f3df1..7de356fab 100644
+--- a/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp
++++ b/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp
+@@ -505,7 +505,7 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
+     const Interval& aLastManeuverInterval
+ ) const
+ {
+-    // If we're not dealing with a maneuver-related constraints
++    // Fast path: If no constraints apply, solve directly
+     if (aSegment.getType() != Segment::Type::Maneuver ||
+         (!maximumManeuverDuration_.isDefined() && !minimumManeuverDuration_.isDefined() &&
+          !minimumManeuverSeparation_.isDefined()))
+@@ -513,8 +513,7 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
+         return {aSegment.solve(aState, aMaximumPropagationDuration), aLastManeuverInterval};
+     }
+ 
+-    // If we're dealing with a maneuver segment, we need to solve maneuver by maneuver to account for maneuver-related
+-    // constraints
++    // Initialize unified solution accumulators
+     Array<State> unifiedStates = Array<State>::Empty();
+     Array<Interval> unifiedManeuverIntervals = Array<Interval>::Empty();
+     const Shared<HeterogeneousGuidanceLaw> unifiedGuidanceLaw = std::make_shared<HeterogeneousGuidanceLaw>();
+@@ -525,7 +524,7 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
+     Instant nextInstantToCoastTo = Instant::Undefined();
+     Segment nextSubsegmentToSolve = aSegment;
+ 
+-    // Helper lambda to update nextInstantToCoastTo with a new candidate instant
++    // Helper lambda to update next coast instant
+     const auto updateNextCoastInstant = [&maximumInstant,
+                                          &nextInstantToCoastTo](const Instant& candidateInstant) -> Instant
+     {
+@@ -533,11 +532,12 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
+         return nextInstantToCoastTo.isDefined() ? std::max(nextInstantToCoastTo, clampedCandidate) : clampedCandidate;
+     };
+ 
+-    // Account for maneuver separation w.r.t. the last maneuver in the sequence
+-    if (aLastManeuverInterval.isDefined() && minimumManeuverSeparation_.isDefined() &&
+-        (aState.accessInstant() - aLastManeuverInterval.getEnd()) < minimumManeuverSeparation_)
++    // Check if we need to coast first due to minimum separation from previous maneuver
++    const Instant separationTarget =
++        this->calculateSeparationCoastTarget_(aLastManeuverInterval, aState.accessInstant());
++    if (separationTarget.isDefined())
+     {
+-        nextInstantToCoastTo = updateNextCoastInstant(aLastManeuverInterval.getEnd() + minimumManeuverSeparation_);
++        nextInstantToCoastTo = updateNextCoastInstant(separationTarget);
+         nextSubsegmentToSolve =
+             aSegment.toCoastSegment(aSegment.getName() + " (Coast - Minimum Maneuver Separation Constraint)");
+     }
+@@ -593,99 +593,37 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
+ 
+         const Maneuver nextManeuverCandidate = subsegmentManeuvers.accessFirst();
+ 
+-        // Check minimum maneuver duration constraint
+-        if (minimumManeuverDuration_.isDefined() &&
+-            nextManeuverCandidate.getInterval().getDuration() < minimumManeuverDuration_)
++        // CONSTRAINT CHECK 1: Minimum maneuver duration
++        if (!this->satisfiesMinimumDurationConstraint_(nextManeuverCandidate))
+         {
+-            BOOST_LOG_TRIVIAL(debug
+-            ) << "Maneuver duration is less than the minimum maneuver duration. Skipping the maneuver."
+-              << std::endl;
+-            nextSubsegmentToSolve = aSegment.toCoastSegment(
+-                aSegment.getName() + " (Skipping Maneuver due to Minimum Maneuver Duration Constraint)"
+-            );
++            nextSubsegmentToSolve =
++                aSegment.toCoastSegment(aSegment.getName() + " (Skipping Maneuver - Minimum Duration Constraint)");
+             nextInstantToCoastTo =
+                 updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
+             continue;
+         }
+ 
+-        // Check maximum maneuver duration constraint
+-        if (maximumManeuverDuration_.isDefined() &&
+-            nextManeuverCandidate.getInterval().getDuration() > maximumManeuverDuration_)
+-        {
+-            BOOST_LOG_TRIVIAL(debug) << "Maneuver duration is greater than the maximum maneuver duration, handling... "
+-                                     << std::endl;
++        // CONSTRAINT CHECK 2: Maximum maneuver duration with strategy
++        Segment modifiedSegment = aSegment;  // Initialize with current segment
++        Instant maxDurationCoastTarget = Instant::Undefined();
+ 
+-            switch (maximumManeuverDurationStrategy_)
++        if (!this->checkMaximumDurationConstraint_(
++                nextManeuverCandidate, aSegment, modifiedSegment, maxDurationCoastTarget
++            ))
++        {
++            // Maneuver rejected or modified by strategy
++            nextSubsegmentToSolve = modifiedSegment;
++            if (maxDurationCoastTarget.isDefined())
+             {
+-                case MaximumManeuverDurationViolationStrategy::Fail:
+-                {
+-                    throw ostk::core::error::RuntimeError(
+-                        "Maneuver duration exceeds maximum maneuver duration constraint, change the maximum maneuver "
+-                        "duration strategy to prevent the Sequence from failing."
+-                    );
+-                }
+-
+-                case MaximumManeuverDurationViolationStrategy::Skip:
+-                {
+-                    nextSubsegmentToSolve = aSegment.toCoastSegment(
+-                        aSegment.getName() + "(Coast - Skipping Maneuver due to Maximum Maneuver Duration Constraint)"
+-                    );
+-                    nextInstantToCoastTo =
+-                        updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
+-                    break;
+-                }
+-
+-                case MaximumManeuverDurationViolationStrategy::Split:
+-                {
+-                    const Shared<Thruster> shortenedManeuverThruster =
+-                        this->buildThrusterDynamicsWithManeuverIntervals_(
+-                            aSegment,
+-                            {Interval::Closed(
+-                                nextManeuverCandidate.getInterval().getStart(),
+-                                nextManeuverCandidate.getInterval().getStart() + maximumManeuverDuration_
+-                            )},
+-                            "(Sliced Maneuver)"
+-                        );
+-                    nextSubsegmentToSolve = aSegment.toManeuverSegment(
+-                        shortenedManeuverThruster, aSegment.getName() + " (Sliced Maneuver)"
+-                    );
+-                    nextInstantToCoastTo = updateNextCoastInstant(
+-                        nextManeuverCandidate.getInterval().getStart() + maximumManeuverDuration_
+-                    );
+-                    break;
+-                }
+-
+-                case MaximumManeuverDurationViolationStrategy::Center:
+-                {
+-                    const Shared<Thruster> shortenedManeuverThruster =
+-                        this->buildThrusterDynamicsWithManeuverIntervals_(
+-                            aSegment,
+-                            {Interval::Centered(
+-                                nextManeuverCandidate.getInterval().getCenter(),
+-                                maximumManeuverDuration_,
+-                                Interval::Type::Closed
+-                            )},
+-                            "(Center Maneuver)"
+-                        );
+-                    nextSubsegmentToSolve = aSegment.toManeuverSegment(
+-                        shortenedManeuverThruster, aSegment.getName() + " (Centered Maneuver)"
+-                    );
+-                    nextInstantToCoastTo =
+-                        updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
+-                    break;
+-                }
+-
+-                default:
+-                {
+-                    throw ostk::core::error::runtime::ToBeImplemented("Maximum maneuver duration strategy");
+-                }
++                nextInstantToCoastTo = updateNextCoastInstant(maxDurationCoastTarget);
+             }
+-
+             continue;
+         }
+ 
+-        // Maneuver has been accepted
+-        BOOST_LOG_TRIVIAL(debug) << "Maneuver accepted." << std::endl;
++        // MANEUVER ACCEPTED - Add to unified solution
++        BOOST_LOG_TRIVIAL(debug) << "Maneuver accepted at " << nextManeuverCandidate.getInterval().toString()
++                                 << " (duration: " << nextManeuverCandidate.getInterval().getDuration().toString()
++                                 << ").";
+         unifiedStates.add(
+             Array<State>(maneuverSubsegmentSolution.states.begin() + 1, maneuverSubsegmentSolution.states.end())
+         );
+@@ -699,14 +637,16 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
+             break;
+         }
+ 
+-        // Account for minimum maneuver separation
+-        BOOST_LOG_TRIVIAL(debug) << "Accounting for minimum maneuver separation." << std::endl;
+-        nextSubsegmentToSolve =
+-            aSegment.toCoastSegment(aSegment.getName() + " (Coast - Minimum Maneuver Separation Constraint)");
+-        if (minimumManeuverSeparation_.isDefined())
++        // Prepare for next iteration: enforce minimum separation after this maneuver
++        const Instant nextSeparationTarget = this->calculateSeparationCoastTarget_(
++            nextManeuverCandidate.getInterval(), unifiedStates.accessLast().accessInstant()
++        );
++
++        if (nextSeparationTarget.isDefined())
+         {
+-            nextInstantToCoastTo =
+-                updateNextCoastInstant(unifiedManeuverIntervals.accessLast().getEnd() + minimumManeuverSeparation_);
++            nextInstantToCoastTo = updateNextCoastInstant(nextSeparationTarget);
++            nextSubsegmentToSolve =
++                aSegment.toCoastSegment(aSegment.getName() + " (Coast - Minimum Maneuver Separation Constraint)");
+         }
+     }
+ 
+@@ -743,6 +683,143 @@ Shared<Thruster> Sequence::buildThrusterDynamicsWithManeuverIntervals_(
+     );
+ }
+ 
++bool Sequence::satisfiesMinimumDurationConstraint_(const Maneuver& aManeuver) const
++{
++    if (!minimumManeuverDuration_.isDefined())
++    {
++        return true;
++    }
++
++    const bool satisfies = aManeuver.getInterval().getDuration() >= minimumManeuverDuration_;
++
++    if (!satisfies)
++    {
++        BOOST_LOG_TRIVIAL(debug) << "Maneuver at " << aManeuver.getInterval().toString() << " duration ("
++                                 << aManeuver.getInterval().getDuration().toString() << ") "
++                                 << "is less than minimum (" << minimumManeuverDuration_.toString() << "). "
++                                 << "Skipping maneuver.";
++    }
++
++    return satisfies;
++}
++
++bool Sequence::checkMaximumDurationConstraint_(
++    const Maneuver& aManeuver, const Segment& aSegment, Segment& outModifiedSegment, Instant& outNextCoastInstant
++) const
++{
++    if (!maximumManeuverDuration_.isDefined())
++    {
++        return true;  // No constraint, accept maneuver
++    }
++
++    if (aManeuver.getInterval().getDuration() <= maximumManeuverDuration_)
++    {
++        return true;  // Within limit, accept maneuver
++    }
++
++    // Maneuver exceeds maximum duration - apply strategy
++    BOOST_LOG_TRIVIAL(debug) << "Maneuver at " << aManeuver.getInterval().toString() << " duration ("
++                             << aManeuver.getInterval().getDuration().toString() << ") "
++                             << "exceeds maximum (" << maximumManeuverDuration_.toString() << "). "
++                             << "Applying " << [this]()
++    {
++        switch (maximumManeuverDurationStrategy_)
++        {
++            case MaximumManeuverDurationViolationStrategy::Fail:
++                return "Fail";
++            case MaximumManeuverDurationViolationStrategy::Skip:
++                return "Skip";
++            case MaximumManeuverDurationViolationStrategy::Slice:
++                return "Slice";
++            case MaximumManeuverDurationViolationStrategy::Center:
++                return "Center";
++            default:
++                return "Unknown";
++        }
++    }() << " strategy.";
++
++    switch (maximumManeuverDurationStrategy_)
++    {
++        case MaximumManeuverDurationViolationStrategy::Fail:
++        {
++            throw ostk::core::error::RuntimeError(
++                "Maneuver duration (" + aManeuver.getInterval().getDuration().toString() +
++                ") exceeds maximum maneuver duration (" + maximumManeuverDuration_.toString() +
++                "). Change the maximum maneuver duration strategy to prevent failure."
++            );
++        }
++
++        case MaximumManeuverDurationViolationStrategy::Skip:
++        {
++            outModifiedSegment =
++                aSegment.toCoastSegment(aSegment.getName() + " (Coast - Skipping Maneuver due to Maximum Duration)");
++            outNextCoastInstant = aManeuver.getInterval().getEnd() + Duration::Seconds(10.0);
++            return false;  // Maneuver rejected
++        }
++
++        case MaximumManeuverDurationViolationStrategy::Slice:
++        {
++            const Shared<Thruster> shortenedThruster = this->buildThrusterDynamicsWithManeuverIntervals_(
++                aSegment,
++                {Interval::Closed(
++                    aManeuver.getInterval().getStart(), aManeuver.getInterval().getStart() + maximumManeuverDuration_
++                )},
++                "(Sliced Maneuver)"
++            );
++            outModifiedSegment =
++                aSegment.toManeuverSegment(shortenedThruster, aSegment.getName() + " (Sliced Maneuver)");
++            outNextCoastInstant = aManeuver.getInterval().getStart() + maximumManeuverDuration_;
++            return false;  // Maneuver modified, need to continue iterating
++        }
++
++        case MaximumManeuverDurationViolationStrategy::Center:
++        {
++            const Shared<Thruster> centeredThruster = this->buildThrusterDynamicsWithManeuverIntervals_(
++                aSegment,
++                {Interval::Centered(
++                    aManeuver.getInterval().getCenter(), maximumManeuverDuration_, Interval::Type::Closed
++                )},
++                "(Centered Maneuver)"
++            );
++            outModifiedSegment =
++                aSegment.toManeuverSegment(centeredThruster, aSegment.getName() + " (Centered Maneuver)");
++            outNextCoastInstant = aManeuver.getInterval().getEnd() + Duration::Seconds(10.0);
++            return false;  // Maneuver modified, need to continue
++        }
++
++        default:
++        {
++            throw ostk::core::error::runtime::ToBeImplemented(
++                "Maximum maneuver duration strategy: " +
++                String::Format("{}", static_cast<int>(maximumManeuverDurationStrategy_))
++            );
++        }
++    }
++}
++
++Instant Sequence::calculateSeparationCoastTarget_(const Interval& aLastManeuverInterval, const Instant& aCurrentInstant)
++    const
++{
++    if (!aLastManeuverInterval.isDefined() || !minimumManeuverSeparation_.isDefined())
++    {
++        return Instant::Undefined();
++    }
++
++    const Instant earliestNextManeuver = aLastManeuverInterval.getEnd() + minimumManeuverSeparation_;
++
++    if (aCurrentInstant >= earliestNextManeuver)
++    {
++        return Instant::Undefined();  // Already past separation requirement
++    }
++
++    BOOST_LOG_TRIVIAL(debug) << "Minimum maneuver separation enforced. "
++                             << "Last maneuver ended at " << aLastManeuverInterval.getEnd().toString() << ", "
++                             << "coasting to " << earliestNextManeuver.toString()
++                             << " (separation: " << minimumManeuverSeparation_.toString() << ").";
++
++    return earliestNextManeuver;
++}
++
+ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
+ {
+     if (displayDecorator)
+diff --git a/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.test.cpp b/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.test.cpp
+index dac410eda..b5d73b158 100644
+--- a/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.test.cpp
++++ b/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.test.cpp
+@@ -1387,7 +1387,7 @@ INSTANTIATE_TEST_SUITE_P(
+             Duration::Seconds(30.0),
+             Duration::Seconds(30.0),
+             Duration::Undefined(),
+-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
++            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
+             Array<Tuple<Duration, Duration, bool>>::Empty()
+         },
+         // With Minimum Maneuver Duration Constraint
+@@ -1403,7 +1403,7 @@ INSTANTIATE_TEST_SUITE_P(
+             Duration::Seconds(30.0),
+             Duration::Minutes(10.0),
+             Duration::Undefined(),
+-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
++            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
+             Array<Tuple<Duration, Duration, bool>> {
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
+@@ -1423,7 +1423,7 @@ INSTANTIATE_TEST_SUITE_P(
+             Duration::Minutes(10.0),
+             Duration::Seconds(30.0),
+             Duration::Undefined(),
+-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
++            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
+             Array<Tuple<Duration, Duration, bool>> {
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
+@@ -1451,7 +1451,7 @@ INSTANTIATE_TEST_SUITE_P(
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
+             }
+         },
+-        // With Maximum Maneuver Duration Constraint (Split Strategy)
++        // With Maximum Maneuver Duration Constraint (Slice Strategy)
+         ManeuveringConstraintsTestParams {
+             "MaximumManeuverDurationSplit",
+             Array<Tuple<Duration, Duration>> {
+@@ -1469,7 +1469,7 @@ INSTANTIATE_TEST_SUITE_P(
+             Duration::Minutes(3.0),
+             Duration::Minutes(4.0),
+             Duration::Minutes(10.0),
+-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
++            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
+             Array<Tuple<Duration, Duration, bool>> {
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
+                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},

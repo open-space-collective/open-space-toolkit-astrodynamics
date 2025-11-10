@@ -1,0 +1,10 @@
+earth:
+  atmospheric:
+    model: exponential
+  gravitational:
+    model: EGM96
+    order: 20
+    degree: 20
+
+sun:
+moon:
