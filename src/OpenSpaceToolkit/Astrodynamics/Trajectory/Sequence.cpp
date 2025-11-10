@@ -223,7 +223,7 @@ Sequence::Sequence(
         throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be strictly positive.");
     }
 
-    setMinimumManeuverDuration(aMinimumManeuverDuration);
+    this->setMinimumManeuverDuration(aMinimumManeuverDuration);
 
     if (aVerbosityLevel == 5)
     {
@@ -409,7 +409,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
             auto [segmentSolution, newLastManeuverInterval] =
-                solveSegment_(initialState, segment, segmentPropagationDurationLimit_, lastManeuverInterval);
+                this->solveSegment_(initialState, segment, segmentPropagationDurationLimit_, lastManeuverInterval);
 
             lastManeuverInterval = newLastManeuverInterval;
 
@@ -633,7 +633,7 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
 
                 case MaximumManeuverDurationStrategy::Slice:
                 {
-                    const Shared<Thruster> shortenedManeuverThruster = buildThrusterDynamicsWithManeuverIntervals_(
+                    const Shared<Thruster> shortenedManeuverThruster = this->buildThrusterDynamicsWithManeuverIntervals_(
                         aSegment,
                         {Interval::Closed(
                             nextManeuverCandidate.getInterval().getStart(),
@@ -650,7 +650,7 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
 
                 case MaximumManeuverDurationStrategy::Center:
                 {
-                    const Shared<Thruster> shortenedManeuverThruster = buildThrusterDynamicsWithManeuverIntervals_(
+                    const Shared<Thruster> shortenedManeuverThruster = this->buildThrusterDynamicsWithManeuverIntervals_(
                         aSegment,
                         {Interval::Centered(
                             nextManeuverCandidate.getInterval().getCenter(),
