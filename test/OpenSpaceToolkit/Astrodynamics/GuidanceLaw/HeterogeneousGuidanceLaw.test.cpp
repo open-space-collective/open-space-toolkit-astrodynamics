@@ -76,13 +76,13 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw : publ
     const Interval interval2_ =
         Interval::Closed(Instant::J2000() + Duration::Seconds(200.0), Instant::J2000() + Duration::Seconds(300.0));
 
-    const Shared<GuidanceLaw> guidanceLaw1_ = std::make_shared<MockGuidanceLaw1>("My Guidance Law 1");
-    const Shared<GuidanceLaw> guidanceLaw2_ = std::make_shared<MockGuidanceLaw2>("My Guidance Law 2");
+    const Shared<const GuidanceLaw> guidanceLaw1_ = std::make_shared<MockGuidanceLaw1>("My Guidance Law 1");
+    const Shared<const GuidanceLaw> guidanceLaw2_ = std::make_shared<MockGuidanceLaw2>("My Guidance Law 2");
 
     const HeterogeneousGuidanceLaw heterogeneousGuidanceLaw_ =
-        HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
-            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        HeterogeneousGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+            {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         ));
 };
 
@@ -95,9 +95,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Cons
 
     // With arguments
     {
-        EXPECT_NO_THROW(HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
-            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        EXPECT_NO_THROW(HeterogeneousGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+            {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         )));
     }
 
@@ -105,8 +105,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Cons
     {
         EXPECT_THROW(
             try {
-                HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
-                    {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, Interval::Undefined())}
+                HeterogeneousGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+                    {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, Interval::Undefined())}
                 ));
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Interval} is undefined.", e.getMessage());
@@ -120,8 +120,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Cons
     {
         EXPECT_THROW(
             try {
-                HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
-                    {Pair<Shared<GuidanceLaw>, Interval>(std::shared_ptr<GuidanceLaw>(nullptr), interval1_)}
+                HeterogeneousGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+                    {Pair<Shared<const GuidanceLaw>, Interval>(std::shared_ptr<const GuidanceLaw>(nullptr), interval1_)}
                 ));
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_EQ("Guidance law cannot be null.", e.getMessage());
@@ -135,9 +135,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Cons
     {
         EXPECT_THROW(
             try {
-                HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
-                    {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-                     Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval1_)}
+                HeterogeneousGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+                    {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+                     Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw2_, interval1_)}
                 ));
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_NE(e.getMessage().find("Interval intersects"), std::string::npos);
@@ -152,14 +152,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Gett
 {
     {
         const HeterogeneousGuidanceLaw heterogeneousGuidanceLaw =
-            HeterogeneousGuidanceLaw(Array<Pair<Shared<GuidanceLaw>, Interval>>(
-                {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-                 Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+            HeterogeneousGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+                {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+                 Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
             ));
 
-        const auto expected = Array<Pair<Shared<GuidanceLaw>, Interval>>(
-            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        const auto expected = Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+            {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         );
 
         const auto actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
@@ -184,7 +184,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, AddG
         heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw1_, interval1_);
 
         auto expected =
-            Array<Pair<Shared<GuidanceLaw>, Interval>>({Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_)}
+            Array<Pair<Shared<const GuidanceLaw>, Interval>>({Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_)}
             );
         auto actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
         EXPECT_EQ(actual.getSize(), expected.getSize());
@@ -195,9 +195,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, AddG
         }
 
         heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw2_, interval2_);
-        expected = Array<Pair<Shared<GuidanceLaw>, Interval>>(
-            {Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
-             Pair<Shared<GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
+        expected = Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+            {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_),
+             Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw2_, interval2_)}
         );
         actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
         EXPECT_EQ(actual.getSize(), expected.getSize());
@@ -227,7 +227,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, AddG
         HeterogeneousGuidanceLaw heterogeneousGuidanceLaw = HeterogeneousGuidanceLaw();
         EXPECT_THROW(
             try {
-                heterogeneousGuidanceLaw.addGuidanceLaw(std::shared_ptr<GuidanceLaw>(nullptr), interval1_);
+                heterogeneousGuidanceLaw.addGuidanceLaw(std::shared_ptr<const GuidanceLaw>(nullptr), interval1_);
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_EQ("Guidance law cannot be null.", e.getMessage());
                 throw;
