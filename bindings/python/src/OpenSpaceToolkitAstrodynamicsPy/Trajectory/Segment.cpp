@@ -350,7 +350,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )
         .def(
             "get_coast_dynamics",
-            &Segment::getCoastDynamics,
+            &Segment::getFreeDynamics,
             R"doc(
                 Get the coast dynamics array.
 
@@ -444,7 +444,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
         .def(
             "solve_next_maneuver",
-            &Segment::solveNextManeuver,
+            &Segment::solveToNextManeuver,
             arg("state"),
             arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
             R"doc(
