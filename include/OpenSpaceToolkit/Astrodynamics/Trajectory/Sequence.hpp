@@ -47,14 +47,13 @@ class Sequence
 {
    public:
     /// @brief If the maximum maneuver duration is specified, this strategy determines how to handle maneuvers that
-    /// exceed said constraint.
-    enum class MaximumManeuverDurationStrategy
+    /// exceed it.
+    enum class MaximumManeuverDurationViolationStrategy
     {
         Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
         Skip,   ///< The maneuver will be skipped entirely.
-        Slice,  ///< The maneuver will be sliced into one or more maneuvers starting from the beginning and solving
-                ///< iteratively.
-        Center  ///< The maneuver will be shortened and centered around its midpoint.
+        Split,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration, until the last maneuver which will be equal or shorter than the maximum duration.
+        Center  ///< The maneuver will be shortened to the maximum duraiton and centered around its midpoint.
     };
 
     /// @brief Once a sequence is set up with one or more segments, it can be solved, resulting in this sequences's
@@ -304,7 +303,7 @@ class Sequence
         const Interval& aLastManeuverInterval
     ) const;
 
-    /// @brief Build a thruster dynamics from a segment. All of the new thruster attributes remain the same with
+    /// @brief Build a thruster dynamics from a segment. All of the new thruster attributes remain the same
     /// except it will only be allowed to compute non-zero accelerations during the provided maneuver intervals.
     ///
     /// @param aSegment A segment
