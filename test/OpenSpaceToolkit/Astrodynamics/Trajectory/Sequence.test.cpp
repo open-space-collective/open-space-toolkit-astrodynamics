@@ -961,8 +961,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeu
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMaximumManeuverDurationStrategy)
 {
     Sequence sequence = defaultSequence_;
-    EXPECT_NO_THROW(sequence.setMaximumManeuverDurationStrategy(Sequence::MaximumManeuverDurationStrategy::Center));
-    EXPECT_EQ(Sequence::MaximumManeuverDurationStrategy::Center, sequence.getMaximumManeuverDurationStrategy());
+    EXPECT_NO_THROW(sequence.setMaximumManeuverDurationStrategy(Sequence::MaximumManeuverDurationViolationStrategy::Center));
+    EXPECT_EQ(Sequence::MaximumManeuverDurationViolationStrategy::Center, sequence.getMaximumManeuverDurationStrategy());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
@@ -1347,7 +1347,7 @@ struct ManeuveringConstraintsTestParams
     Duration minimumManeuverSeparation;
     Duration minimumManeuverDuration;
     Duration maximumManeuverDuration;
-    Sequence::MaximumManeuverDurationStrategy maximumManeuverDurationStrategy;
+    Sequence::MaximumManeuverDurationViolationStrategy maximumManeuverDurationStrategy;
     Array<Tuple<Duration, Duration, bool>>
         expectedManeuverIntervals;  // bool: true if we should use a "loose" tolerance
 };
@@ -1383,7 +1383,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Seconds(30.0),
             Duration::Undefined(),
-            Sequence::MaximumManeuverDurationStrategy::Slice,
+            Sequence::MaximumManeuverDurationViolationStrategy::Split,
             Array<Tuple<Duration, Duration, bool>>::Empty()
         },
         // With Minimum Maneuver Duration Constraint
@@ -1399,7 +1399,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Minutes(10.0),
             Duration::Undefined(),
-            Sequence::MaximumManeuverDurationStrategy::Slice,
+            Sequence::MaximumManeuverDurationViolationStrategy::Split,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
@@ -1419,7 +1419,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(10.0),
             Duration::Seconds(30.0),
             Duration::Undefined(),
-            Sequence::MaximumManeuverDurationStrategy::Slice,
+            Sequence::MaximumManeuverDurationViolationStrategy::Split,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
@@ -1442,14 +1442,14 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Seconds(30.0),
             Duration::Minutes(10.0),
-            Sequence::MaximumManeuverDurationStrategy::Skip,
+            Sequence::MaximumManeuverDurationViolationStrategy::Skip,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
             }
         },
-        // With Maximum Maneuver Duration Constraint (Slice Strategy)
+        // With Maximum Maneuver Duration Constraint (Split Strategy)
         ManeuveringConstraintsTestParams {
-            "MaximumManeuverDurationSlice",
+            "MaximumManeuverDurationSplit",
             Array<Tuple<Duration, Duration>> {
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
@@ -1465,7 +1465,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(3.0),
             Duration::Minutes(4.0),
             Duration::Minutes(10.0),
-            Sequence::MaximumManeuverDurationStrategy::Slice,
+            Sequence::MaximumManeuverDurationViolationStrategy::Split,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
@@ -1494,7 +1494,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Seconds(30.0),
             Duration::Minutes(10.0),
-            Sequence::MaximumManeuverDurationStrategy::Center,
+            Sequence::MaximumManeuverDurationViolationStrategy::Center,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
@@ -1654,7 +1654,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
     };
     sequence.setMaximumManeuverDuration(Duration::Minutes(10.0));
 
-    EXPECT_EQ(sequence.getMaximumManeuverDurationStrategy(), Sequence::MaximumManeuverDurationStrategy::Fail);
+    EXPECT_EQ(sequence.getMaximumManeuverDurationStrategy(), Sequence::MaximumManeuverDurationViolationStrategy::Fail);
 
     EXPECT_THROW(
         {

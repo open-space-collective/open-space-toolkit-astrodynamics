@@ -1163,9 +1163,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetDynamics)
     EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getDynamics());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, getCoastDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, getFreeDynamics)
 {
-    EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getCoastDynamics());
+    EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getFreeDynamics());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetNumericalSolver)
@@ -1218,11 +1218,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessEventCondition)
     EXPECT_TRUE(defaultCoastSegment_.accessEventCondition() == defaultInstantCondition_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessDynamics)
-{
-    EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.accessDynamics());
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.accessNumericalSolver());
@@ -1237,7 +1232,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ToCoastSegment)
         EXPECT_EQ("New Coast Segment", newCoastSegment.getName());
         EXPECT_EQ(Segment::Type::Coast, newCoastSegment.getType());
         EXPECT_EQ(defaultInstantCondition_, newCoastSegment.getEventCondition());
-        EXPECT_EQ(defaultDynamics_, newCoastSegment.accessDynamics());
+        EXPECT_EQ(defaultDynamics_, newCoastSegment.getDynamics());
         EXPECT_EQ(defaultNumericalSolver_, newCoastSegment.getNumericalSolver());
     }
 
@@ -1257,7 +1252,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ToCoastSegment)
         EXPECT_EQ(newName, coastSegment.getName());
         EXPECT_EQ(Segment::Type::Coast, coastSegment.getType());
         EXPECT_EQ(defaultInstantCondition_, coastSegment.getEventCondition());
-        EXPECT_EQ(defaultDynamics_, coastSegment.accessDynamics());
+        EXPECT_EQ(defaultDynamics_, coastSegment.getDynamics());
         EXPECT_EQ(defaultNumericalSolver_, coastSegment.getNumericalSolver());
         EXPECT_THROW(coastSegment.getThrusterDynamics(), ostk::core::error::RuntimeError);
     }
@@ -1284,7 +1279,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ToManeuverSegment)
         EXPECT_EQ("New Maneuver Segment", newManeuverSegment.getName());
         EXPECT_EQ(Segment::Type::Maneuver, newManeuverSegment.getType());
         EXPECT_EQ(defaultInstantCondition_, newManeuverSegment.getEventCondition());
-        EXPECT_EQ(defaultDynamics_, newManeuverSegment.accessDynamics());
+        EXPECT_EQ(defaultDynamics_, newManeuverSegment.getDynamics());
         EXPECT_EQ(defaultNumericalSolver_, newManeuverSegment.getNumericalSolver());
         EXPECT_EQ(newThrusterDynamics, newManeuverSegment.getThrusterDynamics());
         EXPECT_NE(defaultThrusterDynamicsSPtr_, newManeuverSegment.getThrusterDynamics());
@@ -1298,7 +1293,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ToManeuverSegment)
         EXPECT_EQ("New Maneuver Segment", maneuverSegment.getName());
         EXPECT_EQ(Segment::Type::Maneuver, maneuverSegment.getType());
         EXPECT_EQ(defaultInstantCondition_, maneuverSegment.getEventCondition());
-        EXPECT_EQ(defaultDynamics_, maneuverSegment.accessDynamics());
+        EXPECT_EQ(defaultDynamics_, maneuverSegment.getDynamics());
         EXPECT_EQ(defaultNumericalSolver_, maneuverSegment.getNumericalSolver());
         EXPECT_EQ(defaultThrusterDynamicsSPtr_, maneuverSegment.getThrusterDynamics());
     }
@@ -1388,7 +1383,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         }
 
         {
-            const Segment::Solution solution = segment.solveNextManeuver(initialState, Duration::Minutes(80.0));
+            const Segment::Solution solution = segment.solveToNextManeuver(initialState, Duration::Minutes(80.0));
 
             ASSERT_FALSE(solution.states.isEmpty());
             EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
@@ -1917,7 +1912,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
 
     const Segment::Solution solution = params.solveMultipleManeuvers
                                          ? segment.solve(initialState, Duration::Minutes(80.0))
-                                         : segment.solveNextManeuver(initialState, Duration::Minutes(80.0));
+                                         : segment.solveToNextManeuver(initialState, Duration::Minutes(80.0));
 
     Array<Interval> expectedManeuverIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.expectedManeuverIntervals)

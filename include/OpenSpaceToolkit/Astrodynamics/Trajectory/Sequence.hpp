@@ -200,7 +200,7 @@ class Sequence
     /// @brief Get maximum maneuver duration strategy.
     ///
     /// @return Maximum maneuver duration strategy.
-    MaximumManeuverDurationStrategy getMaximumManeuverDurationStrategy() const;
+    MaximumManeuverDurationViolationStrategy getMaximumManeuverDurationStrategy() const;
 
     /// @brief Get maximum propagation duration.
     ///
@@ -225,7 +225,7 @@ class Sequence
     /// @brief Set maximum maneuver duration strategy.
     ///
     /// @param aMaximumManeuverDurationStrategy Maximum maneuver duration strategy.
-    void setMaximumManeuverDurationStrategy(const MaximumManeuverDurationStrategy& aMaximumManeuverDurationStrategy);
+    void setMaximumManeuverDurationStrategy(const MaximumManeuverDurationViolationStrategy& aMaximumManeuverDurationStrategy);
 
     /// @brief Set minimum maneuver separation.
     ///
@@ -286,7 +286,7 @@ class Sequence
    private:
     /// @brief Solve an individual segment, returning its solution and its last maneuver interval (if any).
     ///
-    /// It uses the segment's solveNextManeuver method iteratively to account for maneuver-related constraints
+    /// It uses the segment's solveToNextManeuver method iteratively to account for maneuver-related constraints
     /// (i.e. minimum maneuver duration, maximum maneuver duration, minimum maneuver separation), producing
     /// a single segment solution that complies with all of them.
     ///
@@ -322,8 +322,7 @@ class Sequence
     Duration minimumManeuverDuration_;
     Duration minimumManeuverSeparation_;
     Duration maximumManeuverDuration_;
-    MaximumManeuverDurationStrategy maximumManeuverDurationStrategy_;
-    Duration subsegmentMargin_ = Duration::Seconds(10.0);
+    MaximumManeuverDurationViolationStrategy maximumManeuverDurationStrategy_;
 };
 
 }  // namespace trajectory
