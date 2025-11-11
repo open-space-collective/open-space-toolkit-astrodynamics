@@ -227,9 +227,23 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         .def("__repr__", &(shiftToString<QLaw>))
 
         .def(
-            init<const COE&, const Derived&, const QLaw::Parameters&, const QLaw::GradientStrategy&>(),
+            init(
+                +[](const COE& aCOE,
+                    const Derived& aGravitationalParameter,
+                    const QLaw::Parameters& aParameters,
+                    const QLaw::GradientStrategy& aGradientStrategy) -> QLaw
+                {
+                    PyErr_WarnEx(
+                        PyExc_DeprecationWarning,
+                        "Use QLaw(target_coe, gravitational_parameter, parameters, gradient_strategy, coe_domain) "
+                        "instead.",
+                        1
+                    );
+                    return QLaw(aCOE, aGravitationalParameter, aParameters, aGradientStrategy);
+                }
+            ),
             R"doc(
-                Constructor.
+                Deprecated Constructor.
 
                 Args:
                     coe (COE): The target orbit described by Classical Orbital Elements.
@@ -308,17 +322,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Returns:
                     QLaw.COEDomain: The COE domain.
             )doc"
-        )
-        .def(
-            "set_coe_domain",
-            &QLaw::setCOEDomain,
-            R"doc(
-                Set the COE domain.
-
-                Args:
-                    coe_domain (QLaw.COEDomain): The COE domain.
-            )doc",
-            arg("coe_domain")
         )
 
         .def(

@@ -181,11 +181,6 @@ QLaw::COEDomain QLaw::getCOEDomain() const
     return coeDomain_;
 }
 
-void QLaw::setCOEDomain(const COEDomain& aCOEDomain)
-{
-    coeDomain_ = aCOEDomain;
-}
-
 Vector3d QLaw::calculateThrustAccelerationAt(
     [[maybe_unused]] const Instant& anInstant,
     const Vector3d& aPositionCoordinates,

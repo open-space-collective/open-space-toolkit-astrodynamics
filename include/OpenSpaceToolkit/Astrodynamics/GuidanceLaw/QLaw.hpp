@@ -182,11 +182,6 @@ class QLaw : public GuidanceLaw
     /// @return COE Domain
     COEDomain getCOEDomain() const;
 
-    /// @brief Set COE Domain
-    ///
-    /// @param aCOEDomain A COE Domain
-    void setCOEDomain(const COEDomain& aCOEDomain);
-
     /// @brief Print guidance law
     ///
     /// @param anOutputStream An output stream

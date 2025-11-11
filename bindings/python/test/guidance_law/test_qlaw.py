@@ -142,25 +142,6 @@ class TestQLaw:
         assert q_law.get_target_coe() is not None
         assert q_law.get_gradient_strategy() is not None
         assert q_law.get_coe_domain() is not None
-        # Default should be Osculating
-        assert q_law.get_coe_domain() is not None
-
-    def test_set_and_get_coe_domain(
-        self,
-        target_COE: COE,
-        gravitational_parameter: Derived,
-        parameters: QLaw.Parameters,
-        gradient_strategy: QLaw.GradientStrategy,
-    ):
-        q_law = QLaw(
-            target_coe=target_COE,
-            gravitational_parameter=gravitational_parameter,
-            parameters=parameters,
-            gradient_strategy=gradient_strategy,
-        )
-
-        q_law.set_coe_domain(QLaw.COEDomain.BrouwerLyddaneMeanLong)
-        assert q_law.get_coe_domain() == QLaw.COEDomain.BrouwerLyddaneMeanLong
 
     def test_calculate_thrust_acceleration_at(
         self,
