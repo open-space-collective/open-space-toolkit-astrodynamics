@@ -54,11 +54,12 @@ class Generator
     /// @endcode
     ///
     /// @param aReferenceTrajectory The reference trajectory for which to compute close approaches (Object 1)
-    /// @param aStep The step to use during the close approach search. Defaults to 15 seconds.
+    /// @param aStep The step to use during the close approach search. Set it to a duration smaller than the minimum
+    /// possible duration between two close approaches - which is about half an orbital period. Defaults to 30 minutes.
     /// @param aTolerance The tolerance to use during the close approach search. Defaults to 1 millisecond.
     Generator(
         const Trajectory& aReferenceTrajectory,
-        const Duration& aStep = Duration::Seconds(15.0),
+        const Duration& aStep = Duration::Minutes(30.0),
         const Duration& aTolerance = Duration::Milliseconds(1.0)
     );
 

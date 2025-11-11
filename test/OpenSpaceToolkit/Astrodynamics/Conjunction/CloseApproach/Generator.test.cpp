@@ -132,7 +132,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator_CDM
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Constructor)
 {
     {
-        const Duration step = Duration::Seconds(60.0);
+        const Duration step = Duration::Minutes(30.0);
         const Duration tolerance = Duration::Seconds(1.0e-6);
 
         EXPECT_NO_THROW(Generator generator(referenceTrajectory_, step, tolerance););
@@ -167,7 +167,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
     {
         EXPECT_THROW(
             try {
-                Generator generator(referenceTrajectory_, Duration::Seconds(60.0), Duration::Undefined());
+                Generator generator(referenceTrajectory_, Duration::Minutes(30.0), Duration::Undefined());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Tolerance} is undefined.", e.getMessage());
                 throw;
@@ -177,7 +177,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
 
         EXPECT_THROW(
             try {
-                Generator generator(referenceTrajectory_, Duration::Seconds(60.0), Duration::Seconds(-1.0e-6));
+                Generator generator(referenceTrajectory_, Duration::Minutes(30.0), Duration::Seconds(-1.0e-6));
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("{Tolerance} is wrong.", e.getMessage());
                 throw;
@@ -202,7 +202,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, IsDef
     }
 
     {
-        const Generator generator(Trajectory::Undefined(), Duration::Seconds(60.0), Duration::Seconds(1.0e-6));
+        const Generator generator(Trajectory::Undefined(), Duration::Minutes(30.0), Duration::Seconds(1.0e-6));
 
         EXPECT_FALSE(generator.isDefined());
     }
@@ -232,7 +232,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetRe
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetStep)
 {
     {
-        const Duration step = Duration::Seconds(60.0);
+        const Duration step = Duration::Minutes(30.0);
         const Generator generator(referenceTrajectory_, step);
 
         EXPECT_EQ(step, generator.getStep());
@@ -255,7 +255,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetTo
 {
     {
         const Duration tolerance = Duration::Seconds(1.0e-6);
-        const Generator generator(referenceTrajectory_, Duration::Seconds(60.0), tolerance);
+        const Generator generator(referenceTrajectory_, Duration::Minutes(30.0), tolerance);
 
         EXPECT_EQ(tolerance, generator.getTolerance());
     }

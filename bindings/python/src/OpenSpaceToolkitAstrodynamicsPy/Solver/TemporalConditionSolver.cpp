@@ -31,7 +31,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(pybin
                 Constructor.
 
                 Args:
-                    time_step (Duration): The time step.
+                    time_step (Duration): The time step used to generate the temporal grid,
+                        within which condition switching instants are searched. This must be
+                        set to be smaller than the smallest expected interval over which the
+                        condition changes state in order to avoid missing any switching instants.
                     tolerance (Duration): The tolerance of the solver.
                     maximum_iteration_count (int): The maximum number of iterations allowed.
 

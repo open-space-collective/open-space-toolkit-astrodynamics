@@ -26,8 +26,8 @@ using ostk::physics::time::Interval;
 
 #define DEFAULT_MAXIMUM_ITERATION_COUNT 500
 
-/// @brief Given a set of conditions and a time interval,
-///                      this solver computes all sub-intervals over which conditions are met.
+/// @brief Given a set of conditions and a time interval, this solver computes all sub-intervals over which conditions
+/// are met.
 class TemporalConditionSolver
 {
    public:
@@ -40,7 +40,9 @@ class TemporalConditionSolver
     ///                  Duration::Microseconds(1.0) };
     /// @endcode
     ///
-    /// @param aTimeStep A time step used to generate the temporal grid.
+    /// @param aTimeStep A time step used to generate the temporal grid, within which condition switching instants are
+    /// searched. This must be set to be smaller than the smallest expected interval over which the condition changes
+    /// state in order to avoid missing any switching instants.
     /// @param aTolerance A temporal tolerance used to determine the switching instant.
     /// @param aMaximumIterationCount The maximum iteration count for the solver.
     TemporalConditionSolver(
