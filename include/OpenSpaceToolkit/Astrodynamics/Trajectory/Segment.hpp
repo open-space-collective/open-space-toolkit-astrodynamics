@@ -65,6 +65,15 @@ class Segment
         Maneuver  ///< Maneuver
     };
 
+    enum class MaximumManeuverDurationViolationStrategy
+    {
+        Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
+        Skip,   ///< The maneuver will be skipped entirely.
+        Slice,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
+                ///< until the last maneuver which will be equal or shorter than the maximum duration.
+        Center  ///< The maneuver will be shortened to the maximum duraiton and centered around its midpoint.
+    };
+
     /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.
     struct Solution
     {
@@ -228,19 +237,6 @@ class Segment
     /// @return Numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
-    /// @brief Build a coast segment from the current instance.
-    ///
-    /// @param aName (optional) name for the new segment. If not provided, uses the current segment's name
-    /// @return A new coast segment
-    Segment toCoastSegment(const String& aName = String::Empty()) const;
-
-    /// @brief Build a maneuver segment from the current instance.
-    ///
-    /// @param aThrusterDynamics The thruster dynamics for the new maneuver segment
-    /// @param aName (optional) name for the new segment. If not provided, uses the current segment's name
-    /// @return A new maneuver segment
-    Segment toManeuverSegment(const Shared<Thruster>& aThrusterDynamics, const String& aName = String::Empty()) const;
-
     /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
     ///
     /// @param aState Initial state for the segment
@@ -256,6 +252,26 @@ class Segment
     /// @return A Solution representing the result of the solve
     Solution solveToNextManeuver(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0))
         const;
+
+    /// @brief Solve the segment with constraints
+    ///
+    /// @param aState Initial state for the segment
+    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
+    /// @param lastManeuverInterval Last maneuver interval prior to this segment (Undefined if there were no maneuvers prior to this segment)
+    /// @param minimumManeuverDuration Minimum duration for a maneuver. Defaults to Undefined.
+    /// @param maximumManeuverDuration Maximum duration for a maneuver. Defaults to Undefined.
+    /// @param minimumManeuverSeparation Minimum separation between maneuvers. Defaults to Undefined.
+    /// @param maximumManeuverDurationStrategy Strategy to handle maximum maneuver duration violations. Defaults to MaximumManeuverDurationViolationStrategy::Throw.
+    /// @return A Solution representing the result of the solve
+    Solution solveWithConstraints(
+        const State& aState,
+        const Duration& maximumPropagationDuration,
+        const Interval& lastManeuverInterval,
+        const Duration& minimumManeuverDuration,
+        const Duration& maximumManeuverDuration,
+        const Duration& minimumManeuverSeparation,
+        const MaximumManeuverDurationViolationStrategy& maximumManeuverDurationStrategy
+    ) const;
 
     /// @brief Print the segment
     ///
@@ -377,6 +393,7 @@ class Segment
         const Shared<Thruster>& aThrusterDynamics,
         const bool& allowMultipleManeuvers
     ) const;
+
 };
 
 }  // namespace trajectory

@@ -392,38 +392,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
-        .def(
-            "to_coast_segment",
-            &Segment::toCoastSegment,
-            arg_v("name", String::Empty(), "''"),
-            R"doc(
-                Convert the segment to a coast segment.
 
-                Args:
-                    name (str, optional): Optional name for the new segment. If not provided, uses the current segment's name.
-
-                Returns:
-                    Segment: A new coast segment.
-
-            )doc"
-        )
-        .def(
-            "to_maneuver_segment",
-            &Segment::toManeuverSegment,
-            arg("thruster_dynamics"),
-            arg_v("name", String::Empty(), "''"),
-            R"doc(
-                Convert the segment to a maneuver segment.
-
-                Args:
-                    thruster_dynamics (Thruster): The thruster dynamics for the new maneuver segment.
-                    name (str, optional): Optional name for the new segment. If not provided, uses the current segment's name.
-
-                Returns:
-                    Segment: A new maneuver segment.
-
-            )doc"
-        )
         .def(
             "solve",
             &Segment::solve,

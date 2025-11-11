@@ -46,17 +46,6 @@ using ostk::astrodynamics::trajectory::State;
 class Sequence
 {
    public:
-    /// @brief If the maximum maneuver duration is specified, this strategy determines how to handle maneuvers that
-    /// exceed it.
-    enum class MaximumManeuverDurationViolationStrategy
-    {
-        Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
-        Skip,   ///< The maneuver will be skipped entirely.
-        Slice,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
-                ///< until the last maneuver which will be equal or shorter than the maximum duration.
-        Center  ///< The maneuver will be shortened to the maximum duraiton and centered around its midpoint.
-    };
-
     /// @brief Once a sequence is set up with one or more segments, it can be solved, resulting in this sequences's
     /// Solution.
     struct Solution
@@ -201,7 +190,7 @@ class Sequence
     /// @brief Get maximum maneuver duration strategy.
     ///
     /// @return Maximum maneuver duration strategy.
-    MaximumManeuverDurationViolationStrategy getMaximumManeuverDurationStrategy() const;
+    Segment::MaximumManeuverDurationViolationStrategy getMaximumManeuverDurationStrategy() const;
 
     /// @brief Get maximum propagation duration.
     ///
@@ -227,7 +216,7 @@ class Sequence
     ///
     /// @param aMaximumManeuverDurationStrategy Maximum maneuver duration strategy.
     void setMaximumManeuverDurationStrategy(
-        const MaximumManeuverDurationViolationStrategy& aMaximumManeuverDurationStrategy
+        const Segment::MaximumManeuverDurationViolationStrategy& aMaximumManeuverDurationStrategy
     );
 
     /// @brief Set minimum maneuver separation.
@@ -287,36 +276,36 @@ class Sequence
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
-    /// @brief Solve an individual segment, returning its solution and its last maneuver interval (if any).
-    ///
-    /// It uses the segment's solveToNextManeuver method iteratively to account for maneuver-related constraints
-    /// (i.e. minimum maneuver duration, maximum maneuver duration, minimum maneuver separation), producing
-    /// a single segment solution that complies with all of them.
-    ///
-    /// @param aState Initial state
-    /// @param aSegment Segment to solve
-    /// @param aMaximumPropagationDuration Maximum propagation duration
-    /// @param aLastManeuverInterval Last maneuver interval prior to this segment (Undefined if there were no maneuvers
-    /// prior to this segment)
-    /// @return Tuple of segment solution and last maneuver interval after solving this segment
-    Tuple<Segment::Solution, Interval> solveSegment_(
-        const State& aState,
-        const Segment& aSegment,
-        const Duration& aMaximumPropagationDuration,
-        const Interval& aLastManeuverInterval
-    ) const;
+    // /// @brief Solve an individual segment, returning its solution and its last maneuver interval (if any).
+    // ///
+    // /// It uses the segment's solveToNextManeuver method iteratively to account for maneuver-related constraints
+    // /// (i.e. minimum maneuver duration, maximum maneuver duration, minimum maneuver separation), producing
+    // /// a single segment solution that complies with all of them.
+    // ///
+    // /// @param aState Initial state
+    // /// @param aSegment Segment to solve
+    // /// @param aMaximumPropagationDuration Maximum propagation duration
+    // /// @param aLastManeuverInterval Last maneuver interval prior to this segment (Undefined if there were no maneuvers
+    // /// prior to this segment)
+    // /// @return Tuple of segment solution and last maneuver interval after solving this segment
+    // Tuple<Segment::Solution, Interval> solveSegment_(
+    //     const State& aState,
+    //     const Segment& aSegment,
+    //     const Duration& aMaximumPropagationDuration,
+    //     const Interval& aLastManeuverInterval
+    // ) const;
 
-    /// @brief Build a thruster dynamics from a segment. All of the new thruster attributes remain the same
-    /// except it will only be allowed to compute non-zero accelerations during the provided maneuver intervals.
-    ///
-    /// @param aSegment A segment
-    /// @param aManeuverIntervals Array of intervals where the thruster will be allowed to compute non-zero
-    /// accelerations.
-    /// @param aSuffix Suffix to append to the thruster name
-    /// @return A thruster dynamics
-    Shared<Thruster> buildThrusterDynamicsWithManeuverIntervals_(
-        const Segment& aSegment, const Array<Interval>& aManeuverIntervals, const String& aSuffix
-    ) const;
+    // /// @brief Build a thruster dynamics from a segment. All of the new thruster attributes remain the same
+    // /// except it will only be allowed to compute non-zero accelerations during the provided maneuver intervals.
+    // ///
+    // /// @param aSegment A segment
+    // /// @param aManeuverIntervals Array of intervals where the thruster will be allowed to compute non-zero
+    // /// accelerations.
+    // /// @param aSuffix Suffix to append to the thruster name
+    // /// @return A thruster dynamics
+    // Shared<Thruster> buildThrusterDynamicsWithManeuverIntervals_(
+    //     const Segment& aSegment, const Array<Interval>& aManeuverIntervals, const String& aSuffix
+    // ) const;
 
     Array<Segment> segments_;
     NumericalSolver numericalSolver_;
@@ -325,7 +314,7 @@ class Sequence
     Duration minimumManeuverDuration_;
     Duration minimumManeuverSeparation_;
     Duration maximumManeuverDuration_;
-    MaximumManeuverDurationViolationStrategy maximumManeuverDurationStrategy_;
+    Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationStrategy_;
 };
 
 }  // namespace trajectory
