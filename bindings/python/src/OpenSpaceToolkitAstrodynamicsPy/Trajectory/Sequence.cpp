@@ -28,14 +28,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             )doc"
     );
 
-    enum_<Sequence::MaximumManeuverDurationViolationStrategy>(sequence, "MaximumManeuverDurationViolationStrategy")
-
-        .value("Fail", Sequence::MaximumManeuverDurationViolationStrategy::Fail)
-        .value("Skip", Sequence::MaximumManeuverDurationViolationStrategy::Skip)
-        .value("Slice", Sequence::MaximumManeuverDurationViolationStrategy::Slice)
-        .value("Center", Sequence::MaximumManeuverDurationViolationStrategy::Center)
-
-        ;
 
     class_<Sequence::Solution>(
         sequence,
