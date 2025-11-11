@@ -586,16 +586,12 @@ const NumericalSolver& Segment::accessNumericalSolver() const
 
 Segment Segment::toCoastSegment(const String& aName) const
 {
-    return {
+    return Segment::Coast(
         aName.isEmpty() ? name_ : aName,
-        Segment::Type::Coast,
         eventCondition_,
         freeDynamicsArray_,
-        nullptr,
-        numericalSolver_,
-        constantManeuverDirectionLocalOrbitalFrameFactory_,
-        constantManeuverDirectionMaximumAllowedAngularOffset_,
-    };
+        numericalSolver_
+    );
 }
 
 Segment Segment::toManeuverSegment(const Shared<Thruster>& aThrusterDynamics, const String& aName) const
@@ -777,7 +773,7 @@ Segment::Solution Segment::solveWithDynamics_(
     Shared<EventCondition> eventConditionToUse = eventCondition_;
     bool needsConditionReevaluation = false;
 
-    if (type_ != Segment::Type::Coast && !allowMultipleManeuvers)
+    if (type_ == Segment::Type::Maneuver && !allowMultipleManeuvers)
     {
         const Shared<const GuidanceLaw> guidanceLaw = aThrusterDynamics->getGuidanceLaw();
         const std::function<Real(const State&)> thrustAccelerationNormEvaluator = [guidanceLaw](const State& state
