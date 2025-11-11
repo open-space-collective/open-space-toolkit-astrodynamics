@@ -526,7 +526,8 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
     Segment nextSubsegmentToSolve = aSegment;
 
     // Helper lambda to update nextInstantToCoastTo with a new candidate instant
-    const auto updateNextCoastInstant = [&maximumInstant, &nextInstantToCoastTo](const Instant& candidateInstant) -> Instant
+    const auto updateNextCoastInstant = [&maximumInstant,
+                                         &nextInstantToCoastTo](const Instant& candidateInstant) -> Instant
     {
         const Instant clampedCandidate = std::min(candidateInstant, maximumInstant);
         return nextInstantToCoastTo.isDefined() ? std::max(nextInstantToCoastTo, clampedCandidate) : clampedCandidate;
@@ -602,7 +603,8 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
             nextSubsegmentToSolve = aSegment.toCoastSegment(
                 aSegment.getName() + " (Skipping Maneuver due to Minimum Maneuver Duration Constraint)"
             );
-            nextInstantToCoastTo = updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
+            nextInstantToCoastTo =
+                updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
             continue;
         }
 
@@ -628,42 +630,48 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
                     nextSubsegmentToSolve = aSegment.toCoastSegment(
                         aSegment.getName() + "(Coast - Skipping Maneuver due to Maximum Maneuver Duration Constraint)"
                     );
-                    nextInstantToCoastTo = updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
+                    nextInstantToCoastTo =
+                        updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
                     break;
                 }
 
                 case MaximumManeuverDurationViolationStrategy::Split:
                 {
-                    const Shared<Thruster> shortenedManeuverThruster = this->buildThrusterDynamicsWithManeuverIntervals_(
-                        aSegment,
-                        {Interval::Closed(
-                            nextManeuverCandidate.getInterval().getStart(),
-                            nextManeuverCandidate.getInterval().getStart() + maximumManeuverDuration_
-                        )},
-                        "(Sliced Maneuver)"
-                    );
+                    const Shared<Thruster> shortenedManeuverThruster =
+                        this->buildThrusterDynamicsWithManeuverIntervals_(
+                            aSegment,
+                            {Interval::Closed(
+                                nextManeuverCandidate.getInterval().getStart(),
+                                nextManeuverCandidate.getInterval().getStart() + maximumManeuverDuration_
+                            )},
+                            "(Sliced Maneuver)"
+                        );
                     nextSubsegmentToSolve = aSegment.toManeuverSegment(
                         shortenedManeuverThruster, aSegment.getName() + " (Sliced Maneuver)"
                     );
-                    nextInstantToCoastTo = updateNextCoastInstant(nextManeuverCandidate.getInterval().getStart() + maximumManeuverDuration_);
+                    nextInstantToCoastTo = updateNextCoastInstant(
+                        nextManeuverCandidate.getInterval().getStart() + maximumManeuverDuration_
+                    );
                     break;
                 }
 
                 case MaximumManeuverDurationViolationStrategy::Center:
                 {
-                    const Shared<Thruster> shortenedManeuverThruster = this->buildThrusterDynamicsWithManeuverIntervals_(
-                        aSegment,
-                        {Interval::Centered(
-                            nextManeuverCandidate.getInterval().getCenter(),
-                            maximumManeuverDuration_,
-                            Interval::Type::Closed
-                        )},
-                        "(Center Maneuver)"
-                    );
+                    const Shared<Thruster> shortenedManeuverThruster =
+                        this->buildThrusterDynamicsWithManeuverIntervals_(
+                            aSegment,
+                            {Interval::Centered(
+                                nextManeuverCandidate.getInterval().getCenter(),
+                                maximumManeuverDuration_,
+                                Interval::Type::Closed
+                            )},
+                            "(Center Maneuver)"
+                        );
                     nextSubsegmentToSolve = aSegment.toManeuverSegment(
                         shortenedManeuverThruster, aSegment.getName() + " (Centered Maneuver)"
                     );
-                    nextInstantToCoastTo = updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
+                    nextInstantToCoastTo =
+                        updateNextCoastInstant(nextManeuverCandidate.getInterval().getEnd() + subsegmentManeuverMargin);
                     break;
                 }
 
@@ -683,8 +691,7 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
         );
         unifiedManeuverIntervals.add(nextManeuverCandidate.getInterval());
         unifiedGuidanceLaw->addGuidanceLaw(
-            maneuverSubsegmentSolution.getThrusterDynamics()->getGuidanceLaw(),
-            nextManeuverCandidate.getInterval()
+            maneuverSubsegmentSolution.getThrusterDynamics()->getGuidanceLaw(), nextManeuverCandidate.getInterval()
         );
 
         if (subsegmentConditionIsSatisfied)
@@ -698,7 +705,8 @@ Tuple<Segment::Solution, Interval> Sequence::solveSegment_(
             aSegment.toCoastSegment(aSegment.getName() + " (Coast - Minimum Maneuver Separation Constraint)");
         if (minimumManeuverSeparation_.isDefined())
         {
-            nextInstantToCoastTo = updateNextCoastInstant(unifiedManeuverIntervals.accessLast().getEnd() + minimumManeuverSeparation_);
+            nextInstantToCoastTo =
+                updateNextCoastInstant(unifiedManeuverIntervals.accessLast().getEnd() + minimumManeuverSeparation_);
         }
     }
 

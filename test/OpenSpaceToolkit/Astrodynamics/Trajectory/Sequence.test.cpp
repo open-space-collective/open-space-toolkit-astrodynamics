@@ -961,8 +961,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeu
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMaximumManeuverDurationStrategy)
 {
     Sequence sequence = defaultSequence_;
-    EXPECT_NO_THROW(sequence.setMaximumManeuverDurationStrategy(Sequence::MaximumManeuverDurationViolationStrategy::Center));
-    EXPECT_EQ(Sequence::MaximumManeuverDurationViolationStrategy::Center, sequence.getMaximumManeuverDurationStrategy());
+    EXPECT_NO_THROW(
+        sequence.setMaximumManeuverDurationStrategy(Sequence::MaximumManeuverDurationViolationStrategy::Center)
+    );
+    EXPECT_EQ(
+        Sequence::MaximumManeuverDurationViolationStrategy::Center, sequence.getMaximumManeuverDurationStrategy()
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
@@ -1517,7 +1521,7 @@ TEST_P(
 
     VectorXd coordinates(7);
     coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
-    const Instant referenceInstant = Instant::J2000();
+    const Instant referenceInstant = Instant::J2000() + Duration::Seconds(1.0);
     const State initialState = {
         referenceInstant,
         coordinates,
@@ -1529,12 +1533,10 @@ TEST_P(
         RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(100.0))
     );
 
-    const Shared<RealCondition> sequenceConditionSPtr =
-        std::make_shared<RealCondition>(RealCondition::DurationCondition(
-            RealCondition::Criterion::PositiveCrossing, Duration::Minutes(99.0)
-        )  // When solving to condition, set a slightly shorter duration than the expected segment termination, so that
-           // we can avoid trailing edge artifacts when testing
-        );
+    // When solving to condition, set a slightly shorter duration than the expected segment termination, so that
+    // we can avoid trailing edge artifacts when testing
+    const RealCondition sequenceCondition =
+        RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(99.0));
 
     const Duration maximumPropagationDuration = Duration::Minutes(200.0);
     const Duration tolerance = Duration::Milliseconds(10.0);
@@ -1569,7 +1571,7 @@ TEST_P(
     // Solve sequence using both methods
     const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
     const Sequence::Solution solutionUsingCondition =
-        sequence.solveToCondition(initialState, *sequenceConditionSPtr, maximumPropagationDuration);
+        sequence.solveToCondition(initialState, sequenceCondition, maximumPropagationDuration);
 
     EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
     EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getStart().isNear(referenceInstant, tolerance));
