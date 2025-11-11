@@ -1387,7 +1387,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Seconds(30.0),
             Duration::Undefined(),
-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
+            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>>::Empty()
         },
         // With Minimum Maneuver Duration Constraint
@@ -1403,7 +1403,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Seconds(30.0),
             Duration::Minutes(10.0),
             Duration::Undefined(),
-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
+            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
@@ -1423,7 +1423,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(10.0),
             Duration::Seconds(30.0),
             Duration::Undefined(),
-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
+            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
@@ -1451,7 +1451,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
             }
         },
-        // With Maximum Maneuver Duration Constraint (Split Strategy)
+        // With Maximum Maneuver Duration Constraint (Slice Strategy)
         ManeuveringConstraintsTestParams {
             "MaximumManeuverDurationSplit",
             Array<Tuple<Duration, Duration>> {
@@ -1469,7 +1469,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(3.0),
             Duration::Minutes(4.0),
             Duration::Minutes(10.0),
-            Sequence::MaximumManeuverDurationViolationStrategy::Split,
+            Sequence::MaximumManeuverDurationViolationStrategy::Slice,
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},

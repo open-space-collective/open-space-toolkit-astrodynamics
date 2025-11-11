@@ -472,11 +472,11 @@ class TestSequence:
         sequence: Sequence,
     ):
         sequence.set_maximum_maneuver_duration_strategy(
-            Sequence.MaximumManeuverDurationViolationStrategy.Split
+            Sequence.MaximumManeuverDurationViolationStrategy.Slice
         )
         assert (
             sequence.get_maximum_maneuver_duration_strategy()
-            == Sequence.MaximumManeuverDurationViolationStrategy.Split
+            == Sequence.MaximumManeuverDurationViolationStrategy.Slice
         )
 
     def test_add_segment(
