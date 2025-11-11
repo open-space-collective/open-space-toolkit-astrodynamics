@@ -74,6 +74,25 @@ class Segment
         Center  ///< The maneuver will be shortened to the maximum duraiton and centered around its midpoint.
     };
 
+    struct ManeuverConstraints
+    {
+        ManeuverConstraints();
+
+        ManeuverConstraints(
+            const Duration& aMinimumDuration,
+            const Duration& aMaximumDuration,
+            const Duration& aMinimumSeparation,
+            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
+        );
+
+        Duration minimumDuration;
+        Duration maximumDuration;
+        Duration minimumSeparation;
+        MaximumManeuverDurationViolationStrategy maximumDurationStrategy;
+
+        bool isDefined() const;
+    };
+
     /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.
     struct Solution
     {
@@ -225,6 +244,10 @@ class Segment
     /// @return Thruster dynamics
     Shared<Thruster> getThrusterDynamics() const;
 
+    /// @brief Get maneuver constraints
+    /// @return Maneuver constraints
+    ManeuverConstraints getManeuverConstraints() const;
+
     /// @brief Get type
     /// @return Type of segment
     Type getType() const;
@@ -237,6 +260,10 @@ class Segment
     /// @return Numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
+    /// @brief Set maneuver constraints
+    /// @param aManeuverConstraints Maneuver constraints
+    void setManeuverConstraints(const ManeuverConstraints& aManeuverConstraints);
+
     /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
     ///
     /// @param aState Initial state for the segment
@@ -244,33 +271,17 @@ class Segment
     /// @return A Solution representing the result of the solve
     Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
 
-    /// @brief Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be
-    /// solved until its event condition is satisfied or the maximum propagation duration is reached.
-    ///
-    /// @param aState Initial state for the segment
-    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
-    /// @return A Solution representing the result of the solve
-    Solution solveToNextManeuver(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0))
-        const;
-
     /// @brief Solve the segment with constraints
     ///
     /// @param aState Initial state for the segment
-    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
-    /// @param lastManeuverInterval Last maneuver interval prior to this segment (Undefined if there were no maneuvers prior to this segment)
-    /// @param minimumManeuverDuration Minimum duration for a maneuver. Defaults to Undefined.
-    /// @param maximumManeuverDuration Maximum duration for a maneuver. Defaults to Undefined.
-    /// @param minimumManeuverSeparation Minimum separation between maneuvers. Defaults to Undefined.
-    /// @param maximumManeuverDurationStrategy Strategy to handle maximum maneuver duration violations. Defaults to MaximumManeuverDurationViolationStrategy::Throw.
+    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
+    /// @param lastManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined if there were no
+    /// maneuvers prior to this segment.
     /// @return A Solution representing the result of the solve
     Solution solveWithConstraints(
         const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Interval& lastManeuverInterval,
-        const Duration& minimumManeuverDuration,
-        const Duration& maximumManeuverDuration,
-        const Duration& minimumManeuverSeparation,
-        const MaximumManeuverDurationViolationStrategy& maximumManeuverDurationStrategy
+        const Duration& maximumPropagationDuration = Duration::Days(30.0),
+        const Interval& lastManeuverInterval = Interval::Undefined()
     ) const;
 
     /// @brief Print the segment
@@ -300,13 +311,15 @@ class Segment
     /// @param aThrusterDynamics Dynamics for the thruster
     /// @param aDynamicsArray Array of dynamics
     /// @param aNumericalSolver Numerical solver
+    /// @param aManeuverConstraints Maneuver constraints
     /// @return A Segment for maneuvering
     static Segment Maneuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Shared<Thruster>& aThrusterDynamics,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver
+        const NumericalSolver& aNumericalSolver,
+        const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );
 
     /// @brief Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital
@@ -327,6 +340,8 @@ class Segment
     /// @param aLocalOrbitalFrameFactory A local orbital frame factory.
     /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults
     /// to Undefined.
+    /// @param aManeuverConstraints Maneuver constraints
+    /// @return A Segment for maneuvering
     static Segment ConstantLocalOrbitalFrameDirectionManeuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
@@ -334,7 +349,8 @@ class Segment
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver,
         const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
+        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
+        const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );
 
    private:
@@ -346,6 +362,7 @@ class Segment
     NumericalSolver numericalSolver_;
     Shared<const LocalOrbitalFrameFactory> constantManeuverDirectionLocalOrbitalFrameFactory_;
     Angle constantManeuverDirectionMaximumAllowedAngularOffset_;
+    ManeuverConstraints maneuverConstraints_;
 
     /// @brief Constructor
     ///
@@ -357,6 +374,8 @@ class Segment
     /// @param aNumericalSolver The numerical solver
     /// @param aLocalOrbitalFrameFactory The local orbital frame factory
     /// @param aMaximumAllowedAngularOffset The maximum allowed angular offset
+    /// @param aManeuverConstraints Maneuver constraints
+    /// @return A Segment
     Segment(
         const String& aName,
         const Type& aType,
@@ -365,7 +384,8 @@ class Segment
         const Shared<Thruster>& aThrusterDynamics,
         const NumericalSolver& aNumericalSolver,
         const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory = nullptr,
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
+        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
+        const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );
 
     /// @brief Internal solve method
@@ -382,18 +402,15 @@ class Segment
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aFreeDynamicsArray The free dynamics array
     /// @param aThrusterDynamics The thruster dynamics
     /// @param allowMultipleManeuvers True if multiple maneuvers are allowed
     /// @return The segment solution
     Segment::Solution solveWithDynamics_(
         const State& aState,
         const Duration& maximumPropagationDuration,
-        const Array<Shared<Dynamics>>& aFreeDynamicsArray,
         const Shared<Thruster>& aThrusterDynamics,
         const bool& allowMultipleManeuvers
     ) const;
-
 };
 
 }  // namespace trajectory

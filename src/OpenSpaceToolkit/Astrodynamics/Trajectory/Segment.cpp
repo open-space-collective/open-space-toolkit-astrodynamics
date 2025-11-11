@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <numeric>
+
 #include <boost/log/core.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
@@ -49,6 +50,32 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPositio
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::StateBuilder;
 using flightManeuver = ostk::astrodynamics::flight::Maneuver;
+
+Segment::ManeuverConstraints::ManeuverConstraints()
+    : minimumDuration(Duration::Undefined()),
+      maximumDuration(Duration::Undefined()),
+      minimumSeparation(Duration::Undefined()),
+      maximumDurationStrategy(MaximumManeuverDurationViolationStrategy::Fail)
+{
+}
+
+Segment::ManeuverConstraints::ManeuverConstraints(
+    const Duration& aMinimumDuration,
+    const Duration& aMaximumDuration,
+    const Duration& aMinimumSeparation,
+    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
+)
+    : minimumDuration(aMinimumDuration),
+      maximumDuration(aMaximumDuration),
+      minimumSeparation(aMinimumSeparation),
+      maximumDurationStrategy(aMaximumDurationStrategy)
+{
+}
+
+bool Segment::ManeuverConstraints::isDefined() const
+{
+    return minimumDuration.isDefined() || maximumDuration.isDefined() || minimumSeparation.isDefined();
+}
 
 Segment::Solution::Solution(
     const String& aName,
@@ -473,7 +500,8 @@ Segment::Segment(
     const Shared<Thruster>& aThrusterDynamics,
     const NumericalSolver& aNumericalSolver,
     const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
-    const Angle& aMaximumAllowedAngularOffset
+    const Angle& aMaximumAllowedAngularOffset,
+    const ManeuverConstraints& aManeuverConstraints
 )
     : name_(aName),
       type_(aType),
@@ -482,7 +510,8 @@ Segment::Segment(
       thrusterDynamicsSPtr_(aThrusterDynamics),
       numericalSolver_(aNumericalSolver),
       constantManeuverDirectionLocalOrbitalFrameFactory_(aLocalOrbitalFrameFactory),
-      constantManeuverDirectionMaximumAllowedAngularOffset_(aMaximumAllowedAngularOffset)
+      constantManeuverDirectionMaximumAllowedAngularOffset_(aMaximumAllowedAngularOffset),
+      maneuverConstraints_(aManeuverConstraints)
 {
     if (eventCondition_ == nullptr)
     {
@@ -578,6 +607,11 @@ Shared<Thruster> Segment::getThrusterDynamics() const
     return thrusterDynamicsSPtr_;
 }
 
+Segment::ManeuverConstraints Segment::getManeuverConstraints() const
+{
+    return maneuverConstraints_;
+}
+
 const Shared<EventCondition>& Segment::accessEventCondition() const
 {
     return eventCondition_;
@@ -588,30 +622,22 @@ const NumericalSolver& Segment::accessNumericalSolver() const
     return numericalSolver_;
 }
 
+void Segment::setManeuverConstraints(const ManeuverConstraints& aManeuverConstraints)
+{
+    maneuverConstraints_ = aManeuverConstraints;
+}
+
 Segment::Solution Segment::solve(const State& aState, const Duration& maximumPropagationDuration) const
 {
     return solve_(aState, maximumPropagationDuration, true);
 }
 
-Segment::Solution Segment::solveToNextManeuver(const State& aState, const Duration& maximumPropagationDuration) const
-{
-    return solve_(aState, maximumPropagationDuration, false);
-}
-
 Segment::Solution Segment::solveWithConstraints(
-    const State& aState,
-    const Duration& maximumPropagationDuration,
-    const Interval& lastManeuverInterval,
-    const Duration& minimumManeuverDuration,
-    const Duration& maximumManeuverDuration,
-    const Duration& minimumManeuverSeparation,
-    const MaximumManeuverDurationViolationStrategy& maximumManeuverDurationStrategy
+    const State& aState, const Duration& maximumPropagationDuration, const Interval& lastManeuverInterval
 ) const
 {
-    // If we're not dealing with a maneuver-related constraints
-    if (type_ != Segment::Type::Maneuver ||
-        (!maximumManeuverDuration.isDefined() && !minimumManeuverDuration.isDefined() &&
-            !minimumManeuverSeparation.isDefined()))
+    // If we're not dealing with maneuver-related constraints
+    if (type_ != Segment::Type::Maneuver || !maneuverConstraints_.isDefined())
     {
         return solve_(aState, maximumPropagationDuration, true);
     }
@@ -631,7 +657,7 @@ Segment::Solution Segment::solveWithConstraints(
 
     // Helper lambda to update nextInstantToCoastTo with a new candidate instant
     const auto updateNextCoastInstant = [&maximumInstant,
-                                            &nextInstantToCoastTo](const Instant& candidateInstant) -> Instant
+                                         &nextInstantToCoastTo](const Instant& candidateInstant) -> Instant
     {
         const Instant clampedCandidate = std::min(candidateInstant, maximumInstant);
         return nextInstantToCoastTo.isDefined() ? std::max(nextInstantToCoastTo, clampedCandidate) : clampedCandidate;
@@ -641,26 +667,25 @@ Segment::Solution Segment::solveWithConstraints(
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
     const Shared<const GuidanceLaw> originalGuidanceLaw = segmentThrusterDynamics->getGuidanceLaw();
 
-    const auto buildThrusterDynamicsWithManeuverIntervals = [&originalGuidanceLaw, &segmentThrusterDynamics](const Interval& aManeuverInterval, const String& aSuffix) -> Shared<Thruster>
+    const auto buildThrusterDynamicsWithManeuverIntervals = [&originalGuidanceLaw, &segmentThrusterDynamics](
+                                                                const Interval& aManeuverInterval, const String& aSuffix
+                                                            ) -> Shared<Thruster>
     {
         const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw = std::make_shared<HeterogeneousGuidanceLaw>();
-    
+
         heterogeneousGuidanceLaw->addGuidanceLaw(originalGuidanceLaw, aManeuverInterval);
-    
+
         return std::make_shared<Thruster>(
-            segmentThrusterDynamics->getSatelliteSystem(), heterogeneousGuidanceLaw, segmentThrusterDynamics->getName() + " " + aSuffix
+            segmentThrusterDynamics->getSatelliteSystem(),
+            heterogeneousGuidanceLaw,
+            segmentThrusterDynamics->getName() + " " + aSuffix
         );
     };
 
     // Helper lambda to build a coast segment
     const auto buildCoastSegment = [&](const String& aSuffix) -> Segment
     {
-        return Segment::Coast(
-            name_ + " " + aSuffix,
-            eventCondition_,
-            freeDynamicsArray_,
-            numericalSolver_
-        );
+        return Segment::Coast(name_ + " " + aSuffix, eventCondition_, freeDynamicsArray_, numericalSolver_);
     };
 
     // Helper lambda to build a maneuver segment
@@ -679,10 +704,11 @@ Segment::Solution Segment::solveWithConstraints(
     };
 
     // Account for maneuver separation w.r.t. the last maneuver in the sequence
-    if (lastManeuverInterval.isDefined() && minimumManeuverSeparation.isDefined() &&
-        (aState.accessInstant() - lastManeuverInterval.getEnd()) < minimumManeuverSeparation)
+    if (lastManeuverInterval.isDefined() && maneuverConstraints_.minimumSeparation.isDefined() &&
+        (aState.accessInstant() - lastManeuverInterval.getEnd()) < maneuverConstraints_.minimumSeparation)
     {
-        nextInstantToCoastTo = updateNextCoastInstant(lastManeuverInterval.getEnd() + minimumManeuverSeparation);
+        nextInstantToCoastTo =
+            updateNextCoastInstant(lastManeuverInterval.getEnd() + maneuverConstraints_.minimumSeparation);
         nextSubSegmentToSolve = buildCoastSegment("(Coast - Minimum Maneuver Separation Constraint)");
     }
 
@@ -713,12 +739,13 @@ Segment::Solution Segment::solveWithConstraints(
         }
 
         // Maneuver
-        const Segment::Solution maneuverSubsegmentSolution = nextSubSegmentToSolve.solveToNextManeuver(
-            segmentStates.accessLast(), maximumInstant - segmentStates.accessLast().accessInstant()
+        const Segment::Solution maneuverSubsegmentSolution = nextSubSegmentToSolve.solve_(
+            segmentStates.accessLast(), maximumInstant - segmentStates.accessLast().accessInstant(), false
         );
         subSegmentConditionIsSatisfied = maneuverSubsegmentSolution.conditionIsSatisfied;
 
-        const Array<flightManeuver> subsegmentManeuvers = maneuverSubsegmentSolution.extractManeuvers(aState.accessFrame());
+        const Array<flightManeuver> subsegmentManeuvers =
+            maneuverSubsegmentSolution.extractManeuvers(aState.accessFrame());
 
         // There were no maneuvers to be considered
         if (subsegmentManeuvers.isEmpty())
@@ -729,7 +756,7 @@ Segment::Solution Segment::solveWithConstraints(
             break;
         }
 
-        // This should never happen, would indicate a problem with the solveToNextManeuver method
+        // This should never happen, would indicate a problem with the solve_ method
         if (subsegmentManeuvers.getSize() > 1)
         {
             throw ostk::core::error::RuntimeError(
@@ -740,16 +767,15 @@ Segment::Solution Segment::solveWithConstraints(
         const Interval candidateManeuverInterval = subsegmentManeuvers.accessFirst().getInterval();
 
         // Check minimum maneuver duration constraint
-        if (minimumManeuverDuration.isDefined() &&
-            candidateManeuverInterval.getDuration() < minimumManeuverDuration)
+        if (maneuverConstraints_.minimumDuration.isDefined() &&
+            candidateManeuverInterval.getDuration() < maneuverConstraints_.minimumDuration)
         {
             BOOST_LOG_TRIVIAL(debug
             ) << "Maneuver duration is less than the minimum maneuver duration. Skipping the maneuver."
-                << std::endl;
+              << std::endl;
 
-            nextSubSegmentToSolve = buildCoastSegment(
-                "(Skipping Maneuver due to Minimum Maneuver Duration Constraint)"
-            );
+            nextSubSegmentToSolve =
+                buildCoastSegment("(Skipping Maneuver due to Minimum Maneuver Duration Constraint)");
 
             nextInstantToCoastTo =
                 updateNextCoastInstant(candidateManeuverInterval.getEnd() + subSegmentManeuverMargin);
@@ -757,13 +783,13 @@ Segment::Solution Segment::solveWithConstraints(
         }
 
         // Check maximum maneuver duration constraint
-        if (maximumManeuverDuration.isDefined() &&
-            candidateManeuverInterval.getDuration() > maximumManeuverDuration)
+        if (maneuverConstraints_.maximumDuration.isDefined() &&
+            candidateManeuverInterval.getDuration() > maneuverConstraints_.maximumDuration)
         {
             BOOST_LOG_TRIVIAL(debug) << "Maneuver duration is greater than the maximum maneuver duration, handling... "
-                                        << std::endl;
+                                     << std::endl;
 
-            switch (maximumManeuverDurationStrategy)
+            switch (maneuverConstraints_.maximumDurationStrategy)
             {
                 case MaximumManeuverDurationViolationStrategy::Fail:
                 {
@@ -775,9 +801,8 @@ Segment::Solution Segment::solveWithConstraints(
 
                 case MaximumManeuverDurationViolationStrategy::Skip:
                 {
-                    nextSubSegmentToSolve = buildCoastSegment(
-                        "(Coast - Skipping Maneuver due to Maximum Maneuver Duration Constraint)"
-                    );
+                    nextSubSegmentToSolve =
+                        buildCoastSegment("(Coast - Skipping Maneuver due to Maximum Maneuver Duration Constraint)");
 
                     nextInstantToCoastTo =
                         updateNextCoastInstant(candidateManeuverInterval.getEnd() + subSegmentManeuverMargin);
@@ -786,37 +811,31 @@ Segment::Solution Segment::solveWithConstraints(
 
                 case MaximumManeuverDurationViolationStrategy::Slice:
                 {
-                    const Shared<Thruster> shortenedManeuverThruster =
-                        buildThrusterDynamicsWithManeuverIntervals(
-                            Interval::Closed(
-                                candidateManeuverInterval.getStart(),
-                                candidateManeuverInterval.getStart() + maximumManeuverDuration
-                            ),
-                            "(Slice Maneuver)"
-                        );
-                    nextSubSegmentToSolve = buildManeuverSegment(
-                        shortenedManeuverThruster, "(Slice Maneuver)"
+                    const Shared<Thruster> shortenedManeuverThruster = buildThrusterDynamicsWithManeuverIntervals(
+                        Interval::Closed(
+                            candidateManeuverInterval.getStart(),
+                            candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
+                        ),
+                        "(Slice Maneuver)"
                     );
+                    nextSubSegmentToSolve = buildManeuverSegment(shortenedManeuverThruster, "(Slice Maneuver)");
                     nextInstantToCoastTo = updateNextCoastInstant(
-                        candidateManeuverInterval.getStart() + maximumManeuverDuration
+                        candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
                     );
                     break;
                 }
 
                 case MaximumManeuverDurationViolationStrategy::Center:
                 {
-                    const Shared<Thruster> shortenedManeuverThruster =
-                        buildThrusterDynamicsWithManeuverIntervals(
-                            Interval::Centered(
-                                candidateManeuverInterval.getCenter(),
-                                maximumManeuverDuration,
-                                Interval::Type::Closed
-                            ),
-                            "(Center Maneuver)"
-                        );
-                    nextSubSegmentToSolve = buildManeuverSegment(
-                        shortenedManeuverThruster, "(Centered Maneuver)"
+                    const Shared<Thruster> shortenedManeuverThruster = buildThrusterDynamicsWithManeuverIntervals(
+                        Interval::Centered(
+                            candidateManeuverInterval.getCenter(),
+                            maneuverConstraints_.maximumDuration,
+                            Interval::Type::Closed
+                        ),
+                        "(Center Maneuver)"
                     );
+                    nextSubSegmentToSolve = buildManeuverSegment(shortenedManeuverThruster, "(Centered Maneuver)");
                     nextInstantToCoastTo =
                         updateNextCoastInstant(candidateManeuverInterval.getEnd() + subSegmentManeuverMargin);
                     break;
@@ -850,18 +869,17 @@ Segment::Solution Segment::solveWithConstraints(
         BOOST_LOG_TRIVIAL(debug) << "Accounting for minimum maneuver separation." << std::endl;
         nextSubSegmentToSolve = buildCoastSegment("(Coast - Minimum Maneuver Separation Constraint)");
 
-        if (minimumManeuverSeparation.isDefined())
+        if (maneuverConstraints_.minimumSeparation.isDefined())
         {
-            nextInstantToCoastTo =
-                updateNextCoastInstant(segmentManeuverIntervals.accessLast().getEnd() + minimumManeuverSeparation);
+            nextInstantToCoastTo = updateNextCoastInstant(
+                segmentManeuverIntervals.accessLast().getEnd() + maneuverConstraints_.minimumSeparation
+            );
         }
     }
 
     Array<Shared<Dynamics>> segmentDynamics = this->getFreeDynamics();
     segmentDynamics.add(std::make_shared<Thruster>(
-        this->getThrusterDynamics()->getSatelliteSystem(),
-        segmentGuidanceLaw,
-        name_ + " (Maneuvering Constraints)"
+        this->getThrusterDynamics()->getSatelliteSystem(), segmentGuidanceLaw, name_ + " (Maneuvering Constraints)"
     ));
 
     return Segment::Solution(
@@ -924,7 +942,8 @@ Segment Segment::Maneuver(
     const Shared<EventCondition>& anEventConditionSPtr,
     const Shared<Thruster>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver
+    const NumericalSolver& aNumericalSolver,
+    const ManeuverConstraints& aManeuverConstraints
 )
 {
     return {
@@ -934,6 +953,9 @@ Segment Segment::Maneuver(
         aDynamicsArray,
         aThrusterDynamics,
         aNumericalSolver,
+        nullptr,
+        Angle::Undefined(),
+        aManeuverConstraints,
     };
 }
 
@@ -944,10 +966,11 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver,
     const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
-    const Angle& aMaximumAllowedAngularOffset
+    const Angle& aMaximumAllowedAngularOffset,
+    const ManeuverConstraints& aManeuverConstraints
 )
 {
-    return {
+    return Segment {
         aName,
         Segment::Type::Maneuver,
         anEventConditionSPtr,
@@ -956,6 +979,7 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         aNumericalSolver,
         aLocalOrbitalFrameFactory,
         aMaximumAllowedAngularOffset,
+        aManeuverConstraints
     };
 }
 
@@ -963,9 +987,8 @@ Segment::Solution Segment::solve_(
     const State& aState, const Duration& maximumPropagationDuration, const bool& allowMultipleManeuvers
 ) const
 {
-    const Segment::Solution solution = this->solveWithDynamics_(
-        aState, maximumPropagationDuration, freeDynamicsArray_, thrusterDynamicsSPtr_, allowMultipleManeuvers
-    );
+    const Segment::Solution solution =
+        this->solveWithDynamics_(aState, maximumPropagationDuration, thrusterDynamicsSPtr_, allowMultipleManeuvers);
 
     // If we're not forcing a constant maneuver direction in the Local Orbital Frame, return the solution
     if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
@@ -1001,20 +1024,19 @@ Segment::Solution Segment::solve_(
     );
 
     return this->solveWithDynamics_(
-        aState, maximumPropagationDuration, freeDynamicsArray_, heterogeneousThrustDynamicsSPtr, allowMultipleManeuvers
+        aState, maximumPropagationDuration, heterogeneousThrustDynamicsSPtr, allowMultipleManeuvers
     );
 }
 
 Segment::Solution Segment::solveWithDynamics_(
     const State& aState,
     const Duration& maximumPropagationDuration,
-    const Array<Shared<Dynamics>>& aFreeDynamicsArray,
     const Shared<Thruster>& aThrusterDynamics,
     const bool& allowMultipleManeuvers
 ) const
 {
     // Combine free dynamics and thruster dynamics into a single array
-    Array<Shared<Dynamics>> aDynamicsArray = aFreeDynamicsArray;
+    Array<Shared<Dynamics>> aDynamicsArray = freeDynamicsArray_;
     if (aThrusterDynamics != nullptr)
     {
         aDynamicsArray.add(aThrusterDynamics);

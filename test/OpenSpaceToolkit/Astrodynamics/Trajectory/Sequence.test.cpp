@@ -161,8 +161,6 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
 
     const Size defaultVerbosityLevel_ = 1;
 
-    const Duration defaultMinimumManeuverDuration_ = Duration::Minutes(1.0);
-
     const Size defaultRepetitionCount_ = 2;
     const Duration defaultMaximumPropagationDuration_ = Duration::Days(7.0);
     Sequence defaultSequence_ = {
@@ -170,7 +168,6 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         defaultNumericalSolver_,
         defaultDynamics_,
         defaultMaximumPropagationDuration_,
-        defaultMinimumManeuverDuration_,
         defaultVerbosityLevel_,
     };
 };
@@ -537,11 +534,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
 
     {
         EXPECT_NO_THROW(Sequence sequence(
-            defaultSegments_,
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_,
-            defaultMinimumManeuverDuration_
+            defaultSegments_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_
         ));
     }
 
@@ -551,11 +544,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
                 try
                 {
                     Sequence sequence(
-                        defaultSegments_,
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        Duration::Undefined(),
-                        defaultMinimumManeuverDuration_
+                        defaultSegments_, defaultNumericalSolver_, defaultDynamics_, Duration::Undefined()
                     );
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
@@ -574,11 +563,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
                 try
                 {
                     Sequence sequence(
-                        defaultSegments_,
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        Duration::Seconds(-1.0),
-                        defaultMinimumManeuverDuration_
+                        defaultSegments_, defaultNumericalSolver_, defaultDynamics_, Duration::Seconds(-1.0)
                     );
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
@@ -597,69 +582,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
             {
                 try
                 {
-                    Sequence sequence(
-                        defaultSegments_,
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        Duration::Zero(),
-                        defaultMinimumManeuverDuration_
-                    );
+                    Sequence sequence(defaultSegments_, defaultNumericalSolver_, defaultDynamics_, Duration::Zero());
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
                     EXPECT_NE(
                         e.getMessage().find("Maximum propagation duration must be strictly positive."),
                         std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Sequence sequence(
-                        defaultSegments_,
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        defaultMaximumPropagationDuration_,
-                        Duration::Zero()
-                    );
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Sequence sequence(
-                        defaultSegments_,
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        defaultMaximumPropagationDuration_,
-                        Duration::Seconds(-1.0)
-                    );
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
                     );
                     throw;
                 }
@@ -677,7 +606,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
                     defaultNumericalSolver_,
                     defaultDynamics_,
                     defaultMaximumPropagationDuration_,
-                    defaultMinimumManeuverDuration_,
                     verbosity
                 ));
             }
@@ -686,12 +614,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
         {
             EXPECT_THROW(
                 Sequence sequence(
-                    defaultSegments_,
-                    defaultNumericalSolver_,
-                    defaultDynamics_,
-                    defaultMaximumPropagationDuration_,
-                    defaultMinimumManeuverDuration_,
-                    6
+                    defaultSegments_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_, 6
                 ),
                 ostk::core::error::runtime::Wrong
             );
@@ -728,245 +651,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetDynamics)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetMaximumPropagationDuration)
 {
     EXPECT_EQ(defaultMaximumPropagationDuration_, defaultSequence_.getMaximumPropagationDuration());
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMaximumManeuverDuration)
-{
-    // Valid case - set a positive duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_NO_THROW(sequence.setMaximumManeuverDuration(Duration::Minutes(20.0)));
-        EXPECT_EQ(Duration::Minutes(20.0), sequence.getMaximumManeuverDuration());
-    }
-
-    // Valid case - set undefined duration
-    {
-        Sequence sequence = defaultSequence_;
-        sequence.setMaximumManeuverDuration(Duration::Minutes(10.0));  // First set it to something
-        EXPECT_NO_THROW(sequence.setMaximumManeuverDuration(Duration::Undefined()));
-        EXPECT_FALSE(sequence.getMaximumManeuverDuration().isDefined());
-    }
-
-    // Invalid case - negative duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMaximumManeuverDuration(Duration::Seconds(-1.0));
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Maximum maneuver duration must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    // Invalid case - zero duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMaximumManeuverDuration(Duration::Zero());
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Maximum maneuver duration must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    // Invalid case - maximum less than minimum
-    {
-        Sequence sequence = defaultSequence_;
-        sequence.setMinimumManeuverDuration(Duration::Minutes(10.0));
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMaximumManeuverDuration(Duration::Minutes(5.0));
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find(
-                            "Maximum maneuver duration must be greater than or equal to the minimum maneuver duration."
-                        ),
-                        std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeuverDuration)
-{
-    // Valid case - set a positive duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_NO_THROW(sequence.setMinimumManeuverDuration(Duration::Minutes(5.0)));
-        EXPECT_EQ(Duration::Minutes(5.0), sequence.getMinimumManeuverDuration());
-    }
-
-    // Valid case - set undefined duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_NO_THROW(sequence.setMinimumManeuverDuration(Duration::Undefined()));
-        EXPECT_FALSE(sequence.getMinimumManeuverDuration().isDefined());
-    }
-
-    // Invalid case - negative duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMinimumManeuverDuration(Duration::Seconds(-1.0));
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    // Invalid case - zero duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMinimumManeuverDuration(Duration::Zero());
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Minimum maneuver duration must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    // Invalid case - minimum more than maximum
-    {
-        Sequence sequence = defaultSequence_;
-        sequence.setMaximumManeuverDuration(Duration::Minutes(5.0));
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMinimumManeuverDuration(Duration::Minutes(10.0));
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find(
-                            "Minimum maneuver duration must be less than or equal to the maximum maneuver duration."
-                        ),
-                        std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMinimumManeuverSeparation)
-{
-    // Valid case - set a positive duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_NO_THROW(sequence.setMinimumManeuverSeparation(Duration::Minutes(15.0)));
-        EXPECT_EQ(Duration::Minutes(15.0), sequence.getMinimumManeuverSeparation());
-    }
-
-    // Valid case - set undefined duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_NO_THROW(sequence.setMinimumManeuverSeparation(Duration::Undefined()));
-        EXPECT_FALSE(sequence.getMinimumManeuverSeparation().isDefined());
-    }
-
-    // Invalid case - negative duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMinimumManeuverSeparation(Duration::Seconds(-1.0));
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Minimum maneuver separation must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    // Invalid case - zero duration
-    {
-        Sequence sequence = defaultSequence_;
-        EXPECT_THROW(
-            {
-                try
-                {
-                    sequence.setMinimumManeuverSeparation(Duration::Zero());
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(
-                        e.getMessage().find("Minimum maneuver separation must be strictly positive."), std::string::npos
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetAndSetMaximumManeuverDurationStrategy)
-{
-    Sequence sequence = defaultSequence_;
-    EXPECT_NO_THROW(
-        sequence.setMaximumManeuverDurationStrategy(Segment::MaximumManeuverDurationViolationStrategy::Center)
-    );
-    EXPECT_EQ(
-        Segment::MaximumManeuverDurationViolationStrategy::Center, sequence.getMaximumManeuverDurationStrategy()
-    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
@@ -1348,10 +1032,7 @@ struct ManeuveringConstraintsTestParams
 {
     String description;
     Array<Tuple<Duration, Duration>> maneuverIntervals;
-    Duration minimumManeuverSeparation;
-    Duration minimumManeuverDuration;
-    Duration maximumManeuverDuration;
-    Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationStrategy;
+    Segment::ManeuverConstraints maneuverConstraints;
     Array<Tuple<Duration, Duration, bool>>
         expectedManeuverIntervals;  // bool: true if we should use a "loose" tolerance
 };
@@ -1384,10 +1065,12 @@ INSTANTIATE_TEST_SUITE_P(
         ManeuveringConstraintsTestParams {
             "NoManeuvers",
             Array<Tuple<Duration, Duration>>::Empty(),
-            Duration::Seconds(30.0),
-            Duration::Seconds(30.0),
-            Duration::Undefined(),
-            Segment::MaximumManeuverDurationViolationStrategy::Slice,
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Slice
+            ),
             Array<Tuple<Duration, Duration, bool>>::Empty()
         },
         // With Minimum Maneuver Duration Constraint
@@ -1400,10 +1083,12 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
                 Tuple<Duration, Duration> {Duration::Minutes(85.0), Duration::Minutes(110.0)}
             },
-            Duration::Seconds(30.0),
-            Duration::Minutes(10.0),
-            Duration::Undefined(),
-            Segment::MaximumManeuverDurationViolationStrategy::Slice,
+            Segment::ManeuverConstraints(
+                Duration::Minutes(10.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Slice
+            ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
@@ -1420,10 +1105,12 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
                 Tuple<Duration, Duration> {Duration::Minutes(75.0), Duration::Minutes(110.0)}  // Too soon, delayed
             },
-            Duration::Minutes(10.0),
-            Duration::Seconds(30.0),
-            Duration::Undefined(),
-            Segment::MaximumManeuverDurationViolationStrategy::Slice,
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Minutes(10.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Slice
+            ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
@@ -1443,10 +1130,12 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Too long, skipped
                 Tuple<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(110.0)}  // Too long, skipped
             },
-            Duration::Seconds(30.0),
-            Duration::Seconds(30.0),
-            Duration::Minutes(10.0),
-            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Minutes(10.0),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Skip
+            ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
             }
@@ -1466,10 +1155,12 @@ INSTANTIATE_TEST_SUITE_P(
                     Duration::Minutes(60.0), Duration::Minutes(110.0)
                 }  // Too long, sliced to [60, 70], [73, 83], [86, 96] (skiping [99, 100] as it would be too short)
             },
-            Duration::Minutes(3.0),
-            Duration::Minutes(4.0),
-            Duration::Minutes(10.0),
-            Segment::MaximumManeuverDurationViolationStrategy::Slice,
+            Segment::ManeuverConstraints(
+                Duration::Minutes(4.0),
+                Duration::Minutes(10.0),
+                Duration::Minutes(3.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Slice
+            ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
@@ -1495,10 +1186,12 @@ INSTANTIATE_TEST_SUITE_P(
                     Duration::Minutes(60.0), Duration::Minutes(110.0)
                 }  // Too long, centered around 80.0
             },
-            Duration::Seconds(30.0),
-            Duration::Seconds(30.0),
-            Duration::Minutes(10.0),
-            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Minutes(10.0),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Center
+            ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
@@ -1553,7 +1246,12 @@ TEST_P(
         std::make_shared<Thruster>(satelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
 
     Segment maneuverSegment = Segment::Maneuver(
-        "Maneuvering Segment", maneuverSegmentConditionSPtr, customThrusterDynamicsSPtr, dynamicsSPtr_, numericalSolver_
+        "Maneuvering Segment",
+        maneuverSegmentConditionSPtr,
+        customThrusterDynamicsSPtr,
+        dynamicsSPtr_,
+        numericalSolver_,
+        params.maneuverConstraints
     );
 
     Sequence sequence = {
@@ -1562,11 +1260,6 @@ TEST_P(
         dynamicsSPtr_,
         maximumPropagationDuration,
     };
-
-    sequence.setMinimumManeuverSeparation(params.minimumManeuverSeparation);
-    sequence.setMinimumManeuverDuration(params.minimumManeuverDuration);
-    sequence.setMaximumManeuverDuration(params.maximumManeuverDuration);
-    sequence.setMaximumManeuverDurationStrategy(params.maximumManeuverDurationStrategy);
 
     // Solve sequence using both methods
     const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
@@ -1633,6 +1326,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
     const Duration maximumPropagationDuration = Duration::Minutes(200.0);
     const Shared<const Frame> frameSPtr = Frame::GCRF();
 
+    Segment::ManeuverConstraints maneuverConstraints;
+    maneuverConstraints.maximumDuration = Duration::Minutes(10.0);
+
     Segment segment = Segment::Maneuver(
         "Segment",
         std::make_shared<RealCondition>(
@@ -1645,7 +1341,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
             })
         ),
         dynamicsSPtr,
-        numericalSolver
+        numericalSolver,
+        maneuverConstraints
     );
 
     Sequence sequence = {
@@ -1654,9 +1351,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
         dynamicsSPtr,
         maximumPropagationDuration,
     };
-    sequence.setMaximumManeuverDuration(Duration::Minutes(10.0));
-
-    EXPECT_EQ(sequence.getMaximumManeuverDurationStrategy(), Segment::MaximumManeuverDurationViolationStrategy::Fail);
 
     EXPECT_THROW(
         {
@@ -1714,6 +1408,10 @@ TEST_F(
 
     // With Minimum Maneuver Separation Constraint between Segments
     {
+        Segment::ManeuverConstraints maneuverConstraints;
+        maneuverConstraints.minimumSeparation = Duration::Minutes(10.0);
+        maneuverConstraints.minimumDuration = Duration::Seconds(30.0);
+
         Segment maneuverSegment1 = Segment::Maneuver(
             "Maneuvering Segment 1",
             std::make_shared<RealCondition>(
@@ -1728,7 +1426,8 @@ TEST_F(
                 })
             ),
             dynamicsSPtr,
-            numericalSolver
+            numericalSolver,
+            maneuverConstraints
         );
         Segment maneuverSegment2 = Segment::Maneuver(
             "Maneuvering Segment 2",
@@ -1748,7 +1447,8 @@ TEST_F(
                 })
             ),
             dynamicsSPtr,
-            numericalSolver
+            numericalSolver,
+            maneuverConstraints
         );
 
         Sequence sequence = {
@@ -1760,9 +1460,6 @@ TEST_F(
             dynamicsSPtr,
             maximumPropagationDuration,
         };
-
-        sequence.setMinimumManeuverSeparation(Duration::Minutes(10.0));
-        sequence.setMinimumManeuverDuration(Duration::Seconds(30.0));
 
         const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
         const Sequence::Solution solutionUsingCondition = sequence.solveToCondition(
@@ -1818,6 +1515,9 @@ TEST_F(
 
     // With Minimum Maneuver Separation Constraint between repetitions
     {
+        Segment::ManeuverConstraints maneuverConstraints;
+        maneuverConstraints.minimumSeparation = Duration::Minutes(10.0);
+        maneuverConstraints.minimumDuration = Duration::Seconds(30.0);
         Segment maneuverSegment = Segment::Maneuver(
             "Maneuvering Segment 1",
             std::make_shared<RealCondition>(
@@ -1840,7 +1540,8 @@ TEST_F(
                 })
             ),
             dynamicsSPtr,
-            numericalSolver
+            numericalSolver,
+            maneuverConstraints
         );
         Sequence sequence = {
             {maneuverSegment},
@@ -1848,8 +1549,6 @@ TEST_F(
             dynamicsSPtr,
             maximumPropagationDuration,
         };
-        sequence.setMinimumManeuverSeparation(Duration::Minutes(10.0));
-        sequence.setMinimumManeuverDuration(Duration::Seconds(30.0));
         const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 2);
         EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
         EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getStart().isNear(Instant::J2000(), tolerance));

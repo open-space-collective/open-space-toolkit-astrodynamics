@@ -135,11 +135,10 @@ class Sequence
     ///                  const Array<Shared<Dynamics>> dynamicsArray =
     ///                  {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
     ///                  const Duration maximumPropagationDuration = Duration::Days(7.0);
-    ///                  const Duration minimumManeuverDuration = Duration::Zero();
     ///                  const Size verbosity = 0;
     ///
     ///                  Sequence sequence = {segmentArray, numericalSolver, dynamicsArray,
-    ///                  maximumPropagationDuration, minimumManeuverDuration, verbosity};
+    ///                  maximumPropagationDuration, verbosity};
     ///
     /// @endcode
     ///
@@ -148,15 +147,12 @@ class Sequence
     /// @param aDynamicsArray An array of shared dynamics. Defaults to empty.
     /// @param aSegmentPropagationDurationLimit Maximum duration for propagation. Defaults to 30.0
     /// days.
-    /// @param aMinimumManeuverDuration Minimum duration for maneuver, maneuvers less than this duration
-    /// will be skipped. Defaults to Undefined.
     /// @param aVerbosityLevel Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
         const NumericalSolver& aNumericalSolver = NumericalSolver::DefaultConditional(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const Duration& aSegmentPropagationDurationLimit = Duration::Days(30.0),
-        const Duration& aMinimumManeuverDuration = Duration::Undefined(),
         const Size& aVerbosityLevel = 0
     );
 
@@ -182,52 +178,10 @@ class Sequence
     /// @return Dynamics.
     Array<Shared<Dynamics>> getDynamics() const;
 
-    /// @brief Get maximum maneuver duration.
-    ///
-    /// @return Maximum maneuver duration.
-    Duration getMaximumManeuverDuration() const;
-
-    /// @brief Get maximum maneuver duration strategy.
-    ///
-    /// @return Maximum maneuver duration strategy.
-    Segment::MaximumManeuverDurationViolationStrategy getMaximumManeuverDurationStrategy() const;
-
     /// @brief Get maximum propagation duration.
     ///
     /// @return Maximum propagation duration.
     Duration getMaximumPropagationDuration() const;
-
-    /// @brief Get minimum maneuver duration.
-    ///
-    /// @return Minimum maneuver duration.
-    Duration getMinimumManeuverDuration() const;
-
-    /// @brief Get minimum maneuver separation.
-    ///
-    /// @return Minimum maneuver separation.
-    Duration getMinimumManeuverSeparation() const;
-
-    /// @brief Set maximum maneuver duration.
-    ///
-    /// @param aMaximumManeuverDuration Maximum maneuver duration.
-    void setMaximumManeuverDuration(const Duration& aMaximumManeuverDuration);
-
-    /// @brief Set maximum maneuver duration strategy.
-    ///
-    /// @param aMaximumManeuverDurationStrategy Maximum maneuver duration strategy.
-    void setMaximumManeuverDurationStrategy(
-        const Segment::MaximumManeuverDurationViolationStrategy& aMaximumManeuverDurationStrategy
-    );
-
-    /// @brief Set minimum maneuver separation.
-    ///
-    /// @param aMinimumManeuverSeparation Minimum maneuver separation.
-    void setMinimumManeuverSeparation(const Duration& aMinimumManeuverSeparation);
-
-    /// @brief Set minimum maneuver duration.
-    ///
-    /// @param aMinimumManeuverDuration Minimum maneuver duration.
-    void setMinimumManeuverDuration(const Duration& aMinimumManeuverDuration);
 
     /// @brief Add a trajectory segment.
     ///
@@ -276,45 +230,10 @@ class Sequence
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
-    // /// @brief Solve an individual segment, returning its solution and its last maneuver interval (if any).
-    // ///
-    // /// It uses the segment's solveToNextManeuver method iteratively to account for maneuver-related constraints
-    // /// (i.e. minimum maneuver duration, maximum maneuver duration, minimum maneuver separation), producing
-    // /// a single segment solution that complies with all of them.
-    // ///
-    // /// @param aState Initial state
-    // /// @param aSegment Segment to solve
-    // /// @param aMaximumPropagationDuration Maximum propagation duration
-    // /// @param aLastManeuverInterval Last maneuver interval prior to this segment (Undefined if there were no maneuvers
-    // /// prior to this segment)
-    // /// @return Tuple of segment solution and last maneuver interval after solving this segment
-    // Tuple<Segment::Solution, Interval> solveSegment_(
-    //     const State& aState,
-    //     const Segment& aSegment,
-    //     const Duration& aMaximumPropagationDuration,
-    //     const Interval& aLastManeuverInterval
-    // ) const;
-
-    // /// @brief Build a thruster dynamics from a segment. All of the new thruster attributes remain the same
-    // /// except it will only be allowed to compute non-zero accelerations during the provided maneuver intervals.
-    // ///
-    // /// @param aSegment A segment
-    // /// @param aManeuverIntervals Array of intervals where the thruster will be allowed to compute non-zero
-    // /// accelerations.
-    // /// @param aSuffix Suffix to append to the thruster name
-    // /// @return A thruster dynamics
-    // Shared<Thruster> buildThrusterDynamicsWithManeuverIntervals_(
-    //     const Segment& aSegment, const Array<Interval>& aManeuverIntervals, const String& aSuffix
-    // ) const;
-
     Array<Segment> segments_;
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
     Duration segmentPropagationDurationLimit_;
-    Duration minimumManeuverDuration_;
-    Duration minimumManeuverSeparation_;
-    Duration maximumManeuverDuration_;
-    Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationStrategy_;
 };
 
 }  // namespace trajectory
