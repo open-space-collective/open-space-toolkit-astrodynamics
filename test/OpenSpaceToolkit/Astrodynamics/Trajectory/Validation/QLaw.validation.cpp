@@ -38,6 +38,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -93,6 +94,7 @@ using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
@@ -538,7 +540,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
     }
 
-    // // Right Ascension of the Ascending Node targeting
+    // Right Ascension of the Ascending Node targeting
     {
         const COE targetCOE = {
             currentCOE.getSemiMajorAxis(),
@@ -696,5 +698,99 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         EXPECT_LT(std::abs(endCOE.getEccentricity() - targetCOE.getEccentricity()), 1e-3);
         EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
         EXPECT_LT(std::abs(endCOE.getRaan().inRadians() - targetCOE.getRaan().inRadians()), 1e-4);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_BrouwerLyddaneMeanLong_SSOTargeting)
+{
+    const QLaw::GradientStrategy gradientStrategy = QLaw::GradientStrategy::FiniteDifference;
+
+    const Orbit orbit = Orbit::SunSynchronous(
+        Instant::J2000(), Length::Meters(585.0e3), Time(10, 0, 0), std::make_shared<Earth>(Earth::Default())
+    );
+
+    const Derived gravitationalParameter = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
+
+    const State currentState = orbit.getStateAt(Instant::J2000());
+    const COE currentCOE =
+        COE::Cartesian({currentState.getPosition(), currentState.getVelocity()}, gravitationalParameter);
+
+    const Mass mass = Mass::Kilograms(200.0);
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+
+    const PropulsionSystem propulsionSystem = {1.0, 1000.0};
+
+    const SatelliteSystem satelliteSystem = {
+        mass,
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        1.0,
+        2.1,
+        propulsionSystem,
+    };
+
+    const Shared<CentralBodyGravity> centralBodyGravity =
+        std::make_shared<CentralBodyGravity>(CentralBodyGravity(std::make_shared<Earth>(Earth::Spherical())));
+    const Shared<PositionDerivative> positionDerivative = std::make_shared<PositionDerivative>(PositionDerivative());
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKutta4,
+        3.0,
+        1e-12,
+        1e-12,
+    };
+
+    VectorXd coordinates(7);
+    coordinates << currentState.getCoordinates(), 214.0;
+
+    const State initialState = {
+        Instant::DateTime(DateTime(2024, 10, 1, 0, 0, 0), Scale::UTC),
+        coordinates,
+        Frame::GCRF(),
+        {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
+    };
+
+    // Semi-Major Axis + Eccentricity + Inclination targeting
+    {
+        const COE targetCOE = {
+            currentCOE.getSemiMajorAxis() + Length::Meters(5000.0),
+            currentCOE.getEccentricity() + 1e-3,
+            currentCOE.getInclination() + Angle::Degrees(1e-1),
+            currentCOE.getRaan(),
+            currentCOE.getAop(),
+            currentCOE.getTrueAnomaly(),
+        };
+
+        const QLaw::Parameters parameters = {
+            {
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-3}},
+                {COE::Element::Inclination, {1.0, 1e-4}},
+            },
+        };
+
+        const Shared<QLaw> qlaw =
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
+
+        const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
+        const Array<Shared<Dynamics>> dynamics = {
+            thruster,
+            centralBodyGravity,
+            positionDerivative,
+        };
+
+        const Propagator propagator = {numericalSolver, dynamics};
+
+        const State state =
+            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(130.0));
+
+        const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
+
+        EXPECT_LT(std::abs(endCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters()), 100.0);
+        EXPECT_LT(std::abs(endCOE.getEccentricity() - targetCOE.getEccentricity()), 1e-3);
+        EXPECT_LT(std::abs(endCOE.getInclination().inRadians() - targetCOE.getInclination().inRadians()), 1e-4);
     }
 }
