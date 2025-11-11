@@ -52,7 +52,7 @@ class Sequence
     {
         Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
         Skip,   ///< The maneuver will be skipped entirely.
-        Split,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
+        Slice,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
                 ///< until the last maneuver which will be equal or shorter than the maximum duration.
         Center  ///< The maneuver will be shortened to the maximum duraiton and centered around its midpoint.
     };

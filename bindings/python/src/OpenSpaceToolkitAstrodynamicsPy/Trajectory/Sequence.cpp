@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
         .value("Fail", Sequence::MaximumManeuverDurationViolationStrategy::Fail)
         .value("Skip", Sequence::MaximumManeuverDurationViolationStrategy::Skip)
-        .value("Split", Sequence::MaximumManeuverDurationViolationStrategy::Split)
+        .value("Slice", Sequence::MaximumManeuverDurationViolationStrategy::Slice)
         .value("Center", Sequence::MaximumManeuverDurationViolationStrategy::Center)
 
         ;
