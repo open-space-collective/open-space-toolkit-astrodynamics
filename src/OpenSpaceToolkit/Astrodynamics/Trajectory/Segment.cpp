@@ -791,10 +791,12 @@ Segment::Solution Segment::solveWithDynamics_(
             const Vector3d thrustAcceleration = guidanceLaw->calculateThrustAccelerationAt(
                 state.accessInstant(), positionCoordinates, velocityCoordinates, 1.0, state.accessFrame()
             );
+
             return thrustAcceleration.norm();
         };
 
-        // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm will either be 1.0 if on, or 0.0 if off.
+        // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm will either be 1.0
+        // if on, or 0.0 if off.
         const Shared<RealCondition> thrustOffCondition = std::make_shared<RealCondition>(
             "Thrust Off Condition", RealCondition::Criterion::NegativeCrossing, thrustAccelerationNormEvaluator, 0.5
         );
@@ -828,36 +830,25 @@ Segment::Solution Segment::solveWithDynamics_(
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
     }
 
-    // Since the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
-    // segment event condition to see if it's satisfied.
-
-    bool finalConditionIsSatisfied = conditionSolution.conditionIsSatisfied;
-    if (needsConditionReevaluation && states.getSize() >= 2)
+    if (!needsConditionReevaluation)
     {
-        const State& lastState = states[states.getSize() - 1];
-        const State& secondToLastState = states[states.getSize() - 2];
-
-        const Propagator reevaluationPropagator = {
-            numericalSolver_,
+        return {
+            name_,
             aDynamicsArray,
+            states,
+            conditionSolution.conditionIsSatisfied,
+            type_,
         };
-
-        const Array<State> propagatedStates =
-            propagator.calculateStatesAt(lastState, {secondToLastState.accessInstant()});
-
-        if (!propagatedStates.isEmpty())
-        {
-            finalConditionIsSatisfied = eventCondition_->isSatisfied(propagatedStates.accessLast(), secondToLastState);
-        }
-
-        // finalConditionIsSatisfied = eventCondition_->isSatisfied(lastState, secondToLastState);
     }
 
+    // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
+    // segment event condition to see if it's satisfied.
+    // To do so, we can check the last state against the initial state to see if the event condition is satisfied.
     return {
         name_,
         aDynamicsArray,
         states,
-        finalConditionIsSatisfied,
+        eventCondition_->isSatisfied(states.accessLast(), aState),
         type_,
     };
 }
