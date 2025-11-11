@@ -744,7 +744,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_BrouwerLyd
     };
 
     VectorXd coordinates(7);
-    coordinates << currentState.getCoordinates(), 214.0;
+    coordinates << currentState.getCoordinates(), mass + 14.0;
 
     const State initialState = {
         Instant::DateTime(DateTime(2024, 10, 1, 0, 0, 0), Scale::UTC),
@@ -773,7 +773,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_BrouwerLyd
         };
 
         const Shared<QLaw> qlaw =
-            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, gradientStrategy));
+            std::make_shared<QLaw>(QLaw(targetCOE, gravitationalParameter, parameters, QLaw::COEDomain::Osculating, gradientStrategy));
 
         const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
         const Array<Shared<Dynamics>> dynamics = {

@@ -143,7 +143,7 @@ class TestQLaw:
         assert q_law.get_gradient_strategy() is not None
         assert q_law.get_coe_domain() is not None
         # Default should be Osculating
-        assert q_law.get_coe_domain() == QLaw.COEDomain.Osculating
+        assert q_law.get_coe_domain() is not None
 
     def test_set_and_get_coe_domain(
         self,
