@@ -178,6 +178,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constr
 {
     EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_));
 
+    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::BrouwerLyddaneMeanLong)
+    );
+
     EXPECT_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}), ostk::core::error::RuntimeError);
 }
 
@@ -194,6 +197,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetTar
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetGradientStrategy)
 {
     EXPECT_EQ(qlaw_.getGradientStrategy(), gradientStrategy_);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetCOEDomain)
+{
+    // Default should be Osculating
+    EXPECT_EQ(qlaw_.getCOEDomain(), QLaw::COEDomain::Osculating);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeOrbitalElementsMaximalChange)

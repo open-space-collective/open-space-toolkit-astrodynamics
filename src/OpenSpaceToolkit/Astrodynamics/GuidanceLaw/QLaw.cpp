@@ -4,6 +4,8 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
@@ -23,6 +25,8 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
@@ -116,7 +120,29 @@ QLaw::QLaw(
       finiteDifferenceSolver_(
           FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
       ),
-      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)})
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
+      coeDomain_(COEDomain::Osculating)
+{
+}
+
+QLaw::QLaw(
+    const COE& aCOE,
+    const Derived& aGravitationalParameter,
+    const QLaw::Parameters& aParameterSet,
+    const COEDomain& aCOEDomain,
+    const GradientStrategy& aGradientStrategy
+)
+    : GuidanceLaw("Q-Law"),
+      parameters_(aParameterSet),
+      mu_(aGravitationalParameter.in(Derived::Unit::MeterCubedPerSecondSquared())),
+      targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),
+      gravitationalParameter_(aGravitationalParameter),
+      gradientStrategy_(aGradientStrategy),
+      finiteDifferenceSolver_(
+          FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
+      ),
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
+      coeDomain_(aCOEDomain)
 {
 }
 
@@ -150,6 +176,11 @@ QLaw::GradientStrategy QLaw::getGradientStrategy() const
     return gradientStrategy_;
 }
 
+QLaw::COEDomain QLaw::getCOEDomain() const
+{
+    return coeDomain_;
+}
+
 Vector3d QLaw::calculateThrustAccelerationAt(
     [[maybe_unused]] const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
@@ -158,13 +189,40 @@ Vector3d QLaw::calculateThrustAccelerationAt(
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
-    const COE coe = COE::Cartesian(
-        {Position::Meters(aPositionCoordinates, outputFrameSPtr),
-         Velocity::MetersPerSecond(aVelocityCoordinates, outputFrameSPtr)},
-        gravitationalParameter_
-    );
+    const COE::CartesianState cartesianState = {
+        Position::Meters(aPositionCoordinates, outputFrameSPtr),
+        Velocity::MetersPerSecond(aVelocityCoordinates, outputFrameSPtr)
+    };
 
-    Vector6d coeVector = coe.getSIVector(COE::AnomalyType::True);
+    Vector6d coeVector;
+
+    switch (coeDomain_)
+    {
+        case COEDomain::Osculating:
+        {
+            const COE coe = COE::Cartesian(cartesianState, gravitationalParameter_);
+            coeVector = coe.getSIVector(COE::AnomalyType::True);
+            break;
+        }
+        case COEDomain::BrouwerLyddaneMeanLong:
+        {
+            const BrouwerLyddaneMeanLong coe =
+                BrouwerLyddaneMeanLong::Cartesian(cartesianState, gravitationalParameter_);
+            coeVector = coe.getSIVector(COE::AnomalyType::True);
+            break;
+        }
+        case COEDomain::BrouwerLyddaneMeanShort:
+        {
+            const BrouwerLyddaneMeanShort coe =
+                BrouwerLyddaneMeanShort::Cartesian(cartesianState, gravitationalParameter_);
+            coeVector = coe.getSIVector(COE::AnomalyType::True);
+            break;
+        }
+        default:
+        {
+            throw ostk::core::error::runtime::ToBeImplemented("COE Domain");
+        }
+    }
 
     coeVector[1] = std::max(coeVector[1], 1e-4);
     coeVector[2] = std::max(coeVector[2], 1e-4);

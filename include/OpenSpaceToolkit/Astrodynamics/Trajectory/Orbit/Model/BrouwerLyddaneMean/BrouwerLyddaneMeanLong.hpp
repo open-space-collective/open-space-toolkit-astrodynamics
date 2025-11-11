@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_BrouwerLyddaneMean_BrouwerLyddaneMeanLong__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_BrouwerLyddaneMean_BrouwerLyddaneMeanLong__
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
