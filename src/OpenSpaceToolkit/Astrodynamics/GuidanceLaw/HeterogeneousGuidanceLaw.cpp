@@ -51,7 +51,9 @@ Array<Pair<Shared<const GuidanceLaw>, Interval>> HeterogeneousGuidanceLaw::getGu
     return guidanceLawsWithIntervals;
 }
 
-void HeterogeneousGuidanceLaw::addGuidanceLaw(const Shared<const GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval)
+void HeterogeneousGuidanceLaw::addGuidanceLaw(
+    const Shared<const GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval
+)
 {
     if (aGuidanceLawSPtr == nullptr)
     {

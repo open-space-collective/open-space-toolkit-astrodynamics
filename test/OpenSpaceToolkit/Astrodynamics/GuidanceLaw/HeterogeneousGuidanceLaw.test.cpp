@@ -183,9 +183,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, AddG
 
         heterogeneousGuidanceLaw.addGuidanceLaw(guidanceLaw1_, interval1_);
 
-        auto expected =
-            Array<Pair<Shared<const GuidanceLaw>, Interval>>({Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_)}
-            );
+        auto expected = Array<Pair<Shared<const GuidanceLaw>, Interval>>(
+            {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, interval1_)}
+        );
         auto actual = heterogeneousGuidanceLaw.getGuidanceLawsWithIntervals();
         EXPECT_EQ(actual.getSize(), expected.getSize());
         for (size_t i = 0; i < expected.getSize(); ++i)

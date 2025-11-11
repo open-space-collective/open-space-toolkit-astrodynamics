@@ -33,8 +33,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw
     )
 
         .def(
-            init<const Array<Pair<Shared<GuidanceLaw>, Interval>>&>(),
-            arg_v("guidance_laws_with_intervals", Array<Pair<Shared<GuidanceLaw>, Interval>>::Empty(), "[]"),
+            init<const Array<Pair<Shared<const GuidanceLaw>, Interval>>&>(),
+            arg_v("guidance_laws_with_intervals", Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty(), "[]"),
             R"doc(
                 Constructor.
 
