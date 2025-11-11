@@ -28,30 +28,32 @@ using ostk::physics::time::Interval;
 using ostk::astrodynamics::GuidanceLaw;
 
 HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw(
-    const Array<Pair<Shared<GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray
+    const Array<Pair<Shared<const GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray
 )
     : GuidanceLaw("Heterogeneous Guidance Law"),
       intervals_(Array<Interval>::Empty()),
-      guidanceLaws_(Array<Shared<GuidanceLaw>>::Empty())
+      guidanceLaws_(Array<Shared<const GuidanceLaw>>::Empty())
 {
-    for (const Pair<Shared<GuidanceLaw>, Interval>& guidanceLawWithInterval : aGuidanceLawWithIntervalArray)
+    for (const Pair<Shared<const GuidanceLaw>, Interval>& guidanceLawWithInterval : aGuidanceLawWithIntervalArray)
     {
         this->addGuidanceLaw(guidanceLawWithInterval.first, guidanceLawWithInterval.second);
     }
 }
 
-Array<Pair<Shared<GuidanceLaw>, Interval>> HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals() const
+Array<Pair<Shared<const GuidanceLaw>, Interval>> HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals() const
 {
-    Array<Pair<Shared<GuidanceLaw>, Interval>> guidanceLawsWithIntervals =
-        Array<Pair<Shared<GuidanceLaw>, Interval>>::Empty();
+    Array<Pair<Shared<const GuidanceLaw>, Interval>> guidanceLawsWithIntervals =
+        Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty();
     for (Size i = 0; i < intervals_.getSize(); ++i)
     {
-        guidanceLawsWithIntervals.add(Pair<Shared<GuidanceLaw>, Interval>(guidanceLaws_[i], intervals_[i]));
+        guidanceLawsWithIntervals.add(Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaws_[i], intervals_[i]));
     }
     return guidanceLawsWithIntervals;
 }
 
-void HeterogeneousGuidanceLaw::addGuidanceLaw(const Shared<GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval)
+void HeterogeneousGuidanceLaw::addGuidanceLaw(
+    const Shared<const GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval
+)
 {
     if (aGuidanceLawSPtr == nullptr)
     {

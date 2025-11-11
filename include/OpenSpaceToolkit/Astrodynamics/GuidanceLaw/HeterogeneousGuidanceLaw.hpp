@@ -46,20 +46,20 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
     /// @param aGuidanceLawWithIntervalArray Array of tuples containing the guidance law and their corresponding
     /// interval. Defaults to empty.
     HeterogeneousGuidanceLaw(
-        const Array<Pair<Shared<GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray =
-            Array<Pair<Shared<GuidanceLaw>, Interval>>::Empty()
+        const Array<Pair<Shared<const GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray =
+            Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty()
     );
 
     /// @brief Get guidance laws with their corresponding intervals
     ///
     /// @return Array of tuples containing the guidance laws and their corresponding intervals
-    Array<Pair<Shared<GuidanceLaw>, Interval>> getGuidanceLawsWithIntervals() const;
+    Array<Pair<Shared<const GuidanceLaw>, Interval>> getGuidanceLawsWithIntervals() const;
 
     /// @brief Add a guidance law with its corresponding interval
     ///
     /// @param aGuidanceLawSPtr The guidance law to add
     /// @param anInterval The interval during which the guidance law is active
-    void addGuidanceLaw(const Shared<GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval);
+    void addGuidanceLaw(const Shared<const GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval);
 
     /// @brief Calculate thrust acceleration at a given instant and state
     ///
@@ -80,7 +80,7 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
 
    private:
     Array<Interval> intervals_;
-    Array<Shared<GuidanceLaw>> guidanceLaws_;
+    Array<Shared<const GuidanceLaw>> guidanceLaws_;
 };
 
 }  // namespace guidancelaw
