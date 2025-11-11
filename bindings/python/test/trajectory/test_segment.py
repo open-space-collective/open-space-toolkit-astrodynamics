@@ -188,15 +188,35 @@ def thruster_dynamics() -> Thruster:
 
 
 @pytest.fixture
-def segment_solution(dynamics: list[Dynamics], state: State) -> Segment.Solution:
+def segment_solution(
+    dynamics: list[Dynamics],
+    state: State,
+) -> Segment.Solution:
     return Segment.Solution(
-        name="A Segment",
+        name="A Segment Solution",
         dynamics=dynamics,
         states=[
             state,
         ],
         condition_is_satisfied=True,
         segment_type=Segment.Type.Coast,
+    )
+
+
+@pytest.fixture
+def maneuver_segment_solution(
+    dynamics: list[Dynamics],
+    thruster_dynamics: Thruster,
+    state: State,
+) -> Segment.Solution:
+    return Segment.Solution(
+        name="A Maneuver Segment Solution",
+        dynamics=dynamics + [thruster_dynamics],
+        states=[
+            state,
+        ],
+        condition_is_satisfied=True,
+        segment_type=Segment.Type.Maneuver,
     )
 
 
@@ -234,6 +254,13 @@ class TestSegmentSolution:
         segment_solution: Segment.Solution,
     ):
         assert segment_solution.compute_delta_mass() is not None
+
+    def test_get_thruster_dynamics(
+        self,
+        maneuver_segment_solution: Segment.Solution,
+        thruster_dynamics: Thruster,
+    ):
+        assert maneuver_segment_solution.get_thruster_dynamics() == thruster_dynamics
 
     def test_extract_maneuvers(
         self,
@@ -302,6 +329,15 @@ class TestSegment:
     ):
         assert len(coast_duration_segment.get_dynamics()) == len(dynamics)
 
+    def test_get_coast_dynamics(
+        self,
+        dynamics: list,
+        coast_duration_segment: Segment,
+        maneuver_segment: Segment,
+    ):
+        assert len(coast_duration_segment.get_coast_dynamics()) == len(dynamics)
+        assert len(maneuver_segment.get_coast_dynamics()) == len(dynamics)
+
     def test_get_numerical_solver(
         self,
         numerical_solver: NumericalSolver,
@@ -309,11 +345,47 @@ class TestSegment:
     ):
         assert coast_duration_segment.get_numerical_solver() == numerical_solver
 
+    def test_get_thruster_dynamics(
+        self,
+        thruster_dynamics: Thruster,
+        maneuver_segment: Segment,
+    ):
+        assert maneuver_segment.get_thruster_dynamics() == thruster_dynamics
+
     def test_get_type(
         self,
         coast_duration_segment: Segment,
     ):
         assert coast_duration_segment.get_type() == Segment.Type.Coast
+
+    def test_to_coast_segment(
+        self,
+        maneuver_segment: Segment,
+    ):
+        coast_segment = maneuver_segment.to_coast_segment("New Coast Segment")
+        assert coast_segment is not None
+        assert isinstance(coast_segment, Segment)
+
+        another_coast_segment = coast_segment.to_coast_segment()
+        assert another_coast_segment is not None
+
+    def test_to_maneuver_segment(
+        self,
+        coast_duration_segment: Segment,
+        thruster_dynamics: Thruster,
+    ):
+        # Convert coast segment to maneuver segment
+        new_maneuver_segment = coast_duration_segment.to_maneuver_segment(
+            thruster_dynamics, "New Maneuver Segment"
+        )
+        assert new_maneuver_segment is not None
+        assert isinstance(new_maneuver_segment, Segment)
+
+        another_maneuver_segment = new_maneuver_segment.to_maneuver_segment(
+            thruster_dynamics
+        )
+        assert another_maneuver_segment is not None
+        assert isinstance(another_maneuver_segment, Segment)
 
     def test_coast(
         self,
@@ -505,3 +577,11 @@ class TestSegment:
             )
         )
         assert solution_with_maximum_allowed_angular_offset is not None
+
+    def test_solve_next_maneuver(
+        self,
+        state: State,
+        maneuver_segment: Segment,
+    ):
+        solution: Segment.Solution = maneuver_segment.solve(state)
+        assert solution is not None
