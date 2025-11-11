@@ -411,24 +411,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
 
-        .def(
-            "solve_next_maneuver",
-            &Segment::solveToNextManeuver,
-            arg("state"),
-            arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
-            R"doc(
-                Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be solved until its event condition is satisfied or the maximum propagation duration is reached.
-
-                Args:
-                    state (State): The state.
-                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
-
-                Returns:
-                    SegmentSolution: The segment solution.
-
-            )doc"
-        )
-
         .def_static(
             "coast",
             &Segment::Coast,
