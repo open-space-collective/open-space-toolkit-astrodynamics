@@ -125,6 +125,27 @@ QLaw::QLaw(
 {
 }
 
+QLaw::QLaw(
+    const COE& aCOE,
+    const Derived& aGravitationalParameter,
+    const QLaw::Parameters& aParameterSet,
+    const COEDomain& aCOEDomain,
+    const GradientStrategy& aGradientStrategy
+)
+    : GuidanceLaw("Q-Law"),
+      parameters_(aParameterSet),
+      mu_(aGravitationalParameter.in(Derived::Unit::MeterCubedPerSecondSquared())),
+      targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),
+      gravitationalParameter_(aGravitationalParameter),
+      gradientStrategy_(aGradientStrategy),
+      finiteDifferenceSolver_(
+          FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
+      ),
+      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
+      coeDomain_(aCOEDomain)
+{
+}
+
 QLaw::~QLaw() {}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const QLaw& aGuidanceLaw)

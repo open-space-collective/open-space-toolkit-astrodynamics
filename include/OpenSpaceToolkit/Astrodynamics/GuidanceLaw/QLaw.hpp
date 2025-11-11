@@ -118,15 +118,33 @@ class QLaw : public GuidanceLaw
 
     /// @brief Constructor
     ///
+    /// @deprecated Use the constructor with aCOEDomain instead.
     /// @param aCOE A target orbit described by Classical Orbital Elements.
     /// @param aGravitationalParameter The gravitational parameter of the central body.
     /// @param aParameterSet A set of parameters for the QLaw.
+    /// @param aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
+    /// FiniteDifference
+    [[deprecated("Please specify the COE domain explicitly.")]]
+    QLaw(
+        const COE& aCOE,
+        const Derived& aGravitationalParameter,
+        const Parameters& aParameterSet,
+        const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference
+    );
+
+    /// @brief Constructor
+    ///
+    /// @param aCOE A target orbit described by Classical Orbital Elements.
+    /// @param aGravitationalParameter The gravitational parameter of the central body.
+    /// @param aParameterSet A set of parameters for the QLaw.
+    /// @param aCOEDomain The domain of the Classical Orbital Elements. Defaults to Osculating.
     /// @param aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
     /// FiniteDifference
     QLaw(
         const COE& aCOE,
         const Derived& aGravitationalParameter,
         const Parameters& aParameterSet,
+        const COEDomain& aCOEDomain,
         const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference
     );
 

@@ -178,6 +178,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constr
 {
     EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_));
 
+    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::BrouwerLyddaneMeanLong)
+    );
+
     EXPECT_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}), ostk::core::error::RuntimeError);
 }
 

@@ -108,10 +108,34 @@ class TestQLawParameters:
 
 
 class TestQLaw:
-    def test_constructors(self, q_law: QLaw):
-        assert q_law is not None
-        assert isinstance(q_law, QLaw)
-        assert isinstance(q_law, GuidanceLaw)
+    def test_constructors(
+        self,
+        target_COE: COE,
+        gravitational_parameter: Derived,
+        parameters: QLaw.Parameters,
+        gradient_strategy: QLaw.GradientStrategy,
+    ):
+        qlaw: QLaw = QLaw(
+            target_coe=target_COE,
+            gravitational_parameter=gravitational_parameter,
+            parameters=parameters,
+            gradient_strategy=gradient_strategy,
+        )
+        qlaw_with_domain: QLaw = QLaw(
+            target_coe=target_COE,
+            gravitational_parameter=gravitational_parameter,
+            parameters=parameters,
+            gradient_strategy=gradient_strategy,
+            coe_domain=QLaw.COEDomain.BrouwerLyddaneMeanLong,
+        )
+
+        assert qlaw is not None
+        assert isinstance(qlaw, QLaw)
+        assert isinstance(qlaw, GuidanceLaw)
+
+        assert qlaw_with_domain is not None
+        assert isinstance(qlaw_with_domain, QLaw)
+        assert isinstance(qlaw_with_domain, GuidanceLaw)
 
     def test_getters(self, q_law: QLaw):
         assert q_law.get_parameters() is not None
