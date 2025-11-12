@@ -37,7 +37,7 @@ def epoch() -> Instant:
 
 @pytest.fixture
 def step() -> Duration:
-    return Duration.minutes(30.0)
+    return Duration.minutes(20.0)
 
 
 @pytest.fixture

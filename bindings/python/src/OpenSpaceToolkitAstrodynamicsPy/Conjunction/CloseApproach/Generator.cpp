@@ -35,11 +35,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(
                 Args:
                     reference_trajectory (Trajectory): The reference trajectory for which to compute close approaches (Object 1).
                     step (Duration): The step to use during the close approach search. Set it to a duration smaller than the minimum possible
-                        duration between two close approaches - which is about half an orbital period. Defaults to Duration.minutes(30.0).
+                        interval where both objects can be moving apart - which is about a quarter of an orbital period. Defaults to Duration.minutes(20.0).
                     tolerance (Duration): The tolerance to use during the close approach search. Defaults to Duration.milliseconds(1.0).
             )doc",
             arg("reference_trajectory"),
-            arg_v("step", Duration::Minutes(30.0), "Duration.minutes(30.0)"),
+            arg_v("step", Duration::Minutes(20.0), "Duration.minutes(20.0)"),
             arg_v("tolerance", Duration::Milliseconds(1.0), "Duration.milliseconds(1.0)")
         )
 
