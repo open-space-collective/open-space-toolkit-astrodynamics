@@ -37,6 +37,12 @@ def epoch() -> Instant:
 
 @pytest.fixture
 def step() -> Duration:
+    """
+    Default time step duration of thirty minutes used for generator sampling.
+    
+    Returns:
+    	Duration: A Duration equal to 30 minutes.
+    """
     return Duration.minutes(30.0)
 
 

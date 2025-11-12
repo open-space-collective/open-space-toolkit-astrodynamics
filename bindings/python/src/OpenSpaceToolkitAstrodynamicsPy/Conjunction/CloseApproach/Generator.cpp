@@ -2,6 +2,18 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp>
 
+/**
+ * @brief Bind the C++ Generator class to Python using pybind11.
+ *
+ * Exposes ostk::astrodynamics::conjunction::closeapproach::Generator to the given Python module, including:
+ * - Constructor accepting a reference Trajectory, a step Duration, and a tolerance Duration (defaults: 30 minutes and 1 millisecond).
+ * - Query methods: is_defined, get_reference_trajectory, get_step, get_tolerance.
+ * - compute_close_approaches to find close approach events over a given Interval.
+ * - Mutators: set_step, set_tolerance.
+ * - Static constructor: undefined.
+ *
+ * @param aModule The pybind11::module to which the Generator binding will be added.
+ */
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(pybind11::module& aModule)
 {
     using namespace pybind11;

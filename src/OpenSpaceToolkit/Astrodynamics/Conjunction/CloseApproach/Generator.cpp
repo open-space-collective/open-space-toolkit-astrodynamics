@@ -188,6 +188,15 @@ Generator Generator::Undefined()
     return Generator(Trajectory::Undefined());
 }
 
+/**
+ * Compute the time derivative of the scalar distance from aState1 to aState2.
+ *
+ * @param aState1 State of the first object (reference).
+ * @param aState2 State of the second object.
+ * @return Real The time derivative of the distance between the two states in meters per second.
+ * @throws ostk::core::error::runtime::Undefined If either input state is not defined.
+ * @throws ostk::core::error::RuntimeError If the two states are co-located (distance is zero).
+ */
 Real Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2)
 {
     if (!aState1.isDefined() || !aState2.isDefined())
