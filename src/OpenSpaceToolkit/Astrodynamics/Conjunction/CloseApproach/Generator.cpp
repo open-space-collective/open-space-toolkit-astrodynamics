@@ -212,7 +212,6 @@ Real Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const S
     const Vector3d relativeVelocityCoordinates =
         relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
-    // Compute relative distance derivative: dot(r, v) / ||r||
     const Real dotProduct = relativePositionCoordinates.dot(relativeVelocityCoordinates);
     const Real relativePositionNorm = relativePositionCoordinates.norm();
 
@@ -221,6 +220,7 @@ Real Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const S
         throw ostk::core::error::RuntimeError("Cannot compute relative distance derivative: states are co-located.");
     }
 
+    // Relative distance derivative: dot(r, v) / ||r||
     return dotProduct / relativePositionNorm;
 }
 

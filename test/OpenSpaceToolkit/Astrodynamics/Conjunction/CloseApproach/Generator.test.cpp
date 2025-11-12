@@ -82,19 +82,6 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator : publi
     const Trajectory referenceTrajectory_ =
         Orbit::Circular(epoch_, Length::Meters(7.0e6), Angle::Degrees(0.0), earthSPtr_);
 
-    // Helper function to build Classical Orbital Elements (COE) for a circular orbit
-    COE buildCOE_(const double& aSemiMajorAxis, const double& anInclination, const double& aTrueAnomaly)
-    {
-        return COE(
-            Length::Meters(aSemiMajorAxis),
-            0.0,  // eccentricity
-            Angle::Degrees(anInclination),
-            Angle::Degrees(0.0),  // RAAN
-            Angle::Degrees(0.0),  // AOP
-            Angle::Degrees(aTrueAnomaly)
-        );
-    }
-
     // Helper function to build a Keplerian trajectory
     Trajectory buildTrajectory_(
         const Instant& anEpoch,
@@ -132,7 +119,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator_CDM
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Constructor)
 {
     {
-        const Duration step = Duration::Seconds(60.0);
+        const Duration step = Duration::Minutes(20.0);
         const Duration tolerance = Duration::Seconds(1.0e-6);
 
         EXPECT_NO_THROW(Generator generator(referenceTrajectory_, step, tolerance););
@@ -167,7 +154,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
     {
         EXPECT_THROW(
             try {
-                Generator generator(referenceTrajectory_, Duration::Seconds(60.0), Duration::Undefined());
+                Generator generator(referenceTrajectory_, Duration::Minutes(20.0), Duration::Undefined());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Tolerance} is undefined.", e.getMessage());
                 throw;
@@ -177,7 +164,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
 
         EXPECT_THROW(
             try {
-                Generator generator(referenceTrajectory_, Duration::Seconds(60.0), Duration::Seconds(-1.0e-6));
+                Generator generator(referenceTrajectory_, Duration::Minutes(20.0), Duration::Seconds(-1.0e-6));
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("{Tolerance} is wrong.", e.getMessage());
                 throw;
@@ -202,7 +189,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, IsDef
     }
 
     {
-        const Generator generator(Trajectory::Undefined(), Duration::Seconds(60.0), Duration::Seconds(1.0e-6));
+        const Generator generator(Trajectory::Undefined(), Duration::Minutes(20.0), Duration::Seconds(1.0e-6));
 
         EXPECT_FALSE(generator.isDefined());
     }
@@ -232,7 +219,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetRe
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetStep)
 {
     {
-        const Duration step = Duration::Seconds(60.0);
+        const Duration step = Duration::Minutes(20.0);
         const Generator generator(referenceTrajectory_, step);
 
         EXPECT_EQ(step, generator.getStep());
@@ -255,7 +242,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetTo
 {
     {
         const Duration tolerance = Duration::Seconds(1.0e-6);
-        const Generator generator(referenceTrajectory_, Duration::Seconds(60.0), tolerance);
+        const Generator generator(referenceTrajectory_, Duration::Minutes(20.0), tolerance);
 
         EXPECT_EQ(tolerance, generator.getTolerance());
     }
@@ -351,35 +338,112 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, SetTo
 
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator,
-    ComputeCloseApproaches_MultipleApproachesFromTwoKeplerianTrajectories
+    ComputeCloseApproaches_TwoCloseApproachPerOrbitCase
 )
 {
-    const COE referenceCOE = buildCOE_(7.0e6, 0.0, 0.0);
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2025-01-01T12:00:00"), Scale::UTC);
+
+    const double semiMajorAxis = 7.1367e6;  // Period of 100min for easy debugging
+    const COE referenceCOE =
+        COE(Length::Meters(semiMajorAxis),
+            0.0,                  // eccentricity
+            Angle::Degrees(0.0),  // inclination
+            Angle::Degrees(0.0),  // RAAN
+            Angle::Degrees(0.0),  // AOP
+            Angle::Degrees(0.0)   // true anomaly
+        );
+    const COE otherObjectCOE =
+        COE(Length::Meters(semiMajorAxis + 1.0),  // SMA needs to be slightly different otherwise if distance at close
+                                                  // approach is zero the relative position derivative is undefined
+            0.0,                                  // eccentricity
+            Angle::Degrees(90.0),                 // inclination
+            Angle::Degrees(0.0),                  // RAAN
+            Angle::Degrees(0.0),                  // AOP
+            Angle::Degrees(0.0)                   // true anomaly
+        );
 
     const Trajectory referenceTrajectory =
-        buildTrajectory_(epoch_, referenceCOE, earthSPtr_, KeplerPerturbationType::None);
+        buildTrajectory_(epoch, referenceCOE, earthSPtr_, KeplerPerturbationType::None);
 
-    const Trajectory otherObjectTrajectory = buildTrajectory_(
-        epoch_, buildCOE_(7.0e6, 90.0, 0.0), earthSPtr_, KeplerPerturbationType::None
-    );  // Should yield two close approaches each period
+    const Trajectory otherObjectTrajectory =
+        buildTrajectory_(epoch, otherObjectCOE, earthSPtr_, KeplerPerturbationType::None);
+
+    const Generator generator(referenceTrajectory, Duration::Minutes(20.0), Duration::Seconds(1.0e-6));
 
     const Duration orbitalPeriod = referenceCOE.getOrbitalPeriod(earthSPtr_->getGravitationalParameter());
 
-    const Generator generator(referenceTrajectory, Duration::Seconds(60.0), Duration::Seconds(1.0e-6));
-
-    const Array<CloseApproach> closeApproaches = generator.computeCloseApproaches(
-        otherObjectTrajectory,
-        Interval::Closed(epoch_ + Duration::Minutes(10.0), epoch_ + Duration::Minutes(10.0) + 2.0 * orbitalPeriod)
+    // Search a little more than one full orbit, centered around the epoch
+    const Interval searchInterval = Interval::Closed(
+        epoch - 0.5 * orbitalPeriod - Duration::Minutes(10.0), epoch + 0.5 * orbitalPeriod + Duration::Minutes(10.0)
     );
 
-    EXPECT_EQ(4, closeApproaches.getSize());
+    const Array<CloseApproach> closeApproaches =
+        generator.computeCloseApproaches(otherObjectTrajectory, searchInterval);
 
     const Duration tolerance = Duration::Milliseconds(1.0);
 
-    EXPECT_TRUE(closeApproaches[0].getInstant().isNear(epoch_ + 0.5 * orbitalPeriod, tolerance));
-    EXPECT_TRUE(closeApproaches[1].getInstant().isNear(epoch_ + 1.0 * orbitalPeriod, tolerance));
-    EXPECT_TRUE(closeApproaches[2].getInstant().isNear(epoch_ + 1.5 * orbitalPeriod, tolerance));
-    EXPECT_TRUE(closeApproaches[3].getInstant().isNear(epoch_ + 2.0 * orbitalPeriod, tolerance));
+    // Because we searched a little more than one full orbit, we expect to have 3 close approaches even though there are
+    // technically 2 per orbit
+    EXPECT_EQ(3, closeApproaches.getSize());
+    EXPECT_TRUE(closeApproaches[0].getInstant().isNear(epoch - 0.5 * orbitalPeriod, tolerance));
+    EXPECT_TRUE(closeApproaches[1].getInstant().isNear(epoch, tolerance));
+    EXPECT_TRUE(closeApproaches[2].getInstant().isNear(epoch + 0.5 * orbitalPeriod, tolerance));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator,
+    ComputeCloseApproaches_OneCloseApproachPerOrbitCase
+)
+{
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2025-01-01T12:00:00"), Scale::UTC);
+
+    const double semiMajorAxis = 7.1367e6;  // Period of 100min for easy debugging
+    const COE referenceCOE =
+        COE(Length::Meters(semiMajorAxis),
+            0.0,                  // eccentricity
+            Angle::Degrees(0.0),  // inclination
+            Angle::Degrees(0.0),  // RAAN
+            Angle::Degrees(0.0),  // AOP
+            Angle::Degrees(0.0)   // true anomaly
+        );
+    const COE otherObjectCOE =  // Orbit is always higher in altitude than reference orbit to have only one close
+                                // approach per orbit
+        COE(Length::Meters(
+                semiMajorAxis + 1000.0
+            ),     // SMA needs to be slightly different otherwise if distance at close approach is zero the relative
+                   // position derivative is undefined
+            1e-5,  // eccentricity is non zero to induce a point of closest approach
+            Angle::Degrees(0.0),  // inclination is zero for the orbits to be coplanar
+            Angle::Degrees(0.0),  // RAAN
+            Angle::Degrees(0.0),  // AOP
+            Angle::Degrees(0.0)   // true anomaly
+        );
+    EXPECT_GT(otherObjectCOE.getApoapsisRadius(), referenceCOE.getApoapsisRadius());
+    EXPECT_GT(otherObjectCOE.getPeriapsisRadius(), referenceCOE.getPeriapsisRadius());
+
+    const Trajectory referenceTrajectory =
+        buildTrajectory_(epoch, referenceCOE, earthSPtr_, KeplerPerturbationType::None);
+
+    const Trajectory otherObjectTrajectory =
+        buildTrajectory_(epoch, otherObjectCOE, earthSPtr_, KeplerPerturbationType::None);
+
+    const Generator generator(referenceTrajectory, Duration::Minutes(20.0), Duration::Seconds(1.0e-6));
+
+    const Duration orbitalPeriod = referenceCOE.getOrbitalPeriod(earthSPtr_->getGravitationalParameter());
+
+    // Search a little more than a full orbit, centered around the epoch
+    const Interval searchInterval = Interval::Closed(
+        epoch - 0.5 * orbitalPeriod - Duration::Minutes(10.0), epoch + 0.5 * orbitalPeriod + Duration::Minutes(10.0)
+    );
+
+    const Array<CloseApproach> closeApproaches =
+        generator.computeCloseApproaches(otherObjectTrajectory, searchInterval);
+
+    const Duration tolerance = Duration::Milliseconds(1.0);
+
+    // We expect to have only one close approach in this case at epoch
+    EXPECT_EQ(1, closeApproaches.getSize());
+    EXPECT_TRUE(closeApproaches[0].getInstant().isNear(epoch, tolerance));
 }
 
 // CDM test cases - values taken from real conjunction data messages
