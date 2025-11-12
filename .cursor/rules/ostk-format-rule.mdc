@@ -1,6 +1,0 @@
----
-description: 
-globs: *.hpp,*.cpp,*.cxx
-alwaysApply: false
----
-Use camelCase for style
