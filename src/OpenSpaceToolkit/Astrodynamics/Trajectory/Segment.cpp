@@ -970,7 +970,7 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
     const ManeuverConstraints& aManeuverConstraints
 )
 {
-    return Segment {
+    return {
         aName,
         Segment::Type::Maneuver,
         anEventConditionSPtr,
