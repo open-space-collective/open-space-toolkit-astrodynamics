@@ -315,18 +315,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         "MaximumManeuverDurationViolationStrategy",
         R"doc(
             Strategy to use when a maneuver exceeds the maximum duration constraint.
+
+            
+            Proposed maneuver:                                   [--------------------|------------]
+            FAIL: Will throw an exception.
+            SKIP: Will skip the maneuver.
+            SLICE: Will take the first part of the maneuver.     [--------------------]
+            CENTER: Will take the centered part of the maneuver.          [--------------------]
         )doc"
     )
 
         .value(
             "Fail",
             Segment::MaximumManeuverDurationViolationStrategy::Fail,
-            "The sequence will fail if a maneuver exceeds the maximum duration."
+            "Will throw an exception if a maneuver exceeds the maximum duration."
         )
         .value(
-            "Skip",
-            Segment::MaximumManeuverDurationViolationStrategy::Skip,
-            "The maneuver will be skipped entirely."
+            "Skip", Segment::MaximumManeuverDurationViolationStrategy::Skip, "The maneuver will be skipped entirely."
         )
         .value(
             "Slice",
@@ -357,7 +362,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )
 
         .def(
-            init<const Duration&, const Duration&, const Duration&, const Segment::MaximumManeuverDurationViolationStrategy&>(),
+            init<
+                const Duration&,
+                const Duration&,
+                const Duration&,
+                const Segment::MaximumManeuverDurationViolationStrategy&>(),
             arg("minimum_duration"),
             arg("maximum_duration"),
             arg("minimum_separation"),
@@ -369,7 +378,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     minimum_duration (Duration): The minimum duration for a maneuver.
                     maximum_duration (Duration): The maximum duration for a maneuver.
                     minimum_separation (Duration): The minimum separation between maneuvers.
-                    maximum_duration_strategy (MaximumManeuverDurationViolationStrategy): The strategy when max duration is violated.
+                    maximum_duration_strategy (MaximumManeuverDurationViolationStrategy): The strategy when maximum duration is violated.
             )doc"
         )
 
@@ -513,19 +522,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                 Returns:
                     Type: The type of the segment.
-
-            )doc"
-        )
-
-        .def(
-            "set_maneuver_constraints",
-            &Segment::setManeuverConstraints,
-            arg("maneuver_constraints"),
-            R"doc(
-                Set the maneuver constraints.
-
-                Args:
-                    maneuver_constraints (ManeuverConstraints): The maneuver constraints.
 
             )doc"
         )

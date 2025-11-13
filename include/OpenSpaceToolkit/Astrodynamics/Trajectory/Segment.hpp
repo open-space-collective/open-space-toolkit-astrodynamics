@@ -76,13 +76,17 @@ class Segment
 
     struct ManeuverConstraints
     {
-        ManeuverConstraints();
-
+        /// @brief Constructor
+        /// @param aMinimumDuration The minimum duration for a maneuver. Defaults to Undefined.
+        /// @param aMaximumDuration The maximum duration for a maneuver. Defaults to Undefined.
+        /// @param aMinimumSeparation The minimum separation between maneuvers. Defaults to Undefined.
+        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated. Defaults to Fail.
         ManeuverConstraints(
-            const Duration& aMinimumDuration,
-            const Duration& aMaximumDuration,
-            const Duration& aMinimumSeparation,
-            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
+            const Duration& aMinimumDuration = Duration::Undefined(),
+            const Duration& aMaximumDuration = Duration::Undefined(),
+            const Duration& aMinimumSeparation = Duration::Undefined(),
+            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy =
+                MaximumManeuverDurationViolationStrategy::Fail
         );
 
         Duration minimumDuration;
@@ -90,7 +94,24 @@ class Segment
         Duration minimumSeparation;
         MaximumManeuverDurationViolationStrategy maximumDurationStrategy;
 
+        /// @brief Check if the maneuver constraints are defined
+        /// @return True if the maneuver constraints are defined
         bool isDefined() const;
+
+        /// @brief Print the maneuver constraints
+        /// @param anOutputStream An output stream
+        /// @param displayDecorator If true, display decorators
+        void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+        /// @brief Output stream operator
+        /// @param anOutputStream An output stream
+        /// @param aManeuverConstraints A maneuver constraints
+        /// @return An output stream
+        friend std::ostream& operator<<(std::ostream& anOutputStream, const ManeuverConstraints& aManeuverConstraints);
+
+        String MaximumManeuverDurationViolationStrategyToString(
+            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
+        ) const;
     };
 
     /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.
@@ -260,28 +281,16 @@ class Segment
     /// @return Numerical solver
     const NumericalSolver& accessNumericalSolver() const;
 
-    /// @brief Set maneuver constraints
-    /// @param aManeuverConstraints Maneuver constraints
-    void setManeuverConstraints(const ManeuverConstraints& aManeuverConstraints);
-
     /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
     ///
     /// @param aState Initial state for the segment
-    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
-    /// @return A Solution representing the result of the solve
-    Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
-
-    /// @brief Solve the segment with constraints
-    ///
-    /// @param aState Initial state for the segment
     /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
-    /// @param lastManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined if there were no
-    /// maneuvers prior to this segment.
+    /// @param lastManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined.
     /// @return A Solution representing the result of the solve
-    Solution solveWithConstraints(
+    Solution solve(
         const State& aState,
         const Duration& maximumPropagationDuration = Duration::Days(30.0),
-        const Interval& lastManeuverInterval = Interval::Undefined()
+        Interval lastManeuverInterval = Interval::Undefined()
     ) const;
 
     /// @brief Print the segment
@@ -388,28 +397,57 @@ class Segment
         const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );
 
-    /// @brief Internal solve method
+    /// @brief Solve the segment with the provided dynamics and event condition. This method is used to solve coasting
+    /// and maneuvering segments.
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param allowMultipleManeuvers True if multiple maneuvers are allowed per Segment Solution
-    /// @return The segment solution
-    Segment::Solution solve_(
-        const State& aState, const Duration& maximumPropagationDuration, const bool& allowMultipleManeuvers
-    ) const;
-
-    /// @brief Solve the segment using the given dynamics
-    ///
-    /// @param aState The initial state of the segment
-    /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aThrusterDynamics The thruster dynamics
-    /// @param allowMultipleManeuvers True if multiple maneuvers are allowed
+    /// @param aDynamicsArray The dynamics array
+    /// @param anEventCondition The event condition
     /// @return The segment solution
     Segment::Solution solveWithDynamics_(
         const State& aState,
         const Duration& maximumPropagationDuration,
-        const Shared<Thruster>& aThrusterDynamics,
-        const bool& allowMultipleManeuvers
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const Shared<EventCondition>& anEventCondition
+    ) const;
+
+    /// @brief Solve the maneuver segment with the provided thruster dynamics. Uses the internal event condition of the
+    /// segment.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param aThrusterDynamics The thruster dynamics
+    /// @return The segment solution
+    Segment::Solution solveManeuver_(
+        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
+    ) const;
+
+    /// @brief Solve the coast segment, uses the internal free dynamics array and event condition of the segment.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @return The segment solution
+    Segment::Solution solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const;
+
+    /// @brief Solve the maneuver segment producing multiple maneuvers, with the provided dynamics array.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param aThrusterDynamics The thruster dynamics
+    /// @return The segment solution
+    Segment::Solution solveMultipleManeuvers_(
+        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
+    ) const;
+
+    /// @brief Solve the maneuver segment producing at most one maneuver, with the provided dynamics array.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param thrusterDynamics The thruster dynamics.
+    /// @return The segment solution
+    Segment::Solution solveSingleManeuver_(
+        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
     ) const;
 };
 
