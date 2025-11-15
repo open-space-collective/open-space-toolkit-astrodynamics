@@ -28,15 +28,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             )doc"
     );
 
-    enum_<Sequence::MaximumManeuverDurationViolationStrategy>(sequence, "MaximumManeuverDurationViolationStrategy")
-
-        .value("Fail", Sequence::MaximumManeuverDurationViolationStrategy::Fail)
-        .value("Skip", Sequence::MaximumManeuverDurationViolationStrategy::Skip)
-        .value("Slice", Sequence::MaximumManeuverDurationViolationStrategy::Slice)
-        .value("Center", Sequence::MaximumManeuverDurationViolationStrategy::Center)
-
-        ;
-
     class_<Sequence::Solution>(
         sequence,
         "Solution",
@@ -231,7 +222,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     const NumericalSolver&,
                     const Array<Shared<Dynamics>>&,
                     const Duration&,
-                    const Duration&,
                     const Size&>(),
                 R"doc(
                     Construct a new `Sequence` object.
@@ -241,7 +231,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     numerical_solver (NumericalSolver, optional): The numerical solver. Defaults to the default conditional numerical solver.
                     dynamics (list[Dynamics], optional): The dynamics. Defaults to an empty list.
                     maximum_propagation_duration (Duration, optional): The maximum propagation duration. Defaults to 30 days.
-                    minimum_maneuver_duration (Duration, optional): The minimum maneuver duration. Defaults to Undefined. If defined, maneuvers less than this duration will be skipped.
                     verbosity (int, optional): The verbosity level. Defaults to 1.
 
                     Returns:
@@ -254,7 +243,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 ),
                 arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
                 arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
-                arg_v("minimum_maneuver_duration", Duration::Undefined(), "Duration.undefined()"),
                 arg("verbosity") = 1
             )
 
@@ -304,98 +292,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                         Duration: The maximum propagation duration.
 
                 )doc"
-            )
-            .def(
-                "get_maximum_maneuver_duration",
-                &Sequence::getMaximumManeuverDuration,
-                R"doc(
-                    Get the maximum maneuver duration.
-
-                    Returns:
-                        Duration: The maximum maneuver duration.
-
-                )doc"
-            )
-            .def(
-                "get_maximum_maneuver_duration_strategy",
-                &Sequence::getMaximumManeuverDurationStrategy,
-                R"doc(
-                    Get the maximum maneuver duration strategy.
-
-                    Returns:
-                        MaximumManeuverDurationViolationStrategy: The maximum maneuver duration strategy.
-
-                )doc"
-            )
-            .def(
-                "get_minimum_maneuver_duration",
-                &Sequence::getMinimumManeuverDuration,
-                R"doc(
-                    Get the minimum maneuver duration.
-
-                    Returns:
-                        Duration: The minimum maneuver duration.
-
-                )doc"
-            )
-            .def(
-                "get_minimum_maneuver_separation",
-                &Sequence::getMinimumManeuverSeparation,
-                R"doc(
-                    Get the minimum maneuver separation.
-
-                    Returns:
-                        Duration: The minimum maneuver separation.
-
-                )doc"
-            )
-            .def(
-                "set_maximum_maneuver_duration",
-                &Sequence::setMaximumManeuverDuration,
-                R"doc(
-                    Set the maximum maneuver duration.
-
-                    Args:
-                        maximum_maneuver_duration (Duration): The maximum maneuver duration.
-
-                )doc",
-                arg("maximum_maneuver_duration")
-            )
-            .def(
-                "set_maximum_maneuver_duration_strategy",
-                &Sequence::setMaximumManeuverDurationStrategy,
-                R"doc(
-                    Set the maximum maneuver duration strategy.
-
-                    Args:
-                        maximum_maneuver_duration_strategy (MaximumManeuverDurationViolationStrategy): The maximum maneuver duration strategy.
-
-                )doc",
-                arg("maximum_maneuver_duration_strategy")
-            )
-            .def(
-                "set_minimum_maneuver_duration",
-                &Sequence::setMinimumManeuverDuration,
-                R"doc(
-                    Set the minimum maneuver duration.
-
-                    Args:
-                        minimum_maneuver_duration (Duration): The minimum maneuver duration.
-
-                )doc",
-                arg("minimum_maneuver_duration")
-            )
-            .def(
-                "set_minimum_maneuver_separation",
-                &Sequence::setMinimumManeuverSeparation,
-                R"doc(
-                    Set the minimum maneuver separation.
-
-                    Args:
-                        minimum_maneuver_separation (Duration): The minimum maneuver separation.
-
-                )doc",
-                arg("minimum_maneuver_separation")
             )
             .def(
                 "add_segment",
