@@ -67,11 +67,11 @@ class Segment
 
     enum class MaximumManeuverDurationViolationStrategy
     {
-        Fail,   ///< The sequence will fail if a maneuver exceeds the maximum duration.
-        Skip,   ///< The maneuver will be skipped entirely.
-        Slice,  ///< The maneuver will be split into one or more maneuvers that are each within the maximum duration,
-                ///< until the last maneuver which will be equal or shorter than the maximum duration.
-        Center  ///< The maneuver will be shortened to the maximum duration and centered around its midpoint.
+        Fail,           ///< The sequence will fail if a maneuver exceeds the maximum duration.
+        Skip,           ///< The maneuver will be skipped entirely.
+        LeadingSlice,   ///< The maneuver will be shortened to the maximum duration, sliced from the start.
+        TrailingSlice,  ///< The maneuver will be shortened to the maximum duration, sliced from the end.
+        Center          ///< The maneuver will be shortened to the maximum duration and centered around its midpoint.
     };
 
     struct ManeuverConstraints
@@ -97,6 +97,16 @@ class Segment
         /// @brief Check if the maneuver constraints are defined
         /// @return True if the maneuver constraints are defined
         bool isDefined() const;
+
+        /// @brief Check if the minimum duration is valid
+        /// @param aManeuverInterval The maneuver interval
+        /// @return True if the minimum duration is valid
+        bool intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const;
+
+        /// @brief Check if the maximum duration is valid
+        /// @param aManeuverInterval The maneuver interval
+        /// @return True if the maximum duration is valid
+        bool intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const;
 
         /// @brief Print the maneuver constraints
         /// @param anOutputStream An output stream
@@ -285,12 +295,12 @@ class Segment
     ///
     /// @param aState Initial state for the segment
     /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
-    /// @param lastManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined.
+    /// @param previousManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined.
     /// @return A Solution representing the result of the solve
     Solution solve(
         const State& aState,
         const Duration& maximumPropagationDuration = Duration::Days(30.0),
-        Interval lastManeuverInterval = Interval::Undefined()
+        Interval previousManeuverInterval = Interval::Undefined()
     ) const;
 
     /// @brief Print the segment

@@ -76,11 +76,44 @@ Segment::ManeuverConstraints::ManeuverConstraints(
     {
         throw ostk::core::error::RuntimeError("Minimum separation must be greater than zero.");
     }
+
+    if (maximumDuration.isDefined() && minimumDuration.isDefined() && maximumDuration < minimumDuration)
+    {
+        throw ostk::core::error::RuntimeError("Maximum duration must be greater than minimum duration.");
+    }
+
+    if (maximumDuration.isDefined() && !minimumSeparation.isDefined())
+    {
+        throw ostk::core::error::RuntimeError(
+            "Minimum separation of atleast 1 second must be defined if maximum duration is defined. This is to prevent "
+            "aliasing issues which can cause sequential maneuver intervals to overlap by a nanosecond."
+        );
+    }
 }
 
 bool Segment::ManeuverConstraints::isDefined() const
 {
     return minimumDuration.isDefined() || maximumDuration.isDefined() || minimumSeparation.isDefined();
+}
+
+bool Segment::ManeuverConstraints::intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const
+{
+    if (!minimumDuration.isDefined())
+    {
+        return true;
+    }
+
+    return aManeuverInterval.getDuration() >= minimumDuration;
+}
+
+bool Segment::ManeuverConstraints::intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const
+{
+    if (!maximumDuration.isDefined())
+    {
+        return true;
+    }
+
+    return aManeuverInterval.getDuration() <= maximumDuration;
 }
 
 void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -123,7 +156,7 @@ String Segment::ManeuverConstraints::MaximumManeuverDurationViolationStrategyToS
             return "Fail";
         case MaximumManeuverDurationViolationStrategy::Skip:
             return "Skip";
-        case MaximumManeuverDurationViolationStrategy::Slice:
+        case MaximumManeuverDurationViolationStrategy::LeadingSlice:
             return "Slice";
         case MaximumManeuverDurationViolationStrategy::Center:
             return "Center";
@@ -429,7 +462,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
         aDynamicsSPtr->getWriteCoordinateSubsets();
 
     // Check that the provided coordinate subsets are part of the dynamics write coordinate subsets
-    for (auto aCoordinateSubsetSPtr : aCoordinateSubsetSPtrArray)
+    for (const auto& aCoordinateSubsetSPtr : aCoordinateSubsetSPtrArray)
     {
         if (!dynamicsWriteCoordinateSubsets.contains(aCoordinateSubsetSPtr))
         {
@@ -446,7 +479,7 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     // Check value for aCoordinateSubsetSPtrArray
     if (aCoordinateSubsetSPtrArray.isEmpty())
     {
-        definitiveCoordinateSubsetArray = aDynamicsSPtr->getWriteCoordinateSubsets();
+        definitiveCoordinateSubsetArray = dynamicsWriteCoordinateSubsets;
     }
 
     // Extract states size
@@ -678,22 +711,19 @@ const NumericalSolver& Segment::accessNumericalSolver() const
 }
 
 Segment::Solution Segment::solve(
-    const State& aState, const Duration& maximumPropagationDuration, Interval lastManeuverInterval
+    const State& aState, const Duration& maximumPropagationDuration, Interval previousManeuverInterval
 ) const
 {
-    // If we're not dealing with maneuver-related constraints
-    if (type_ != Segment::Type::Maneuver)
+    if (type_ == Segment::Type::Coast)
     {
-        return solveWithDynamics_(aState, maximumPropagationDuration, freeDynamicsArray_, eventCondition_);
+        return solveCoast_(aState, maximumPropagationDuration);
     }
 
-    // If we're not dealing with maneuver related constraints
     if (!maneuverConstraints_.isDefined())
     {
         return solveManeuver_(aState, maximumPropagationDuration, this->getThrusterDynamics());
     }
 
-    // Initialize solution accumulators
     Array<State> segmentStates = {aState};
 
     // Helper lambda to build a thruster dynamics with maneuver intervals
@@ -711,16 +741,12 @@ Segment::Solution Segment::solve(
         );
     };
 
-    bool segmentConditionIsSatisfied = false;
+    bool segmentConditionIsSatisfied = eventCondition_->isSatisfied(aState, aState);
 
     // Helper lambda to solve a coast segment and update segmentStates
     const Instant maximumInstant = aState.accessInstant() + maximumPropagationDuration;
     const auto solveAndAddCoastSegment = [&](const Instant& endInstant) -> bool
     {
-        BOOST_LOG_TRIVIAL(debug) << "Solving coast segment..." << std::endl;
-        BOOST_LOG_TRIVIAL(debug) << "With State: " << segmentStates.accessLast() << std::endl;
-        BOOST_LOG_TRIVIAL(debug) << "Till: " << endInstant.toString() << std::endl;
-
         const State& lastState = segmentStates.accessLast();
         const Segment::Solution coastSegmentSolution =
             solveCoast_(lastState, std::min(endInstant, maximumInstant) - lastState.accessInstant());
@@ -740,9 +766,12 @@ Segment::Solution Segment::solve(
         const Segment::Solution maneuverSolution =
             solveManeuver_(lastState, maximumInstant - lastState.accessInstant(), thrusterDynamics);
 
-        const Array<flightManeuver> maneuvers = maneuverSolution.extractManeuvers(aState.accessFrame());
+        if (maneuverSolution.states.getSize() <= 2)
+        {
+            return {maneuverSolution, Array<flightManeuver>::Empty()};
+        }
 
-        return {maneuverSolution, maneuvers};
+        return {maneuverSolution, maneuverSolution.extractManeuvers(aState.accessFrame())};
     };
 
     // Helper lambda to accept a maneuver solution, updating segmentStates and segmentHeterogenousGuidanceLaw
@@ -751,13 +780,13 @@ Segment::Solution Segment::solve(
         std::make_shared<HeterogeneousGuidanceLaw>();
     const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const Interval& maneuverInterval) -> void
     {
-        BOOST_LOG_TRIVIAL(debug) << "Maneuver accepted." << std::endl;
+        BOOST_LOG_TRIVIAL(debug) << "Maneuver accepted: " << maneuverInterval.toString() << std::endl;
 
         segmentStates.add(Array<State>(maneuverSolution.states.begin() + 1, maneuverSolution.states.end()));
 
         segmentConditionIsSatisfied = maneuverSolution.conditionIsSatisfied;
 
-        lastManeuverInterval = maneuverInterval;
+        previousManeuverInterval = maneuverInterval;
 
         segmentHeterogenousGuidanceLaw->addGuidanceLaw(
             maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), maneuverInterval
@@ -783,13 +812,28 @@ Segment::Solution Segment::solve(
                 return solveAndAddCoastSegment(candidateManeuverInterval.getEnd());
             }
 
-            case MaximumManeuverDurationViolationStrategy::Slice:
+            case MaximumManeuverDurationViolationStrategy::LeadingSlice:
             {
                 const Interval validManeuverInterval = Interval::Closed(
                     candidateManeuverInterval.getStart(),
                     candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
                 );
 
+                const Shared<Thruster> slicedThruster =
+                    buildThrusterDynamicsWithManeuverIntervals(validManeuverInterval);
+                const auto [maneuverSolution, maneuvers] = solveManeuver(slicedThruster);
+
+                acceptManeuver(maneuverSolution, validManeuverInterval);
+
+                return maneuverSolution.conditionIsSatisfied;
+            }
+
+            case MaximumManeuverDurationViolationStrategy::TrailingSlice:
+            {
+                const Interval validManeuverInterval = Interval::Closed(
+                    candidateManeuverInterval.getEnd() - maneuverConstraints_.maximumDuration,
+                    candidateManeuverInterval.getEnd()
+                );
                 const Shared<Thruster> slicedThruster =
                     buildThrusterDynamicsWithManeuverIntervals(validManeuverInterval);
                 const auto [maneuverSolution, maneuvers] = solveManeuver(slicedThruster);
@@ -824,12 +868,11 @@ Segment::Solution Segment::solve(
     while (segmentStates.accessLast().accessInstant() < maximumInstant && !segmentConditionIsSatisfied)
     {
         // Check minimum maneuver separation constraint from previous maneuver
-        if (maneuverConstraints_.minimumSeparation.isDefined() && lastManeuverInterval.isDefined())
+        if (maneuverConstraints_.minimumSeparation.isDefined() && previousManeuverInterval.isDefined())
         {
             BOOST_LOG_TRIVIAL(debug) << "Accounting for minimum maneuver separation." << std::endl;
 
-            const Instant endInstant =
-                std::min(lastManeuverInterval.getEnd() + maneuverConstraints_.minimumSeparation, maximumInstant);
+            const Instant endInstant = previousManeuverInterval.getEnd() + maneuverConstraints_.minimumSeparation;
 
             // No need to coast if we are already past the minimum separation target
             if (segmentStates.accessLast().accessInstant() < endInstant)
@@ -843,7 +886,7 @@ Segment::Solution Segment::solve(
 
         const auto [maneuverSubSegmentSolution, subsegmentManeuvers] = solveManeuver(segmentThrusterDynamics);
 
-        // No maneuvers found - add states and exit
+        // No maneuvers found - add states
         if (subsegmentManeuvers.isEmpty())
         {
             segmentStates.add(
@@ -851,46 +894,35 @@ Segment::Solution Segment::solve(
             );
             segmentConditionIsSatisfied = maneuverSubSegmentSolution.conditionIsSatisfied;
 
-            break;
+            continue;
         }
 
         const Interval candidateManeuverInterval = subsegmentManeuvers.accessFirst().getInterval();
 
         // Check minimum maneuver duration constraint
-        if (maneuverConstraints_.minimumDuration.isDefined() &&
-            candidateManeuverInterval.getDuration() < maneuverConstraints_.minimumDuration)
+        if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
         {
             BOOST_LOG_TRIVIAL(debug
             ) << "Maneuver duration is less than the minimum maneuver duration. Skipping the maneuver."
               << std::endl;
 
-            const Instant endInstant = std::min(candidateManeuverInterval.getEnd(), maximumInstant);
-
-            if (solveAndAddCoastSegment(endInstant))
-            {
-                break;
-            }
-
-            continue;
+            segmentConditionIsSatisfied = solveAndAddCoastSegment(candidateManeuverInterval.getEnd());
         }
 
         // Check maximum maneuver duration constraint
-        if (maneuverConstraints_.maximumDuration.isDefined() &&
-            candidateManeuverInterval.getDuration() > maneuverConstraints_.maximumDuration)
+        else if (!maneuverConstraints_.intervalHasValidMaximumDuration(candidateManeuverInterval))
         {
             BOOST_LOG_TRIVIAL(debug) << "Maneuver duration is greater than the maximum maneuver duration, handling... "
                                      << std::endl;
 
-            if (handleMaximumDurationViolation(candidateManeuverInterval))
-            {
-                break;
-            }
-
-            continue;
+            segmentConditionIsSatisfied = handleMaximumDurationViolation(candidateManeuverInterval);
         }
 
-        // Maneuver passed all constraints - accept it
-        acceptManeuver(maneuverSubSegmentSolution, candidateManeuverInterval);
+        else
+        {
+            // Candidate maneuver passed all constraints - accept it
+            acceptManeuver(maneuverSubSegmentSolution, candidateManeuverInterval);
+        }
     }
 
     // Build final solution

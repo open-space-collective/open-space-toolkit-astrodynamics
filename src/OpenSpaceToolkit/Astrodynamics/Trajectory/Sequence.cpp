@@ -308,7 +308,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
 
     State initialState = aState;
     State finalState = State::Undefined();
-    Interval lastManeuverInterval = Interval::Undefined();
+    Interval previousManeuverInterval = Interval::Undefined();
 
     for (Size i = 0; i < aRepetitionCount; ++i)
     {
@@ -319,13 +319,13 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
             Segment::Solution segmentSolution =
-                segment.solve(initialState, segmentPropagationDurationLimit_, lastManeuverInterval);
+                segment.solve(initialState, segmentPropagationDurationLimit_, previousManeuverInterval);
 
             const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
 
             if (!solutionManeuvers.isEmpty())
             {
-                lastManeuverInterval = solutionManeuvers.accessLast().getInterval();
+                previousManeuverInterval = solutionManeuvers.accessLast().getInterval();
             }
 
             segmentSolution.name =
@@ -358,9 +358,11 @@ Sequence::Solution Sequence::solveToCondition(
 
     State initialState = aState;
     State finalState = State::Undefined();
-    Interval lastManeuverInterval = Interval::Undefined();
-    bool eventConditionIsSatisfied = false;
+    Interval previousManeuverInterval = Interval::Undefined();
+
     Duration propagationDuration = Duration::Zero();
+
+    bool eventConditionIsSatisfied = false;
     const Unique<EventCondition> sequenceCondition(anEventCondition.clone());
     sequenceCondition->updateTarget(initialState);
 
@@ -376,13 +378,13 @@ Sequence::Solution Sequence::solveToCondition(
                 std::min(segmentPropagationDurationLimit_, aMaximumPropagationDuration - propagationDuration);
 
             Segment::Solution segmentSolution =
-                segment.solve(initialState, segmentPropagationDurationLimit, lastManeuverInterval);
+                segment.solve(initialState, segmentPropagationDurationLimit, previousManeuverInterval);
 
             const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
 
             if (!solutionManeuvers.isEmpty())
             {
-                lastManeuverInterval = solutionManeuvers.accessLast().getInterval();
+                previousManeuverInterval = solutionManeuvers.accessLast().getInterval();
             }
 
             segmentSolution.name =

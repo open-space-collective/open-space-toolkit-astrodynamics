@@ -1069,7 +1069,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Duration::Undefined(),
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Slice
+                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
             ),
             Array<Tuple<Duration, Duration, bool>>::Empty()
         },
@@ -1087,7 +1087,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(10.0),
                 Duration::Undefined(),
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Slice
+                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
@@ -1109,7 +1109,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Duration::Undefined(),
                 Duration::Minutes(10.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Slice
+                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
@@ -1142,7 +1142,7 @@ INSTANTIATE_TEST_SUITE_P(
         },
         // With Maximum Maneuver Duration Constraint (Slice Strategy)
         ManeuveringConstraintsTestParams {
-            "MaximumManeuverDurationSplit",
+            "MaximumManeuverDurationLeadingSlice",
             Array<Tuple<Duration, Duration>> {
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
@@ -1159,7 +1159,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(4.0),
                 Duration::Minutes(10.0),
                 Duration::Minutes(3.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Slice
+                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
@@ -1189,14 +1189,16 @@ INSTANTIATE_TEST_SUITE_P(
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
                 Duration::Minutes(10.0),
-                Duration::Seconds(30.0),
+                Duration::Minutes(3.0),
                 Segment::MaximumManeuverDurationViolationStrategy::Center
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(35.0), Duration::Minutes(45.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(75.0), Duration::Minutes(85.0), false}
+                Tuple<Duration, Duration, bool> {Duration::Minutes(48.0), Duration::Minutes(50.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(75.0), Duration::Minutes(85.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(89.0), Duration::Minutes(99.0), false},
             }
         }
     ),
@@ -1214,7 +1216,7 @@ TEST_P(
 
     VectorXd coordinates(7);
     coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
-    const Instant referenceInstant = Instant::J2000() + Duration::Seconds(1.0);
+    const Instant referenceInstant = Instant::DateTime(DateTime(2021, 1, 1, 12, 0, 0), Scale::UTC);
     const State initialState = {
         referenceInstant,
         coordinates,
