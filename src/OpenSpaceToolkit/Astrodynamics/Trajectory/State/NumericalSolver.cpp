@@ -168,7 +168,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
-
     // Ensure that the time step is the correct sign
     const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
@@ -204,7 +203,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = createState(stepper.current_state(), currentTime);
-        
+
         observeState(currentState);
 
         conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);

@@ -291,12 +291,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             defaultStartInstant_ + defaultDuration_,
             systemOfEquations_,
-            InstantCondition(defaultStartInstant_ + defaultDuration_ + Duration::Seconds(1.0), RealCondition::Criterion::StrictlyPositive)
+            InstantCondition(
+                defaultStartInstant_ + defaultDuration_ + Duration::Seconds(1.0),
+                RealCondition::Criterion::StrictlyPositive
+            )
         );
 
         EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
         EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
-
     }
 
     {
