@@ -211,7 +211,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         previousState = currentState;
     }
 
-    // Remove the last state as it is either past the end time or not the exact crossing
+    // Remove the last observed state as it is either past the end time or not the exact crossing
     observedStates_.pop_back();
 
     if (!conditionSatisfied)
