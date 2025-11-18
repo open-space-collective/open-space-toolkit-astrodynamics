@@ -58,7 +58,10 @@ class Tabulated : public virtual Model
     /// @param aStateArray An array of states
     /// @param anInterpolatorType  The type of interpolation used for all but the AttitudeQuaternion subset. Attitude
     /// quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Barycentric Rational.
-    Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational);
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
+    );
 
     /// @brief Clone the tabulated model
     ///

@@ -8,8 +8,8 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Shared;
 using ostk::core::container::Array;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;

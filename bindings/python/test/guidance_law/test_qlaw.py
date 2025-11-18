@@ -9,7 +9,6 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Derived
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 from ostk.physics.time import Instant
-from ostk.physics.coordinate import Frame
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 
@@ -65,6 +64,7 @@ def q_law(
         target_coe=target_COE,
         gravitational_parameter=gravitational_parameter,
         parameters=parameters,
+        coe_domain=QLaw.COEDomain.Osculating,
         gradient_strategy=gradient_strategy,
     )
 
@@ -119,23 +119,13 @@ class TestQLaw:
             target_coe=target_COE,
             gravitational_parameter=gravitational_parameter,
             parameters=parameters,
-            gradient_strategy=gradient_strategy,
-        )
-        qlaw_with_domain: QLaw = QLaw(
-            target_coe=target_COE,
-            gravitational_parameter=gravitational_parameter,
-            parameters=parameters,
-            gradient_strategy=gradient_strategy,
             coe_domain=QLaw.COEDomain.BrouwerLyddaneMeanLong,
+            gradient_strategy=gradient_strategy,
         )
 
         assert qlaw is not None
         assert isinstance(qlaw, QLaw)
         assert isinstance(qlaw, GuidanceLaw)
-
-        assert qlaw_with_domain is not None
-        assert isinstance(qlaw_with_domain, QLaw)
-        assert isinstance(qlaw_with_domain, GuidanceLaw)
 
     def test_getters(self, q_law: QLaw):
         assert q_law.get_parameters() is not None

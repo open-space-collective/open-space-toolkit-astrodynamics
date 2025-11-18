@@ -7,9 +7,9 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
@@ -46,11 +46,11 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector4d;
-using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::frame::Manager;

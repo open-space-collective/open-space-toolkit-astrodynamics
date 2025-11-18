@@ -380,7 +380,8 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     }
 
     if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
-        ((anAlignmentTargetSPtr->type != TargetType::TargetPosition) || (anAlignmentTargetSPtr->type != TargetType::TargetVelocity)))
+        ((anAlignmentTargetSPtr->type != TargetType::TargetPosition) ||
+         (anAlignmentTargetSPtr->type != TargetType::TargetVelocity)))
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
     }
