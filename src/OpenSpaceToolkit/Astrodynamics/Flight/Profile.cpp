@@ -49,18 +49,6 @@ Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool&
 {
 }
 
-Profile::TrajectoryTarget::TrajectoryTarget(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
-)
-    : Target(TargetType::Trajectory, aDirection),
-      trajectory(aTrajectory)
-{
-    if (!trajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-}
-
 Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
     const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
 )
@@ -114,13 +102,6 @@ Profile::TrajectoryTarget::TrajectoryTarget(
     if (!trajectory.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
-    if (aType == TargetType::Trajectory)
-    {
-        throw ostk::core::error::RuntimeError(
-            "TargetType::Trajectory is deprecated. Use TargetType::TargetPosition instead."
-        );
     }
 
     if (aType != TargetType::TargetPosition && aType != TargetType::TargetVelocity &&
@@ -294,21 +275,6 @@ Axes Profile::getAxesAt(const Instant& anInstant) const
     return modelUPtr_->getAxesAt(anInstant);
 }
 
-Shared<const Frame> Profile::getBodyFrame(const String& aFrameName) const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
-    if (Manager::Get().hasFrameWithName(aFrameName))
-    {
-        throw ostk::core::error::RuntimeError("A frame with the same name already exists.");
-    }
-
-    return modelUPtr_->getBodyFrame(aFrameName);
-}
-
 Shared<const Frame> Profile::constructBodyFrame(const String& aFrameName, const bool& overwrite) const
 {
     if (!this->isDefined())
@@ -328,7 +294,7 @@ Shared<const Frame> Profile::constructBodyFrame(const String& aFrameName, const 
         }
     }
 
-    return modelUPtr_->getBodyFrame(aFrameName);
+    return modelUPtr_->constructBodyFrame(aFrameName);
 }
 
 void Profile::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -414,7 +380,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     }
 
     if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
-        (anAlignmentTargetSPtr->type != TargetType::Trajectory))
+        ((anAlignmentTargetSPtr->type != TargetType::TargetPosition) || (anAlignmentTargetSPtr->type != TargetType::TargetVelocity)))
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
     }
@@ -449,7 +415,6 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
                 return Profile::ComputeGeocentricNadirDirectionVector;
             case TargetType::GeodeticNadir:
                 return Profile::ComputeGeodeticNadirDirectionVector;
-            case TargetType::Trajectory:
             case TargetType::TargetPosition:
             {
                 const Shared<const TrajectoryTarget> targetPositionSPtr =

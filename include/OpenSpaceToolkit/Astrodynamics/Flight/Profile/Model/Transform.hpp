@@ -58,7 +58,7 @@ class Transform : public virtual Model
 
     virtual Axes getAxesAt(const Instant& anInstant) const override;
 
-    virtual Shared<const Frame> getBodyFrame(const String& aFrameName) const override;
+    virtual Shared<const Frame> constructBodyFrame(const String& aFrameName) const override;
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 

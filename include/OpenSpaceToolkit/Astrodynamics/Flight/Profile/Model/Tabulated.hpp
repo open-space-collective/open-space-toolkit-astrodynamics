@@ -56,16 +56,9 @@ class Tabulated : public virtual Model
     /// @brief Constructor
     ///
     /// @param aStateArray An array of states
-    /// @deprecated Use the constructor with Interpolator::Type instead.
-    [[deprecated("Use the constructor with Interpolator::Type instead.")]]
-    Tabulated(const Array<State>& aStateArray);
-
-    /// @brief Constructor
-    ///
-    /// @param aStateArray An array of states
     /// @param anInterpolatorType  The type of interpolation used for all but the AttitudeQuaternion subset. Attitude
-    /// quaternions will be interpolated using spherical linear interpolation (SLERP).
-    Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType);
+    /// quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Barycentric Rational.
+    Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational);
 
     /// @brief Clone the tabulated model
     ///
@@ -122,7 +115,7 @@ class Tabulated : public virtual Model
     ///
     /// @param aFrameName Name of the frame
     /// @return Shared pointer to the frame
-    virtual Shared<const Frame> getBodyFrame(const String& aFrameName) const override;
+    virtual Shared<const Frame> constructBodyFrame(const String& aFrameName) const override;
 
     /// @brief Print the tabulated model to an output stream
     ///

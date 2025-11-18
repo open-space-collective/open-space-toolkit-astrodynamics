@@ -48,17 +48,17 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::
             Frame::GCRF()
         )
     };
-    const Tabulated tabulated_ = Tabulated(states_);
+    const Tabulated tabulated_ = Tabulated(states_, Interpolator::Type::Linear);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Constructor)
 {
     {
-        EXPECT_NO_THROW(Tabulated tabulated(states_););
+        EXPECT_NO_THROW(Tabulated tabulated(states_, Interpolator::Type::Linear););
     }
 
     {
-        EXPECT_NO_THROW(Tabulated tabulated(states_, Interpolator::Type::Linear););
+        EXPECT_NO_THROW(Tabulated tabulated(states_););
     }
 }
 
@@ -69,7 +69,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, EqualToOp
     }
 
     {
-        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}};
+        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}, Interpolator::Type::Linear};
         EXPECT_FALSE(tabulated_ == tabulated);
     }
 }
@@ -81,7 +81,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, NotEqualT
     }
 
     {
-        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}};
+        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}, Interpolator::Type::Linear};
         EXPECT_TRUE(tabulated_ != tabulated);
     }
 }
@@ -221,16 +221,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetAxesAt
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetBodyFrame)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, ConstructBodyFrame)
 {
     // name undefined
     {
         const String frameName = String::Empty();
-        EXPECT_THROW(tabulated_.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(tabulated_.constructBodyFrame(frameName), ostk::core::error::runtime::Undefined);
     }
 
     {
-        const Shared<const Frame> bodyFrame = tabulated_.getBodyFrame("test");
+        const Shared<const Frame> bodyFrame = tabulated_.constructBodyFrame("test");
         EXPECT_EQ(bodyFrame->getName(), "test");
         EXPECT_EQ(
             Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getTranslation(),

@@ -9,7 +9,9 @@
 #include <Global.test.hpp>
 
 using ostk::core::type::Shared;
+using ostk::core::container::Array;
 
+using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
 using ostk::mathematics::object::VectorXd;
 
@@ -18,6 +20,7 @@ using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 using ostk::physics::unit::Derived;
 
@@ -136,6 +139,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, CalculateStat
             const VectorXd coordinates = state.getCoordinates();
 
             EXPECT_VECTORS_ALMOST_EQUAL(coordinates, expectedCoordinates, 1.5);
+        }
+    }
+
+    // Regression, discontinuities in velocity
+    {
+        const LLA startLLA = LLA::Vector({0.0, 0.0, 0.0});
+        const LLA endLLA = LLA::Vector({0.5, 0.1, 0.0});
+
+        const Interval interval = Interval::Closed(
+            Instant::Parse("2024-01-12T02:33:25.366299241", Scale::UTC),
+            Instant::Parse("2024-01-12T02:34:39.106651991", Scale::UTC)
+        );
+
+        const Array<Instant> instants = interval.generateGrid(Duration::Seconds(1.0));
+
+        const TargetScan targetScan = TargetScan(startLLA, endLLA, startInstant_, endInstant_, earth_, stepSize_);
+
+        for (const auto& state : targetScan.calculateStatesAt(instants))
+        {
+            const Vector3d velocity = state.getVelocity().getCoordinates();
+            EXPECT_NEAR(velocity.norm(), 970.3, 1.0);
         }
     }
 }

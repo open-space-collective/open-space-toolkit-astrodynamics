@@ -100,7 +100,7 @@ Axes Transform::getAxesAt(const Instant& anInstant) const
     return {xAxis, yAxis, zAxis, this->frameSPtr_};
 }
 
-Shared<const Frame> Transform::getBodyFrame(const String& aFrameName) const
+Shared<const Frame> Transform::constructBodyFrame(const String& aFrameName) const
 {
     using ostk::physics::coordinate::Transform;
 

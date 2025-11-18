@@ -46,15 +46,6 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
     setMembers(aStateArray);
 }
 
-Tabulated::Tabulated(const Array<State>& aStateArray)
-    : Model(),
-      interpolatorType_(Interpolator::Type::Linear),
-      stateBuilder_(StateBuilder::Undefined()),
-      reducedStateBuilder_(StateBuilder::Undefined())
-{
-    setMembers(aStateArray);
-}
-
 Tabulated* Tabulated::clone() const
 {
     return new Tabulated(*this);
@@ -215,7 +206,7 @@ Axes Tabulated::getAxesAt(const Instant& anInstant) const
     return {xAxis, yAxis, zAxis, state.accessFrame()};
 }
 
-Shared<const Frame> Tabulated::getBodyFrame(const String& aFrameName) const
+Shared<const Frame> Tabulated::constructBodyFrame(const String& aFrameName) const
 {
     if (aFrameName.isEmpty())
     {

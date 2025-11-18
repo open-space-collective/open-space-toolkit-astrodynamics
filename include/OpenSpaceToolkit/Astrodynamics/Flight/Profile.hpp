@@ -92,7 +92,6 @@ class Profile
     {
         GeocentricNadir,              /// Negative of the position vector of the satellite in the ECI frame
         GeodeticNadir,                /// Negative of the geodetic normal of the satellite in the ECI frame
-        Trajectory,                   /// DEPRECATED: Use TargetPosition instead.
         TargetPosition,               /// Points towards the provided target position
         TargetVelocity,               /// Points along the provided target's velocity vector
         TargetSlidingGroundVelocity,  /// Points along the provided target's ground velocity vector (aka the scan
@@ -131,13 +130,6 @@ class Profile
     class TrajectoryTarget : public Target
     {
        public:
-        /// @brief Constructs a TrajectoryTarget object.
-        ///
-        /// @deprecated Use TrajectoryTarget::TargetPosition(...) instead.
-        /// @param aTrajectory The trajectory to point towards.
-        /// @param aDirection The direction (unit vector) of the target.
-        [[deprecated("Use TrajectoryTarget::TargetPosition(...) instead.")]]
-        TrajectoryTarget(const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection);
 
         /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
         ///
@@ -349,13 +341,6 @@ class Profile
     /// @param anInstant An instant
     /// @return Axes
     Axes getAxesAt(const Instant& anInstant) const;
-
-    /// @brief Get body frame
-    ///
-    /// @param aFrameName A body frame name
-    /// @return Shared pointer to body frame
-    [[deprecated("Use profile.construct_body_frame(...) instead.")]]
-    Shared<const Frame> getBodyFrame(const String& aFrameName) const;
 
     /// @brief Construct body frame
     ///

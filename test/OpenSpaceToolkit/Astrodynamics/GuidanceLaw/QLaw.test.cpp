@@ -129,6 +129,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
             targetCOE,
             gravitationalParameter_,
             parameters,
+            QLaw::COEDomain::Osculating,
             aGradientStrategy,
         };
 
@@ -168,6 +169,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
         targetCOE_,
         gravitationalParameter_,
         parameters_,
+        QLaw::COEDomain::Osculating,
         gradientStrategy_,
     };
 
@@ -176,12 +178,12 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constructor)
 {
-    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_));
+    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::Osculating));
 
-    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::BrouwerLyddaneMeanLong)
+    EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::BrouwerLyddaneMeanLong, gradientStrategy_)
     );
 
-    EXPECT_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}), ostk::core::error::RuntimeError);
+    EXPECT_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}, QLaw::COEDomain::Osculating, gradientStrategy_), ostk::core::error::RuntimeError);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetParameters)
@@ -339,6 +341,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
                 1.0,
                 Length::Kilometers(6578.0),
             },
+            QLaw::COEDomain::Osculating,
             gradientStrategy_,
         };
 
@@ -385,6 +388,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
                 Length::Kilometers(6578.0),
                 0.8,
             },
+            QLaw::COEDomain::Osculating,
             gradientStrategy_,
         };
 
@@ -432,6 +436,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
                 Real::Undefined(),
                 0.8,
             },
+            QLaw::COEDomain::Osculating,
             gradientStrategy_,
         };
 
@@ -546,6 +551,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
             targetCOE,
             gravitationalParameter_,
             parameters,
+            QLaw::COEDomain::Osculating,
             gradientStrategy_,
         };
 
