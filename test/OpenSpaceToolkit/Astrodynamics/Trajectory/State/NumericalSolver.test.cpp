@@ -285,6 +285,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
     }
 
+    // condition not satisfied
+    {
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+            state,
+            defaultStartInstant_ + defaultDuration_,
+            systemOfEquations_,
+            InstantCondition(
+                defaultStartInstant_ + defaultDuration_ + Duration::Seconds(1.0),
+                RealCondition::Criterion::StrictlyPositive
+            )
+        );
+
+        EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+        EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
+    }
+
     {
         const Array<Tuple<Duration, RealCondition::Criterion>> testCases = {
             {defaultDuration_, RealCondition::Criterion::AnyCrossing},
@@ -325,6 +341,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             EXPECT_LT((conditionSolution.state.accessInstant() - targetInstant).inSeconds(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
+            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
 
             // Validate the output against an analytical function
 
@@ -361,6 +378,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             );
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
+            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
 
             // Validate the output against an analytical function
 
