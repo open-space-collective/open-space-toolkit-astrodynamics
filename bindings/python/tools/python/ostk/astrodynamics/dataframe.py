@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime
-
 import numpy as np
 
 import pandas as pd
@@ -13,7 +11,6 @@ from ostk.mathematics.curve_fitting import Interpolator
 from ostk.physics.environment.object import Celestial
 from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import Instant
-from ostk.physics.time import Scale
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.converters import coerce_to_datetime
@@ -598,92 +595,3 @@ def _get_entry_from_state(
         column.format(frame=state.get_frame().get_name()): coordinates[idx]
         for idx, column in enumerate(columns)
     }
-
-
-BASE_STATE_BUILDER: StateBuilder = StateBuilder(
-    frame=Frame.GCRF(),
-    coordinate_subsets=[
-        CartesianPosition.default(),
-        CartesianVelocity.default(),
-    ],
-)
-
-
-def compare_states_to_states(
-    states_1: list[State], states_2: list[State]
-) -> list[dict[str, datetime | float]]:
-    """
-    Compare two lists of states and return position and velocity residuals.
-
-    Args:
-        states_1 (list[State]): First list of OSTk States.
-        states_2 (list[State]): Second list of OSTk States.
-
-    Returns:
-        list[dict[str, datetime | float]]: List of dictionaries containing:
-            - 'timestamp': UTC datetime of the state (Python datetime object)
-            - 'dr': Position residual in meters (L2 norm of position difference)
-            - 'dr_x': Position residual x-component in meters
-            - 'dr_y': Position residual y-component in meters
-            - 'dr_z': Position residual z-component in meters
-            - 'dv': Velocity residual in meters/second (L2 norm of velocity difference)
-            - 'dv_x': Velocity residual x-component in meters/second
-            - 'dv_y': Velocity residual y-component in meters/second
-            - 'dv_z': Velocity residual z-component in meters/second
-    """
-    residuals: list[float] = []
-
-    for state_1, state_2 in zip(states_1, states_2):
-        d_state: State = (
-            BASE_STATE_BUILDER.reduce(state_1).in_frame(Frame.GCRF())
-            - BASE_STATE_BUILDER.reduce(state_2).in_frame(Frame.GCRF())
-        )
-
-        dr: np.ndarray = d_state.get_position().get_coordinates()
-        dv: np.ndarray = d_state.get_velocity().get_coordinates()
-
-        residuals.append(
-            {
-                "timestamp": coerce_to_datetime(d_state.get_instant()),
-                "dr": float(np.linalg.norm(dr)),
-                "dr_x": dr[0],
-                "dr_y": dr[1],
-                "dr_z": dr[2],
-                "dv": float(np.linalg.norm(dv)),
-                "dv_x": dv[0],
-                "dv_y": dv[1],
-                "dv_z": dv[2],
-            }
-        )
-
-    return residuals
-
-
-def compare_orbit_to_states(
-    orbit: Orbit, states: list[State]
-) -> list[dict[str, datetime | float]]:
-    """
-    Compare an orbit to a list of states and return position and velocity residuals.
-
-    Args:
-        orbit (Orbit): OSTk Orbit to compare.
-        states (list[State]): List of OSTk States to compare against.
-
-    Returns:
-        list[dict[str, datetime | float]]: List of dictionaries containing:
-            - 'timestamp': UTC datetime of the state (Python datetime object)
-            - 'dr': Position residual in meters (L2 norm of position difference)
-            - 'dr_x': Position residual x-component in meters
-            - 'dr_y': Position residual y-component in meters
-            - 'dr_z': Position residual z-component in meters
-            - 'dv': Velocity residual in meters/second (L2 norm of velocity difference)
-            - 'dv_x': Velocity residual x-component in meters/second
-            - 'dv_y': Velocity residual y-component in meters/second
-            - 'dv_z': Velocity residual z-component in meters/second
-    """
-    instants: list[Instant] = [s.get_instant() for s in states]
-    datetimes: list[datetime] = [i.get_date_time(Scale.UTC) for i in instants]
-
-    orbit_states: list[State] = orbit.get_states_at(instants)
-
-    return compare_states_to_states(orbit_states, states)
