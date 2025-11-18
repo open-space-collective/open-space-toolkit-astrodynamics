@@ -146,6 +146,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         return stateBuilder.build(aState.accessInstant() + Duration::Seconds(aTime), aStateVector);
     };
 
+    // Check trivial cases
     if (aDurationInSeconds.isZero())
     {
         return {
@@ -156,6 +157,17 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
+    bool conditionSatisfied = anEventCondition.isSatisfied(aState, aState);
+    if (conditionSatisfied)
+    {
+        return {
+            aState,
+            true,
+            0,
+            true,
+        };
+    }
+
     // Ensure that the time step is the correct sign
     const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
@@ -163,17 +175,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     auto stepper = make_dense_output(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5());
 
     // initialize stepper
+    double previousTime;
     double currentTime = 0.0;
     stepper.initialize(aState.accessCoordinates(), currentTime, signedTimeStep);
-
-    // do first step
-    double previousTime;
-    std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-
-    State previousState = createState(stepper.current_state(), stepper.current_time());
-    observeState(previousState);
-
-    bool conditionSatisfied = false;
 
     // account for integration direction
     std::function<bool(const double&)> checkTimeLimit;
@@ -193,27 +197,30 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     }
 
     State currentState = State::Undefined();
+    State previousState = aState;
 
-    while (checkTimeLimit(currentTime))
+    while (checkTimeLimit(currentTime) && !conditionSatisfied)
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = createState(stepper.current_state(), currentTime);
 
+        observeState(currentState);
+
         conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
 
-        if (conditionSatisfied)
-        {
-            break;
-        }
-
-        observeState(currentState);
         previousState = currentState;
     }
+
+    // Remove the last observed state as it is either past the end time or not the exact crossing
+    observedStates_.pop_back();
 
     if (!conditionSatisfied)
     {
         NumericalSolver::StateVector currentStateVector(stepper.current_state());
         stepper.calc_state(aDurationInSeconds, currentStateVector);
+
+        const State finalState = createState(currentStateVector, aDurationInSeconds);
+        observeState(finalState);
 
         return {
             createState(currentStateVector, aDurationInSeconds),
@@ -234,19 +241,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
 
         return isSatisfied ? 1.0 : -1.0;
     };
-
-    // Condition at previousTime => True
-    // Condition at currentTime => True
-    // Initial state satisfies the condition, return the initial state
-    if (checkCondition(previousTime) == checkCondition(currentTime))
-    {
-        return {
-            aState,
-            true,
-            0,
-            true,
-        };
-    }
 
     // Condition at previousTime => False
     // Condition at currentTime => True
