@@ -30,7 +30,6 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVeloc
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 
 
-
 BASE_STATE_BUILDER: StateBuilder = StateBuilder(
     frame=Frame.GCRF(),
     coordinate_subsets=[
@@ -74,10 +73,9 @@ def compare_states_to_states(
         else:
             frame = local_orbital_frame_factory_or_frame
 
-        d_state: State = (
-            BASE_STATE_BUILDER.reduce(state_1).in_frame(frame)
-            - BASE_STATE_BUILDER.reduce(state_2).in_frame(frame)
-        )
+        d_state: State = BASE_STATE_BUILDER.reduce(state_1).in_frame(
+            frame
+        ) - BASE_STATE_BUILDER.reduce(state_2).in_frame(frame)
 
         dr: np.ndarray = d_state.get_position().get_coordinates()
         dv: np.ndarray = d_state.get_velocity().get_coordinates()
@@ -101,18 +99,16 @@ def compare_states_to_states(
 
 def compare_orbit_to_states(
     orbit: Orbit,
-    *,
-    states: list[State] | None = None,
-    instants: list[Instant] | None = None,
+    states: list[State],
+    local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
 ) -> list[dict[str, datetime | float]]:
     """
     Compare an orbit to a list of states and return position and velocity residuals.
-    Must provide either states or instants.
 
     Args:
         orbit (Orbit): OSTk Orbit to compare.
-        states (list[State] | None, optional): List of OSTk States to compare against.
-        instants (list[Instant] | None, optional): List of instants to compare against.
+        states (list[State]): List of OSTk States to compare against.
+        local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
     Returns:
         list[dict[str, datetime | float]]: List of dictionaries containing:
@@ -126,17 +122,50 @@ def compare_orbit_to_states(
             - 'dv_y': Velocity residual y-component in meters/second
             - 'dv_z': Velocity residual z-component in meters/second
     """
-    if instants is None and states is None:
-        raise ValueError("Must provide either states or instants.")
-
-    if instants is None:
-        instants = [s.get_instant() for s in states]
-
+    instants: list[Instant] = [state.get_instant() for state in states]
     orbit_states: list[State] = orbit.get_states_at(instants)
 
     return compare_states_to_states(
         first_states=orbit_states,
         second_states=states,
+        local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
+    )
+
+
+def compare_orbit_to_orbit(
+    first_orbit: Orbit,
+    second_orbit: Orbit,
+    instants: list[Instant],
+    local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
+) -> list[dict[str, datetime | float]]:
+    """
+    Compare two orbits and return position and velocity residuals.
+
+    Args:
+        first_orbit (Orbit): First OSTk Orbit to compare.
+        second_orbit (Orbit): Second OSTk Orbit to compare.
+        instants (list[Instant]): List of instants to compare.
+        local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
+
+    Returns:
+        list[dict[str, datetime | float]]: List of dictionaries containing:
+            - 'timestamp': UTC datetime of the state (Python datetime object)
+            - 'dr': Position residual in meters (L2 norm of position difference)
+            - 'dr_x': Position residual x-component in meters
+            - 'dr_y': Position residual y-component in meters
+            - 'dr_z': Position residual z-component in meters
+            - 'dv': Velocity residual in meters/second (L2 norm of velocity difference)
+            - 'dv_x': Velocity residual x-component in meters/second
+            - 'dv_y': Velocity residual y-component in meters/second
+            - 'dv_z': Velocity residual z-component in meters/second
+    """
+    first_orbit_states: list[State] = first_orbit.get_states_at(instants)
+    second_orbit_states: list[State] = second_orbit.get_states_at(instants)
+
+    return compare_states_to_states(
+        first_states=first_orbit_states,
+        second_states=second_orbit_states,
+        local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
     )
 
 
