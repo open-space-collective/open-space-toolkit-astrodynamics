@@ -26,10 +26,6 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVeloc
 from ostk.astrodynamics.trajectory import StateBuilder
 from ostk.astrodynamics.flight import Profile
 
-from ostk.mathematics.curve_fitting import Interpolator
-
-from datetime import datetime
-
 from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 from ostk.astrodynamics.dataframe import generate_dataframe_from_states
 from ostk.astrodynamics.dataframe import generate_profile_from_dataframe
