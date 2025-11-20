@@ -512,9 +512,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "custom_pointing",
-            overload_cast<const Orbit&, const Shared<const Profile::Target>&, const Shared<const Profile::Target>&>(
-                &Profile::CustomPointing
-            ),
+            overload_cast<
+                const Orbit&,
+                const Shared<const Profile::Target>&,
+                const Shared<const Profile::Target>&,
+                const Angle&>(&Profile::CustomPointing),
             R"doc(
                 Create a custom pointing profile.
 
@@ -522,6 +524,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     orbit (Orbit): The orbit.
                     alignment_target (Profile.Target): The alignment target.
                     clocking_target (Profile.Target): The clocking target.
+                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:
                     Profile: The custom pointing profile.
@@ -529,7 +532,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             )doc",
             arg("orbit"),
             arg("alignment_target"),
-            arg("clocking_target")
+            arg("clocking_target"),
+            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
         )
 
         .def_static(
@@ -541,13 +545,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Args:
                     alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
                     clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
+                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:
                     callable[Quaternion, State]: The custom orientation.
 
             )doc",
             arg("alignment_target"),
-            arg("clocking_target")
+            arg("clocking_target"),
+            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
         )
 
         ;

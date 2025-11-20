@@ -37,6 +37,10 @@ Profile::Target::Target(const TargetType& aType, const Vector3d& aDirection)
     : type(aType),
       direction(aDirection)
 {
+    if (std::abs(aDirection.norm() - 1.0) > Real::Epsilon())
+    {
+        throw ostk::core::error::RuntimeError("Direction is not a unit vector.");
+    }
 }
 
 Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection)
@@ -363,10 +367,12 @@ Profile Profile::LocalOrbitalFramePointing(
 Profile Profile::CustomPointing(
     const trajectory::Orbit& anOrbit,
     const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr
+    const Shared<const Target>& aClockingTargetSPtr,
+    const Angle& anAngularOffset
 )
 {
-    const auto orientationGenerator = Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr);
+    const auto orientationGenerator =
+        Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
 
     return Profile::CustomPointing(anOrbit, orientationGenerator);
 }
@@ -396,7 +402,9 @@ Profile Profile::CustomPointing(
 }
 
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
-    const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const Target>& aClockingTargetSPtr
+    const Shared<const Target>& anAlignmentTargetSPtr,
+    const Shared<const Target>& aClockingTargetSPtr,
+    const Angle& anAngularOffset
 )
 {
     if ((anAlignmentTargetSPtr->type == TargetType::VelocityECEF) ||
@@ -412,9 +420,9 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
 
     {
         {
-            const Vector3d& ad = anAlignmentTargetSPtr->direction;
-            const Vector3d& cd = aClockingTargetSPtr->direction;
-            const Real cosTheta = ad.normalized().dot(cd.normalized());
+            const Vector3d& alignmentDirection = anAlignmentTargetSPtr->direction;
+            const Vector3d& clockingDirection = aClockingTargetSPtr->direction;
+            const Real cosTheta = alignmentDirection.normalized().dot(clockingDirection.normalized());
             if (std::abs(cosTheta) >= 1.0 - Real::Epsilon())
             {
                 throw ostk::core::error::RuntimeError("Alignment and clocking direction cannot be colinear.");
@@ -515,16 +523,25 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     const auto alignmentTargetVectorFunction = targetVectorGenerator(anAlignmentTargetSPtr);
     const auto clockingTargetVectorFunction = targetVectorGenerator(aClockingTargetSPtr);
 
-    return [alignmentTargetVectorFunction, clockingTargetVectorFunction, alignmentDirection, clockingDirection](
-               const State& aState
-           ) -> Quaternion
+    return [anAngularOffset,
+            alignmentTargetVectorFunction,
+            clockingTargetVectorFunction,
+            alignmentDirection,
+            clockingDirection](const State& aState) -> Quaternion
     {
         const Vector3d alignmentTarget = alignmentTargetVectorFunction(aState);
         const Vector3d clockingTarget =
             Profile::ComputeClockingVector(alignmentTarget, clockingTargetVectorFunction(aState));
 
+        // Apply angular offset rotation around the alignment axis to the clocking direction using Rodrigues' formula
+        const Real thetaOffsetRad = anAngularOffset.inRadians();
+        const Vector3d rotatedClockingDirection =
+            (clockingDirection * std::cos(thetaOffsetRad) +
+             (alignmentDirection.cross(clockingDirection)) * std::sin(thetaOffsetRad) +
+             alignmentDirection * (alignmentDirection.dot(clockingDirection)) * (1.0 - std::cos(thetaOffsetRad)));
+
         return Profile::ComputeBodyToECIQuaternion(
-            alignmentDirection, clockingDirection, alignmentTarget, clockingTarget
+            alignmentDirection, rotatedClockingDirection, alignmentTarget, clockingTarget
         );
     };
 }

@@ -13,6 +13,7 @@ from ostk.physics.time import Time
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 from ostk.physics.coordinate import Transform
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
@@ -270,16 +271,29 @@ class TestProfile:
         clocking_target: Profile.Target,
     ):
         profile = Profile.custom_pointing(
-            orbit, Profile.align_and_constrain(alignment_target, clocking_target)
+            orbit=orbit,
+            orientation_generator=Profile.align_and_constrain(
+                alignment_target, clocking_target
+            ),
         )
 
         assert profile is not None
         assert profile.is_defined()
 
         profile = Profile.custom_pointing(
-            orbit,
-            alignment_target,
-            clocking_target,
+            orbit=orbit,
+            alignment_target=alignment_target,
+            clocking_target=clocking_target,
+        )
+
+        assert profile is not None
+        assert profile.is_defined()
+
+        profile = Profile.custom_pointing(
+            orbit=orbit,
+            alignment_target=alignment_target,
+            clocking_target=clocking_target,
+            angular_offset=Angle.degrees(90.0),
         )
 
         assert profile is not None

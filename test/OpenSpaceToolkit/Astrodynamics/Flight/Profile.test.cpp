@@ -861,6 +861,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
     // Test constructor with Vector3d direction
     {
         EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Vector3d::X()));
+
+        EXPECT_THROW(
+            Profile::Target(Profile::TargetType::GeocentricNadir, Vector3d::X() * 2.0), ostk::core::error::RuntimeError
+        );
     }
 
     // Test constructor with Axis
@@ -1255,15 +1259,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         );
     }
 
+    const Instant epoch = Instant::J2000();
+
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+    const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+
+    const State state = orbit.getStateAt(epoch);
+
     {
-        const Instant epoch = Instant::J2000();
-
-        const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
-
-        const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
-
-        const State state = orbit.getStateAt(epoch);
-
         // Trajectory
         {
             const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
@@ -1315,6 +1319,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
 
             EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
         }
+    }
+
+    {
+        // Test angular offset: verify that a 90 degree offset results in a 90 degree angle
+        // between the VelocityECI direction and the clocking axis
+        const Shared<const Profile::Target> alignmentTargetSPtr =
+            std::make_shared<Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::X());
+
+        const Shared<const Profile::Target> clockingTargetSPtr =
+            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y());
+
+        // Apply 90 degree angular offset
+        const Angle angularOffset = Angle::Degrees(90.0);
+        const auto orientation = Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, angularOffset);
+
+        const Quaternion q_B_GCRF = orientation(state);
+
+        // Get the clocking axis (Y axis) in body frame, transformed to ECI frame
+        const Vector3d clockingAxisInECI = q_B_GCRF.toInverse() * Vector3d::Y();
+
+        // Get the VelocityECI direction in ECI frame
+        const Vector3d velocityECIDirection = state.getVelocity().getCoordinates().normalized();
+
+        // Compute the angle between the clocking axis and the VelocityECI direction
+        const Angle angleBetween = Angle::Between(clockingAxisInECI, velocityECIDirection);
+
+        // Verify that the angle is 90 degrees (within tolerance)
+        EXPECT_NEAR(angleBetween.inRadians(), angularOffset.inRadians(), 1e-6);
     }
 }
 
@@ -1394,6 +1426,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
         }
 
         EXPECT_NO_THROW(profile.getStateAt(epoch));
+    }
+
+    {
+        const Angle angularOffset = Angle::Degrees(90.0);
+
+        const Shared<const Profile::Target> alignmentTargetSPtr =
+            std::make_shared<Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::Z());
+
+        const Shared<const Profile::Target> clockingTargetSPtr =
+            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y());
+
+        const Profile calculatedProfile =
+            Profile::CustomPointing(orbit, alignmentTargetSPtr, clockingTargetSPtr, angularOffset);
+
+        const State state = calculatedProfile.getStateAt(epoch);
+
+        const Quaternion q_B_GCRF = state.getAttitude();
+
+        // Get the clocking axis (Y axis) in body frame, transformed to ECI frame
+        const Vector3d clockingAxisInECI = q_B_GCRF.toInverse() * Vector3d::Y();
+
+        // Get the VelocityECI direction in ECI frame
+        const Vector3d velocityECIDirection = state.getVelocity().getCoordinates().normalized();
+
+        EXPECT_NEAR(
+            Angle::Between(clockingAxisInECI, velocityECIDirection).inDegrees(), angularOffset.inDegrees(), 1e-6
+        );
     }
 }
 

@@ -414,20 +414,25 @@ class Profile
     /// @param anOrbit An orbit
     /// @param anAlignmentTarget An alignment target
     /// @param aClockingTarget A clocking target
+    /// @param anAngularOffset An angular offset
     /// @return Flight profile
     static Profile CustomPointing(
         const trajectory::Orbit& anOrbit,
         const Shared<const Target>& anAlignmentTargetSPtr,
-        const Shared<const Target>& aClockingTargetSPtr
+        const Shared<const Target>& aClockingTargetSPtr,
+        const Angle& anAngularOffset = Angle::Zero()
     );
 
     /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.
     ///
     /// @param anAlignmentTargetSPtr An alignment target
     /// @param aClockingTargetSPtr A clocking target
+    /// @param anAngularOffset An angular offset applied to the clocking axis
 
     static std::function<Quaternion(const State&)> AlignAndConstrain(
-        const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const Target>& aClockingTargetSPtr
+        const Shared<const Target>& anAlignmentTargetSPtr,
+        const Shared<const Target>& aClockingTargetSPtr,
+        const Angle& anAngularOffset = Angle::Zero()
     );
 
    private:
