@@ -416,28 +416,28 @@ class COE
 
     /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from RAAN and instant
     ///
-    /// @param raan Right Ascension of the Ascending Node
+    /// @param raan Right Ascension of the Ascending Node (mean element, not osculating element)
     /// @param anInstant The instant at which to compute LTAN
     /// @return Mean Local Time of the Ascending Node (MLTAN) in hours
     static Time ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
     /// @brief Compute Mean Local Time of the Descending Node (MLTDN) from RAAN and instant
     ///
-    /// @param raan Right Ascension of the Ascending Node
+    /// @param raan Right Ascension of the Ascending Node (mean element, not osculating element)
     /// @param anInstant The instant at which to compute LTAN
     /// @return Mean Local Time of the Descending Node (MLTDN) in hours
     static Time ComputeMeanLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
     /// @brief Compute Local Time of the Ascending Node (LTAN) from RAAN and instant
     ///
-    /// @param raan Right Ascension of the Ascending Node
+    /// @param raan Right Ascension of the Ascending Node (mean element, not osculating element)
     /// @param anInstant The instant at which to compute LTAN
     /// @return Local Time of the Ascending Node (LTAN) in hours
     static Time ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
     /// @brief Compute Local Time of the Descending Node (LTDN) from RAAN and instant
     ///
-    /// @param raan Right Ascension of the Ascending Node
+    /// @param raan Right Ascension of the Ascending Node (mean element, not osculating element)
     /// @param anInstant The instant at which to compute LTAN
     /// @return Local Time of the Descending Node (LTDN) in hours
     static Time ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());

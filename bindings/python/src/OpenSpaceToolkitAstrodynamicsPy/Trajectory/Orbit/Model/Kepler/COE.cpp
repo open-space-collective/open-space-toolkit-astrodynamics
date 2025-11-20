@@ -666,10 +666,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             "compute_mean_ltan",
             &COE::ComputeMeanLTAN,
             R"doc(
-                Compute the Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant.
+                Compute the Mean Local Time of the Ascending Node (MLTAN) from the mean RAAN and instant.
 
                 Args:
-                    raan (Angle): The Right Ascension of the Ascending Node.
+                    raan (Angle): The Right Ascension of the Ascending Node (mean element, not osculating element).
                     instant (Instant): The instant at which to compute MLTAN.
                     sun (Sun): The Sun model.
 
@@ -685,10 +685,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             "compute_ltan",
             &COE::ComputeLTAN,
             R"doc(
-                Compute the Local Time of the Ascending Node (LTAN) from the RAAN and instant.
+                Compute the Local Time of the Ascending Node (LTAN) from the mean RAAN and instant.
 
                 Args:
-                    raan (Angle): The Right Ascension of the Ascending Node.
+                    raan (Angle): The Right Ascension of the Ascending Node (mean element, not osculating element).
                     instant (Instant): The instant at which to compute LTAN.
                     sun (Sun): The Sun model.
 
@@ -704,10 +704,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             "compute_mean_ltdn",
             &COE::ComputeMeanLTDN,
             R"doc(
-                Compute the Mean Local Time of the Descending Node (MLTDN) from the RAAN and instant.
+                Compute the Mean Local Time of the Descending Node (MLTDN) from the mean RAAN and instant.
 
                 Args:
-                    raan (Angle): The Right Ascension of the Descending Node.
+                    raan (Angle): The Right Ascension of the Descending Node (mean element, not osculating element).
                     instant (Instant): The instant at which to compute MLTDN.
                     sun (Sun): The Sun model.
 
@@ -723,10 +723,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             "compute_ltdn",
             &COE::ComputeLTDN,
             R"doc(
-                Compute the Local Time of the Descending Node (LTDN) from the RAAN and instant.
+                Compute the Local Time of the Descending Node (LTDN) from the mean RAAN and instant.
 
                 Args:
-                    raan (Angle): The Right Ascension of the Descending Node.
+                    raan (Angle): The Right Ascension of the Descending Node (mean element, not osculating element).
                     instant (Instant): The instant at which to compute LTDN.
                     sun (Sun): The Sun model.
 
