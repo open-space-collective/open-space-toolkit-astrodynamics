@@ -154,7 +154,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, CalculateStat
 
         const Array<Instant> instants = interval.generateGrid(Duration::Seconds(1.0));
 
-        const TargetScan targetScan = TargetScan(startLLA, endLLA, startInstant_, endInstant_, earth_, stepSize_);
+        const TargetScan targetScan =
+            TargetScan(startLLA, endLLA, interval.getStart(), interval.getEnd(), earth_, stepSize_);
 
         for (const auto& state : targetScan.calculateStatesAt(instants))
         {
