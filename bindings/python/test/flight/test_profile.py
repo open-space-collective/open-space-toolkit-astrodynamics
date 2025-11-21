@@ -13,6 +13,7 @@ from ostk.physics.time import Time
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.unit import Length
+from ostk.physics.unit import Angle
 from ostk.physics.coordinate import Transform
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
@@ -96,11 +97,8 @@ def profile(request) -> Profile:
 
 @pytest.fixture(
     params=[
+        # Axis-based constructors
         Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X),
-        Profile.TrajectoryTarget(
-            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
-            Profile.Axis.X,
-        ),
         Profile.TrajectoryTarget.target_position(
             Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
             Profile.Axis.X,
@@ -121,6 +119,33 @@ def profile(request) -> Profile:
         Profile.CustomTarget(
             lambda state: [1.0, 0.0, 0.0],
             Profile.Axis.X,
+        ),
+        # Vector3d-based constructors
+        Profile.Target(Profile.TargetType.GeocentricNadir, [1.0, 0.0, 0.0]),
+        Profile.TrajectoryTarget.target_position(
+            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            [1.0, 0.0, 0.0],
+        ),
+        Profile.TrajectoryTarget.target_velocity(
+            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            [1.0, 0.0, 0.0],
+        ),
+        Profile.TrajectoryTarget.target_sliding_ground_velocity(
+            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            [1.0, 0.0, 0.0],
+        ),
+        Profile.OrientationProfileTarget(
+            [
+                (Instant.J2000(), [1.0, 0.0, 0.0]),
+                (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
+                (Instant.J2000() + Duration.minutes(2.0), [1.0, 0.0, 0.0]),
+                (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
+            ],
+            [1.0, 0.0, 0.0],
+        ),
+        Profile.CustomTarget(
+            lambda state: [1.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
         ),
     ]
 )
@@ -224,19 +249,6 @@ class TestProfile:
         assert isinstance(profile, Profile)
         assert profile.is_defined()
 
-    def test_custom_pointing(
-        self,
-        orbit: Orbit,
-        alignment_target: Profile.Target,
-        clocking_target: Profile.Target,
-    ):
-        profile = Profile.custom_pointing(
-            orbit, Profile.align_and_constrain(alignment_target, clocking_target)
-        )
-
-        assert profile is not None
-        assert profile.is_defined()
-
     def test_align_and_constrain(
         self,
         orbit: Orbit,
@@ -259,16 +271,29 @@ class TestProfile:
         clocking_target: Profile.Target,
     ):
         profile = Profile.custom_pointing(
-            orbit, Profile.align_and_constrain(alignment_target, clocking_target)
+            orbit=orbit,
+            orientation_generator=Profile.align_and_constrain(
+                alignment_target, clocking_target
+            ),
         )
 
         assert profile is not None
         assert profile.is_defined()
 
         profile = Profile.custom_pointing(
-            orbit,
-            alignment_target,
-            clocking_target,
+            orbit=orbit,
+            alignment_target=alignment_target,
+            clocking_target=clocking_target,
+        )
+
+        assert profile is not None
+        assert profile.is_defined()
+
+        profile = Profile.custom_pointing(
+            orbit=orbit,
+            alignment_target=alignment_target,
+            clocking_target=clocking_target,
+            angular_offset=Angle.degrees(90.0),
         )
 
         assert profile is not None
