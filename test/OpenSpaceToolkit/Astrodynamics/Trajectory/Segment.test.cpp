@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -57,6 +58,7 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -107,6 +109,300 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+
+class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
+{
+   public:
+    CustomGuidanceLaw(const Array<Interval>& anIntervalArray)
+        : GuidanceLaw("Custom Guidance Law"),
+          intervals_(anIntervalArray)
+    {
+    }
+
+    ostk::mathematics::object::Vector3d calculateThrustAccelerationAt(
+        const Instant& anInstant,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
+        [[maybe_unused]] const Real& aThrustAcceleration,
+        [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
+    ) const override
+    {
+        // Check if anInstant is contained in any of the intervals
+        for (const Interval& interval : intervals_)
+        {
+            if (interval.contains(anInstant))
+            {
+                return {1.0 * aThrustAcceleration, 0.0, 0.0};
+            }
+        }
+        return {0.0, 0.0, 0.0};
+    }
+
+   private:
+    Array<Interval> intervals_;
+};
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Constructor)
+{
+    {
+        const Segment::ManeuverConstraints constraints;
+
+        EXPECT_FALSE(constraints.minimumDuration.isDefined());
+        EXPECT_FALSE(constraints.maximumDuration.isDefined());
+        EXPECT_FALSE(constraints.minimumSeparation.isDefined());
+        EXPECT_EQ(Segment::MaximumManeuverDurationViolationStrategy::Fail, constraints.maximumDurationStrategy);
+        EXPECT_FALSE(constraints.isDefined());
+    }
+
+    {
+        const Duration minimumDuration = Duration::Minutes(1.0);
+        const Duration maximumDuration = Duration::Minutes(10.0);
+        const Duration minimumSeparation = Duration::Minutes(5.0);
+        const Segment::MaximumManeuverDurationViolationStrategy strategy =
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd;
+
+        const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
+
+        EXPECT_EQ(minimumDuration, constraints.minimumDuration);
+        EXPECT_EQ(maximumDuration, constraints.maximumDuration);
+        EXPECT_EQ(minimumSeparation, constraints.minimumSeparation);
+        EXPECT_EQ(strategy, constraints.maximumDurationStrategy);
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // Failure cases
+    {
+        // Test that minimumDuration must be greater than zero if defined
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Zero(),
+                            Duration::Undefined(),
+                            Duration::Undefined(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Minimum duration must be greater than zero.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Seconds(-1.0),
+                            Duration::Undefined(),
+                            Duration::Undefined(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Minimum duration must be greater than zero.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Test that maximumDuration must be greater than zero if defined
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Undefined(),
+                            Duration::Zero(),
+                            Duration::Undefined(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Maximum duration must be greater than zero.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Undefined(),
+                            Duration::Seconds(-1.0),
+                            Duration::Undefined(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Maximum duration must be greater than zero.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Test that minimumSeparation must be greater than zero if defined
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Undefined(),
+                            Duration::Undefined(),
+                            Duration::Zero(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Minimum separation must be greater than zero.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Undefined(),
+                            Duration::Undefined(),
+                            Duration::Seconds(-1.0),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Minimum separation must be greater than zero.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Test that minimum separation must be defined if maximum duration is defined
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Undefined(),
+                            Duration::Minutes(10.0),
+                            Duration::Undefined(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ(
+                            "Minimum separation of at least 1 second must be defined if maximum duration is defined. "
+                            "This "
+                            "is to prevent aliasing issues which can cause sequential maneuver intervals to overlap by "
+                            "a "
+                            "nanosecond.",
+                            e.getMessage()
+                        );
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // Test that maximum duration must be greater than minimum duration if both are defined
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        const Segment::ManeuverConstraints constraints(
+                            Duration::Minutes(1.0),
+                            Duration::Minutes(0.5),
+                            Duration::Undefined(),
+                            Segment::MaximumManeuverDurationViolationStrategy::Fail
+                        );
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("Maximum duration must be greater than minimum duration.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, IsDefined)
+{
+    // All undefined
+    {
+        const Segment::ManeuverConstraints constraints;
+        EXPECT_FALSE(constraints.isDefined());
+    }
+
+    // Only minimum duration defined
+    {
+        const Segment::ManeuverConstraints constraints(
+            Duration::Minutes(1.0),
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail
+        );
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // Only minimum separation defined
+    {
+        const Segment::ManeuverConstraints constraints(
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail
+        );
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // All defined
+    {
+        const Segment::ManeuverConstraints constraints(
+            Duration::Minutes(1.0),
+            Duration::Minutes(10.0),
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+        );
+        EXPECT_TRUE(constraints.isDefined());
+    }
+}
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
@@ -162,8 +458,20 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
     };
 
+    const NumericalSolver defaultHighPrecisionNumericalSolver_ = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+    };
+
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
         InstantCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(15.0)
+    );
+
+    const Shared<RealCondition> defaultDurationCondition_ = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(5.0))
     );
 
     const Shared<const LocalOrbitalFrameFactory> defaultLocalOrbitalFrameFactorySPtr_ =
@@ -229,6 +537,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         defaultTargetCOE_,
         EarthGravitationalModel::EGM2008.gravitationalParameter_,
         defaultQLawParameters_,
+        QLaw::COEDomain::Osculating,
         QLaw::GradientStrategy::Analytical,
     };
 
@@ -331,6 +640,93 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Comput
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetThrusterDynamics)
+{
+    // Coast segment solution should throw when trying to get thruster dynamics
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Coast
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    segmentSolution.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Cannot get thruster dynamics from a Coast segment solution.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment solution with no thruster dynamics should throw
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_, defaultDynamics_, {initialStateWithMass_, finalStateWithMass_}, true, Segment::Type::Maneuver
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    segmentSolution.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("No Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment solution with multiple thruster dynamics should throw
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_,
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_, defaultThrusterDynamicsSPtr_},
+            {initialStateWithMass_, finalStateWithMass_},
+            true,
+            Segment::Type::Maneuver
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    segmentSolution.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Multiple Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment solution should return thruster dynamics
+    {
+        const Segment::Solution segmentSolution = Segment::Solution(
+            defaultName_,
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_},
+            {initialStateWithMass_, finalStateWithMass_},
+            true,
+            Segment::Type::Maneuver
+        );
+
+        const Shared<Thruster> thrusterDynamics = segmentSolution.getThrusterDynamics();
+        EXPECT_EQ(defaultThrusterDynamicsSPtr_, thrusterDynamics);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_ExtractManeuvers)
 {
     {
@@ -406,7 +802,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("No Thruster dynamics found in Maneuvering segment.", e.getMessage());
+                    EXPECT_EQ("No Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
                     throw;
                 }
             },
@@ -431,7 +827,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("Multiple Thruster dynamics found in Maneuvering segment.", e.getMessage());
+                    EXPECT_EQ("Multiple Thruster dynamics found in Maneuvering segment solution.", e.getMessage());
                     throw;
                 }
             },
@@ -450,7 +846,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
     // Check that a maneuver can be extracted when a thruster dynamics is found in a maneuvering segment
     {
         const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
-            RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(15.0))
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
         );
 
         // Create maneuvering segment
@@ -524,7 +920,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
     // maneuvering segment
     {
         const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
-            RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
         );
 
         // Create maneuvering segment
@@ -946,18 +1342,70 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Coast)
             ostk::core::error::runtime::Undefined
         );
     }
+
+    {
+        const Array<Shared<Dynamics>> dynamicsWithThruster =
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::Coast(
+                        defaultName_, defaultInstantCondition_, dynamicsWithThruster, defaultNumericalSolver_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Coast dynamics array cannot contain Thruster dynamics"), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
 {
     {
-        EXPECT_NO_THROW(Segment::Maneuver(
+        const Segment segment = Segment::Maneuver(
             defaultName_,
             defaultInstantCondition_,
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_
-        ));
+        );
+    }
+
+    {
+        const Array<Shared<Dynamics>> dynamicsWithThruster =
+            defaultDynamics_ + Array<Shared<Dynamics>> {defaultThrusterDynamicsSPtr_};
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::Maneuver(
+                        defaultName_,
+                        defaultInstantCondition_,
+                        defaultThrusterDynamicsSPtr_,
+                        dynamicsWithThruster,
+                        defaultNumericalSolver_
+                    );
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(
+                        e.getMessage().find("Coast dynamics array cannot contain Thruster dynamics"), std::string::npos
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
     }
 }
 
@@ -990,6 +1438,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetDynamics)
     EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getDynamics());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, getFreeDynamics)
+{
+    EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.getFreeDynamics());
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.getNumericalSolver());
@@ -1000,14 +1453,44 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetType)
     EXPECT_EQ(Segment::Type::Coast, defaultCoastSegment_.getType());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetThrusterDynamics)
+{
+    // Coast segment should throw when trying to get thruster dynamics
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    defaultCoastSegment_.getThrusterDynamics();
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Coast segment does not have thruster dynamics.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuver segment should return thruster dynamics
+    {
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        const Shared<Thruster> thrusterDynamics = maneuverSegment.getThrusterDynamics();
+        EXPECT_EQ(defaultThrusterDynamicsSPtr_, thrusterDynamics);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessEventCondition)
 {
     EXPECT_TRUE(defaultCoastSegment_.accessEventCondition() == defaultInstantCondition_);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessDynamics)
-{
-    EXPECT_EQ(defaultDynamics_, defaultCoastSegment_.accessDynamics());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessNumericalSolver)
@@ -1054,12 +1537,60 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         EXPECT_FALSE(solution.conditionIsSatisfied);
     }
 
-    // Check maximum allowed angular offset behaviour
+    // No maneuvers should be produced
+    {
+        const NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaDopri5,
+            1.0,
+            1.0e-12,
+            1.0e-12,
+        };
+
+        VectorXd initialCoordinates(7);
+        initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+        const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
+
+        const Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::AnyCrossing, Instant::J2000() + Duration::Minutes(60.0)
+        );
+
+        const Duration tolerance = Duration::Milliseconds(1.0);
+
+        const Shared<Thruster> customThrusterDynamics = std::make_shared<Thruster>(
+            defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(Array<Interval>::Empty())
+        );
+
+        Segment segment = Segment::Maneuver(
+            "Maneuvering Segment with Custom Guidance Law",
+            eventCondition,
+            customThrusterDynamics,
+            defaultDynamics_,
+            numericalSolver
+        );
+
+        {
+            const Segment::Solution solution = segment.solve(initialState, Duration::Minutes(80.0));
+
+            ASSERT_FALSE(solution.states.isEmpty());
+            EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
+            EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
+                initialState.getInstant() + Duration::Minutes(60.0), tolerance
+            ));
+            EXPECT_TRUE(solution.conditionIsSatisfied);
+            EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).isEmpty());
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAngularOffset)
+{
+    // Single Maneuver
     {
         Segment maneuveringSegment = Segment::Maneuver(
             "Maneuvering Segment",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(45.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(45.0))
             ),
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
@@ -1087,9 +1618,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         {
             Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
                 "Constant Local Orbital Frame Direction Maneuver Segment",
-                std::make_shared<RealCondition>(
-                    RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(45.0))
-                ),
+                std::make_shared<RealCondition>(RealCondition::DurationCondition(
+                    RealCondition::Criterion::StrictlyPositive, Duration::Minutes(45.0)
+                )),
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
@@ -1106,9 +1637,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         {
             Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
                 "Constant Local Orbital Frame Direction Maneuver Segment",
-                std::make_shared<RealCondition>(
-                    RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(45.0))
-                ),
+                std::make_shared<RealCondition>(RealCondition::DurationCondition(
+                    RealCondition::Criterion::StrictlyPositive, Duration::Minutes(45.0)
+                )),
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
@@ -1126,9 +1657,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         {
             Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
                 "Constant Local Orbital Frame Direction Maneuver Segment",
-                std::make_shared<RealCondition>(
-                    RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(45.0))
-                ),
+                std::make_shared<RealCondition>(RealCondition::DurationCondition(
+                    RealCondition::Criterion::StrictlyPositive, Duration::Minutes(45.0)
+                )),
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
@@ -1154,7 +1685,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         Segment maneuveringSegment = Segment::Maneuver(
             "Maneuvering Segment",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
             ),
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
@@ -1164,7 +1695,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
             "Constant Local Orbital Frame Direction Maneuver Segment",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
             ),
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
@@ -1229,7 +1760,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         Segment expectedEquivalentSegment = Segment::Maneuver(
             "Expected Equivalent Maneuvering Segment",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Minutes(90.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
             ),
             std::make_shared<Thruster>(
                 defaultQLawThrusterDynamicsSPtr_->getSatelliteSystem(),
@@ -1268,6 +1799,300 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
     }
 }
 
+// Define parameter structure for parametrized tests
+struct SolveTestParams
+{
+    String description;
+    Array<Tuple<Duration, Duration>> maneuverIntervals;
+    Duration expectedFinalDuration;
+    Array<Tuple<Duration, Duration>> expectedManeuverIntervals;
+};
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized
+    : public ::testing::TestWithParam<SolveTestParams>
+{
+   protected:
+    const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
+    const Shared<Celestial> earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> defaultDynamics_ = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSpherical_),
+    };
+    const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
+    const Shared<CoordinateBroker> thrustCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    SolveParameterizedTests,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized,
+    ::testing::Values(
+        // Leading edge maneuver
+        SolveTestParams {
+            "LeadingEdge",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(1.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(1.0)}
+            }
+        },
+        // Middle maneuver
+        SolveTestParams {
+            "Middle",
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
+            }
+        },
+        // Trailing edge maneuver
+        SolveTestParams {
+            "TrailingEdge",
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(7.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
+            }
+        },
+        // Maneuver spans entire interval
+        SolveTestParams {
+            "SpansEntireInterval",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(7.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(6.0)}
+            }
+        },
+        // Maneuver ends at condition time
+        SolveTestParams {
+            "EndsAtCondition",
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
+            }
+        },
+        // Leading edge + middle maneuvers
+        SolveTestParams {
+            "LeadingAndMiddle",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(1.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(5.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(1.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(5.0)}
+            }
+        },
+        // Two middle maneuvers
+        SolveTestParams {
+            "TwoMiddle",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(5.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(5.0)}
+            }
+        },
+        // Trailing maneuver with one beyond condition
+        SolveTestParams {
+            "TrailingWithBeyond",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(7.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(8.0), Duration::Minutes(9.0)}
+            },
+            Duration::Minutes(6.0),
+            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
+            }
+        }
+    ),
+    [](const ::testing::TestParamInfo<SolveTestParams>& paramInfo)
+    {
+        return paramInfo.param.description;
+    }
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, ManeuverScenarios)
+{
+    const auto params = GetParam();
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        1.0,
+        1.0e-12,
+        1.0e-12,
+    };
+
+    VectorXd initialCoordinates(7);
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const Instant referenceInstant = Instant::J2000();
+    const State initialState = {referenceInstant, initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
+
+    const Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::AnyCrossing, referenceInstant + Duration::Minutes(6.0)
+    );
+
+    const Duration tolerance = Duration::Milliseconds(1.0);
+
+    Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
+    for (const auto& durationTuple : params.maneuverIntervals)
+    {
+        guidanceLawIntervals.add(Interval::Closed(
+            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+        ));
+    }
+
+    const Shared<Thruster> customThrusterDynamics =
+        std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
+
+    Segment segment = Segment::Maneuver(
+        "Maneuvering Segment with Custom Guidance Law",
+        eventCondition,
+        customThrusterDynamics,
+        defaultDynamics_,
+        numericalSolver
+    );
+
+    const Segment::Solution solution = segment.solve(initialState, Duration::Minutes(8.0));
+
+    Array<Interval> expectedManeuverIntervals = Array<Interval>::Empty();
+    for (const auto& durationTuple : params.expectedManeuverIntervals)
+    {
+        expectedManeuverIntervals.add(Interval::Closed(
+            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+        ));
+    }
+
+    ASSERT_FALSE(solution.states.isEmpty());
+    EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
+    EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
+        initialState.getInstant() + params.expectedFinalDuration, tolerance
+    ));
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), expectedManeuverIntervals.getSize());
+
+    for (Size idx = 0; idx < expectedManeuverIntervals.getSize(); ++idx)
+    {
+        EXPECT_TRUE(expectedManeuverIntervals[idx].getStart().isNear(maneuvers[idx].getInterval().getStart(), tolerance)
+        );
+        EXPECT_TRUE(expectedManeuverIntervals[idx].getEnd().isNear(maneuvers[idx].getInterval().getEnd(), tolerance));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetManeuverConstraints)
+{
+    {
+        const Segment::ManeuverConstraints constraints(
+            Duration::Minutes(1.0),
+            Duration::Minutes(10.0),
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+        );
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            defaultInstantCondition_,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        const Segment::ManeuverConstraints retrievedConstraints = maneuverSegment.getManeuverConstraints();
+
+        EXPECT_EQ(constraints.minimumDuration, retrievedConstraints.minimumDuration);
+        EXPECT_EQ(constraints.maximumDuration, retrievedConstraints.maximumDuration);
+        EXPECT_EQ(constraints.minimumSeparation, retrievedConstraints.minimumSeparation);
+        EXPECT_EQ(constraints.maximumDurationStrategy, retrievedConstraints.maximumDurationStrategy);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_2)
+{
+    // Create a state with mass for maneuver testing
+    VectorXd coordinatesWithMass(7);
+    coordinatesWithMass << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    const State stateWithMass = {
+        Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC),
+        coordinatesWithMass,
+        Frame::GCRF(),
+        thrustCoordinateBrokerSPtr_
+    };
+
+    // Use a shorter duration to avoid running out of fuel
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(30.0))
+    );
+
+    // Test basic solve with no last maneuver interval
+    {
+        const Segment::ManeuverConstraints constraints;  // Empty constraints
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            eventCondition,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        const Segment::Solution solution = maneuverSegment.solve(stateWithMass);
+        EXPECT_TRUE(solution.states.getSize() > 0);
+    }
+
+    // Test solve with specified maximum propagation duration
+    {
+        const Segment::ManeuverConstraints constraints;
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            eventCondition,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        const Segment::Solution solution = maneuverSegment.solve(stateWithMass, Duration::Minutes(5.0));
+
+        EXPECT_TRUE(solution.states.getSize() > 0);
+    }
+
+    // Test solve with last maneuver interval
+    {
+        const Segment::ManeuverConstraints constraints;  // Empty constraints
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            eventCondition,
+            defaultThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        const Interval previousManeuverInterval =
+            Interval::Closed(stateWithMass.getInstant() - Duration::Minutes(10.0), stateWithMass.getInstant());
+
+        const Segment::Solution solution =
+            maneuverSegment.solve(stateWithMass, Duration::Days(1.0), previousManeuverInterval);
+        EXPECT_TRUE(solution.states.getSize() > 0);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Print)
 {
     testing::internal::CaptureStdout();
@@ -1275,4 +2100,725 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Print)
     EXPECT_NO_THROW(defaultCoastSegment_.print(std::cout, true));
     EXPECT_NO_THROW(defaultCoastSegment_.print(std::cout, false));
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverSegment_WithoutConstraints)
+{
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_, defaultDurationCondition_, defaultThrusterDynamicsSPtr_, defaultDynamics_, defaultNumericalSolver_
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    EXPECT_TRUE(solution.states.getSize() > 0);
+    EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).getSize() > 0);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumInstantReachedBeforeLoop)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(1.0),
+        Duration::Minutes(10.0),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        defaultDurationCondition_,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    // Maximum propagation duration is zero, so loop should never execute
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Zero());
+
+    EXPECT_FALSE(solution.conditionIsSatisfied);
+    EXPECT_EQ(1, solution.states.getSize());
+    EXPECT_EQ(initialStateWithMass_, solution.states.accessFirst());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ConditionSatisfiedBeforeLoop)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(1.0),
+        Duration::Minutes(10.0),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    // Create event condition that is already satisfied at initial state
+    const Shared<RealCondition> satisfiedCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(-1.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        satisfiedCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    EXPECT_EQ(1, solution.states.getSize());
+    EXPECT_EQ(initialStateWithMass_, solution.states.accessFirst());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_PreviousManeuverIntervalNotDefined)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Minimum separation defined
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        defaultDurationCondition_,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    // Last maneuver interval is undefined (first maneuver)
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.states.getSize() > 0);
+    EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).getSize() > 0);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MinimumSeparationRequired_CoastAdded)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Minutes(1.0),  // Minimum separation defined
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        defaultDurationCondition_,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    // Last maneuver ended just before current time, so we need to coast
+    const Interval previousManeuverInterval = Interval::Closed(
+        initialStateWithMass_.getInstant() - Duration::Minutes(10.0),
+        initialStateWithMass_.getInstant() - Duration::Seconds(1.0)
+    );
+
+    const Segment::Solution solution =
+        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+
+    // Should have coasted to meet minimum separation
+    EXPECT_TRUE(solution.states.getSize() > 1);
+    EXPECT_EQ(initialStateWithMass_, solution.states.accessFirst());  // First state should be unchanged
+    const Instant expectedSeparationInstant = previousManeuverInterval.getEnd() + constraints.minimumSeparation;
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_GT(maneuvers.getSize(), 0);
+    EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(expectedSeparationInstant, 1e-3));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MinimumSeparationRequired_ConditionSatisfiedDuringCoast)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    // Event condition that will be satisfied during coast
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(2.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Interval previousManeuverInterval = Interval::Closed(
+        initialStateWithMass_.getInstant() - Duration::Minutes(10.0),
+        initialStateWithMass_.getInstant() - Duration::Seconds(1.0)
+    );
+
+    const Segment::Solution solution =
+        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MinimumSeparationRequired_PastMinimumSeparationTarget)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    // Last maneuver ended far enough in the past that we're already past minimum separation
+    const Interval previousManeuverInterval = Interval::Closed(
+        initialStateWithMass_.getInstant() - Duration::Minutes(20.0),
+        initialStateWithMass_.getInstant() - Duration::Minutes(10.0)
+    );
+
+    const Segment::Solution solution =
+        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+
+    // Should proceed directly to maneuver solving without coast
+    EXPECT_TRUE(solution.states.getSize() > 0);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_GT(maneuvers.getSize(), 0);
+    EXPECT_TRUE(initialStateWithMass_.accessInstant().isNear(maneuvers[0].getInterval().getStart(), 1e-3));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_NoManeuversFound)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(60.0))
+    );
+
+    // Use guidance law that produces no maneuvers (empty intervals)
+    const Shared<Thruster> customThrusterDynamics = std::make_shared<Thruster>(
+        defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(Array<Interval>::Empty())
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_, durationCondition, customThrusterDynamics, defaultDynamics_, defaultNumericalSolver_, constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(0, maneuvers.getSize());
+    EXPECT_TRUE(solution.states.getSize() > 0);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationMeetsMinimum)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(1.0),  // Minimum duration defined
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(2.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_GT(maneuvers.getSize(), 0);
+    EXPECT_TRUE(initialStateWithMass_.accessInstant().isNear(maneuvers[0].getInterval().getStart(), 1e-3));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationBelowMinimum_ConditionSatisfiedDuringCoast
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(10.0),  // Minimum duration (large, so short maneuvers will be rejected)
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    // Event condition that will be satisfied during coast
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(5.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(15.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationBelowMinimum_ConditionSatisfiedWithManeuver
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(10.0),  // Minimum duration (large, so short maneuvers will be rejected)
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Array<Interval> guidanceLawIntervals = {
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(5.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(10.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(15.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+        ),
+    };
+    const Shared<Thruster> customThrusterDynamics =
+        std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        customThrusterDynamics,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,  // Have to use high precision numerical solver to get a precise duration
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
+
+    // first maneuver will be skipped due to minimum duration constraint
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(
+        maneuvers.accessFirst().getInterval().getDuration().isNear(Duration::Minutes(15.0), Duration::Seconds(1e-1))
+    );
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationBelowMaximum)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(20.0),
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Center
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_GT(maneuvers.getSize(), 0);
+    for (const Maneuver& maneuver : maneuvers)
+    {
+        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationExceedsMaximum_FailStrategy)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Seconds(1.0),  // Very small maximum duration
+        Duration::Seconds(1.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                const Segment::Solution solution =
+                    maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_NE(e.getMessage().find("exceeds maximum maneuver duration"), std::string::npos);
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_SkipStrategy_ConditionSatisfied
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Seconds(1.0),  // Very small maximum duration
+        Duration::Seconds(1.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Skip
+    );
+
+    // Event condition that will be satisfied during coast
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(5.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_TruncateEndStrategy_ConditionSatisfied
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(1.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+    );
+
+    // Event condition that will be satisfied during sliced maneuver
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(3.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(
+        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    );
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1.0)));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_TruncateEndStrategy_MultipleManeuvers
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 6);
+    EXPECT_LE(maneuvers.accessLast().getInterval().getDuration(), constraints.maximumDuration);
+    for (Size i = 0; i < maneuvers.getSize() - 2; i++)
+    {
+        EXPECT_TRUE(maneuvers[i].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Seconds(1.0))
+        );
+    }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_TruncateStartStrategy_MultipleManeuvers
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(maneuvers.accessFirst().getInterval().getStart().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(25.0), Duration::Seconds(1e-1)
+    ));
+    EXPECT_TRUE(maneuvers.accessFirst().getInterval().getEnd().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Seconds(1e-1)
+    ));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_CenterStrategy_ConditionSatisfied
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Center
+    );
+
+    // Event condition that will be satisfied during centered maneuver
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(3.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1e-1)));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_CenterStrategy_MultipleManeuvers
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Center
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 3);
+    for (const Maneuver& maneuver : maneuvers)
+    {
+        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
+    }
+
+    // Candidate:   0--------------15-----------------30
+    // Maneuver 1            12.5------17.5
+    // Candidate:                       17.6-----------30
+    // Maneuver 2                          21.6---26.6
+    // ...
+    EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(12.5), Duration::Seconds(1e-1)
+    ));
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1e-1)));
+    EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
+        Duration::Seconds(1e-1)
+    ));
+    EXPECT_TRUE(maneuvers[1].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1e-1)));
+    EXPECT_TRUE(maneuvers[2].getInterval().getStart().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
+        Duration::Seconds(1e-1)
+    ));
+    EXPECT_TRUE(maneuvers[2].getInterval().getEnd().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Seconds(1e-1)
+    ));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMaximumInstant)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Duration maximumPropagationDuration = Duration::Minutes(5.0);
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, maximumPropagationDuration);
+
+    // Final state should be at or before maximum instant
+    const Instant maximumInstant = initialStateWithMass_.accessInstant() + maximumPropagationDuration;
+    EXPECT_FALSE(solution.conditionIsSatisfied);
+    EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(maximumInstant, Duration::Seconds(1e-3)));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDefinedAndApplied)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(1.0),   // Minimum duration
+        Duration::Minutes(20.0),  // Maximum duration
+        Duration::Minutes(5.0),   // Minimum separation
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultQLawThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(100.0));
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    if (maneuvers.getSize() > 1)
+    {
+        // Check minimum separation between maneuvers
+        for (Size i = 1; i < maneuvers.getSize(); i++)
+        {
+            const Duration separation = maneuvers[i].getInterval().getStart() - maneuvers[i - 1].getInterval().getEnd();
+            EXPECT_GE(separation, Duration::Minutes(5.0));
+        }
+
+        // Check duration constraints
+        for (const Maneuver& maneuver : maneuvers)
+        {
+            EXPECT_GE(maneuver.getInterval().getDuration(), Duration::Minutes(1.0));
+            EXPECT_LE(maneuver.getInterval().getDuration(), Duration::Minutes(20.0));
+        }
+    }
 }

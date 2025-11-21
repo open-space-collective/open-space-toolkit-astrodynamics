@@ -4,10 +4,12 @@
 #include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
 
+#include <OpenSpaceToolkit/Core/Error/Runtime/ToBeImplemented.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 namespace ostk
@@ -17,6 +19,8 @@ namespace astrodynamics
 namespace trajectory
 {
 
+using ostk::astrodynamics::flight::Maneuver;
+using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::core::type::Unique;
 using ostk::physics::time::Duration;
 
@@ -91,6 +95,19 @@ Real Sequence::Solution::computeDeltaV(const Real& aSpecificImpulse) const
 Mass Sequence::Solution::computeDeltaMass() const
 {
     return Mass::Kilograms(getInitialMass().inKilograms() - getFinalMass().inKilograms());
+}
+
+Array<Maneuver> Sequence::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
+{
+    Array<Maneuver> maneuvers = Array<Maneuver>::Empty();
+
+    for (const Segment::Solution& segmentSolution : this->segmentSolutions)
+    {
+        const Array<Maneuver> segmentManeuvers = segmentSolution.extractManeuvers(aFrameSPtr);
+        maneuvers.add(segmentManeuvers);
+    }
+
+    return maneuvers;
 }
 
 Array<State> Sequence::Solution::calculateStatesAt(
@@ -184,23 +201,21 @@ Sequence::Sequence(
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Duration& aMaximumPropagationDuration,
-    const Duration& aMinimumManeuverDuration,
     const Size& aVerbosityLevel
 )
     : segments_(aSegmentArray),
       numericalSolver_(aNumericalSolver),
       dynamics_(aDynamicsArray),
-      segmentPropagationDurationLimit_(aMaximumPropagationDuration),
-      minimumManeuverDuration_(aMinimumManeuverDuration)
+      segmentPropagationDurationLimit_(aMaximumPropagationDuration)
 {
-    if (aMaximumPropagationDuration <= Duration::Zero())
+    if (!aMaximumPropagationDuration.isDefined())
     {
-        throw ostk::core::error::RuntimeError("Maximum propagation duration must be strictly positive.");
+        throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be defined.");
     }
 
-    if (aMinimumManeuverDuration.isDefined() && aMinimumManeuverDuration <= Duration::Zero())
+    if (!aMaximumPropagationDuration.isStrictlyPositive())
     {
-        throw ostk::core::error::RuntimeError("Minimum maneuver duration must be strictly positive.");
+        throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be strictly positive.");
     }
 
     if (aVerbosityLevel == 5)
@@ -262,11 +277,6 @@ Duration Sequence::getMaximumPropagationDuration() const
     return segmentPropagationDurationLimit_;
 }
 
-Duration Sequence::getMinimumManeuverDuration() const
-{
-    return minimumManeuverDuration_;
-}
-
 void Sequence::addSegment(const Segment& aSegment)
 {
     segments_.add(aSegment);
@@ -298,6 +308,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
 
     State initialState = aState;
     State finalState = State::Undefined();
+    Interval previousManeuverInterval = Interval::Undefined();
 
     for (Size i = 0; i < aRepetitionCount; ++i)
     {
@@ -307,24 +318,20 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
 
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
-            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit_);
+            Segment::Solution segmentSolution =
+                segment.solve(initialState, segmentPropagationDurationLimit_, previousManeuverInterval);
+
+            const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
+
+            if (!solutionManeuvers.isEmpty())
+            {
+                previousManeuverInterval = solutionManeuvers.accessLast().getInterval();
+            }
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
 
             BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
-
-            if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
-            {
-                if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)
-                {
-                    BOOST_LOG_TRIVIAL(debug)
-                        << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
-                        << std::endl;
-
-                    continue;
-                }
-            }
 
             segmentSolutions.add(segmentSolution);
 
@@ -351,11 +358,11 @@ Sequence::Solution Sequence::solveToCondition(
 
     State initialState = aState;
     State finalState = State::Undefined();
-
-    bool eventConditionIsSatisfied = false;
+    Interval previousManeuverInterval = Interval::Undefined();
 
     Duration propagationDuration = Duration::Zero();
 
+    bool eventConditionIsSatisfied = false;
     const Unique<EventCondition> sequenceCondition(anEventCondition.clone());
     sequenceCondition->updateTarget(initialState);
 
@@ -370,25 +377,20 @@ Sequence::Solution Sequence::solveToCondition(
             const Duration segmentPropagationDurationLimit =
                 std::min(segmentPropagationDurationLimit_, aMaximumPropagationDuration - propagationDuration);
 
-            Segment::Solution segmentSolution = segment.solve(initialState, segmentPropagationDurationLimit);
+            Segment::Solution segmentSolution =
+                segment.solve(initialState, segmentPropagationDurationLimit, previousManeuverInterval);
+
+            const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
+
+            if (!solutionManeuvers.isEmpty())
+            {
+                previousManeuverInterval = solutionManeuvers.accessLast().getInterval();
+            }
 
             segmentSolution.name =
                 String::Format("{} - {}", segmentSolution.name, segment.getEventCondition()->getName());
 
             BOOST_LOG_TRIVIAL(debug) << "\n" << segmentSolution << std::endl;
-
-            // Skip maneuver if it is less than the minimum maneuver duration
-            if (segment.getType() == Segment::Type::Maneuver && minimumManeuverDuration_.isDefined())
-            {
-                if (segmentSolution.getPropagationDuration() < minimumManeuverDuration_)
-                {
-                    BOOST_LOG_TRIVIAL(debug)
-                        << "Maneuver duration is less than the minimum maneuver duration. Skipping this maneuver."
-                        << std::endl;
-
-                    continue;
-                }
-            }
 
             segmentSolutions.add(segmentSolution);
 
@@ -448,10 +450,6 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Maximum Propagation Duration:" << segmentPropagationDurationLimit_.toString();
-
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Minimum Maneuver Duration:"
-        << (minimumManeuverDuration_.isDefined() ? minimumManeuverDuration_.toString() : "Undefined");
 
     if (displayDecorator)
     {
