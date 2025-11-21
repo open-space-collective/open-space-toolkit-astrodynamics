@@ -412,6 +412,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     {
         throw ostk::core::error::runtime::ToBeImplemented("Velocity ECEF");
     }
+
     if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
         (anAlignmentTargetSPtr->type != TargetType::Trajectory))
     {
@@ -419,14 +420,12 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     }
 
     {
+        const Vector3d& bodyFrameAlignment = anAlignmentTargetSPtr->direction;
+        const Vector3d& bodyFrameClocking = aClockingTargetSPtr->direction;
+        const Real cosTheta = bodyFrameAlignment.normalized().dot(bodyFrameClocking.normalized());
+        if (std::abs(cosTheta) >= 1.0 - Real::Epsilon())
         {
-            const Vector3d& alignmentDirection = anAlignmentTargetSPtr->direction;
-            const Vector3d& clockingDirection = aClockingTargetSPtr->direction;
-            const Real cosTheta = alignmentDirection.normalized().dot(clockingDirection.normalized());
-            if (std::abs(cosTheta) >= 1.0 - Real::Epsilon())
-            {
-                throw ostk::core::error::RuntimeError("Alignment and clocking direction cannot be colinear.");
-            }
+            throw ostk::core::error::RuntimeError("Alignment and clocking direction cannot be colinear.");
         }
     }
 
@@ -517,32 +516,35 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         }
     };
 
-    const Vector3d alignmentDirection = anAlignmentTargetSPtr->direction;
-    const Vector3d clockingDirection =
-        Profile::ComputeClockingVector(alignmentDirection, aClockingTargetSPtr->direction);
-    const auto alignmentTargetVectorFunction = targetVectorGenerator(anAlignmentTargetSPtr);
-    const auto clockingTargetVectorFunction = targetVectorGenerator(aClockingTargetSPtr);
+    const Vector3d bodyFrameAlignment = anAlignmentTargetSPtr->direction;
+    const Vector3d bodyFrameClocking =
+        Profile::ComputeClockingVector(bodyFrameAlignment, aClockingTargetSPtr->direction);
+    const auto inertialFrameAlignmentGenerator = targetVectorGenerator(anAlignmentTargetSPtr);
+    const auto inertialFrameClockingGenerator = targetVectorGenerator(aClockingTargetSPtr);
 
     return [anAngularOffset,
-            alignmentTargetVectorFunction,
-            clockingTargetVectorFunction,
-            alignmentDirection,
-            clockingDirection](const State& aState) -> Quaternion
+            inertialFrameAlignmentGenerator,
+            inertialFrameClockingGenerator,
+            bodyFrameAlignment,
+            bodyFrameClocking](const State& aState) -> Quaternion
     {
-        const Vector3d alignmentTarget = alignmentTargetVectorFunction(aState);
-        const Vector3d clockingTarget =
-            Profile::ComputeClockingVector(alignmentTarget, clockingTargetVectorFunction(aState));
+        const Vector3d inertialFrameAlignment = inertialFrameAlignmentGenerator(aState);
+        const Vector3d inertialFrameClocking =
+            Profile::ComputeClockingVector(inertialFrameAlignment, inertialFrameClockingGenerator(aState));
 
         // Apply angular offset rotation around the alignment axis to the clocking target using Rodrigues' formula
         const Real thetaOffsetRad = anAngularOffset.inRadians();
-        const Vector3d rotatedClockingTarget =
-            (clockingTarget * std::cos(thetaOffsetRad) +
-             (alignmentTarget.cross(clockingTarget)) * std::sin(thetaOffsetRad) +
-             alignmentTarget * (alignmentTarget.dot(clockingTarget)) * (1.0 - std::cos(thetaOffsetRad)));
+        const Vector3d inertialFrameClockingRotated =
+            (inertialFrameClocking * std::cos(thetaOffsetRad) +
+             (inertialFrameAlignment.cross(inertialFrameClocking)) * std::sin(thetaOffsetRad) +
+             inertialFrameAlignment * (inertialFrameAlignment.dot(inertialFrameClocking)) *
+                 (1.0 - std::cos(thetaOffsetRad)));
 
-        return Profile::ComputeBodyToECIQuaternion(
-            alignmentDirection, clockingDirection, alignmentTarget, rotatedClockingTarget
+        // Quaternion from inertial frame to body frame
+        const RotationMatrix rotationMatrix = RotationMatrix::VectorBasis(
+            {inertialFrameAlignment, inertialFrameClockingRotated}, {bodyFrameAlignment, bodyFrameClocking}
         );
+        return Quaternion::RotationMatrix(rotationMatrix).toNormalized().toRectify();
     };
 }
 
@@ -658,35 +660,6 @@ Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
 Vector3d Profile::ComputeClockingVector(const Vector3d& anAlignmentVector, const Vector3d& aDesiredClockingVector)
 {
     return (anAlignmentVector.cross(aDesiredClockingVector)).cross(anAlignmentVector).normalized();
-}
-
-Quaternion Profile::ComputeBodyToECIQuaternion(
-    const Vector3d& anAlignmentDirection,
-    const Vector3d& aClockingDirection,
-    const Vector3d& anAlignmentTarget,
-    const Vector3d& aClockingTarget
-)
-{
-    // Given two matrices U and V, the rotation from U to V is compuated as:
-    // U * R = V
-    // R = U^-1 * V
-
-    Matrix3d bodyFrameMatrix = Matrix3d::Zero();
-    bodyFrameMatrix.row(0) = anAlignmentDirection.normalized();
-    bodyFrameMatrix.row(1) = aClockingDirection.normalized();
-    bodyFrameMatrix.row(2) = anAlignmentDirection.cross(aClockingDirection).normalized();
-
-    Matrix3d inertialFrameMatrix = Matrix3d::Zero();
-    inertialFrameMatrix.row(0) = anAlignmentTarget.normalized();
-    inertialFrameMatrix.row(1) = aClockingTarget.normalized();
-    inertialFrameMatrix.row(2) = anAlignmentTarget.cross(aClockingTarget).normalized();
-
-    Matrix3d rotationMatrix = bodyFrameMatrix.transpose() * inertialFrameMatrix;
-
-    Quaternion quaternion = Quaternion::RotationMatrix(rotationMatrix).toNormalized();
-    quaternion.rectify();
-
-    return quaternion;
 }
 
 Vector3d Profile::AxisToDirection(const Axis& anAxis, const bool& isAntiDirection)

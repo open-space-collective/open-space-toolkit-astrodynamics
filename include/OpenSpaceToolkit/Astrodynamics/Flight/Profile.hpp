@@ -465,13 +465,6 @@ class Profile
 
     static Vector3d ComputeClockingVector(const Vector3d& anAligmentVector, const Vector3d& aDesiredClockingVector);
 
-    static Quaternion ComputeBodyToECIQuaternion(
-        const Vector3d& anAlignmentDirection,
-        const Vector3d& anAchievableClockingDirection,
-        const Vector3d& anAlignmentTarget,
-        const Vector3d& anAchievableClockingTarget
-    );
-
     static Vector3d AxisToDirection(const Axis& anAxis, const bool& isAntiDirection);
 };
 
