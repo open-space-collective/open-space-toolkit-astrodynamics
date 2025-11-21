@@ -124,10 +124,6 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
     ostk::core::utils::Print::Line(anOutputStream) << "Target:" << target_.value;
     ostk::core::utils::Print::Line(anOutputStream)
         << "Target Type:" << EventCondition::Target::StringFromType(target_.type);
-    if (target_.type == EventCondition::Target::Type::Relative)
-    {
-        ostk::core::utils::Print::Line(anOutputStream) << "Target Value Offset:" << target_.valueOffset;
-    }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

@@ -72,17 +72,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .value(
             "TruncateEnd",
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
-            "Will shorten the maneuver to the maximum duration, truncating the end segment."
+            "The maneuver will be shortened to the maximum duration, truncating the end segment."
         )
         .value(
             "TruncateStart",
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
-            "Will shorten the maneuver to the maximum duration, truncating the start segment."
+            "The maneuver will be shortened to the maximum duration, truncating the start segment."
         )
         .value(
             "Center",
             Segment::MaximumManeuverDurationViolationStrategy::Center,
-            "The maneuver will be shortened to the maximum duration and centered around its midpoint."
+            "The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered part "
+            "of the maneuver."
         )
 
         ;
@@ -370,9 +371,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
 
-        .def("__str__", &(shiftToString<Segment::ManeuverConstraints>))
-        .def("__repr__", &(shiftToString<Segment::ManeuverConstraints>))
-
         .def(
             init<
                 const Duration&,
@@ -397,6 +395,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     maximum_duration_strategy (MaximumManeuverDurationViolationStrategy, optional): The strategy when maximum duration is violated. Defaults to Segment.MaximumManeuverDurationViolationStrategy.Fail.
             )doc"
         )
+
+        .def("__str__", &(shiftToString<Segment::ManeuverConstraints>))
+        .def("__repr__", &(shiftToString<Segment::ManeuverConstraints>))
 
         .def_readwrite(
             "minimum_duration",
@@ -504,13 +505,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
         .def(
-            "get_coast_dynamics",
+            "get_free_dynamics",
             &Segment::getFreeDynamics,
             R"doc(
-                Get the coast dynamics array.
+                Get the free dynamics array, devoid of any thruster dynamics.
 
                 Returns:
-                    list[Dynamics]: The coast dynamics array.
+                    list[Dynamics]: The free dynamics array.
 
             )doc"
         )

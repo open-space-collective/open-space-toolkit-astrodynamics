@@ -55,7 +55,29 @@ def state() -> State:
             CoordinateSubset.mass(),
         ]
     )
+
     return State(instant, coordinates, frame, coordinate_broker)
+
+
+@pytest.fixture
+def state_2() -> State:
+    instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 1, 0, 0), Scale.UTC)
+    coordinates: list[float] = [7500000.0, 0.0, 0.0, 0.0, 5335.865450622126, 0.0, 300.0]
+    frame: Frame = Frame.GCRF()
+    coordinate_broker: CoordinateBroker = CoordinateBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinateSubset.mass(),
+        ]
+    )
+
+    return State(instant, coordinates, frame, coordinate_broker)
+
+
+@pytest.fixture
+def states(state: State, state_2: State) -> list[State]:
+    return [state, state_2]
 
 
 @pytest.fixture
@@ -226,14 +248,12 @@ def segment_solution(
 def maneuver_segment_solution(
     dynamics: list[Dynamics],
     thruster_dynamics: Thruster,
-    state: State,
+    states: list[State],
 ) -> Segment.Solution:
     return Segment.Solution(
         name="A Maneuver Segment Solution",
         dynamics=dynamics + [thruster_dynamics],
-        states=[
-            state,
-        ],
+        states=states,
         condition_is_satisfied=True,
         segment_type=Segment.Type.Maneuver,
     )
@@ -283,9 +303,9 @@ class TestSegmentSolution:
 
     def test_extract_maneuvers(
         self,
-        segment_solution: Segment.Solution,
+        maneuver_segment_solution: Segment.Solution,
     ):
-        assert segment_solution.extract_maneuvers(Frame.GCRF()) is not None
+        assert maneuver_segment_solution.extract_maneuvers(Frame.GCRF()) is not None
 
     def test_calculate_states_at(
         self,

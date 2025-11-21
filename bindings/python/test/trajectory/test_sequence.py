@@ -163,6 +163,37 @@ def state(
 
 
 @pytest.fixture
+def state_2(
+    cartesian_coordinates: list[float],
+    dry_mass: Mass,
+    wet_mass: Mass,
+    cross_sectional_surface_area: float,
+    drag_coefficient: float,
+    coordinate_broker: CoordinateBroker,
+) -> State:
+    frame: Frame = Frame.GCRF()
+    instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
+    coordinates = [
+        *cartesian_coordinates,
+        dry_mass.in_kilograms() + wet_mass.in_kilograms(),
+        cross_sectional_surface_area,
+        drag_coefficient,
+    ]
+
+    return State(
+        instant,
+        coordinates,
+        frame,
+        coordinate_broker,
+    )
+
+
+@pytest.fixture
+def states(state: State, state_2: State) -> list[State]:
+    return [state, state_2]
+
+
+@pytest.fixture
 def dynamics(environment: Environment) -> list:
     return Dynamics.from_environment(environment)
 
@@ -284,21 +315,6 @@ def segments(
 
 
 @pytest.fixture
-def minimum_maneuver_duration() -> Duration:
-    return Duration.seconds(1.0)
-
-
-@pytest.fixture
-def minimum_maneuver_separation() -> Duration:
-    return Duration.seconds(5.0)
-
-
-@pytest.fixture
-def maximum_maneuver_duration() -> Duration:
-    return Duration.days(2.0)
-
-
-@pytest.fixture
 def maximum_propagation_duration() -> Duration:
     return Duration.days(2.0)
 
@@ -309,14 +325,18 @@ def repetition_count() -> int:
 
 
 @pytest.fixture
+def dynamics_with_thruster(
+    dynamics: list[Dynamics], thruster_dynamics: Thruster
+) -> list[Dynamics]:
+    return dynamics + [thruster_dynamics]
+
+
+@pytest.fixture
 def sequence(
     segments: list[Segment],
     numerical_solver: NumericalSolver,
-    dynamics: list,
+    dynamics: list[Dynamics],
     maximum_propagation_duration: Duration,
-    minimum_maneuver_duration: Duration,
-    minimum_maneuver_separation: Duration,
-    maximum_maneuver_duration: Duration,
 ):
     sequence: Sequence = Sequence(
         segments=segments,
@@ -325,24 +345,18 @@ def sequence(
         maximum_propagation_duration=maximum_propagation_duration,
     )
 
-    sequence.set_minimum_maneuver_duration(minimum_maneuver_duration)
-    sequence.set_minimum_maneuver_separation(minimum_maneuver_separation)
-    sequence.set_maximum_maneuver_duration(maximum_maneuver_duration)
-
     return sequence
 
 
 @pytest.fixture
 def segment_solution(
-    dynamics: list,
-    state: State,
+    dynamics_with_thruster: list[Dynamics],
+    states: list[State],
 ):
     return Segment.Solution(
         name="A Segment Solution",
-        dynamics=dynamics,
-        states=[
-            state,
-        ],
+        dynamics=dynamics_with_thruster,
+        states=states,
         condition_is_satisfied=True,
         segment_type=Segment.Type.Maneuver,
     )
@@ -389,6 +403,13 @@ class TestSequenceSolution:
         assert sequence_solution.compute_delta_mass() is not None
         assert sequence_solution.compute_delta_v(1500.0) is not None
 
+    def test_extract_maneuvers(
+        self,
+        sequence_solution: Sequence.Solution,
+    ):
+        assert sequence_solution.extract_maneuvers(Frame.GCRF()) is not None
+        assert len(sequence_solution.extract_maneuvers(Frame.GCRF())) == 1
+
     def test_calculate_states_at(
         self,
         sequence_solution: Sequence.Solution,
@@ -428,56 +449,12 @@ class TestSequence:
     ):
         assert len(sequence.get_dynamics()) == len(dynamics)
 
-    def test_get_and_set_maximum_maneuver_duration(
-        self,
-        sequence: Sequence,
-    ):
-        new_maximum_maneuver_duration: Duration = (
-            2 * sequence.get_maximum_maneuver_duration()
-        )
-        sequence.set_maximum_maneuver_duration(new_maximum_maneuver_duration)
-        assert sequence.get_maximum_maneuver_duration() == new_maximum_maneuver_duration
-
     def test_get_maximum_propagation_duration(
         self,
         sequence: Sequence,
         maximum_propagation_duration: Duration,
     ):
         assert sequence.get_maximum_propagation_duration() == maximum_propagation_duration
-
-    def test_get_and_set_minimum_maneuver_duration(
-        self,
-        sequence: Sequence,
-    ):
-        new_minimum_maneuver_duration: Duration = (
-            2 * sequence.get_minimum_maneuver_duration()
-        )
-        sequence.set_minimum_maneuver_duration(new_minimum_maneuver_duration)
-        assert sequence.get_minimum_maneuver_duration() == new_minimum_maneuver_duration
-
-    def test_get_and_set_minimum_maneuver_separation(
-        self,
-        sequence: Sequence,
-    ):
-        new_minimum_maneuver_separation: Duration = (
-            2 * sequence.get_minimum_maneuver_separation()
-        )
-        sequence.set_minimum_maneuver_separation(new_minimum_maneuver_separation)
-        assert (
-            sequence.get_minimum_maneuver_separation() == new_minimum_maneuver_separation
-        )
-
-    def test_get_and_set_maximum_maneuver_duration_strategy(
-        self,
-        sequence: Sequence,
-    ):
-        sequence.set_maximum_maneuver_duration_strategy(
-            Sequence.MaximumManeuverDurationViolationStrategy.Slice
-        )
-        assert (
-            sequence.get_maximum_maneuver_duration_strategy()
-            == Sequence.MaximumManeuverDurationViolationStrategy.Slice
-        )
 
     def test_add_segment(
         self,
@@ -518,21 +495,6 @@ class TestSequence:
         sequence.add_maneuver_segment(instant_condition, thruster_dynamics)
 
         assert len(sequence.get_segments()) == segments_count + 1
-
-    def test_create_sequence_solution(
-        self,
-        segment_solution: Segment.Solution,
-    ):
-        solution: Sequence.Solution = Sequence.Solution(
-            segment_solutions=[
-                segment_solution,
-            ],
-            execution_is_complete=True,
-        )
-
-        assert solution is not None
-        assert len(solution.segment_solutions) == 1
-        assert solution.execution_is_complete
 
     def test_solve(
         self,

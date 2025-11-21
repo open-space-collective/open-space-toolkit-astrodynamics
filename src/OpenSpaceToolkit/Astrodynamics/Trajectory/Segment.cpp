@@ -2,10 +2,6 @@
 
 #include <numeric>
 
-#include <boost/log/core.hpp>
-#include <boost/log/expressions.hpp>
-#include <boost/log/trivial.hpp>
-
 #include <OpenSpaceToolkit/Core/Error/Runtime/Wrong.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -783,8 +779,6 @@ Segment::Solution Segment::solve(
         std::make_shared<HeterogeneousGuidanceLaw>();
     const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const Interval& maneuverInterval) -> void
     {
-        BOOST_LOG_TRIVIAL(debug) << "Maneuver accepted: " << maneuverInterval.toString() << std::endl;
-
         segmentStates.add(Array<State>(maneuverSolution.states.begin() + 1, maneuverSolution.states.end()));
 
         segmentConditionIsSatisfied = maneuverSolution.conditionIsSatisfied;
@@ -870,8 +864,6 @@ Segment::Solution Segment::solve(
         // Check minimum maneuver separation constraint from previous maneuver
         if (maneuverConstraints_.minimumSeparation.isDefined() && previousManeuverInterval.isDefined())
         {
-            BOOST_LOG_TRIVIAL(debug) << "Accounting for minimum maneuver separation." << std::endl;
-
             const Instant endInstant = previousManeuverInterval.getEnd() + maneuverConstraints_.minimumSeparation;
 
             // No need to coast if we are already past the minimum separation target
@@ -902,19 +894,12 @@ Segment::Solution Segment::solve(
         // Check minimum maneuver duration constraint
         if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
         {
-            BOOST_LOG_TRIVIAL(debug
-            ) << "Maneuver duration is less than the minimum maneuver duration. Skipping the maneuver."
-              << std::endl;
-
             segmentConditionIsSatisfied = solveAndAcceptCoast(candidateManeuverInterval.getEnd());
         }
 
         // Check maximum maneuver duration constraint
         else if (!maneuverConstraints_.intervalHasValidMaximumDuration(candidateManeuverInterval))
         {
-            BOOST_LOG_TRIVIAL(debug) << "Maneuver duration is greater than the maximum maneuver duration, handling... "
-                                     << std::endl;
-
             segmentConditionIsSatisfied = handleMaximumDurationViolation(candidateManeuverInterval);
         }
 
