@@ -378,14 +378,14 @@ class TestSegment:
     ):
         assert len(coast_duration_segment.get_dynamics()) == len(dynamics)
 
-    def test_get_coast_dynamics(
+    def test_get_free_dynamics(
         self,
         dynamics: list,
         coast_duration_segment: Segment,
         maneuver_segment: Segment,
     ):
-        assert len(coast_duration_segment.get_coast_dynamics()) == len(dynamics)
-        assert len(maneuver_segment.get_coast_dynamics()) == len(dynamics)
+        assert len(coast_duration_segment.get_free_dynamics()) == len(dynamics)
+        assert len(maneuver_segment.get_free_dynamics()) == len(dynamics)
 
     def test_get_numerical_solver(
         self,
