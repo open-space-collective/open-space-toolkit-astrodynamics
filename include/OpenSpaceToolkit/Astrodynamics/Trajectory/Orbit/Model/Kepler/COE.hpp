@@ -414,28 +414,40 @@ class COE
     /// @return Radial distance in meters.
     static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);
 
-    /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from RAAN and instant
+    /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant
+    ///
+    /// @note It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation
+    /// to get a more stable result.
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
     /// @return Mean Local Time of the Ascending Node (MLTAN) in hours
     static Time ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
-    /// @brief Compute Mean Local Time of the Descending Node (MLTDN) from RAAN and instant
+    /// @brief Compute Mean Local Time of the Descending Node (MLTDN) from the RAAN and instant
+    ///
+    /// @note It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation
+    /// to get a more stable result.
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
     /// @return Mean Local Time of the Descending Node (MLTDN) in hours
     static Time ComputeMeanLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
-    /// @brief Compute Local Time of the Ascending Node (LTAN) from RAAN and instant
+    /// @brief Compute Local Time of the Ascending Node (LTAN) from the RAAN and instant
+    ///
+    /// @note It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation
+    /// to get a more stable result.
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
     /// @return Local Time of the Ascending Node (LTAN) in hours
     static Time ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
-    /// @brief Compute Local Time of the Descending Node (LTDN) from RAAN and instant
+    /// @brief Compute Local Time of the Descending Node (LTDN) from the RAAN and instant
+    ///
+    /// @note It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation
+    /// to get a more stable result.
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN

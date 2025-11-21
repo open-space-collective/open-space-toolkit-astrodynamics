@@ -668,6 +668,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             R"doc(
                 Compute the Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant.
 
+                Note:
+                    It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.
+
                 Args:
                     raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute MLTAN.
@@ -686,6 +689,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             &COE::ComputeLTAN,
             R"doc(
                 Compute the Local Time of the Ascending Node (LTAN) from the RAAN and instant.
+
+                Note:
+                    It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.
 
                 Args:
                     raan (Angle): The Right Ascension of the Ascending Node.
@@ -706,8 +712,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             R"doc(
                 Compute the Mean Local Time of the Descending Node (MLTDN) from the RAAN and instant.
 
+                Note:
+                    It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.
+
                 Args:
-                    raan (Angle): The Right Ascension of the Descending Node.
+                    raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute MLTDN.
                     sun (Sun): The Sun model.
 
@@ -725,8 +734,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             R"doc(
                 Compute the Local Time of the Descending Node (LTDN) from the RAAN and instant.
 
+                Note:
+                    It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.
+
                 Args:
-                    raan (Angle): The Right Ascension of the Descending Node.
+                    raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute LTDN.
                     sun (Sun): The Sun model.
 
