@@ -65,13 +65,22 @@ class Segment
         Maneuver  ///< Maneuver
     };
 
+    /// @brief Maximum maneuver duration violation strategy
+    /// Strategy to use when a maneuver exceeds the maximum duration constraint.
+    ///
+    /// Example:
+    /// Proposed maneuver: [--------------------|------------]
+    /// TruncateEnd:       [--------------------]
+    /// TruncateStart:                  [--------------------]
+    /// Center:                     [--------------------]
     enum class MaximumManeuverDurationViolationStrategy
     {
-        Fail,           ///< The sequence will fail if a maneuver exceeds the maximum duration.
+        Fail,           ///< Will throw a RuntimeError if a maneuver exceeds the maximum duration.
         Skip,           ///< The maneuver will be skipped entirely.
-        LeadingSlice,   ///< The maneuver will be shortened to the maximum duration, sliced from the start.
-        TrailingSlice,  ///< The maneuver will be shortened to the maximum duration, sliced from the end.
-        Center          ///< The maneuver will be shortened to the maximum duration and centered around its midpoint.
+        TruncateEnd,    ///< The maneuver will be shortened to the maximum duration, truncating the end segment.
+        TruncateStart,  ///< The maneuver will be shortened to the maximum duration, truncating the start segment.
+        Center  ///< The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered
+                ///< part of the maneuver.
     };
 
     struct ManeuverConstraints
@@ -118,10 +127,6 @@ class Segment
         /// @param aManeuverConstraints A maneuver constraints
         /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const ManeuverConstraints& aManeuverConstraints);
-
-        String MaximumManeuverDurationViolationStrategyToString(
-            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
-        ) const;
     };
 
     /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.
@@ -370,6 +375,14 @@ class Segment
         const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
         const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
         const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
+    );
+
+    // TBI: Remove this and replace with magic_enum based solution
+    /// @brief String from maximum maneuver duration violation strategy
+    /// @param aMaximumDurationStrategy The maximum maneuver duration violation strategy
+    /// @return String from maximum maneuver duration violation strategy
+    static String StringFromMaximumManeuverDurationViolationStrategy(
+        const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
     );
 
    private:

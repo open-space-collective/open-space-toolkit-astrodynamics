@@ -370,7 +370,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Extr
         Segment segment1 = Segment::Maneuver(
             "Segment 1",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(satelliteSystem, std::make_shared<CustomGuidanceLaw>(Array<Interval> {})),
             dynamicsSPtr,
@@ -380,7 +380,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Extr
         Segment segment2 = Segment::Maneuver(
             "Segment 2",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(satelliteSystem, std::make_shared<CustomGuidanceLaw>(Array<Interval> {})),
             dynamicsSPtr,
@@ -408,7 +408,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Extr
         Segment segment1 = Segment::Maneuver(
             "Segment 1",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(
                 satelliteSystem,
@@ -428,7 +428,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Extr
         Segment segment2 = Segment::Maneuver(
             "Segment 2",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(
                 satelliteSystem,
@@ -1069,7 +1069,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Duration::Undefined(),
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
             Array<Tuple<Duration, Duration, bool>>::Empty()
         },
@@ -1087,7 +1087,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(10.0),
                 Duration::Undefined(),
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
@@ -1109,7 +1109,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Duration::Undefined(),
                 Duration::Minutes(10.0),
-                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
@@ -1142,7 +1142,7 @@ INSTANTIATE_TEST_SUITE_P(
         },
         // With Maximum Maneuver Duration Constraint (Slice Strategy)
         ManeuveringConstraintsTestParams {
-            "MaximumManeuverDurationLeadingSlice",
+            "MaximumManeuverDurationTruncateEnd",
             Array<Tuple<Duration, Duration>> {
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
@@ -1159,7 +1159,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(4.0),
                 Duration::Minutes(10.0),
                 Duration::Minutes(3.0),
-                Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
             Array<Tuple<Duration, Duration, bool>> {
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
@@ -1225,13 +1225,13 @@ TEST_P(
     };
 
     const Shared<RealCondition> maneuverSegmentConditionSPtr = std::make_shared<RealCondition>(
-        RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(100.0))
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(100.0))
     );
 
     // When solving to condition, set a slightly shorter duration than the expected segment termination, so that
     // we can avoid trailing edge artifacts when testing
     const RealCondition sequenceCondition =
-        RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(99.0));
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(99.0));
 
     const Duration maximumPropagationDuration = Duration::Minutes(200.0);
     const Duration tolerance = Duration::Milliseconds(10.0);
@@ -1334,7 +1334,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
     Segment segment = Segment::Maneuver(
         "Segment",
         std::make_shared<RealCondition>(
-            RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
         ),
         std::make_shared<Thruster>(
             satelliteSystem,
@@ -1378,16 +1378,6 @@ TEST_F(
     Solve_WithMinimumManeuverSeparationConstraintConcatenatingSegments
 )
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamicsSPtr = {
-        std::make_shared<PositionDerivative>(),
-        std::make_shared<CentralBodyGravity>(earthSPtr),
-    };
-
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 1.0, 1.0e-12, 1.0e-12
-    };
-
     const SatelliteSystem satelliteSystem = SatelliteSystem::Default();
 
     const Shared<const CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
@@ -1412,12 +1402,11 @@ TEST_F(
     {
         Segment::ManeuverConstraints maneuverConstraints;
         maneuverConstraints.minimumSeparation = Duration::Minutes(10.0);
-        maneuverConstraints.minimumDuration = Duration::Seconds(30.0);
 
-        Segment maneuverSegment1 = Segment::Maneuver(
+        const Segment maneuverSegment1 = Segment::Maneuver(
             "Maneuvering Segment 1",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(
                 satelliteSystem,
@@ -1427,14 +1416,14 @@ TEST_F(
                     ),
                 })
             ),
-            dynamicsSPtr,
-            numericalSolver,
+            defaultDynamics_,
+            defaultNumericalSolver_,
             maneuverConstraints
         );
-        Segment maneuverSegment2 = Segment::Maneuver(
+        const Segment maneuverSegment2 = Segment::Maneuver(
             "Maneuvering Segment 2",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(
                 satelliteSystem,
@@ -1448,25 +1437,25 @@ TEST_F(
                     ),
                 })
             ),
-            dynamicsSPtr,
-            numericalSolver,
+            defaultDynamics_,
+            defaultNumericalSolver_,
             maneuverConstraints
         );
 
-        Sequence sequence = {
+        const Sequence sequence = {
             {
                 maneuverSegment1,
                 maneuverSegment2,
             },
-            numericalSolver,
-            dynamicsSPtr,
+            defaultNumericalSolver_,
+            defaultDynamics_,
             maximumPropagationDuration,
         };
 
         const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 1);
         const Sequence::Solution solutionUsingCondition = sequence.solveToCondition(
             initialState,
-            RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(29.0))
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(29.0))
         );
 
         EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
@@ -1519,11 +1508,11 @@ TEST_F(
     {
         Segment::ManeuverConstraints maneuverConstraints;
         maneuverConstraints.minimumSeparation = Duration::Minutes(10.0);
-        maneuverConstraints.minimumDuration = Duration::Seconds(30.0);
-        Segment maneuverSegment = Segment::Maneuver(
+
+        const Segment maneuverSegment = Segment::Maneuver(
             "Maneuvering Segment 1",
             std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::PositiveCrossing, Duration::Minutes(15.0))
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(15.0))
             ),
             std::make_shared<Thruster>(
                 satelliteSystem,
@@ -1541,14 +1530,14 @@ TEST_F(
                     ),
                 })
             ),
-            dynamicsSPtr,
-            numericalSolver,
+            defaultDynamics_,
+            defaultNumericalSolver_,
             maneuverConstraints
         );
-        Sequence sequence = {
+        const Sequence sequence = {
             {maneuverSegment},
-            numericalSolver,
-            dynamicsSPtr,
+            defaultNumericalSolver_,
+            defaultDynamics_,
             maximumPropagationDuration,
         };
         const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 2);

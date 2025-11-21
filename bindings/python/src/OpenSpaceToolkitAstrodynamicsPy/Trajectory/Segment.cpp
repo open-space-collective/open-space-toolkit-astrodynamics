@@ -48,13 +48,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         R"doc(
             Strategy to use when a maneuver exceeds the maximum duration constraint.
 
-            
-            Proposed maneuver:                                                                         [--------------------|------------]
-            Fail: Will throw an exception.
-            Skip: Will skip the maneuver.
-            LeadingSlice: Will shorten the maneuver to the maximum duration, sliced from the start.    [--------------------]
-            TrailingSlice: Will shorten the maneuver to the maximum duration, sliced from the end.                  [--------------------]
-            Center: Will take the centered part of the maneuver.                                              [--------------------]
+            Fail: Will throw a RuntimeError if a maneuver exceeds the maximum duration.
+            Skip: The maneuver will be skipped entirely.
+            TruncateEnd: The maneuver will be shortened to the maximum duration, truncating the end segment.
+            TruncateStart: The maneuver will be shortened to the maximum duration, truncating the start segment.
+            Center: The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered part of the maneuver.
+
+            Proposed maneuver: [--------------------|------------]
+            TruncateEnd:       [--------------------]
+            TruncateStart:                  [--------------------]
+            Center:                     [--------------------]
         )doc"
     )
 
@@ -67,14 +70,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             "Skip", Segment::MaximumManeuverDurationViolationStrategy::Skip, "The maneuver will be skipped entirely."
         )
         .value(
-            "LeadingSlice",
-            Segment::MaximumManeuverDurationViolationStrategy::LeadingSlice,
-            "The maneuver will be shortened to the maximum duration, sliced from the start."
+            "TruncateEnd",
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            "Will shorten the maneuver to the maximum duration, truncating the end segment."
         )
         .value(
-            "TrailingSlice",
-            Segment::MaximumManeuverDurationViolationStrategy::TrailingSlice,
-            "The maneuver will be shortened to the maximum duration, sliced from the end."
+            "TruncateStart",
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            "Will shorten the maneuver to the maximum duration, truncating the start segment."
         )
         .value(
             "Center",
