@@ -29,6 +29,64 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
     );
 
+    enum_<Segment::Type>(
+        segment,
+        "Type",
+        R"doc(
+            Segment type.
+        )doc"
+    )
+
+        .value("Coast", Segment::Type::Coast, "Coast")
+        .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
+
+        ;
+
+    enum_<Segment::MaximumManeuverDurationViolationStrategy>(
+        segment,
+        "MaximumManeuverDurationViolationStrategy",
+        R"doc(
+            Strategy to use when a maneuver exceeds the maximum duration constraint.
+
+            Fail: Will throw a RuntimeError if a maneuver exceeds the maximum duration.
+            Skip: The maneuver will be skipped entirely.
+            TruncateEnd: The maneuver will be shortened to the maximum duration, truncating the end segment.
+            TruncateStart: The maneuver will be shortened to the maximum duration, truncating the start segment.
+            Center: The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered part of the maneuver.
+
+            Proposed maneuver: [--------------------|------------]
+            TruncateEnd:       [--------------------]
+            TruncateStart:                  [--------------------]
+            Center:                     [--------------------]
+        )doc"
+    )
+
+        .value(
+            "Fail",
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            "Will throw an exception if a maneuver exceeds the maximum duration."
+        )
+        .value(
+            "Skip", Segment::MaximumManeuverDurationViolationStrategy::Skip, "The maneuver will be skipped entirely."
+        )
+        .value(
+            "TruncateEnd",
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            "Will shorten the maneuver to the maximum duration, truncating the end segment."
+        )
+        .value(
+            "TruncateStart",
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            "Will shorten the maneuver to the maximum duration, truncating the start segment."
+        )
+        .value(
+            "Center",
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            "The maneuver will be shortened to the maximum duration and centered around its midpoint."
+        )
+
+        ;
+
     class_<Segment::Solution>(
         segment,
         "Solution",
@@ -297,16 +355,113 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
         ;
 
-    enum_<Segment::Type>(
+    class_<Segment::ManeuverConstraints>(
         segment,
-        "Type",
+        "ManeuverConstraints",
         R"doc(
-            Segment type.
+            Constraints for maneuver segments.
         )doc"
     )
 
-        .value("Coast", Segment::Type::Coast, "Coast")
-        .value("Maneuver", Segment::Type::Maneuver, "Maneuver")
+        .def(
+            init<>(),
+            R"doc(
+                Default constructor. All durations are undefined and strategy is Fail.
+            )doc"
+        )
+
+        .def("__str__", &(shiftToString<Segment::ManeuverConstraints>))
+        .def("__repr__", &(shiftToString<Segment::ManeuverConstraints>))
+
+        .def(
+            init<
+                const Duration&,
+                const Duration&,
+                const Duration&,
+                const Segment::MaximumManeuverDurationViolationStrategy&>(),
+            arg_v("minimum_duration", Duration::Undefined(), "Duration.undefined()"),
+            arg_v("maximum_duration", Duration::Undefined(), "Duration.undefined()"),
+            arg_v("minimum_separation", Duration::Undefined(), "Duration.undefined()"),
+            arg_v(
+                "maximum_duration_strategy",
+                Segment::MaximumManeuverDurationViolationStrategy::Fail,
+                "Segment.MaximumManeuverDurationViolationStrategy.Fail"
+            ),
+            R"doc(
+                Construct ManeuverConstraints with specific parameters.
+
+                Args:
+                    minimum_duration (Duration, optional): The minimum duration for a maneuver. Defaults to Duration.undefined().
+                    maximum_duration (Duration, optional): The maximum duration for a maneuver. Defaults to Duration.undefined().
+                    minimum_separation (Duration, optional): The minimum separation between maneuvers. Defaults to Duration.undefined().
+                    maximum_duration_strategy (MaximumManeuverDurationViolationStrategy, optional): The strategy when maximum duration is violated. Defaults to Segment.MaximumManeuverDurationViolationStrategy.Fail.
+            )doc"
+        )
+
+        .def_readwrite(
+            "minimum_duration",
+            &Segment::ManeuverConstraints::minimumDuration,
+            R"doc(
+                The minimum duration for a maneuver.
+
+                :type: Duration
+            )doc"
+        )
+        .def_readwrite(
+            "maximum_duration",
+            &Segment::ManeuverConstraints::maximumDuration,
+            R"doc(
+                The maximum duration for a maneuver.
+
+                :type: Duration
+            )doc"
+        )
+        .def_readwrite(
+            "minimum_separation",
+            &Segment::ManeuverConstraints::minimumSeparation,
+            R"doc(
+                The minimum separation between maneuvers.
+
+                :type: Duration
+            )doc"
+        )
+        .def_readwrite(
+            "maximum_duration_strategy",
+            &Segment::ManeuverConstraints::maximumDurationStrategy,
+            R"doc(
+                The strategy to use when a maneuver exceeds the maximum duration.
+
+                :type: MaximumManeuverDurationViolationStrategy
+            )doc"
+        )
+
+        .def(
+            "is_defined",
+            &Segment::ManeuverConstraints::isDefined,
+            R"doc(
+                Check if any of the constraints are defined.
+
+                Returns:
+                    bool: True if at least one constraint is defined, False otherwise.
+            )doc"
+        )
+
+        .def(
+            "interval_has_valid_minimum_duration",
+            &Segment::ManeuverConstraints::intervalHasValidMinimumDuration,
+            arg("interval"),
+            R"doc(
+                Check if the interval has a valid minimum duration.
+            )doc"
+        )
+        .def(
+            "interval_has_valid_maximum_duration",
+            &Segment::ManeuverConstraints::intervalHasValidMaximumDuration,
+            arg("interval"),
+            R"doc(
+                Check if the interval has a valid maximum duration.
+            )doc"
+        )
 
         ;
 
@@ -382,6 +537,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
         .def(
+            "get_maneuver_constraints",
+            &Segment::getManeuverConstraints,
+            R"doc(
+                Get the maneuver constraints.
+
+                Returns:
+                    ManeuverConstraints: The maneuver constraints.
+
+            )doc"
+        )
+        .def(
             "get_type",
             &Segment::getType,
             R"doc(
@@ -392,67 +558,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
-        .def(
-            "to_coast_segment",
-            &Segment::toCoastSegment,
-            arg_v("name", String::Empty(), "''"),
-            R"doc(
-                Convert the segment to a coast segment.
 
-                Args:
-                    name (str, optional): Optional name for the new segment. If not provided, uses the current segment's name.
-
-                Returns:
-                    Segment: A new coast segment.
-
-            )doc"
-        )
-        .def(
-            "to_maneuver_segment",
-            &Segment::toManeuverSegment,
-            arg("thruster_dynamics"),
-            arg_v("name", String::Empty(), "''"),
-            R"doc(
-                Convert the segment to a maneuver segment.
-
-                Args:
-                    thruster_dynamics (Thruster): The thruster dynamics for the new maneuver segment.
-                    name (str, optional): Optional name for the new segment. If not provided, uses the current segment's name.
-
-                Returns:
-                    Segment: A new maneuver segment.
-
-            )doc"
-        )
         .def(
             "solve",
             &Segment::solve,
             arg("state"),
             arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
+            arg_v("previous_maneuver_interval", Interval::Undefined(), "Interval.undefined()"),
             R"doc(
                 Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
 
                 Args:
                     state (State): The state.
-                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
-
-                Returns:
-                    SegmentSolution: The segment solution.
-
-            )doc"
-        )
-
-        .def(
-            "solve_next_maneuver",
-            &Segment::solveToNextManeuver,
-            arg("state"),
-            arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
-            R"doc(
-                Solve the segment until the next maneuver ends. If there are no maneuvers during the segment, it will be solved until its event condition is satisfied or the maximum propagation duration is reached.
-
-                Args:
-                    state (State): The state.
-                    maximum_propagation_duration (Duration, optional): The maximum propagation duration.
+                    maximum_propagation_duration (Duration, optional): The maximum propagation duration. Defaults to 30 days.
+                    previous_maneuver_interval (Interval, optional): The previous maneuver interval prior to this segment. Defaults to Interval.undefined().
 
                 Returns:
                     SegmentSolution: The segment solution.
@@ -489,6 +608,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg("thruster_dynamics"),
             arg("dynamics"),
             arg("numerical_solver"),
+            arg_v("maneuver_constraints", Segment::ManeuverConstraints(), "ManeuverConstraints()"),
             R"doc(
                 Create a maneuver segment.
 
@@ -498,6 +618,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     thruster_dynamics (ThrusterDynamics): The thruster dynamics.
                     dynamics (Dynamics): The dynamics.
                     numerical_solver (NumericalSolver): The numerical solver.
+                    maneuver_constraints (ManeuverConstraints, optional): The maneuver constraints. Defaults to empty constraints.
 
                 Returns:
                     Segment: The maneuver segment.
@@ -513,7 +634,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg("dynamics"),
             arg("numerical_solver"),
             arg("local_orbital_frame_factory"),
-            arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()"),
+            arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.undefined()"),
+            arg_v("maneuver_constraints", Segment::ManeuverConstraints(), "ManeuverConstraints()"),
             R"doc(
                 Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital frame.
 
@@ -532,6 +654,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     numerical_solver (NumericalSolver): The numerical solver.
                     local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
                     maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Angle.undefined().
+                    maneuver_constraints (ManeuverConstraints, optional): The maneuver constraints. Defaults to empty constraints.
 
                 Returns:
                     Segment: The maneuver segment.
