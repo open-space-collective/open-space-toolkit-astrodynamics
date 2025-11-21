@@ -533,15 +533,15 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         const Vector3d clockingTarget =
             Profile::ComputeClockingVector(alignmentTarget, clockingTargetVectorFunction(aState));
 
-        // Apply angular offset rotation around the alignment axis to the clocking direction using Rodrigues' formula
+        // Apply angular offset rotation around the alignment axis to the clocking target using Rodrigues' formula
         const Real thetaOffsetRad = anAngularOffset.inRadians();
-        const Vector3d rotatedClockingDirection =
-            (clockingDirection * std::cos(thetaOffsetRad) +
-             (alignmentDirection.cross(clockingDirection)) * std::sin(thetaOffsetRad) +
-             alignmentDirection * (alignmentDirection.dot(clockingDirection)) * (1.0 - std::cos(thetaOffsetRad)));
+        const Vector3d rotatedClockingTarget =
+            (clockingTarget * std::cos(thetaOffsetRad) +
+             (alignmentTarget.cross(clockingTarget)) * std::sin(thetaOffsetRad) +
+             alignmentTarget * (alignmentTarget.dot(clockingTarget)) * (1.0 - std::cos(thetaOffsetRad)));
 
         return Profile::ComputeBodyToECIQuaternion(
-            alignmentDirection, rotatedClockingDirection, alignmentTarget, clockingTarget
+            alignmentDirection, clockingDirection, alignmentTarget, rotatedClockingTarget
         );
     };
 }

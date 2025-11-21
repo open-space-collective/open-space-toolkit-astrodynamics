@@ -1168,8 +1168,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Orbit orbit = {keplerianModel, earthSPtr_};
     const Trajectory targetTrajectory = Trajectory(Nadir(orbit));
 
-    std::cout.precision(16);
-
     // Yaw compensated clocking profile
     const Profile targetSlidingGroundVelocityClockedProfile = Profile::CustomPointing(
         orbit,
