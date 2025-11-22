@@ -130,7 +130,6 @@ class Profile
     class TrajectoryTarget : public Target
     {
        public:
-
         /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
         ///
         /// @param aTrajectory The trajectory to point towards.

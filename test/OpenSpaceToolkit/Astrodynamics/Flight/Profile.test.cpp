@@ -1254,7 +1254,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         {
             const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::TrajectoryTarget>(Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X())),
+                std::make_shared<Profile::TrajectoryTarget>(
+                    Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X())
+                ),
                 std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 
