@@ -5,6 +5,7 @@ from datetime import datetime
 import pytest
 
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
+from ostk.mathematics.curve_fitting import Interpolator
 
 from ostk.physics import Environment
 from ostk.physics.time import DateTime
@@ -81,6 +82,7 @@ def tabulated_model() -> TabulatedModel:
                 attitude_frame=Frame.GCRF(),
             ),
         ],
+        interpolator_type=Interpolator.Type.Linear,
     )
 
 
@@ -195,15 +197,6 @@ class TestProfile:
 
         assert axes is not None
         assert isinstance(axes, Axes)
-
-    def test_get_body_frame(self, profile: Profile):
-        if Frame.exists("Name"):
-            Frame.destruct("Name")
-
-        frame = profile.get_body_frame("Name")
-
-        assert frame is not None
-        assert isinstance(frame, Frame)
 
     def test_construct_body_frame(self, profile: Profile):
         frame_name: str = "test_construct_body_frame"

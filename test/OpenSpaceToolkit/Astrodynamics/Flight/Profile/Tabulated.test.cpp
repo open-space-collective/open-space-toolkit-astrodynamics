@@ -46,19 +46,43 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::
             Quaternion(-0.635371915567, -0.174049521049, 0.723374654124, 0.206732684649, Quaternion::Format::XYZS),
             Vector3d(0.0, 0.0, 0.0),
             Frame::GCRF()
+        ),
+        State(
+            Instant::DateTime(DateTime(2024, 1, 29, 0, 1, 0), Scale::UTC),
+            Position::Meters({738650.069144404028, -3587215.226667015813, 5841866.765430007130}, Frame::GCRF()),
+            Velocity::MetersPerSecond({-590.931279522597, -6492.770161294917, -3900.690931064452}, Frame::GCRF()),
+            Quaternion(-0.635371915567, -0.174049521049, 0.723374654124, 0.206732684649, Quaternion::Format::XYZS),
+            Vector3d(0.0, 0.0, 0.0),
+            Frame::GCRF()
+        ),
+        State(
+            Instant::DateTime(DateTime(2024, 1, 29, 0, 1, 30), Scale::UTC),
+            Position::Meters({738650.069144404028, -3587215.226667015813, 5841866.765430007130}, Frame::GCRF()),
+            Velocity::MetersPerSecond({-590.931279522597, -6492.770161294917, -3900.690931064452}, Frame::GCRF()),
+            Quaternion(-0.635371915567, -0.174049521049, 0.723374654124, 0.206732684649, Quaternion::Format::XYZS),
+            Vector3d(0.0, 0.0, 0.0),
+            Frame::GCRF()
+        ),
+        State(
+            Instant::DateTime(DateTime(2024, 1, 29, 0, 2, 0), Scale::UTC),
+            Position::Meters({738650.069144404028, -3587215.226667015813, 5841866.765430007130}, Frame::GCRF()),
+            Velocity::MetersPerSecond({-590.931279522597, -6492.770161294917, -3900.690931064452}, Frame::GCRF()),
+            Quaternion(-0.635371915567, -0.174049521049, 0.723374654124, 0.206732684649, Quaternion::Format::XYZS),
+            Vector3d(0.0, 0.0, 0.0),
+            Frame::GCRF()
         )
     };
-    const Tabulated tabulated_ = Tabulated(states_);
+    const Tabulated tabulated_ = Tabulated(states_, Interpolator::Type::Linear);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Constructor)
 {
     {
-        EXPECT_NO_THROW(Tabulated tabulated(states_););
+        EXPECT_NO_THROW(Tabulated tabulated(states_, Interpolator::Type::Linear););
     }
 
     {
-        EXPECT_NO_THROW(Tabulated tabulated(states_, Interpolator::Type::Linear););
+        EXPECT_NO_THROW(Tabulated tabulated(states_););
     }
 }
 
@@ -69,7 +93,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, EqualToOp
     }
 
     {
-        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}};
+        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}, Interpolator::Type::Linear};
         EXPECT_FALSE(tabulated_ == tabulated);
     }
 }
@@ -81,7 +105,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, NotEqualT
     }
 
     {
-        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}};
+        const Tabulated tabulated = {{states_[0], states_[1], states_[1]}, Interpolator::Type::Linear};
         EXPECT_TRUE(tabulated_ != tabulated);
     }
 }
@@ -221,16 +245,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetAxesAt
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetBodyFrame)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, ConstructBodyFrame)
 {
     // name undefined
     {
         const String frameName = String::Empty();
-        EXPECT_THROW(tabulated_.getBodyFrame(frameName), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(tabulated_.constructBodyFrame(frameName), ostk::core::error::runtime::Undefined);
     }
 
     {
-        const Shared<const Frame> bodyFrame = tabulated_.getBodyFrame("test");
+        const Shared<const Frame> bodyFrame = tabulated_.constructBodyFrame("test");
         EXPECT_EQ(bodyFrame->getName(), "test");
         EXPECT_EQ(
             Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getTranslation(),

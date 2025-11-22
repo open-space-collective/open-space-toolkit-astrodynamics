@@ -55,7 +55,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .value("GeocentricNadir", Profile::TargetType::GeocentricNadir, "Geocentric nadir")
         .value("GeodeticNadir", Profile::TargetType::GeodeticNadir, "Geodetic nadir")
-        .value("Trajectory", Profile::TargetType::Trajectory, "Deprecated - Use TargetPosition instead.")
         .value("TargetPosition", Profile::TargetType::TargetPosition, "Target position")
         .value("TargetVelocity", Profile::TargetType::TargetVelocity, "Target velocity")
         .value(
@@ -123,25 +122,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         )doc"
     )
-
-        .def(
-            init(
-                +[](const Trajectory& trajectory, const Vector3d& direction) -> Profile::TrajectoryTarget
-                {
-                    PyErr_WarnEx(PyExc_DeprecationWarning, "Use TrajectoryTarget.target_position(...) instead.", 1);
-                    return Profile::TrajectoryTarget(trajectory, direction);
-                }
-            ),
-            R"doc(
-                Constructor.
-
-                Args:
-                    trajectory (Trajectory): The trajectory, required only if the target type is `Trajectory`.
-                    direction (Vector3d): The direction.
-            )doc",
-            arg("trajectory"),
-            arg("direction")
-        )
 
         .def_static(
             "target_position",
@@ -409,25 +389,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     Frame: The axes of the profile at the given instant.
             )doc",
             arg("instant")
-        )
-
-        .def(
-            "get_body_frame",
-            +[](const Profile& profile, const String& frame_name) -> Shared<const Frame>
-            {
-                PyErr_WarnEx(PyExc_DeprecationWarning, "Use profile.construct_body_frame(...) instead.", 1);
-                return profile.getBodyFrame(frame_name);
-            },
-            R"doc(
-                Get the body frame of the profile.
-
-                Args:
-                    frame_name (str): The name of the frame.
-
-                Returns:
-                    Frame: The body frame of the profile.
-            )doc",
-            arg("frame_name")
         )
 
         .def(

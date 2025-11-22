@@ -7,6 +7,7 @@
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationVector.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -45,6 +46,7 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
 using ostk::mathematics::object::Vector3d;
@@ -254,16 +256,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
              Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
         ));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetBodyFrame)
-{
-    {
-        EXPECT_NO_THROW(profile_.getBodyFrame("name"));
-        EXPECT_THROW(
-            profile_.getBodyFrame("name"), ostk::core::error::RuntimeError
-        );  // Frame with same name already exists
     }
 }
 
@@ -779,7 +771,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
             },
         };
 
-        const Tabulated tabulated = {tabulatedStates};
+        const Tabulated tabulated = {tabulatedStates, Interpolator::Type::Linear};
 
         const Profile profile = {tabulated};
 
@@ -904,13 +896,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
 {
-    // Test undefined trajectory throws
-    {
-        EXPECT_THROW(
-            Profile::TrajectoryTarget(Trajectory::Undefined(), Vector3d::X()), ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Test undefined trajectory throws for Vector3d-based static factory methods
     {
         EXPECT_THROW(
@@ -946,7 +931,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
     // Test valid trajectory with Vector3d direction
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget(trajectory, Vector3d::X()));
 
         // Testing static factory methods with Vector3d
         EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X()));
@@ -1270,7 +1254,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         {
             const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::TrajectoryTarget>(trajectory, Vector3d::X()),
+                std::make_shared<Profile::TrajectoryTarget>(
+                    Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X())
+                ),
                 std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 
