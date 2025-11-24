@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1763729944151,
+  "lastUpdate": 1764005876868,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 3199387525.8,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3199109701.4000034 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e80d587f1455998dd14066c82d4570368b365d1c",
+          "message": "feat: add utility methods to compare orbits and states (#596)\n\n* fix: update docstrings and tests for compare functions\n\nUpdated docstrings for compare_orbit_to_states and compare_states_to_states\nto accurately reflect the actual return values. The functions return\ndictionaries with detailed position and velocity residuals including both\nL2 norms (dr, dv) and component-wise differences (dr_x, dr_y, dr_z, dv_x,\ndv_y, dv_z), along with timestamps.\n\nUpdated all related tests to check for the correct dictionary keys and\nstructure instead of the previously incorrect return types.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n\n* fix: tests\n\n* fix: tests\n\n* Apply suggestion from @vishwa2710\n\n* feat: address remaining feedback\n\n* chore: fix typing\n\n* feat: address remaining feedback\n\n* chore: can't use strict with zip, to support python3.9\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-11-24T17:13:30Z",
+          "tree_id": "f34485d8635e030f9618d12443676264daf172c9",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/e80d587f1455998dd14066c82d4570368b365d1c"
+        },
+        "date": 1764005874390,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 810711890.500005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 796663651.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 895778360.0000026,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 895666860.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3201495801.8000073,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3201239675.4999986 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3199380351.500008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3199148506.299999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3200810583.699979,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3200538217.0000005 ns\nthreads: 1"
           }
         ]
       }
