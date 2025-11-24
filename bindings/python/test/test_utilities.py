@@ -4,14 +4,12 @@ from datetime import datetime
 
 import pytest
 
-import pandas as pd
-
 from ostk.mathematics.curve_fitting import Interpolator
 
 from ostk.physics import Environment
+from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
-from ostk.physics.time import Duration
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
@@ -24,9 +22,8 @@ from ostk.astrodynamics import utilities
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.converters import coerce_to_datetime
-from ostk.astrodynamics.dataframe import generate_orbit_from_dataframe
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
+from ostk.astrodynamics.trajectory.orbit.model import Tabulated as TabulatedOrbit
 
 
 @pytest.fixture
@@ -88,36 +85,14 @@ def reference_states(state_2: State) -> list[State]:
 
 
 @pytest.fixture
-def orbit_dataframe(instant: Instant) -> pd.DataFrame:
-    return pd.DataFrame(
-        [
-            {
-                "Timestamp": coerce_to_datetime(instant),
-                "r_GCRF_x": 7000000.0,
-                "r_GCRF_y": 0.0,
-                "r_GCRF_z": 0.0,
-                "v_GCRF_x": 0.0,
-                "v_GCRF_y": 7500.0,
-                "v_GCRF_z": 0.0,
-            },
-            {
-                "Timestamp": coerce_to_datetime(instant + Duration.seconds(60.0)),
-                "r_GCRF_x": 7000100.0,
-                "r_GCRF_y": 450000.0,
-                "r_GCRF_z": 0.0,
-                "v_GCRF_x": 0.0,
-                "v_GCRF_y": 7500.0,
-                "v_GCRF_z": 0.0,
-            },
-        ]
-    )
-
-
-@pytest.fixture
-def orbit(orbit_dataframe: pd.DataFrame) -> Orbit:
-    return generate_orbit_from_dataframe(
-        orbit_dataframe,
-        interpolation_type=Interpolator.Type.Linear,
+def orbit(reference_states: list[State]) -> Orbit:
+    return Orbit(
+        model=TabulatedOrbit(
+            states=reference_states,
+            initial_revolution_number=1,
+            interpolation_type=Interpolator.Type.Linear,
+        ),
+        celestial_object=Earth.default(),
     )
 
 
@@ -248,14 +223,14 @@ class TestUtility:
             ),
         )
 
-        assert len(residuals) == 3
-        # Expected difference: candidate_states - reference_states = 7000000 - 7000100 = -100m in cross track-direction
+        assert len(residuals) == len(candidate_states)
+        # Expected difference: reference_states - candidate_states = 7000000 - 7000100 = -100m in cross track-direction
         for residual in residuals:
             assert isinstance(residual, utilities.Residual)
             assert residual.dr == pytest.approx(100.0, rel=1e-6)
             assert residual.dr_x == pytest.approx(0.0, rel=1e-6)
             assert residual.dr_y == pytest.approx(0.0, abs=1e-10)
-            assert residual.dr_z == pytest.approx(100.0, abs=1e-10)
+            assert residual.dr_z == pytest.approx(-100.0, abs=1e-10)
             assert residual.dv == pytest.approx(0.0, abs=1e-10)
 
     def test_compute_residuals_for_orbit_identical_orbit_and_states(
