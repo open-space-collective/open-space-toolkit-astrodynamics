@@ -1,7 +1,6 @@
 # Apache License 2.0
 
 from datetime import datetime
-from datetime import timezone
 
 import pytest
 
@@ -27,7 +26,6 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.converters import coerce_to_datetime
 from ostk.astrodynamics.dataframe import generate_orbit_from_dataframe
-from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 
 
@@ -80,12 +78,12 @@ def state_2(
 
 
 @pytest.fixture
-def states_1(state_1: State) -> list[State]:
+def candidate_states(state_1: State) -> list[State]:
     return [state_1, state_1, state_1]
 
 
 @pytest.fixture
-def states_2(state_2: State) -> list[State]:
+def reference_states(state_2: State) -> list[State]:
     return [state_2, state_2, state_2]
 
 
@@ -112,6 +110,14 @@ def orbit_dataframe(instant: Instant) -> pd.DataFrame:
                 "v_GCRF_z": 0.0,
             },
         ]
+    )
+
+
+@pytest.fixture
+def orbit(orbit_dataframe: pd.DataFrame) -> Orbit:
+    return generate_orbit_from_dataframe(
+        orbit_dataframe,
+        interpolation_type=Interpolator.Type.Linear,
     )
 
 
@@ -208,145 +214,125 @@ class TestUtility:
         for i in range(1, 11):
             assert isinstance(output[i], float)
 
-    def test_compare_states_to_states_identical_states(
+    def test_compute_residuals_identical_states(
         self,
-        states_1: list[State],
+        candidate_states: list[State],
     ) -> None:
-        residuals = utilities.compare_states_to_states(
-            first_states=states_1,
-            second_states=states_1,
+        residuals = utilities.compute_residuals(
+            candidate_states=candidate_states,
+            reference_states=candidate_states,
         )
 
-        assert len(residuals) == 3
+        assert len(residuals) == len(candidate_states)
         for residual in residuals:
-            assert isinstance(residual, dict)
-            assert residual["dr"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dv"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dr_x"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dr_y"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dr_z"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dv_x"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dv_y"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dv_z"] == pytest.approx(0.0, abs=1e-10)
+            assert isinstance(residual, utilities.Residual)
+            assert residual.dr == pytest.approx(0.0, abs=1e-10)
+            assert residual.dv == pytest.approx(0.0, abs=1e-10)
+            assert residual.dr_x == pytest.approx(0.0, abs=1e-10)
+            assert residual.dr_y == pytest.approx(0.0, abs=1e-10)
+            assert residual.dr_z == pytest.approx(0.0, abs=1e-10)
+            assert residual.dv_x == pytest.approx(0.0, abs=1e-10)
+            assert residual.dv_y == pytest.approx(0.0, abs=1e-10)
+            assert residual.dv_z == pytest.approx(0.0, abs=1e-10)
 
-    def test_compare_states_to_states_with_local_orbital_frame_factory(
+    def test_compute_residuals_with_local_orbital_frame_factory(
         self,
-        states_1: list[State],
-        states_2: list[State],
+        candidate_states: list[State],
+        reference_states: list[State],
     ) -> None:
-        residuals = utilities.compare_states_to_states(
-            first_states=states_1,
-            second_states=states_2,
+        residuals = utilities.compute_residuals(
+            candidate_states=candidate_states,
+            reference_states=reference_states,
             local_orbital_frame_factory_or_frame=LocalOrbitalFrameFactory.VNC(
                 Frame.GCRF()
             ),
         )
 
         assert len(residuals) == 3
-        # Expected difference: states_1 - states_2 = 7000000 - 7000100 = -100m in cross track-direction
+        # Expected difference: candidate_states - reference_states = 7000000 - 7000100 = -100m in cross track-direction
         for residual in residuals:
-            assert isinstance(residual, dict)
-            assert residual["dr"] == pytest.approx(100.0, rel=1e-6)
-            assert residual["dr_x"] == pytest.approx(0.0, rel=1e-6)
-            assert residual["dr_y"] == pytest.approx(0.0, abs=1e-10)
-            assert residual["dr_z"] == pytest.approx(-100.0, abs=1e-10)
-            assert residual["dv"] == pytest.approx(0.0, abs=1e-10)
+            assert isinstance(residual, utilities.Residual)
+            assert residual.dr == pytest.approx(100.0, rel=1e-6)
+            assert residual.dr_x == pytest.approx(0.0, rel=1e-6)
+            assert residual.dr_y == pytest.approx(0.0, abs=1e-10)
+            assert residual.dr_z == pytest.approx(100.0, abs=1e-10)
+            assert residual.dv == pytest.approx(0.0, abs=1e-10)
 
-    def test_compare_orbit_to_states_identical_orbit_and_states(
+    def test_compute_residuals_for_orbit_identical_orbit_and_states(
         self,
-        orbit_dataframe: pd.DataFrame,
+        orbit: Orbit,
+        reference_states: list[State],
     ) -> None:
-        orbit = generate_orbit_from_dataframe(
-            orbit_dataframe, interpolation_type=Interpolator.Type.Linear
-        )
-        states = generate_states_from_dataframe(orbit_dataframe)
-
-        result = utilities.compare_orbit_to_states(
+        result = utilities.compute_residuals_for_orbit(
             orbit=orbit,
-            states=states,
+            reference_states=reference_states,
         )
 
-        assert len(result) == 2
+        assert len(result) == len(reference_states)
         for entry in result:
-            assert isinstance(entry, dict)
-            assert "timestamp" in entry
-            assert "dr" in entry
-            assert "dr_x" in entry
-            assert "dr_y" in entry
-            assert "dr_z" in entry
-            assert "dv" in entry
-            assert "dv_x" in entry
-            assert "dv_y" in entry
-            assert "dv_z" in entry
-            assert isinstance(entry["timestamp"], datetime)
-            assert isinstance(entry["dr"], float)
-            assert isinstance(entry["dv"], float)
+            assert isinstance(entry, utilities.Residual)
+            assert entry.timestamp is not None
+            assert entry.dr_x is not None
+            assert entry.dr_y is not None
+            assert entry.dr_z is not None
+            assert entry.dv_x is not None
+            assert entry.dv_y is not None
+            assert entry.dv_z is not None
+            assert isinstance(entry.timestamp, datetime)
 
-            # Should be very small due to numerical precision and interpolation
-            assert entry["dr"] < 1.0  # Less than 1 meter
-            assert entry["dv"] < 0.01  # Less than 1 cm/s
-
-    def test_compare_orbit_to_orbit_identical_orbits(
+    def test_compute_residuals_for_orbits_identical_orbits(
         self,
-        orbit_dataframe: pd.DataFrame,
+        orbit: Orbit,
+        reference_states: list[State],
     ) -> None:
-        orbit: Orbit = generate_orbit_from_dataframe(
-            orbit_dataframe, interpolation_type=Interpolator.Type.Linear
-        )
-        states: list[State] = generate_states_from_dataframe(orbit_dataframe)
-
-        result: list[dict[str, datetime | float]] = utilities.compare_orbit_to_orbit(
-            first_orbit=orbit,
-            second_orbit=orbit,
-            instants=[state.get_instant() for state in states],
+        result: list[utilities.Residual] = utilities.compute_residuals_for_orbits(
+            candidate_orbit=orbit,
+            reference_orbit=orbit,
+            instants=[state.get_instant() for state in reference_states],
         )
 
-        assert len(result) == 2
+        assert len(result) == len(reference_states)
         for entry in result:
-            assert isinstance(entry, dict)
-            assert "timestamp" in entry
-            assert "dr" in entry
-            assert "dr_x" in entry
-            assert "dr_y" in entry
-            assert "dr_z" in entry
-            assert "dv" in entry
-            assert "dv_x" in entry
-            assert "dv_y" in entry
-            assert "dv_z" in entry
-            assert isinstance(entry["timestamp"], datetime)
-            assert isinstance(entry["dr"], float)
-            assert isinstance(entry["dv"], float)
+            assert isinstance(entry, utilities.Residual)
+            assert entry.timestamp is not None
+            assert entry.dr is not None
+            assert entry.dr_x is not None
+            assert entry.dr_y is not None
+            assert entry.dr_z is not None
+            assert entry.dv is not None
+            assert entry.dv_x is not None
+            assert entry.dv_y is not None
+            assert entry.dv_z is not None
+            assert isinstance(entry.timestamp, datetime)
+            assert isinstance(entry.dr, float)
+            assert isinstance(entry.dv, float)
 
-    def test_compare_orbit_to_orbit_with_local_orbital_frame_factory(
+    def test_compute_residuals_for_orbits_with_local_orbital_frame_factory(
         self,
-        orbit_dataframe: pd.DataFrame,
+        orbit: Orbit,
+        reference_states: list[State],
     ) -> None:
-        orbit: Orbit = generate_orbit_from_dataframe(
-            orbit_dataframe, interpolation_type=Interpolator.Type.Linear
-        )
-        states: list[State] = generate_states_from_dataframe(orbit_dataframe)
-
-        result: list[dict[str, datetime | float]] = utilities.compare_orbit_to_orbit(
-            first_orbit=orbit,
-            second_orbit=orbit,
-            instants=[state.get_instant() for state in states],
+        result: list[utilities.Residual] = utilities.compute_residuals_for_orbits(
+            candidate_orbit=orbit,
+            reference_orbit=orbit,
+            instants=[state.get_instant() for state in reference_states],
             local_orbital_frame_factory_or_frame=LocalOrbitalFrameFactory.VNC(
                 Frame.GCRF()
             ),
         )
 
-        assert len(result) == 2
+        assert len(result) == len(reference_states)
         for entry in result:
-            assert isinstance(entry, dict)
-            assert "timestamp" in entry
-            assert "dr" in entry
-            assert "dr_x" in entry
-            assert "dr_y" in entry
-            assert "dr_z" in entry
-            assert "dv" in entry
-            assert "dv_x" in entry
-            assert "dv_y" in entry
-            assert "dv_z" in entry
-            assert isinstance(entry["timestamp"], datetime)
-            assert isinstance(entry["dr"], float)
-            assert isinstance(entry["dv"], float)
+            assert isinstance(entry, utilities.Residual)
+            assert entry.timestamp is not None
+            assert entry.dr is not None
+            assert entry.dr_x is not None
+            assert entry.dr_y is not None
+            assert entry.dr_z is not None
+            assert entry.dv is not None
+            assert entry.dv_x is not None
+            assert entry.dv_y is not None
+            assert entry.dv_z is not None
+            assert isinstance(entry.timestamp, datetime)
+            assert isinstance(entry.dr, float)
+            assert isinstance(entry.dv, float)

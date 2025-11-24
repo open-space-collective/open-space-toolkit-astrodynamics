@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime
 from datetime import timezone
 
@@ -30,7 +31,7 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVeloc
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 
 
-BASE_STATE_BUILDER: StateBuilder = StateBuilder(
+POSITION_VELOCITY_STATE_BUILDER: StateBuilder = StateBuilder(
     frame=Frame.GCRF(),
     coordinate_subsets=[
         CartesianPosition.default(),
@@ -39,102 +40,103 @@ BASE_STATE_BUILDER: StateBuilder = StateBuilder(
 )
 
 
-def compare_states_to_states(
-    first_states: list[State],
-    second_states: list[State],
+@dataclass
+class Residual:
+    timestamp: datetime
+    frame: Frame
+    dr: float
+    dr_x: float
+    dr_y: float
+    dr_z: float
+    dv: float
+    dv_x: float
+    dv_y: float
+    dv_z: float
+
+
+def compute_residuals(
+    candidate_states: list[State],
+    reference_states: list[State],
     local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
-) -> list[dict[str, datetime | float]]:
+) -> list[Residual]:
     """
-    Compare two lists of states and return position and velocity residuals.
+    Compute position and velocity residuals between two lists of states.
 
     Args:
-        first_states (list[State]): First list of OSTk States.
-        second_states (list[State]): Second list of OSTk States.
+        candidate_states (list[State]): Candidate list of States.
+        reference_states (list[State]): List of reference States to compare against.
         local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
     Returns:
-        list[dict[str, datetime | float]]: List of dictionaries containing:
-            - 'timestamp': UTC datetime of the state (Python datetime object)
-            - 'dr': Position residual in meters (L2 norm of position difference)
-            - 'dr_x': Position residual x-component in meters
-            - 'dr_y': Position residual y-component in meters
-            - 'dr_z': Position residual z-component in meters
-            - 'dv': Velocity residual in meters/second (L2 norm of velocity difference)
-            - 'dv_x': Velocity residual x-component in meters/second
-            - 'dv_y': Velocity residual y-component in meters/second
-            - 'dv_z': Velocity residual z-component in meters/second
+        list[Residual]: List of Residuals.
     """
-    residuals: list[float] = []
+    residuals: list[Residual] = []
 
-    for state_1, state_2 in zip(first_states, second_states):
+    for candidate_state, reference_state in zip(candidate_states, reference_states):
         frame: Frame
         if isinstance(local_orbital_frame_factory_or_frame, LocalOrbitalFrameFactory):
-            frame = local_orbital_frame_factory_or_frame.generate_frame(state_1)
+            frame = local_orbital_frame_factory_or_frame.generate_frame(reference_state)
         else:
             frame = local_orbital_frame_factory_or_frame
 
-        d_state: State = BASE_STATE_BUILDER.reduce(state_1).in_frame(
+        relative_state: State = POSITION_VELOCITY_STATE_BUILDER.reduce(
+            reference_state
+        ).in_frame(frame) - POSITION_VELOCITY_STATE_BUILDER.reduce(
+            candidate_state
+        ).in_frame(
             frame
-        ) - BASE_STATE_BUILDER.reduce(state_2).in_frame(frame)
+        )
 
-        dr: np.ndarray = d_state.get_position().get_coordinates()
-        dv: np.ndarray = d_state.get_velocity().get_coordinates()
+        dr: np.ndarray = relative_state.get_position().get_coordinates()
+        dv: np.ndarray = relative_state.get_velocity().get_coordinates()
 
         residuals.append(
-            {
-                "timestamp": coerce_to_datetime(d_state.get_instant()),
-                "dr": float(np.linalg.norm(dr)),
-                "dr_x": dr[0],
-                "dr_y": dr[1],
-                "dr_z": dr[2],
-                "dv": float(np.linalg.norm(dv)),
-                "dv_x": dv[0],
-                "dv_y": dv[1],
-                "dv_z": dv[2],
-            }
+            Residual(
+                timestamp=coerce_to_datetime(reference_state.get_instant()),
+                frame=frame,
+                dr=float(np.linalg.norm(dr)),
+                dr_x=float(dr[0]),
+                dr_y=float(dr[1]),
+                dr_z=float(dr[2]),
+                dv=float(np.linalg.norm(dv)),
+                dv_x=float(dv[0]),
+                dv_y=float(dv[1]),
+                dv_z=float(dv[2]),
+            )
         )
 
     return residuals
 
 
-def compare_orbit_to_states(
+def compute_residuals_for_orbit(
     orbit: Orbit,
-    states: list[State],
+    reference_states: list[State],
     local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
 ) -> list[dict[str, datetime | float]]:
     """
-    Compare an orbit to a list of states and return position and velocity residuals.
+    Compute position and velocity residuals for an orbit compared to a list of states.
 
     Args:
-        orbit (Orbit): OSTk Orbit to compare.
-        states (list[State]): List of OSTk States to compare against.
+        orbit (Orbit): Orbit used to generate states at the instants of the reference states.
+        reference_states (list[State]): List of reference States to compare against.
         local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
     Returns:
-        list[dict[str, datetime | float]]: List of dictionaries containing:
-            - 'timestamp': UTC datetime of the state (Python datetime object)
-            - 'dr': Position residual in meters (L2 norm of position difference)
-            - 'dr_x': Position residual x-component in meters
-            - 'dr_y': Position residual y-component in meters
-            - 'dr_z': Position residual z-component in meters
-            - 'dv': Velocity residual in meters/second (L2 norm of velocity difference)
-            - 'dv_x': Velocity residual x-component in meters/second
-            - 'dv_y': Velocity residual y-component in meters/second
-            - 'dv_z': Velocity residual z-component in meters/second
+        list[Residual]: List of Residuals.
     """
-    instants: list[Instant] = [state.get_instant() for state in states]
+    instants: list[Instant] = [state.get_instant() for state in reference_states]
     orbit_states: list[State] = orbit.get_states_at(instants)
 
-    return compare_states_to_states(
-        first_states=orbit_states,
-        second_states=states,
+    return compute_residuals(
+        candidate_states=orbit_states,
+        reference_states=reference_states,
         local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
     )
 
 
-def compare_orbit_to_orbit(
-    first_orbit: Orbit,
-    second_orbit: Orbit,
+def compute_residuals_for_orbits(
+    candidate_orbit: Orbit,
+    reference_orbit: Orbit,
     instants: list[Instant],
     local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
 ) -> list[dict[str, datetime | float]]:
@@ -142,29 +144,20 @@ def compare_orbit_to_orbit(
     Compare two orbits and return position and velocity residuals.
 
     Args:
-        first_orbit (Orbit): First OSTk Orbit to compare.
-        second_orbit (Orbit): Second OSTk Orbit to compare.
-        instants (list[Instant]): List of instants to compare.
+        candidate_orbit (Orbit): Candidate Orbit.
+        reference_orbit (Orbit): Reference Orbit.
+        instants (list[Instant]): List of instants to generate states at.
         local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
     Returns:
-        list[dict[str, datetime | float]]: List of dictionaries containing:
-            - 'timestamp': UTC datetime of the state (Python datetime object)
-            - 'dr': Position residual in meters (L2 norm of position difference)
-            - 'dr_x': Position residual x-component in meters
-            - 'dr_y': Position residual y-component in meters
-            - 'dr_z': Position residual z-component in meters
-            - 'dv': Velocity residual in meters/second (L2 norm of velocity difference)
-            - 'dv_x': Velocity residual x-component in meters/second
-            - 'dv_y': Velocity residual y-component in meters/second
-            - 'dv_z': Velocity residual z-component in meters/second
+        list[Residual]: List of Residuals.
     """
-    first_orbit_states: list[State] = first_orbit.get_states_at(instants)
-    second_orbit_states: list[State] = second_orbit.get_states_at(instants)
+    candidate_states: list[State] = candidate_orbit.get_states_at(instants)
+    reference_states: list[State] = reference_orbit.get_states_at(instants)
 
-    return compare_states_to_states(
-        first_states=first_orbit_states,
-        second_states=second_orbit_states,
+    return compute_residuals(
+        candidate_states=candidate_states,
+        reference_states=reference_states,
         local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
     )
 
