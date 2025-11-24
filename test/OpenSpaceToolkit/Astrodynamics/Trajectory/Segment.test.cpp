@@ -404,6 +404,53 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, IsDe
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Print)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(1.0),
+        Duration::Minutes(10.0),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+    );
+
+    testing::internal::CaptureStdout();
+    EXPECT_NO_THROW(constraints.print(std::cout, true));
+    EXPECT_NO_THROW(constraints.print(std::cout, false));
+    EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, IntervalHasValidMinimumDuration)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(2.0),
+        Duration::Minutes(10.0),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+    );
+    EXPECT_TRUE(constraints.intervalHasValidMinimumDuration(
+        Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(10.0))
+    ));
+    EXPECT_FALSE(constraints.intervalHasValidMinimumDuration(
+        Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(1.0))
+    ));
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, IntervalHasValidMaximumDuration)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(1.0),
+        Duration::Minutes(10.0),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+    );
+    EXPECT_TRUE(constraints.intervalHasValidMaximumDuration(
+        Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(9.0))
+    ));
+    EXPECT_FALSE(constraints.intervalHasValidMaximumDuration(
+        Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(11.0))
+    ));
+}
+
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
     void SetUp() override
