@@ -200,7 +200,9 @@ class Profile
         /// @param aDirection The direction (unit vector) of the target.
         /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
         OrientationProfileTarget(
-            const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection, const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
+            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+            const Vector3d& aDirection,
+            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
         );
 
         /// @brief Constructs an OrientationProfileTarget object from an axis.

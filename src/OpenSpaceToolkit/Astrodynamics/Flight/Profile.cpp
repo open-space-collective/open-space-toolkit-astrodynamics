@@ -112,7 +112,9 @@ Profile::TrajectoryTarget::TrajectoryTarget(
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection, const Interpolator::Type& anInterpolatorType
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+    const Vector3d& aDirection,
+    const Interpolator::Type& anInterpolatorType
 )
     : Target(TargetType::OrientationProfile, aDirection),
       orientationProfile(anOrientationProfile)
@@ -137,14 +139,15 @@ Profile::OrientationProfileTarget::OrientationProfileTarget(
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
         std::cout << "coordinates.col(i): " << coordinates.col(i) << std::endl;
-        interpolators_.add(
-            Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i))
-        );
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
     }
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Axis& anAxis, const bool& isAntiDirection, const Interpolator::Type& anInterpolatorType
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+    const Axis& anAxis,
+    const bool& isAntiDirection,
+    const Interpolator::Type& anInterpolatorType
 )
     : Target(TargetType::OrientationProfile, anAxis, isAntiDirection),
       orientationProfile(anOrientationProfile)
@@ -168,9 +171,7 @@ Profile::OrientationProfileTarget::OrientationProfileTarget(
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(
-            Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i))
-        );
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
     }
 }
 

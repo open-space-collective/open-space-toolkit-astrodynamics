@@ -12,8 +12,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::core::container::Pair;
     using ostk::core::type::Shared;
 
-    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
     using ostk::mathematics::curvefitting::Interpolator;
+    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
     using ostk::physics::coordinate::Frame;
 
