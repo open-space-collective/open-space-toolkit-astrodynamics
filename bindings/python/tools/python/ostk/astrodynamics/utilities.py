@@ -72,7 +72,7 @@ def compute_residuals(
     """
     residuals: list[Residual] = []
 
-    for candidate_state, reference_state in zip(candidate_states, reference_states):
+    for candidate_state, reference_state in zip(candidate_states, reference_states, strict=True):
         frame: Frame
         if isinstance(local_orbital_frame_factory_or_frame, LocalOrbitalFrameFactory):
             frame = local_orbital_frame_factory_or_frame.generate_frame(reference_state)
@@ -112,7 +112,7 @@ def compute_residuals_for_orbit(
     orbit: Orbit,
     reference_states: list[State],
     local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
-) -> list[dict[str, datetime | float]]:
+) -> list[Residual]:
     """
     Compute position and velocity residuals for an orbit compared to a list of states.
 
@@ -139,7 +139,7 @@ def compute_residuals_for_orbits(
     reference_orbit: Orbit,
     instants: list[Instant],
     local_orbital_frame_factory_or_frame: LocalOrbitalFrameFactory | Frame = Frame.GCRF(),
-) -> list[dict[str, datetime | float]]:
+) -> list[Residual]:
     """
     Compare two orbits and return position and velocity residuals.
 
