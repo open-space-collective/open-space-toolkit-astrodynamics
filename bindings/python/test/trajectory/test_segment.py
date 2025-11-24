@@ -430,7 +430,7 @@ class TestSegment:
         self,
         name: str,
         instant_condition: InstantCondition,
-        thruster_dynamics: ConstantThrust,
+        thruster_dynamics: Thruster,
         dynamics: list,
         numerical_solver: NumericalSolver,
     ):
@@ -466,7 +466,7 @@ class TestSegment:
         self,
         name: str,
         instant_condition: InstantCondition,
-        thruster_dynamics: ConstantThrust,
+        thruster_dynamics: Thruster,
         dynamics: list,
         numerical_solver: NumericalSolver,
         local_orbital_frame_factory: LocalOrbitalFrameFactory,

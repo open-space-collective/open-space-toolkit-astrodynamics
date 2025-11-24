@@ -151,8 +151,8 @@ def profile(request) -> Profile:
         ),
     ]
 )
-def alignment_target() -> Profile.Target:
-    return Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X)
+def alignment_target(request) -> Profile.Target:
+    return request.param
 
 
 @pytest.fixture

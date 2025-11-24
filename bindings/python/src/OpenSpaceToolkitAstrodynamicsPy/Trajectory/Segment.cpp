@@ -11,6 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using ostk::core::type::String;
 
     using ostk::physics::time::Duration;
+    using ostk::physics::time::Interval;
     using ostk::physics::unit::Angle;
 
     using ostk::astrodynamics::Dynamics;
