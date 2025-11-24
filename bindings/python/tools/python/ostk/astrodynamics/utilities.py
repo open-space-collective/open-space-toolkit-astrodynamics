@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime
 from datetime import timezone
+
+import numpy as np
 
 from ostk.physics import Environment
 from ostk.physics.time import Scale
@@ -19,7 +22,152 @@ from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 
 from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.converters import coerce_to_datetime
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory import StateBuilder
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
+
+
+POSITION_VELOCITY_STATE_BUILDER: StateBuilder = StateBuilder(
+    frame=Frame.GCRF(),
+    coordinate_subsets=[
+        CartesianPosition.default(),
+        CartesianVelocity.default(),
+    ],
+)
+
+DEFAULT_INERTIAL_FRAME: Frame = Frame.GCRF()
+
+
+@dataclass
+class Residual:
+    timestamp: datetime
+    frame: Frame
+    dr: float
+    dr_x: float
+    dr_y: float
+    dr_z: float
+    dv: float
+    dv_x: float
+    dv_y: float
+    dv_z: float
+
+
+def compute_residuals(
+    candidate_states: list[State],
+    reference_states: list[State],
+    local_orbital_frame_factory_or_frame: (
+        LocalOrbitalFrameFactory | Frame
+    ) = DEFAULT_INERTIAL_FRAME,
+) -> list[Residual]:
+    """
+    Compute position and velocity residuals by comparing candidate states against reference states.
+
+    Args:
+        candidate_states (list[State]): Candidate list of States.
+        reference_states (list[State]): List of reference States to compare against.
+        local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
+
+    Returns:
+        list[Residual]: List of Residuals.
+    """
+    residuals: list[Residual] = []
+
+    for candidate_state, reference_state in zip(candidate_states, reference_states):
+        frame: Frame
+        if isinstance(local_orbital_frame_factory_or_frame, LocalOrbitalFrameFactory):
+            frame = local_orbital_frame_factory_or_frame.generate_frame(candidate_state)
+        else:
+            frame = local_orbital_frame_factory_or_frame
+
+        relative_state: State = POSITION_VELOCITY_STATE_BUILDER.reduce(
+            candidate_state
+        ).in_frame(frame) - POSITION_VELOCITY_STATE_BUILDER.reduce(
+            reference_state
+        ).in_frame(
+            frame
+        )
+
+        dr: np.ndarray = relative_state.get_position().get_coordinates()
+        dv: np.ndarray = relative_state.get_velocity().get_coordinates()
+
+        residuals.append(
+            Residual(
+                timestamp=coerce_to_datetime(reference_state.get_instant()),
+                frame=frame,
+                dr=float(np.linalg.norm(dr)),
+                dr_x=float(dr[0]),
+                dr_y=float(dr[1]),
+                dr_z=float(dr[2]),
+                dv=float(np.linalg.norm(dv)),
+                dv_x=float(dv[0]),
+                dv_y=float(dv[1]),
+                dv_z=float(dv[2]),
+            )
+        )
+
+    return residuals
+
+
+def compute_residuals_for_orbit(
+    orbit: Orbit,
+    reference_states: list[State],
+    local_orbital_frame_factory_or_frame: (
+        LocalOrbitalFrameFactory | Frame
+    ) = DEFAULT_INERTIAL_FRAME,
+) -> list[Residual]:
+    """
+    Compute position and velocity residuals for an orbit against a list of reference states.
+
+    Args:
+        orbit (Orbit): Orbit used to generate states at the instants of the reference states.
+        reference_states (list[State]): List of reference States to compare against.
+        local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
+
+    Returns:
+        list[Residual]: List of Residuals.
+    """
+    instants: list[Instant] = [state.get_instant() for state in reference_states]
+    orbit_states: list[State] = orbit.get_states_at(instants)
+
+    return compute_residuals(
+        candidate_states=orbit_states,
+        reference_states=reference_states,
+        local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
+    )
+
+
+def compute_residuals_for_orbits(
+    candidate_orbit: Orbit,
+    reference_orbit: Orbit,
+    instants: list[Instant],
+    local_orbital_frame_factory_or_frame: (
+        LocalOrbitalFrameFactory | Frame
+    ) = DEFAULT_INERTIAL_FRAME,
+) -> list[Residual]:
+    """
+    Compare two orbits at the provided instants and compute position and velocity residuals.
+
+    Args:
+        candidate_orbit (Orbit): Candidate Orbit.
+        reference_orbit (Orbit): Reference Orbit.
+        instants (list[Instant]): List of instants to generate states at.
+        local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
+
+    Returns:
+        list[Residual]: List of Residuals.
+    """
+    candidate_states: list[State] = candidate_orbit.get_states_at(instants)
+    reference_states: list[State] = reference_orbit.get_states_at(instants)
+
+    return compute_residuals(
+        candidate_states=candidate_states,
+        reference_states=reference_states,
+        local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
+    )
 
 
 def lla_from_state(state: State) -> LLA:
