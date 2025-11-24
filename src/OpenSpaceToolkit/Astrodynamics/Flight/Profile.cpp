@@ -112,7 +112,7 @@ Profile::TrajectoryTarget::TrajectoryTarget(
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection, const Interpolator::Type& anInterpolatorType
 )
     : Target(TargetType::OrientationProfile, aDirection),
       orientationProfile(anOrientationProfile)
@@ -136,14 +136,15 @@ Profile::OrientationProfileTarget::OrientationProfileTarget(
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
+        std::cout << "coordinates.col(i): " << coordinates.col(i) << std::endl;
         interpolators_.add(
-            Interpolator::GenerateInterpolator(Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i))
+            Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i))
         );
     }
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Axis& anAxis, const bool& isAntiDirection
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Axis& anAxis, const bool& isAntiDirection, const Interpolator::Type& anInterpolatorType
 )
     : Target(TargetType::OrientationProfile, anAxis, isAntiDirection),
       orientationProfile(anOrientationProfile)
@@ -168,7 +169,7 @@ Profile::OrientationProfileTarget::OrientationProfileTarget(
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
         interpolators_.add(
-            Interpolator::GenerateInterpolator(Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i))
+            Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i))
         );
     }
 }
@@ -505,6 +506,11 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
              (inertialFrameAlignment.cross(inertialFrameClocking)) * std::sin(thetaOffsetRad) +
              inertialFrameAlignment * (inertialFrameAlignment.dot(inertialFrameClocking)) *
                  (1.0 - std::cos(thetaOffsetRad)));
+
+        std::cout << "inertialFrameAlignment: " << inertialFrameAlignment << std::endl;
+        std::cout << "inertialFrameClockingRotated: " << inertialFrameClockingRotated << std::endl;
+        std::cout << "bodyFrameAlignment: " << bodyFrameAlignment << std::endl;
+        std::cout << "bodyFrameClocking: " << bodyFrameClocking << std::endl;
 
         // Quaternion from inertial frame to body frame
         const RotationMatrix rotationMatrix = RotationMatrix::VectorBasis(

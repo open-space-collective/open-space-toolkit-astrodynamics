@@ -13,6 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::core::type::Shared;
 
     using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+    using ostk::mathematics::curvefitting::Interpolator;
 
     using ostk::physics::coordinate::Frame;
 
@@ -227,20 +228,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     )
 
         .def(
-            init<const Array<Pair<Instant, Vector3d>>&, const Vector3d&>(),
+            init<const Array<Pair<Instant, Vector3d>>&, const Vector3d&, const Interpolator::Type&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     orientation_profile (list[Tuple[Instant, Vector3d]]): The orientation profile.
                     direction (Vector3d): The direction.
+                    interpolator_type (Interpolator.Type, optional): The type of interpolator to use. Defaults to Barycentric Rational.
             )doc",
             arg("orientation_profile"),
-            arg("direction")
+            arg("direction"),
+            arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
         )
 
         .def(
-            init<const Array<Pair<Instant, Vector3d>>&, const Profile::Axis&, const bool&>(),
+            init<const Array<Pair<Instant, Vector3d>>&, const Profile::Axis&, const bool&, const Interpolator::Type&>(),
             R"doc(
                 Constructor from an axis.
 
@@ -248,10 +251,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     orientation_profile (list[Tuple[Instant, Vector3d]]): The orientation profile.
                     axis (Axis): The axis to convert to a direction vector.
                     anti_direction (bool): If true, the direction is flipped. Defaults to False.
+                    interpolator_type (Interpolator.Type, optional): The type of interpolator to use. Defaults to Barycentric Rational.
             )doc",
             arg("orientation_profile"),
             arg("axis"),
-            arg("anti_direction") = false
+            arg("anti_direction") = false,
+            arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
         )
 
         .def_readonly(
