@@ -1067,6 +1067,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
         EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Vector3d::X(), Interpolator::Type::Linear)
+        );
     }
 
     // Test valid orientation profile with Axis
@@ -1080,6 +1082,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
         };
         EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X));
         EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X, false));
+        EXPECT_NO_THROW(
+            Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X, false, Interpolator::Type::Linear)
+        );
     }
 
     // Verify direction is correctly set for Vector3d-based constructor

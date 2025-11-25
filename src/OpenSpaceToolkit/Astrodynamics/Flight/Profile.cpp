@@ -112,7 +112,9 @@ Profile::TrajectoryTarget::TrajectoryTarget(
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+    const Vector3d& aDirection,
+    const Interpolator::Type& anInterpolatorType
 )
     : Target(TargetType::OrientationProfile, aDirection),
       orientationProfile(anOrientationProfile)
@@ -136,14 +138,15 @@ Profile::OrientationProfileTarget::OrientationProfileTarget(
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(
-            Interpolator::GenerateInterpolator(Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i))
-        );
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
     }
 }
 
 Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Axis& anAxis, const bool& isAntiDirection
+    const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+    const Axis& anAxis,
+    const bool& isAntiDirection,
+    const Interpolator::Type& anInterpolatorType
 )
     : Target(TargetType::OrientationProfile, anAxis, isAntiDirection),
       orientationProfile(anOrientationProfile)
@@ -167,9 +170,7 @@ Profile::OrientationProfileTarget::OrientationProfileTarget(
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(
-            Interpolator::GenerateInterpolator(Interpolator::Type::BarycentricRational, timestamps, coordinates.col(i))
-        );
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
     }
 }
 
@@ -380,8 +381,8 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     }
 
     if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
-        ((anAlignmentTargetSPtr->type != TargetType::TargetPosition) ||
-         (anAlignmentTargetSPtr->type != TargetType::TargetVelocity)))
+        (anAlignmentTargetSPtr->type != TargetType::TargetPosition) &&
+        (anAlignmentTargetSPtr->type != TargetType::TargetVelocity))
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
     }

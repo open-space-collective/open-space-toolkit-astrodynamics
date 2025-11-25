@@ -198,8 +198,11 @@ class Profile
         ///
         /// @param anOrientationProfile The profile of orientations.
         /// @param aDirection The direction (unit vector) of the target.
+        /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
         OrientationProfileTarget(
-            const Array<Pair<Instant, Vector3d>>& anOrientationProfile, const Vector3d& aDirection
+            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+            const Vector3d& aDirection,
+            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
         );
 
         /// @brief Constructs an OrientationProfileTarget object from an axis.
@@ -207,10 +210,12 @@ class Profile
         /// @param anOrientationProfile The profile of orientations.
         /// @param anAxis The axis to convert to a direction vector.
         /// @param isAntiDirection If true, use the negative direction (default: false).
+        /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
         OrientationProfileTarget(
             const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
             const Axis& anAxis,
-            const bool& isAntiDirection = false
+            const bool& isAntiDirection = false,
+            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
         );
 
         /// @brief Gets the alignment vector at a specific instant.

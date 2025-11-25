@@ -97,16 +97,17 @@ def profile(request) -> Profile:
     return Profile(model=model)
 
 
+# TODO: Add test for target_sliding_ground_velocity
 @pytest.fixture(
     params=[
         # Axis-based constructors
         Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X),
         Profile.TrajectoryTarget.target_position(
-            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             Profile.Axis.X,
         ),
         Profile.TrajectoryTarget.target_velocity(
-            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             Profile.Axis.X,
         ),
         Profile.OrientationProfileTarget(
@@ -117,6 +118,8 @@ def profile(request) -> Profile:
                 (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
             ],
             Profile.Axis.X,
+            False,
+            Interpolator.Type.Linear,
         ),
         Profile.CustomTarget(
             lambda state: [1.0, 0.0, 0.0],
@@ -125,15 +128,11 @@ def profile(request) -> Profile:
         # Vector3d-based constructors
         Profile.Target(Profile.TargetType.GeocentricNadir, [1.0, 0.0, 0.0]),
         Profile.TrajectoryTarget.target_position(
-            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             [1.0, 0.0, 0.0],
         ),
         Profile.TrajectoryTarget.target_velocity(
-            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
-            [1.0, 0.0, 0.0],
-        ),
-        Profile.TrajectoryTarget.target_sliding_ground_velocity(
-            Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.ITRF())),
+            Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             [1.0, 0.0, 0.0],
         ),
         Profile.OrientationProfileTarget(
@@ -144,15 +143,16 @@ def profile(request) -> Profile:
                 (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
             ],
             [1.0, 0.0, 0.0],
+            Interpolator.Type.Linear,
         ),
         Profile.CustomTarget(
             lambda state: [1.0, 0.0, 0.0],
-            [1.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0],
         ),
     ]
 )
-def alignment_target() -> Profile.Target:
-    return Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X)
+def alignment_target(request) -> Profile.Target:
+    return request.param
 
 
 @pytest.fixture
