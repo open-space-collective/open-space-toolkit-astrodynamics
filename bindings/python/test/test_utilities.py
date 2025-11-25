@@ -239,8 +239,33 @@ class TestUtility:
         reference_states: list[State],
     ) -> None:
         result = utilities.compute_residuals_for_orbit(
-            orbit=orbit,
+            candidate_orbit=orbit,
             reference_states=reference_states,
+        )
+
+        assert len(result) == len(reference_states)
+        for entry in result:
+            assert isinstance(entry, utilities.Residual)
+            assert entry.timestamp is not None
+            assert entry.dr_x is not None
+            assert entry.dr_y is not None
+            assert entry.dr_z is not None
+            assert entry.dv_x is not None
+            assert entry.dv_y is not None
+            assert entry.dv_z is not None
+            assert isinstance(entry.timestamp, datetime)
+
+    def test_compute_residuals_for_orbit_identical_orbit_and_states_with_local_orbital_frame_factory(
+        self,
+        orbit: Orbit,
+        reference_states: list[State],
+    ) -> None:
+        result = utilities.compute_residuals_for_orbit(
+            candidate_orbit=orbit,
+            reference_states=reference_states,
+            local_orbital_frame_factory_or_frame=LocalOrbitalFrameFactory.VNC(
+                Frame.GCRF()
+            ),
         )
 
         assert len(result) == len(reference_states)
