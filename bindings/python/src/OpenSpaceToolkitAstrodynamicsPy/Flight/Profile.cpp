@@ -66,7 +66,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         .value("Sun", Profile::TargetType::Sun, "Sun")
         .value("Moon", Profile::TargetType::Moon, "Moon")
         .value("VelocityECI", Profile::TargetType::VelocityECI, "Velocity in ECI")
-        .value("VelocityECEF", Profile::TargetType::VelocityECEF, "Velocity in ECEF")
         .value("OrbitalMomentum", Profile::TargetType::OrbitalMomentum, "Orbital momentum")
         .value("OrientationProfile", Profile::TargetType::OrientationProfile, "Orientation profile")
         .value("Custom", Profile::TargetType::Custom, "Custom")

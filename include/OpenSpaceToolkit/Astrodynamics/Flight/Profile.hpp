@@ -89,7 +89,6 @@ class Profile
         Sun,                          /// The position of the Sun
         Moon,                         /// The position of the Moon
         VelocityECI,                  /// The velocity vector in the ECI frame
-        VelocityECEF,                 /// The velocity vector in the ECEF frame
         OrbitalMomentum,              /// The orbital momentum vector of the satellite in the ECI frame
         OrientationProfile,           /// Points towards a profile of orientations in the ECI frame
         Custom,                       /// Custom target
@@ -437,8 +436,6 @@ class Profile
     static Vector3d ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial);
 
     static Vector3d ComputeVelocityDirectionVector_ECI(const State& aState);
-
-    static Vector3d ComputeVelocityDirectionVector_ECEF(const State& aState);
 
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 

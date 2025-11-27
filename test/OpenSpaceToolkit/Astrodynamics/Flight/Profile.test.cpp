@@ -1226,26 +1226,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
 {
-    {
-        EXPECT_THROW(
-            Profile::AlignAndConstrain(
-                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Vector3d::X()),
-                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::Y())
-            ),
-            ostk::core::error::runtime::ToBeImplemented
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            Profile::AlignAndConstrain(
-                std::make_shared<const Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::Y()),
-                std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECEF, Vector3d::X())
-            ),
-            ostk::core::error::runtime::ToBeImplemented
-        );
-    }
-
     const Instant epoch = Instant::J2000();
 
     const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
