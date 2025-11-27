@@ -374,12 +374,6 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     const Angle& anAngularOffset
 )
 {
-    if ((anAlignmentTargetSPtr->type == TargetType::VelocityECEF) ||
-        (aClockingTargetSPtr->type == TargetType::VelocityECEF))
-    {
-        throw ostk::core::error::runtime::ToBeImplemented("Velocity ECEF");
-    }
-
     if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
         (anAlignmentTargetSPtr->type != TargetType::TargetPosition) &&
         (anAlignmentTargetSPtr->type != TargetType::TargetVelocity))
@@ -456,8 +450,6 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
                 };
             case TargetType::VelocityECI:
                 return Profile::ComputeVelocityDirectionVector_ECI;
-            case TargetType::VelocityECEF:
-                return Profile::ComputeVelocityDirectionVector_ECEF;
             case TargetType::OrbitalMomentum:
                 return Profile::ComputeOrbitalMomentumDirectionVector;
             case TargetType::OrientationProfile:
@@ -608,11 +600,6 @@ Vector3d Profile::ComputeCelestialDirectionVector(const State& aState, const Cel
 Vector3d Profile::ComputeVelocityDirectionVector_ECI(const State& aState)
 {
     return aState.inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates().normalized();
-}
-
-Vector3d Profile::ComputeVelocityDirectionVector_ECEF(const State& aState)
-{
-    return aState.inFrame(Frame::ITRF()).getVelocity().accessCoordinates().normalized();
 }
 
 Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
