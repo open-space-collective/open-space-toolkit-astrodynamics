@@ -24,27 +24,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
     )
 
         .def(
-            init<Array<State>&>(),
-            R"doc(
-                Constructor.
-
-                Args:
-                    states (Array[State]): The states of the model.
-             )doc",
-            arg("states")
-        )
-
-        .def(
             init<const Array<State>&, const Interpolator::Type&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     states (Array[State]): The states of the model.
-                    interpolator_type (Interpolator.Type): The type of interpolator to use for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP).
+                    interpolator_type (Interpolator.Type, optional): The type of interpolator to use for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Barycentric Rational.
              )doc",
             arg("states"),
-            arg("interpolator_type")
+            arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
         )
 
         .def(
@@ -132,10 +121,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
         )
 
         .def(
-            "get_body_frame",
-            &Tabulated::getBodyFrame,
+            "construct_body_frame",
+            &Tabulated::constructBodyFrame,
             R"doc(
-                Get the body frame of the model with the specified name.
+                Construct the body frame of the model with the specified name.
 
                 Args:
                     frame_name (str): The name of the body frame.

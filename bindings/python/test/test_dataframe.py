@@ -80,7 +80,7 @@ class TestOrbitDataframe:
 
     @pytest.fixture
     def orbit_states(self, orbit_state: State) -> list[State]:
-        return [orbit_state, orbit_state, orbit_state]
+        return [orbit_state, orbit_state, orbit_state, orbit_state, orbit_state]
 
     @pytest.fixture
     def profile_state(
@@ -96,7 +96,7 @@ class TestOrbitDataframe:
 
     @pytest.fixture
     def profile_states(self, profile_state: State) -> list[State]:
-        return [profile_state, profile_state, profile_state]
+        return [profile_state, profile_state, profile_state, profile_state, profile_state]
 
     @pytest.fixture
     def profile_dataframe_position_columns(self) -> list[str]:
@@ -152,6 +152,33 @@ class TestOrbitDataframe:
                         zip(profile_dataframe_angular_velocity_columns, [1.0, 1.0, 1.0])
                     ),
                 },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(2.0)),
+                    **dict(zip(profile_dataframe_position_columns, [21.0, 22.0, 23.0])),
+                    **dict(zip(profile_dataframe_velocity_columns, [24.0, 25.0, 26.0])),
+                    **dict(zip(profile_dataframe_attitude_columns, [0.0, 0.0, 1.0, 0.0])),
+                    **dict(
+                        zip(profile_dataframe_angular_velocity_columns, [1.0, 1.0, 1.0])
+                    ),
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(3.0)),
+                    **dict(zip(profile_dataframe_position_columns, [31.0, 32.0, 33.0])),
+                    **dict(zip(profile_dataframe_velocity_columns, [34.0, 35.0, 36.0])),
+                    **dict(zip(profile_dataframe_attitude_columns, [0.0, 0.0, 1.0, 0.0])),
+                    **dict(
+                        zip(profile_dataframe_angular_velocity_columns, [1.0, 1.0, 1.0])
+                    ),
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(4.0)),
+                    **dict(zip(profile_dataframe_position_columns, [41.0, 42.0, 43.0])),
+                    **dict(zip(profile_dataframe_velocity_columns, [44.0, 45.0, 46.0])),
+                    **dict(zip(profile_dataframe_attitude_columns, [0.0, 0.0, 1.0, 0.0])),
+                    **dict(
+                        zip(profile_dataframe_angular_velocity_columns, [1.0, 1.0, 1.0])
+                    ),
+                },
             ]
         )
 
@@ -184,6 +211,33 @@ class TestOrbitDataframe:
                     "v_GCRF_x": 14.0,
                     "v_GCRF_y": 15.0,
                     "v_GCRF_z": 16.0,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(2.0)),
+                    "r_GCRF_x": 21.0,
+                    "r_GCRF_y": 22.0,
+                    "r_GCRF_z": 23.0,
+                    "v_GCRF_x": 24.0,
+                    "v_GCRF_y": 25.0,
+                    "v_GCRF_z": 26.0,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(3.0)),
+                    "r_GCRF_x": 31.0,
+                    "r_GCRF_y": 32.0,
+                    "r_GCRF_z": 33.0,
+                    "v_GCRF_x": 34.0,
+                    "v_GCRF_y": 35.0,
+                    "v_GCRF_z": 36.0,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(4.0)),
+                    "r_GCRF_x": 41.0,
+                    "r_GCRF_y": 42.0,
+                    "r_GCRF_z": 43.0,
+                    "v_GCRF_x": 44.0,
+                    "v_GCRF_y": 45.0,
+                    "v_GCRF_z": 46.0,
                 },
             ]
         )
@@ -232,6 +286,8 @@ class TestOrbitDataframe:
             orbit_state_with_properties,
             orbit_state_with_properties,
             orbit_state_with_properties,
+            orbit_state_with_properties,
+            orbit_state_with_properties,
         ]
 
     @pytest.fixture
@@ -258,6 +314,42 @@ class TestOrbitDataframe:
                     "v_GCRF_x": 14.0,
                     "v_GCRF_y": 15.0,
                     "v_GCRF_z": 16.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(2.0)),
+                    "r_GCRF_x": 21.0,
+                    "r_GCRF_y": 22.0,
+                    "r_GCRF_z": 23.0,
+                    "v_GCRF_x": 24.0,
+                    "v_GCRF_y": 25.0,
+                    "v_GCRF_z": 26.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(3.0)),
+                    "r_GCRF_x": 31.0,
+                    "r_GCRF_y": 32.0,
+                    "r_GCRF_z": 33.0,
+                    "v_GCRF_x": 34.0,
+                    "v_GCRF_y": 35.0,
+                    "v_GCRF_z": 36.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(instant + Duration.minutes(4.0)),
+                    "r_GCRF_x": 41.0,
+                    "r_GCRF_y": 42.0,
+                    "r_GCRF_z": 43.0,
+                    "v_GCRF_x": 44.0,
+                    "v_GCRF_y": 45.0,
+                    "v_GCRF_z": 46.0,
                     "mass": 99.5,
                     "drag_coefficient": 2.2,
                     "surface_area": 10.5,
@@ -593,6 +685,54 @@ class TestProfileDataframe:
                     "w_B_GCRF_in_B_y": 1.0,
                     "w_B_GCRF_in_B_z": 1.0,
                 },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(2.0)),
+                    "r_GCRF_x": 21.0,
+                    "r_GCRF_y": 22.0,
+                    "r_GCRF_z": 23.0,
+                    "v_GCRF_x": 24.0,
+                    "v_GCRF_y": 25.0,
+                    "v_GCRF_z": 26.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(3.0)),
+                    "r_GCRF_x": 31.0,
+                    "r_GCRF_y": 32.0,
+                    "r_GCRF_z": 33.0,
+                    "v_GCRF_x": 34.0,
+                    "v_GCRF_y": 35.0,
+                    "v_GCRF_z": 36.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(4.0)),
+                    "r_GCRF_x": 41.0,
+                    "r_GCRF_y": 42.0,
+                    "r_GCRF_z": 43.0,
+                    "v_GCRF_x": 44.0,
+                    "v_GCRF_y": 45.0,
+                    "v_GCRF_z": 46.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                },
             ]
         )
 
@@ -647,6 +787,63 @@ class TestProfileDataframe:
                     "v_GCRF_x": 14.0,
                     "v_GCRF_y": 15.0,
                     "v_GCRF_z": 16.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(2.0)),
+                    "r_GCRF_x": 21.0,
+                    "r_GCRF_y": 22.0,
+                    "r_GCRF_z": 23.0,
+                    "v_GCRF_x": 24.0,
+                    "v_GCRF_y": 25.0,
+                    "v_GCRF_z": 26.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(3.0)),
+                    "r_GCRF_x": 31.0,
+                    "r_GCRF_y": 32.0,
+                    "r_GCRF_z": 33.0,
+                    "v_GCRF_x": 34.0,
+                    "v_GCRF_y": 35.0,
+                    "v_GCRF_z": 36.0,
+                    "q_B_GCRF_x": 0.0,
+                    "q_B_GCRF_y": 0.0,
+                    "q_B_GCRF_z": 1.0,
+                    "q_B_GCRF_s": 0.0,
+                    "w_B_GCRF_in_B_x": 1.0,
+                    "w_B_GCRF_in_B_y": 1.0,
+                    "w_B_GCRF_in_B_z": 1.0,
+                    "mass": 99.5,
+                    "drag_coefficient": 2.2,
+                    "surface_area": 10.5,
+                },
+                {
+                    "Timestamp": coerce_to_datetime(epoch + Duration.minutes(4.0)),
+                    "r_GCRF_x": 41.0,
+                    "r_GCRF_y": 42.0,
+                    "r_GCRF_z": 43.0,
+                    "v_GCRF_x": 44.0,
+                    "v_GCRF_y": 45.0,
+                    "v_GCRF_z": 46.0,
                     "q_B_GCRF_x": 0.0,
                     "q_B_GCRF_y": 0.0,
                     "q_B_GCRF_z": 1.0,
@@ -962,6 +1159,9 @@ class TestProfileDataframe:
             instants=[
                 epoch,
                 epoch + Duration.minutes(1.0),
+                epoch + Duration.minutes(2.0),
+                epoch + Duration.minutes(3.0),
+                epoch + Duration.minutes(4.0),
             ],
         )
 
@@ -977,6 +1177,9 @@ class TestProfileDataframe:
             instants=[
                 epoch,
                 epoch + Duration.minutes(1.0),
+                epoch + Duration.minutes(2.0),
+                epoch + Duration.minutes(3.0),
+                epoch + Duration.minutes(4.0),
             ],
             time_column="t",
             position_columns=["r_1", "r_2", "r_3"],

@@ -129,21 +129,11 @@ class AccessesPlot:
         interval: RealInterval,
         trajectory_step: Duration,
         access_step: Duration,
-        ground_station_lla: LLA | None = None,
-        color: str | None = None,
     ):
         self._data = []
         self._earth = earth
         self._trajectory_grid: list[Instant] = interval.generate_grid(trajectory_step)
         self._access_step: Duration = access_step
-
-        if ground_station_lla is not None and color is not None:
-            warnings.warn(
-                "Ground station and color are deprecated; use add_ground_station instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            self.add_ground_station(ground_station_lla, color)
 
     def _generate_and_append_data(
         self,
@@ -250,17 +240,14 @@ class AccessesPlot:
     def add_satellite(
         self,
         trajectory: Trajectory,
-        accesses: list[Access] | None = None,
         rgb: str | tuple[int, int, int] | None = None,
         opacity: float = 0.3,
     ) -> None:
         """
-        Add a satellite trajectory to the plot. If `accesses` is provided (deprecated),
-        they will be plotted and a deprecation warning will be emitted.
+        Add a satellite trajectory to the plot.
 
         Args:
             trajectory (Trajectory): The satellite trajectory.
-            accesses (list[Access] | None, optional): (Deprecated) Accesses to plot; use add_accesses().
             rgb (str | tuple[int, int, int] | None, optional): The color of the satellite, as a string or tuple of RGB values.
             opacity (float, optional): Opacity of the satellite trajectory line.
         """
@@ -269,18 +256,6 @@ class AccessesPlot:
 
         elif isinstance(rgb, (tuple, list)):
             rgb = f"rgba({str(rgb[0])},{str(rgb[1])},{str(rgb[2])},{opacity})"
-
-        if accesses is not None:
-            warnings.warn(
-                "Passing accesses to add_satellite() is deprecated; use add_accesses() instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            self.add_accesses(
-                trajectory,
-                accesses,
-                rgb,
-            )
 
         satellite_trajectory_data: list[list[float]] = []
         self._generate_and_append_data(

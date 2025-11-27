@@ -227,38 +227,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         .def("__repr__", &(shiftToString<QLaw>))
 
         .def(
-            init(
-                +[](const COE& aCOE,
-                    const Derived& aGravitationalParameter,
-                    const QLaw::Parameters& aParameters,
-                    const QLaw::GradientStrategy& aGradientStrategy) -> QLaw
-                {
-                    PyErr_WarnEx(
-                        PyExc_DeprecationWarning,
-                        "Use QLaw(target_coe, gravitational_parameter, parameters, gradient_strategy, coe_domain) "
-                        "instead.",
-                        1
-                    );
-                    return QLaw(aCOE, aGravitationalParameter, aParameters, aGradientStrategy);
-                }
-            ),
-            R"doc(
-                Deprecated Constructor.
-
-                Args:
-                    coe (COE): The target orbit described by Classical Orbital Elements.
-                    gravitational_parameter (float): The gravitational parameter of the central body.
-                    parameters (QLaw.Parameters): A set of parameters for the QLaw.
-                    gradient_strategy (QLaw.GradientStrategy): The strategy used to compute the gradient dQ_dOE. Defaults to FiniteDifference.
-
-            )doc",
-            arg("target_coe"),
-            arg("gravitational_parameter"),
-            arg("parameters"),
-            arg("gradient_strategy") = QLaw::GradientStrategy::FiniteDifference
-        )
-
-        .def(
             init<
                 const COE&,
                 const Derived&,

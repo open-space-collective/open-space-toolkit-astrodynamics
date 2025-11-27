@@ -30,8 +30,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(pybin
             R"doc(
                 Constructor.
 
+                Note:
+                    Be careful When selecting the time_step.
+                    A very small step can lead to higher precision, but increased runtime and memory consumption.
+                    On the other hand, a step that is too large, can result in missing event windows that are shorter than the time_step.
+                    For example:
+                    5 min -> 1----1----0----0----0----1----0 => 2 windows
+                    1 min ->  110011100011000000000111100 => 4 windows
+
                 Args:
-                    time_step (Duration): The time step.
+                    time_step (Duration): The time step used to generate the temporal grid, within which condition switching instants are
+                        searched. This must be set to be smaller than the smallest expected interval over which the condition changes
+                        state in order to avoid missing any switching instants.
                     tolerance (Duration): The tolerance of the solver.
                     maximum_iteration_count (int): The maximum number of iterations allowed.
 

@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -12,6 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -25,6 +27,7 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::Size;
 
@@ -33,6 +36,7 @@ using ostk::physics::time::Interval;
 using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Segment;
@@ -92,6 +96,12 @@ class Sequence
         /// @return Delta mass
         Mass computeDeltaMass() const;
 
+        /// @brief Extract maneuvers from all segment solutions
+        ///
+        /// @param aFrameSPtr Frame
+        /// @return Array of maneuvers
+        Array<Maneuver> extractManeuvers(const Shared<const Frame>& aFrameSPtr) const;
+
         /// @brief Calculate states in this sequence's solution at the provided instants.
         ///
         /// @param anInstantArray An array of instants.
@@ -125,11 +135,10 @@ class Sequence
     ///                  const Array<Shared<Dynamics>> dynamicsArray =
     ///                  {std::make_shared<CentralBodyGravity>(Earth::GravitationalParameter())};
     ///                  const Duration maximumPropagationDuration = Duration::Days(7.0);
-    ///                  const Duration minimumManeuverDuration = Duration::Zero();
     ///                  const Size verbosity = 0;
     ///
     ///                  Sequence sequence = {segmentArray, numericalSolver, dynamicsArray,
-    ///                  maximumPropagationDuration, minimumManeuverDuration, verbosity};
+    ///                  maximumPropagationDuration, verbosity};
     ///
     /// @endcode
     ///
@@ -138,15 +147,12 @@ class Sequence
     /// @param aDynamicsArray An array of shared dynamics. Defaults to empty.
     /// @param aSegmentPropagationDurationLimit Maximum duration for propagation. Defaults to 30.0
     /// days.
-    /// @param aMinimumManeuverDuration Minimum duration for maneuver, maneuvers less than this duration
-    /// will be skipped. Defaults to Undefined.
     /// @param aVerbosityLevel Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
         const NumericalSolver& aNumericalSolver = NumericalSolver::DefaultConditional(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const Duration& aSegmentPropagationDurationLimit = Duration::Days(30.0),
-        const Duration& aMinimumManeuverDuration = Duration::Undefined(),
         const Size& aVerbosityLevel = 0
     );
 
@@ -176,11 +182,6 @@ class Sequence
     ///
     /// @return Maximum propagation duration.
     Duration getMaximumPropagationDuration() const;
-
-    /// @brief Get minimum maneuver duration.
-    ///
-    /// @return Minimum maneuver duration.
-    Duration getMinimumManeuverDuration() const;
 
     /// @brief Add a trajectory segment.
     ///
@@ -233,7 +234,6 @@ class Sequence
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
     Duration segmentPropagationDurationLimit_;
-    Duration minimumManeuverDuration_;
 };
 
 }  // namespace trajectory

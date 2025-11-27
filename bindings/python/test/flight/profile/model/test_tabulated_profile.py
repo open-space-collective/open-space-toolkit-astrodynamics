@@ -103,13 +103,13 @@ class TestTabulatedProfile:
 
         assert axes is not None
 
-    def test_get_body_frame(
+    def test_construct_body_frame(
         self,
         tabulated_model: TabulatedModel,
     ):
         if Frame.exists("test"):
             Frame.destruct("test")
 
-        body_frame = tabulated_model.get_body_frame("test")
+        body_frame = tabulated_model.construct_body_frame("test")
 
         assert body_frame is not None

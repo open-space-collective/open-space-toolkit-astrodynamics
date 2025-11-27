@@ -77,7 +77,7 @@ class Model
 
     virtual Axes getAxesAt(const Instant& anInstant) const = 0;
 
-    virtual Shared<const Frame> getBodyFrame(const String& aFrameName) const = 0;
+    virtual Shared<const Frame> constructBodyFrame(const String& aFrameName) const = 0;
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
 };

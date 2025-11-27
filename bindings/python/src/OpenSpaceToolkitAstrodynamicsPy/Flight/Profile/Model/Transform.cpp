@@ -84,10 +84,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
         )
 
         .def(
-            "get_body_frame",
-            &Transform::getBodyFrame,
+            "construct_body_frame",
+            &Transform::constructBodyFrame,
             R"doc(
-                Get the body frame of the model with the specified name.
+                Construct the body frame of the model with the specified name.
 
                 Args:
                     frame_name (str): The name of the body frame.

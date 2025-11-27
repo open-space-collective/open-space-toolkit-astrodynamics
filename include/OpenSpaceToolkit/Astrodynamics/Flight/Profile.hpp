@@ -71,16 +71,6 @@ using ostk::astrodynamics::trajectory::State;
 class Profile
 {
    public:
-    enum class PointingMode
-    {
-
-        Undefined,  ///< Undefined pointing mode
-        Inertial,   ///< Inertial pointing mode (the spacecraft points to a celestial object)
-        Nadir,      ///< Nadir pointing mode (the spacecraft points points "directly down")
-        Target,     ///< Target pointing mode (the spacecraft points to a given target position)
-        Custom      ///< Custom pointing mode
-    };
-
     enum class Axis
     {
         X,
@@ -92,7 +82,6 @@ class Profile
     {
         GeocentricNadir,              /// Negative of the position vector of the satellite in the ECI frame
         GeodeticNadir,                /// Negative of the geodetic normal of the satellite in the ECI frame
-        Trajectory,                   /// DEPRECATED: Use TargetPosition instead.
         TargetPosition,               /// Points towards the provided target position
         TargetVelocity,               /// Points along the provided target's velocity vector
         TargetSlidingGroundVelocity,  /// Points along the provided target's ground velocity vector (aka the scan
@@ -100,7 +89,6 @@ class Profile
         Sun,                          /// The position of the Sun
         Moon,                         /// The position of the Moon
         VelocityECI,                  /// The velocity vector in the ECI frame
-        VelocityECEF,                 /// The velocity vector in the ECEF frame
         OrbitalMomentum,              /// The orbital momentum vector of the satellite in the ECI frame
         OrientationProfile,           /// Points towards a profile of orientations in the ECI frame
         Custom,                       /// Custom target
@@ -113,35 +101,37 @@ class Profile
         /// @brief Constructs a Target object.
         ///
         /// @param aType The type of the target.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction (unit vector) of the target.
+        Target(const TargetType& aType, const Vector3d& aDirection);
+
+        /// @brief Constructs a Target object from an axis.
+        ///
+        /// @param aType The type of the target.
+        /// @param anAxis The axis to convert to a direction vector.
+        /// @param isAntiDirection If true, use the negative direction (default: false).
         Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection = false);
 
         TargetType type;     ///< The type of the target.
-        Axis axis;           ///< The axis of the target.
-        bool antiDirection;  ///< Whether the target is in the anti-direction.
+        Vector3d direction;  ///< The direction (unit vector) of the target.
     };
 
     /// @brief Represents a target that points towards a trajectory.
     class TrajectoryTarget : public Target
     {
        public:
-        /// @brief Constructs a TrajectoryTarget object.
+        /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
         ///
-        /// @deprecated Use TrajectoryTarget::TargetPosition(...) instead.
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
-        [[deprecated("Use TrajectoryTarget::TargetPosition(...) instead.")]]
-        TrajectoryTarget(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        /// @param aDirection The direction (unit vector) of the target.
+        static TrajectoryTarget TargetPosition(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
         );
 
         /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param anAxis The axis to convert to a direction vector.
+        /// @param isAntiDirection If true, use the negative direction (default: false).
         static TrajectoryTarget TargetPosition(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
         );
@@ -150,8 +140,17 @@ class Profile
         /// choosing this as a clocking target, the resulting profile will not be yaw compensated.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction (unit vector) of the target.
+        static TrajectoryTarget TargetVelocity(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+        );
+
+        /// @brief Constructs a TrajectoryTarget object of type TargetVelocity, pointing along the scan direction. When
+        /// choosing this as a clocking target, the resulting profile will not be yaw compensated.
+        ///
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis to convert to a direction vector.
+        /// @param isAntiDirection If true, use the negative direction (default: false).
         static TrajectoryTarget TargetVelocity(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
         );
@@ -161,8 +160,18 @@ class Profile
         /// the rotation of the referenced celestial body.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction (unit vector) of the target.
+        static TrajectoryTarget TargetSlidingGroundVelocity(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+        );
+
+        /// @brief Constructs a TrajectoryTarget object of type TargetSlidingGroundVelocity, pointing along the ground
+        /// velocity vector (aka the scan direction of the point sliding across the ground). This will compensate for
+        /// the rotation of the referenced celestial body.
+        ///
+        /// @param aTrajectory The trajectory to point towards.
+        /// @param anAxis The axis to convert to a direction vector.
+        /// @param isAntiDirection If true, use the negative direction (default: false).
         static TrajectoryTarget TargetSlidingGroundVelocity(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
         );
@@ -174,13 +183,9 @@ class Profile
         ///
         /// @param aType The type of the target.
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction (unit vector) of the target.
         TrajectoryTarget(
-            const TargetType& aType,
-            const ostk::astrodynamics::Trajectory& aTrajectory,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false
+            const TargetType& aType, const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
         );
     };
 
@@ -191,12 +196,25 @@ class Profile
         /// @brief Constructs an OrientationProfileTarget object.
         ///
         /// @param anOrientationProfile The profile of orientations.
-        /// @param anAxis The axis of the target.
-        /// @param isAntiDirection Whether the target is in the anti-direction.
+        /// @param aDirection The direction (unit vector) of the target.
+        /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
+        OrientationProfileTarget(
+            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
+            const Vector3d& aDirection,
+            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
+        );
+
+        /// @brief Constructs an OrientationProfileTarget object from an axis.
+        ///
+        /// @param anOrientationProfile The profile of orientations.
+        /// @param anAxis The axis to convert to a direction vector.
+        /// @param isAntiDirection If true, use the negative direction (default: false).
+        /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
         OrientationProfileTarget(
             const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
             const Axis& anAxis,
-            const bool& isAntiDirection = false
+            const bool& isAntiDirection = false,
+            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
         );
 
         /// @brief Gets the alignment vector at a specific instant.
@@ -214,12 +232,24 @@ class Profile
     class CustomTarget : public Target
     {
        public:
+        /// @brief Constructs a CustomTarget object.
+        ///
+        /// @param anOrientationGenerator The orientation generator.
+        /// @param aDirection The direction (unit vector) of the target.
+        CustomTarget(std::function<Vector3d(const State&)> anOrientationGenerator, const Vector3d& aDirection);
+
+        /// @brief Constructs a CustomTarget object from an axis.
+        ///
+        /// @param anOrientationGenerator The orientation generator.
+        /// @param anAxis The axis to convert to a direction vector.
+        /// @param isAntiDirection If true, use the negative direction (default: false).
         CustomTarget(
             std::function<Vector3d(const State&)> anOrientationGenerator,
             const Axis& anAxis,
             const bool& isAntiDirection = false
         );
 
+        /// @brief The orientation generator.
         std::function<Vector3d(const State&)> orientationGenerator;
     };
 
@@ -305,13 +335,6 @@ class Profile
     /// @return Axes
     Axes getAxesAt(const Instant& anInstant) const;
 
-    /// @brief Get body frame
-    ///
-    /// @param aFrameName A body frame name
-    /// @return Shared pointer to body frame
-    [[deprecated("Use profile.construct_body_frame(...) instead.")]]
-    Shared<const Frame> getBodyFrame(const String& aFrameName) const;
-
     /// @brief Construct body frame
     ///
     /// @param aFrameName A body frame name
@@ -380,8 +403,8 @@ class Profile
 
     /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.
     ///
-    /// @param anAlignmentAxis An alignment axis
-    /// @param aClockingAxis A clocking axis
+    /// @param anAlignmentTargetSPtr An alignment target
+    /// @param aClockingTargetSPtr A clocking target
     /// @param anAngularOffset An angular offset applied to the clocking axis
 
     static std::function<Quaternion(const State&)> AlignAndConstrain(
@@ -414,18 +437,11 @@ class Profile
 
     static Vector3d ComputeVelocityDirectionVector_ECI(const State& aState);
 
-    static Vector3d ComputeVelocityDirectionVector_ECEF(const State& aState);
-
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 
-    static Vector3d ComputeClockingAxisVector(const Vector3d& anAlignmentAxisVector, const Vector3d& aClockingVector);
+    static Vector3d ComputeClockingVector(const Vector3d& anAligmentVector, const Vector3d& aDesiredClockingVector);
 
-    static Quaternion ComputeBodyToECIQuaternion(
-        const Axis& anAlignmentAxis,
-        const Axis& aClockingAxis,
-        const Vector3d& anAlignmentAxisVector,
-        const Vector3d& aClockingAxisVector
-    );
+    static Vector3d AxisToDirection(const Axis& anAxis, const bool& isAntiDirection);
 };
 
 }  // namespace flight
