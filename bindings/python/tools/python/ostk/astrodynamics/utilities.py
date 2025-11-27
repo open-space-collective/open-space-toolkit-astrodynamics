@@ -113,7 +113,7 @@ def compute_residuals(
 
 
 def compute_residuals_for_orbit(
-    orbit: Orbit,
+    candidate_orbit: Orbit,
     reference_states: list[State],
     local_orbital_frame_factory_or_frame: (
         LocalOrbitalFrameFactory | Frame
@@ -123,7 +123,7 @@ def compute_residuals_for_orbit(
     Compute position and velocity residuals for an orbit against a list of reference states.
 
     Args:
-        orbit (Orbit): Orbit used to generate states at the instants of the reference states.
+        candidate_orbit (Orbit): Candidate Orbit used to generate states at the instants of the reference states.
         reference_states (list[State]): List of reference States to compare against.
         local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
@@ -131,10 +131,10 @@ def compute_residuals_for_orbit(
         list[Residual]: List of Residuals.
     """
     instants: list[Instant] = [state.get_instant() for state in reference_states]
-    orbit_states: list[State] = orbit.get_states_at(instants)
+    candidate_states: list[State] = candidate_orbit.get_states_at(instants)
 
     return compute_residuals(
-        candidate_states=orbit_states,
+        candidate_states=candidate_states,
         reference_states=reference_states,
         local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
     )
