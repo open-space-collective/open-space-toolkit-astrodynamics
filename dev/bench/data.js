@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1764074834458,
+  "lastUpdate": 1764254514692,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -324,6 +324,60 @@ window.BENCHMARK_DATA = {
             "value": 3196648675.8999963,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3196474011.1999974 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a7e73a36c097cc685a92076659440e12bfad88a9",
+          "message": "feat!: merge development branch 17.0.0 (#609)\n\n* test!: update close approach generator defaults and add more thorough tests  (#601)\n\n* chore!: clarify temporal condition solver\n\n* test: add more comprehensive tests\n\n* docs: apply vishwa's suggestions\n\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\n\n---------\n\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\n\n* feat!: generalize flight profile axes (#592)\n\n* feat!: generalize flight profile axes\n\n* fix: tests\n\n* feat: add angular offset\n\n* feat: align to target instead (even though it's identical)\n\n* feat: address remaining feedback\n\n---------\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>\n\n* feat!: solve Sequences considering maneuvering constraints (#595)\n\n* feat: solve sequences considering maneuvering constraints\n\n* Apply suggestions from code review\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\n\n* Apply suggestions from code review\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\n\n* wip:\n\n* chore: format\n\n* wip:\n\n* refactor!: move core logic to segment (#600)\n\n* refactor: use const for heterogenous guidance law\n\n* feat: works\n\n* feat: works end-to-end, need to add bindings etc.\n\n* feat: add bindings\n\n* fix: remove extra files\n\n* Apply suggestions from code review\n\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\n\n* refactor: simplify greatly\n\n* fix: tests\n\n* feat: address remaining feedback\n\n---------\n\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\n\n* chore: format\n\n---------\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\nCo-authored-by: Vishwa Shah <vishwa2710@gmail.com>\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>\n\n* refactor!: remove deprecated methods, enums and classes (#604)\n\n* refactor: remove deprecated code and tests\n\n* refactor!: remove deprecated methods, enums and clases\n\n* chore: fix test\n\n* refactor!: remove unused enums (#608)\n\n* test: improve test coverage for maneuver constraints (#610)\n\ntest: improve test coverage for Maneuver Constraints\n\n* feat!: add InterpolatorType argument for OrientationProfileTarget (#611)\n\n* chore: small fixes\n\n* feat!: add interpolator type to OrientationProfileTarget\n\n* chore: format\n\n* refactor!: remove VelocityECEF enum from Profile.Target (#613)\n\nrefactor!: remove unused VelocityECEF enum for Profile\n\n---------\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\nCo-authored-by: Alex Liang <35860220+alex-liang3@users.noreply.github.com>",
+          "timestamp": "2025-11-27T19:49:52+05:30",
+          "tree_id": "bbc4cfe2ec1a84281fe27eb115ab0a79cca0f536",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a7e73a36c097cc685a92076659440e12bfad88a9"
+        },
+        "date": 1764254512306,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 867591181.2000039,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 804732154.5999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 894304232.9999969,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 894219718.3000004 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3203802784.7999954,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3203423803.7 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3200370459.8000126,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3199922137.600001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3200222890.699996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3199987410.999999 ns\nthreads: 1"
           }
         ]
       }
