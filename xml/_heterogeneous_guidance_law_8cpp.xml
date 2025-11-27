@@ -128,81 +128,83 @@
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">ostk::astrodynamics::GuidanceLaw</ref>;</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a6c0fe762c46a167379b141a95c6b359a" kindref="member">HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw</ref>(</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;&amp;<sp/>aGuidanceLawWithIntervalArray</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ad1a8f956b8fd47e7b589bb7ba905f95c" kindref="member">HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw</ref>(</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;&amp;<sp/>aGuidanceLawWithIntervalArray</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>GuidanceLaw(</highlight><highlight class="stringliteral">&quot;Heterogeneous<sp/>Guidance<sp/>Law&quot;</highlight><highlight class="normal">),</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>intervals_(Array&lt;Interval&gt;::Empty()),</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLaws_(Array&lt;Shared&lt;GuidanceLaw&gt;&gt;::Empty())</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLaws_(Array&lt;Shared&lt;const<sp/>GuidanceLaw&gt;&gt;::Empty())</highlight></codeline>
 <codeline lineno="36"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&amp;<sp/>guidanceLawWithInterval<sp/>:<sp/>aGuidanceLawWithIntervalArray)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&amp;<sp/>guidanceLawWithInterval<sp/>:<sp/>aGuidanceLawWithIntervalArray)</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;addGuidanceLaw(guidanceLawWithInterval.first,<sp/>guidanceLawWithInterval.second);</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="41"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal">Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a7182cbcc95e32a765ff06762f2a80aed" kindref="member">HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a85e32538904de66a28c52d38fc84133a" kindref="member">HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="44"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;<sp/>guidanceLawsWithIntervals<sp/>=</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;::Empty();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;<sp/>guidanceLawsWithIntervals<sp/>=</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;::Empty();</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Size<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>intervals_.getSize();<sp/>++i)</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLawsWithIntervals.add(Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;(guidanceLaws_[i],<sp/>intervals_[i]));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLawsWithIntervals.add(Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;(guidanceLaws_[i],<sp/>intervals_[i]));</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>guidanceLawsWithIntervals;</highlight></codeline>
 <codeline lineno="52"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a75301d15ac0cb70086dc851834849d63" kindref="member">HeterogeneousGuidanceLaw::addGuidanceLaw</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;GuidanceLaw&gt;&amp;<sp/>aGuidanceLawSPtr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval)</highlight></codeline>
-<codeline lineno="55"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aGuidanceLawSPtr<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Guidance<sp/>law<sp/>cannot<sp/>be<sp/>null.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anInterval.isDefined())</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Interval&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>interval<sp/>:<sp/>intervals_)</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interval.intersects(anInterval))</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(ostk::core::type::String::Format(</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Interval<sp/>intersects:<sp/>{}<sp/>and<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>interval.toString(),<sp/>anInterval.toString()</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>intervals_.add(anInterval);</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>guidanceLaws_.add(aGuidanceLawSPtr);</highlight></codeline>
-<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal">Vector3d<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81" kindref="member">HeterogeneousGuidanceLaw::calculateThrustAccelerationAt</ref>(</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aPositionCoordinates,</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aVelocityCoordinates,</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustAcceleration,</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>outputFrameSPtr</highlight></codeline>
-<codeline lineno="86"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="87"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>each<sp/>interval<sp/>to<sp/>find<sp/>which<sp/>guidance<sp/>law<sp/>to<sp/>use</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Size<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>intervals_.getSize();<sp/>++i)</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(intervals_[i].contains(anInstant))</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>guidanceLaws_[i]-&gt;calculateThrustAccelerationAt(</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInstant,<sp/>aPositionCoordinates,<sp/>aVelocityCoordinates,<sp/>aThrustAcceleration,<sp/>outputFrameSPtr</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Vector3d<sp/>{0.0,<sp/>0.0,<sp/>0.0};</highlight></codeline>
-<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>guidancelaw</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a3da4dc70cf3d9b9d0b7af11a04e04bc4" kindref="member">HeterogeneousGuidanceLaw::addGuidanceLaw</ref>(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>GuidanceLaw&gt;&amp;<sp/>aGuidanceLawSPtr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aGuidanceLawSPtr<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Guidance<sp/>law<sp/>cannot<sp/>be<sp/>null.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!anInterval.isDefined())</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Interval&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>interval<sp/>:<sp/>intervals_)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interval.intersects(anInterval))</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(ostk::core::type::String::Format(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Interval<sp/>intersects:<sp/>{}<sp/>and<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>interval.toString(),<sp/>anInterval.toString()</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>intervals_.add(anInterval);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>guidanceLaws_.add(aGuidanceLawSPtr);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">Vector3d<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81" kindref="member">HeterogeneousGuidanceLaw::calculateThrustAccelerationAt</ref>(</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aPositionCoordinates,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aVelocityCoordinates,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustAcceleration,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>outputFrameSPtr</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="89"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>each<sp/>interval<sp/>to<sp/>find<sp/>which<sp/>guidance<sp/>law<sp/>to<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Size<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>intervals_.getSize();<sp/>++i)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(intervals_[i].contains(anInstant))</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>guidanceLaws_[i]-&gt;calculateThrustAccelerationAt(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInstant,<sp/>aPositionCoordinates,<sp/>aVelocityCoordinates,<sp/>aThrustAcceleration,<sp/>outputFrameSPtr</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Vector3d<sp/>{0.0,<sp/>0.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>guidancelaw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.cpp"/>
   </compounddef>

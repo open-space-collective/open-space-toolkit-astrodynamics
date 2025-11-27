@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</compoundname>
+    <includes refid="_segment_8hpp" local="no">Segment.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a925178605ae2be32b40d999f7e836978" prot="public" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::minimumDuration</definition>
+        <argsstring></argsstring>
+        <name>minimumDuration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="101" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a0d82bd9b3790e2e84435641d635cc684" prot="public" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::maximumDuration</definition>
+        <argsstring></argsstring>
+        <name>maximumDuration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="102" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a4eaa2a93b89cf6d5f391c47af6cd78d2" prot="public" static="no" mutable="no">
+        <type>Duration</type>
+        <definition>Duration ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::minimumSeparation</definition>
+        <argsstring></argsstring>
+        <name>minimumSeparation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="103" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1aecc65fdce9b78723ee4fc808d78d8cb7" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a0d2a19995d3b48b7415e39e44af91e92" kindref="member">MaximumManeuverDurationViolationStrategy</ref></type>
+        <definition>MaximumManeuverDurationViolationStrategy ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::maximumDurationStrategy</definition>
+        <argsstring></argsstring>
+        <name>maximumDurationStrategy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="104" column="50" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a9c84dbd20bbbfef82cb4724a0a81213d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::ManeuverConstraints</definition>
+        <argsstring>(const Duration &amp;aMinimumDuration=Duration::Undefined(), const Duration &amp;aMaximumDuration=Duration::Undefined(), const Duration &amp;aMinimumSeparation=Duration::Undefined(), const MaximumManeuverDurationViolationStrategy &amp;aMaximumDurationStrategy=MaximumManeuverDurationViolationStrategy::Fail)</argsstring>
+        <name>ManeuverConstraints</name>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aMinimumDuration</declname>
+          <defval>Duration::Undefined()</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aMaximumDuration</declname>
+          <defval>Duration::Undefined()</defval>
+        </param>
+        <param>
+          <type>const Duration &amp;</type>
+          <declname>aMinimumSeparation</declname>
+          <defval>Duration::Undefined()</defval>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a0d2a19995d3b48b7415e39e44af91e92" kindref="member">MaximumManeuverDurationViolationStrategy</ref> &amp;</type>
+          <declname>aMaximumDurationStrategy</declname>
+          <defval><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a0d2a19995d3b48b7415e39e44af91e92aceaa0734f0b3c738120c67344d8f3ec1" kindref="member">MaximumManeuverDurationViolationStrategy::Fail</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMinimumDuration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum duration for a maneuver. Defaults to Undefined. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMaximumDuration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum duration for a maneuver. Defaults to Undefined. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMinimumSeparation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum separation between maneuvers. Defaults to Undefined. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMaximumDurationStrategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The strategy when maximum duration is violated. Defaults to Fail. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="93" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="50" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a688de27000eefb466bdae7755ad08f22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::isDefined</definition>
+        <argsstring>() const</argsstring>
+        <name>isDefined</name>
+        <briefdescription>
+<para>Check if the maneuver constraints are defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the maneuver constraints are defined </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="108" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1aa269a0eea016e70b58ade153dadac3e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::intervalHasValidMinimumDuration</definition>
+        <argsstring>(const Interval &amp;aManeuverInterval) const</argsstring>
+        <name>intervalHasValidMinimumDuration</name>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>aManeuverInterval</declname>
+        </param>
+        <briefdescription>
+<para>Check if the minimum duration is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aManeuverInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maneuver interval </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the minimum duration is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="113" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="96" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1aef77b9961b24e4037085e83296084566" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::intervalHasValidMaximumDuration</definition>
+        <argsstring>(const Interval &amp;aManeuverInterval) const</argsstring>
+        <name>intervalHasValidMaximumDuration</name>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>aManeuverInterval</declname>
+        </param>
+        <briefdescription>
+<para>Check if the maximum duration is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aManeuverInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maneuver interval </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the maximum duration is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="118" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a0f37ee5300b8db8e1659634e256e9c8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::trajectory::Segment::ManeuverConstraints::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the maneuver constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorators </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="123" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="116" bodyend="138"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a1b473b2d57e925e96124bdea1887a835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const ManeuverConstraints &amp;aManeuverConstraints)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints" kindref="compound">ManeuverConstraints</ref> &amp;</type>
+          <declname>aManeuverConstraints</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aManeuverConstraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A maneuver constraints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An output stream </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="129" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="140" bodyend="144"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>Duration</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</label>
+        <link refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>minimumDuration</edgelabel>
+          <edgelabel>minimumSeparation</edgelabel>
+          <edgelabel>maximumDuration</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="87" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="86" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1aef77b9961b24e4037085e83296084566" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>intervalHasValidMaximumDuration</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1aa269a0eea016e70b58ade153dadac3e2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>intervalHasValidMinimumDuration</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a688de27000eefb466bdae7755ad08f22" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>isDefined</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a9c84dbd20bbbfef82cb4724a0a81213d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>ManeuverConstraints</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a0d82bd9b3790e2e84435641d635cc684" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>maximumDuration</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1aecc65fdce9b78723ee4fc808d78d8cb7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>maximumDurationStrategy</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a925178605ae2be32b40d999f7e836978" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>minimumDuration</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a4eaa2a93b89cf6d5f391c47af6cd78d2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>minimumSeparation</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a1b473b2d57e925e96124bdea1887a835" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>operator&lt;&lt;</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_maneuver_constraints_1a0f37ee5300b8db8e1659634e256e9c8b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment::ManeuverConstraints</scope><name>print</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

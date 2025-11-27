@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="452" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="452" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="464" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="464" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aad6be786eb38ced8cdb170af32c6a75d" prot="protected" static="no" mutable="no">
         <type>Real</type>
@@ -150,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="453" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="453" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="465" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="465" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a62d1b6d74c04b351bb35a897179ae519" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -163,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="454" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="454" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="466" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="466" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a0632e479d04b69bd929cb3d9209f8ab9" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -176,7 +176,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="455" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="455" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="467" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="467" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3f5f26d20b18fca6335b56209b465a49" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -189,7 +189,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="456" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="456" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="468" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="468" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" static="no" mutable="no">
         <type>Angle</type>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="457" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="457" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="469" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="469" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a1ee850c01b3469538db439e3fcdc6ffb" prot="protected" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" kindref="member">AnomalyType</ref></type>
@@ -215,7 +215,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="458" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="458" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="470" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="470" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -1723,10 +1723,12 @@
           <defval>Sun::Default()</defval>
         </param>
         <briefdescription>
-<para>Compute Mean Local Time of the Ascending Node (MLTAN) from RAAN and instant. </para>
+<para>Compute Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
+<para><simplesect kind="note"><para>It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>raan</parametername>
 </parameternamelist>
@@ -1749,7 +1751,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="422" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1044" bodyend="1065"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="425" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1044" bodyend="1065"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a48e1a309b0a0be581f49e6ebcb3ba527" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Time</type>
@@ -1770,10 +1772,12 @@
           <defval>Sun::Default()</defval>
         </param>
         <briefdescription>
-<para>Compute Mean Local Time of the Descending Node (MLTDN) from RAAN and instant. </para>
+<para>Compute Mean Local Time of the Descending Node (MLTDN) from the RAAN and instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
+<para><simplesect kind="note"><para>It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>raan</parametername>
 </parameternamelist>
@@ -1796,7 +1800,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="429" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1067" bodyend="1074"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="435" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1067" bodyend="1074"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7b983230cbd19b3041ddeb3f7f34539f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Time</type>
@@ -1817,10 +1821,12 @@
           <defval>Sun::Default()</defval>
         </param>
         <briefdescription>
-<para>Compute Local Time of the Ascending Node (LTAN) from RAAN and instant. </para>
+<para>Compute Local Time of the Ascending Node (LTAN) from the RAAN and instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
+<para><simplesect kind="note"><para>It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>raan</parametername>
 </parameternamelist>
@@ -1843,7 +1849,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="436" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1076" bodyend="1091"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="445" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1076" bodyend="1091"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac2ae6a71fa47a6a4ec2a08c35da63969" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Time</type>
@@ -1864,10 +1870,12 @@
           <defval>Sun::Default()</defval>
         </param>
         <briefdescription>
-<para>Compute Local Time of the Descending Node (LTDN) from RAAN and instant. </para>
+<para>Compute Local Time of the Descending Node (LTDN) from the RAAN and instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
+<para><simplesect kind="note"><para>It is recommended to use the BrouwerLyddaneMean RAAN instead of the osculating RAAN for this computation to get a more stable result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>raan</parametername>
 </parameternamelist>
@@ -1890,7 +1898,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="443" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1093" bodyend="1100"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="455" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1093" bodyend="1100"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3347d99fa79c1ba759aa8871a240d488" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -1920,7 +1928,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="449" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1102" bodyend="1127"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="461" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1102" bodyend="1127"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -2022,7 +2030,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="469" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1129" bodyend="1146"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="481" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1129" bodyend="1146"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -2102,7 +2110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="486" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1148" bodyend="1208"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="498" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1148" bodyend="1208"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad7cb62716b9f33786e49bed05eb4a6ca" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -2132,7 +2140,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="498" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1210" bodyend="1242"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="510" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.cpp" bodystart="1210" bodyend="1242"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -2192,7 +2200,7 @@
         <label>Length</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="59" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="58" bodyend="499"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" line="59" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp" bodystart="58" bodyend="511"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>anomaly_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</scope><name>AnomalyType</name></member>

@@ -118,12 +118,12 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="59" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="78" bodyend="101"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1abec7e74a9418f05dcf50ac060602af54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ac227c8797030a8a3a38361feedea87bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Shared&lt; const Frame &gt;</type>
-        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::flight::profile::model::Transform::getBodyFrame</definition>
+        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::flight::profile::model::Transform::constructBodyFrame</definition>
         <argsstring>(const String &amp;aFrameName) const override</argsstring>
-        <name>getBodyFrame</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1acd5f51cf0f3f45ef7267239d2c83778a">getBodyFrame</reimplements>
+        <name>constructBodyFrame</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a30c339ed1ddc3d24707863e9729d7132">constructBodyFrame</reimplements>
         <param>
           <type>const String &amp;</type>
           <declname>aFrameName</declname>
@@ -337,9 +337,9 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a7037a5e5c4eaf2ba9074262d561fa146" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a49434a67dfcbbe324264b25b19da3d5c" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>calculateStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a95e5dd1e797403c6b99f89e2368d2541" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ac227c8797030a8a3a38361feedea87bf" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>constructBodyFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ad5cae48e9dcc47d98093c91be1bab7e4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>frameSPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a187d2ce899b57759c3a5ad5861c9ff6f" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>getAxesAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1abec7e74a9418f05dcf50ac060602af54" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>getBodyFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>InertialPointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>is</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>isDefined</name></member>

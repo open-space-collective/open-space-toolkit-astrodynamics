@@ -418,7 +418,7 @@
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>relativeDistanceDerivativeStateBuilder<sp/>=</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>StateBuilder(relativeDistanceDerivativeFrame,<sp/>relativeStateCoordinateSubsets);</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a9da0a203104bbd66e578ac55bfee83e9" kindref="member">Generator::Generator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Trajectory&amp;<sp/>aReferenceTrajectory,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aStep,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTolerance)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1ad2af10dbb67e2bacf2e701c59e4807f8" kindref="member">Generator::Generator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Trajectory&amp;<sp/>aReferenceTrajectory,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aStep,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration&amp;<sp/>aTolerance)</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>referenceTrajectory_(aReferenceTrajectory),</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>step_(aStep),</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tolerance_(aTolerance)</highlight></codeline>
@@ -584,15 +584,15 @@
 <codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>relativeVelocityCoordinates<sp/>=</highlight></codeline>
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
-<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>relative<sp/>distance<sp/>derivative:<sp/>dot(r,<sp/>v)<sp/>/<sp/>||r||</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>dotProduct<sp/>=<sp/>relativePositionCoordinates.dot(relativeVelocityCoordinates);</highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>relativePositionNorm<sp/>=<sp/>relativePositionCoordinates.norm();</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(relativePositionNorm<sp/>==<sp/>0.0)</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>compute<sp/>relative<sp/>distance<sp/>derivative:<sp/>states<sp/>are<sp/>co-located.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>dotProduct<sp/>=<sp/>relativePositionCoordinates.dot(relativeVelocityCoordinates);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>relativePositionNorm<sp/>=<sp/>relativePositionCoordinates.norm();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(relativePositionNorm<sp/>==<sp/>0.0)</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>compute<sp/>relative<sp/>distance<sp/>derivative:<sp/>states<sp/>are<sp/>co-located.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relative<sp/>distance<sp/>derivative:<sp/>dot(r,<sp/>v)<sp/>/<sp/>||r||</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dotProduct<sp/>/<sp/>relativePositionNorm;</highlight></codeline>
 <codeline lineno="225"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="226"><highlight class="normal"></highlight></codeline>

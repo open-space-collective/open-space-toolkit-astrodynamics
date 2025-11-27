@@ -56,34 +56,34 @@
 <span class=nn >Cell In[13], line 1,</span> in <span class=ni >&lt;listcomp&gt;</span><span class=nt >(.0)</span>
 <span class=ne >----&gt; </span><span class=mi >1</span> <span class=n >orbit_data</span> <span class=o >=</span> <span class=p >[</span><span class=n >convert_state</span><span class=p >(</span><span class=n >state</span><span class=p >)</span> <span class=k >for</span> <span class=n >state</span> <span class=ow >in</span> <span class=n >states</span><span class=p >]</span>
 
-<span class=nn >File /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:236,</span> in <span class=ni >convert_state</span><span class=nt >(state)</span>
-<span class="g g-Whitespace">    </span><span class=mi >212</span> <span class=k >def</span><span class=w > </span><span class=nf >convert_state</span><span class=p >(</span>
-<span class="g g-Whitespace">    </span><span class=mi >213</span>     <span class=n >state</span><span class=p >:</span> <span class=n >State</span><span class=p >,</span>
-<span class="g g-Whitespace">    </span><span class=mi >214</span> <span class=p >)</span> <span class=o >-&gt;</span> <span class=nb >tuple</span><span class=p >[</span><span class=nb >str</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >]:</span>
-<span class="g g-Whitespace">    </span><span class=mi >215</span><span class=w >     </span><span class=sd >"""</span>
-<span class="g g-Whitespace">    </span><span class=mi >216</span><span class=sd >     Convert a State into dataframe-ready values.</span>
-<span class="g g-Whitespace">    </span><span class=mi >217</span><span class=sd >     - Instant (str)</span>
+<span class=nn >File /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:384,</span> in <span class=ni >convert_state</span><span class=nt >(state)</span>
+<span class="g g-Whitespace">    </span><span class=mi >360</span> <span class=k >def</span><span class=w > </span><span class=nf >convert_state</span><span class=p >(</span>
+<span class="g g-Whitespace">    </span><span class=mi >361</span>     <span class=n >state</span><span class=p >:</span> <span class=n >State</span><span class=p >,</span>
+<span class="g g-Whitespace">    </span><span class=mi >362</span> <span class=p >)</span> <span class=o >-&gt;</span> <span class=nb >tuple</span><span class=p >[</span><span class=nb >str</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >,</span> <span class=nb >float</span><span class=p >]:</span>
+<span class="g g-Whitespace">    </span><span class=mi >363</span><span class=w >     </span><span class=sd >"""</span>
+<span class="g g-Whitespace">    </span><span class=mi >364</span><span class=sd >     Convert a State into dataframe-ready values.</span>
+<span class="g g-Whitespace">    </span><span class=mi >365</span><span class=sd >     - Instant (str)</span>
 <span class=sd >   (...)</span>
-<span class="g g-Whitespace">    </span><span class=mi >233</span><span class=sd >         tuple[str, float, float, float, float, float, float, float, float, float]: The dataframe-ready values.</span>
-<span class="g g-Whitespace">    </span><span class=mi >234</span><span class=sd >     """</span>
-<span class=ne >--&gt; </span><span class=mi >236</span>     <span class=n >lla</span><span class=p >:</span> <span class=n >LLA</span> <span class=o >=</span> <span class=n >lla_from_state</span><span class=p >(</span><span class=n >state</span><span class=p >)</span>
-<span class="g g-Whitespace">    </span><span class=mi >238</span>     <span class=n >instant</span><span class=p >:</span> <span class=n >Instant</span> <span class=o >=</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >()</span>
-<span class="g g-Whitespace">    </span><span class=mi >240</span>     <span class=k >return</span> <span class=p >(</span>
-<span class="g g-Whitespace">    </span><span class=mi >241</span>         <span class=nb >str</span><span class=p >(</span><span class=n >instant</span><span class=o >.</span><span class=n >to_string</span><span class=p >()),</span>
-<span class="g g-Whitespace">    </span><span class=mi >242</span>         <span class=nb >float</span><span class=p >(</span><span class=n >instant</span><span class=o >.</span><span class=n >get_modified_julian_date</span><span class=p >(</span><span class=n >Scale</span><span class=o >.</span><span class=n >UTC</span><span class=p >)),</span>
+<span class="g g-Whitespace">    </span><span class=mi >381</span><span class=sd >         tuple[str, float, float, float, float, float, float, float, float, float]: The dataframe-ready values.</span>
+<span class="g g-Whitespace">    </span><span class=mi >382</span><span class=sd >     """</span>
+<span class=ne >--&gt; </span><span class=mi >384</span>     <span class=n >lla</span><span class=p >:</span> <span class=n >LLA</span> <span class=o >=</span> <span class=n >lla_from_state</span><span class=p >(</span><span class=n >state</span><span class=p >)</span>
+<span class="g g-Whitespace">    </span><span class=mi >386</span>     <span class=n >instant</span><span class=p >:</span> <span class=n >Instant</span> <span class=o >=</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >()</span>
+<span class="g g-Whitespace">    </span><span class=mi >388</span>     <span class=k >return</span> <span class=p >(</span>
+<span class="g g-Whitespace">    </span><span class=mi >389</span>         <span class=nb >str</span><span class=p >(</span><span class=n >instant</span><span class=o >.</span><span class=n >to_string</span><span class=p >()),</span>
+<span class="g g-Whitespace">    </span><span class=mi >390</span>         <span class=nb >float</span><span class=p >(</span><span class=n >instant</span><span class=o >.</span><span class=n >get_modified_julian_date</span><span class=p >(</span><span class=n >Scale</span><span class=o >.</span><span class=n >UTC</span><span class=p >)),</span>
    <span class=p >(</span><span class=o >...</span><span class=p >)</span>
-<span class="g g-Whitespace">    </span><span class=mi >247</span>         <span class=nb >float</span><span class=p >(</span><span class=n >lla</span><span class=o >.</span><span class=n >get_altitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_meters</span><span class=p >()),</span>
-<span class="g g-Whitespace">    </span><span class=mi >248</span>     <span class=p >)</span>
+<span class="g g-Whitespace">    </span><span class=mi >395</span>         <span class=nb >float</span><span class=p >(</span><span class=n >lla</span><span class=o >.</span><span class=n >get_altitude</span><span class=p >()</span><span class=o >.</span><span class=n >in_meters</span><span class=p >()),</span>
+<span class="g g-Whitespace">    </span><span class=mi >396</span>     <span class=p >)</span>
 
-<span class=nn >File /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:36,</span> in <span class=ni >lla_from_state</span><span class=nt >(state)</span>
-<span class="g g-Whitespace">     </span><span class=mi >25</span> <span class=k >def</span><span class=w > </span><span class=nf >lla_from_state</span><span class=p >(</span><span class=n >state</span><span class=p >:</span> <span class=n >State</span><span class=p >)</span> <span class=o >-&gt;</span> <span class=n >LLA</span><span class=p >:</span>
-<span class="g g-Whitespace">     </span><span class=mi >26</span><span class=w >     </span><span class=sd >"""</span>
-<span class="g g-Whitespace">     </span><span class=mi >27</span><span class=sd >     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.</span>
-<span class="g g-Whitespace">     </span><span class=mi >28</span><span class=sd > </span>
+<span class=nn >File /usr/local/lib/python3.11/dist-packages/ostk/astrodynamics/utilities.py:184,</span> in <span class=ni >lla_from_state</span><span class=nt >(state)</span>
+<span class="g g-Whitespace">    </span><span class=mi >173</span> <span class=k >def</span><span class=w > </span><span class=nf >lla_from_state</span><span class=p >(</span><span class=n >state</span><span class=p >:</span> <span class=n >State</span><span class=p >)</span> <span class=o >-&gt;</span> <span class=n >LLA</span><span class=p >:</span>
+<span class="g g-Whitespace">    </span><span class=mi >174</span><span class=w >     </span><span class=sd >"""</span>
+<span class="g g-Whitespace">    </span><span class=mi >175</span><span class=sd >     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.</span>
+<span class="g g-Whitespace">    </span><span class=mi >176</span><span class=sd > </span>
 <span class=sd >   (...)</span>
-<span class="g g-Whitespace">     </span><span class=mi >33</span><span class=sd >         LLA: The LLA.</span>
-<span class="g g-Whitespace">     </span><span class=mi >34</span><span class=sd >     """</span>
-<span class=ne >---&gt; </span><span class=mi >36</span>     <span class=k >return</span> <span class=n >lla_from_position</span><span class=p >(</span><span class=n >state</span><span class=o >.</span><span class=n >get_position</span><span class=p >(),</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >())</span>
+<span class="g g-Whitespace">    </span><span class=mi >181</span><span class=sd >         LLA: The LLA.</span>
+<span class="g g-Whitespace">    </span><span class=mi >182</span><span class=sd >     """</span>
+<span class=ne >--&gt; </span><span class=mi >184</span>     <span class=k >return</span> <span class=n >lla_from_position</span><span class=p >(</span><span class=n >state</span><span class=o >.</span><span class=n >get_position</span><span class=p >(),</span> <span class=n >state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >())</span>
 
 <span class=ne >AttributeError</span>: 'list' object has no attribute 'get_position'
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >orbit_df</span> <span class=o >=</span> <span class=n >pd</span><span class=o >.</span><span class=n >DataFrame</span><span class=p >(</span>

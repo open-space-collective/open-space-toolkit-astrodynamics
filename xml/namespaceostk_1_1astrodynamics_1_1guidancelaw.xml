@@ -129,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" line="125" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="125" bodyend="129"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" line="131" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="131" bodyend="135"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

@@ -17,6 +17,7 @@ ostk.astrodynamics.guidance\_law.QLaw
       :nosignatures:
    
       ~QLaw.calculate_thrust_acceleration_at
+      ~QLaw.get_coe_domain
       ~QLaw.get_gradient_strategy
       ~QLaw.get_name
       ~QLaw.get_parameters

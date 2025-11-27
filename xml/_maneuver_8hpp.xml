@@ -23,6 +23,7 @@
     <includedby refid="_constant_thrust_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</includedby>
     <includedby refid="_propagator_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</includedby>
     <includedby refid="_segment_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</includedby>
+    <includedby refid="_sequence_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</includedby>
     <includedby refid="_maneuver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</includedby>
     <incdepgraph>
       <node id="36">
@@ -390,6 +391,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>

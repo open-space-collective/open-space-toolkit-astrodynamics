@@ -7,6 +7,7 @@
     <includes refid="_event_condition_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</includes>
     <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
     <includedby refid="_logical_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp</includedby>
+    <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
     <incdepgraph>
       <node id="5">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
@@ -160,6 +161,12 @@
         <link refid="_logical_condition_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
+        <link refid="_segment_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition" prot="public">ostk::astrodynamics::eventcondition::LogicalCondition</innerclass>

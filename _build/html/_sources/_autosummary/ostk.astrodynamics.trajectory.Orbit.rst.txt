@@ -36,8 +36,6 @@ ostk.astrodynamics.trajectory.Orbit
       ~Orbit.get_revolution_number_at
       ~Orbit.get_state_at
       ~Orbit.get_states_at
-      ~Orbit.ground_strip
-      ~Orbit.ground_strip_geodetic_nadir
       ~Orbit.is_defined
       ~Orbit.position
       ~Orbit.sun_synchronous

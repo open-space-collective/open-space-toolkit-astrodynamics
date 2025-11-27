@@ -20,8 +20,8 @@ ostk.astrodynamics.flight.profile.model.Tabulated
       ~Tabulated.as_transform
       ~Tabulated.calculate_state_at
       ~Tabulated.calculate_states_at
+      ~Tabulated.construct_body_frame
       ~Tabulated.get_axes_at
-      ~Tabulated.get_body_frame
       ~Tabulated.get_interpolator_type
       ~Tabulated.get_interval
       ~Tabulated.is_defined

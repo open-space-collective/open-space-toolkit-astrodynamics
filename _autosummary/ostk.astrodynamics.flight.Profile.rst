@@ -21,7 +21,6 @@ ostk.astrodynamics.flight.Profile
       ~Profile.construct_body_frame
       ~Profile.custom_pointing
       ~Profile.get_axes_at
-      ~Profile.get_body_frame
       ~Profile.get_state_at
       ~Profile.get_states_at
       ~Profile.inertial_pointing

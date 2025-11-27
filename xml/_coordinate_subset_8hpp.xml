@@ -472,6 +472,8 @@
         </childnode>
         <childnode refid="69" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="85">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp</label>
@@ -485,6 +487,8 @@
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -725,6 +729,8 @@
         <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp</label>
         <link refid="_logical_condition_8hpp"/>
         <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="121">

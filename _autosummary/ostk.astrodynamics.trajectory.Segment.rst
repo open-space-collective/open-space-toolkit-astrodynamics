@@ -20,8 +20,11 @@ ostk.astrodynamics.trajectory.Segment
       ~Segment.constant_local_orbital_frame_direction_maneuver
       ~Segment.get_dynamics
       ~Segment.get_event_condition
+      ~Segment.get_free_dynamics
+      ~Segment.get_maneuver_constraints
       ~Segment.get_name
       ~Segment.get_numerical_solver
+      ~Segment.get_thruster_dynamics
       ~Segment.get_type
       ~Segment.maneuver
       ~Segment.solve

@@ -17,6 +17,9 @@
    
       compute_aer
       compute_ground_track
+      compute_residuals
+      compute_residuals_for_orbit
+      compute_residuals_for_orbits
       compute_time_lla_aer_coordinates
       compute_trajectory_geometry
       convert_state
@@ -27,6 +30,15 @@
    
 
    
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      Residual
    
    
 

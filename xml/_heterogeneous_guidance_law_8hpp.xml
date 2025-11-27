@@ -12,6 +12,7 @@
     <includes refid="_guidance_law_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</includes>
     <includedby refid="_heterogeneous_guidance_law_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.cpp</includedby>
     <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
+    <includedby refid="_sequence_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</includedby>
     <incdepgraph>
       <node id="4">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
@@ -89,6 +90,12 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
+        <link refid="_sequence_8cpp"/>
       </node>
       <node id="3">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
@@ -141,14 +148,14 @@
 <codeline lineno="41" refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" kindref="compound">HeterogeneousGuidanceLaw</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref></highlight></codeline>
 <codeline lineno="42"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a6c0fe762c46a167379b141a95c6b359a" kindref="member">HeterogeneousGuidanceLaw</ref>(</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;&amp;<sp/>aGuidanceLawWithIntervalArray<sp/>=</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;::Empty()</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ad1a8f956b8fd47e7b589bb7ba905f95c" kindref="member">HeterogeneousGuidanceLaw</ref>(</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;&amp;<sp/>aGuidanceLawWithIntervalArray<sp/>=</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;::Empty()</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;GuidanceLaw&gt;,<sp/>Interval&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a7182cbcc95e32a765ff06762f2a80aed" kindref="member">getGuidanceLawsWithIntervals</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Pair&lt;Shared&lt;const<sp/>GuidanceLaw&gt;,<sp/>Interval&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a85e32538904de66a28c52d38fc84133a" kindref="member">getGuidanceLawsWithIntervals</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a75301d15ac0cb70086dc851834849d63" kindref="member">addGuidanceLaw</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;GuidanceLaw&gt;&amp;<sp/>aGuidanceLawSPtr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a3da4dc70cf3d9b9d0b7af11a04e04bc4" kindref="member">addGuidanceLaw</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>GuidanceLaw&gt;&amp;<sp/>aGuidanceLawSPtr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>anInterval);</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Vector3d<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81" kindref="member">calculateThrustAccelerationAt</ref>(</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
@@ -160,7 +167,7 @@
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>intervals_;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;GuidanceLaw&gt;&gt;<sp/>guidanceLaws_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;const<sp/>GuidanceLaw&gt;&gt;<sp/>guidanceLaws_;</highlight></codeline>
 <codeline lineno="84"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"></highlight></codeline>
 <codeline lineno="86"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>guidancelaw</highlight><highlight class="normal"></highlight></codeline>

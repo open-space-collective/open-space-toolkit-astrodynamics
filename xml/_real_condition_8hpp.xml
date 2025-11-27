@@ -11,6 +11,7 @@
     <includedby refid="_c_o_e_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</includedby>
     <includedby refid="_instant_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp</includedby>
     <includedby refid="_real_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</includedby>
+    <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
     <incdepgraph>
       <node id="2">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
@@ -185,6 +186,8 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="6">
         <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</label>
@@ -215,6 +218,10 @@
       <node id="10">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</label>
         <link refid="_real_condition_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
+        <link refid="_segment_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" prot="public">ostk::astrodynamics::eventcondition::RealCondition</innerclass>

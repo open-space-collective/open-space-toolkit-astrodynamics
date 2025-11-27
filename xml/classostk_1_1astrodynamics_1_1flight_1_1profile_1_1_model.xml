@@ -198,13 +198,13 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="78" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1acd5f51cf0f3f45ef7267239d2c83778a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a30c339ed1ddc3d24707863e9729d7132" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Shared&lt; const Frame &gt;</type>
-        <definition>virtual Shared&lt;const Frame&gt; ostk::astrodynamics::flight::profile::Model::getBodyFrame</definition>
+        <definition>virtual Shared&lt;const Frame&gt; ostk::astrodynamics::flight::profile::Model::constructBodyFrame</definition>
         <argsstring>(const String &amp;aFrameName) const =0</argsstring>
-        <name>getBodyFrame</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1abec7e74a9418f05dcf50ac060602af54">getBodyFrame</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a477a959c4e3d55b88bc5d64e508908b4">getBodyFrame</reimplementedby>
+        <name>constructBodyFrame</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ac227c8797030a8a3a38361feedea87bf">constructBodyFrame</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1c83a7defccadafb8f868ec5dfa44673">constructBodyFrame</reimplementedby>
         <param>
           <type>const String &amp;</type>
           <declname>aFrameName</declname>
@@ -294,8 +294,8 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1adda39b4823bc386e2cf443430b01fcab" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a49434a67dfcbbe324264b25b19da3d5c" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>calculateStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1aac46947479dc4ea97a4928123f3de026" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a30c339ed1ddc3d24707863e9729d7132" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>constructBodyFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a435f33740c9c6171593772a1a1feb8a0" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>getAxesAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1acd5f51cf0f3f45ef7267239d2c83778a" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>getBodyFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>is</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a9f897d6f5779826088fc7aa750c1540e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>Model</name></member>

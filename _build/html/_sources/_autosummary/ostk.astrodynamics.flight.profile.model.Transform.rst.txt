@@ -20,8 +20,8 @@ ostk.astrodynamics.flight.profile.model.Transform
       ~Transform.as_transform
       ~Transform.calculate_state_at
       ~Transform.calculate_states_at
+      ~Transform.construct_body_frame
       ~Transform.get_axes_at
-      ~Transform.get_body_frame
       ~Transform.inertial_pointing
       ~Transform.is_defined
       ~Transform.is_tabulated

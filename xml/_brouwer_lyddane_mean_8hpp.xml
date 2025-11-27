@@ -120,11 +120,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="7">
+      <node id="8">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp</label>
         <link refid="_brouwer_lyddane_mean_short_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp</label>
         <link refid="_brouwer_lyddane_mean_long_8cpp"/>
       </node>
@@ -135,8 +135,10 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.cpp</label>
         <link refid="_brouwer_lyddane_mean_8cpp"/>
       </node>
@@ -145,9 +147,9 @@
         <link refid="_brouwer_lyddane_mean_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -156,12 +158,18 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="5">
+        <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
+        <link refid="_q_law_8cpp"/>
+      </node>
+      <node id="7">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp</label>
         <link refid="_brouwer_lyddane_mean_short_8hpp"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="4">

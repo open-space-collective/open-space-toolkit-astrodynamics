@@ -11,6 +11,7 @@
     <includedby refid="_thruster_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp</includedby>
     <includedby refid="_heterogeneous_guidance_law_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp</includedby>
     <includedby refid="_q_law_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</includedby>
+    <includedby refid="_segment_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</includedby>
     <includedby refid="_guidance_law_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp</includedby>
     <incdepgraph>
       <node id="2">
@@ -61,6 +62,8 @@
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -113,6 +116,8 @@
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="13">

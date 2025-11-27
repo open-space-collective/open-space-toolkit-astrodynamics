@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="85" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="85" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="93" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a0acef4f2eb78b0b5733aa1d1fe39ee4a" prot="private" static="no" mutable="no">
         <type>Duration</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="86" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="86" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="94" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a597107edcbb428280720f3d113ca6efb" prot="private" static="no" mutable="no">
         <type>Size</type>
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="87" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="87" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="95" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="95" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -85,12 +85,14 @@
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1ac80decd8d15bdab1a540faf113fab6ba" kindref="member">TemporalConditionSolver</ref><sp/>temporalConditionSolver<sp/>=<sp/>{<sp/>Duration::Minutes(1.0),</highlight></codeline>
 <codeline><highlight class="normal">Duration::Microseconds(1.0)<sp/>};</highlight></codeline>
 </programlisting></para>
-<para><parameterlist kind="param"><parameteritem>
+<para><simplesect kind="note"><para>Be careful When selecting the time_step. A very small step can lead to higher precision, but increased runtime and memory consumption. On the other hand, a step that is too large, can result in missing event windows that are shorter than the time_step. For example: 5 min -&gt; 1-<mdash/>1-<mdash/>0-<mdash/>0-<mdash/>0-<mdash/>1-<mdash/>0 =&gt; 2 windows 1 min -&gt; 110011100011000000000111100 =&gt; 4 windows</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aTimeStep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A time step used to generate the temporal grid. </para>
+<para>A time step used to generate the temporal grid, within which condition switching instants are searched. This must be set to be smaller than the smallest expected interval over which the condition changes state in order to avoid missing any switching instants. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -114,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="46" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="18" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="54" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="18" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1acb9aff38bc1165cc8afcec43733c2a3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -131,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="55" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="63" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="27" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1ae8ae6e4cc44f75204bbea1ec32d05dbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -148,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="60" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="32" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="68" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="32" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a05741a7a878d9513bc9fd1ea47c7a57e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Size</type>
@@ -165,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="65" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="37" bodyend="40"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="73" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="37" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a2375139500504e596af4cf369386cbfc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Interval &gt;</type>
@@ -207,7 +209,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="73" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="42" bodyend="47"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="81" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="42" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1ad67e8c3d69443a6a502bce8ebddea883" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Interval &gt;</type>
@@ -249,7 +251,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="81" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="49" bodyend="114"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="89" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="49" bodyend="114"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -276,7 +278,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="89" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="116" bodyend="138"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="97" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="116" bodyend="138"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -299,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="95" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="140" bodyend="152"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="103" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp" bodystart="140" bodyend="152"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -307,7 +309,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="31" bodyend="98"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp" bodystart="31" bodyend="106"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a4bad6785f908ff551d34918c90fb88d8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::TemporalConditionSolver</scope><name>Condition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_temporal_condition_solver_1a7706968c3edeab64567d2855ac6e8c1b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::TemporalConditionSolver</scope><name>EvaluateConditionAt</name></member>
