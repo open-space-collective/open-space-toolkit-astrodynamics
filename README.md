@@ -230,19 +230,16 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::trajectory::State;
 
 int main()
 {
-    VectorXd coordinates(9);
-    coordinates << 3786681.30288918, -4897593.40751009, -2997836.66403268, 1124.5962634611, -3265.39989654837,
-        6779.45043611605, 100.0, 1.0, 1.36738720713048;
-
     const State state = {
         Instant::Parse("2024-06-09 14:44:30.734.999", Scale::UTC),
         Position::Meters({3786681.30288918, -4897593.40751009, -2997836.66403268}, Frame::GCRF()),
-        Velocity::MetersPerSecond({1124.5962634611, -3265.39989654837, 6779.45043611605, Frame::GCRF()}),
+        Velocity::MetersPerSecond({1124.5962634611, -3265.39989654837, 6779.45043611605}, Frame::GCRF()),
     };
 
     std::cout << state << std::endl;
