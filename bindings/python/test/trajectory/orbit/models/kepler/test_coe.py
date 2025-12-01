@@ -238,9 +238,29 @@ class TestCOE:
         eccentricity: float = 0.0
         argument_of_latitude: Angle = Angle.degrees(30.0)
 
-        assert COE.sun_synchronous(semi_major_axis, local_time_at_ascending_node, epoch, earth, eccentricity, argument_of_latitude) is not None
-        assert COE.sun_synchronous(semi_major_axis, local_time_at_ascending_node, epoch, earth, eccentricity) is not None
-        assert COE.sun_synchronous(semi_major_axis, local_time_at_ascending_node, epoch, earth) is not None
+        assert (
+            COE.sun_synchronous(
+                semi_major_axis,
+                local_time_at_ascending_node,
+                epoch,
+                earth,
+                eccentricity,
+                argument_of_latitude,
+            )
+            is not None
+        )
+        assert (
+            COE.sun_synchronous(
+                semi_major_axis, local_time_at_ascending_node, epoch, earth, eccentricity
+            )
+            is not None
+        )
+        assert (
+            COE.sun_synchronous(
+                semi_major_axis, local_time_at_ascending_node, epoch, earth
+            )
+            is not None
+        )
 
     def test_geo_synchronous(self, earth: Celestial):
         epoch: Instant = Instant.J2000()
