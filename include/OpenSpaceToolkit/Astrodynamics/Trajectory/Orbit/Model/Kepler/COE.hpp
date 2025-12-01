@@ -515,9 +515,7 @@ class COE
     /// @param anArgumentOfLatitude An argument of latitude (defaults to zero)
     /// @return COE
     static COE Circular(
-        const Length& aSemiMajorAxis,
-        const Angle& anInclination,
-        const Angle& anArgumentOfLatitude = Angle::Zero()
+        const Length& aSemiMajorAxis, const Angle& anInclination, const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
     /// @brief Construct an Equatorial COE

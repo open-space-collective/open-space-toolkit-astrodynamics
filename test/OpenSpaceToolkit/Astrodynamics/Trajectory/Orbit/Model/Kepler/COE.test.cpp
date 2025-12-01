@@ -1038,11 +1038,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
 
         EXPECT_THROW(
             COE::SunSynchronous(
-                Length::Kilometers(500.0),
-                Time::Parse("12:00:00"),
-                Instant::J2000(),
-                nullptr,
-                Angle::Zero()
+                Length::Kilometers(500.0), Time::Parse("12:00:00"), Instant::J2000(), nullptr, Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
         );
@@ -1139,9 +1135,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
         const Length semiMajorAxis =
             environment.accessCelestialObjectWithName("Earth")->getEquatorialRadius() + altitude;
 
-        const Angle inclination = COE::ComputeSunSynchronousInclination(
-            semiMajorAxis, environment.accessCelestialObjectWithName("Earth")
-        );
+        const Angle inclination =
+            COE::ComputeSunSynchronousInclination(semiMajorAxis, environment.accessCelestialObjectWithName("Earth"));
 
         EXPECT_TRUE(inclination.isDefined());
         // Sun-synchronous inclination should be around 97-98 degrees for 500 km altitude
@@ -1149,20 +1144,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
         EXPECT_LT(inclination.inDegrees(), 99.0);
     }
 
+    // Data taken from https://github.com/JuliaSpace/SatelliteAnalysis.jl/blob/main/test/sun_syncrhonous_orbits.jl
     {
         const Environment environment = Environment::Default();
-        const Length altitude = Length::Kilometers(800.0);
-        const Length semiMajorAxis =
-            environment.accessCelestialObjectWithName("Earth")->getEquatorialRadius() + altitude;
+        const Length semiMajorAxis = Length::Meters(7130982.0);
 
-        const Angle inclination = COE::ComputeSunSynchronousInclination(
-            semiMajorAxis, environment.accessCelestialObjectWithName("Earth")
-        );
+        const Angle inclination =
+            COE::ComputeSunSynchronousInclination(semiMajorAxis, environment.accessCelestialObjectWithName("Earth"));
 
-        EXPECT_TRUE(inclination.isDefined());
-        // Higher altitude should result in higher inclination
-        EXPECT_GT(inclination.inDegrees(), 98.0);
-        EXPECT_LT(inclination.inDegrees(), 100.0);
+        EXPECT_NEAR(inclination.inRadians(), 1.7175896973066611, 1e-4);
     }
 
     {
@@ -1180,8 +1170,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 
         EXPECT_THROW(
             COE::ComputeSunSynchronousInclination(
-                Length::Kilometers(500.0),
-                std::make_shared<const Celestial>(Celestial::Undefined())
+                Length::Kilometers(500.0), std::make_shared<const Celestial>(Celestial::Undefined())
             ),
             ostk::core::error::runtime::Undefined
         );
@@ -1190,64 +1179,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeRaanFromLTAN)
 {
+    // Data taken from https://github.com/JuliaSpace/SatelliteToolbox.jl/blob/master/test/time/raan.jl
     {
         const Environment environment = Environment::Default();
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
-        const Time localTimeAtAscendingNode = Time::Parse("12:00:00");
+        const Instant epoch = Instant::DateTime(DateTime::Parse("2021-06-19 19:35:35"), Scale::UTC);
+        const Time localTimeAtAscendingNode = Time::Parse("22:30:00");
 
         const Angle raan = COE::ComputeRaanFromLTAN(localTimeAtAscendingNode, epoch);
 
         EXPECT_TRUE(raan.isDefined());
-        EXPECT_GE(raan.inDegrees(), 0.0);
-        EXPECT_LT(raan.inDegrees(), 360.0);
-    }
-
-    {
-        const Environment environment = Environment::Default();
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
-        const Time localTimeAtAscendingNode = Time::Parse("06:00:00");
-
-        const Angle raan = COE::ComputeRaanFromLTAN(localTimeAtAscendingNode, epoch);
-
-        EXPECT_TRUE(raan.isDefined());
-        EXPECT_GE(raan.inDegrees(), 0.0);
-        EXPECT_LT(raan.inDegrees(), 360.0);
-    }
-
-    {
-        const Environment environment = Environment::Default();
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
-        const Time localTimeAtAscendingNode1 = Time::Parse("12:00:00");
-        const Time localTimeAtAscendingNode2 = Time::Parse("00:00:00");
-
-        const Angle raan1 = COE::ComputeRaanFromLTAN(localTimeAtAscendingNode1, epoch);
-        const Angle raan2 = COE::ComputeRaanFromLTAN(localTimeAtAscendingNode2, epoch);
-
-        EXPECT_TRUE(raan1.isDefined());
-        EXPECT_TRUE(raan2.isDefined());
-        // RAAN should differ by approximately 180 degrees for 12-hour difference in LTAN
-        const Real difference = std::abs(raan1.inDegrees() - raan2.inDegrees());
-        EXPECT_GT(difference, 170.0);
-        EXPECT_LT(difference, 190.0);
-    }
-
-    {
-        const Environment environment = Environment::Default();
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
-        const Time localTimeAtAscendingNode = Time::Parse("12:00:00");
-        const Sun sun = Sun::Default();
-
-        const Angle raan = COE::ComputeRaanFromLTAN(localTimeAtAscendingNode, epoch, sun);
-
-        EXPECT_TRUE(raan.isDefined());
-        EXPECT_GE(raan.inDegrees(), 0.0);
-        EXPECT_LT(raan.inDegrees(), 360.0);
+        EXPECT_NEAR(raan.inRadians(), 4.289024646407403, 1e-2);  // Difference due to Sun position computation
     }
 
     {
         EXPECT_THROW(
-            COE::ComputeRaanFromLTAN(Time::Undefined(), Instant::J2000()),
-            ostk::core::error::runtime::Undefined
+            COE::ComputeRaanFromLTAN(Time::Undefined(), Instant::J2000()), ostk::core::error::runtime::Undefined
         );
 
         EXPECT_THROW(
@@ -1342,9 +1288,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
     }
 
     {
-        EXPECT_THROW(
-            COE::Equatorial(Length::Undefined(), 0.1, Angle::Zero()), ostk::core::error::runtime::Undefined
-        );
+        EXPECT_THROW(COE::Equatorial(Length::Undefined(), 0.1, Angle::Zero()), ostk::core::error::runtime::Undefined);
 
         EXPECT_THROW(
             COE::Equatorial(Length::Kilometers(7000.0), Real::Undefined(), Angle::Zero()),
@@ -1352,8 +1296,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
         );
 
         EXPECT_THROW(
-            COE::Equatorial(Length::Kilometers(7000.0), 0.1, Angle::Undefined()),
-            ostk::core::error::runtime::Undefined
+            COE::Equatorial(Length::Kilometers(7000.0), 0.1, Angle::Undefined()), ostk::core::error::runtime::Undefined
         );
 
         // Invalid eccentricity
@@ -1398,7 +1341,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Circula
 
     {
         // CircularEquatorial delegates to Circular, so just test basic undefined cases
-        EXPECT_THROW(COE::CircularEquatorial(Length::Undefined(), Angle::Zero()), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(
+            COE::CircularEquatorial(Length::Undefined(), Angle::Zero()), ostk::core::error::runtime::Undefined
+        );
 
         EXPECT_THROW(
             COE::CircularEquatorial(Length::Kilometers(7000.0), Angle::Undefined()),

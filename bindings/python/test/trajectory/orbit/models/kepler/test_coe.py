@@ -267,7 +267,9 @@ class TestCOE:
 
         assert coe_default is not None
         assert coe_default.is_defined()
-        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(0.0, abs=1e-10)
+        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(
+            0.0, abs=1e-10
+        )
 
     def test_equatorial(self):
         semi_major_axis: Length = Length.kilometers(7000.0)
@@ -294,7 +296,9 @@ class TestCOE:
 
         assert coe_default is not None
         assert coe_default.is_defined()
-        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(0.0, abs=1e-10)
+        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(
+            0.0, abs=1e-10
+        )
 
     def test_circular_equatorial(self):
         semi_major_axis: Length = Length.kilometers(7000.0)
@@ -320,4 +324,6 @@ class TestCOE:
 
         assert coe_default is not None
         assert coe_default.is_defined()
-        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(0.0, abs=1e-10)
+        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(
+            0.0, abs=1e-10
+        )

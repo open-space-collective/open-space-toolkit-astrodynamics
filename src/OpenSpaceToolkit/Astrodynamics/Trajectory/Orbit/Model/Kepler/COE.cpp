@@ -7,10 +7,10 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
@@ -1261,7 +1261,7 @@ COE COE::GeoSynchronous(
     if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
     {
         throw ostk::core::error::runtime::ToBeImplemented(
-            "Geosynchronous orbits currently not suppported for celestial bodies other than Earth"
+            "Geosynchronous orbits currently not supported for celestial bodies other than Earth"
         );
     }
 
