@@ -6,8 +6,6 @@ from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.time import Instant
 from ostk.physics.time import Time
-from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
 from ostk.physics.environment.gravitational import Earth
 from ostk.physics.environment.object.celestial import Sun
 from ostk.physics.environment.object import Celestial
@@ -232,6 +230,24 @@ class TestCOE:
     def test_string_from_element(self):
         element_str = COE.string_from_element(COE.Element.SemiMajorAxis)
         assert element_str == "SemiMajorAxis"
+
+    def test_sun_synchronous(self, earth: Celestial):
+        semi_major_axis: Length = Length.meters(7130982.0)
+        local_time_at_ascending_node: Time = Time.parse("12:00:00")
+        epoch: Instant = Instant.J2000()
+        eccentricity: float = 0.0
+        argument_of_latitude: Angle = Angle.degrees(30.0)
+
+        assert COE.sun_synchronous(semi_major_axis, local_time_at_ascending_node, epoch, earth, eccentricity, argument_of_latitude) is not None
+        assert COE.sun_synchronous(semi_major_axis, local_time_at_ascending_node, epoch, earth, eccentricity) is not None
+        assert COE.sun_synchronous(semi_major_axis, local_time_at_ascending_node, epoch, earth) is not None
+
+    def test_geo_synchronous(self, earth: Celestial):
+        epoch: Instant = Instant.J2000()
+        inclination: Angle = Angle.degrees(0.01)
+        longitude: Angle = Angle.degrees(0.0)
+
+        assert COE.geo_synchronous(epoch, inclination, longitude, earth) is not None
 
     def test_circular(self):
         semi_major_axis: Length = Length.kilometers(7000.0)

@@ -816,10 +816,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
-            "geosynchronous",
+            "geo_synchronous",
             &COE::GeoSynchronous,
             R"doc(
-                Construct a Geosynchronous COE.
+                Construct a Geo-synchronous COE.
 
                 Args:
                     epoch (Instant): The epoch.
@@ -828,7 +828,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     celestial_object (Celestial): The celestial object.
 
                 Returns:
-                    COE: The Geosynchronous COE.
+                    COE: The Geo-synchronous COE.
             )doc",
             arg("epoch"),
             arg("inclination"),
@@ -869,7 +869,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
-                    eccentricity (float): The eccentricity. Defaults to 0.0.
+                    eccentricity (float, optional): The eccentricity. Defaults to 0.0.
                     true_anomaly (Angle, optional): The true anomaly. Defaults to Angle.zero().
 
                 Returns:
