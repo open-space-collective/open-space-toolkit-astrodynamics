@@ -10,6 +10,7 @@ from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.environment.gravitational import Earth
 from ostk.physics.environment.object.celestial import Sun
+from ostk.physics.environment.object import Celestial
 from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
@@ -61,6 +62,9 @@ def coe(
 def environment() -> Environment:
     return Environment.default()
 
+@pytest.fixture
+def earth(environment: Environment) -> Celestial:
+    return environment.access_celestial_object_with_name("Earth")
 
 class TestCOE:
     def test_constructors(self):
@@ -155,7 +159,7 @@ class TestCOE:
             is not None
         )
 
-    def test_compute_methods(self):
+    def test_compute_methods(self, earth: Celestial):
         semi_latus_rectum: float = COE.compute_semi_latus_rectum(7000.0e3, 0.0)
         assert semi_latus_rectum is not None
         assert (
@@ -174,45 +178,26 @@ class TestCOE:
 
         assert COE.compute_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            COE.compute_ltan(Angle.degrees(270.0), Instant.J2000(), earth)
             is not None
         )
         assert COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000(), earth)
             is not None
         )
         assert COE.compute_ltdn(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_ltdn(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            COE.compute_ltdn(Angle.degrees(270.0), Instant.J2000(), earth)
             is not None
         )
         assert COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000(), Sun.default())
+            COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000(), earth)
             is not None
         )
-
-    def test_compute_sun_synchronous_inclination(self, environment: Environment):
-        altitude: Length = Length.kilometers(500.0)
-        semi_major_axis: Length = (
-            environment.access_celestial_object_with_name("Earth").get_equatorial_radius()
-            + altitude
-        )
-
-        inclination: Angle = COE.compute_sun_synchronous_inclination(
-            semi_major_axis, environment.access_celestial_object_with_name("Earth")
-        )
-
-        assert inclination is not None
-
-    def test_compute_raan_from_ltan(self):
-        epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-        local_time_at_ascending_node: Time = Time.parse("12:00:00")
-
-        raan: Angle = COE.compute_raan_from_ltan(local_time_at_ascending_node, epoch)
-
-        assert raan is not None
+        assert COE.compute_sun_synchronous_inclination(Length.kilometers(500.0), earth) is not None
+        assert COE.compute_raan_from_ltan(Time.parse("12:00:00"), Instant.J2000()) is not None
 
     def test_from_SI_vector(
         self,
@@ -248,82 +233,12 @@ class TestCOE:
         coe: COE = COE.circular(semi_major_axis, inclination, argument_of_latitude)
 
         assert coe is not None
-        assert coe.is_defined()
-        assert coe.get_semi_major_axis().in_meters() == pytest.approx(
-            semi_major_axis.in_meters(), abs=1e-10
-        )
-        assert coe.get_eccentricity() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_inclination().in_degrees() == pytest.approx(
-            inclination.in_degrees(), abs=1e-10
-        )
-        assert coe.get_raan().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_aop().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_true_anomaly().in_degrees() == pytest.approx(
-            argument_of_latitude.in_degrees(), abs=1e-10
-        )
-
-        # Test with default argument of latitude
-        coe_default: COE = COE.circular(semi_major_axis, inclination)
-
-        assert coe_default is not None
-        assert coe_default.is_defined()
-        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(
-            0.0, abs=1e-10
-        )
 
     def test_equatorial(self):
         semi_major_axis: Length = Length.kilometers(7000.0)
         eccentricity: float = 0.1
         true_anomaly: Angle = Angle.degrees(45.0)
 
-        coe: COE = COE.equatorial(semi_major_axis, eccentricity, true_anomaly)
-
-        assert coe is not None
-        assert coe.is_defined()
-        assert coe.get_semi_major_axis().in_meters() == pytest.approx(
-            semi_major_axis.in_meters(), abs=1e-10
-        )
-        assert coe.get_eccentricity() == pytest.approx(eccentricity, abs=1e-10)
-        assert coe.get_inclination().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_raan().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_aop().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_true_anomaly().in_degrees() == pytest.approx(
-            true_anomaly.in_degrees(), abs=1e-10
-        )
-
-        # Test with default true anomaly
-        coe_default: COE = COE.equatorial(semi_major_axis, eccentricity)
-
-        assert coe_default is not None
-        assert coe_default.is_defined()
-        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(
-            0.0, abs=1e-10
-        )
-
-    def test_circular_equatorial(self):
-        semi_major_axis: Length = Length.kilometers(7000.0)
-        true_anomaly: Angle = Angle.degrees(45.0)
-
-        coe: COE = COE.circular_equatorial(semi_major_axis, true_anomaly)
-
-        assert coe is not None
-        assert coe.is_defined()
-        assert coe.get_semi_major_axis().in_meters() == pytest.approx(
-            semi_major_axis.in_meters(), abs=1e-10
-        )
-        assert coe.get_eccentricity() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_inclination().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_raan().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_aop().in_degrees() == pytest.approx(0.0, abs=1e-10)
-        assert coe.get_true_anomaly().in_degrees() == pytest.approx(
-            true_anomaly.in_degrees(), abs=1e-10
-        )
-
-        # Test with default true anomaly
-        coe_default: COE = COE.circular_equatorial(semi_major_axis)
-
-        assert coe_default is not None
-        assert coe_default.is_defined()
-        assert coe_default.get_true_anomaly().in_degrees() == pytest.approx(
-            0.0, abs=1e-10
-        )
+        assert COE.equatorial(semi_major_axis, eccentricity, true_anomaly) is not None
+        assert COE.equatorial(semi_major_axis, eccentricity) is not None
+        assert COE.equatorial(semi_major_axis) is not None

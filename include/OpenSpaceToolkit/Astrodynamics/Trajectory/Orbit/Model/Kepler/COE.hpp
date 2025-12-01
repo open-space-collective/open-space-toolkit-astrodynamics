@@ -481,6 +481,7 @@ class COE
     /// @param aLocalTimeAtAscendingNode A local time at ascending node
     /// @param anEpoch An epoch
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param anEccentricity An eccentricity
     /// @param anArgumentOfLatitude An argument of latitude
     /// @return COE
     static COE SunSynchronous(
@@ -488,6 +489,7 @@ class COE
         const Time& aLocalTimeAtAscendingNode,
         const Instant& anEpoch,
         const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Real& anEccentricity = Real::Zero(),
         const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
@@ -528,18 +530,8 @@ class COE
     /// @param aTrueAnomaly A true anomaly (defaults to zero)
     /// @return COE
     static COE Equatorial(
-        const Length& aSemiMajorAxis, const Real& anEccentricity, const Angle& aTrueAnomaly = Angle::Zero()
+        const Length& aSemiMajorAxis, const Real& anEccentricity = Real::Zero(), const Angle& aTrueAnomaly = Angle::Zero()
     );
-
-    /// @brief Construct a Circular-Equatorial COE
-    ///
-    /// Creates a circular equatorial orbit (eccentricity = 0, inclination = 0).
-    /// This is a convenience function equivalent to Circular(aSemiMajorAxis, Angle::Zero(), aTrueAnomaly).
-    ///
-    /// @param aSemiMajorAxis A semi-major axis
-    /// @param aTrueAnomaly A true anomaly (defaults to zero)
-    /// @return COE
-    static COE CircularEquatorial(const Length& aSemiMajorAxis, const Angle& aTrueAnomaly = Angle::Zero());
 
     /// @brief Convert element to string
     ///

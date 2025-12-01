@@ -865,34 +865,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
-                    eccentricity (float): The eccentricity.
+                    eccentricity (float): The eccentricity. Defaults to 0.0.
                     true_anomaly (Angle, optional): The true anomaly. Defaults to Angle.zero().
 
                 Returns:
                     COE: The Equatorial COE.
             )doc",
             arg("semi_major_axis"),
-            arg("eccentricity"),
-            arg_v("true_anomaly", Angle::Zero(), "Angle.zero()")
-        )
-
-        .def_static(
-            "circular_equatorial",
-            &COE::CircularEquatorial,
-            R"doc(
-                Construct a Circular-Equatorial COE.
-
-                Creates a circular equatorial orbit (eccentricity = 0, inclination = 0).
-                This is a convenience function equivalent to Circular(semi_major_axis, Angle.zero(), true_anomaly).
-
-                Args:
-                    semi_major_axis (Length): The semi-major axis.
-                    true_anomaly (Angle, optional): The true anomaly. Defaults to Angle.zero().
-
-                Returns:
-                    COE: The Circular-Equatorial COE.
-            )doc",
-            arg("semi_major_axis"),
+            arg("eccentricity") = 0.0,
             arg_v("true_anomaly", Angle::Zero(), "Angle.zero()")
         )
 

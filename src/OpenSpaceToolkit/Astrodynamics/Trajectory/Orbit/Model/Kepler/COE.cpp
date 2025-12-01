@@ -1187,6 +1187,7 @@ COE COE::SunSynchronous(
     const Time& aLocalTimeAtAscendingNode,
     const Instant& anEpoch,
     const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Real& anEccentricity,
     const Angle& anArgumentOfLatitude
 )
 {
@@ -1215,7 +1216,6 @@ COE COE::SunSynchronous(
         throw ostk::core::error::runtime::Undefined("Argument of latitude");
     }
 
-    const Real eccentricity = 0.0;
     const Angle inclination = COE::ComputeSunSynchronousInclination(aSemiMajorAxis, aCelestialObjectSPtr);
     const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch);
     const Angle aop = Angle::Zero();
@@ -1223,7 +1223,7 @@ COE COE::SunSynchronous(
 
     return {
         aSemiMajorAxis,
-        eccentricity,
+        anEccentricity,
         inclination,
         raan,
         aop,
@@ -1359,11 +1359,6 @@ COE COE::Equatorial(const Length& aSemiMajorAxis, const Real& anEccentricity, co
         aop,
         aTrueAnomaly,
     };
-}
-
-COE COE::CircularEquatorial(const Length& aSemiMajorAxis, const Angle& aTrueAnomaly)
-{
-    return COE::Circular(aSemiMajorAxis, Angle::Zero(), aTrueAnomaly);
 }
 
 String COE::StringFromElement(const COE::Element& anElement)
