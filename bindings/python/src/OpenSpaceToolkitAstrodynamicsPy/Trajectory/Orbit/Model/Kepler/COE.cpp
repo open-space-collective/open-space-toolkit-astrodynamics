@@ -833,6 +833,70 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
+            "circular",
+            &COE::Circular,
+            R"doc(
+                Construct a Circular COE.
+
+                Creates a circular orbit (eccentricity = 0) with the specified semi-major axis and inclination.
+                RAAN and AoP are set to zero (AoP is indeterminate for circular orbits).
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    inclination (Angle): The inclination.
+                    argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
+
+                Returns:
+                    COE: The Circular COE.
+            )doc",
+            arg("semi_major_axis"),
+            arg("inclination"),
+            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
+        )
+
+        .def_static(
+            "equatorial",
+            &COE::Equatorial,
+            R"doc(
+                Construct an Equatorial COE.
+
+                Creates an equatorial orbit (inclination = 0) with the specified semi-major axis and eccentricity.
+                RAAN is set to zero (indeterminate for equatorial orbits).
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    eccentricity (float): The eccentricity.
+                    true_anomaly (Angle, optional): The true anomaly. Defaults to Angle.zero().
+
+                Returns:
+                    COE: The Equatorial COE.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity"),
+            arg_v("true_anomaly", Angle::Zero(), "Angle.zero()")
+        )
+
+        .def_static(
+            "circular_equatorial",
+            &COE::CircularEquatorial,
+            R"doc(
+                Construct a Circular-Equatorial COE.
+
+                Creates a circular equatorial orbit (eccentricity = 0, inclination = 0).
+                This is a convenience function equivalent to Circular(semi_major_axis, Angle.zero(), true_anomaly).
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    true_anomaly (Angle, optional): The true anomaly. Defaults to Angle.zero().
+
+                Returns:
+                    COE: The Circular-Equatorial COE.
+            )doc",
+            arg("semi_major_axis"),
+            arg_v("true_anomaly", Angle::Zero(), "Angle.zero()")
+        )
+
+        .def_static(
             "string_from_element",
             &COE::StringFromElement,
             R"doc(

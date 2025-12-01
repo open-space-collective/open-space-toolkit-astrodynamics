@@ -1293,6 +1293,79 @@ COE COE::GeoSynchronous(
     };
 }
 
+COE COE::Circular(const Length& aSemiMajorAxis, const Angle& anInclination, const Angle& anArgumentOfLatitude)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!anInclination.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Inclination");
+    }
+
+    if (!anArgumentOfLatitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Argument of latitude");
+    }
+
+    const Real eccentricity = 0.0;
+    const Angle raan = Angle::Zero();
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = anArgumentOfLatitude;
+
+    return {
+        aSemiMajorAxis,
+        eccentricity,
+        anInclination,
+        raan,
+        aop,
+        trueAnomaly,
+    };
+}
+
+COE COE::Equatorial(const Length& aSemiMajorAxis, const Real& anEccentricity, const Angle& aTrueAnomaly)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!anEccentricity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Eccentricity");
+    }
+
+    if (!aTrueAnomaly.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("True anomaly");
+    }
+
+    if (anEccentricity < 0.0 || anEccentricity >= 1.0)
+    {
+        throw ostk::core::error::RuntimeError("Eccentricity must be in range [0, 1) for elliptical orbits.");
+    }
+
+    const Angle inclination = Angle::Zero();
+    const Angle raan = Angle::Zero();
+    const Angle aop = Angle::Zero();
+
+    return {
+        aSemiMajorAxis,
+        anEccentricity,
+        inclination,
+        raan,
+        aop,
+        aTrueAnomaly,
+    };
+}
+
+COE COE::CircularEquatorial(const Length& aSemiMajorAxis, const Angle& aTrueAnomaly)
+{
+    return COE::Circular(aSemiMajorAxis, Angle::Zero(), aTrueAnomaly);
+}
+
 String COE::StringFromElement(const COE::Element& anElement)
 {
     switch (anElement)

@@ -1257,6 +1257,156 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Circular)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Angle inclination = Angle::Degrees(45.0);
+        const Angle argumentOfLatitude = Angle::Degrees(30.0);
+
+        const COE coe = COE::Circular(semiMajorAxis, inclination, argumentOfLatitude);
+
+        EXPECT_TRUE(coe.isDefined());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), inclination.inDegrees(), 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), argumentOfLatitude.inDegrees(), 1e-10);
+    }
+
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Angle inclination = Angle::Degrees(45.0);
+
+        const COE coe = COE::Circular(semiMajorAxis, inclination);
+
+        EXPECT_TRUE(coe.isDefined());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), inclination.inDegrees(), 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), 0.0, 1e-10);
+    }
+
+    {
+        EXPECT_THROW(
+            COE::Circular(Length::Undefined(), Angle::Degrees(45.0), Angle::Zero()),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            COE::Circular(Length::Kilometers(7000.0), Angle::Undefined(), Angle::Zero()),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            COE::Circular(Length::Kilometers(7000.0), Angle::Degrees(45.0), Angle::Undefined()),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equatorial)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.1;
+        const Angle trueAnomaly = Angle::Degrees(45.0);
+
+        const COE coe = COE::Equatorial(semiMajorAxis, eccentricity, trueAnomaly);
+
+        EXPECT_TRUE(coe.isDefined());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), eccentricity, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), trueAnomaly.inDegrees(), 1e-10);
+    }
+
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.1;
+
+        const COE coe = COE::Equatorial(semiMajorAxis, eccentricity);
+
+        EXPECT_TRUE(coe.isDefined());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), eccentricity, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), 0.0, 1e-10);
+    }
+
+    {
+        EXPECT_THROW(
+            COE::Equatorial(Length::Undefined(), 0.1, Angle::Zero()), ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            COE::Equatorial(Length::Kilometers(7000.0), Real::Undefined(), Angle::Zero()),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            COE::Equatorial(Length::Kilometers(7000.0), 0.1, Angle::Undefined()),
+            ostk::core::error::runtime::Undefined
+        );
+
+        // Invalid eccentricity
+        EXPECT_THROW(COE::Equatorial(Length::Kilometers(7000.0), -0.1, Angle::Zero()), ostk::core::error::RuntimeError);
+
+        EXPECT_THROW(COE::Equatorial(Length::Kilometers(7000.0), 1.0, Angle::Zero()), ostk::core::error::RuntimeError);
+
+        EXPECT_THROW(COE::Equatorial(Length::Kilometers(7000.0), 1.5, Angle::Zero()), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, CircularEquatorial)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Angle trueAnomaly = Angle::Degrees(45.0);
+
+        const COE coe = COE::CircularEquatorial(semiMajorAxis, trueAnomaly);
+
+        EXPECT_TRUE(coe.isDefined());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), trueAnomaly.inDegrees(), 1e-10);
+    }
+
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+
+        const COE coe = COE::CircularEquatorial(semiMajorAxis);
+
+        EXPECT_TRUE(coe.isDefined());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), semiMajorAxis.inMeters(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
+        EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), 0.0, 1e-10);
+    }
+
+    {
+        // CircularEquatorial delegates to Circular, so just test basic undefined cases
+        EXPECT_THROW(COE::CircularEquatorial(Length::Undefined(), Angle::Zero()), ostk::core::error::runtime::Undefined);
+
+        EXPECT_THROW(
+            COE::CircularEquatorial(Length::Kilometers(7000.0), Angle::Undefined()),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {
 

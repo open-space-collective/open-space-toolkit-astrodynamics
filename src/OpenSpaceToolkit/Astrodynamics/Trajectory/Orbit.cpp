@@ -788,13 +788,7 @@ Orbit Orbit::Circular(
     }
 
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude;
-    const Real eccentricity = 0.0;
-    const Angle inclination = anInclination;
-    const Angle raan = Angle::Zero();
-    const Angle aop = Angle::Zero();
-    const Angle trueAnomaly = Angle::Zero();
-
-    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+    const COE coe = COE::Circular(semiMajorAxis, anInclination);
 
     const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::None, false};
 
@@ -845,12 +839,8 @@ Orbit Orbit::Equatorial(
 
     const Real eccentricity = (r_a - r_p) / (r_a + r_p);
     const Length semiMajorAxis = Length::Meters(r_a / (1.0 + eccentricity));
-    const Angle inclination = Angle::Zero();
-    const Angle raan = Angle::Zero();
-    const Angle aop = Angle::Zero();
-    const Angle trueAnomaly = Angle::Zero();
 
-    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+    const COE coe = COE::Equatorial(semiMajorAxis, eccentricity);
 
     const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::None, false};
 

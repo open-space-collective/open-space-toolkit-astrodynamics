@@ -505,6 +505,44 @@ class COE
         const Shared<const Celestial>& aCelestialObjectSPtr
     );
 
+    /// @brief Construct a Circular COE
+    ///
+    /// Creates a circular orbit (eccentricity = 0) with the specified semi-major axis and inclination.
+    /// RAAN and AoP are set to zero (AoP is indeterminate for circular orbits).
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anInclination An inclination
+    /// @param anArgumentOfLatitude An argument of latitude (defaults to zero)
+    /// @return COE
+    static COE Circular(
+        const Length& aSemiMajorAxis,
+        const Angle& anInclination,
+        const Angle& anArgumentOfLatitude = Angle::Zero()
+    );
+
+    /// @brief Construct an Equatorial COE
+    ///
+    /// Creates an equatorial orbit (inclination = 0) with the specified semi-major axis and eccentricity.
+    /// RAAN is set to zero (indeterminate for equatorial orbits).
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
+    /// @param aTrueAnomaly A true anomaly (defaults to zero)
+    /// @return COE
+    static COE Equatorial(
+        const Length& aSemiMajorAxis, const Real& anEccentricity, const Angle& aTrueAnomaly = Angle::Zero()
+    );
+
+    /// @brief Construct a Circular-Equatorial COE
+    ///
+    /// Creates a circular equatorial orbit (eccentricity = 0, inclination = 0).
+    /// This is a convenience function equivalent to Circular(aSemiMajorAxis, Angle::Zero(), aTrueAnomaly).
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param aTrueAnomaly A true anomaly (defaults to zero)
+    /// @return COE
+    static COE CircularEquatorial(const Length& aSemiMajorAxis, const Angle& aTrueAnomaly = Angle::Zero());
+
     /// @brief Convert element to string
     ///
     /// @param anElement An element
