@@ -938,7 +938,7 @@ Orbit Orbit::SunSynchronous(
 
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude;
     const COE coe = COE::SunSynchronous(
-        semiMajorAxis, calculateLocalTimeAtAscendingNode(), anEpoch, aCelestialObjectSPtr, anArgumentOfLatitude
+        semiMajorAxis, calculateLocalTimeAtAscendingNode(), anEpoch, aCelestialObjectSPtr, 0.0, anArgumentOfLatitude
     );
 
     const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};

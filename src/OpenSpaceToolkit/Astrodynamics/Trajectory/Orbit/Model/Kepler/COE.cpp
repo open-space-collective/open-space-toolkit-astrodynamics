@@ -1113,7 +1113,7 @@ Time COE::ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& aS
 }
 
 Angle COE::ComputeSunSynchronousInclination(
-    const Length& aSemiMajorAxis, const Shared<const Celestial>& aCelestialObjectSPtr
+    const Length& aSemiMajorAxis, const Real& anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
     if (!aSemiMajorAxis.isDefined())
@@ -1121,22 +1121,85 @@ Angle COE::ComputeSunSynchronousInclination(
         throw ostk::core::error::runtime::Undefined("Semi-major axis");
     }
 
+    if (!anEccentricity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Eccentricity");
+    }
+
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
-    /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
+    if (anEccentricity < 0.0 || anEccentricity >= 1.0)
+    {
+        throw ostk::core::error::runtime::Wrong("Eccentricity", anEccentricity.toString());
+    }
 
-    const Real a = aSemiMajorAxis.inMeters();
     const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters();
+    const Real a = aSemiMajorAxis.inMeters();
+
+    if (a * (1.0 - anEccentricity) <= R)
+    {
+        throw ostk::core::error::runtime::Wrong("Perigee altitude", (a * (1.0 - anEccentricity)).toString());
+    }
+
     const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
     const Real j2 = aCelestialObjectSPtr->getJ2();
 
-    const Real T_sid = 31558149.504;                                                 // [s] Sidereal year
-    const Real k_h = 3.0 / (4.0 * M_PI) * j2 * std::sqrt(mu / (R * R * R)) * T_sid;  // Sun-synchronicity constant
+    // Mean motion of the Earth around the Sun
+    const Real siderealYear_seconds = 31558149.504;
+    const Real meanMotion_radiansPerSecond = Real::TwoPi() / siderealYear_seconds;
 
-    return Angle::Radians(std::acos(-1.0 / k_h * std::pow((a / R), (7.0 / 2.0))));
+    const Real n0 = std::sqrt(mu / (a * a * a));
+    const Real p = a * (1.0 - anEccentricity * anEccentricity);
+    const Real beta = std::sqrt(1.0 - anEccentricity * anEccentricity);
+
+    // k1 = -(3/2) * J2 * (R/p)^2 * n0
+    const Real k1 = -1.5 * j2 * std::pow(R / p, 2.0) * n0;
+
+    // k2 = (3/4) * J2 * (R/p)^2 * beta
+    const Real k2 = 0.75 * j2 * std::pow(R / p, 2.0) * beta;
+
+    const Real A = 3.0 * k1 * k2;
+    const Real B = k1 * (1.0 - k2);
+
+    const Real targetRate = meanMotion_radiansPerSecond;
+
+    // Initial guess: neglect J2 secular perturbation on mean motion
+    // rate approx k1 * cos(i)
+    Real cos_i = targetRate / k1;
+
+    if (std::abs(cos_i) > 1.0)
+    {
+        throw ostk::core::error::RuntimeError("Cannot find Sun-synchronous orbit for given parameters.");
+    }
+
+    // Newton-Raphson
+    const Size maxIterations = 50;
+    const Real tolerance = 1e-15;
+
+    for (Size i = 0; i < maxIterations; ++i)
+    {
+        const Real cos2_i = cos_i * cos_i;
+        const Real cos3_i = cos2_i * cos_i;
+
+        const Real f = targetRate - (A * cos3_i + B * cos_i);
+        const Real df = -(3.0 * A * cos2_i + B);
+
+        if (std::abs(f) < tolerance)
+        {
+            if (std::abs(cos_i) > 1.0)
+            {
+                throw ostk::core::error::RuntimeError("Calculated cosine of inclination is out of range [-1, 1].");
+            }
+            return Angle::Radians(std::acos(cos_i));
+        }
+
+        cos_i = cos_i - f / df;
+    }
+
+    throw ostk::core::error::RuntimeError("Newton-Raphson did not converge.");
 }
 
 Angle COE::ComputeRaanFromLTAN(const Time& aLocalTimeAtAscendingNode, const Instant& anEpoch, const Sun& aSun)
@@ -1216,7 +1279,8 @@ COE COE::SunSynchronous(
         throw ostk::core::error::runtime::Undefined("Argument of latitude");
     }
 
-    const Angle inclination = COE::ComputeSunSynchronousInclination(aSemiMajorAxis, aCelestialObjectSPtr);
+    const Angle inclination =
+        COE::ComputeSunSynchronousInclination(aSemiMajorAxis, anEccentricity, aCelestialObjectSPtr);
     const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch);
     const Angle aop = Angle::Zero();
     const Angle trueAnomaly = anArgumentOfLatitude - aop;

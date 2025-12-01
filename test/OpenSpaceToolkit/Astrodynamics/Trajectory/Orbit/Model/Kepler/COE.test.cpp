@@ -990,6 +990,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
             localTimeAtAscendingNode,
             epoch,
             environment.accessCelestialObjectWithName("Earth"),
+            0.0,
             argumentOfLatitude
         );
 
@@ -1009,6 +1010,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
                 Time::Parse("12:00:00"),
                 Instant::J2000(),
                 Environment::Default().accessCelestialObjectWithName("Earth"),
+                0.0,
                 Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
@@ -1020,6 +1022,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
                 Time::Undefined(),
                 Instant::J2000(),
                 Environment::Default().accessCelestialObjectWithName("Earth"),
+                0.0,
                 Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
@@ -1031,6 +1034,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
                 Time::Parse("12:00:00"),
                 Instant::Undefined(),
                 Environment::Default().accessCelestialObjectWithName("Earth"),
+                0.0,
                 Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
@@ -1038,7 +1042,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
 
         EXPECT_THROW(
             COE::SunSynchronous(
-                Length::Kilometers(500.0), Time::Parse("12:00:00"), Instant::J2000(), nullptr, Angle::Zero()
+                Length::Kilometers(500.0), Time::Parse("12:00:00"), Instant::J2000(), nullptr, 0.0, Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
         );
@@ -1049,6 +1053,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
                 Time::Parse("12:00:00"),
                 Instant::J2000(),
                 Environment::Default().accessCelestialObjectWithName("Earth"),
+                Real::Undefined(),
+                Angle::Zero()
+            ),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            COE::SunSynchronous(
+                Length::Kilometers(500.0),
+                Time::Parse("12:00:00"),
+                Instant::J2000(),
+                Environment::Default().accessCelestialObjectWithName("Earth"),
+                0.0,
                 Angle::Undefined()
             ),
             ostk::core::error::runtime::Undefined
@@ -1135,8 +1152,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
         const Length semiMajorAxis =
             environment.accessCelestialObjectWithName("Earth")->getEquatorialRadius() + altitude;
 
-        const Angle inclination =
-            COE::ComputeSunSynchronousInclination(semiMajorAxis, environment.accessCelestialObjectWithName("Earth"));
+        const Angle inclination = COE::ComputeSunSynchronousInclination(
+            semiMajorAxis, 0.0, environment.accessCelestialObjectWithName("Earth")
+        );
 
         EXPECT_TRUE(inclination.isDefined());
         // Sun-synchronous inclination should be around 97-98 degrees for 500 km altitude
@@ -1149,28 +1167,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
         const Environment environment = Environment::Default();
         const Length semiMajorAxis = Length::Meters(7130982.0);
 
-        const Angle inclination =
-            COE::ComputeSunSynchronousInclination(semiMajorAxis, environment.accessCelestialObjectWithName("Earth"));
+        const Angle inclination = COE::ComputeSunSynchronousInclination(
+            semiMajorAxis, 0.0, environment.accessCelestialObjectWithName("Earth")
+        );
 
-        EXPECT_NEAR(inclination.inRadians(), 1.7175896973066611, 1e-4);
+        EXPECT_NEAR(inclination.inRadians(), 1.7175896973066611, 1e-5);
+    }
+
+    {
+        const Environment environment = Environment::Default();
+        const Length semiMajorAxis = Length::Meters(7130982.0);
+        const Real eccentricity = 0.001111;
+
+        const Angle inclination = COE::ComputeSunSynchronousInclination(
+            semiMajorAxis, eccentricity, environment.accessCelestialObjectWithName("Earth")
+        );
+
+        EXPECT_NEAR(inclination.inRadians(), 1.7175893324980402, 1e-4);
     }
 
     {
         EXPECT_THROW(
             COE::ComputeSunSynchronousInclination(
-                Length::Undefined(), Environment::Default().accessCelestialObjectWithName("Earth")
+                Length::Undefined(), 0.0, Environment::Default().accessCelestialObjectWithName("Earth")
             ),
             ostk::core::error::runtime::Undefined
         );
 
         EXPECT_THROW(
-            COE::ComputeSunSynchronousInclination(Length::Kilometers(500.0), nullptr),
+            COE::ComputeSunSynchronousInclination(
+                Length::Kilometers(500.0),
+                Real::Undefined(),
+                Environment::Default().accessCelestialObjectWithName("Earth")
+            ),
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            COE::ComputeSunSynchronousInclination(Length::Kilometers(500.0), 0.0, nullptr),
             ostk::core::error::runtime::Undefined
         );
 
         EXPECT_THROW(
             COE::ComputeSunSynchronousInclination(
-                Length::Kilometers(500.0), std::make_shared<const Celestial>(Celestial::Undefined())
+                Length::Kilometers(500.0), 0.0, std::make_shared<const Celestial>(Celestial::Undefined())
             ),
             ostk::core::error::runtime::Undefined
         );
@@ -1321,7 +1361,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
         EXPECT_THROW(COE::Equatorial(Length::Kilometers(7000.0), 1.5, Angle::Zero()), ostk::core::error::RuntimeError);
     }
 }
-
 
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {

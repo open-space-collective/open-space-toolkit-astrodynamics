@@ -454,15 +454,16 @@ class COE
     /// @return Local Time of the Descending Node (LTDN) in hours
     static Time ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
-    /// @brief Compute the Sun-synchronous inclination for a given semi-major axis
+    /// @brief Compute the Sun-synchronous inclination for a given semi-major axis and eccentricity
     ///
-    /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
+    /// @ref https://github.com/JuliaSpace/SatelliteAnalysis.jl/blob/main/src/sun_synchronous_orbits.jl
     ///
     /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return Sun-synchronous inclination
     static Angle ComputeSunSynchronousInclination(
-        const Length& aSemiMajorAxis, const Shared<const Celestial>& aCelestialObjectSPtr
+        const Length& aSemiMajorAxis, const Real& anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
     );
 
     /// @brief Compute the Right Ascension of the Ascending Node (RAAN) from Local Time of the Ascending Node (LTAN)
@@ -530,7 +531,9 @@ class COE
     /// @param aTrueAnomaly A true anomaly (defaults to zero)
     /// @return COE
     static COE Equatorial(
-        const Length& aSemiMajorAxis, const Real& anEccentricity = Real::Zero(), const Angle& aTrueAnomaly = Angle::Zero()
+        const Length& aSemiMajorAxis,
+        const Real& anEccentricity = Real::Zero(),
+        const Angle& aTrueAnomaly = Angle::Zero()
     );
 
     /// @brief Convert element to string

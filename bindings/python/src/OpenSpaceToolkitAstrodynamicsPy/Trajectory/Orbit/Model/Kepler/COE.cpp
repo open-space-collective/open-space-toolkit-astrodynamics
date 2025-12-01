@@ -756,16 +756,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             "compute_sun_synchronous_inclination",
             &COE::ComputeSunSynchronousInclination,
             R"doc(
-                Compute the Sun-synchronous inclination for a given semi-major axis.
+                Compute the Sun-synchronous inclination for a given semi-major axis and eccentricity.
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
+                    eccentricity (float): The eccentricity.
                     celestial_object (Celestial): The celestial object.
 
                 Returns:
                     Angle: The Sun-synchronous inclination.
             )doc",
             arg("semi_major_axis"),
+            arg("eccentricity"),
             arg("celestial_object")
         )
 
@@ -799,6 +801,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     local_time_at_ascending_node (Time): The local time at ascending node.
                     epoch (Instant): The epoch.
                     celestial_object (Celestial): The celestial object.
+                    eccentricity (float, optional): The eccentricity. Defaults to 0.0.
                     argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
 
                 Returns:
@@ -808,6 +811,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("local_time_at_ascending_node"),
             arg("epoch"),
             arg("celestial_object"),
+            arg_v("eccentricity", 0.0, "0.0"),
             arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
         )
 

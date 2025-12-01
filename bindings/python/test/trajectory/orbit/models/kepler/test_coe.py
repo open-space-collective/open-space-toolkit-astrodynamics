@@ -62,9 +62,11 @@ def coe(
 def environment() -> Environment:
     return Environment.default()
 
+
 @pytest.fixture
 def earth(environment: Environment) -> Celestial:
     return environment.access_celestial_object_with_name("Earth")
+
 
 class TestCOE:
     def test_constructors(self):
@@ -178,26 +180,32 @@ class TestCOE:
 
         assert COE.compute_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_ltan(Angle.degrees(270.0), Instant.J2000(), earth)
+            COE.compute_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
         assert COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000(), earth)
+            COE.compute_mean_ltan(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
         assert COE.compute_ltdn(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_ltdn(Angle.degrees(270.0), Instant.J2000(), earth)
+            COE.compute_ltdn(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
         assert COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
-            COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000(), earth)
+            COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
-        assert COE.compute_sun_synchronous_inclination(Length.kilometers(500.0), earth) is not None
-        assert COE.compute_raan_from_ltan(Time.parse("12:00:00"), Instant.J2000()) is not None
+        assert (
+            COE.compute_sun_synchronous_inclination(Length.meters(7130982.0), 0.0, earth)
+            is not None
+        )
+        assert (
+            COE.compute_raan_from_ltan(Time.parse("12:00:00"), Instant.J2000())
+            is not None
+        )
 
     def test_from_SI_vector(
         self,
