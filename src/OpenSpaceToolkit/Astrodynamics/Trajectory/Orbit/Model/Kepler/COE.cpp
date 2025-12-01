@@ -8,6 +8,12 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
@@ -34,7 +40,14 @@ using ostk::core::type::String;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Vector3d;
 
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::environment::object::Celestial;
+using ostk::physics::environment::object::celestial::Sun;
+using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::ElectricCurrent;
@@ -1097,6 +1110,187 @@ Time COE::ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& aS
     const Real LTDN = std::fmod(LTAN + 12.0, 24.0);
 
     return Time::Hours(LTDN);
+}
+
+Angle COE::ComputeSunSynchronousInclination(
+    const Length& aSemiMajorAxis, const Shared<const Celestial>& aCelestialObjectSPtr
+)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
+
+    const Real a = aSemiMajorAxis.inMeters();
+    const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters();
+    const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
+    const Real j2 = aCelestialObjectSPtr->getJ2();
+
+    const Real T_sid = 31558149.504;                                                 // [s] Sidereal year
+    const Real k_h = 3.0 / (4.0 * M_PI) * j2 * std::sqrt(mu / (R * R * R)) * T_sid;  // Sun-synchronicity constant
+
+    return Angle::Radians(std::acos(-1.0 / k_h * std::pow((a / R), (7.0 / 2.0))));
+}
+
+Angle COE::ComputeRaanFromLTAN(const Time& aLocalTimeAtAscendingNode, const Instant& anEpoch, const Sun& aSun)
+{
+    if (!aLocalTimeAtAscendingNode.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local time at ascending node");
+    }
+
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    const Real localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
+                           (aLocalTimeAtAscendingNode.getMinute() / 60.0) +
+                           (aLocalTimeAtAscendingNode.getSecond() / 3600.0) +
+                           (aLocalTimeAtAscendingNode.getMillisecond() / (3600.0 * 1e3)) +
+                           (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
+                           (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
+
+    // Sun direction in GCRF
+    const Vector3d sunDirection_GCRF = aSun.getPositionIn(Frame::GCRF(), anEpoch).getCoordinates().normalized();
+
+    // Desired angle between the Sun and the ascending node
+    const Angle alpha = Angle::Degrees((localTime - 12.0) / 12.0 * 180.0);
+
+    // Sun Apparent Local Time (right ascension of the Sun in GCRF)
+    // https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time
+    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirection_GCRF.y(), sunDirection_GCRF.x()));
+
+    // Equation of Time
+    // https://en.wikipedia.org/wiki/Equation_of_time
+    const Angle equationOfTime = COE::ComputeEquationOfTime(anEpoch);
+
+    // Sun Mean Local Time
+    // https://en.wikipedia.org/wiki/Solar_time#Mean_solar_time
+    const Angle meanSolarTime = apparentSolarTime + equationOfTime;
+
+    // Right Ascension of the Ascending Node
+    const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), Real::TwoPi()));
+
+    return raan;
+}
+
+COE COE::SunSynchronous(
+    const Length& aSemiMajorAxis,
+    const Time& aLocalTimeAtAscendingNode,
+    const Instant& anEpoch,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Angle& anArgumentOfLatitude
+)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!aLocalTimeAtAscendingNode.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local time at ascending node");
+    }
+
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (!anArgumentOfLatitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Argument of latitude");
+    }
+
+    const Real eccentricity = 0.0;
+    const Angle inclination = COE::ComputeSunSynchronousInclination(aSemiMajorAxis, aCelestialObjectSPtr);
+    const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch);
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = anArgumentOfLatitude - aop;
+
+    return {
+        aSemiMajorAxis,
+        eccentricity,
+        inclination,
+        raan,
+        aop,
+        trueAnomaly,
+    };
+}
+
+COE COE::GeoSynchronous(
+    const Instant& anEpoch,
+    const Angle& anInclination,
+    const Angle& aLongitude,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
+{
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if (!anInclination.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Inclination");
+    }
+
+    if (!aLongitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Longitude");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Geosynchronous orbits currently not suppported for celestial bodies other than Earth"
+        );
+    }
+
+    // [TBI] Add a way to calculate the sidereal period of each planet to generalize this
+    const Length geosynchronousAltitude = Length::Meters(35786000.0);
+
+    // Convert the given longitude (earth referenced) into a usable raan (inertial referenced)
+    const LLA lla = {Angle::Zero(), aLongitude, geosynchronousAltitude};
+    const Vector3d ascendingNodeVectorITRF =
+        lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
+    const Position ascendingNodePositionITRF = Position::Meters(ascendingNodeVectorITRF, Frame::ITRF());
+    const Vector3d ascendingNodeVectorGCRF = ascendingNodePositionITRF.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
+
+    // Define COEs that make up this orbit
+    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
+    const Real eccentricity = Real::Epsilon();
+    const Angle inclination = anInclination;
+    const Angle raan = Angle::Radians(std::atan2(ascendingNodeVectorGCRF[1], ascendingNodeVectorGCRF[0]));
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = Angle::Zero();
+
+    return {
+        semiMajorAxis,
+        eccentricity,
+        inclination,
+        raan,
+        aop,
+        trueAnomaly,
+    };
 }
 
 String COE::StringFromElement(const COE::Element& anElement)

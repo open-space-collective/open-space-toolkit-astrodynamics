@@ -5,6 +5,9 @@ import pytest
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.time import Instant
+from ostk.physics.time import Time
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
 from ostk.physics.environment.gravitational import Earth
 from ostk.physics.environment.object.celestial import Sun
 from ostk.physics import Environment
@@ -52,6 +55,11 @@ def coe(
     true_anomaly: Angle,
 ) -> COE:
     return COE(semi_major_axis, eccentricity, inclination, raan, aop, true_anomaly)
+
+
+@pytest.fixture
+def environment() -> Environment:
+    return Environment.default()
 
 
 class TestCOE:
@@ -184,6 +192,27 @@ class TestCOE:
             COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
+
+    def test_compute_sun_synchronous_inclination(self, environment: Environment):
+        altitude: Length = Length.kilometers(500.0)
+        semi_major_axis: Length = (
+            environment.access_celestial_object_with_name("Earth").get_equatorial_radius()
+            + altitude
+        )
+
+        inclination: Angle = COE.compute_sun_synchronous_inclination(
+            semi_major_axis, environment.access_celestial_object_with_name("Earth")
+        )
+
+        assert inclination is not None
+
+    def test_compute_raan_from_ltan(self):
+        epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+        local_time_at_ascending_node: Time = Time.parse("12:00:00")
+
+        raan: Angle = COE.compute_raan_from_ltan(local_time_at_ascending_node, epoch)
+
+        assert raan is not None
 
     def test_from_SI_vector(
         self,

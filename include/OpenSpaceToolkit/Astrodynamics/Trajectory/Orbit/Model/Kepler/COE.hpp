@@ -454,6 +454,57 @@ class COE
     /// @return Local Time of the Descending Node (LTDN) in hours
     static Time ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
+    /// @brief Compute the Sun-synchronous inclination for a given semi-major axis
+    ///
+    /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @return Sun-synchronous inclination
+    static Angle ComputeSunSynchronousInclination(
+        const Length& aSemiMajorAxis, const Shared<const Celestial>& aCelestialObjectSPtr
+    );
+
+    /// @brief Compute the Right Ascension of the Ascending Node (RAAN) from Local Time of the Ascending Node (LTAN)
+    ///
+    /// @param aLocalTimeAtAscendingNode A local time at ascending node
+    /// @param anEpoch An epoch
+    /// @param sun A Sun model
+    /// @return Right Ascension of the Ascending Node
+    static Angle ComputeRaanFromLTAN(
+        const Time& aLocalTimeAtAscendingNode, const Instant& anEpoch, const Sun& sun = Sun::Default()
+    );
+
+    /// @brief Construct a Sun-synchronous COE
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param aLocalTimeAtAscendingNode A local time at ascending node
+    /// @param anEpoch An epoch
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param anArgumentOfLatitude An argument of latitude
+    /// @return COE
+    static COE SunSynchronous(
+        const Length& aSemiMajorAxis,
+        const Time& aLocalTimeAtAscendingNode,
+        const Instant& anEpoch,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Angle& anArgumentOfLatitude = Angle::Zero()
+    );
+
+    /// @brief Construct a Geosynchronous COE
+    ///
+    /// @param anEpoch An epoch
+    /// @param anInclination An inclination
+    /// @param aLongitude A longitude above the surface
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @return COE
+    static COE GeoSynchronous(
+        const Instant& anEpoch,
+        const Angle& anInclination,
+        const Angle& aLongitude,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
+
     /// @brief Convert element to string
     ///
     /// @param anElement An element

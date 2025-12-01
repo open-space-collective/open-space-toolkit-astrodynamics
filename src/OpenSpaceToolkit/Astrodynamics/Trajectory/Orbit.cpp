@@ -871,11 +871,6 @@ Orbit Orbit::GeoSynchronous(
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::coordinate::Position;
-    using ostk::physics::coordinate::spherical::LLA;
-
     using orbit::model::Kepler;
     using orbit::model::kepler::COE;
 
@@ -899,32 +894,7 @@ Orbit Orbit::GeoSynchronous(
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
-    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
-    {
-        throw ostk::core::error::runtime::ToBeImplemented(
-            "Geosynchronous orbits currently not suppported for celestial bodies other than Earth"
-        );
-    }
-
-    // [TBI] Add a way to calculate the sidereal period of each planet to generalize this
-    const Length geosynchronousAltitude = Length::Meters(35786000.0);
-
-    // Convert the given longitude (earth referenced) into a usable raan (inertial referenced)
-    const LLA lla = {Angle::Zero(), aLongitude, geosynchronousAltitude};
-    const Vector3d ascendingNodeVectorITRF =
-        lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
-    const Position ascendingNodePositionITRF = Position::Meters(ascendingNodeVectorITRF, Frame::ITRF());
-    const Vector3d ascendingNodeVectorGCRF = ascendingNodePositionITRF.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
-
-    // Define COEs that make up this orbit
-    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
-    const Real eccentricity = Real::Epsilon();
-    const Angle inclination = anInclination;
-    const Angle raan = Angle::Radians(std::atan2(ascendingNodeVectorGCRF[1], ascendingNodeVectorGCRF[0]));
-    const Angle aop = Angle::Zero();
-    const Angle trueAnomaly = Angle::Zero();
-
-    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+    const COE coe = COE::GeoSynchronous(anEpoch, anInclination, aLongitude, aCelestialObjectSPtr);
 
     const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};
 
@@ -964,101 +934,6 @@ Orbit Orbit::SunSynchronous(
         throw ostk::core::error::runtime::Undefined("Argument of latitude");
     }
 
-    const auto calculateSunSynchronousInclination = [&aCelestialObjectSPtr](const Length& aSemiMajorAxis) -> Angle
-    {
-        /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
-
-        const Real a = aSemiMajorAxis.inMeters();
-        const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters();
-        const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
-        const Real j2 = aCelestialObjectSPtr->getJ2();
-
-        const Real T_sid = 31558149.504;                                                 // [s] Sidereal year
-        const Real k_h = 3.0 / (4.0 * M_PI) * j2 * std::sqrt(mu / (R * R * R)) * T_sid;  // Sun-synchronicity constant
-
-        return Angle::Radians(std::acos(-1.0 / k_h * std::pow((a / R), (7.0 / 2.0))));
-    };
-
-    const auto calculateEquationOfTime = [](const Instant& anInstant) -> Angle
-    {
-        const Real julianDate = anInstant.getJulianDate(Scale::UTC);
-
-        // Julian Date of J2000.0
-
-        static const Real julianDate_J2000 = 2451545.0;
-
-        // Number of Julian centuries from J2000.0
-
-        const Real T_UT1 = (julianDate - julianDate_J2000) / 36525.0;
-
-        // Mean longitude of the Sun
-
-        const Real sunMeanLongitude_deg = std::fmod(280.460 + 36000.771 * T_UT1, 360.0);
-
-        // Mean anomaly of the Sun
-
-        const Real sunMeanAnomaly_rad = Angle::Degrees(std::fmod(357.5291092 + 35999.05034 * T_UT1, 360.0)).inRadians();
-
-        // Ecliptic latitude of the Sun
-
-        const Real sunEclipticLatitude_rad =
-            Angle::Degrees(std::fmod(
-                               sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
-                                   0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
-                               360.0
-                           ))
-                .inRadians();
-
-        // Compute the equation of time
-
-        const Real equationOfTime_deg =
-            -1.914666471 * std::sin(sunMeanAnomaly_rad) - 0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad) +
-            2.466 * std::sin(2.0 * sunEclipticLatitude_rad) - 0.0053 * std::sin(4.0 * sunEclipticLatitude_rad);
-
-        return Angle::Degrees(equationOfTime_deg);
-    };
-
-    const auto calculateRaan = [calculateEquationOfTime, &anEpoch](const Time& aLocalTimeAtAscendingNode) -> Angle
-    {
-        const Real localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
-                               (aLocalTimeAtAscendingNode.getMinute() / 60.0) +
-                               (aLocalTimeAtAscendingNode.getSecond() / 3600.0) +
-                               (aLocalTimeAtAscendingNode.getMillisecond() / (3600.0 * 1e3)) +
-                               (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
-                               (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
-
-        Sun sun = Sun::Default();  // [TBM] This is a temporary solution
-
-        // Sun direction in GCRF
-
-        const Vector3d sunDirection_GCRF = sun.getPositionIn(Frame::GCRF(), anEpoch).getCoordinates().normalized();
-
-        // Desired angle between the Sun and the ascending node
-
-        const Angle alpha = Angle::Degrees((localTime - 12.0) / 12.0 * 180.0);
-
-        // Sun Apparent Local Time (right ascension of the Sun in GCRF)
-        // https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time
-
-        const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirection_GCRF.y(), sunDirection_GCRF.x()));
-
-        // Equation of Time
-        // https://en.wikipedia.org/wiki/Equation_of_time
-
-        const Angle equationOfTime = calculateEquationOfTime(anEpoch);
-
-        // Sun Mean Local Time
-        // https://en.wikipedia.org/wiki/Solar_time#Mean_solar_time
-
-        const Angle meanSolarTime = apparentSolarTime + equationOfTime;
-
-        // Right Ascension of the Ascending Node
-
-        const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), Real::TwoPi()));
-
-        return raan;
-    };
-
     const auto calculateLocalTimeAtAscendingNode = [&aLocalTimeAtDescendingNode]() -> Time
     {
         return {
@@ -1072,13 +947,9 @@ Orbit Orbit::SunSynchronous(
     };
 
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude;
-    const Real eccentricity = 0.0;
-    const Angle inclination = calculateSunSynchronousInclination(semiMajorAxis);
-    const Angle raan = calculateRaan(calculateLocalTimeAtAscendingNode());
-    const Angle aop = Angle::Zero();
-    const Angle trueAnomaly = anArgumentOfLatitude - aop;
-
-    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+    const COE coe = COE::SunSynchronous(
+        semiMajorAxis, calculateLocalTimeAtAscendingNode(), anEpoch, aCelestialObjectSPtr, anArgumentOfLatitude
+    );
 
     const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};
 
