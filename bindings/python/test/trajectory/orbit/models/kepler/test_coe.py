@@ -201,7 +201,7 @@ class TestCOE:
             is not None
         )
         assert (
-            COE.compute_raan_from_ltan(Time.parse("12:00:00"), Instant.J2000())
+            COE.compute_raan_from_ltan(Time.parse("12:00:00"), Instant.J2000(), earth)
             is not None
         )
 
@@ -262,21 +262,23 @@ class TestCOE:
             is not None
         )
 
-    def test_geo_synchronous(self, earth: Celestial):
+    def test_stationary(self, earth: Celestial):
         epoch: Instant = Instant.J2000()
         inclination: Angle = Angle.degrees(0.01)
         longitude: Angle = Angle.degrees(0.0)
 
-        assert COE.geo_synchronous(epoch, inclination, longitude, earth) is not None
+        assert COE.stationary(epoch, inclination, longitude, earth) is not None
 
     def test_circular(self):
         semi_major_axis: Length = Length.kilometers(7000.0)
         inclination: Angle = Angle.degrees(45.0)
         argument_of_latitude: Angle = Angle.degrees(30.0)
 
-        coe: COE = COE.circular(semi_major_axis, inclination, argument_of_latitude)
-
-        assert coe is not None
+        assert (
+            COE.circular(semi_major_axis, inclination, argument_of_latitude) is not None
+        )
+        assert COE.circular(semi_major_axis, inclination) is not None
+        assert COE.circular(semi_major_axis) is not None
 
     def test_equatorial(self):
         semi_major_axis: Length = Length.kilometers(7000.0)

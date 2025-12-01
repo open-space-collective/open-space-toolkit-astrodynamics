@@ -175,6 +175,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def(
+            "get_argument_of_latitude",
+            &COE::getArgumentOfLatitude,
+            R"doc(
+                Get the argument of latitude of the COE.
+
+                Returns:
+                    Angle: The argument of latitude (sum of argument of periapsis and true anomaly).
+            )doc"
+        )
+
+        .def(
             "get_true_anomaly",
             &COE::getTrueAnomaly,
             R"doc(
@@ -780,6 +791,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Args:
                     local_time_at_ascending_node (Time): The local time at ascending node.
                     epoch (Instant): The epoch.
+                    celestial_object (Celestial): The celestial object.
                     sun (Sun, optional): The Sun model. Defaults to Sun.default().
 
                 Returns:
@@ -787,6 +799,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("local_time_at_ascending_node"),
             arg("epoch"),
+            arg("celestial_object"),
             arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
         )
 
@@ -816,10 +829,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
-            "geo_synchronous",
-            &COE::GeoSynchronous,
+            "stationary",
+            &COE::Stationary,
             R"doc(
-                Construct a Geo-synchronous COE.
+                Construct a Stationary COE.
 
                 Args:
                     epoch (Instant): The epoch.
@@ -828,7 +841,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     celestial_object (Celestial): The celestial object.
 
                 Returns:
-                    COE: The Geo-synchronous COE.
+                    COE: The Stationary COE.
             )doc",
             arg("epoch"),
             arg("inclination"),
@@ -847,14 +860,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
                 Args:
                     semi_major_axis (Length): The semi-major axis.
-                    inclination (Angle): The inclination.
+                    inclination (Angle, optional): The inclination. Defaults to Angle.zero().
                     argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
 
                 Returns:
                     COE: The Circular COE.
             )doc",
             arg("semi_major_axis"),
-            arg("inclination"),
+            arg_v("inclination", Angle::Zero(), "Angle.zero()"),
             arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
         )
 
@@ -893,17 +906,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     str: The string representation.
             )doc",
             arg("element")
-        )
-
-        .def(
-            "get_argument_of_latitude",
-            &COE::getArgumentOfLatitude,
-            R"doc(
-                Get the argument of latitude of the COE.
-
-                Returns:
-                    Angle: The argument of latitude (sum of argument of periapsis and true anomaly).
-            )doc"
         )
 
         ;

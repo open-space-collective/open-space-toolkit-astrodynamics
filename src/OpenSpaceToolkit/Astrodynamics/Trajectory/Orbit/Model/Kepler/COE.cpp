@@ -1131,6 +1131,13 @@ Angle COE::ComputeSunSynchronousInclination(
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Sun-synchronous orbits currently not supported for celestial bodies other than Earth."
+        );
+    }
+
     if (anEccentricity < 0.0 || anEccentricity >= 1.0)
     {
         throw ostk::core::error::runtime::Wrong("Eccentricity", anEccentricity.toString());
@@ -1202,7 +1209,12 @@ Angle COE::ComputeSunSynchronousInclination(
     throw ostk::core::error::RuntimeError("Newton-Raphson did not converge.");
 }
 
-Angle COE::ComputeRaanFromLTAN(const Time& aLocalTimeAtAscendingNode, const Instant& anEpoch, const Sun& aSun)
+Angle COE::ComputeRaanFromLTAN(
+    const Time& aLocalTimeAtAscendingNode,
+    const Instant& anEpoch,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Sun& aSun
+)
 {
     if (!aLocalTimeAtAscendingNode.isDefined())
     {
@@ -1212,6 +1224,19 @@ Angle COE::ComputeRaanFromLTAN(const Time& aLocalTimeAtAscendingNode, const Inst
     if (!anEpoch.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Right Ascension of the Ascending Node (RAAN) computation currently not supported for celestial bodies "
+            "other than Earth."
+        );
     }
 
     const Real localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
@@ -1281,7 +1306,7 @@ COE COE::SunSynchronous(
 
     const Angle inclination =
         COE::ComputeSunSynchronousInclination(aSemiMajorAxis, anEccentricity, aCelestialObjectSPtr);
-    const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch);
+    const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch, aCelestialObjectSPtr);
     const Angle aop = Angle::Zero();
     const Angle trueAnomaly = anArgumentOfLatitude - aop;
 
@@ -1295,7 +1320,7 @@ COE COE::SunSynchronous(
     };
 }
 
-COE COE::GeoSynchronous(
+COE COE::Stationary(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aLongitude,

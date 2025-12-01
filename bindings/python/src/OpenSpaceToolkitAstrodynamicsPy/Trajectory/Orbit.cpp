@@ -345,8 +345,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def_static(
-                "geo_synchronous",
-                &Orbit::GeoSynchronous,
+                "stationary",
+                &Orbit::Stationary,
                 arg("epoch"),
                 arg("inclination"),
                 arg("longitude"),

@@ -470,10 +470,14 @@ class COE
     ///
     /// @param aLocalTimeAtAscendingNode A local time at ascending node
     /// @param anEpoch An epoch
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param sun A Sun model
     /// @return Right Ascension of the Ascending Node
     static Angle ComputeRaanFromLTAN(
-        const Time& aLocalTimeAtAscendingNode, const Instant& anEpoch, const Sun& sun = Sun::Default()
+        const Time& aLocalTimeAtAscendingNode,
+        const Instant& anEpoch,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Sun& sun = Sun::Default()
     );
 
     /// @brief Construct a Sun-synchronous COE
@@ -494,14 +498,14 @@ class COE
         const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
-    /// @brief Construct a Geosynchronous COE
+    /// @brief Construct a Stationary COE
     ///
     /// @param anEpoch An epoch
     /// @param anInclination An inclination
     /// @param aLongitude A longitude above the surface
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return COE
-    static COE GeoSynchronous(
+    static COE Stationary(
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aLongitude,
@@ -514,11 +518,13 @@ class COE
     /// RAAN and AoP are set to zero (AoP is indeterminate for circular orbits).
     ///
     /// @param aSemiMajorAxis A semi-major axis
-    /// @param anInclination An inclination
+    /// @param anInclination An inclination (defaults to zero)
     /// @param anArgumentOfLatitude An argument of latitude (defaults to zero)
     /// @return COE
     static COE Circular(
-        const Length& aSemiMajorAxis, const Angle& anInclination, const Angle& anArgumentOfLatitude = Angle::Zero()
+        const Length& aSemiMajorAxis,
+        const Angle& anInclination = Angle::Zero(),
+        const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
     /// @brief Construct an Equatorial COE
