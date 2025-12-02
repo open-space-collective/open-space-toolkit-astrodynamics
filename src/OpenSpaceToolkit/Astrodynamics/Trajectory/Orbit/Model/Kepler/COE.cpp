@@ -281,14 +281,7 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    const Real semiMajorAxis_m = semiMajorAxis_.inMeters();
-
-    const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
-
-    return Derived(
-        std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
-        angularVelocitySIUnit
-    );
+    return ComputeMeanMotion(semiMajorAxis_, aGravitationalParameter);
 }
 
 Derived COE::getNodalPrecessionRate(
@@ -318,6 +311,17 @@ Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
     }
 
     return Duration::Seconds(Real::TwoPi() / this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit));
+}
+
+Derived COE::getOrbitalSpeed(const Derived& aGravitationalParameter) const
+{
+    const Real orbitalRadius = (this->semiMajorAxis_.inMeters() * (1.0 - (this->eccentricity_ * this->eccentricity_))) / (1.0 + this->eccentricity_) * std::cos(this->getTrueAnomaly().inRadians());
+
+    const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+
+    return Derived(
+        gravitationalParameter_SI * (2.0 / this->getRadialDistance().inMeters() - 1.0 / this->semiMajorAxis_.inMeters()), Derived::Unit::MeterPerSecond(),
+    )
 }
 
 COE::CartesianState COE::getCartesianState(
@@ -1268,6 +1272,42 @@ Angle COE::ComputeRaanFromLTAN(
     const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), Real::TwoPi()));
 
     return raan;
+}
+
+Derived COE::ComputeMeanMotion(const Length& aSemiMajorAxis, const Derived& aGravitationalParameter)
+{
+    if (!aGravitationalParameter.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Gravitational parameter");
+    }
+
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SMA");
+    }
+
+    const Real semiMajorAxis_m = aSemiMajorAxis.inMeters();
+
+    const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+
+    return Derived(
+        std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
+        angularVelocitySIUnit
+    );
+}
+
+Derived COE::ComputeNodalPrecessionRate(
+    const Length& aSemiMajorAxis, const Real& anEccentricity, const Angle& anInclination, const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+)
+{
+    const Real omega = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter).in(angularVelocitySIUnit);
+
+    const Real omega_p =
+        -(3.0 / 2.0) * std::pow(anEquatorialRadius.inMeters(), 2.0) * aJ2Parameter * omega *
+        std::cos(anInclination.inRadians()) /
+        std::pow(aSemiMajorAxis.inMeters() * (1.0 - (anEccentricity * anEccentricity)), 2.0);
+
+    return Derived(omega_p, angularVelocitySIUnit);
 }
 
 COE COE::SunSynchronous(
