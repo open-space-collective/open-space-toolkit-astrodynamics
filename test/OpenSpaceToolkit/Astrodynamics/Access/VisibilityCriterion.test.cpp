@@ -441,9 +441,85 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, AERMaskIsSatis
 
         EXPECT_TRUE(aerMask.value().isSatisfied(aer));
 
-        AER aerOutside(Angle::Degrees(22.5), Angle::Degrees(5.0), Length::Meters(500e3));
+        AER aer2(Angle::Degrees(0.0), Angle::Degrees(10.1), Length::Meters(500e3));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer2));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(
+            Angle::Degrees(0.0).inRadians(), Angle::Degrees(10.1).inRadians(), Length::Meters(500e3).inMeters()
+        ));
+        EXPECT_TRUE(aerMask.value().isSatisfied(
+            Angle::Degrees(0.1).inRadians(), Angle::Degrees(10.1).inRadians(), Length::Meters(500e3).inMeters()
+        ));
+        EXPECT_TRUE(aerMask.value().isSatisfied(
+            Angle::Degrees(360.0).inRadians(), Angle::Degrees(10.1).inRadians(), Length::Meters(500e3).inMeters()
+        ));
+        EXPECT_TRUE(aerMask.value().isSatisfied(
+            Angle::Degrees(360.1).inRadians(), Angle::Degrees(10.1).inRadians(), Length::Meters(500e3).inMeters()
+        ));
+        EXPECT_TRUE(aerMask.value().isSatisfied(
+            Angle::Degrees(360.1).inRadians(), Angle::Degrees(91.0).inRadians(), Length::Meters(500e3).inMeters()
+        ));
+
+        AER aer3(Angle::Degrees(0.1), Angle::Degrees(10.1), Length::Meters(500e3));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer3));
+
+        AER aer4(
+            Angle::Degrees(360. * (1.0 - std::numeric_limits<double>::epsilon())),
+            Angle::Degrees(10.1),
+            Length::Meters(500e3)
+        );
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer4));
+
+        AER aer5(Angle::Degrees(45.0), Angle::Degrees(15.1), Length::Meters(500e3));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer5));
+
+        AER aer6(Angle::Degrees(90.0), Angle::Degrees(20.1), Length::Meters(500e3));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer6));
+
+        AER aer7(Angle::Degrees(89.9), Angle::Degrees(20.1), Length::Meters(500e3));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer7));
+
+        AER aer8(Angle::Degrees(90.1), Angle::Degrees(20.1), Length::Meters(500e3));
+
+        EXPECT_TRUE(aerMask.value().isSatisfied(aer8));
+
+        AER aerOutside(Angle::Degrees(22.5), Angle::Degrees(12.4), Length::Meters(500e3));
 
         EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside));
+
+        AER aerOutside2(Angle::Degrees(0.0), Angle::Degrees(9.9), Length::Meters(500e3));
+
+        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside2));
+
+        AER aerOutside3(Angle::Degrees(0.1), Angle::Degrees(9.9), Length::Meters(500e3));
+
+        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside3));
+
+        AER aerOutside4(
+            Angle::Degrees(360. * (1.0 - std::numeric_limits<double>::epsilon())),
+            Angle::Degrees(9.9),
+            Length::Meters(500e3)
+        );
+
+        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside4));
+
+        AER aerOutside5(Angle::Degrees(90.0), Angle::Degrees(19.9), Length::Meters(500e3));
+
+        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside5));
+
+        AER aerOutside6(Angle::Degrees(89.9), Angle::Degrees(19.9), Length::Meters(500e3));
+
+        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside6));
+
+        AER aerOutside7(Angle::Degrees(90.1), Angle::Degrees(19.9), Length::Meters(500e3));
+
+        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside7));
     }
 }
 
