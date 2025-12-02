@@ -454,6 +454,94 @@ class COE
     /// @return Local Time of the Descending Node (LTDN) in hours
     static Time ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
 
+    /// @brief Compute the Sun-synchronous inclination for a given semi-major axis and eccentricity
+    ///
+    /// @ref https://github.com/JuliaSpace/SatelliteAnalysis.jl/blob/main/src/sun_synchronous_orbits.jl
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @return Sun-synchronous inclination
+    static Angle ComputeSunSynchronousInclination(
+        const Length& aSemiMajorAxis, const Real& anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
+    );
+
+    /// @brief Compute the Right Ascension of the Ascending Node (RAAN) from Local Time of the Ascending Node (LTAN)
+    ///
+    /// @param aLocalTimeAtAscendingNode A local time at ascending node
+    /// @param anEpoch An epoch
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param sun A Sun model
+    /// @return Right Ascension of the Ascending Node
+    static Angle ComputeRaanFromLTAN(
+        const Time& aLocalTimeAtAscendingNode,
+        const Instant& anEpoch,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Sun& sun = Sun::Default()
+    );
+
+    /// @brief Construct a Sun-synchronous COE
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param aLocalTimeAtAscendingNode A local time at ascending node
+    /// @param anEpoch An epoch
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param anEccentricity An eccentricity
+    /// @param anArgumentOfLatitude An argument of latitude
+    /// @return COE
+    static COE SunSynchronous(
+        const Length& aSemiMajorAxis,
+        const Time& aLocalTimeAtAscendingNode,
+        const Instant& anEpoch,
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Real& anEccentricity = Real::Zero(),
+        const Angle& anArgumentOfLatitude = Angle::Zero()
+    );
+
+    /// @brief Construct a Stationary COE
+    ///
+    /// @param anEpoch An epoch
+    /// @param anInclination An inclination
+    /// @param aLongitude A longitude above the surface
+    /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @return COE
+    static COE Stationary(
+        const Instant& anEpoch,
+        const Angle& anInclination,
+        const Angle& aLongitude,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
+
+    /// @brief Construct a Circular COE
+    ///
+    /// Creates a circular orbit (eccentricity = 0) with the specified semi-major axis and inclination.
+    /// RAAN and AoP are set to zero (AoP is indeterminate for circular orbits).
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anInclination An inclination (defaults to zero)
+    /// @param anArgumentOfLatitude An argument of latitude (defaults to zero)
+    /// @return COE
+    static COE Circular(
+        const Length& aSemiMajorAxis,
+        const Angle& anInclination = Angle::Zero(),
+        const Angle& anArgumentOfLatitude = Angle::Zero()
+    );
+
+    /// @brief Construct an Equatorial COE
+    ///
+    /// Creates an equatorial orbit (inclination = 0) with the specified semi-major axis and eccentricity.
+    /// RAAN is set to zero (indeterminate for equatorial orbits).
+    ///
+    /// @param aSemiMajorAxis A semi-major axis
+    /// @param anEccentricity An eccentricity
+    /// @param aTrueAnomaly A true anomaly (defaults to zero)
+    /// @return COE
+    static COE Equatorial(
+        const Length& aSemiMajorAxis,
+        const Real& anEccentricity = Real::Zero(),
+        const Angle& aTrueAnomaly = Angle::Zero()
+    );
+
     /// @brief Convert element to string
     ///
     /// @param anElement An element

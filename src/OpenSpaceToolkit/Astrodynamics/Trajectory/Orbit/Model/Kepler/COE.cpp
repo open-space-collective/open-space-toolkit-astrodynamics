@@ -7,7 +7,13 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
@@ -34,7 +40,14 @@ using ostk::core::type::String;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Vector3d;
 
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::spherical::LLA;
+using ostk::physics::environment::object::Celestial;
+using ostk::physics::environment::object::celestial::Sun;
+using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::time::Time;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::ElectricCurrent;
@@ -1097,6 +1110,344 @@ Time COE::ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& aS
     const Real LTDN = std::fmod(LTAN + 12.0, 24.0);
 
     return Time::Hours(LTDN);
+}
+
+Angle COE::ComputeSunSynchronousInclination(
+    const Length& aSemiMajorAxis, const Real& anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
+)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!anEccentricity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Eccentricity");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Sun-synchronous orbits currently not supported for celestial bodies other than Earth."
+        );
+    }
+
+    if (anEccentricity < 0.0 || anEccentricity >= 1.0)
+    {
+        throw ostk::core::error::runtime::Wrong("Eccentricity", anEccentricity.toString());
+    }
+
+    const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters();
+    const Real a = aSemiMajorAxis.inMeters();
+
+    if (a * (1.0 - anEccentricity) <= R)
+    {
+        throw ostk::core::error::runtime::Wrong("Perigee altitude", (a * (1.0 - anEccentricity)).toString());
+    }
+
+    const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
+    const Real j2 = aCelestialObjectSPtr->getJ2();
+
+    // Mean motion of the Earth around the Sun
+    const Real siderealYear_seconds = 31558149.504;
+    const Real meanMotion_radiansPerSecond = Real::TwoPi() / siderealYear_seconds;
+
+    const Real n0 = std::sqrt(mu / (a * a * a));
+    const Real p = a * (1.0 - anEccentricity * anEccentricity);
+    const Real beta = std::sqrt(1.0 - anEccentricity * anEccentricity);
+
+    // k1 = -(3/2) * J2 * (R/p)^2 * n0
+    const Real k1 = -1.5 * j2 * std::pow(R / p, 2.0) * n0;
+
+    // k2 = (3/4) * J2 * (R/p)^2 * beta
+    const Real k2 = 0.75 * j2 * std::pow(R / p, 2.0) * beta;
+
+    const Real A = 3.0 * k1 * k2;
+    const Real B = k1 * (1.0 - k2);
+
+    const Real targetRate = meanMotion_radiansPerSecond;
+
+    // Initial guess: neglect J2 secular perturbation on mean motion
+    // rate approx k1 * cos(i)
+    Real cos_i = targetRate / k1;
+
+    if (std::abs(cos_i) > 1.0)
+    {
+        throw ostk::core::error::RuntimeError("Cannot find Sun-synchronous orbit for given parameters.");
+    }
+
+    // Newton-Raphson
+    const Size maxIterations = 50;
+    const Real tolerance = 1e-15;
+
+    for (Size i = 0; i < maxIterations; ++i)
+    {
+        const Real cos2_i = cos_i * cos_i;
+        const Real cos3_i = cos2_i * cos_i;
+
+        const Real f = targetRate - (A * cos3_i + B * cos_i);
+        const Real df = -(3.0 * A * cos2_i + B);
+
+        if (std::abs(f) < tolerance)
+        {
+            if (std::abs(cos_i) > 1.0)
+            {
+                throw ostk::core::error::RuntimeError("Calculated cosine of inclination is out of range [-1, 1].");
+            }
+            return Angle::Radians(std::acos(cos_i));
+        }
+
+        cos_i = cos_i - f / df;
+    }
+
+    throw ostk::core::error::RuntimeError("Newton-Raphson did not converge.");
+}
+
+Angle COE::ComputeRaanFromLTAN(
+    const Time& aLocalTimeAtAscendingNode,
+    const Instant& anEpoch,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Sun& aSun
+)
+{
+    if (!aLocalTimeAtAscendingNode.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local time at ascending node");
+    }
+
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Right Ascension of the Ascending Node (RAAN) computation currently not supported for celestial bodies "
+            "other than Earth."
+        );
+    }
+
+    const Real localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
+                           (aLocalTimeAtAscendingNode.getMinute() / 60.0) +
+                           (aLocalTimeAtAscendingNode.getSecond() / 3600.0) +
+                           (aLocalTimeAtAscendingNode.getMillisecond() / (3600.0 * 1e3)) +
+                           (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
+                           (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
+
+    // Sun direction in GCRF
+    const Vector3d sunDirection_GCRF = aSun.getPositionIn(Frame::GCRF(), anEpoch).getCoordinates().normalized();
+
+    // Desired angle between the Sun and the ascending node
+    const Angle alpha = Angle::Degrees((localTime - 12.0) / 12.0 * 180.0);
+
+    // Sun Apparent Local Time (right ascension of the Sun in GCRF)
+    // https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time
+    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirection_GCRF.y(), sunDirection_GCRF.x()));
+
+    // Equation of Time
+    // https://en.wikipedia.org/wiki/Equation_of_time
+    const Angle equationOfTime = COE::ComputeEquationOfTime(anEpoch);
+
+    // Sun Mean Local Time
+    // https://en.wikipedia.org/wiki/Solar_time#Mean_solar_time
+    const Angle meanSolarTime = apparentSolarTime + equationOfTime;
+
+    // Right Ascension of the Ascending Node
+    const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), Real::TwoPi()));
+
+    return raan;
+}
+
+COE COE::SunSynchronous(
+    const Length& aSemiMajorAxis,
+    const Time& aLocalTimeAtAscendingNode,
+    const Instant& anEpoch,
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Real& anEccentricity,
+    const Angle& anArgumentOfLatitude
+)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!aLocalTimeAtAscendingNode.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local time at ascending node");
+    }
+
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (!anArgumentOfLatitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Argument of latitude");
+    }
+
+    const Angle inclination =
+        COE::ComputeSunSynchronousInclination(aSemiMajorAxis, anEccentricity, aCelestialObjectSPtr);
+    const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch, aCelestialObjectSPtr);
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = anArgumentOfLatitude - aop;
+
+    return {
+        aSemiMajorAxis,
+        anEccentricity,
+        inclination,
+        raan,
+        aop,
+        trueAnomaly,
+    };
+}
+
+COE COE::Stationary(
+    const Instant& anEpoch,
+    const Angle& anInclination,
+    const Angle& aLongitude,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
+{
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if (!anInclination.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Inclination");
+    }
+
+    if (!aLongitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Longitude");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Geosynchronous orbits currently not supported for celestial bodies other than Earth"
+        );
+    }
+
+    // [TBI] Add a way to calculate the sidereal period of each planet to generalize this
+    const Length geosynchronousAltitude = Length::Meters(35786000.0);
+
+    // Convert the given longitude (earth referenced) into a usable raan (inertial referenced)
+    const LLA lla = {Angle::Zero(), aLongitude, geosynchronousAltitude};
+    const Vector3d ascendingNodeVectorITRF =
+        lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
+    const Position ascendingNodePositionITRF = Position::Meters(ascendingNodeVectorITRF, Frame::ITRF());
+    const Vector3d ascendingNodeVectorGCRF = ascendingNodePositionITRF.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
+
+    // Define COEs that make up this orbit
+    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
+    const Real eccentricity = Real::Epsilon();
+    const Angle inclination = anInclination;
+    const Angle raan = Angle::Radians(std::atan2(ascendingNodeVectorGCRF[1], ascendingNodeVectorGCRF[0]));
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = Angle::Zero();
+
+    return {
+        semiMajorAxis,
+        eccentricity,
+        inclination,
+        raan,
+        aop,
+        trueAnomaly,
+    };
+}
+
+COE COE::Circular(const Length& aSemiMajorAxis, const Angle& anInclination, const Angle& anArgumentOfLatitude)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!anInclination.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Inclination");
+    }
+
+    if (!anArgumentOfLatitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Argument of latitude");
+    }
+
+    const Real eccentricity = 0.0;
+    const Angle raan = Angle::Zero();
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = anArgumentOfLatitude;
+
+    return {
+        aSemiMajorAxis,
+        eccentricity,
+        anInclination,
+        raan,
+        aop,
+        trueAnomaly,
+    };
+}
+
+COE COE::Equatorial(const Length& aSemiMajorAxis, const Real& anEccentricity, const Angle& aTrueAnomaly)
+{
+    if (!aSemiMajorAxis.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Semi-major axis");
+    }
+
+    if (!anEccentricity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Eccentricity");
+    }
+
+    if (!aTrueAnomaly.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("True anomaly");
+    }
+
+    if (anEccentricity < 0.0 || anEccentricity >= 1.0)
+    {
+        throw ostk::core::error::RuntimeError("Eccentricity must be in range [0, 1) for elliptical orbits.");
+    }
+
+    const Angle inclination = Angle::Zero();
+    const Angle raan = Angle::Zero();
+    const Angle aop = Angle::Zero();
+
+    return {
+        aSemiMajorAxis,
+        anEccentricity,
+        inclination,
+        raan,
+        aop,
+        aTrueAnomaly,
+    };
 }
 
 String COE::StringFromElement(const COE::Element& anElement)

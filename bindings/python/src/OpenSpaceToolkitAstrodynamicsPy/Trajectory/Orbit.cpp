@@ -345,8 +345,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def_static(
-                "geo_synchronous",
-                &Orbit::GeoSynchronous,
+                "stationary",
+                &Orbit::Stationary,
                 arg("epoch"),
                 arg("inclination"),
                 arg("longitude"),
@@ -381,7 +381,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         altitude (Length): The altitude (wrt. equatorial radius).
                         local_time_at_descending_node (Time): The local time at descending node.
                         celestial_object (Celestial): The celestial object.
-                        argument_of_latitude (Angle): The argument of latitude.
+                        argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
 
                     Returns:
                         Orbit: The sun-synchronous `Orbit` object.

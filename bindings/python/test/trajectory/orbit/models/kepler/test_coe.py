@@ -5,8 +5,10 @@ import pytest
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.time import Instant
+from ostk.physics.time import Time
 from ostk.physics.environment.gravitational import Earth
 from ostk.physics.environment.object.celestial import Sun
+from ostk.physics.environment.object import Celestial
 from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
@@ -52,6 +54,16 @@ def coe(
     true_anomaly: Angle,
 ) -> COE:
     return COE(semi_major_axis, eccentricity, inclination, raan, aop, true_anomaly)
+
+
+@pytest.fixture
+def environment() -> Environment:
+    return Environment.default()
+
+
+@pytest.fixture
+def earth(environment: Environment) -> Celestial:
+    return environment.access_celestial_object_with_name("Earth")
 
 
 class TestCOE:
@@ -147,7 +159,7 @@ class TestCOE:
             is not None
         )
 
-    def test_compute_methods(self):
+    def test_compute_methods(self, earth: Celestial):
         semi_latus_rectum: float = COE.compute_semi_latus_rectum(7000.0e3, 0.0)
         assert semi_latus_rectum is not None
         assert (
@@ -184,6 +196,14 @@ class TestCOE:
             COE.compute_mean_ltdn(Angle.degrees(270.0), Instant.J2000(), Sun.default())
             is not None
         )
+        assert (
+            COE.compute_sun_synchronous_inclination(Length.meters(7130982.0), 0.0, earth)
+            is not None
+        )
+        assert (
+            COE.compute_raan_from_ltan(Time.parse("12:00:00"), Instant.J2000(), earth)
+            is not None
+        )
 
     def test_from_SI_vector(
         self,
@@ -210,3 +230,61 @@ class TestCOE:
     def test_string_from_element(self):
         element_str = COE.string_from_element(COE.Element.SemiMajorAxis)
         assert element_str == "SemiMajorAxis"
+
+    def test_sun_synchronous(self, earth: Celestial):
+        semi_major_axis: Length = Length.meters(7130982.0)
+        local_time_at_ascending_node: Time = Time.parse("12:00:00")
+        epoch: Instant = Instant.J2000()
+        eccentricity: float = 0.0
+        argument_of_latitude: Angle = Angle.degrees(30.0)
+
+        assert (
+            COE.sun_synchronous(
+                semi_major_axis,
+                local_time_at_ascending_node,
+                epoch,
+                earth,
+                eccentricity,
+                argument_of_latitude,
+            )
+            is not None
+        )
+        assert (
+            COE.sun_synchronous(
+                semi_major_axis, local_time_at_ascending_node, epoch, earth, eccentricity
+            )
+            is not None
+        )
+        assert (
+            COE.sun_synchronous(
+                semi_major_axis, local_time_at_ascending_node, epoch, earth
+            )
+            is not None
+        )
+
+    def test_stationary(self, earth: Celestial):
+        epoch: Instant = Instant.J2000()
+        inclination: Angle = Angle.degrees(0.01)
+        longitude: Angle = Angle.degrees(0.0)
+
+        assert COE.stationary(epoch, inclination, longitude, earth) is not None
+
+    def test_circular(self):
+        semi_major_axis: Length = Length.kilometers(7000.0)
+        inclination: Angle = Angle.degrees(45.0)
+        argument_of_latitude: Angle = Angle.degrees(30.0)
+
+        assert (
+            COE.circular(semi_major_axis, inclination, argument_of_latitude) is not None
+        )
+        assert COE.circular(semi_major_axis, inclination) is not None
+        assert COE.circular(semi_major_axis) is not None
+
+    def test_equatorial(self):
+        semi_major_axis: Length = Length.kilometers(7000.0)
+        eccentricity: float = 0.1
+        true_anomaly: Angle = Angle.degrees(45.0)
+
+        assert COE.equatorial(semi_major_axis, eccentricity, true_anomaly) is not None
+        assert COE.equatorial(semi_major_axis, eccentricity) is not None
+        assert COE.equatorial(semi_major_axis) is not None

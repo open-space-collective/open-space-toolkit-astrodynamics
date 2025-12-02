@@ -9,6 +9,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
     using ostk::core::type::Real;
 
     using ostk::physics::environment::object::Celestial;
+    using ostk::physics::time::Instant;
+    using ostk::physics::time::Time;
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Length;
 
@@ -169,6 +171,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
                 Returns:
                     Angle: The argument of periapsis of the COE.
+            )doc"
+        )
+
+        .def(
+            "get_argument_of_latitude",
+            &COE::getArgumentOfLatitude,
+            R"doc(
+                Get the argument of latitude of the COE.
+
+                Returns:
+                    Angle: The argument of latitude (sum of argument of periapsis and true anomaly).
             )doc"
         )
 
@@ -751,6 +764,136 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
+            "compute_sun_synchronous_inclination",
+            &COE::ComputeSunSynchronousInclination,
+            R"doc(
+                Compute the Sun-synchronous inclination for a given semi-major axis and eccentricity.
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    eccentricity (float): The eccentricity.
+                    celestial_object (Celestial): The celestial object.
+
+                Returns:
+                    Angle: The Sun-synchronous inclination.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity"),
+            arg("celestial_object")
+        )
+
+        .def_static(
+            "compute_raan_from_ltan",
+            &COE::ComputeRaanFromLTAN,
+            R"doc(
+                Compute the Right Ascension of the Ascending Node (RAAN) from Local Time of the Ascending Node (LTAN).
+
+                Args:
+                    local_time_at_ascending_node (Time): The local time at ascending node.
+                    epoch (Instant): The epoch.
+                    celestial_object (Celestial): The celestial object.
+                    sun (Sun, optional): The Sun model. Defaults to Sun.default().
+
+                Returns:
+                    Angle: The Right Ascension of the Ascending Node.
+            )doc",
+            arg("local_time_at_ascending_node"),
+            arg("epoch"),
+            arg("celestial_object"),
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+        )
+
+        .def_static(
+            "sun_synchronous",
+            &COE::SunSynchronous,
+            R"doc(
+                Construct a Sun-synchronous COE.
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    local_time_at_ascending_node (Time): The local time at ascending node.
+                    epoch (Instant): The epoch.
+                    celestial_object (Celestial): The celestial object.
+                    eccentricity (float, optional): The eccentricity. Defaults to 0.0.
+                    argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
+
+                Returns:
+                    COE: The Sun-synchronous COE.
+            )doc",
+            arg("semi_major_axis"),
+            arg("local_time_at_ascending_node"),
+            arg("epoch"),
+            arg("celestial_object"),
+            arg_v("eccentricity", 0.0, "0.0"),
+            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
+        )
+
+        .def_static(
+            "stationary",
+            &COE::Stationary,
+            R"doc(
+                Construct a Stationary COE.
+
+                Args:
+                    epoch (Instant): The epoch.
+                    inclination (Angle): The inclination.
+                    longitude (Angle): The longitude above the surface.
+                    celestial_object (Celestial): The celestial object.
+
+                Returns:
+                    COE: The Stationary COE.
+            )doc",
+            arg("epoch"),
+            arg("inclination"),
+            arg("longitude"),
+            arg("celestial_object")
+        )
+
+        .def_static(
+            "circular",
+            &COE::Circular,
+            R"doc(
+                Construct a Circular COE.
+
+                Creates a circular orbit (eccentricity = 0) with the specified semi-major axis and inclination.
+                RAAN and AoP are set to zero (AoP is indeterminate for circular orbits).
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    inclination (Angle, optional): The inclination. Defaults to Angle.zero().
+                    argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
+
+                Returns:
+                    COE: The Circular COE.
+            )doc",
+            arg("semi_major_axis"),
+            arg_v("inclination", Angle::Zero(), "Angle.zero()"),
+            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
+        )
+
+        .def_static(
+            "equatorial",
+            &COE::Equatorial,
+            R"doc(
+                Construct an Equatorial COE.
+
+                Creates an equatorial orbit (inclination = 0) with the specified semi-major axis and eccentricity.
+                RAAN is set to zero (indeterminate for equatorial orbits).
+
+                Args:
+                    semi_major_axis (Length): The semi-major axis.
+                    eccentricity (float, optional): The eccentricity. Defaults to 0.0.
+                    true_anomaly (Angle, optional): The true anomaly. Defaults to Angle.zero().
+
+                Returns:
+                    COE: The Equatorial COE.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity") = 0.0,
+            arg_v("true_anomaly", Angle::Zero(), "Angle.zero()")
+        )
+
+        .def_static(
             "string_from_element",
             &COE::StringFromElement,
             R"doc(
@@ -763,17 +906,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     str: The string representation.
             )doc",
             arg("element")
-        )
-
-        .def(
-            "get_argument_of_latitude",
-            &COE::getArgumentOfLatitude,
-            R"doc(
-                Get the argument of latitude of the COE.
-
-                Returns:
-                    Angle: The argument of latitude (sum of argument of periapsis and true anomaly).
-            )doc"
         )
 
         ;
