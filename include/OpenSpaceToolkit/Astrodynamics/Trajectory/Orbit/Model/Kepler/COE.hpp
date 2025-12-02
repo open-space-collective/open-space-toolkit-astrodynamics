@@ -488,7 +488,7 @@ class COE
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anEccentricity An eccentricity
     /// @param anArgumentOfLatitude An argument of latitude
-    /// @return COE
+    /// @return Sun-synchronous COE
     static COE SunSynchronous(
         const Length& aSemiMajorAxis,
         const Time& aLocalTimeAtAscendingNode,
@@ -498,14 +498,14 @@ class COE
         const Angle& anArgumentOfLatitude = Angle::Zero()
     );
 
-    /// @brief Construct a Stationary COE
+    /// @brief Construct a Geo-synchronous COE
     ///
     /// @param anEpoch An epoch
     /// @param anInclination An inclination
     /// @param aLongitude A longitude above the surface
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
-    /// @return COE
-    static COE Stationary(
+    /// @return Geo-synchronous COE
+    static COE GeoSynchronous(
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aLongitude,
@@ -520,7 +520,7 @@ class COE
     /// @param aSemiMajorAxis A semi-major axis
     /// @param anInclination An inclination (defaults to zero)
     /// @param anArgumentOfLatitude An argument of latitude (defaults to zero)
-    /// @return COE
+    /// @return Circular COE
     static COE Circular(
         const Length& aSemiMajorAxis,
         const Angle& anInclination = Angle::Zero(),
@@ -535,7 +535,7 @@ class COE
     /// @param aSemiMajorAxis A semi-major axis
     /// @param anEccentricity An eccentricity
     /// @param aTrueAnomaly A true anomaly (defaults to zero)
-    /// @return COE
+    /// @return Equatorial COE
     static COE Equatorial(
         const Length& aSemiMajorAxis,
         const Real& anEccentricity = Real::Zero(),

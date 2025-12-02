@@ -392,7 +392,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Create a `COE` model from a state vector in SI units.
 
                 Args:
-                    vector (Vector6d): The state vector.
+                    vector (numpy.ndarray): The state vector.
                     anomaly_type (AnomalyType): The type of anomaly.
 
                 Returns:
@@ -829,10 +829,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def_static(
-            "stationary",
-            &COE::Stationary,
+            "geo_synchronous",
+            &COE::GeoSynchronous,
             R"doc(
-                Construct a Stationary COE.
+                Construct a Geo-synchronous COE.
 
                 Args:
                     epoch (Instant): The epoch.
@@ -841,7 +841,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     celestial_object (Celestial): The celestial object.
 
                 Returns:
-                    COE: The Stationary COE.
+                    COE: The Geo-synchronous COE.
             )doc",
             arg("epoch"),
             arg("inclination"),

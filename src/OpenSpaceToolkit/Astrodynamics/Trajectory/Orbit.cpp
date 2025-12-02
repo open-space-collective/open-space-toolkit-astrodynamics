@@ -854,7 +854,7 @@ Orbit Orbit::CircularEquatorial(
     return Orbit::Circular(anEpoch, anAltitude, Angle::Zero(), aCelestialObjectSPtr);
 }
 
-Orbit Orbit::Stationary(
+Orbit Orbit::GeoSynchronous(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aLongitude,
@@ -884,7 +884,7 @@ Orbit Orbit::Stationary(
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
-    const COE coe = COE::Stationary(anEpoch, anInclination, aLongitude, aCelestialObjectSPtr);
+    const COE coe = COE::GeoSynchronous(anEpoch, anInclination, aLongitude, aCelestialObjectSPtr);
 
     const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};
 

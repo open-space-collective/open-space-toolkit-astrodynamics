@@ -1320,7 +1320,7 @@ COE COE::SunSynchronous(
     };
 }
 
-COE COE::Stationary(
+COE COE::GeoSynchronous(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aLongitude,
