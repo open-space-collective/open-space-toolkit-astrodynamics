@@ -229,8 +229,8 @@ class Orbit : public Trajectory
     /// @param anInclination An orbit inclination
     /// @param aLongitude A longitude above the surface
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
-    /// @return Circular orbit
-    static Orbit Stationary(
+    /// @return Geosynchronous orbit
+    static Orbit GeoSynchronous(
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aLongitude,

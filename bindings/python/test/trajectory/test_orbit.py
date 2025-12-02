@@ -156,12 +156,12 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-    def test_stationary(self, earth):
+    def test_geo_synchronous(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         inclination = Angle.degrees(45.0)
         longitude = Angle.degrees(45.0)
 
-        orbit: Orbit = Orbit.stationary(epoch, inclination, longitude, earth)
+        orbit: Orbit = Orbit.geo_synchronous(epoch, inclination, longitude, earth)
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)

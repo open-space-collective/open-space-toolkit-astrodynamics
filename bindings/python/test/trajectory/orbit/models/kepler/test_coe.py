@@ -67,40 +67,22 @@ def earth(environment: Environment) -> Celestial:
 
 
 class TestCOE:
-    def test_constructors(self):
-        a = Length.kilometers(7000.0)
-        e = 0.1
-        i = Angle.degrees(35.0)
-        raan = Angle.degrees(40.0)
-        aop = Angle.degrees(50.0)
-        nu = Angle.degrees(60.0)
-
-        coe: COE = COE(a, e, i, raan, aop, nu)
-
-        assert coe is not None
-        assert isinstance(coe, COE)
-        assert coe.is_defined()
-
-        coe: COE = COE.undefined()
-
-        assert coe is not None
-        assert isinstance(coe, COE)
-        assert coe.is_defined() is False
-
-        coe: COE = COE.frozen_orbit(
-            a,
-            Earth.EGM2008.equatorial_radius,
-            Earth.EGM2008.J2,
-            Earth.EGM2008.J3,
-            inclination=i,
-        )
-
-        assert coe is not None
-        assert isinstance(coe, COE)
-        assert coe.is_defined()
-
-        coe: COE = COE.frozen_orbit(
-            a, Environment.default().access_celestial_object_with_name("Earth")
+    def test_constructors(
+        self,
+        semi_major_axis: Length,
+        eccentricity: float,
+        inclination: Angle,
+        raan: Angle,
+        aop: Angle,
+        true_anomaly: Angle,
+    ):
+        coe: COE = COE(
+            semi_major_axis,
+            eccentricity,
+            inclination,
+            raan,
+            aop,
+            true_anomaly,
         )
 
         assert coe is not None
@@ -262,12 +244,12 @@ class TestCOE:
             is not None
         )
 
-    def test_stationary(self, earth: Celestial):
+    def test_geo_synchronous(self, earth: Celestial):
         epoch: Instant = Instant.J2000()
         inclination: Angle = Angle.degrees(0.01)
         longitude: Angle = Angle.degrees(0.0)
 
-        assert COE.stationary(epoch, inclination, longitude, earth) is not None
+        assert COE.geo_synchronous(epoch, inclination, longitude, earth) is not None
 
     def test_circular(self):
         semi_major_axis: Length = Length.kilometers(7000.0)
@@ -288,3 +270,36 @@ class TestCOE:
         assert COE.equatorial(semi_major_axis, eccentricity, true_anomaly) is not None
         assert COE.equatorial(semi_major_axis, eccentricity) is not None
         assert COE.equatorial(semi_major_axis) is not None
+
+    def test_undefined(self):
+        coe: COE = COE.undefined()
+
+        assert coe is not None
+        assert isinstance(coe, COE)
+        assert coe.is_defined() is False
+
+    def test_frozen_orbit(
+        self,
+        semi_major_axis: Length,
+        inclination: Angle,
+    ):
+        coe: COE = COE.frozen_orbit(
+            semi_major_axis,
+            Earth.EGM2008.equatorial_radius,
+            Earth.EGM2008.J2,
+            Earth.EGM2008.J3,
+            inclination=inclination,
+        )
+
+        assert coe is not None
+        assert isinstance(coe, COE)
+        assert coe.is_defined()
+
+        coe: COE = COE.frozen_orbit(
+            semi_major_axis,
+            Environment.default().access_celestial_object_with_name("Earth"),
+        )
+
+        assert coe is not None
+        assert isinstance(coe, COE)
+        assert coe.is_defined()

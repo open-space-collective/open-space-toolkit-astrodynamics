@@ -1906,7 +1906,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Stationary)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
 {
     // Test longitude alignement for a certain longitude
     {
@@ -1922,7 +1922,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Stationary)
 
         // Orbit setup
         const Orbit orbit =
-            Orbit::Stationary(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
 
         // Test
         const State state = orbit.getStateAt(epoch);
@@ -1949,7 +1949,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Stationary)
 
         // Orbit setup
         const Orbit orbit =
-            Orbit::Stationary(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
 
         // Test
         const State state = orbit.getStateAt(epoch);
@@ -1976,7 +1976,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Stationary)
 
         // Orbit setup
         const Orbit orbit =
-            Orbit::Stationary(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
 
         // Test
         const State state = orbit.getStateAt(epoch);

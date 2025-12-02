@@ -1073,7 +1073,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Stationary)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GeoSynchronous)
 {
     {
         const Environment environment = Environment::Default();
@@ -1082,7 +1082,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Station
         const Angle longitude = Angle::Degrees(0.0);
 
         const COE coe =
-            COE::Stationary(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            COE::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
 
         EXPECT_TRUE(coe.isDefined());
         EXPECT_NEAR(coe.getInclination().inDegrees(), inclination.inDegrees(), 1e-10);
@@ -1097,7 +1097,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Station
 
     {
         EXPECT_THROW(
-            COE::Stationary(
+            COE::GeoSynchronous(
                 Instant::Undefined(),
                 Angle::Degrees(0.01),
                 Angle::Degrees(0.0),
@@ -1107,7 +1107,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Station
         );
 
         EXPECT_THROW(
-            COE::Stationary(
+            COE::GeoSynchronous(
                 Instant::J2000(),
                 Angle::Undefined(),
                 Angle::Degrees(0.0),
@@ -1117,7 +1117,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Station
         );
 
         EXPECT_THROW(
-            COE::Stationary(
+            COE::GeoSynchronous(
                 Instant::J2000(),
                 Angle::Degrees(0.01),
                 Angle::Undefined(),
@@ -1127,13 +1127,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Station
         );
 
         EXPECT_THROW(
-            COE::Stationary(Instant::J2000(), Angle::Degrees(0.01), Angle::Degrees(0.0), nullptr),
+            COE::GeoSynchronous(Instant::J2000(), Angle::Degrees(0.01), Angle::Degrees(0.0), nullptr),
             ostk::core::error::runtime::Undefined
         );
 
         // Test non-Earth celestial object
         EXPECT_THROW(
-            COE::Stationary(
+            COE::GeoSynchronous(
                 Instant::J2000(),
                 Angle::Degrees(0.01),
                 Angle::Degrees(0.0),
