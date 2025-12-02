@@ -357,7 +357,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                     Args:
                         epoch (Instant): The epoch.
                         inclination (Angle): The inclination.
-                        longitude (double): The longitude.
+                        longitude (Angle): The longitude.
                         celestial_object (Celestial): The celestial object.
 
                     Returns:
