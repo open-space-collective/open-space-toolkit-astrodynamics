@@ -45,6 +45,15 @@ def parameters() -> QLaw.Parameters:
             COE.Element.SemiMajorAxis: (1.0, 100.0),
             COE.Element.Eccentricity: (1.0, 1e-3),
         },
+        m=5,
+        n=6,
+        r=7,
+        b=0.08,
+        k=9,
+        periapsis_weight=0.1,
+        minimum_periapsis_radius=Length.kilometers(7000.0),
+        absolute_effectivity_threshold=0.2,
+        relative_effectivity_threshold=0.3,
     )
 
 
@@ -101,10 +110,15 @@ class TestQLawParameters:
 
     def test_getters(self, parameters: QLaw.Parameters):
         assert parameters.get_control_weights() is not None
-        assert parameters.m is not None
-        assert parameters.n is not None
-        assert parameters.r is not None
-        assert parameters.b is not None
+        assert parameters.m == 5
+        assert parameters.n == 6
+        assert parameters.r == 7
+        assert parameters.b == 0.08
+        assert parameters.k == 9
+        assert parameters.periapsis_weight == 0.1
+        assert parameters.minimum_periapsis_radius == Length.kilometers(7000.0)
+        assert parameters.absolute_effectivity_threshold == 0.2
+        assert parameters.relative_effectivity_threshold == 0.3
 
 
 class TestQLaw:
