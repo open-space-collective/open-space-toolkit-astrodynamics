@@ -116,7 +116,7 @@ class TestQLawParameters:
         assert parameters.b == 0.08
         assert parameters.k == 9
         assert parameters.periapsis_weight == 0.1
-        assert parameters.minimum_periapsis_radius == Length.kilometers(7000.0)
+        assert parameters.get_minimum_periapsis_radius() == Length.kilometers(7000.0)
         assert parameters.absolute_effectivity_threshold == 0.2
         assert parameters.relative_effectivity_threshold == 0.3
 
