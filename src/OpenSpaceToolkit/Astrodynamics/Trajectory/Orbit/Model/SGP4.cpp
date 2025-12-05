@@ -70,9 +70,7 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 
     const State state_TEME = {anInstant, position_TEME, velocity_TEME};
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
-
-    const State state_GCRF = state_TEME.inFrame(gcrfSPtr);
+    const State state_GCRF = state_TEME.inFrame(Frame::GCRF());
 
     return state_GCRF;
 }
