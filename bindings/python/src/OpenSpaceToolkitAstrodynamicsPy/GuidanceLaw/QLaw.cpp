@@ -91,7 +91,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         )
         .def_readonly(
             "k",
-            &QLaw::Parameters::r,
+            &QLaw::Parameters::k,
             R"doc(
                 Penalty parameter for periapsis.
 
