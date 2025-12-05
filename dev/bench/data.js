@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1764697078677,
+  "lastUpdate": 1764951585023,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 3200386220.899992,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3200113952.6000004 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1ce61b4aefc5467680811bdb476ab2af93f43321",
+          "message": "fix: amend QLaw k property Python binding (#617)\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2025-12-05T15:49:40Z",
+          "tree_id": "5912d532df9be8d9e15d3642f9f6a17bcf85f66f",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/1ce61b4aefc5467680811bdb476ab2af93f43321"
+        },
+        "date": 1764951583046,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4628635951.000012,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4614967611.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 7931431024.099993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7930822571.6 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 11042450800.000006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 11041743499.600002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 11052931868.200005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 11052073550.600008 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 11058538179.899996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 11057627092.20001 ns\nthreads: 1"
           }
         ]
       }
