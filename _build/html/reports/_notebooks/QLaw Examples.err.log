@@ -77,11 +77,11 @@ Cell [0;32mIn[9], line 11[0m
 
 Invoked with: -- Classical Orbital Elements ----------------------------------------------------------------------
     Semi-major axis:                         6968137.0 [m]                            
-    Eccentricity:                            0.0                                      
-    Inclination:                             97.728513019047639 [deg]                 
+    Eccentricity:                            2.2627612980364442e-18                   
+    Inclination:                             97.73352589929226 [deg]                  
     Right ascension of the ascending node:   354.93066948516838 [deg]                 
     Argument of periapsis:                   0.0 [deg]                                
-    True anomaly:                            0.0 [deg]                                
+    True anomaly:                            1.2074182697257333e-06 [deg]             
 ----------------------------------------------------------------------------------------------------
-, 398600441500000.0 [m^3.s^-2], <ostk.astrodynamics.guidance_law.QLaw.Parameters object at 0x7fd15d74afb0>, <GradientStrategy.Analytical: 0>
+, 398600441500000.0 [m^3.s^-2], <ostk.astrodynamics.guidance_law.QLaw.Parameters object at 0x7fa71fc318b0>, <GradientStrategy.Analytical: 0>
 

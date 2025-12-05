@@ -203,19 +203,16 @@
 <codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Position;</highlight></codeline>
 <codeline><highlight class="normal">using<sp/>ostk::physics::coordinate::Velocity;</highlight></codeline>
 <codeline><highlight class="normal">using<sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>ostk::physics::time::Scale;</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">using<sp/>ostk::astrodynamics::trajectory::State;</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">int<sp/>main()</highlight></codeline>
 <codeline><highlight class="normal">{</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>VectorXd<sp/>coordinates(9);</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>coordinates<sp/>&lt;&lt;<sp/>3786681.30288918,<sp/>-4897593.40751009,<sp/>-2997836.66403268,<sp/>1124.5962634611,<sp/>-3265.39989654837,</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>6779.45043611605,<sp/>100.0,<sp/>1.0,<sp/>1.36738720713048;</highlight></codeline>
-<codeline></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>State<sp/>state<sp/>=<sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Instant::Parse(&quot;2024-06-09<sp/>14:44:30.734.999&quot;,<sp/>Scale::UTC),</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position::Meters({3786681.30288918,<sp/>-4897593.40751009,<sp/>-2997836.66403268},<sp/>Frame::GCRF()),</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity::MetersPerSecond({1124.5962634611,<sp/>-3265.39989654837,<sp/>6779.45043611605,<sp/>Frame::GCRF()}),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity::MetersPerSecond({1124.5962634611,<sp/>-3265.39989654837,<sp/>6779.45043611605},<sp/>Frame::GCRF()),</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>state<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>

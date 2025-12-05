@@ -18,17 +18,22 @@ ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean.BrouwerLyddaneMeanS
    
       ~BrouwerLyddaneMeanShort.COE
       ~BrouwerLyddaneMeanShort.cartesian
+      ~BrouwerLyddaneMeanShort.circular
       ~BrouwerLyddaneMeanShort.compute_angular_momentum
       ~BrouwerLyddaneMeanShort.compute_ltan
       ~BrouwerLyddaneMeanShort.compute_ltdn
       ~BrouwerLyddaneMeanShort.compute_mean_ltan
       ~BrouwerLyddaneMeanShort.compute_mean_ltdn
+      ~BrouwerLyddaneMeanShort.compute_raan_from_ltan
       ~BrouwerLyddaneMeanShort.compute_radial_distance
       ~BrouwerLyddaneMeanShort.compute_semi_latus_rectum
+      ~BrouwerLyddaneMeanShort.compute_sun_synchronous_inclination
       ~BrouwerLyddaneMeanShort.eccentric_anomaly_from_mean_anomaly
       ~BrouwerLyddaneMeanShort.eccentric_anomaly_from_true_anomaly
+      ~BrouwerLyddaneMeanShort.equatorial
       ~BrouwerLyddaneMeanShort.from_SI_vector
       ~BrouwerLyddaneMeanShort.frozen_orbit
+      ~BrouwerLyddaneMeanShort.geo_synchronous
       ~BrouwerLyddaneMeanShort.get_SI_vector
       ~BrouwerLyddaneMeanShort.get_angular_momentum
       ~BrouwerLyddaneMeanShort.get_aop
@@ -51,6 +56,7 @@ ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean.BrouwerLyddaneMeanS
       ~BrouwerLyddaneMeanShort.is_defined
       ~BrouwerLyddaneMeanShort.mean_anomaly_from_eccentric_anomaly
       ~BrouwerLyddaneMeanShort.string_from_element
+      ~BrouwerLyddaneMeanShort.sun_synchronous
       ~BrouwerLyddaneMeanShort.to_coe
       ~BrouwerLyddaneMeanShort.true_anomaly_from_eccentric_anomaly
       ~BrouwerLyddaneMeanShort.true_anomaly_from_mean_anomaly

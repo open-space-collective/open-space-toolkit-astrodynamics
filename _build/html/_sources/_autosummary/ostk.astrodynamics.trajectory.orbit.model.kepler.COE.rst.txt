@@ -17,17 +17,22 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       :nosignatures:
    
       ~COE.cartesian
+      ~COE.circular
       ~COE.compute_angular_momentum
       ~COE.compute_ltan
       ~COE.compute_ltdn
       ~COE.compute_mean_ltan
       ~COE.compute_mean_ltdn
+      ~COE.compute_raan_from_ltan
       ~COE.compute_radial_distance
       ~COE.compute_semi_latus_rectum
+      ~COE.compute_sun_synchronous_inclination
       ~COE.eccentric_anomaly_from_mean_anomaly
       ~COE.eccentric_anomaly_from_true_anomaly
+      ~COE.equatorial
       ~COE.from_SI_vector
       ~COE.frozen_orbit
+      ~COE.geo_synchronous
       ~COE.get_SI_vector
       ~COE.get_angular_momentum
       ~COE.get_aop
@@ -50,6 +55,7 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.is_defined
       ~COE.mean_anomaly_from_eccentric_anomaly
       ~COE.string_from_element
+      ~COE.sun_synchronous
       ~COE.true_anomaly_from_eccentric_anomaly
       ~COE.true_anomaly_from_mean_anomaly
       ~COE.undefined
