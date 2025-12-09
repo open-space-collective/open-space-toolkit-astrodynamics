@@ -25,6 +25,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
 
+/// @brief An abstract Orbit Model. Child classes implement different ways of calculating states of the orbit.
 class Model : public virtual ostk::astrodynamics::trajectory::Model
 {
    public:
