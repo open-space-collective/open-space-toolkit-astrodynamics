@@ -243,15 +243,15 @@ class TLE
     /// @return void
     void setSatelliteNumber(const Integer& aSatelliteNumber);
 
-    /// @brief Set new revolution number at epoch in the existing TLE
-    ///
-    /// @param aRevolutionNumberAtEpoch a Revolution Number at Epoch
-    /// @return void
-    void setEpoch(const Instant& anInstant);
-
     /// @brief Set new epoch in the existing TLE
     ///
     /// @param anInstant an Instant (new Epoch)
+    /// @return void
+    void setEpoch(const Instant& anInstant);
+
+    /// @brief Set new revolution number at epoch in the existing TLE
+    ///
+    /// @param aRevolutionNumberAtEpoch a Revolution Number at Epoch
     /// @return void
     void setRevolutionNumberAtEpoch(const Integer& aRevolutionNumberAtEpoch);
 

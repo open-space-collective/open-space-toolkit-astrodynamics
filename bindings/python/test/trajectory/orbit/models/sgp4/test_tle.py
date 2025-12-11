@@ -13,8 +13,12 @@ from ostk.physics.unit import Derived
 from ostk.physics.time import Instant
 from ostk.physics.time import Scale
 from ostk.physics.time import DateTime
+from ostk.physics.time import Duration
 
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
+
+# Only 8 decimal places of numerical precision for fractional portion of day (=864 us)
+TLE_EPOCH_NUMERICAL_PRECISION: Duration = Duration.days(1.0) * 1e-8
 
 
 @pytest.fixture
@@ -144,16 +148,18 @@ class TestTLE:
             Instant.date_time(DateTime(2019, 9, 20, 5, 18, 28, 232, 361, 0), Scale.UTC)
         )
 
-        assert tle.get_epoch() == Instant.date_time(
-            DateTime(2019, 9, 20, 5, 18, 28, 231, 776, 0), Scale.UTC
+        assert tle.get_epoch().is_near(
+            Instant.date_time(DateTime(2019, 9, 20, 5, 18, 28, 232, 361, 0), Scale.UTC),
+            TLE_EPOCH_NUMERICAL_PRECISION,
         )
 
         tle.set_epoch(
             Instant.date_time(DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC)
         )
 
-        assert tle.get_epoch() == Instant.date_time(
-            DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC
+        assert tle.get_epoch().is_near(
+            Instant.date_time(DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC),
+            TLE_EPOCH_NUMERICAL_PRECISION,
         )
 
     def test_set_revolution_number_at_epoch(self, tle: TLE):

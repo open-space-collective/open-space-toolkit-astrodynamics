@@ -394,7 +394,7 @@ void TLE::setEpoch(const Instant& anInstant)
         String::Replicate("0", 3 - epochDayIntegerString.getLength()) + epochDayIntegerString;
 
     const Real epochDayFraction = epochDay - Real::Integer(epochDayInteger);
-    const String epochDayFractionString = epochDayFraction.toString();
+    const String epochDayFractionString = epochDayFraction.toString(8);  // day fraction has 8 decimal places
     const String sanitizedEpochDayFractionString = epochDayFractionString.getSubstring(1, 9);
 
     const String newIntermediateFirstLine = firstLine_.getSubstring(0, 18) + epochYearTwoDigitsString +

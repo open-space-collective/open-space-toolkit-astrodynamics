@@ -612,12 +612,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
 
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
+    // Only 8 decimal places of numerical precision for fractional portion of day (=864 us)
+    const Duration TLE_EPOCH_NUMERICAL_PRECISION = Duration::Days(1.0) * 1e-8;
+
+    const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+    const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
     {
-        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
-        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
-
+        // Same epoch
         TLE tle(firstLine, secondLine);
-
         const Instant epoch = Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC);
 
         EXPECT_EQ(epoch, tle.getEpoch());
@@ -630,9 +633,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
     }
 
     {
-        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
-        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
-
+        // New epoch in the future
         TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch());
@@ -641,7 +642,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
 
         tle.setEpoch(newEpoch);
 
-        ASSERT_GT(0.1, Duration::Between(newEpoch, tle.getEpoch()).inSeconds());
+        ASSERT_TRUE(tle.getEpoch().isNear(newEpoch, TLE_EPOCH_NUMERICAL_PRECISION));
 
         const String newFirstLine = "1 25544U 98067A   20264.85104286 -.00002182  00000-0 -11606-4 0  2927";
 
@@ -650,9 +651,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
     }
 
     {
-        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
-        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
-
+        // New epoch in the past
         TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch());
@@ -661,9 +660,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
 
         tle.setEpoch(newEpoch);
 
-        ASSERT_GT(0.1, Duration::Between(newEpoch, tle.getEpoch()).inSeconds());
+        ASSERT_TRUE(tle.getEpoch().isNear(newEpoch, TLE_EPOCH_NUMERICAL_PRECISION));
 
         const String newFirstLine = "1 25544U 98067A   87051.85104286 -.00002182  00000-0 -11606-4 0  2924";
+
+        EXPECT_EQ(newFirstLine, tle.getFirstLine());
+        EXPECT_EQ(secondLine, tle.getSecondLine());
+    }
+
+    {
+        // Round fractional day (test zero-padding)
+        TLE tle(firstLine, secondLine);
+
+        EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch());
+
+        const Instant newEpoch = Instant::DateTime(DateTime::Parse("2008-09-20 12:00:00Z"), Scale::UTC);
+
+        tle.setEpoch(newEpoch);
+
+        ASSERT_TRUE(tle.getEpoch().isNear(newEpoch, TLE_EPOCH_NUMERICAL_PRECISION));
+
+        const String newFirstLine = "1 25544U 98067A   08264.50000000 -.00002182  00000-0 -11606-4 0  2924";
 
         EXPECT_EQ(newFirstLine, tle.getFirstLine());
         EXPECT_EQ(secondLine, tle.getSecondLine());
