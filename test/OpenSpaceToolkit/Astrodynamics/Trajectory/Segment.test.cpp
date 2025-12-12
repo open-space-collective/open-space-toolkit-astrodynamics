@@ -3,16 +3,21 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
@@ -44,9 +49,11 @@
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -59,17 +66,23 @@
 using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
+using ostk::core::filesystem::Directory;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
+using ostk::mathematics::geometry::d3::object::Composite;
+using ostk::mathematics::geometry::d3::object::Cuboid;
+using ostk::mathematics::geometry::d3::object::Point;
+using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
@@ -94,15 +107,18 @@ using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
+using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::Segment;
+using ostk::astrodynamics::trajectory::Sequence;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -2868,4 +2884,125 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
             EXPECT_LE(maneuver.getInterval().getDuration(), Duration::Minutes(20.0));
         }
     }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeuversAtSegmentEndConvergenceAreNotExtracted
+)
+{
+    // This tests reproduces one of many possible scenarios where the minimum maneuver duration
+    // constraint is violated until it converges to a single point maneuver, causing a Maneuver
+    // construction runtime error since at least two states are required.
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 24, 24),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    ));
+
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass::Kilograms(187.7),
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        2.2325,
+        2.5466188571658566,
+        PropulsionSystem(0.0161, 1140.26),
+    };
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2025, 11, 1, 0, 0, 0), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 2037015.8044458658, 1644782.243280915, 6395626.657254986, 6798.04917071391,
+        2051.3760038787586, -2687.5332917519927, 193.3655889361863, 2.2325, 2.5466188571658566;
+    const State initialState = {
+        initialInstant,
+        initialCoordinates,
+        Frame::GCRF(),
+        coordinateBrokerSPtr,
+    };
+
+    const Environment environment = {initialInstant, {earthSPtr}};
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    const NumericalSolver numericalSolver = NumericalSolver::DefaultConditional();
+
+    const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
+        {initialState.getPosition(), initialState.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+    const COE blmAsCOE = blm.toCOE();
+
+    const COE targetCOE = {
+        blm.getSemiMajorAxis() + Length::Meters(600.0),
+        0.0,
+        blm.getInclination() + Angle::Degrees(0.03),
+        blm.getRaan(),
+        blm.getAop(),
+        blmAsCOE.getTrueAnomaly(),
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 150.0}},
+            {COE::Element::Eccentricity, {1.0, 1.0e-4}},
+            {COE::Element::Inclination, {0.0, 0.005}},
+            {COE::Element::Raan, {0.0, 0.001}},
+            {COE::Element::Aop, {0.0, 0.001}},
+        },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        0.0,
+        Length::Kilometers(6578.0),
+        0.8,
+        0.8
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(QLaw(
+        targetCOE,
+        EarthGravitationalModel::EGM2008.gravitationalParameter_,
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong
+    ));
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const Duration simulationDuration = Duration::Hours(2.0);
+    const Shared<InstantCondition> endConditionSPtr = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::StrictlyPositive, initialInstant + simulationDuration
+    );
+    const Segment::ManeuverConstraints constraints(
+        Duration::Minutes(10.0),                                   // minimum maneuver duration
+        Duration::Minutes(25.0),                                   // maximum maneuver duration
+        Duration::Hours(23.5),                                     // minimum separation
+        Segment::MaximumManeuverDurationViolationStrategy::Center  // center strategy
+    );
+
+    const Shared<const LocalOrbitalFrameFactory> lofFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
+    const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+        "Constant LOF Maneuver Segment",
+        endConditionSPtr,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        lofFactorySPtr,
+        Angle::Undefined(),
+        constraints
+    );
+
+    EXPECT_NO_THROW(maneuverSegment.solve(initialState, simulationDuration));
 }

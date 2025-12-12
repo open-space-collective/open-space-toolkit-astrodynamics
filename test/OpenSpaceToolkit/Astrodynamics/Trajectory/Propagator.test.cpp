@@ -563,6 +563,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddMane
         EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
         EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 4);
     }
+
+    // Check single-state maneuvers can't be added
+    {
+        const Maneuver singleStateManeuver = {{secondManeuverStates.accessFirst()}};
+
+        EXPECT_THROW(defaultPropagator_.addManeuver(singleStateManeuver), ostk::core::error::RuntimeError);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ClearDynamics)

@@ -50,11 +50,6 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
         throw ostk::core::error::RuntimeError("No states provided.");
     }
 
-    if (states_.getSize() < 2)
-    {
-        throw ostk::core::error::RuntimeError("At least two states are required to define a maneuver.");
-    }
-
     for (const auto& coordinateSubset : RequiredCoordinateSubsets)
     {
         if (!std::all_of(
@@ -148,6 +143,11 @@ Interval Maneuver::getInterval() const
 
 Real Maneuver::calculateDeltaV() const
 {
+    if (states_.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError("At least two states are required to calculate the delta V.");
+    }
+
     // Use simple forward trapezoidal rule to calculate the total delta-v
     Real totalDeltaV = 0.0;
     for (Size i = 0; i < states_.getSize() - 1; i++)
@@ -170,6 +170,11 @@ Real Maneuver::calculateDeltaV() const
 
 Mass Maneuver::calculateDeltaMass() const
 {
+    if (states_.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError("At least two states are required to calculate the delta mass.");
+    }
+
     // Use simple forward trapezoidal rule to calculate the total delta-mass
     Real totalDeltaMass = 0.0;
     for (Size i = 0; i < states_.getSize() - 1; i++)
@@ -190,6 +195,11 @@ Mass Maneuver::calculateDeltaMass() const
 
 Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 {
+    if (states_.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError("At least two states are required to calculate the average thrust.");
+    }
+
     Real currentMass = anInitialSpacecraftMass.inKilograms();
     Real weightedThrustSum = 0.0;
 
@@ -221,6 +231,13 @@ Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 
 Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
 {
+    if (states_.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError(
+            "At least two states are required to calculate the average specific impulse."
+        );
+    }
+
     const Real averageSpecificImpulse =
         (this->calculateAverageThrust(anInitialSpacecraftMass) * this->getInterval().getDuration().inSeconds()) /
         (this->calculateDeltaMass().inKilograms() * EarthGravitationalModel::gravityConstant);
@@ -232,6 +249,13 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
     const Shared<const Frame>& aFrameSPtr, const Interpolator::Type& anInterpolationType
 ) const
 {
+    if (states_.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError(
+            "At least two states are required to convert a maneuver to tabulated dynamics."
+        );
+    }
+
     const Array<Vector3d> accelerationProfileCustomFrame = states_.map<Vector3d>(
         [this, aFrameSPtr](const State& aState) -> Vector3d
         {
