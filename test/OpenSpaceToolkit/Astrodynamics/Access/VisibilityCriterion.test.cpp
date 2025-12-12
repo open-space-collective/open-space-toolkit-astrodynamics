@@ -438,8 +438,7 @@ struct AERMaskIsSatisfiedTestCase
            << "Azimuth: " << testCase.azimuth.toString() << ", "
            << "Elevation: " << testCase.elevation.toString() << ", "
            << "Range: " << testCase.range.toString() << ", "
-           << "Expected: " << (testCase.expectedResult ? "True" : "False")
-           << " }";
+           << "Expected: " << (testCase.expectedResult ? "True" : "False") << " }";
         return os;
     }
 };
@@ -464,9 +463,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisf
     ASSERT_TRUE(aerMask.has_value());
 
     EXPECT_EQ(
-        aerMask.value().isSatisfied(
-            param.azimuth.inRadians(), param.elevation.inRadians(), param.range.inMeters()
-        ),
+        aerMask.value().isSatisfied(param.azimuth.inRadians(), param.elevation.inRadians(), param.range.inMeters()),
         param.expectedResult
     );
 
@@ -481,34 +478,34 @@ INSTANTIATE_TEST_SUITE_P(
     AERMaskIsSatisfied,
     OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisfied,
     ::testing::Values(
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(22.5), Angle::Degrees(20.0), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(0.0), Angle::Degrees(10.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(0.1), Angle::Degrees(10.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(360.0), Angle::Degrees(10.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(360.1), Angle::Degrees(10.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(360.1), Angle::Degrees(91.0), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(22.5), Angle::Degrees(20.0), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.0), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.1), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(360.0), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(360.1), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(360.1), Angle::Degrees(91.0), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {
             Angle::Degrees(360.0 * (1.0 - std::numeric_limits<double>::epsilon())),
             Angle::Degrees(10.1),
             Length::Meters(500e3),
             true
         },
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(45.0), Angle::Degrees(15.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(90.0), Angle::Degrees(20.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(89.9), Angle::Degrees(20.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(90.1), Angle::Degrees(20.1), Length::Meters(500e3), true},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(22.5), Angle::Degrees(12.4), Length::Meters(500e3), false},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(0.0), Angle::Degrees(9.9), Length::Meters(500e3), false},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(0.1), Angle::Degrees(9.9), Length::Meters(500e3), false},
-        AERMaskIsSatisfiedTestCase{
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(45.0), Angle::Degrees(15.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.0), Angle::Degrees(20.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(89.9), Angle::Degrees(20.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.1), Angle::Degrees(20.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(22.5), Angle::Degrees(12.4), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.0), Angle::Degrees(9.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.1), Angle::Degrees(9.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {
             Angle::Degrees(360.0 * (1.0 - std::numeric_limits<double>::epsilon())),
             Angle::Degrees(9.9),
             Length::Meters(500e3),
             false
         },
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(90.0), Angle::Degrees(19.9), Length::Meters(500e3), false},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(89.9), Angle::Degrees(19.9), Length::Meters(500e3), false},
-        AERMaskIsSatisfiedTestCase{Angle::Degrees(90.1), Angle::Degrees(19.9), Length::Meters(500e3), false}
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.0), Angle::Degrees(19.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(89.9), Angle::Degrees(19.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.1), Angle::Degrees(19.9), Length::Meters(500e3), false}
     )
 );
 
