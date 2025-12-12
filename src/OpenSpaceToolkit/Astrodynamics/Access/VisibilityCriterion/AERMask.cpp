@@ -88,9 +88,17 @@ bool VisibilityCriterion::AERMask::isSatisfied(
     const Real& anAzimuth_Radians, const Real& anElevation_Radians, const Real& aRange_Meters
 ) const
 {
-    auto itLow = this->azimuthElevationMask.lower_bound(anAzimuth_Radians);
-    itLow--;
-    auto itUp = this->azimuthElevationMask.upper_bound(anAzimuth_Radians);
+    Real anAzimuthReduced_Radians = Angle(anAzimuth_Radians, Angle::Unit::Radian).inRadians(0.0, Real::TwoPi());
+    Real anElevationReduced_Radians =
+        Angle(anElevation_Radians, Angle::Unit::Radian).inRadians(-Real::Pi(), Real::Pi());
+
+    auto itLow = this->azimuthElevationMask.lower_bound(anAzimuthReduced_Radians);
+
+    if (itLow->first != anAzimuthReduced_Radians)
+    {
+        itLow--;
+    }
+    const auto itUp = this->azimuthElevationMask.upper_bound(anAzimuthReduced_Radians);
 
     // Vector between the two successive mask data points with bounding azimuth values
 
@@ -98,7 +106,9 @@ bool VisibilityCriterion::AERMask::isSatisfied(
 
     // Vector from data point with azimuth lower bound to tested point
 
-    const Vector2d lowToPointVector = {anAzimuth_Radians - itLow->first, anElevation_Radians - itLow->second};
+    const Vector2d lowToPointVector = {
+        anAzimuthReduced_Radians - itLow->first, anElevationReduced_Radians - itLow->second
+    };
 
     // If the determinant of these two vectors is positive, the tested point lies above the function defined by the
     // mask
