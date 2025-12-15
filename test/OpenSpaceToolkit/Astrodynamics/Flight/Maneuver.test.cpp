@@ -1022,9 +1022,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
                 )
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
-        std::cout << "Expected thrust acceleration in LOF: " << expectedThrustAccelerationInLof.transpose()
-                  << std::endl;
-        std::cout << "Actual thrust acceleration in LOF:   " << state0ThrustAccelerationInLof.transpose() << std::endl;
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(0.8 * expectedThrustAccelerationInLof, 1e-12));
     }
 }

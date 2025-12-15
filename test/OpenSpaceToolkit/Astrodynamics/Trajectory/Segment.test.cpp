@@ -2886,13 +2886,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
     }
 }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeuversAtSegmentEndConvergenceAreNotExtracted
-)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeuversAtSegmentEndConvergence)
 {
     // This tests reproduces one of many possible scenarios where the minimum maneuver duration
     // constraint is violated until it converges to a single point maneuver, causing a Maneuver
     // construction runtime error since at least two states are required.
+    //
+    // It tests the fix: https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/619
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 24, 24),
         std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
