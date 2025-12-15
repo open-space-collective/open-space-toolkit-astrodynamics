@@ -894,18 +894,25 @@ Segment::Solution Segment::solve(
         // Check minimum maneuver duration constraint
         if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
         {
-            // The maneuuver might have converged to a zero duration (this happens especially when using state-dependent
-            // thruster dynamics like Q-Law). In order for the segment to advance, and not get stuck at the maneuver
-            // time, we add a small buffer to the end of the maneuver interval.
+            // The extracted maneuver might be a single-point maneuver. This happens as the maneuver window
+            // might have been small enough (see note below) for the propagator to only step inside it once. Producing a
+            // single-point acceleration bluck and thus a zero duration Maneuver.
+            //
+            // In order for the segment to advance, and not get stuck at the single-point maneuver time,
+            // we add a small buffer to the end of the maneuver interval.
+            //
+            // Note: maneuver windows might end up being very small, especially when using state-dependent guidance laws
+            // (e.g. Q-Law) in combination with maneuvering constraints (e.g. minimum maneuver duration). An originally
+            // short maneuver is filtered out as it doesn't meet the minimum duration constraint. The satellite will
+            // coast until the end of the original manevuer and then check for the next maneuver. The guidance law might
+            // still produce a yet smaller maneuver (since the satellite might still be at an optimum orbit location),
+            // which again gest filtered out. This process continues until the maneuver is finally skipped.
+            Instant instantToCoastTo = candidateManeuverInterval.getEnd();
             if (candidateManeuverInterval.getDuration().isZero())
             {
-                segmentConditionIsSatisfied =
-                    solveAndAcceptCoast(candidateManeuverInterval.getEnd() + Duration::Seconds(1.0));
+                instantToCoastTo += Duration::Seconds(1.0);
             }
-            else
-            {
-                segmentConditionIsSatisfied = solveAndAcceptCoast(candidateManeuverInterval.getEnd());
-            }
+            segmentConditionIsSatisfied = solveAndAcceptCoast(instantToCoastTo);
         }
 
         // Check maximum maneuver duration constraint
