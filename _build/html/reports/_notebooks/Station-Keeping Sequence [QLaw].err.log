@@ -74,5 +74,5 @@ Invoked with: -- Classical Orbital Elements ------------------------------------
     Argument of periapsis:                   0.0 [deg]                                
     True anomaly:                            0.0 [deg]                                
 ----------------------------------------------------------------------------------------------------
-, 398600441500000.0 [m^3.s^-2], <ostk.astrodynamics.guidance_law.QLaw.Parameters object at 0x7f2ca487f230>
+, 398600441500000.0 [m^3.s^-2], <ostk.astrodynamics.guidance_law.QLaw.Parameters object at 0x7fbc41344fb0>
 

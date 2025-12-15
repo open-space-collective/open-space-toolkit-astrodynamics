@@ -643,15 +643,15 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
-<para>Set new revolution number at epoch in the existing <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+<para>Set new epoch in the existing <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>aRevolutionNumberAtEpoch</parametername>
+<parametername>anInstant</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>a Revolution Number at Epoch </para>
+<para>an Instant (new Epoch) </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -673,15 +673,15 @@
           <declname>aRevolutionNumberAtEpoch</declname>
         </param>
         <briefdescription>
-<para>Set new epoch in the existing <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+<para>Set new revolution number at epoch in the existing <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>anInstant</parametername>
+<parametername>aRevolutionNumberAtEpoch</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>an Instant (new Epoch) </para>
+<para>a Revolution Number at Epoch </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
