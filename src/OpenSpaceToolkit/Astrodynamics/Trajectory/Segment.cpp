@@ -894,7 +894,18 @@ Segment::Solution Segment::solve(
         // Check minimum maneuver duration constraint
         if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
         {
-            segmentConditionIsSatisfied = solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+            // The maneuuver might have converged to a zero duration (this happens especially when using state-dependent
+            // thruster dynamics like Q-Law). In order for the segment to advance, and not get stuck at the maneuver
+            // time, we add a small buffer to the end of the maneuver interval.
+            if (candidateManeuverInterval.getDuration().isZero())
+            {
+                segmentConditionIsSatisfied =
+                    solveAndAcceptCoast(candidateManeuverInterval.getEnd() + Duration::Seconds(1.0));
+            }
+            else
+            {
+                segmentConditionIsSatisfied = solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+            }
         }
 
         // Check maximum maneuver duration constraint

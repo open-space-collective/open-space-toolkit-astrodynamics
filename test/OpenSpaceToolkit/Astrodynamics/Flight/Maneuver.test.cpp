@@ -95,6 +95,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     };
 
     const Maneuver defaultManeuver_ = {defaultStates_};
+    const Maneuver singleStateManeuver_ = {{defaultStates_.accessFirst()}};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
@@ -133,25 +134,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
     }
 
     {
-        const Array<State> emptyStates = {defaultStates_[0]};
-
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Maneuver {emptyStates};
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("At least two states are required to define a maneuver.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-
-    {
         EXPECT_THROW(
             {
                 try
@@ -182,6 +164,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 try
                 {
                     Maneuver {unorderedStates};
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_EQ("{Unsorted or Duplicate State Array} is wrong.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Only two states, but are duplicates
+    {
+        const Array<State> duplicateStates_ = {
+            stateGenerator(Instant::J2000()),
+            stateGenerator(Instant::J2000()),
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver {duplicateStates_};
                 }
                 catch (const ostk::core::error::runtime::Wrong& e)
                 {
@@ -443,6 +448,80 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
             )
         );
     }
+
+    // Failure cases for single state maneuver
+    {
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        singleStateManeuver_.calculateDeltaV();
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("At least two states are required to calculate the delta V.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        singleStateManeuver_.calculateDeltaMass();
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("At least two states are required to calculate the delta mass.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        singleStateManeuver_.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram));
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ("At least two states are required to calculate the average thrust.", e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        singleStateManeuver_.calculateAverageSpecificImpulse(Mass(100.0, Mass::Unit::Kilogram));
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ(
+                            "At least two states are required to calculate the average specific impulse.",
+                            e.getMessage()
+                        );
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
@@ -493,6 +572,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
         };
         EXPECT_EQ(tabulatedDynamicsSPtr->getWriteCoordinateSubsets(), writeCoordinateSubsets);
         EXPECT_EQ(tabulatedDynamicsSPtr->accessFrame(), defaultFrameSPtr_);
+    }
+
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    singleStateManeuver_.toTabulatedDynamics(
+                        defaultFrameSPtr_, Interpolator::Type::BarycentricRational
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "At least two states are required to convert a maneuver to tabulated dynamics.", e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 }
 
@@ -684,6 +784,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             )
         );
     }
+
+    {
+        // Single state maneuver
+        const Array<State> originalStates = {
+            stateGenerator(
+                Instant::J2000() + Duration::Seconds(0.0),
+                {0.8 * 1.0, 0.8 * 2.0, 0.8 * 3.0},  // 0.8 * {2, -1, 3} in TNW
+                -1.0e-5,
+                {7.0e6, 0.0, 0.0},
+                {0.0, 8.0e3, 0.0},
+                Frame::GCRF()
+            ),
+        };
+
+        const Maneuver originalManeuver = {originalStates};
+        const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
+            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+
+        const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
+        EXPECT_TRUE(meanDirection.isDefined());
+        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr);
+        EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.0, -1.0, 3.0).normalized(), 1e-12));
+
+        const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
+        EXPECT_TRUE(maximumAngularOffset.isDefined());
+        EXPECT_DOUBLE_EQ(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFrameDirectionManeuver)
@@ -774,8 +901,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
     // Acceleration direction is constant in LoF frame ({2, -1, 3}, in TNW), with different magnitudes at each
     // state: 0.8 and 1.5.
     {
-        // Acceleration direction is constant in LoF frame ({2, -1, 3}, in TNW), with different magnitudes at each
-        // state: 0.8 and 1.5.
         const Array<State> originalStates = {
             stateGenerator(
                 Instant::J2000() + Duration::Seconds(0.0),
@@ -821,8 +946,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         EXPECT_TRUE(state1ThrustAccelerationInLof.isApprox(1.5 * expectedThrustAccelerationInLof, 1e-12));
     }
 
+    // Acceleration direction is not constant in TNW frame, but magnitudes are.
     {
-        // Acceleration direction is not constant in TNW frame, but magnitudes are.
         const Array<State> originalStates = {
             stateGenerator(
                 Instant::J2000() + Duration::Seconds(0.0),
@@ -868,6 +993,40 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(expectedThrustAccelerationInLof, 1e-12));
         EXPECT_TRUE(state1ThrustAccelerationInLof.isApprox(expectedThrustAccelerationInLof, 1e-12));
     }
+
+    // Single state maneuver
+    {
+        const Array<State> originalStates = {
+            stateGenerator(
+                Instant::J2000() + Duration::Seconds(0.0),
+                {0.8 * 1.0, 0.8 * 2.0, 0.8 * 3.0},  // 0.8 * {2, -1, 3} in TNW
+                -1.0e-5,
+                {7.0e6, 0.0, 0.0},
+                {0.0, 8.0e3, 0.0},
+                Frame::GCRF()
+            ),
+        };
+
+        const Maneuver originalManeuver = {originalStates};
+        const Maneuver newManeuver =
+            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr);
+        const Array<State> newStates = newManeuver.getStates();
+
+        const Vector3d expectedThrustAccelerationInLof = {2.0, -1.0, 3.0};
+
+        const Vector3d state0ThrustAccelerationInLof =
+            newStates[0]
+                .accessFrame()
+                ->getTransformTo(
+                    localOrbitalFrameFactorySPtr->generateFrame(newStates[0]), newStates[0].accessInstant()
+                )
+                .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
+
+        std::cout << "Expected thrust acceleration in LOF: " << expectedThrustAccelerationInLof.transpose()
+                  << std::endl;
+        std::cout << "Actual thrust acceleration in LOF:   " << state0ThrustAccelerationInLof.transpose() << std::endl;
+        EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(0.8 * expectedThrustAccelerationInLof, 1e-12));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfile)
@@ -883,5 +1042,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfi
                 state.extractCoordinate(CoordinateSubset::MassFlowRate())[0], defaultConstantMassFlowRate_
             );
         }
+    }
+
+    // Single state maneuver
+    {
+        const Maneuver maneuver =
+            Maneuver::ConstantMassFlowRateProfile({defaultStates_.accessFirst()}, defaultConstantMassFlowRate_);
+
+        EXPECT_EQ(maneuver.getStates().getSize(), 1);
+
+        EXPECT_DOUBLE_EQ(
+            maneuver.getStates()[0].extractCoordinate(CoordinateSubset::MassFlowRate())[0], defaultConstantMassFlowRate_
+        );
     }
 }
