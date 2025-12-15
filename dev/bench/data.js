@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1765795696529,
+  "lastUpdate": 1765799972566,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 7224156222.399996,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 7223359458.200005 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "732972a7c64ffa2ff71f52e4671af0d12967d5eb",
+          "message": "refactor: apply MR suggestions in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/619 (#621)\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2025-12-15T12:33:17+01:00",
+          "tree_id": "9a1f428bcfdfcda923508ef2c37c4dff191dbf86",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/732972a7c64ffa2ff71f52e4671af0d12967d5eb"
+        },
+        "date": 1765799970297,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4708135628.999998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4695319324.7 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4106710200.4999986,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4106328758 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7218857604.499998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7218189796.199997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7221777324.499998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7220828649.799993 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7219826457.399996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7218909289.899997 ns\nthreads: 1"
           }
         ]
       }
