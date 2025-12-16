@@ -47,7 +47,8 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
     // Sanitize the inputs
     if (this->states_.isEmpty())
     {
-        throw ostk::core::error::RuntimeError("No states provided.");
+        // throw ostk::core::error::RuntimeError("No states provided.");
+        return;
     }
 
     for (const auto& coordinateSubset : RequiredCoordinateSubsets)
@@ -128,7 +129,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Maneuver& aManeuver
 
 bool Maneuver::isDefined() const
 {
-    return true;
+    return states_.getSize() > 0;
 }
 
 Array<State> Maneuver::getStates() const
@@ -427,6 +428,11 @@ Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, 
     }
 
     return {maneuverStates};
+}
+
+Maneuver Maneuver::Undefined()
+{
+    return {Array<State>::Empty()};
 }
 
 }  // namespace flight
