@@ -51,14 +51,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             Fail: Will throw a RuntimeError if a maneuver exceeds the maximum duration.
             Skip: The maneuver will be skipped entirely.
-            TruncateEnd: The maneuver will be shortened to the maximum duration, truncating the end segment.
-            TruncateStart: The maneuver will be shortened to the maximum duration, truncating the start segment.
+            TruncateEnd: The maneuver will be shortened to the maximum duration, truncating the trailing edge.
+            TruncateStart: The maneuver will be shortened to the maximum duration, truncating the leading edge.
             Center: The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered part of the maneuver.
-
-            Proposed maneuver: [--------------------|------------]
-            TruncateEnd:       [--------------------]
-            TruncateStart:                  [--------------------]
-            Center:                     [--------------------]
+            
+            Example:
+            Maximum duration:  [------] 
+            Proposed maneuver: [---------------------------------]
+            TruncateEnd:       [------]
+            Center:                          [------]
+            TruncateStart:                                [------]
         )doc"
     )
 
@@ -73,12 +75,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .value(
             "TruncateEnd",
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
-            "The maneuver will be shortened to the maximum duration, truncating the end segment."
+            "The maneuver will be shortened to the maximum duration, truncating the trailing edge."
         )
         .value(
             "TruncateStart",
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
-            "The maneuver will be shortened to the maximum duration, truncating the start segment."
+            "The maneuver will be shortened to the maximum duration, truncating the leading edge."
         )
         .value(
             "Center",
