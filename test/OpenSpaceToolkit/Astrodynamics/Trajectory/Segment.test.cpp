@@ -1860,6 +1860,99 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const State expectedFinalState = expectedEquivalentSegmentSolution.states.accessLast();
         EXPECT_EQ(finalState, expectedFinalState);
     }
+
+    // Multiple maneuvers with constraints
+    {
+        const Duration minimumDuration = Duration::Minutes(1.0);
+        const Duration maximumDuration = Duration::Minutes(10.0);
+        const Duration minimumSeparation = Duration::Minutes(5.0);
+        const Segment::MaximumManeuverDurationViolationStrategy strategy =
+            Segment::MaximumManeuverDurationViolationStrategy::Center;
+
+        const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
+
+        Segment maneuveringSegment = Segment::Maneuver(
+            "Maneuvering Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+            "Constant Local Orbital Frame Direction Maneuver Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            defaultLocalOrbitalFrameFactorySPtr_,
+            Angle::Undefined(),
+            constraints
+        );
+
+        const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
+            EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
+        );
+        VectorXd currentCoordinates(7);
+        currentCoordinates << cartesianStatePair.first.accessCoordinates(),
+            cartesianStatePair.second.accessCoordinates(), 200.0;
+        const State currentState = {
+            Instant::J2000(),
+            currentCoordinates,
+            defaultFrameSPtr_,
+            thrustCoordinateBrokerSPtr_,
+        };
+
+        const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
+            constantLofDirectionManeuveringSegment.solve(currentState);
+
+        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+        const Array<Maneuver> constantLofDirectionManeuvers =
+            constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
+        for (Size i = 0; i < maneuvers.getSize(); i++)
+        {
+            std::cout << "Maneuver " << i << ": start = " 
+                      << maneuvers[i].getInterval().getStart().toString() 
+                      << ", end = " 
+                      << maneuvers[i].getInterval().getEnd().toString()
+                      << std::endl;
+        }
+        for (Size i = 0; i < constantLofDirectionManeuvers.getSize(); i++)
+        {
+            std::cout << "Constant LOF Maneuver " << i << ": start = " 
+                      << constantLofDirectionManeuvers[i].getInterval().getStart().toString() 
+                      << ", end = " 
+                      << constantLofDirectionManeuvers[i].getInterval().getEnd().toString()
+                      << std::endl;
+        }
+            
+        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
+            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
+        ));
+        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
+            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
+        ));
+        EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_EQ(maneuvers.getSize(), constantLofDirectionManeuvers.getSize());
+
+        for (Size i = 0; i < maneuvers.getSize(); i++)
+        {
+            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
+                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
+            ));
+            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
+                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
+            ));
+        }
+    }
 }
 
 // Define parameter structure for parametrized tests
