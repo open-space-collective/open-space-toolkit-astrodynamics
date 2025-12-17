@@ -1275,10 +1275,21 @@ Segment::Solution Segment::solveRawManeuversInSubsegment_(
 
     // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
-    // To do so, we can check the last state against the previous one.
-    const State& previousState =
-        (solution.states.getSize() > 2) ? solution.states[solution.states.getSize() - 2] : aState;
-    solution.conditionIsSatisfied = eventCondition_->isSatisfied(solution.states.accessLast(), previousState);
+    // To do so, we propagate from the second to last solution state to one second after the last solution state,
+    // and re-evaluate the event condition.
+    const Propagator propagator = {
+        numericalSolver_,
+        freeDynamicsArray_,
+    };
+
+    const State& lastSolutionState = solution.states.accessLast();
+    const State& secondToLastSolutionState =
+        (solution.states.getSize() > 2) ? solution.states[solution.states.getSize() - 2] : lastSolutionState;
+
+    solution.conditionIsSatisfied = eventCondition_->isSatisfied(
+        propagator.calculateStateAt(lastSolutionState, lastSolutionState.accessInstant() + Duration::Seconds(1.0)),
+        secondToLastSolutionState
+    );
 
     return solution;
 }
