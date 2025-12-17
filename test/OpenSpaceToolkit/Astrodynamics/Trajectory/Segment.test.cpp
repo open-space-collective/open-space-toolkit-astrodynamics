@@ -1860,8 +1860,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const State expectedFinalState = expectedEquivalentSegmentSolution.states.accessLast();
         EXPECT_EQ(finalState, expectedFinalState);
     }
+}
 
-    // Multiple maneuvers with constraints
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_MultipleManeuvers_ManeuverConstraints_And_ConstantLocalOrbitalFrameDirectionManeuver
+)
+{
+    // This tests reproduces a bug where, when considering maneuver constraints, as well as enforcing constant local
+    // orbital frame direction maneuvers are not solved correctly, returning just the first maneuver, despite the
+    // non-constant local orbital frame version of it returning multiple ones.
+    //
+    // It tests the fix: https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/624
     {
         const Duration minimumDuration = Duration::Minutes(1.0);
         const Duration maximumDuration = Duration::Minutes(10.0);
@@ -1909,6 +1919,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         };
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+
         const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
             constantLofDirectionManeuveringSegment.solve(currentState);
 
@@ -1916,23 +1927,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Array<Maneuver> constantLofDirectionManeuvers =
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        for (Size i = 0; i < maneuvers.getSize(); i++)
-        {
-            std::cout << "Maneuver " << i << ": start = " 
-                      << maneuvers[i].getInterval().getStart().toString() 
-                      << ", end = " 
-                      << maneuvers[i].getInterval().getEnd().toString()
-                      << std::endl;
-        }
-        for (Size i = 0; i < constantLofDirectionManeuvers.getSize(); i++)
-        {
-            std::cout << "Constant LOF Maneuver " << i << ": start = " 
-                      << constantLofDirectionManeuvers[i].getInterval().getStart().toString() 
-                      << ", end = " 
-                      << constantLofDirectionManeuvers[i].getInterval().getEnd().toString()
-                      << std::endl;
-        }
-            
         EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
             constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
         ));
@@ -1941,15 +1935,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         ));
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuvers.getSize() > 2);
         EXPECT_EQ(maneuvers.getSize(), constantLofDirectionManeuvers.getSize());
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
+            // We use a looser tolerance as the constant local orbital frame maneuvers will produce
+            // a slightly different trajectory.
             EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
+                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(3.0)
             ));
             EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
+                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(3.0)
             ));
         }
     }

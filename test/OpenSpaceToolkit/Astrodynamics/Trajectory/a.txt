@@ -1,0 +1,23 @@
+Solve with Dynamics t0: 2000-01-01 11:58:55.816 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:37:56.192.832.924 [UTC]
+
+Solve with Dynamics t0: 2000-01-01 11:58:55.816 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:27:30.277.418.665 [UTC]
+
+Solve with Dynamics t0: 2000-01-01 12:27:30.277.418.665 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:32:30.277.418.665 [UTC]
+
+Solve with Dynamics t0: 2000-01-01 12:32:30.277.418.665 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:37:55.531.111.982 [UTC]
+
+Solve with Dynamics t0: 2000-01-01 12:37:55.531.111.982 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:42:55.216.093.263 [UTC]
+
+Solve with Dynamics t0: 2000-01-01 12:42:55.216.093.263 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:43:55.815.999.999 [UTC]
+
+Solve with Dynamics t0: 2000-01-01 12:43:55.815.999.999 [UTC]
+Solve with Dynamics t1: 2000-01-01 12:43:55.816.000.003 [UTC]
+
+Maneuver 0: start = 2000-01-01 12:17:31.824.908.211 [UTC], end = 2000-01-01 12:27:30.277.418.665 [UTC]
+Maneuver 1: start = 2000-01-01 12:32:30.277.418.665 [UTC], end = 2000-01-01 12:37:55.216.093.263 [UTC]
