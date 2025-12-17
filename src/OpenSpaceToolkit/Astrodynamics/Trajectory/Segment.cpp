@@ -1124,7 +1124,17 @@ Segment::Solution Segment::solveManeuver_(
     Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_;
     dynamicsArray.add(heterogeneousThrustDynamicsSPtr);
 
-    return solveWithDynamics_(aState, maximumPropagationDuration, dynamicsArray, eventCondition_);
+    // If there are maneuver constraints, we're solving maneuver by maneuver.
+    // In that case, solving until the maximum propagation instant would return coast fragments to the
+    // outer loop, missing maneuvers beyond the first one.
+    return solveWithDynamics_(
+        aState,
+        maneuverConstraints_.isDefined() ? (solutionManeuvers.accessLast().getInterval().getEnd() - aState.getInstant()
+                                           ) + Duration::Seconds(1.0)  // Add small buffer to
+                                         : maximumPropagationDuration,
+        dynamicsArray,
+        eventCondition_
+    );
 }
 
 Segment::Solution Segment::solveMultipleManeuvers_(

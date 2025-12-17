@@ -1862,6 +1862,96 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
     }
 }
 
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_MultipleManeuvers_ManeuverConstraints_And_ConstantLocalOrbitalFrameDirectionManeuver
+)
+{
+    // This tests reproduces a bug where, when considering maneuver constraints, as well as enforcing constant local
+    // orbital frame direction maneuvers are not solved correctly, returning just the first maneuver, despite the
+    // non-constant local orbital frame version of it returning multiple ones.
+    //
+    // It tests the fix: https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/624
+    {
+        const Duration minimumDuration = Duration::Minutes(1.0);
+        const Duration maximumDuration = Duration::Minutes(10.0);
+        const Duration minimumSeparation = Duration::Minutes(5.0);
+        const Segment::MaximumManeuverDurationViolationStrategy strategy =
+            Segment::MaximumManeuverDurationViolationStrategy::Center;
+
+        const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
+
+        Segment maneuveringSegment = Segment::Maneuver(
+            "Maneuvering Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+            "Constant Local Orbital Frame Direction Maneuver Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            defaultLocalOrbitalFrameFactorySPtr_,
+            Angle::Undefined(),
+            constraints
+        );
+
+        const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
+            EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
+        );
+        VectorXd currentCoordinates(7);
+        currentCoordinates << cartesianStatePair.first.accessCoordinates(),
+            cartesianStatePair.second.accessCoordinates(), 200.0;
+        const State currentState = {
+            Instant::J2000(),
+            currentCoordinates,
+            defaultFrameSPtr_,
+            thrustCoordinateBrokerSPtr_,
+        };
+
+        const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+
+        const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
+            constantLofDirectionManeuveringSegment.solve(currentState);
+
+        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+        const Array<Maneuver> constantLofDirectionManeuvers =
+            constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
+        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
+            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(1.0)
+        ));
+        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
+            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
+        ));
+        EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuvers.getSize() > 2);
+        EXPECT_EQ(maneuvers.getSize(), constantLofDirectionManeuvers.getSize());
+
+        for (Size i = 0; i < maneuvers.getSize(); i++)
+        {
+            // We use a looser tolerance as the constant local orbital frame maneuvers will produce
+            // a slightly different trajectory.
+            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
+                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(3.0)
+            ));
+            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
+                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(3.0)
+            ));
+        }
+    }
+}
+
 // Define parameter structure for parametrized tests
 struct SolveTestParams
 {
