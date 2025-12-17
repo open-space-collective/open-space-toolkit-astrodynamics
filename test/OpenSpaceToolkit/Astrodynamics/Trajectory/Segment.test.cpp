@@ -1793,10 +1793,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
             constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
         ));
-        EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
-        EXPECT_EQ(2, maneuvers.getSize());
+        EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_EQ(2, constantLofDirectionManeuvers.getSize());
+        EXPECT_EQ(2, maneuvers.getSize());
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
