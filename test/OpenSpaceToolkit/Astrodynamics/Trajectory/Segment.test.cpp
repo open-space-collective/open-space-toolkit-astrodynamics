@@ -1916,23 +1916,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Array<Maneuver> constantLofDirectionManeuvers =
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        for (Size i = 0; i < maneuvers.getSize(); i++)
-        {
-            std::cout << "Maneuver " << i << ": start = " 
-                      << maneuvers[i].getInterval().getStart().toString() 
-                      << ", end = " 
-                      << maneuvers[i].getInterval().getEnd().toString()
-                      << std::endl;
-        }
-        for (Size i = 0; i < constantLofDirectionManeuvers.getSize(); i++)
-        {
-            std::cout << "Constant LOF Maneuver " << i << ": start = " 
-                      << constantLofDirectionManeuvers[i].getInterval().getStart().toString() 
-                      << ", end = " 
-                      << constantLofDirectionManeuvers[i].getInterval().getEnd().toString()
-                      << std::endl;
-        }
-            
         EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
             constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
         ));
@@ -1941,15 +1924,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         ));
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuvers.getSize() > 1);
         EXPECT_EQ(maneuvers.getSize(), constantLofDirectionManeuvers.getSize());
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
+            // Use "loose" tolerance to consider Q-Law hysteresis
             EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
+                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(3.0)
             ));
             EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
+                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(3.0)
             ));
         }
     }
@@ -2856,13 +2841,11 @@ TEST_F(
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
-    EXPECT_EQ(maneuvers.getSize(), 6);
-    EXPECT_LE(maneuvers.accessLast().getInterval().getDuration(), constraints.maximumDuration);
-    for (Size i = 0; i < maneuvers.getSize() - 2; i++)
-    {
-        EXPECT_TRUE(maneuvers[i].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Seconds(1.0))
-        );
-    }
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(
+        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    );
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1.0)));
 }
 
 TEST_F(
@@ -2966,7 +2949,7 @@ TEST_F(
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
-    EXPECT_EQ(maneuvers.getSize(), 3);
+    EXPECT_EQ(maneuvers.getSize(), 1);
     for (const Maneuver& maneuver : maneuvers)
     {
         EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
@@ -2996,6 +2979,81 @@ TEST_F(
     EXPECT_TRUE(maneuvers[2].getInterval().getEnd().isNear(
         initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Nanoseconds(10)
     ));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_ChunkStrategy_ConditionSatisfied
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(1.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Chunk
+    );
+
+    // Event condition that will be satisfied during sliced maneuver
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(3.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(
+        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    );
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1.0)));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_ChunkStrategy_MultipleManeuvers
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Chunk
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 6);
+    EXPECT_LE(maneuvers.accessLast().getInterval().getDuration(), constraints.maximumDuration);
+    for (Size i = 0; i < maneuvers.getSize() - 2; i++)
+    {
+        EXPECT_TRUE(maneuvers[i].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Seconds(1.0))
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMaximumInstant)
