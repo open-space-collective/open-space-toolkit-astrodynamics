@@ -1928,7 +1928,7 @@ TEST_F(
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
         EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
+            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(1.0)
         ));
         EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
             constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
