@@ -722,7 +722,7 @@ Segment::Solution Segment::solve(
 
     if (!maneuverConstraints_.isDefined())
     {
-        // There are no maneuver constratins, we can simply return the solution with all the maneuvers in it.
+        // There are no maneuver constraints, we can simply return the solution with all the maneuvers in it.
         return solveLOFCompliantManeuverSubsegment_(
             aState, maximumPropagationDuration, this->getThrusterDynamics(), false
         );

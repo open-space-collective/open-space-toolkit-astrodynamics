@@ -60,8 +60,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             Maximum duration:  [------] 
             Proposed maneuver: [---------------------------------]
             TruncateEnd:       [------]
-            TruncateStart:                  [------]
-            Center:                                       [------]
+            Center:                  [------]
+            TruncateStart:                                [------]
             Chunk:             [------]  [------]  [------]  [---]
         )doc"
     )

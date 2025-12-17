@@ -71,9 +71,9 @@ class Segment
     /// Example:
     /// Maximum duration:  [------]
     /// Proposed maneuver: [---------------------------------]
-    /// TruncateEnd:       [------]
-    /// TruncateStart:                  [------]
-    /// Center:                                       [------]
+    /// TruncateEnd:       [------]   
+    /// Center:                          [------]
+    /// TruncateStart:                                [------]
     /// Chunk:             [------]  [------]  [------]  [---]
     enum class MaximumManeuverDurationViolationStrategy
     {
