@@ -137,11 +137,6 @@ const State StateBuilder::reduce(const State& aState) const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    if (aState.accessFrame() != this->frameSPtr_)
-    {
-        throw ostk::core::error::runtime::Wrong("State Frame");
-    }
-
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Integer nextIndex = 0;
 
@@ -157,7 +152,7 @@ const State StateBuilder::reduce(const State& aState) const
         nextIndex += subsetCoordinates.size();
     }
 
-    return this->build(aState.accessInstant(), coordinates);
+    return {aState.accessInstant(), coordinates, aState.accessFrame(), this->coordinatesBrokerSPtr_};
 }
 
 const State StateBuilder::expand(const State& aState, const State& defaultState) const

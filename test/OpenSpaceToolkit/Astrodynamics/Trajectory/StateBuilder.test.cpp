@@ -425,7 +425,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Reduce)
 
         const StateBuilder stateBuilder = StateBuilder(Frame::ITRF(), massPosBrokerSPtr);  // Different Frame
 
-        EXPECT_ANY_THROW(stateBuilder.reduce(aState));
+        const State anotherState = stateBuilder.reduce(aState);
+
+        VectorXd expectedAnotherCoordinates(4);
+        expectedAnotherCoordinates << 100.0, 1.0, 2.0, 3.0;
+
+        EXPECT_FALSE(aState == anotherState);
+        EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
+        EXPECT_EQ(aState.accessFrame(), anotherState.accessFrame());  // Uses State's frame, not StateBuilder's
+        EXPECT_EQ(Frame::GCRF(), anotherState.accessFrame());
+        EXPECT_EQ(coordinates, aState.accessCoordinates());
+        EXPECT_EQ(expectedAnotherCoordinates, anotherState.accessCoordinates());
     }
 
     {
