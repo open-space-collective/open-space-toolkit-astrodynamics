@@ -11,6 +11,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
+#include <heyoka/model/sgp4.hpp>
+
 namespace ostk
 {
 namespace astrodynamics
@@ -178,6 +180,102 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
     }
 
     return this->implUPtr_->calculateStateAt(anInstant);
+}
+
+Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
+{
+    using ostk::core::type::Real;
+    using ostk::mathematics::object::Vector3d;
+    using ostk::physics::coordinate::Frame;
+    using ostk::physics::coordinate::Position;
+    using ostk::physics::coordinate::Velocity;
+    using ostk::physics::time::Scale;
+
+    if (anInstantArray.isEmpty())
+    {
+        return Array<State>::Empty();
+    }
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    // Prepare inputs for heyoka
+    const Real meanMotion =
+        this->tle_.getMeanMotion()
+            .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Day));  // rad/day
+    const Real eccentricity = this->tle_.getEccentricity();
+    const Real inclination = this->tle_.getInclination().inRadians();
+    const Real raan = this->tle_.getRaan().inRadians();
+    const Real aop = this->tle_.getAop().inRadians();
+    const Real meanAnomaly = this->tle_.getMeanAnomaly().inRadians();
+    const Real bStar = this->tle_.getBStarDragTerm();
+    const Real julianDay = this->tle_.getEpoch().getJulianDate(Scale::UTC);
+    const Real correction = 0.0;
+
+    // Construct the input data vector (flattened 9x1 array, but heyoka uses SoA so if 1 sat, just 9 elements)
+    // The order is: mean_motion, eccentricity, inclination, raan, aop, mean_anomaly, b_star, julian_day, correction
+    std::vector<double> tleData = {
+        meanMotion, eccentricity, inclination, raan, aop, meanAnomaly, bStar, julianDay, correction};
+
+    // Create propagator
+    heyoka::model::sgp4_propagator<double> propagator(tleData, 1);
+
+    // Prepare times (Minutes since epoch)
+    // heyoka interprets floating point arrays as minutes since epoch
+    std::vector<double> dates;
+    dates.reserve(anInstantArray.getSize());
+
+    const Instant epoch = this->tle_.getEpoch();
+
+    for (const auto& instant : anInstantArray)
+    {
+        dates.push_back(ostk::physics::time::Duration::Between(epoch, instant).inMinutes());
+    }
+
+    // Output buffers
+    // heyoka expects pre-allocated output vectors or resizes them.
+    // Based on typical C++ output arguments, we pass empty vectors and expect heyoka to fill them.
+    std::vector<double> outPos;
+    std::vector<double> outVel;
+
+    // Propagate
+    // The heyoka C++ API for sgp4_propagator typically uses the call operator.
+    propagator(dates, outPos, outVel);
+
+    // Convert results back to States
+    Array<State> states = Array<State>::Empty();
+    states.reserve(anInstantArray.getSize());
+
+    Shared<const Frame> temeFrame = Frame::TEME();
+    Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+    for (size_t i = 0; i < anInstantArray.getSize(); ++i)
+    {
+        // For a single satellite in batch mode, output is organized by date.
+        // outPos: x(t0), y(t0), z(t0), x(t1), y(t1), z(t1), ...
+        // outVel: vx(t0), vy(t0), vz(t0), vx(t1), vy(t1), vz(t1), ...
+
+        const double x_km = outPos[3 * i + 0];
+        const double y_km = outPos[3 * i + 1];
+        const double z_km = outPos[3 * i + 2];
+
+        const double vx_kmps = outVel[3 * i + 0];
+        const double vy_kmps = outVel[3 * i + 1];
+        const double vz_kmps = outVel[3 * i + 2];
+
+        Vector3d position_TEME_m(x_km * 1000.0, y_km * 1000.0, z_km * 1000.0);
+        Vector3d velocity_TEME_mps(vx_kmps * 1000.0, vy_kmps * 1000.0, vz_kmps * 1000.0);
+
+        Position position(position_TEME_m, Position::Unit::Meter, temeFrame);
+        Velocity velocity(velocity_TEME_mps, Velocity::Unit::MeterPerSecond, temeFrame);
+
+        State stateTEME(anInstantArray[i], position, velocity);
+        states.add(stateTEME.inFrame(gcrfFrame));
+    }
+
+    return states;
 }
 
 void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
