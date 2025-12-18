@@ -520,42 +520,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd coordinates(4);
         coordinates << 100.0, 1.0, 2.0, 3.0;
-        const State aState = State(instant, coordinates, Frame::ITRF(), massPosBrokerSPtr);  // Different Frame
-
-        VectorXd defaultCoordinates(6);
-        defaultCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
-        const State defaultState = State(instant, defaultCoordinates, Frame::GCRF(), posVelBrokerSPtr);
-
-        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelMassBrokerSPtr);
-
-        EXPECT_ANY_THROW(stateBuilder.expand(aState, defaultState));
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(4);
-        coordinates << 100.0, 1.0, 2.0, 3.0;
         const State aState = State(instant, coordinates, Frame::GCRF(), massPosBrokerSPtr);
 
         VectorXd defaultCoordinates(6);
         defaultCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
-        const State defaultState =
-            State(instant, defaultCoordinates, Frame::ITRF(), posVelBrokerSPtr);  // Different Frame
-
-        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelMassBrokerSPtr);
-
-        EXPECT_ANY_THROW(stateBuilder.expand(aState, defaultState));
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(4);
-        coordinates << 100.0, 1.0, 2.0, 3.0;
-        const State aState = State(instant, coordinates, Frame::GCRF(), massPosBrokerSPtr);
-
-        VectorXd defaultCoordinates(6);
-        defaultCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
-        const State defaultState = State(instant, defaultCoordinates, Frame::GCRF(), posVelBrokerSPtr);
+        const State defaultState = State(instant, defaultCoordinates, Frame::TEME(), posVelBrokerSPtr);
 
         const StateBuilder stateBuilder = StateBuilder(Frame::ITRF(), posVelMassBrokerSPtr);  // Different Frame
 
@@ -565,7 +534,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
         EXPECT_FALSE(defaultState == anotherState);
         EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
         EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());
-        EXPECT_EQ(defaultState.getSize(), 7);
+        EXPECT_EQ(anotherState.getSize(), 7);
     }
 
     {

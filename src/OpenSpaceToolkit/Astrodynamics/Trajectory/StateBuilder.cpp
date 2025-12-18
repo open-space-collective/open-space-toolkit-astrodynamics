@@ -173,16 +173,6 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
         throw ostk::core::error::runtime::Undefined("Default State");
     }
 
-    if (defaultState.accessFrame() != aState.accessFrame())
-    {
-        throw ostk::core::error::runtime::Wrong(
-            "Default State Frame",
-            String::Format(
-                "Expected: {}, Got: {}", aState.accessFrame()->getName(), defaultState.accessFrame()->getName()
-            )
-        );
-    }
-
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Integer nextIndex = 0;
     Integer nonDefaultSubsetDetections = 0;
