@@ -157,6 +157,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             arg("state"),
             R"doc(
                 Reduce a `State` object to the coordinate subsets of the `StateBuilder`.
+                The output state is provided in the Frame of the `StateBuilder`.
 
                 Arguments:
                     state (State): The `State` object to reduce.
@@ -172,6 +173,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             arg("default_state"),
             R"doc(
                 Expand a `State` object to the coordinate subsets of the `StateBuilder`.
+                The output state is provided in the Frame of the `StateBuilder`.
 
                 Arguments:
                     state (State): The `State` object to expand.

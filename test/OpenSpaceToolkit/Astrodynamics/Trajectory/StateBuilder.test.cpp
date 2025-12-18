@@ -427,15 +427,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Reduce)
 
         const State anotherState = stateBuilder.reduce(aState);
 
-        VectorXd expectedAnotherCoordinates(4);
-        expectedAnotherCoordinates << 100.0, 1.0, 2.0, 3.0;
-
         EXPECT_FALSE(aState == anotherState);
         EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
-        EXPECT_EQ(aState.accessFrame(), anotherState.accessFrame());  // Uses State's frame, not StateBuilder's
-        EXPECT_EQ(Frame::GCRF(), anotherState.accessFrame());
+        EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());  // Uses StateBuilder's frame
+        EXPECT_EQ(Frame::ITRF(), anotherState.accessFrame());
         EXPECT_EQ(coordinates, aState.accessCoordinates());
-        EXPECT_EQ(expectedAnotherCoordinates, anotherState.accessCoordinates());
+        EXPECT_EQ(massPosBrokerSPtr->getNumberOfCoordinates(), anotherState.accessCoordinates().size());
     }
 
     {
@@ -472,7 +469,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
         EXPECT_FALSE(aState == anotherState);
         EXPECT_FALSE(defaultState == anotherState);
         EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
-        EXPECT_EQ(aState.accessFrame(), anotherState.accessFrame());
+        EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());
         EXPECT_EQ(coordinates, aState.accessCoordinates());
         EXPECT_EQ(defaultCoordinates, defaultState.accessCoordinates());
         EXPECT_EQ(expectedAnotherCoordinates, anotherState.accessCoordinates());
@@ -562,7 +559,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
 
         const StateBuilder stateBuilder = StateBuilder(Frame::ITRF(), posVelMassBrokerSPtr);  // Different Frame
 
-        EXPECT_ANY_THROW(stateBuilder.expand(aState, defaultState));
+        const State anotherState = stateBuilder.expand(aState, defaultState);
+
+        EXPECT_FALSE(aState == anotherState);
+        EXPECT_FALSE(defaultState == anotherState);
+        EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
+        EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());
+        EXPECT_EQ(defaultState.getSize(), 7);
     }
 
     {

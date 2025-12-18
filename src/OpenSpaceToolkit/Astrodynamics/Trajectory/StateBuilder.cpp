@@ -152,7 +152,8 @@ const State StateBuilder::reduce(const State& aState) const
         nextIndex += subsetCoordinates.size();
     }
 
-    return {aState.accessInstant(), coordinates, aState.accessFrame(), this->coordinatesBrokerSPtr_};
+    return State(aState.accessInstant(), coordinates, aState.accessFrame(), this->coordinatesBrokerSPtr_)
+        .inFrame(this->frameSPtr_);
 }
 
 const State StateBuilder::expand(const State& aState, const State& defaultState) const
@@ -167,30 +168,27 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    if (aState.accessFrame() != this->frameSPtr_)
-    {
-        throw ostk::core::error::runtime::Wrong(
-            "State Frame",
-            String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), aState.accessFrame()->getName())
-        );
-    }
-
     if (!defaultState.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Default State");
     }
 
-    if (defaultState.accessFrame() != this->frameSPtr_)
+    if (defaultState.accessFrame() != aState.accessFrame())
     {
         throw ostk::core::error::runtime::Wrong(
             "Default State Frame",
-            String::Format("Expected: {}, Got: {}", this->frameSPtr_->getName(), defaultState.accessFrame()->getName())
+            String::Format(
+                "Expected: {}, Got: {}", aState.accessFrame()->getName(), defaultState.accessFrame()->getName()
+            )
         );
     }
 
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Integer nextIndex = 0;
     Integer nonDefaultSubsetDetections = 0;
+
+    const State stateInBrokerFrame = aState.inFrame(this->frameSPtr_);
+    const State defaultStateInBrokerFrame = defaultState.inFrame(this->frameSPtr_);
 
     for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
@@ -201,13 +199,13 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
         {
             subsetDetected = true;
             nonDefaultSubsetDetections++;
-            subsetCoordinates = aState.extractCoordinate(subset);
+            subsetCoordinates = stateInBrokerFrame.extractCoordinate(subset);
         }
 
         if (!subsetDetected && defaultState.accessCoordinateBroker()->hasSubset(subset))
         {
             subsetDetected = true;
-            subsetCoordinates = defaultState.extractCoordinate(subset);
+            subsetCoordinates = defaultStateInBrokerFrame.extractCoordinate(subset);
         }
 
         if (!subsetDetected)
