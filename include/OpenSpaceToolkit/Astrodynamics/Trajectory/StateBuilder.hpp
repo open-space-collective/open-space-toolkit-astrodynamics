@@ -109,12 +109,14 @@ class StateBuilder
     const State build(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
     /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder.
+    /// @note The output state is provided in the Frame of the StateBuilder.
     ///
     /// @param aState the state from which the coordinates will be taken.
     /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State reduce(const State& aState) const;
 
     /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder.
+    /// @note The output state is provided in the Frame of the StateBuilder.
     ///
     /// @param aState the state from which the coordinates will be taken.
     /// @param defaultState the state from which missing coordinates will be taken.
