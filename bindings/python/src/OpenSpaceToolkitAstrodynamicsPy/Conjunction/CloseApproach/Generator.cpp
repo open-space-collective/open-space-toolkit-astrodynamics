@@ -37,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(
                     step (Duration): The step to use during the close approach search. Set it to a duration smaller than the minimum possible
                         interval where both objects can be moving apart - which is about a quarter of an orbital period. Defaults to
                         Duration.minutes(20.0) - but it should be set lower for low velocity conjunctions as they tend to exhibit more than two
-                        close approaches per orbit in a non determinstic manner.
+                        close approaches per orbit in a non deterministic manner.
                     tolerance (Duration): The tolerance to use during the close approach search. Defaults to Duration.milliseconds(1.0) - which
                         means that objects moving at 7km/s will be up to 7m away from their “true” position.
             )doc",
