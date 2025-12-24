@@ -16,6 +16,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
     using ostk::physics::coordinate::Frame;
+    using ostk::physics::environment::object::Celestial;
 
     using ostk::astrodynamics::flight::Profile;
     using ostk::astrodynamics::flight::profile::Model;
@@ -503,7 +504,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "align_and_constrain",
-            &Profile::AlignAndConstrain,
+            [](const Shared<const Profile::Target>& anAlignmentTargetSPtr,
+               const Shared<const Profile::Target>& aClockingTargetSPtr,
+               const Angle& anAngularOffset) -> std::function<Quaternion(const State&)>
+            {
+                PyErr_WarnEx(
+                    PyExc_DeprecationWarning,
+                    "Use AlignAndConstrain(const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const "
+                    "Target>& aClockingTargetSPtr, const Shared<const Celestial>& aCelestialSPtr, const Angle& "
+                    "anAngularOffset = Angle::Zero()) instead.",
+                    1
+                );
+                return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
+            },
             R"doc(
                 Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
 
@@ -518,6 +531,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             )doc",
             arg("alignment_target"),
             arg("clocking_target"),
+            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+        )
+
+        .def_static(
+            "align_and_constrain",
+            overload_cast<
+                const Shared<const Profile::Target>&,
+                const Shared<const Profile::Target>&,
+                const Shared<const Celestial>&,
+                const Angle&>(&Profile::AlignAndConstrain),
+            R"doc(
+                Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
+                Uses the celestial object's frame instead of ITRF for geodetic nadir and sliding ground velocity calculations.
+
+                Args:
+                    alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
+                    clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
+                    celestial (Celestial): The celestial object whose frame will be used for geodetic nadir and sliding ground velocity calculations.
+                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
+
+                Returns:
+                    callable[Quaternion, State]: The custom orientation.
+
+            )doc",
+            arg("alignment_target"),
+            arg("clocking_target"),
+            arg("celestial"),
             arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
         )
 
