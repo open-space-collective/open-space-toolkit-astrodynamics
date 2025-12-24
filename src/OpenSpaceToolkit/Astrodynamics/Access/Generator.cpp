@@ -101,7 +101,8 @@ AccessTarget AccessTarget::FromLLA(
         AccessTarget::Type::Fixed,
         aVisibilityCriterion,
         Trajectory::Position(Position::Meters(
-            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()), Frame::ITRF()
+            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
+            aCelestialSPtr->accessFrame()
         ))
     );
 }
@@ -150,6 +151,17 @@ Generator::Generator(
       accessFilter_(anAccessFilter),
       stateFilter_(aStateFilter)
 {
+    if (anEnvironment.isDefined() && !anEnvironment.hasCentralCelestialObject())
+    {
+        std::cout << "Warning: Environment must have a central celestial object for Access Generator." << std::endl;
+
+        if (anEnvironment.accessCelestialObjectWithName("Earth") == nullptr)
+        {
+            throw ostk::core::error::RuntimeError(
+                "Environment must have an Earth celestial object for Access Generator."
+            );
+        }
+    }
 }
 
 bool Generator::isDefined() const
@@ -213,6 +225,10 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
 
     return [&anAccessTarget, &aToTrajectory, this](const Instant& anInstant) mutable -> bool
     {
+        const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
+                                                        ? this->environment_.accessCentralCelestialObject()
+                                                        : this->environment_.accessCelestialObjectWithName("Earth");
+
         const State fromState = anAccessTarget.accessTrajectory().getStateAt(anInstant);
         const State toState = aToTrajectory.getStateAt(anInstant);
 
@@ -224,8 +240,8 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         const Position fromPosition = fromState.getPosition();
         const Position toPosition = toState.getPosition();
 
-        const Position fromPosition_ITRF = fromPosition.inFrame(Frame::ITRF(), anInstant);
-        const Position toPosition_ITRF = toPosition.inFrame(Frame::ITRF(), anInstant);
+        const Position fromPosition_ITRF = fromPosition.inFrame(celestialSPtr->accessFrame(), anInstant);
+        const Position toPosition_ITRF = toPosition.inFrame(celestialSPtr->accessFrame(), anInstant);
 
         const VisibilityCriterion& visibilityCriterion = anAccessTarget.accessVisibilityCriterion();
 
@@ -236,9 +252,7 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
             );
         }
 
-        const AER aer = Generator::CalculateAer(
-            anInstant, fromPosition, toPosition, this->environment_.accessCelestialObjectWithName("Earth")
-        );
+        const AER aer = Generator::CalculateAer(anInstant, fromPosition, toPosition, celestialSPtr);
 
         if (visibilityCriterion.is<VisibilityCriterion::AERMask>())
         {
@@ -413,6 +427,10 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     const bool& coarse
 ) const
 {
+    const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
+                                                    ? this->environment_.accessCentralCelestialObject()
+                                                    : this->environment_.accessCelestialObjectWithName("Earth");
+
     // create a stacked matrix of SEZ rotations for all access targets
 
     const Index targetCount = someAccessTargets.getSize();
@@ -656,7 +674,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
         // calculate target to satellite vector in ITRF
         const Vector3d toPositionCoordinates_ITRF =
-            toTrajectoryState.inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            toTrajectoryState.inFrame(celestialSPtr->accessFrame()).getPosition().getCoordinates();
 
         // check if satellite is in access
         auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
@@ -691,7 +709,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
                 anInterval,
                 fromPositionCoordinates_ITRF.col(i),
                 aToTrajectory,
-                someAccessTargets[i]
+                someAccessTargets[i],
+                celestialSPtr
             );
         }
     }
@@ -714,16 +733,18 @@ Array<Access> Generator::generateAccessesFromIntervals(
     const Trajectory& aToTrajectory
 ) const
 {
-    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+    const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
+                                                    ? this->environment_.accessCentralCelestialObject()
+                                                    : this->environment_.accessCelestialObjectWithName("Earth");
 
     return someIntervals
         .map<Access>(
-            [&anInterval, &aFromTrajectory, &aToTrajectory, &earthSPtr, this](
+            [&anInterval, &aFromTrajectory, &aToTrajectory, &celestialSPtr, this](
                 const physics::time::Interval& anAccessInterval
             ) -> Access
             {
                 return Generator::GenerateAccess(
-                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, this->tolerance_
+                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, this->tolerance_, celestialSPtr
                 );
             }
         )
@@ -740,22 +761,22 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     const physics::time::Interval& anAnalysisInterval,
     const Vector3d& fromPositionCoordinate_ITRF,
     const Trajectory& aToTrajectory,
-    const AccessTarget& anAccessTarget
+    const AccessTarget& anAccessTarget,
+    const Shared<const Celestial>& aCelestialSPtr
 ) const
 {
     const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
 
-    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
-
-    const Matrix3d SEZRotation = anAccessTarget.computeR_SEZ_ECEF(earthSPtr);
+    const Matrix3d SEZRotation = anAccessTarget.computeR_SEZ_ECEF(aCelestialSPtr);
 
     std::function<bool(const Instant&)> condition;
 
-    const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory](const Instant& instant
+    const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, &aCelestialSPtr](
+                                const Instant& instant
                             ) -> Triple<Real, Real, Real>
     {
         const Vector3d toPositionCoordinates_ITRF =
-            aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            aToTrajectory.getStateAt(instant).inFrame(aCelestialSPtr->accessFrame()).getPosition().getCoordinates();
 
         const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -798,10 +819,12 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::LineOfSight visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
+                        const Instant& instant
+                    ) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+                aToTrajectory.getStateAt(instant).inFrame(aCelestialSPtr->accessFrame()).getPosition().getCoordinates();
 
             return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
         };
@@ -811,10 +834,12 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::ElevationInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
+                        const Instant& instant
+                    ) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+                aToTrajectory.getStateAt(instant).inFrame(aCelestialSPtr->accessFrame()).getPosition().getCoordinates();
 
             const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -945,7 +970,8 @@ Access Generator::GenerateAccess(
     const physics::time::Interval& aGlobalInterval,
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
-    const Duration& aTolerance
+    const Duration& aTolerance,
+    const Shared<const Celestial>& aCelestialSPtr
 )
 {
     const Access::Type type = ((aGlobalInterval.accessStart() != anAccessInterval.accessStart()) &&
@@ -971,7 +997,7 @@ Access Generator::GenerateAccess(
 
     const Angle maxElevation =
         timeOfClosestApproach.isDefined()
-            ? Generator::CalculateElevationAt(timeOfClosestApproach, aFromTrajectory, aToTrajectory)
+            ? Generator::CalculateElevationAt(timeOfClosestApproach, aFromTrajectory, aToTrajectory, aCelestialSPtr)
             : Angle::Undefined();
 
     return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
@@ -1069,13 +1095,16 @@ Instant Generator::FindTimeOfClosestApproach(
 }
 
 Angle Generator::CalculateElevationAt(
-    const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    const Instant& anInstant,
+    const Trajectory& aFromTrajectory,
+    const Trajectory& aToTrajectory,
+    const Shared<const Celestial>& aCelestialSPtr
 )
 {
     const Vector3d fromPositionCoordinates_ITRF =
-        aFromTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+        aFromTrajectory.getStateAt(anInstant).inFrame(aCelestialSPtr->accessFrame()).getPosition().getCoordinates();
     const Vector3d toPositionCoordinates_ITRF =
-        aToTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+        aToTrajectory.getStateAt(anInstant).inFrame(aCelestialSPtr->accessFrame()).getPosition().getCoordinates();
 
     const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinates_ITRF;
 
@@ -1086,15 +1115,17 @@ AER Generator::CalculateAer(
     const Instant& anInstant,
     const Position& aFromPosition,
     const Position& aToPosition,
-    const Shared<const Celestial>& anEarthSPtr
+    const Shared<const Celestial>& aCelestialSPtr
 )
 {
-    const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();
+    const Vector3d referenceCoordinates_ITRF =
+        aFromPosition.inFrame(aCelestialSPtr->accessFrame(), anInstant).accessCoordinates();
 
-    const LLA referencePoint_LLA =
-        LLA::Cartesian(referenceCoordinates_ITRF, anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening());
+    const LLA referencePoint_LLA = LLA::Cartesian(
+        referenceCoordinates_ITRF, aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()
+    );
 
-    const Shared<const Frame> nedFrameSPtr = anEarthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED);
+    const Shared<const Frame> nedFrameSPtr = aCelestialSPtr->getFrameAt(referencePoint_LLA, Celestial::FrameType::NED);
 
     const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant);
     const Position toPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant);

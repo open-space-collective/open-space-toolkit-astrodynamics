@@ -18,9 +18,11 @@ Static::Static(const Position& aPosition)
     : Model(),
       position_(aPosition)
 {
-    if (aPosition.accessFrame() != Frame::ITRF())
+    if (aPosition.accessFrame()->isQuasiInertial())
     {
-        throw ostk::core::error::runtime::Wrong("Position Frame", aPosition.accessFrame()->getName());
+        throw ostk::core::error::runtime::Wrong(
+            "Position Frame Quasi Inertial", aPosition.accessFrame()->isQuasiInertial()
+        );
     }
 }
 
