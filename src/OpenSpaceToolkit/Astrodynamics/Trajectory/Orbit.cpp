@@ -624,9 +624,10 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                     std::sin(latitude_radians),
                 };
 
-                const Vector3d xAxis = -(Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant()))
-                                            .applyToVector(nadir_ITRF)
-                                            .normalized();
+                const Vector3d xAxis =
+                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.accessInstant()))
+                         .applyToVector(nadir_ITRF)
+                         .normalized();
 
                 const Vector3d zAxis = (xAxis.cross(x_GCRF.cross(v_GCRF).normalized())).cross(xAxis).normalized();
                 const Vector3d yAxis = zAxis.cross(xAxis).normalized();
@@ -673,9 +674,10 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                     std::sin(latitude_radians),
                 };
 
-                const Vector3d xAxis = -(Frame::ITRF()->getTransformTo(Frame::GCRF(), aState.accessInstant()))
-                                            .applyToVector(nadir_ITRF)
-                                            .normalized();
+                const Vector3d xAxis =
+                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.accessInstant()))
+                         .applyToVector(nadir_ITRF)
+                         .normalized();
 
                 const Vector3d zAxis = (xAxis.cross(x_GCRF.cross(v_GCRF).normalized())).cross(xAxis).normalized();
                 const Vector3d yAxis = zAxis.cross(xAxis).normalized();
@@ -698,7 +700,9 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const bool isPassDescending = v_GCRF.z() < 0.0;
 
                 const Real w_ITRF_GCRF_in_ITRF_z =
-                    (Frame::GCRF()->getTransformTo(Frame::ITRF(), aState.accessInstant())).getAngularVelocity().z();
+                    (Frame::GCRF()->getTransformTo(this->celestialObjectSPtr_->accessFrame(), aState.accessInstant()))
+                        .getAngularVelocity()
+                        .z();
 
                 const Real k = meanMotion.in(AngularVelocitySIUnit) /
                                (w_ITRF_GCRF_in_ITRF_z - nodalPrecessionRate.in(AngularVelocitySIUnit));
