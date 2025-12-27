@@ -6,7 +6,6 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
@@ -23,7 +22,6 @@ using ostk::core::type::Index;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
-using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
@@ -497,6 +495,92 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
         aFrameSPtr,
         this->coordinatesBrokerSPtr_,
     };
+}
+
+std::unordered_map<Shared<const CoordinateSubset>, bool> State::isNear(
+    const State& aState, const std::unordered_map<Shared<const CoordinateSubset>, Real>& aToleranceMap
+) const
+{
+    if (aToleranceMap.size() != coordinatesBrokerSPtr_->accessSubsets().getSize())
+    {
+        throw ostk::core::error::runtime::Wrong(
+            "Tolerance Map: Expected size [" + std::to_string(coordinatesBrokerSPtr_->accessSubsets().getSize()) +
+            "], but received size [" + std::to_string(aToleranceMap.size()) + "]."
+        );
+    }
+
+    const State deltaState = aState - *this;
+
+    std::unordered_map<Shared<const CoordinateSubset>, bool> isNearMap;
+    for (const auto& [subsetSPtr, tolerance] : aToleranceMap)
+    {
+        if (!coordinatesBrokerSPtr_->hasSubset(subsetSPtr))
+        {
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance map doesn't contain coordinate subset [" + subsetSPtr->getName() + "]."
+            );
+        }
+        if (tolerance <= 0.0)
+        {
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance value for subset [" + subsetSPtr->getName() + "] is less than or equal to zero."
+            );
+        }
+
+        const VectorXd deltaCoordinates = deltaState.extractCoordinate(subsetSPtr);
+
+        isNearMap[subsetSPtr] = (deltaCoordinates.norm() <= tolerance);
+    }
+    return isNearMap;
+}
+
+std::unordered_map<Shared<const CoordinateSubset>, Array<bool>> State::isNear(
+    const State& aState, const std::unordered_map<Shared<const CoordinateSubset>, VectorXd>& aToleranceArrayMap
+) const
+{
+    if (aToleranceArrayMap.size() != coordinatesBrokerSPtr_->accessSubsets().getSize())
+    {
+        throw ostk::core::error::runtime::Wrong("Tolerance array map is not of the same size as the state.");
+    }
+
+    const State deltaState = aState - *this;
+
+    std::unordered_map<Shared<const CoordinateSubset>, Array<bool>> isNearMap;
+    for (const auto& [subsetSPtr, toleranceArray] : aToleranceArrayMap)
+    {
+        if (!coordinatesBrokerSPtr_->hasSubset(subsetSPtr))
+        {
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance array map doesn't contain coordinate subset [" + subsetSPtr->getName() + "]."
+            );
+        }
+
+        const VectorXd deltaCoordinates = deltaState.extractCoordinate(subsetSPtr);
+
+        if (toleranceArray.size() != deltaCoordinates.size())
+        {
+            throw ostk::core::error::runtime::Wrong(
+                "Tolerance Array Size: Expected [" + std::to_string(deltaCoordinates.size()) + "], but got [" +
+                std::to_string(toleranceArray.size()) + "]"
+            );
+        }
+        if ((toleranceArray.array() <= 0.0).any())
+        {
+            throw ostk::core::error::runtime::Wrong(
+                "One or more elements in the tolerance array for subset [" + subsetSPtr->getName() +
+                "] is less than or equal to zero."
+            );
+        }
+
+        Array<bool> isNearArray;
+        isNearArray.reserve(deltaCoordinates.size());
+        for (int i = 0; i < deltaCoordinates.size(); ++i)
+        {
+            isNearArray.add(std::abs(deltaCoordinates[i]) <= toleranceArray[i]);
+        }
+        isNearMap[subsetSPtr] = isNearArray;
+    }
+    return isNearMap;
 }
 
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const
