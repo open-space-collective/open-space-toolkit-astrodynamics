@@ -552,9 +552,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, StringFr
             "DenseOutput",
             NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::DenseOutput)
         );
-        EXPECT_EQ("Linear", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Linear));
         EXPECT_EQ(
-            "Propagated", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Propagated)
+            "Linear", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Linear)
+        );
+        EXPECT_EQ(
+            "Propagated",
+            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Propagated)
         );
         EXPECT_EQ(
             "Boundary", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Boundary)
@@ -577,8 +580,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition =
-        InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
+    const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
 
     const NumericalSolver::ConditionSolution conditionSolution =
         solverLinear.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
@@ -604,8 +606,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition =
-        InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
+    const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
 
     const NumericalSolver::ConditionSolution conditionSolution =
         solverPropagated.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
@@ -633,8 +634,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition =
-        InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
+    const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
 
     const NumericalSolver::ConditionSolution conditionSolution =
         solverBoundary.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
@@ -645,7 +645,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     EXPECT_EQ(conditionSolution.iterationCount, 0);  // No root finding iterations for Boundary
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_DenseOutputWithNonRKDP5Throws)
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver,
+    IntegrateTime_Conditions_DenseOutputWithNonRKDP5Throws
+)
 {
     // Test that DenseOutput strategy with non-RKDP5 stepper throws
     NumericalSolver solverInvalid = {
