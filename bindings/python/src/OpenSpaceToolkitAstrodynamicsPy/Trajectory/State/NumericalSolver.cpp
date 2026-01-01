@@ -33,6 +33,35 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             )doc"
     );
 
+    enum_<NumericalSolver::RootFindingStrategy>(
+        numericalSolver,
+        "RootFindingStrategy",
+        R"doc(
+            The strategy for finding the exact event crossing time during conditional integration.
+
+            - DenseOutput: Use dense stepper interpolation (only for RungeKuttaDopri5). Most accurate.
+            - Linear: Linear interpolation between step endpoints. Fast but less accurate.
+            - Propagated: Re-integrate with smaller sub-steps. Accurate but slower.
+            - Boundary: Return step boundary where condition is first satisfied. Simplest, no refinement.
+        )doc"
+    )
+        .value(
+            "DenseOutput",
+            NumericalSolver::RootFindingStrategy::DenseOutput,
+            "Use dense output interpolation (RungeKuttaDopri5 only)"
+        )
+        .value("Linear", NumericalSolver::RootFindingStrategy::Linear, "Linear interpolation between step endpoints")
+        .value(
+            "Propagated",
+            NumericalSolver::RootFindingStrategy::Propagated,
+            "Re-integrate with smaller steps during root finding"
+        )
+        .value(
+            "Boundary",
+            NumericalSolver::RootFindingStrategy::Boundary,
+            "Return first step boundary where condition is satisfied"
+        );
+
     class_<NumericalSolver::ConditionSolution>(
         numericalSolver,
         "ConditionSolution",
@@ -94,7 +123,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const Real&,
                     const Real&,
                     const Real&,
-                    const RootSolver&>(),
+                    const RootSolver&,
+                    const NumericalSolver::RootFindingStrategy&>(),
                 R"doc(
                     Constructor.
 
@@ -105,6 +135,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         root_solver (RootSolver, optional): The root solver. Defaults to RootSolver.Default().
+                        root_finding_strategy (RootFindingStrategy, optional): The root finding strategy. Defaults to DenseOutput.
 
                 )doc",
                 arg("log_type"),
@@ -112,7 +143,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()")
+                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()"),
+                arg_v(
+                    "root_finding_strategy",
+                    NumericalSolver::RootFindingStrategy::DenseOutput,
+                    "NumericalSolver.RootFindingStrategy.DenseOutput"
+                )
             )
 
             .def(self == self)
@@ -150,6 +186,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         RootSolver: The root solver.
+                )doc"
+            )
+            .def(
+                "get_root_finding_strategy",
+                &NumericalSolver::getRootFindingStrategy,
+                R"doc(
+                    Get the root finding strategy.
+
+                    Returns:
+                        RootFindingStrategy: The root finding strategy.
                 )doc"
             )
 
@@ -304,11 +350,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Args:
                         state_logger (StateLogger, optional): The state logger. Defaults to None.
+                        root_finding_strategy (RootFindingStrategy, optional): The root finding strategy. Defaults to DenseOutput.
 
                     Returns:
                         NumericalSolver: The default conditional numerical solver.
                 )doc",
-                arg("state_logger") = nullptr
+                arg("state_logger") = nullptr,
+                arg_v(
+                    "root_finding_strategy",
+                    NumericalSolver::RootFindingStrategy::DenseOutput,
+                    "NumericalSolver.RootFindingStrategy.DenseOutput"
+                )
             )
             .def_static(
                 "conditional",
@@ -316,9 +368,39 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 R"doc(
                     Return a conditional numerical solver.
 
+                    Args:
+                        time_step (float): The time step.
+                        relative_tolerance (float): The relative tolerance.
+                        absolute_tolerance (float): The absolute tolerance.
+                        state_logger (StateLogger, optional): The state logger. Defaults to None.
+                        root_finding_strategy (RootFindingStrategy, optional): The root finding strategy. Defaults to DenseOutput.
+
                     Returns:
                         NumericalSolver: The conditional numerical solver.
-                )doc"
+                )doc",
+                arg("time_step"),
+                arg("relative_tolerance"),
+                arg("absolute_tolerance"),
+                arg("state_logger") = nullptr,
+                arg_v(
+                    "root_finding_strategy",
+                    NumericalSolver::RootFindingStrategy::DenseOutput,
+                    "NumericalSolver.RootFindingStrategy.DenseOutput"
+                )
+            )
+            .def_static(
+                "string_from_root_finding_strategy",
+                &NumericalSolver::StringFromRootFindingStrategy,
+                R"doc(
+                    Return the string representation of a root finding strategy.
+
+                    Args:
+                        strategy (RootFindingStrategy): The root finding strategy.
+
+                    Returns:
+                        str: The string representation.
+                )doc",
+                arg("strategy")
             );
     }
 }
