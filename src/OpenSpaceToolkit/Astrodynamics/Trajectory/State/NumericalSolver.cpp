@@ -144,8 +144,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
 )
 {
     // Validate strategy is compatible with stepper
-    if (rootFindingStrategy_ == RootFindingStrategy::DenseOutput &&
-        stepperType_ != StepperType::RungeKuttaDopri5)
+    if (rootFindingStrategy_ == RootFindingStrategy::DenseOutput && stepperType_ != StepperType::RungeKuttaDopri5)
     {
         throw ostk::core::error::RuntimeError(
             "DenseOutput root finding strategy requires RungeKuttaDopri5 stepper type. "
@@ -238,8 +237,7 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
 }
 
 NumericalSolver NumericalSolver::DefaultConditional(
-    const std::function<void(const State&)>& stateLogger,
-    const RootFindingStrategy& aRootFindingStrategy
+    const std::function<void(const State&)>& stateLogger, const RootFindingStrategy& aRootFindingStrategy
 )
 {
     return NumericalSolver::Conditional(5.0, 1.0e-12, 1.0e-12, stateLogger, aRootFindingStrategy);
@@ -257,9 +255,9 @@ NumericalSolver NumericalSolver::Conditional(
         stateLogger != nullptr ? NumericalSolver::LogType::LogAdaptive : NumericalSolver::LogType::NoLog;
 
     // Choose stepper type based on strategy
-    const NumericalSolver::StepperType stepperType =
-        (aRootFindingStrategy == RootFindingStrategy::DenseOutput) ? NumericalSolver::StepperType::RungeKuttaDopri5
-                                                                   : NumericalSolver::StepperType::RungeKuttaFehlberg78;
+    const NumericalSolver::StepperType stepperType = (aRootFindingStrategy == RootFindingStrategy::DenseOutput)
+                                                       ? NumericalSolver::StepperType::RungeKuttaDopri5
+                                                       : NumericalSolver::StepperType::RungeKuttaFehlberg78;
 
     return {
         logType,
@@ -659,9 +657,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         case RootFindingStrategy::Linear:
         {
             // Linear interpolation for root finding
-            const auto linearInterpolate =
-                [&previousStateVector, &currentStateVector, previousTime, currentTime](const double& t
-                ) -> NumericalSolver::StateVector
+            const auto linearInterpolate = [&previousStateVector, &currentStateVector, previousTime, currentTime](
+                                               const double& t
+                                           ) -> NumericalSolver::StateVector
             {
                 const double alpha = (t - previousTime) / (currentTime - previousTime);
                 return previousStateVector * (1.0 - alpha) + currentStateVector * alpha;
@@ -672,14 +670,14 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 const NumericalSolver::StateVector interpolatedCoords = linearInterpolate(aTime);
                 const State interpolatedState = createState(interpolatedCoords, aTime);
 
-                const bool isSatisfied = anEventCondition.isSatisfied(
-                    interpolatedState, createState(previousStateVector, previousTime)
-                );
+                const bool isSatisfied =
+                    anEventCondition.isSatisfied(interpolatedState, createState(previousStateVector, previousTime));
 
                 return isSatisfied ? 1.0 : -1.0;
             };
 
-            const RootSolver::Solution solution = rootSolver_.bisection(checkConditionLinear, previousTime, currentTime);
+            const RootSolver::Solution solution =
+                rootSolver_.bisection(checkConditionLinear, previousTime, currentTime);
             const NumericalSolver::StateVector solutionStateVector = linearInterpolate(solution.root);
             const State solutionState = createState(solutionStateVector, solution.root);
             observeState(solutionState);
