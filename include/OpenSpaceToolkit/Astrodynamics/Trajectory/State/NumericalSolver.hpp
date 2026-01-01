@@ -45,6 +45,20 @@ class NumericalSolver : public MathNumericalSolver
         bool rootSolverHasConverged;  ///< Whether the root solver has converged.
     };
 
+    /// @brief Strategy for finding the exact event crossing time during conditional integration.
+    ///
+    /// - DenseOutput: Use dense stepper's calc_state() for interpolation (RungeKuttaDopri5 only). Most accurate.
+    /// - Linear: Linear interpolation between step endpoints. Fast but less accurate for nonlinear dynamics.
+    /// - Propagated: Re-integrate with smaller sub-steps during bisection. Accurate but slower.
+    /// - Boundary: Return the first step boundary where condition is satisfied. Simplest, no refinement.
+    enum class RootFindingStrategy
+    {
+        DenseOutput,
+        Linear,
+        Propagated,
+        Boundary
+    };
+
     /// @brief Constructor
     ///
     /// @code{.cpp}
@@ -61,13 +75,16 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aRelativeTolerance A number indicating the relative integration tolerance
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
     /// @param aRootSolver A root solver to be used to solve the event condition
+    /// @param aRootFindingStrategy Strategy for finding exact event crossing time. Defaults to
+    ///                  DenseOutput (requires RungeKuttaDopri5)
     NumericalSolver(
         const NumericalSolver::LogType& aLogType,
         const NumericalSolver::StepperType& aStepperType,
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver = RootSolver::Default()
+        const RootSolver& aRootSolver = RootSolver::Default(),
+        const RootFindingStrategy& aRootFindingStrategy = RootFindingStrategy::DenseOutput
     );
 
     /// @brief Access observed states
@@ -96,6 +113,15 @@ class NumericalSolver : public MathNumericalSolver
     ///
     /// @return Observed states
     Array<State> getObservedStates() const;
+
+    /// @brief Get root finding strategy
+    ///
+    /// @code{.cpp}
+    ///                  numericalSolver.getRootFindingStrategy();
+    /// @endcode
+    ///
+    /// @return RootFindingStrategy
+    RootFindingStrategy getRootFindingStrategy() const;
 
     /// @brief Perform numerical integration for a given array of time instants.
     ///
@@ -153,8 +179,12 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Default conditional
     ///
     /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
+    /// @param aRootFindingStrategy Strategy for finding exact event crossing time. Defaults to DenseOutput.
     /// @return A default conditional numerical solver.
-    static NumericalSolver DefaultConditional(const std::function<void(const State&)>& stateLogger = nullptr);
+    static NumericalSolver DefaultConditional(
+        const std::function<void(const State&)>& stateLogger = nullptr,
+        const RootFindingStrategy& aRootFindingStrategy = RootFindingStrategy::DenseOutput
+    );
 
     /// @brief Create a conditional numerical solver.
     ///
@@ -162,14 +192,26 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aRelativeTolerance The relative tolerance to use.
     /// @param anAbsoluteTolerance The absolute tolerance to use.
     /// @param stateLogger A function that takes a `State` object and logs.
+    /// @param aRootFindingStrategy Strategy for finding exact event crossing time. Defaults to DenseOutput.
     ///
     /// @return A conditional numerical solver.
     static NumericalSolver Conditional(
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
-        const std::function<void(const State&)>& stateLogger
+        const std::function<void(const State&)>& stateLogger = nullptr,
+        const RootFindingStrategy& aRootFindingStrategy = RootFindingStrategy::DenseOutput
     );
+
+    /// @brief Convert RootFindingStrategy to string
+    ///
+    /// @code{.cpp}
+    ///                  NumericalSolver::StringFromRootFindingStrategy(aStrategy);
+    /// @endcode
+    ///
+    /// @param aStrategy A root finding strategy enum
+    /// @return String representation
+    static String StringFromRootFindingStrategy(const RootFindingStrategy& aStrategy);
 
     /// Delete undesired methods from parent
     Array<MathNumericalSolver::Solution> integrateTime(
@@ -206,6 +248,7 @@ class NumericalSolver : public MathNumericalSolver
     RootSolver rootSolver_;
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
+    RootFindingStrategy rootFindingStrategy_;
 
     /// @brief Constructor
     ///
@@ -224,6 +267,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
     /// @param aRootSolver A root solver to be used to solve the event condition
     /// @param stateLogger A function that takes a `State` object and logs
+    /// @param aRootFindingStrategy Strategy for finding exact event crossing time
     NumericalSolver(
         const NumericalSolver::LogType& aLogType,
         const NumericalSolver::StepperType& aStepperType,
@@ -231,10 +275,27 @@ class NumericalSolver : public MathNumericalSolver
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
         const RootSolver& aRootSolver,
-        const std::function<void(const State&)>& stateLogger
+        const std::function<void(const State&)>& stateLogger,
+        const RootFindingStrategy& aRootFindingStrategy
     );
 
     void observeState(const State& aState);
+
+    /// @brief Integrate with dense output stepper (RKDP5 only)
+    ConditionSolution integrateTimeWithDenseOutput(
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const EventCondition& anEventCondition
+    );
+
+    /// @brief Integrate with controlled stepper using Linear/Propagated/Boundary strategy
+    ConditionSolution integrateTimeWithControlledStepper(
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const EventCondition& anEventCondition
+    );
 };
 
 }  // namespace state
