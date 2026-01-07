@@ -38,18 +38,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
         "RootFindingStrategy",
         R"doc(
             The strategy for finding the exact event crossing time during conditional integration.
-
-            - DenseOutput: Use dense stepper interpolation (only for RungeKuttaDopri5). Most accurate.
-            - Linear: Linear interpolation between step endpoints. Fast but less accurate.
-            - Propagated: Re-integrate with smaller sub-steps. Accurate but slower.
-            - Boundary: Return step boundary where condition is first satisfied. Simplest, no refinement.
         )doc"
     )
-        .value(
-            "DenseOutput",
-            NumericalSolver::RootFindingStrategy::DenseOutput,
-            "Use dense output interpolation (RungeKuttaDopri5 only)"
-        )
         .value("Linear", NumericalSolver::RootFindingStrategy::Linear, "Linear interpolation between step endpoints")
         .value(
             "Propagated",
@@ -135,7 +125,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         root_solver (RootSolver, optional): The root solver. Defaults to RootSolver.Default().
-                        root_finding_strategy (RootFindingStrategy, optional): The root finding strategy. Defaults to DenseOutput.
 
                 )doc",
                 arg("log_type"),
@@ -144,11 +133,37 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
                 arg_v("root_solver", RootSolver::Default(), "RootSolver.default()"),
-                arg_v(
-                    "root_finding_strategy",
-                    NumericalSolver::RootFindingStrategy::DenseOutput,
-                    "NumericalSolver.RootFindingStrategy.DenseOutput"
-                )
+            )
+
+            .def(
+                init<
+                    const NumericalSolver::LogType&,
+                    const NumericalSolver::StepperType&,
+                    const Real&,
+                    const Real&,
+                    const Real&,
+                    const RootSolver&,
+                    const NumericalSolver::RootFindingStrategy&>(),
+                R"doc(
+                    Constructor.
+
+                    Args:
+                        log_type (NumericalSolver.LogType): The type of logging.
+                        stepper_type (NumericalSolver.StepperType): The type of stepper.
+                        time_step (float): The time step.
+                        relative_tolerance (float): The relative tolerance.
+                        absolute_tolerance (float): The absolute tolerance.
+                        root_solver (RootSolver): The root solver.
+                        root_finding_strategy (RootFindingStrategy): The root finding strategy.
+
+                )doc",
+                arg("log_type"),
+                arg("stepper_type"),
+                arg("time_step"),
+                arg("relative_tolerance"),
+                arg("absolute_tolerance"),
+                arg("root_solver"),
+                arg("root_finding_strategy")
             )
 
             .def(self == self)
@@ -350,17 +365,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Args:
                         state_logger (StateLogger, optional): The state logger. Defaults to None.
-                        root_finding_strategy (RootFindingStrategy, optional): The root finding strategy. Defaults to DenseOutput.
 
                     Returns:
                         NumericalSolver: The default conditional numerical solver.
                 )doc",
-                arg("state_logger") = nullptr,
-                arg_v(
-                    "root_finding_strategy",
-                    NumericalSolver::RootFindingStrategy::DenseOutput,
-                    "NumericalSolver.RootFindingStrategy.DenseOutput"
-                )
+                arg("state_logger") = nullptr
             )
             .def_static(
                 "conditional",
@@ -373,7 +382,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         state_logger (StateLogger, optional): The state logger. Defaults to None.
-                        root_finding_strategy (RootFindingStrategy, optional): The root finding strategy. Defaults to DenseOutput.
 
                     Returns:
                         NumericalSolver: The conditional numerical solver.
@@ -382,11 +390,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
                 arg("state_logger") = nullptr,
-                arg_v(
-                    "root_finding_strategy",
-                    NumericalSolver::RootFindingStrategy::DenseOutput,
-                    "NumericalSolver.RootFindingStrategy.DenseOutput"
-                )
             )
             .def_static(
                 "string_from_root_finding_strategy",
