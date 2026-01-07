@@ -510,9 +510,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             {
                 PyErr_WarnEx(
                     PyExc_DeprecationWarning,
-                    "Use AlignAndConstrain(const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const "
-                    "Target>& aClockingTargetSPtr, const Shared<const Celestial>& aCelestialSPtr, const Angle& "
-                    "anAngularOffset = Angle::Zero()) instead.",
+                    "Use align_and_constraint(alignment_target, clocking_target, celestial, angular_offset) instead.",
                     1
                 );
                 return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
@@ -543,12 +541,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 const Angle&>(&Profile::AlignAndConstrain),
             R"doc(
                 Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
-                Uses the celestial object's frame instead of ITRF for geodetic nadir and sliding ground velocity calculations.
 
                 Args:
                     alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
                     clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
-                    celestial (Celestial): The celestial object whose frame will be used for geodetic nadir and sliding ground velocity calculations.
+                    celestial (Celestial): The celestial object. It's body frame will be used for geodetic nadir and sliding ground velocity calculations.
                     angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:

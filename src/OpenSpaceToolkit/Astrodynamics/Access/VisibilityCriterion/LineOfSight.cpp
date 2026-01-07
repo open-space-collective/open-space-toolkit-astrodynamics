@@ -36,6 +36,7 @@ bool VisibilityCriterion::LineOfSight::isSatisfied(
     const Instant& anInstant, const Vector3d& aFromPositionCoordinates_ITRF, const Vector3d& aToPositionCoordinates_ITRF
 ) const
 {
+    // TBR: Deprecate this check in a future release
     Shared<const Frame> commonFrameSPtr = nullptr;
     if (this->environment.hasCentralCelestialObject())
     {
