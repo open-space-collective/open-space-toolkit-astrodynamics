@@ -218,20 +218,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 {
     const State state = getStateVector(defaultStartInstant_);
 
-    {
-        EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
-
-        EXPECT_THROW(
-            defaultRK54_.integrateTime(
-                state,
-                defaultStartInstant_,
-                systemOfEquations_,
-                InstantCondition(RealCondition::Criterion::AnyCrossing, state.accessInstant())
-            ),
-            ostk::core::error::RuntimeError
-        );
-    }
-
     // trivial case, zero second integration
     {
         NumericalSolver::ConditionSolution solution = defaultRKD5_.integrateTime(

@@ -228,7 +228,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                     Args:
                     segments (list[Segment], optional): The segments. Defaults to an empty list.
-                    numerical_solver (NumericalSolver, optional): The numerical solver. Defaults to the default conditional numerical solver.
+                    numerical_solver (NumericalSolver, optional): The numerical solver. Defaults to the default numerical solver.
                     dynamics (list[Dynamics], optional): The dynamics. Defaults to an empty list.
                     maximum_propagation_duration (Duration, optional): The maximum propagation duration. Defaults to 30 days.
                     verbosity (int, optional): The verbosity level. Defaults to 1.
@@ -238,9 +238,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
                 )doc",
                 arg_v("segments", Array<Segment>::Empty(), "[]"),
-                arg_v(
-                    "numerical_solver", NumericalSolver::DefaultConditional(), "NumericalSolver.default_conditional()"
-                ),
+                arg_v("numerical_solver", NumericalSolver::Default(), "NumericalSolver.default()"),
                 arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
                 arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
                 arg("verbosity") = 1
