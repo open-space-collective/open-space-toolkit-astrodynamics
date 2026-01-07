@@ -418,7 +418,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
 
     const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
 
-    const auto targetVectorGenerator = [aCelestialSPtr, celestialFrame](const Shared<const Target>& aTargetSPtr
+    const auto targetVectorGenerator = [aCelestialSPtr, celestialFrameSPtr](const Shared<const Target>& aTargetSPtr
                                        ) -> std::function<Vector3d(const State&)>
     {
         switch (aTargetSPtr->type)
@@ -452,10 +452,10 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
             {
                 const Shared<const TrajectoryTarget> targetVelocitySPtr =
                     std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
-                return [targetVelocitySPtr, celestialFrame](const State& aState) -> Vector3d
+                return [targetVelocitySPtr, celestialFrameSPtr](const State& aState) -> Vector3d
                 {
                     return Profile::ComputeTargetSlidingGroundVelocityVector(
-                        aState, targetVelocitySPtr->trajectory, celestialFrame
+                        aState, targetVelocitySPtr->trajectory, celestialFrameSPtr
                     );
                 };
             }
@@ -542,9 +542,9 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(
     const State& aState, const Shared<const Celestial>& aCelestialSPtr
 )
 {
-    const Shared<const Frame> celestialFrame = aCelestialSPtr->accessFrame();
+    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
     const Transform celestialFrame_GCRF_transform =
-        celestialFrame->getTransformTo(DEFAULT_PROFILE_FRAME, aState.accessInstant());
+        celestialFrameSPtr->getTransformTo(DEFAULT_PROFILE_FRAME, aState.accessInstant());
 
     const LLA lla = LLA::Cartesian(
         celestialFrame_GCRF_transform.getInverse().applyToPosition(
