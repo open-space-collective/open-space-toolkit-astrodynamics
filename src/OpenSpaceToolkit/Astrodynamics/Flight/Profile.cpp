@@ -416,7 +416,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         );
     }
 
-    const Shared<const Frame> celestialFrame = aCelestialSPtr->accessFrame();
+    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
 
     const auto targetVectorGenerator = [aCelestialSPtr, celestialFrame](const Shared<const Target>& aTargetSPtr
                                        ) -> std::function<Vector3d(const State&)>
