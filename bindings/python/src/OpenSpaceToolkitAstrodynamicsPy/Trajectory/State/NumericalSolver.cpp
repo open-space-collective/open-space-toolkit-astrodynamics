@@ -359,7 +359,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             )
             .def_static(
                 "default_conditional",
-                &NumericalSolver::DefaultConditional,
+                +[](const std::function<void(const State&)>& stateLogger = nullptr) -> NumericalSolver
+                {
+                    PyErr_WarnEx(
+                        PyExc_DeprecationWarning,
+                        "NumericalSolver.default_conditional is deprecated. Use NumericalSolver.default instead.",
+                        1
+                    );
+                    return NumericalSolver::DefaultConditional(stateLogger);
+                },
                 R"doc(
                     Return the default conditional numerical solver.
 
@@ -373,7 +381,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             )
             .def_static(
                 "conditional",
-                &NumericalSolver::Conditional,
+                +[](const Real& aTimeStep,
+                    const Real& aRelativeTolerance,
+                    const Real& anAbsoluteTolerance,
+                    const std::function<void(const State&)>& stateLogger = nullptr) -> NumericalSolver
+                {
+                    PyErr_WarnEx(
+                        PyExc_DeprecationWarning,
+                        "NumericalSolver.conditional is deprecated. Use NumericalSolver constructor instead.",
+                        1
+                    );
+                    return NumericalSolver::Conditional(
+                        aTimeStep, aRelativeTolerance, anAbsoluteTolerance, stateLogger
+                    );
+                },
                 R"doc(
                     Return a conditional numerical solver.
 
