@@ -26,6 +26,9 @@ using ostk::physics::time::Duration;
 using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
+typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
+typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
+typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
 typedef runge_kutta_dopri5<NumericalSolver::StateVector> dense_stepper_type_5;
 
 NumericalSolver::NumericalSolver(
@@ -36,10 +39,32 @@ NumericalSolver::NumericalSolver(
     const Real& anAbsoluteTolerance,
     const RootSolver& aRootSolver
 )
+    : NumericalSolver(
+          aLogType,
+          aStepperType,
+          aTimeStep,
+          aRelativeTolerance,
+          anAbsoluteTolerance,
+          aRootSolver,
+          RootFindingStrategy::Propagated
+      )
+{
+}
+
+NumericalSolver::NumericalSolver(
+    const NumericalSolver::LogType& aLogType,
+    const NumericalSolver::StepperType& aStepperType,
+    const Real& aTimeStep,
+    const Real& aRelativeTolerance,
+    const Real& anAbsoluteTolerance,
+    const RootSolver& aRootSolver,
+    const RootFindingStrategy& aRootFindingStrategy
+)
     : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
       rootSolver_(aRootSolver),
       observedStates_(),
-      stateLogger_(nullptr)
+      stateLogger_(nullptr),
+      rootFindingStrategy_(aRootFindingStrategy)
 {
 }
 
@@ -66,6 +91,16 @@ RootSolver NumericalSolver::getRootSolver() const
 Array<State> NumericalSolver::getObservedStates() const
 {
     return accessObservedStates();
+}
+
+NumericalSolver::RootFindingStrategy NumericalSolver::getRootFindingStrategy() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("NumericalSolver");
+    }
+
+    return rootFindingStrategy_;
 }
 
 Array<State> NumericalSolver::integrateTime(
@@ -128,23 +163,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     const EventCondition& anEventCondition
 )
 {
-    if (stepperType_ != NumericalSolver::StepperType::RungeKuttaDopri5)
-    {
-        throw ostk::core::error::runtime::ToBeImplemented(
-            "Integrating with conditions is only supported with RungeKuttaDopri5 stepper type."
-        );
-    }
-
     observedStates_ = {aState};
 
-    const StateBuilder stateBuilder = {aState};
-
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
-
-    const auto createState = [&stateBuilder, &aState](const VectorXd& aStateVector, const double& aTime) -> State
-    {
-        return stateBuilder.build(aState.accessInstant() + Duration::Seconds(aTime), aStateVector);
-    };
 
     // Check trivial cases
     if (aDurationInSeconds.isZero())
@@ -168,97 +189,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
-    // Ensure that the time step is the correct sign
-    const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
-
-    // TBI: Adapt this to any dense stepper type
-    auto stepper = make_dense_output(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5());
-
-    // initialize stepper
-    double previousTime;
-    double currentTime = 0.0;
-    stepper.initialize(aState.accessCoordinates(), currentTime, signedTimeStep);
-
-    // account for integration direction
-    std::function<bool(const double&)> checkTimeLimit;
-    if (aDurationInSeconds > 0.0)
-    {
-        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
-        {
-            return aTime < aDurationInSeconds;
-        };
-    }
-    else
-    {
-        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
-        {
-            return aTime > aDurationInSeconds;
-        };
-    }
-
-    State currentState = State::Undefined();
-    State previousState = aState;
-
-    while (checkTimeLimit(currentTime) && !conditionSatisfied)
-    {
-        std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-        currentState = createState(stepper.current_state(), currentTime);
-
-        observeState(currentState);
-
-        conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
-
-        previousState = currentState;
-    }
-
-    // Remove the last observed state as it is either past the end time or not the exact crossing
-    observedStates_.pop_back();
-
-    if (!conditionSatisfied)
-    {
-        NumericalSolver::StateVector currentStateVector(stepper.current_state());
-        stepper.calc_state(aDurationInSeconds, currentStateVector);
-
-        const State finalState = createState(currentStateVector, aDurationInSeconds);
-        observeState(finalState);
-
-        return {
-            createState(currentStateVector, aDurationInSeconds),
-            false,
-            0,
-            false,
-        };
-    }
-
-    const auto checkCondition = [&anEventCondition, &stepper, &createState](const double& aTime) -> double
-    {
-        NumericalSolver::StateVector stateVector(stepper.current_state());
-        stepper.calc_state(aTime, stateVector);
-
-        const bool isSatisfied = anEventCondition.isSatisfied(
-            createState(stateVector, aTime), createState(stepper.previous_state(), stepper.previous_time())
-        );
-
-        return isSatisfied ? 1.0 : -1.0;
-    };
-
-    // Condition at previousTime => False
-    // Condition at currentTime => True
-    // Search for the exact time of the condition change
-    const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
-    NumericalSolver::StateVector solutionStateVector(aState.accessCoordinates().size());
-    const double solutionTime = solution.root;
-
-    stepper.calc_state(solutionTime, solutionStateVector);
-    const State solutionState = createState(solutionStateVector, solutionTime);
-    observeState(solutionState);
-
-    return {
-        solutionState,
-        true,
-        solution.iterationCount,
-        solution.hasConverged,
-    };
+    return integrateTimeWithControlledStepper(aState, anInstant, aSystemOfEquations, anEventCondition);
 }
 
 NumericalSolver NumericalSolver::Undefined()
@@ -271,6 +202,7 @@ NumericalSolver NumericalSolver::Undefined()
         Real::Undefined(),
         RootSolver::Default(),
         nullptr,
+        RootFindingStrategy::Propagated,
     };
 }
 
@@ -284,6 +216,7 @@ NumericalSolver NumericalSolver::Default()
         1.0e-12,
         RootSolver::Default(),
         nullptr,
+        RootFindingStrategy::Propagated,
     };
 }
 
@@ -302,12 +235,22 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
         1.0,
         RootSolver::Default(),
         nullptr,
+        RootFindingStrategy::Boundary,  // RK4 doesn't support dense output, use Boundary as default
     };
 }
 
 NumericalSolver NumericalSolver::DefaultConditional(const std::function<void(const State&)>& stateLogger)
 {
-    return NumericalSolver::Conditional(5.0, 1.0e-12, 1.0e-12, stateLogger);
+    return {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+        stateLogger,
+        RootFindingStrategy::Propagated,
+    };
 }
 
 NumericalSolver NumericalSolver::Conditional(
@@ -322,13 +265,29 @@ NumericalSolver NumericalSolver::Conditional(
 
     return {
         logType,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
         aTimeStep,
         aRelativeTolerance,
         anAbsoluteTolerance,
         RootSolver::Default(),
         stateLogger,
+        RootFindingStrategy::Propagated,
     };
+}
+
+String NumericalSolver::StringFromRootFindingStrategy(const RootFindingStrategy& aStrategy)
+{
+    switch (aStrategy)
+    {
+        case RootFindingStrategy::Propagated:
+            return "Propagated";
+        case RootFindingStrategy::Linear:
+            return "Linear";
+        case RootFindingStrategy::Boundary:
+            return "Boundary";
+        default:
+            throw ostk::core::error::runtime::Wrong("Root Finding Strategy");
+    }
 }
 
 NumericalSolver::NumericalSolver(
@@ -340,10 +299,34 @@ NumericalSolver::NumericalSolver(
     const RootSolver& aRootSolver,
     const std::function<void(const State& aState)>& stateLogger
 )
+    : NumericalSolver(
+          aLogType,
+          aStepperType,
+          aTimeStep,
+          aRelativeTolerance,
+          anAbsoluteTolerance,
+          aRootSolver,
+          stateLogger,
+          RootFindingStrategy::Propagated
+      )
+{
+}
+
+NumericalSolver::NumericalSolver(
+    const NumericalSolver::LogType& aLogType,
+    const NumericalSolver::StepperType& aStepperType,
+    const Real& aTimeStep,
+    const Real& aRelativeTolerance,
+    const Real& anAbsoluteTolerance,
+    const RootSolver& aRootSolver,
+    const std::function<void(const State& aState)>& stateLogger,
+    const RootFindingStrategy& aRootFindingStrategy
+)
     : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
       rootSolver_(aRootSolver),
       observedStates_(),
-      stateLogger_(stateLogger)
+      stateLogger_(stateLogger),
+      rootFindingStrategy_(aRootFindingStrategy)
 {
 }
 
@@ -354,6 +337,321 @@ void NumericalSolver::observeState(const State& aState)
     if (stateLogger_ != nullptr && getLogType() != NumericalSolver::LogType::NoLog)
     {
         stateLogger_(aState);
+    }
+}
+
+namespace
+{
+
+/// @brief Type trait to detect fixed-step steppers (e.g., RK4)
+template <typename Stepper>
+struct IsFixedStepStepper : std::false_type
+{
+};
+
+template <>
+struct IsFixedStepStepper<stepper_type_4> : std::true_type
+{
+};
+
+/// @brief Perform a single integration step with a fixed-step stepper
+template <typename Stepper, typename System>
+inline typename std::enable_if<IsFixedStepStepper<Stepper>::value>::type doStep(
+    Stepper& stepper, const System& system, NumericalSolver::StateVector& stateVector, double& currentTime, double& dt
+)
+{
+    stepper.do_step(system, stateVector, currentTime, dt);
+    currentTime += dt;
+}
+
+/// @brief Perform a single integration step with a controlled stepper (retries until accepted)
+template <typename Stepper, typename System>
+inline typename std::enable_if<!IsFixedStepStepper<Stepper>::value>::type doStep(
+    Stepper& stepper, const System& system, NumericalSolver::StateVector& stateVector, double& currentTime, double& dt
+)
+{
+    while (stepper.try_step(system, stateVector, currentTime, dt) ==
+           boost::numeric::odeint::controlled_step_result::fail)
+    {
+    }
+}
+
+/// @brief Integrate to a target time with a fixed-step stepper
+template <typename Stepper, typename System>
+inline void integrateToTime(
+    Stepper& stepper,
+    NumericalSolver::StateVector& stateVector,
+    double startTime,
+    double endTime,
+    double stepSize,
+    const System& system
+)
+{
+    integrate_adaptive(stepper, system, stateVector, startTime, endTime, stepSize);
+}
+
+}  // namespace
+
+/// @brief Templated implementation of conditional integration
+template <typename Stepper>
+NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
+    Stepper& stepper,
+    const State& aState,
+    const Instant& anInstant,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
+    const EventCondition& anEventCondition,
+    double signedTimeStep,
+    const RootSolver& rootSolver,
+    NumericalSolver::RootFindingStrategy rootFindingStrategy,
+    Array<State>& observedStates,
+    const std::function<void(const State&)>& observeState
+)
+{
+    const StateBuilder stateBuilder = {aState};
+    const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
+
+    const auto createState = [&stateBuilder, &aState](const VectorXd& aStateVector, const double& aTime) -> State
+    {
+        return stateBuilder.build(aState.accessInstant() + Duration::Seconds(aTime), aStateVector);
+    };
+
+    std::function<bool(const double&)> checkTimeLimit;
+    if (aDurationInSeconds > 0.0)
+    {
+        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
+        {
+            return aTime < aDurationInSeconds;
+        };
+    }
+    else
+    {
+        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
+        {
+            return aTime > aDurationInSeconds;
+        };
+    }
+
+    NumericalSolver::StateVector currentStateVector = aState.accessCoordinates();
+    NumericalSolver::StateVector previousStateVector = aState.accessCoordinates();
+    double previousTime = 0.0;
+    double currentTime = 0.0;
+    double dt = signedTimeStep;
+    State currentState = State::Undefined();
+    State previousState = aState;
+    bool conditionSatisfied = false;
+
+    // Main stepping loop
+    while (checkTimeLimit(currentTime) && !conditionSatisfied)
+    {
+        previousStateVector = currentStateVector;
+        previousTime = currentTime;
+
+        doStep(stepper, aSystemOfEquations, currentStateVector, currentTime, dt);
+
+        currentState = createState(currentStateVector, currentTime);
+        observeState(currentState);
+        conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
+        previousState = currentState;
+    }
+
+    if (!conditionSatisfied)
+    {
+        const double finalTime = static_cast<double>(aDurationInSeconds);
+        if (currentTime != finalTime)
+        {
+            integrateToTime<Stepper>(
+                stepper, currentStateVector, currentTime, finalTime, signedTimeStep, aSystemOfEquations
+            );
+        }
+
+        const State finalState = createState(currentStateVector, finalTime);
+        observeState(finalState);
+        return {
+            finalState,
+            false,
+            0,
+            false,
+        };
+    }
+
+    // Remove the state that triggered the condition (we'll find the exact crossing)
+    observedStates.pop_back();
+
+    // Handle root finding based on strategy
+    switch (rootFindingStrategy)
+    {
+        case NumericalSolver::RootFindingStrategy::Boundary:
+        {
+            const State solutionState = createState(currentStateVector, currentTime);
+            observeState(solutionState);
+            return {
+                solutionState,
+                true,
+                0,
+                true,
+            };
+        }
+
+        case NumericalSolver::RootFindingStrategy::Linear:
+        {
+            const auto linearInterpolate = [&previousStateVector, &currentStateVector, previousTime, currentTime](
+                                               const double& t
+                                           ) -> NumericalSolver::StateVector
+            {
+                const double alpha = (t - previousTime) / (currentTime - previousTime);
+                return previousStateVector * (1.0 - alpha) + currentStateVector * alpha;
+            };
+
+            const auto checkConditionLinear = [&](const double& aTime) -> double
+            {
+                const NumericalSolver::StateVector interpolatedCoords = linearInterpolate(aTime);
+                const State interpolatedState = createState(interpolatedCoords, aTime);
+                const bool isSatisfied =
+                    anEventCondition.isSatisfied(interpolatedState, createState(previousStateVector, previousTime));
+                return isSatisfied ? 1.0 : -1.0;
+            };
+
+            const RootSolver::Solution solution = rootSolver.bisection(checkConditionLinear, previousTime, currentTime);
+
+            const NumericalSolver::StateVector solutionStateVector = linearInterpolate(solution.root);
+            const State solutionState = createState(solutionStateVector, solution.root);
+            observeState(solutionState);
+
+            return {
+                solutionState,
+                true,
+                solution.iterationCount,
+                solution.hasConverged,
+            };
+        }
+
+        case NumericalSolver::RootFindingStrategy::Propagated:
+        {
+            const auto checkConditionPropagated = [&](const double& targetTime) -> double
+            {
+                NumericalSolver::StateVector tempStateVector = previousStateVector;
+                const double subStepSize = (targetTime - previousTime) / 10.0;
+
+                integrateToTime<Stepper>(
+                    stepper, tempStateVector, previousTime, targetTime, subStepSize, aSystemOfEquations
+                );
+
+                const State propagatedState = createState(tempStateVector, targetTime);
+                const bool isSatisfied =
+                    anEventCondition.isSatisfied(propagatedState, createState(previousStateVector, previousTime));
+                return isSatisfied ? 1.0 : -1.0;
+            };
+
+            const RootSolver::Solution solution =
+                rootSolver.bisection(checkConditionPropagated, previousTime, currentTime);
+
+            const double solutionTime = static_cast<double>(solution.root);
+            const double subStepSize = (solutionTime - previousTime) / 10.0;
+            NumericalSolver::StateVector solutionStateVector = previousStateVector;
+
+            integrateToTime<Stepper>(
+                stepper, solutionStateVector, previousTime, solutionTime, subStepSize, aSystemOfEquations
+            );
+
+            const State solutionState = createState(solutionStateVector, solutionTime);
+            observeState(solutionState);
+
+            return {
+                solutionState,
+                true,
+                solution.iterationCount,
+                solution.hasConverged,
+            };
+        }
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Root Finding Strategy");
+    }
+}
+
+NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledStepper(
+    const State& aState,
+    const Instant& anInstant,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
+    const EventCondition& anEventCondition
+)
+{
+    const auto observer = [this](const State& state)
+    {
+        this->observeState(state);
+    };
+
+    const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
+    const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
+
+    switch (stepperType_)
+    {
+        case StepperType::RungeKutta4:
+        {
+            stepper_type_4 stepper;
+            return integrateTimeWithStepperImpl<stepper_type_4>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        case StepperType::RungeKuttaCashKarp54:
+        {
+            auto stepper = make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54());
+            return integrateTimeWithStepperImpl<decltype(stepper)>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        case StepperType::RungeKuttaFehlberg78:
+        {
+            auto stepper = make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78());
+            return integrateTimeWithStepperImpl<decltype(stepper)>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        case StepperType::RungeKuttaDopri5:
+        {
+            auto stepper = make_controlled(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5());
+            return integrateTimeWithStepperImpl<decltype(stepper)>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        default:
+            throw ostk::core::error::runtime::Wrong("Stepper type");
     }
 }
 

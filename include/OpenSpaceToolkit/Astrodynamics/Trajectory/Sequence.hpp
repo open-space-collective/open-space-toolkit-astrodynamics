@@ -143,14 +143,14 @@ class Sequence
     /// @endcode
     ///
     /// @param aSegmentArray An array of segments. Defaults to empty.
-    /// @param aNumericalSolver A Numerical Solver. Defaults to NumericalSolver::DefaultConditional().
+    /// @param aNumericalSolver A Numerical Solver. Defaults to NumericalSolver::Default().
     /// @param aDynamicsArray An array of shared dynamics. Defaults to empty.
     /// @param aSegmentPropagationDurationLimit Maximum duration for propagation. Defaults to 30.0
     /// days.
     /// @param aVerbosityLevel Verbosity level for the solver [0 (low) - 5 (high)]. Defaults to 0.
     Sequence(
         const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
-        const NumericalSolver& aNumericalSolver = NumericalSolver::DefaultConditional(),
+        const NumericalSolver& aNumericalSolver = NumericalSolver::Default(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const Duration& aSegmentPropagationDurationLimit = Duration::Days(30.0),
         const Size& aVerbosityLevel = 0

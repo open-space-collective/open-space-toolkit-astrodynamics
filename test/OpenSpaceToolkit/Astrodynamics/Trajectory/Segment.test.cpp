@@ -3026,7 +3026,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeu
     const Environment environment = {initialInstant, {earthSPtr}};
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
-    const NumericalSolver numericalSolver = NumericalSolver::DefaultConditional();
+    const NumericalSolver numericalSolver = NumericalSolver::Default();
 
     const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
         {initialState.getPosition(), initialState.getVelocity()},
