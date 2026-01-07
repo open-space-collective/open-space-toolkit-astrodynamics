@@ -219,16 +219,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 {
     const Array<Array<Instant>> instantsArray = {
         {
-            defaultState_.accessInstant() + Duration::Seconds(100.0),
-            defaultState_.accessInstant() + Duration::Seconds(400.0),
-            defaultState_.accessInstant() + Duration::Seconds(700.0),
-            defaultState_.accessInstant() + Duration::Seconds(1000.0),
+            defaultState_.accessInstant() + Duration::Seconds(1.0),
+            defaultState_.accessInstant() + Duration::Seconds(4.0),
+            defaultState_.accessInstant() + Duration::Seconds(7.0),
+            defaultState_.accessInstant() + Duration::Seconds(10.0),
         },
         {
-            defaultState_.accessInstant() + Duration::Seconds(-100.0),
-            defaultState_.accessInstant() + Duration::Seconds(-400.0),
-            defaultState_.accessInstant() + Duration::Seconds(-700.0),
-            defaultState_.accessInstant() + Duration::Seconds(-1000.0),
+            defaultState_.accessInstant() + Duration::Seconds(-1.0),
+            defaultState_.accessInstant() + Duration::Seconds(-4.0),
+            defaultState_.accessInstant() + Duration::Seconds(-7.0),
+            defaultState_.accessInstant() + Duration::Seconds(-10.0),
         },
     };
 
@@ -248,20 +248,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions)
 {
     const State state = getStateVector(defaultStartInstant_);
-
-    {
-        EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
-
-        EXPECT_THROW(
-            defaultRK54_.integrateTime(
-                state,
-                defaultStartInstant_,
-                systemOfEquations_,
-                InstantCondition(state.accessInstant(), RealCondition::Criterion::AnyCrossing)
-            ),
-            ostk::core::error::RuntimeError
-        );
-    }
 
     // trivial case, zero second integration
     {

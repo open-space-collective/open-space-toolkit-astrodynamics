@@ -48,9 +48,9 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Strategy for finding the exact event crossing time during conditional integration.
     enum class RootFindingStrategy
     {
-        Linear,  ///< Linear interpolation between step endpoints. Fast but less accurate for nonlinear dynamics.
+        Linear,      ///< Linear interpolation between step endpoints. Fast but less accurate for nonlinear dynamics.
         Propagated,  ///< Re-integrate with smaller sub-steps during bisection. Accurate but slower.
-        Boundary,  ///< Return the first step boundary where condition is satisfied. Simplest, no refinement.
+        Boundary,    ///< Return the first step boundary where condition is satisfied. Simplest, no refinement.
     };
 
     /// @brief Constructor
@@ -198,7 +198,10 @@ class NumericalSolver : public MathNumericalSolver
     ///
     /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
     /// @return A default conditional numerical solver.
-    [[deprecated("Use NumericalSolver::Default() instead. All solvers now support conditional solving. This method will be removed in a future version.")]]
+    [[deprecated(
+        "Use NumericalSolver::Default() instead. All solvers now support conditional solving. This method will be "
+        "removed in a future version."
+    )]]
     static NumericalSolver DefaultConditional(const std::function<void(const State&)>& stateLogger = nullptr);
 
     /// @brief Create a conditional numerical solver.
@@ -209,7 +212,10 @@ class NumericalSolver : public MathNumericalSolver
     /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
     ///
     /// @return A conditional numerical solver.
-    [[deprecated("Use NumericalSolver constructor instead. All solvers now support conditional solving. This method will be removed in a future version.")]]
+    [[deprecated(
+        "Use NumericalSolver constructor instead. All solvers now support conditional solving. This method will be "
+        "removed in a future version."
+    )]]
     static NumericalSolver Conditional(
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
@@ -311,14 +317,6 @@ class NumericalSolver : public MathNumericalSolver
     );
 
     void observeState(const State& aState);
-
-    /// @brief Integrate with dense output stepper (RKDP5 only)
-    ConditionSolution integrateTimeWithDenseOutput(
-        const State& aState,
-        const Instant& anInstant,
-        const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
-    );
 
     /// @brief Integrate with controlled stepper using Linear/Propagated/Boundary strategy
     ConditionSolution integrateTimeWithControlledStepper(
