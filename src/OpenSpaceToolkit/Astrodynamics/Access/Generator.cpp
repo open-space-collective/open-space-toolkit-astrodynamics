@@ -225,6 +225,7 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
 
     return [&anAccessTarget, &aToTrajectory, this](const Instant& anInstant) mutable -> bool
     {
+        // TBR: Deprecate this check in a future release
         const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
                                                         ? this->environment_.accessCentralCelestialObject()
                                                         : this->environment_.accessCelestialObjectWithName("Earth");
