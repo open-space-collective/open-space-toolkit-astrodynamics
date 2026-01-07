@@ -545,7 +545,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Args:
                     alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
                     clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
-                    celestial (Celestial): The celestial object. It's body frame will be used for geodetic nadir and sliding ground velocity calculations.
+                    celestial (Celestial): The celestial object. Its body frame will be used for geodetic nadir and sliding ground velocity calculations.
                     angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
 
                 Returns:

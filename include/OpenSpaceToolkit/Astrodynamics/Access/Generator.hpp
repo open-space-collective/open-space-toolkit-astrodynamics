@@ -460,7 +460,8 @@ class Generator
         const physics::time::Interval& anAccessInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
-        const Duration& aTolerance
+        const Duration& aTolerance,
+        const Shared<const Celestial>& aCelestialSPtr
     );
 
     static Angle CalculateElevationAt(

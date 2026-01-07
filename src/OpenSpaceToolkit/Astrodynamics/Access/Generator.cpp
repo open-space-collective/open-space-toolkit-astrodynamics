@@ -223,17 +223,16 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
-    // Resolve the Earth and bind the state filter once, rather than on every evaluation of the returned condition.
-    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+    // Resolve the central celestial and bind the state filter once, rather than on every evaluation of the returned
+    // condition.
+    // TBR: Deprecate the Earth fallback in a future release
+    const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
+                                                    ? this->environment_.accessCentralCelestialObject()
+                                                    : this->environment_.accessCelestialObjectWithName("Earth");
     const std::function<bool(const State&, const State&)> stateFilter = this->stateFilter_;
 
-    return [&anAccessTarget, &aToTrajectory, earthSPtr, stateFilter](const Instant& anInstant) -> bool
+    return [&anAccessTarget, &aToTrajectory, celestialSPtr, stateFilter](const Instant& anInstant) -> bool
     {
-        // TBR: Deprecate this check in a future release
-        const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
-                                                        ? this->environment_.accessCentralCelestialObject()
-                                                        : this->environment_.accessCelestialObjectWithName("Earth");
-
         const State fromState = anAccessTarget.accessTrajectory().getStateAt(anInstant);
         const State toState = aToTrajectory.getStateAt(anInstant);
 
@@ -1028,10 +1027,13 @@ Instant Generator::FindTimeOfClosestApproach(
     {
         const Instant& startInstant;
         const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
+        const Shared<const Celestial>& celestialSPtr;
     };
 
-    const auto calculateRange = [aCelestialSPtr](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
-                                ) -> double
+    // Capture-less, so that it converts to the plain function pointer NLopt expects: everything it
+    // needs travels through the data context.
+    const auto calculateRange =
+        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double
     {
         (void)aGradient;
         if (aDataContext == nullptr)
@@ -1045,24 +1047,30 @@ Instant Generator::FindTimeOfClosestApproach(
 
         const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
 
+        const Shared<const Frame>& celestialFrameSPtr = contextPtr->celestialSPtr->accessFrame();
+
         const Vector3d deltaPosition =
-            queryFromState.getPosition().inFrame(aCelestialSPtr->accessFrame(), queryInstant).accessCoordinates() -
-            queryToState.getPosition().inFrame(aCelestialSPtr->accessFrame(), queryInstant).accessCoordinates();
+            queryFromState.getPosition().inFrame(celestialFrameSPtr, queryInstant).accessCoordinates() -
+            queryToState.getPosition().inFrame(celestialFrameSPtr, queryInstant).accessCoordinates();
 
         const Real rangeSquared = deltaPosition.squaredNorm();
 
         return rangeSquared;
     };
 
+    const std::function<Pair<State, State>(const Instant& anInstant)> getStatesAt =
+        [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State>
+    {
+        return {
+            aFromTrajectory.getStateAt(anInstant),
+            aToTrajectory.getStateAt(anInstant),
+        };
+    };
+
     Context context = {
         anAccessInterval.getStart(),
-        [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State>
-        {
-            return {
-                aFromTrajectory.getStateAt(anInstant),
-                aToTrajectory.getStateAt(anInstant),
-            };
-        },
+        getStatesAt,
+        aCelestialSPtr,
     };
 
     nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
