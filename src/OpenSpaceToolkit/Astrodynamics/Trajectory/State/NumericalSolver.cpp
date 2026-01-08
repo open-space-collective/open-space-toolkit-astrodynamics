@@ -235,7 +235,7 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
         1.0,
         RootSolver::Default(),
         nullptr,
-        RootFindingStrategy::Boundary,  // RK4 doesn't support dense output, use Boundary as default
+        RootFindingStrategy::Propagated,
     };
 }
 
@@ -281,10 +281,10 @@ String NumericalSolver::StringFromRootFindingStrategy(const RootFindingStrategy&
     {
         case RootFindingStrategy::Propagated:
             return "Propagated";
-        case RootFindingStrategy::Linear:
-            return "Linear";
-        case RootFindingStrategy::Boundary:
-            return "Boundary";
+        case RootFindingStrategy::LinearInterpolation:
+            return "LinearInterpolation";
+        case RootFindingStrategy::Skip:
+            return "Skip";
         default:
             throw ostk::core::error::runtime::Wrong("Root Finding Strategy");
     }
@@ -407,7 +407,10 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     const std::function<void(const State&)>& observeState
 )
 {
+    observedStates = {aState};
+
     const StateBuilder stateBuilder = {aState};
+
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
 
     const auto createState = [&stateBuilder, &aState](const VectorXd& aStateVector, const double& aTime) -> State
@@ -433,6 +436,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
 
     NumericalSolver::StateVector currentStateVector = aState.accessCoordinates();
     NumericalSolver::StateVector previousStateVector = aState.accessCoordinates();
+
     double previousTime = 0.0;
     double currentTime = 0.0;
     double dt = signedTimeStep;
@@ -449,14 +453,21 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         doStep(stepper, aSystemOfEquations, currentStateVector, currentTime, dt);
 
         currentState = createState(currentStateVector, currentTime);
+
         observeState(currentState);
+
         conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
+
         previousState = currentState;
     }
+
+    // Remove the state that triggered the condition (we'll find the exact crossing)
+    observedStates.pop_back();
 
     if (!conditionSatisfied)
     {
         const double finalTime = static_cast<double>(aDurationInSeconds);
+
         if (currentTime != finalTime)
         {
             integrateToTime<Stepper>(
@@ -465,7 +476,9 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         }
 
         const State finalState = createState(currentStateVector, finalTime);
+
         observeState(finalState);
+
         return {
             finalState,
             false,
@@ -474,13 +487,10 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         };
     }
 
-    // Remove the state that triggered the condition (we'll find the exact crossing)
-    observedStates.pop_back();
-
     // Handle root finding based on strategy
     switch (rootFindingStrategy)
     {
-        case NumericalSolver::RootFindingStrategy::Boundary:
+        case NumericalSolver::RootFindingStrategy::Skip:
         {
             const State solutionState = createState(currentStateVector, currentTime);
             observeState(solutionState);
@@ -492,7 +502,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
             };
         }
 
-        case NumericalSolver::RootFindingStrategy::Linear:
+        case NumericalSolver::RootFindingStrategy::LinearInterpolation:
         {
             const auto linearInterpolate = [&previousStateVector, &currentStateVector, previousTime, currentTime](
                                                const double& t

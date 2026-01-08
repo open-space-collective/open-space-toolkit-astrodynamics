@@ -48,9 +48,10 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Strategy for finding the exact event crossing time during conditional integration.
     enum class RootFindingStrategy
     {
-        Linear,      ///< Linear interpolation between step endpoints. Fast but less accurate for nonlinear dynamics.
-        Propagated,  ///< Re-integrate with smaller sub-steps during bisection. Accurate but slower.
-        Boundary,    ///< Return the first step boundary where condition is satisfied. Simplest, no refinement.
+        LinearInterpolation,  ///< Linear interpolation between step endpoints. Fast but less accurate for nonlinear
+                              ///< dynamics.
+        Propagated,           ///< Re-integrate with smaller steps during root finding. Accurate but slower.
+        Skip,                 ///< Return the first step boundary where condition is satisfied. Simplest, no refinement.
     };
 
     /// @brief Constructor
@@ -318,7 +319,7 @@ class NumericalSolver : public MathNumericalSolver
 
     void observeState(const State& aState);
 
-    /// @brief Integrate with controlled stepper using Linear/Propagated/Boundary strategy
+    /// @brief Integrate with controlled stepper using specified root solving strategy
     ConditionSolution integrateTimeWithControlledStepper(
         const State& aState,
         const Instant& anInstant,

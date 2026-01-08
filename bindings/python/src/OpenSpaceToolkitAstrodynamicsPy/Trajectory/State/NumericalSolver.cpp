@@ -40,16 +40,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             The strategy for finding the exact event crossing time during conditional integration.
         )doc"
     )
-        .value("Linear", NumericalSolver::RootFindingStrategy::Linear, "Linear interpolation between step endpoints")
+        .value(
+            "LinearInterpolation",
+            NumericalSolver::RootFindingStrategy::LinearInterpolation,
+            "Linear interpolation between step endpoints"
+        )
         .value(
             "Propagated",
             NumericalSolver::RootFindingStrategy::Propagated,
             "Re-integrate with smaller steps during root finding"
         )
         .value(
-            "Boundary",
-            NumericalSolver::RootFindingStrategy::Boundary,
-            "Return first step boundary where condition is satisfied"
+            "Skip",
+            NumericalSolver::RootFindingStrategy::Skip,
+            "Skip the root finding and return the first step boundary where condition is satisfied"
         );
 
     class_<NumericalSolver::ConditionSolution>(
@@ -113,8 +117,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const Real&,
                     const Real&,
                     const Real&,
-                    const RootSolver&,
-                    const NumericalSolver::RootFindingStrategy&>(),
+                    const RootSolver&
+                    >(),
                 R"doc(
                     Constructor.
 
@@ -132,7 +136,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()"),
+                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()")
             )
 
             .def(
@@ -410,7 +414,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg("state_logger") = nullptr,
+                arg("state_logger") = nullptr
             )
             .def_static(
                 "string_from_root_finding_strategy",

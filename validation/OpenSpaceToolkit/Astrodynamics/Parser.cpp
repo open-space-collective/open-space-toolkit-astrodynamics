@@ -207,7 +207,7 @@ Sequence Parser::CreateSequence(
     {
         numericalSolver = NumericalSolver(
             NumericalSolver::LogType::NoLog,
-            NumericalSolver::StepperType::RungeKuttaDopri5,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
             aDictionary["data"]["sequence"]["propagator"]["data"]["initial-step"].accessReal(),
             aDictionary["data"]["sequence"]["propagator"]["data"]["relative-tolerance"].accessReal(),
             aDictionary["data"]["sequence"]["propagator"]["data"]["absolute-tolerance"].accessReal()
