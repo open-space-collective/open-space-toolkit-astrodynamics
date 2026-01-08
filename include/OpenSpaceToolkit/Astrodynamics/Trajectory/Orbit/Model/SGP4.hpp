@@ -70,6 +70,8 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
+    virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;
+
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    protected:
