@@ -535,29 +535,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, StringFr
 {
     {
         EXPECT_EQ(
-            "Linear", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Linear)
+            "LinearInterpolation",
+            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::LinearInterpolation)
         );
         EXPECT_EQ(
             "Propagated",
             NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Propagated)
         );
-        EXPECT_EQ(
-            "Boundary", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Boundary)
-        );
+        EXPECT_EQ("Skip", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Skip));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_LinearStrategy)
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver,
+    IntegrateTime_Conditions_LinearInterpolationStrategy
+)
 {
     // Test Linear strategy with CashKarp54 stepper
-    NumericalSolver solverLinear = {
+    NumericalSolver solver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaCashKarp54,
         1e-3,
         1.0e-12,
         1.0e-12,
         RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::Linear,
+        NumericalSolver::RootFindingStrategy::LinearInterpolation,
     };
 
     const State state = getStateVector(defaultStartInstant_);
@@ -565,7 +567,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
 
     const NumericalSolver::ConditionSolution conditionSolution =
-        solverLinear.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
+        solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
 
     // Linear interpolation should find the crossing, but with less precision
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
@@ -576,7 +578,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_PropagatedStrategy)
 {
     // Test Propagated strategy with Fehlberg78 stepper
-    NumericalSolver solverPropagated = {
+    NumericalSolver solver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaFehlberg78,
         1e-3,
@@ -591,7 +593,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
 
     const NumericalSolver::ConditionSolution conditionSolution =
-        solverPropagated.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
+        solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
 
     // Propagated should be very accurate
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
@@ -599,19 +601,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_BoundaryStrategy)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_SkipStrategy)
 {
-    // Test Boundary strategy with RK4 stepper
+    // Test Skip strategy with RK4 stepper
     // Use 1.1e-3 step size to avoid landing exactly on target (which would make evaluate=0.0
     // and fail the AnyCrossing comparator that uses strict inequalities)
-    NumericalSolver solverBoundary = {
+    NumericalSolver solver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKutta4,
         1.1e-3,
         1.0,
         1.0,
         RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::Boundary,
+        NumericalSolver::RootFindingStrategy::Skip,
     };
 
     const State state = getStateVector(defaultStartInstant_);
@@ -619,10 +621,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
 
     const NumericalSolver::ConditionSolution conditionSolution =
-        solverBoundary.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
+        solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
 
-    // Boundary returns step boundary, so precision depends on step size
+    // Skip returns step boundary, so precision depends on step size
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
     EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-    EXPECT_EQ(conditionSolution.iterationCount, 0);  // No root finding iterations for Boundary
+    EXPECT_EQ(conditionSolution.iterationCount, 0);  // No root finding iterations for Skip
 }
