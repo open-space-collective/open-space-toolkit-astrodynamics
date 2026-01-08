@@ -239,6 +239,11 @@ class Maneuver
     /// @return A maneuver
     static Maneuver ConstantMassFlowRateProfile(const Array<State>& aStatearray, const Real& aMassFlowRate);
 
+    /// @brief Create an undefined maneuver
+    ///
+    /// @return An undefined maneuver
+    static Maneuver Undefined();
+
    private:
     Array<State> states_;
 };

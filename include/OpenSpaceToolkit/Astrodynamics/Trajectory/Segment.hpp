@@ -436,22 +436,6 @@ class Segment
         const Shared<EventCondition>& anEventCondition
     ) const;
 
-    /// @brief Solve the raw maneuvers in a 'subsegment'. This maneuvers are Local Orbital Frame (LOF) compliant, but
-    /// not necessarily fully constraint-compliant yet.
-    ///
-    /// @param aState The initial state of the segment
-    /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aThrusterDynamics The thruster dynamics
-    /// @param stopAtFirstThrustCutOff If true, it will stop at the first thrust cut-off, returning a solution with a
-    /// single maneuver.
-    /// @return The segment solution
-    Segment::Solution solveLOFCompliantManeuverSubsegment_(
-        const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Shared<Thruster>& aThrusterDynamics,
-        const bool& stopAtFirstThrustCutOff
-    ) const;
-
     /// @brief Solve the coast segment, uses the internal free dynamics array and event condition of the segment.
     ///
     /// @param aState The initial state of the segment
@@ -459,19 +443,30 @@ class Segment
     /// @return The segment solution
     Segment::Solution solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const;
 
-    /// @brief Solve the raw maneuvers in a 'subsegment'. This maneuvers are not necessarily constraint-compliant yet.
+    /// @brief Solve the maneuver segment.
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param thrusterDynamics The thruster dynamics.
-    /// @param stopAtFirstThrustCutOff If true, it will stop at the first thrust cut-off, returning a solution with a
-    /// single burn.
     /// @return The segment solution
-    Segment::Solution solveRawManeuversInSubsegment_(
-        const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Shared<Thruster>& thrusterDynamics,
-        const bool& stopAtFirstThrustCutOff
+    Segment::Solution solveManeuver_(const State& aState, const Duration& maximumPropagationDuration) const;
+
+    /// @brief Solve the next maneuver in the segment.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param aThrusterDynamics The thruster dynamics to use for solving the maneuver
+    /// @return The segment solution and the the maneuver (undefined if no maneuver is found)
+    std::pair<Segment::Solution, flightManeuver> solveNextManeuver_(
+        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
+    ) const;
+
+    /// @brief Create a Local Orbital Frame (LOF) compliant solution from another one.
+    ///
+    /// @param aSolution The solution to create a Local Orbital Frame (LOF) compliant solution from.
+    /// @param aManeuver The associated maneuver of the oslution
+    /// @return The Local Orbital Frame (LOF) compliant solution.
+    std::pair<Segment::Solution, flightManeuver> createLOFCompliantSolution_(
+        const Segment::Solution& aSolution, const flightManeuver& aManeuver
     ) const;
 };
 
