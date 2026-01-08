@@ -71,10 +71,9 @@ class Segment
     /// Example:
     /// Maximum duration:  [------]
     /// Proposed maneuver: [---------------------------------]
-    /// TruncateEnd:       [------]   
+    /// TruncateEnd:       [------]
     /// Center:                          [------]
     /// TruncateStart:                                [------]
-    /// Chunk:             [------]  [------]  [------]  [---]
     enum class MaximumManeuverDurationViolationStrategy
     {
         Fail,           ///< Will throw a RuntimeError if a maneuver exceeds the maximum duration.
@@ -83,7 +82,6 @@ class Segment
         TruncateStart,  ///< The maneuver will be shortened to the maximum duration, truncating the start.
         Center,         ///< The maneuver will be shortened to the maximum duration, truncating the edges,
                         ///< keeping the centered part of the maneuver.
-        Chunk,          ///< The maneuver will be split into chunks from the leading edge.
     };
 
     struct ManeuverConstraints
