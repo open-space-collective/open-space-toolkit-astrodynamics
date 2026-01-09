@@ -470,10 +470,9 @@ class Segment
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aThrusterDynamics The thruster dynamics to use for solving the maneuver
     /// @return The segment solution and the the maneuver (undefined if no maneuver is found)
     std::pair<Segment::Solution, flightManeuver> solveNextManeuver_(
-        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
+        const State& aState, const Duration& maximumPropagationDuration
     ) const;
 
     /// @brief Create an interval compliant maneuver solution from another one.

@@ -47,6 +47,8 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 using ostk::astrodynamics::trajectory::StateBuilder;
 using flightManeuver = ostk::astrodynamics::flight::Maneuver;
 
+static const Duration ANTI_ALIASING_BUFFER = Duration::Seconds(1.0);
+
 Segment::ManeuverConstraints::ManeuverConstraints(
     const Duration& aMinimumDuration,
     const Duration& aMaximumDuration,
@@ -68,9 +70,9 @@ Segment::ManeuverConstraints::ManeuverConstraints(
         throw ostk::core::error::RuntimeError("Maximum duration must be greater than zero.");
     }
 
-    if (minimumSeparation.isDefined() && minimumSeparation <= Duration::Zero())
+    if (minimumSeparation.isDefined() && minimumSeparation <= ANTI_ALIASING_BUFFER)
     {
-        throw ostk::core::error::RuntimeError("Minimum separation must be greater than zero.");
+        throw ostk::core::error::RuntimeError("Minimum separation must be greater than " + ANTI_ALIASING_BUFFER.inSeconds().toString() + " seconds to prevent aliasing issues.");
     }
 
     if (maximumDuration.isDefined() && minimumDuration.isDefined() && maximumDuration < minimumDuration)
@@ -805,7 +807,7 @@ Segment::Solution Segment::solve(
                 }
 
                 return solveAndAcceptCoast(
-                    std::min(candidateManeuverInterval.getEnd() + Duration::Seconds(1.0), maximumInstant)
+                    std::min(candidateManeuverInterval.getEnd() + ANTI_ALIASING_BUFFER, maximumInstant)
                 );
             }
 
@@ -827,7 +829,7 @@ Segment::Solution Segment::solve(
                 }
 
                 return solveAndAcceptCoast(
-                    std::min(candidateManeuverInterval.getEnd() + Duration::Seconds(1.0), maximumInstant)
+                    std::min(candidateManeuverInterval.getEnd() + ANTI_ALIASING_BUFFER, maximumInstant)
                 );
             }
 
@@ -849,7 +851,7 @@ Segment::Solution Segment::solve(
                 }
 
                 return solveAndAcceptCoast(
-                    std::min(candidateManeuverInterval.getEnd() + Duration::Seconds(1.0), maximumInstant)
+                    std::min(candidateManeuverInterval.getEnd() + ANTI_ALIASING_BUFFER, maximumInstant)
                 );
             }
 
@@ -873,16 +875,13 @@ Segment::Solution Segment::solve(
             {
                 if (solveAndAcceptCoast(endInstant))
                 {
-                    break;
+                    continue;
                 }
             }
         }
 
-        const auto [candidateManeuverSolution, candidateManeuver] = solveNextManeuver_(
-            segmentStates.accessLast(),
-            maximumInstant - segmentStates.accessLast().accessInstant(),
-            thrusterDynamicsSPtr_
-        );
+        const auto [candidateManeuverSolution, candidateManeuver] =
+            solveNextManeuver_(segmentStates.accessLast(), maximumInstant - segmentStates.accessLast().accessInstant());
 
         // No maneuvers found - add states
         if (!candidateManeuver.isDefined())
@@ -891,7 +890,7 @@ Segment::Solution Segment::solve(
                 Array<State>(candidateManeuverSolution.states.begin() + 1, candidateManeuverSolution.states.end())
             );
             segmentConditionIsSatisfied = candidateManeuverSolution.conditionIsSatisfied;
-            continue;
+            break;
         }
 
         const Interval candidateManeuverInterval = candidateManeuver.getInterval();
@@ -912,12 +911,7 @@ Segment::Solution Segment::solve(
             // coast until the end of the original manevuer and then check for the next maneuver. The guidance law might
             // still produce a yet smaller maneuver (since the satellite might still be at an optimum orbit location),
             // which again gets filtered out. This process continues until the maneuver is finally skipped.
-            Instant instantToCoastTo = candidateManeuverInterval.getEnd();
-            if (candidateManeuverInterval.getDuration().isZero())
-            {
-                instantToCoastTo += Duration::Seconds(1.0);
-            }
-            solveAndAcceptCoast(instantToCoastTo);
+            solveAndAcceptCoast(std::min(candidateManeuverInterval.getEnd() + ANTI_ALIASING_BUFFER, maximumInstant));
         }
 
         // Check maximum maneuver duration constraint
@@ -931,8 +925,7 @@ Segment::Solution Segment::solve(
             // Candidate maneuver passed all constraints - accept it
             if (!acceptManeuver(candidateManeuverSolution, candidateManeuver))
             {
-                solveAndAcceptCoast(
-                    std::min(candidateManeuverInterval.getEnd() + Duration::Seconds(1.0), maximumInstant)
+                solveAndAcceptCoast(std::min(candidateManeuverInterval.getEnd() + ANTI_ALIASING_BUFFER, maximumInstant)
                 );
             }
         }
@@ -1127,7 +1120,7 @@ void Segment::reEvaluateSolutionCondition_(Segment::Solution& aSolution) const
         (aSolution.states.getSize() > 2) ? aSolution.states[aSolution.states.getSize() - 2] : lastSolutionState;
 
     aSolution.conditionIsSatisfied = eventCondition_->isSatisfied(
-        propagator.calculateStateAt(lastSolutionState, lastSolutionState.accessInstant() + Duration::Seconds(1.0)),
+        propagator.calculateStateAt(lastSolutionState, lastSolutionState.accessInstant() + ANTI_ALIASING_BUFFER),
         secondToLastSolutionState
     );
 }
@@ -1146,11 +1139,11 @@ Segment::Solution Segment::solveManeuver_(const State& aState, const Duration& m
 }
 
 std::pair<Segment::Solution, flightManeuver> Segment::solveNextManeuver_(
-    const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
+    const State& aState, const Duration& maximumPropagationDuration
 ) const
 {
     Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_;
-    dynamicsArray.add(aThrusterDynamics);
+    dynamicsArray.add(thrusterDynamicsSPtr_);
 
     const Shared<const GuidanceLaw> guidanceLaw = thrusterDynamicsSPtr_->getGuidanceLaw();
 
@@ -1198,8 +1191,6 @@ std::pair<Segment::Solution, flightManeuver> Segment::solveNextManeuver_(
 
     // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
-    // To do so, we propagate from the second to last solution state to one second after the last solution state,
-    // and re-evaluate the event condition.
     reEvaluateSolutionCondition_(solution);
 
     return {solution, maneuvers.accessFirst()};

@@ -1881,9 +1881,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MultipleManeuvers_ManeuverConstraintsWithNoImpact)
 {
     {
-        const Duration minimumDuration = Duration::Seconds(10.0);
+        const Duration minimumDuration = Duration::Milliseconds(1.0);
         const Duration maximumDuration = Duration::Days(10.0);
-        const Duration minimumSeparation = Duration::Seconds(10.0);
+        const Duration minimumSeparation = Duration::Milliseconds(3.0);
         const Segment::MaximumManeuverDurationViolationStrategy strategy =
             Segment::MaximumManeuverDurationViolationStrategy::Center;
 
@@ -1924,11 +1924,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MultipleManeuver
         };
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
         const Segment::Solution constraintedManeuveringSegmentSolution =
             constraintedManeuveringSegment.solve(currentState);
 
-        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         const Array<Maneuver> constraintedManeuvers =
             constraintedManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
@@ -1942,15 +1942,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MultipleManeuver
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuvers.getSize() == 2);
         EXPECT_EQ(maneuvers.getSize(), constraintedManeuvers.getSize());
-        for (Size i = 0; i < maneuvers.getSize(); i++)
-        {
-            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constraintedManeuvers[i].getInterval().getStart(), Duration::Seconds(1.0)
-            ));
-            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constraintedManeuvers[i].getInterval().getEnd(), Duration::Seconds(1.0)
-            ));
-        }
+
+        // The first maneuver start is expected to be identical
+        EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
+            constraintedManeuvers[0].getInterval().getStart(), Duration::Nanoseconds(10.0)
+        ));
+        // The first maneuver end is expected to be very close but not identical as this has been solved using the
+        // thruster cutoff condition
+        EXPECT_TRUE(maneuvers[0].getInterval().getEnd().isNear(
+            constraintedManeuvers[0].getInterval().getEnd(), Duration::Milliseconds(200.0)
+        ));
+
+        // The second maneuver interval is expected to be similar but not very close as the trajectory (after the first
+        // maneuver) has changed
+        EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
+            constraintedManeuvers[1].getInterval().getStart(), Duration::Seconds(1.0)
+        ));
+        EXPECT_TRUE(maneuvers[1].getInterval().getEnd().isNear(
+            constraintedManeuvers[1].getInterval().getEnd(), Duration::Seconds(1.0)
+        ));
     }
 }
 
