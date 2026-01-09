@@ -2876,7 +2876,7 @@ TEST_F(
     EXPECT_EQ(maneuvers.getSize(), 3);
     for (const Maneuver& maneuver : maneuvers)
     {
-        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
+        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
     }
 
     // Candidate:   0--------------15-----------------30
@@ -2884,21 +2884,24 @@ TEST_F(
     // Candidate:                       17.6-----------30
     // Maneuver 2                          21.6---26.6
     // ...
+
     EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(12.5), Duration::Seconds(1e-1)
+        initialStateWithMass_.accessInstant() + Duration::Minutes(12.5), Duration::Nanoseconds(10)
     ));
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1e-1)));
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Nanoseconds(10))
+    );
     EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
         initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
-        Duration::Seconds(1e-1)
+        Duration::Nanoseconds(10)
     ));
-    EXPECT_TRUE(maneuvers[1].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1e-1)));
+    EXPECT_TRUE(maneuvers[1].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Nanoseconds(10))
+    );
     EXPECT_TRUE(maneuvers[2].getInterval().getStart().isNear(
         initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
-        Duration::Seconds(1e-1)
+        Duration::Nanoseconds(10)
     ));
     EXPECT_TRUE(maneuvers[2].getInterval().getEnd().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Seconds(1e-1)
+        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Nanoseconds(10)
     ));
 }
 
@@ -3026,8 +3029,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeu
     const Environment environment = {initialInstant, {earthSPtr}};
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
-    const NumericalSolver numericalSolver = NumericalSolver::DefaultConditional();
-
     const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
         {initialState.getPosition(), initialState.getVelocity()},
         EarthGravitationalModel::EGM2008.gravitationalParameter_
@@ -3088,7 +3089,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeu
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
-        numericalSolver,
+        defaultHighPrecisionNumericalSolver_,
         lofFactorySPtr,
         Angle::Undefined(),
         constraints
