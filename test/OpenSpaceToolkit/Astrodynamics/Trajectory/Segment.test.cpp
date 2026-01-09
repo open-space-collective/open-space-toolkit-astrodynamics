@@ -1798,15 +1798,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         EXPECT_EQ(2, maneuvers.getSize());
         EXPECT_EQ(2, constantLofDirectionManeuvers.getSize());
 
-        for (Size i = 0; i < maneuvers.getSize(); i++)
-        {
-            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(5.0)
-            ));
-            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(5.0)
-            ));
-        }
+        // The first maneuver start is expected to be identical
+        EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
+            constantLofDirectionManeuvers[0].getInterval().getStart(), Duration::Nanoseconds(10.0)
+        ));
+        // The first maneuver end is expected to be very close but not identical as this has been solved using the
+        // thruster cutoff condition
+        EXPECT_TRUE(maneuvers[0].getInterval().getEnd().isNear(
+            constantLofDirectionManeuvers[0].getInterval().getEnd(), Duration::Milliseconds(200.0)
+        ));
+
+        // The second maneuver interval is expected to be similar but not very close as the trajectory (after the first
+        // maneuver) has changed
+        EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
+            constantLofDirectionManeuvers[1].getInterval().getStart(), Duration::Seconds(3.0)
+        ));
+        EXPECT_TRUE(maneuvers[1].getInterval().getEnd().isNear(
+            constantLofDirectionManeuvers[1].getInterval().getEnd(), Duration::Seconds(3.0)
+        ));
 
         const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
             std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
@@ -1821,7 +1830,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         }
 
         // This is a solution that is expected to be similar to that of the constant local orbital frame direction
-        // maneuvering segment. It is not identical as the segment solves maneuver by maneuer, enforcing constant local
+        // maneuvering segment. It is not identical as the segment solves maneuver by maneuver, enforcing constant local
         // orbital frame compliance inbetween, whereas the "similar solution" does it from the get go.
         Segment expectedSimilarSegment = Segment::Maneuver(
             "Expected Similar Maneuvering Segment",
@@ -1851,11 +1860,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         EXPECT_EQ(2, expectedSimilarManeuvers.getSize());
         for (Size i = 0; i < expectedSimilarManeuvers.getSize(); i++)
         {
-            EXPECT_TRUE(expectedSimilarManeuvers[i].getInterval().getStart().isNear(
-                maneuvers[i].getInterval().getStart(), Duration::Seconds(2.0)
+            EXPECT_TRUE(constantLofDirectionManeuvers[i].getInterval().getStart().isNear(
+                expectedSimilarManeuvers[i].getInterval().getStart(), Duration::Seconds(3.0)
             ));
-            EXPECT_TRUE(expectedSimilarManeuvers[i].getInterval().getEnd().isNear(
-                maneuvers[i].getInterval().getEnd(), Duration::Seconds(2.0)
+            EXPECT_TRUE(constantLofDirectionManeuvers[i].getInterval().getEnd().isNear(
+                expectedSimilarManeuvers[i].getInterval().getEnd(), Duration::Seconds(3.0)
             ));
         }
 
@@ -1874,7 +1883,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MultipleManeuver
     {
         const Duration minimumDuration = Duration::Seconds(10.0);
         const Duration maximumDuration = Duration::Days(10.0);
-        const Duration minimumSeparation = Duration::Seconds(1.0);
+        const Duration minimumSeparation = Duration::Seconds(10.0);
         const Segment::MaximumManeuverDurationViolationStrategy strategy =
             Segment::MaximumManeuverDurationViolationStrategy::Center;
 
@@ -2850,10 +2859,10 @@ TEST_F(
     // Maneuver 1   0---5.0
     EXPECT_EQ(maneuvers.getSize(), 1);
     EXPECT_TRUE(maneuvers.accessFirst().getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant(), Duration::Seconds(1e-1)
+        initialStateWithMass_.accessInstant(), Duration::Nanoseconds(10.0)
     ));
     EXPECT_TRUE(maneuvers.accessFirst().getInterval().getEnd().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(5.0), Duration::Seconds(1e-1)
+        initialStateWithMass_.accessInstant() + Duration::Minutes(5.0), Duration::Nanoseconds(10.0)
     ));
 }
 
@@ -2890,10 +2899,10 @@ TEST_F(
     // Maneuver 1                           25.0----30.0
     EXPECT_EQ(maneuvers.getSize(), 1);
     EXPECT_TRUE(maneuvers.accessFirst().getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(25.0), Duration::Seconds(1e-1)
+        initialStateWithMass_.accessInstant() + Duration::Minutes(25.0), Duration::Nanoseconds(10.0)
     ));
     EXPECT_TRUE(maneuvers.accessFirst().getInterval().getEnd().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Seconds(1e-1)
+        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Nanoseconds(10.0)
     ));
 }
 

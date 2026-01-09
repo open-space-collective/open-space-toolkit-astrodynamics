@@ -421,6 +421,17 @@ class Segment
         const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );
 
+    /// @brief Propagate the segment with the provided dynamics and event condition. This method is used to propagate
+    /// the segment until a given instant.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param anEndInstant The end instant
+    /// @param aDynamicsArray The dynamics array
+    /// @return States
+    Array<State> propagateWithDynamics_(
+        const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+    ) const;
+
     /// @brief Solve the segment with the provided dynamics and event condition. This method is used to solve coasting
     /// and maneuvering segments.
     ///
@@ -435,6 +446,11 @@ class Segment
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const Shared<EventCondition>& anEventCondition
     ) const;
+
+    /// @brief Re-evaluate the condition of a solution.
+    ///
+    /// @param aSolution The solution to re-evaluate the condition of.
+    void reEvaluateSolutionCondition_(Segment::Solution& aSolution) const;
 
     /// @brief Solve the coast segment, uses the internal free dynamics array and event condition of the segment.
     ///
@@ -460,24 +476,23 @@ class Segment
         const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
     ) const;
 
-    /// @brief Create a Local Orbital Frame (LOF) compliant solution from another one.
+    /// @brief Create an interval compliant maneuver solution from another one.
     ///
-    /// @param aSolution The solution to create a Local Orbital Frame (LOF) compliant solution from.
-    /// @param aManeuver The associated maneuver of the oslution
-    /// @return The Local Orbital Frame (LOF) compliant solution.
-    std::pair<Segment::Solution, flightManeuver> createLOFCompliantSolution_(
-        const Segment::Solution& aSolution, const flightManeuver& aManeuver
+    /// @param aSolution The solution to create an interval compliant maneuver solution from.
+    /// @param aManeuverInterval The interval of the maneuver
+    /// @param aThrusterDynamics The associated thruster dynamics
+    /// @return The interval compliant maneuver solution.
+    std::pair<Segment::Solution, flightManeuver> createIntervalCompliantManeuverSolution_(
+        const Segment::Solution& aSolution, const Interval& aManeuverInterval, const Shared<Thruster>& aThrusterDynamics
     ) const;
 
-    /// @brief Propagate the segment with the provided dynamics and event condition. This method is used to propagate
-    /// the segment until a given instant.
+    /// @brief Create a Local Orbital Frame (LOF) compliant maneuver solution from another one.
     ///
-    /// @param aState The initial state of the segment
-    /// @param anEndInstant The end instant
-    /// @param aDynamicsArray The dynamics array
-    /// @return States
-    Array<State> propagateWithDynamics_(
-        const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+    /// @param aSolution The solution to create a Local Orbital Frame (LOF) compliant solution from.
+    /// @param aManeuver The associated maneuver of the solution
+    /// @return The Local Orbital Frame (LOF) compliant solution.
+    std::pair<Segment::Solution, flightManeuver> createLOFCompliantManeuverSolution_(
+        const Segment::Solution& aSolution, const flightManeuver& aManeuver
     ) const;
 };
 
