@@ -757,11 +757,48 @@ Segment::Solution Segment::solve(
         return segmentConditionIsSatisfied;
     };
 
+    const auto solveManeuverForInterval = [&](const Shared<Thruster>& thrusterDynamics,
+                                              const Interval& validManeuverInterval = Interval::Undefined()
+                                          ) -> std::pair<Segment::Solution, Array<flightManeuver>>
+    {
+        Array<State> subsegmentStates = Array<State>::Empty();
+
+        // Coast until the start of the maneuver to ensure we begin solving the maneuver at the exact start instant
+        const Array<State> coastStates =
+            propagateWithDynamics_(segmentStates.accessLast(), validManeuverInterval.getStart(), freeDynamicsArray_);
+
+        subsegmentStates.add(Array<State>(coastStates.begin(), coastStates.end()));
+
+        const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
+
+        // Solve the maneuver for just the defined interval
+        const Array<State> maneuverStates =
+            propagateWithDynamics_(subsegmentStates.accessLast(), validManeuverInterval.getEnd(), dynamicsArray);
+        subsegmentStates.add(Array<State>(maneuverStates.begin() + 1, maneuverStates.end()));
+
+        const Segment::Solution solution = {
+            name_,
+            dynamicsArray,
+            // start from index 1 to exclude the initial coast state
+            Array<State> {subsegmentStates.begin() + 1, subsegmentStates.end()},
+            false,
+            Segment::Type::Maneuver
+        };
+
+        if (solution.states.getSize() <= 2)
+        {
+            return {solution, Array<flightManeuver>::Empty()};
+        }
+
+        return {solution, solution.extractManeuvers(aState.accessFrame())};
+    };
+
     // Helper lambda to solve a single maneuver and extract results
     const auto solveManeuver = [&](const Shared<Thruster>& thrusterDynamics
                                ) -> std::pair<Segment::Solution, Array<flightManeuver>>
     {
         const State& lastState = segmentStates.accessLast();
+
         const Segment::Solution maneuverSolution =
             solveManeuver_(lastState, maximumInstant - lastState.accessInstant(), thrusterDynamics);
 
@@ -817,7 +854,7 @@ Segment::Solution Segment::solve(
                 );
 
                 const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
-                const auto [maneuverSolution, _] = solveManeuver(slicedThruster);
+                const auto [maneuverSolution, _] = solveManeuverForInterval(slicedThruster, validManeuverInterval);
 
                 acceptManeuver(maneuverSolution, validManeuverInterval);
 
@@ -831,7 +868,7 @@ Segment::Solution Segment::solve(
                     candidateManeuverInterval.getEnd()
                 );
                 const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
-                const auto [maneuverSolution, _] = solveManeuver(slicedThruster);
+                const auto [maneuverSolution, _] = solveManeuverForInterval(slicedThruster, validManeuverInterval);
 
                 acceptManeuver(maneuverSolution, validManeuverInterval);
 
@@ -844,7 +881,7 @@ Segment::Solution Segment::solve(
                     candidateManeuverInterval.getCenter(), maneuverConstraints_.maximumDuration, Interval::Type::Closed
                 );
                 const Shared<Thruster> centeredThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
-                const auto [maneuverSolution, _] = solveManeuver(centeredThruster);
+                const auto [maneuverSolution, _] = solveManeuverForInterval(centeredThruster, validManeuverInterval);
 
                 acceptManeuver(maneuverSolution, validManeuverInterval);
 
@@ -1072,6 +1109,37 @@ Segment::Solution Segment::solveWithDynamics_(
         conditionSolution.conditionIsSatisfied,
         type_,
     };
+}
+
+Array<State> Segment::propagateWithDynamics_(
+    const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+) const
+{
+    const Propagator propagator = {
+        numericalSolver_,
+        aDynamicsArray,
+    };
+
+    propagator.calculateStateAt(aState, anEndInstant);
+
+    // Expand states based on input state
+    const StateBuilder stateBuilder = {aState};
+
+    Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        // TBI: Investigate why this is necessary
+        if (states.contains(state))
+        {
+            continue;
+        }
+
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    return states;
 }
 
 Segment::Solution Segment::solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const

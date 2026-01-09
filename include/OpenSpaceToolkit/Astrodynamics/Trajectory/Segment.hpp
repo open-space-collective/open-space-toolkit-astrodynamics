@@ -472,6 +472,17 @@ class Segment
     Segment::Solution solveSingleManeuver_(
         const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
     ) const;
+
+    /// @brief Propagate the segment with the provided dynamics and event condition. This method is used to propagate
+    /// the segment until a given instant.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param anEndInstant The end instant
+    /// @param aDynamicsArray The dynamics array
+    /// @return States
+    Array<State> propagateWithDynamics_(
+        const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+    ) const;
 };
 
 }  // namespace trajectory
