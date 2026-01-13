@@ -324,7 +324,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Args:
                     state (State): The state from which to extract orbital elements.
                     thrust_acceleration (float): The thrust acceleration.
-                    true_anomaly_angles (list[Angle], optional): Optional list of true anomaly angles. If not provided, uses default grid.
+                    discretization_step_count (int): The number of discretization steps for the true anomaly. Default to 50.
 
                 Returns:
                     tuple[float, float]: A tuple containing the relative and absolute effectivity.
@@ -332,7 +332,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             )doc",
             arg("state"),
             arg("thrust_acceleration"),
-            arg_v("true_anomaly_angles", Array<Angle>::Empty(), "[]")
+            arg("discretization_step_count") = 50
         )
 
         ;

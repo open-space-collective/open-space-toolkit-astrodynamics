@@ -247,14 +247,13 @@ class QLaw : public GuidanceLaw
     /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
     /// @param aState The state from which to extract orbital elements
     /// @param aThrustAcceleration The thrust acceleration
-    /// @param aGravitationalParameter The gravitational parameter
-    /// @param trueAnomalyAngles Optional list of true anomaly angles. If not provided, uses default grid
+    /// @param discretizationStepCount The number of discretization steps for the true anomaly
     ///
     /// @return A tuple containing the relative and absolute effectivity
     Tuple<double, double> computeEffectivity(
         const State& aState,
         const Real& aThrustAcceleration,
-        const Array<Angle>& trueAnomalyAngles = Array<Angle>::Empty()
+        const Size& discretizationStepCount = 50
     ) const;
 
    private:
@@ -269,24 +268,60 @@ class QLaw : public GuidanceLaw
 
     const VectorXd trueAnomalyAngles_ = VectorXd::LinSpaced(50, 0.0, 2.0 * M_PI);
 
+    /// @brief Compute the delta of the orbital elements
+    ///
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (exluding true anomaly)
+    ///
+    /// @return The delta of the orbital elements
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
 
+    /// @brief Convert a Cartesian state to a COE vector
+    ///
+    /// @param aCartesianState The Cartesian state
+    ///
+    /// @return The COE vector
     Vector6d convertCartesianStateToCOEVector(const COE::CartesianState& aCartesianState) const;
 
+    /// @brief Compute the analytical derivative of Q with respect to the orbital elements
+    ///
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (exluding true anomaly)
+    /// @param aThrustAcceleration The thrust acceleration
+    ///
+    /// @return The analytical derivative of Q with respect to the orbital elements
     Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
+
+    /// @brief Compute the numerical derivative of Q with respect to the orbital elements
+    ///
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (exluding true anomaly)
+    /// @param aThrustAcceleration The thrust acceleration
+    ///
+    /// @return The numerical derivative of Q with respect to the orbital elements
     Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
+
+    /// @brief Compute the thrust vector
+    ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements
+    /// @param aThrustAcceleration The thrust acceleration
+    ///
+    /// @return The thrust vector
+    Vector3d computeThrustVector(const Vector6d& aCOEVector, const double& aThrustAcceleration) const;
 
     /// @brief Compute the effectivity of the guidance law
     ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements
+    /// @param currentThrustVector The current thrust vector
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param trueAnomalyAngles The true anomaly angles
+    ///
+    /// @return The effectivity of the guidance law
     /// @ref
     /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
-    static Tuple<double, double> ComputeEffectivity(
+    Tuple<double, double> computeEffectivity_(
         const Vector6d& aCOEVector,
-        const Vector3d& aThrustDirection,
-        const Vector5d& dQ_dOE,
-        const Derived& aGravitationalParameter,
+        const Vector3d& currentThrustVector,
+        const double& aThrustAcceleration,
         const VectorXd& trueAnomalyAngles
-    );
+    ) const;
 };
 
 }  // namespace guidancelaw

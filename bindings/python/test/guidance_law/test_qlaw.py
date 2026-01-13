@@ -202,12 +202,7 @@ class TestQLaw:
             q_law.compute_effectivity(
                 state=state,
                 thrust_acceleration=thrust_acceleration,
-                true_anomaly_angles=[
-                    Angle.degrees(0.0),
-                    Angle.degrees(90.0),
-                    Angle.degrees(180.0),
-                    Angle.degrees(270.0),
-                ],
+                discretization_step_count=15,
             )
             is not None
         )

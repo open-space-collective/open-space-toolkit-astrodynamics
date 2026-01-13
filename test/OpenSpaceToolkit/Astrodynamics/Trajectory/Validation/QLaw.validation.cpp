@@ -52,6 +52,7 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
+using ostk::core::filesystem::Directory;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -71,6 +72,8 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using EarthMagneticModel = ostk::physics::environment::object::celestial::EarthMagneticModel;
+using EarthAtmosphericModel = ostk::physics::environment::object::celestial::EarthAtmosphericModel;
 using ostk::physics::environment::Object;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
@@ -108,64 +111,6 @@ class OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation
     : public ::testing::Test,
       public ::testing::WithParamInterface<Tuple<QLaw::GradientStrategy>>
 {
-   protected:
-    void SetUp() override
-    {
-        const Composite satelliteGeometry(Cuboid(
-            {0.0, 0.0, 0.0},
-            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-            {1.0, 2.0, 3.0}
-        ));
-
-        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
-
-        this->satelliteGeometry_ = satelliteGeometry;
-        this->propulsionSystem_ = propulsionSystem;
-
-        this->satelliteSystem_ = {
-            this->satelliteDryMass_,
-            satelliteGeometry_,
-            Matrix3d::Identity(),
-            1.0,
-            2.1,
-            propulsionSystem_,
-        };
-
-        this->earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        this->defaultDynamics_ = {
-            std::make_shared<PositionDerivative>(),
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-        };
-
-        this->defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
-    }
-
-    const NumericalSolver defaultNumericalSolver_ = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        5.0,
-        1.0e-15,
-        1.0e-15,
-    };
-
-    const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
-
-    Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
-    const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
-
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
-    Composite satelliteGeometry_ = Composite::Undefined();
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-    Shared<Celestial> earthSpherical_ = nullptr;
-    Propagator defaultPropagator_ = Propagator::Undefined();
-
-    const Shared<CoordinateBroker> dragCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker(
-        {CartesianPosition::Default(),
-         CartesianVelocity::Default(),
-         CoordinateSubset::Mass(),
-         CoordinateSubset::SurfaceArea(),
-         CoordinateSubset::DragCoefficient()}
-    ));
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -238,8 +183,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
 
     const NumericalSolver numericalSolver = {
         NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKutta4,
-        120.0,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
         1e-12,
         1e-12,
     };
@@ -581,6 +526,44 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
         EXPECT_LT(std::abs(endCOE.getRaan().inRadians() - targetCOE.getRaan().inRadians()), 1e-4);
+    }
+
+    // Argument of Perigee targeting
+    {
+        const COE targetCOE = {
+            currentCOE.getSemiMajorAxis(),
+            currentCOE.getEccentricity(),
+            currentCOE.getInclination(),
+            currentCOE.getRaan(),
+            currentCOE.getAop() + Angle::Degrees(10.0),
+            currentCOE.getTrueAnomaly(),
+        };
+
+        const QLaw::Parameters parameters = {
+            {
+                {COE::Element::Aop, {1.0, 1e-4}},
+            },
+        };
+
+        const Shared<QLaw> qlaw = std::make_shared<QLaw>(
+            QLaw(targetCOE, gravitationalParameter, parameters, QLaw::COEDomain::Osculating, gradientStrategy)
+        );
+
+        const Shared<Thruster> thruster = std::make_shared<Thruster>(Thruster(satelliteSystem, qlaw));
+        const Array<Shared<Dynamics>> dynamics = {
+            thruster,
+            centralBodyGravity,
+            positionDerivative,
+        };
+
+        const Propagator propagator = {numericalSolver, dynamics};
+
+        const State state =
+            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.7));
+
+        const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
+
+        EXPECT_LT(std::abs(endCOE.getAop().inRadians() - targetCOE.getAop().inRadians()), 1e-2);
     }
 
     // Semi-Major Axis + Eccentricity targeting

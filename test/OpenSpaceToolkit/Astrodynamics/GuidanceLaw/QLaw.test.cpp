@@ -718,15 +718,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effecti
 
     // Test with custom true anomaly angles
     {
-        const Array<Angle> trueAnomalyAngles = {
-            Angle::Degrees(0.0),
-            Angle::Degrees(90.0),
-            Angle::Degrees(180.0),
-            Angle::Degrees(270.0),
-        };
-
         const Tuple<double, double> effectivity =
-            qlaw.computeEffectivity(initialState_, thrustAcceleration_, trueAnomalyAngles);
+            qlaw.computeEffectivity(initialState_, thrustAcceleration_, 15);
 
         const double etaRelative = std::get<0>(effectivity);
         const double etaAbsolute = std::get<1>(effectivity);
