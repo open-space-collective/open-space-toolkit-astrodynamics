@@ -1140,20 +1140,21 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
             }
         },
-        // With Maximum Maneuver Duration Constraint (Slice Strategy)
+        // With Maximum Maneuver Duration Constraint (TruncateEnd Strategy)
+        // Each too-long candidate interval produces exactly 1 truncated maneuver, then coasts
         ManeuveringConstraintsTestParams {
             "MaximumManeuverDurationTruncateEnd",
             Array<Tuple<Duration, Duration>> {
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
-                },  // Too long, sliced [0, 10] (skiping [13, 14] as it would be too short)
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                },  // Too long, truncated to [0, 10] (then coast to end of window)
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // OK, no truncation
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
-                },  // Too long, sliced to [30, 40] and [43, 50]
+                },  // Too long, truncated to [30, 40] (then coast to end of window)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(60.0), Duration::Minutes(110.0)
-                }  // Too long, sliced to [60, 70], [73, 83], [86, 96] (skiping [99, 100] as it would be too short)
+                }  // Too long, truncated to [60, 70] (then coast to end of window)
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
@@ -1165,26 +1166,24 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(30.0), Duration::Minutes(40.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(43.0), Duration::Minutes(50.0), true},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(60.0), Duration::Minutes(70.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(73.0), Duration::Minutes(83.0), true},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(86.0), Duration::Minutes(96.0), true}
+                Tuple<Duration, Duration, bool> {Duration::Minutes(60.0), Duration::Minutes(70.0), false}
             }
         },
         // With Maximum Maneuver Duration Constraint (Center Strategy)
+        // Each too-long candidate interval produces exactly 1 centered maneuver, then coasts
         ManeuveringConstraintsTestParams {
             "MaximumManeuverDurationCenter",
             Array<Tuple<Duration, Duration>> {
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
-                },  // Too long, centered around 7.0
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                },  // Too long, centered around 7.0 -> [2, 12]
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // OK, no centering
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
-                },  // Too long, centered around 40.0
+                },  // Too long, centered around 40.0 -> [35, 45]
                 Tuple<Duration, Duration> {
                     Duration::Minutes(60.0), Duration::Minutes(110.0)
-                }  // Too long, centered around 80.0
+                }  // Too long, effective [60, 100] due to segment condition, centered around 80.0 -> [75, 85]
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
@@ -1196,9 +1195,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
                 Tuple<Duration, Duration, bool> {Duration::Minutes(35.0), Duration::Minutes(45.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(48.0), Duration::Minutes(50.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(75.0), Duration::Minutes(85.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(89.0), Duration::Minutes(99.0), false},
+                Tuple<Duration, Duration, bool> {Duration::Minutes(75.0), Duration::Minutes(85.0), false}
             }
         }
     ),

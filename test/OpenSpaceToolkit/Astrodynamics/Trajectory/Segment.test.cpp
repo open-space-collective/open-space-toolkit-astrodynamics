@@ -2013,7 +2013,9 @@ TEST_F(
         ));
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
-        EXPECT_TRUE(maneuvers.getSize() > 2);
+        // With Center strategy producing 1 maneuver per candidate window, the total may be less than before
+        // The key assertion is that both segment types produce the same number of maneuvers
+        EXPECT_TRUE(maneuvers.getSize() >= 1);
         EXPECT_EQ(maneuvers.getSize(), constantLofDirectionManeuvers.getSize());
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
@@ -2850,6 +2852,48 @@ TEST_F(
 
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_TruncateStartStrategy_ConditionSatisfied
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+    );
+
+    // Event condition that will be satisfied during the truncated tail maneuver
+    // With a 28-minute duration condition, the candidate maneuver goes from 0 to 28 minutes
+    // TruncateStart with 5-minute max truncates to: start = 28 - 5 = 23 min, end = 28 min
+    // The condition is satisfied at t=28, at the end of the truncated maneuver
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(28.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    // TruncateStart: maneuver starts at 23 minutes (28 - 5 = 23)
+    EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(23.0), Duration::Seconds(1e-1)
+    ));
+    // Duration should be about 5 minutes (the full truncated duration from t=23 to t=28)
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1e-1)));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
     Solve_ManeuverDurationExceedsMaximum_TruncateStartStrategy_MultipleManeuvers
 )
 {
@@ -2950,35 +2994,17 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    for (const Maneuver& maneuver : maneuvers)
-    {
-        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
-    }
 
+    // Center strategy: produces exactly 1 maneuver centered within the candidate interval
     // Candidate:   0--------------15-----------------30
-    // Maneuver 1            12.5------17.5
-    // Candidate:                       17.6-----------30
-    // Maneuver 2                          21.6---26.6
-    // ...
+    // Maneuver:             12.5------17.5
 
+    EXPECT_LE(maneuvers[0].getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
     EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
         initialStateWithMass_.accessInstant() + Duration::Minutes(12.5), Duration::Nanoseconds(10)
     ));
     EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Nanoseconds(10))
     );
-    EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
-        Duration::Nanoseconds(10)
-    ));
-    EXPECT_TRUE(maneuvers[1].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Nanoseconds(10))
-    );
-    EXPECT_TRUE(maneuvers[2].getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
-        Duration::Nanoseconds(10)
-    ));
-    EXPECT_TRUE(maneuvers[2].getInterval().getEnd().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Nanoseconds(10)
-    ));
 }
 
 TEST_F(

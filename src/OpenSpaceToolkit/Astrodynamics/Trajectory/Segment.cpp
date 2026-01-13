@@ -861,20 +861,39 @@ Segment::Solution Segment::solve(
 
                 acceptManeuver(maneuverSolution, validManeuverInterval);
 
-                return maneuverSolution.conditionIsSatisfied;
+                // Coast to the end of the candidate interval (not the entire segment)
+                // This ensures only 1 maneuver is produced per candidate window, but allows
+                // subsequent maneuver windows to be evaluated
+                if (!maneuverSolution.conditionIsSatisfied)
+                {
+                    return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+                }
+
+                return true;
             }
 
             case MaximumManeuverDurationViolationStrategy::TruncateStart:
             {
-                const Interval validManeuverInterval = Interval::Closed(
-                    candidateManeuverInterval.getEnd() - maneuverConstraints_.maximumDuration,
-                    candidateManeuverInterval.getEnd()
-                );
+                // First, coast to the start of the truncated maneuver interval
+                const Instant truncatedManeuverStart =
+                    candidateManeuverInterval.getEnd() - maneuverConstraints_.maximumDuration;
+
+                if (segmentStates.accessLast().accessInstant() < truncatedManeuverStart)
+                {
+                    if (solveAndAcceptCoast(truncatedManeuverStart))
+                    {
+                        return true;
+                    }
+                }
+
+                const Interval validManeuverInterval =
+                    Interval::Closed(truncatedManeuverStart, candidateManeuverInterval.getEnd());
                 const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
                 const auto [maneuverSolution, _] = solveManeuverForInterval(slicedThruster, validManeuverInterval);
 
                 acceptManeuver(maneuverSolution, validManeuverInterval);
 
+                // TruncateStart already ends at candidateManeuverInterval.getEnd(), so no additional coast needed
                 return maneuverSolution.conditionIsSatisfied;
             }
 
@@ -883,12 +902,30 @@ Segment::Solution Segment::solve(
                 const Interval validManeuverInterval = Interval::Centered(
                     candidateManeuverInterval.getCenter(), maneuverConstraints_.maximumDuration, Interval::Type::Closed
                 );
+
+                // First, coast to the start of the centered maneuver interval
+                if (segmentStates.accessLast().accessInstant() < validManeuverInterval.getStart())
+                {
+                    if (solveAndAcceptCoast(validManeuverInterval.getStart()))
+                    {
+                        return true;
+                    }
+                }
+
                 const Shared<Thruster> centeredThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
                 const auto [maneuverSolution, _] = solveManeuverForInterval(centeredThruster, validManeuverInterval);
 
                 acceptManeuver(maneuverSolution, validManeuverInterval);
 
-                return maneuverSolution.conditionIsSatisfied;
+                // Coast to the end of the candidate interval (not the entire segment)
+                // This ensures only 1 maneuver is produced per candidate window, but allows
+                // subsequent maneuver windows to be evaluated
+                if (!maneuverSolution.conditionIsSatisfied)
+                {
+                    return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+                }
+
+                return true;
             }
 
             case MaximumManeuverDurationViolationStrategy::Chunk:
