@@ -315,5 +315,25 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("output_frame")
         )
 
+        .def(
+            "compute_effectivity",
+            &QLaw::computeEffectivity,
+            R"doc(
+                Compute the effectivity of the guidance law.
+
+                Args:
+                    state (State): The state from which to extract orbital elements.
+                    thrust_acceleration (float): The thrust acceleration.
+                    true_anomaly_angles (list[Angle], optional): Optional list of true anomaly angles. If not provided, uses default grid.
+
+                Returns:
+                    tuple[float, float]: A tuple containing the relative and absolute effectivity.
+
+            )doc",
+            arg("state"),
+            arg("thrust_acceleration"),
+            arg_v("true_anomaly_angles", Array<Angle>::Empty(), "[]")
+        )
+
         ;
 }

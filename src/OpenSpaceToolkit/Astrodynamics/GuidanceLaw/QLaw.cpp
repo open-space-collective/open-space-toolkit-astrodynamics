@@ -174,38 +174,7 @@ Vector3d QLaw::calculateThrustAccelerationAt(
         Velocity::MetersPerSecond(aVelocityCoordinates, outputFrameSPtr)
     };
 
-    Vector6d coeVector;
-
-    switch (coeDomain_)
-    {
-        case COEDomain::Osculating:
-        {
-            const COE coe = COE::Cartesian(cartesianState, gravitationalParameter_);
-            coeVector = coe.getSIVector(COE::AnomalyType::True);
-            break;
-        }
-        case COEDomain::BrouwerLyddaneMeanLong:
-        {
-            const BrouwerLyddaneMeanLong coe =
-                BrouwerLyddaneMeanLong::Cartesian(cartesianState, gravitationalParameter_);
-            coeVector = coe.getSIVector(COE::AnomalyType::True);
-            break;
-        }
-        case COEDomain::BrouwerLyddaneMeanShort:
-        {
-            const BrouwerLyddaneMeanShort coe =
-                BrouwerLyddaneMeanShort::Cartesian(cartesianState, gravitationalParameter_);
-            coeVector = coe.getSIVector(COE::AnomalyType::True);
-            break;
-        }
-        default:
-        {
-            throw ostk::core::error::runtime::ToBeImplemented("COE Domain");
-        }
-    }
-
-    coeVector[1] = std::max(coeVector[1], 1e-4);
-    coeVector[2] = std::max(coeVector[2], 1e-4);
+    Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
@@ -228,7 +197,7 @@ Vector5d QLaw::compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustA
 
 Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& aThrustAcceleration) const
 {
-    const Vector5d coeVectorSegment = aCOEVector.segment(0, 5);
+    const Vector5d coeVectorSegment = aCOEVector.segment<5>(0);
 
     const Vector5d deltaCOE = computeDeltaCOE(coeVectorSegment);
 
@@ -255,7 +224,8 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
         double etaRelative = 0.0;
         double etaAbsolute = 0.0;
 
-        std::tie(etaRelative, etaAbsolute) = computeEffectivity(aCOEVector, thrustDirection, dQ_dOE);
+        std::tie(etaRelative, etaAbsolute) =
+            QLaw::ComputeEffectivity(aCOEVector, thrustDirection, dQ_dOE, gravitationalParameter_, trueAnomalyAngles_);
 
         // If the relative effectivity is below the threshold, do not thrust.
         if ((parameters_.relativeEffectivityThreshold.isDefined()) &&
@@ -420,6 +390,48 @@ Matrix3d QLaw::ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3
     rotationMatrix.col(2) = H;
 
     return rotationMatrix;
+}
+
+Tuple<double, double> QLaw::computeEffectivity(
+    const State& aState, const Real& aThrustAcceleration, const Array<Angle>& trueAnomalyAngles
+) const
+{
+    const State stateGCRF = aState.inFrame(Frame::GCRF());
+    const Position position = stateGCRF.getPosition();
+    const Velocity velocity = stateGCRF.getVelocity();
+
+    const COE::CartesianState cartesianState = {position, velocity};
+
+    Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
+
+    const Matrix53d derivativeMatrix = QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
+
+    const Vector5d dQ_dOE = compute_dQ_dOE(coeVector.segment<5>(0), aThrustAcceleration);
+
+    if (dQ_dOE.array().isNaN().any())
+    {
+        throw ostk::core::error::RuntimeError("NaN encountered in dQ_dOE calcluation.");
+    }
+
+    const Vector3d thrustVector = dQ_dOE.transpose() * derivativeMatrix;
+
+    VectorXd trueAnomalyAnglesVector;
+    if (trueAnomalyAngles.isEmpty())
+    {
+        trueAnomalyAnglesVector = trueAnomalyAngles_;
+    }
+    else
+    {
+        trueAnomalyAnglesVector = VectorXd(trueAnomalyAngles.getSize());
+        Index i = 0;
+        for (const Angle& trueAnomalyAngle : trueAnomalyAngles)
+        {
+            trueAnomalyAnglesVector(i) = trueAnomalyAngle.inRadians(0.0, 2.0 * M_PI);
+            ++i;
+        }
+    }
+
+    return ComputeEffectivity(coeVector, thrustVector, dQ_dOE, gravitationalParameter_, trueAnomalyAnglesVector);
 }
 
 Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter)
@@ -716,9 +728,51 @@ Vector5d QLaw::computeDeltaCOE(const Vector5d& aCOEVector) const
     };
 }
 
-Tuple<double, double> QLaw::computeEffectivity(
-    const Vector6d& aCOEVector, const Vector3d& currentThrustDirection, const Vector5d& dQ_dOE
-) const
+Vector6d QLaw::convertCartesianStateToCOEVector(const COE::CartesianState& aCartesianState) const
+{
+    Vector6d coeVector;
+
+    switch (coeDomain_)
+    {
+        case COEDomain::Osculating:
+        {
+            const COE coe = COE::Cartesian(aCartesianState, gravitationalParameter_);
+            coeVector = coe.getSIVector(COE::AnomalyType::True);
+            break;
+        }
+        case COEDomain::BrouwerLyddaneMeanLong:
+        {
+            const BrouwerLyddaneMeanLong coe =
+                BrouwerLyddaneMeanLong::Cartesian(aCartesianState, gravitationalParameter_);
+            coeVector = coe.getSIVector(COE::AnomalyType::True);
+            break;
+        }
+        case COEDomain::BrouwerLyddaneMeanShort:
+        {
+            const BrouwerLyddaneMeanShort coe =
+                BrouwerLyddaneMeanShort::Cartesian(aCartesianState, gravitationalParameter_);
+            coeVector = coe.getSIVector(COE::AnomalyType::True);
+            break;
+        }
+        default:
+        {
+            throw ostk::core::error::runtime::ToBeImplemented("COE Domain");
+        }
+    }
+
+    coeVector[1] = std::max(coeVector[1], 1e-4);
+    coeVector[2] = std::max(coeVector[2], 1e-4);
+
+    return coeVector;
+}
+
+Tuple<double, double> QLaw::ComputeEffectivity(
+    const Vector6d& aCOEVector,
+    const Vector3d& currentThrustDirection,
+    const Vector5d& dQ_dOE,
+    const Derived& aGravitationalParameter,
+    const VectorXd& trueAnomalyAngles
+)
 {
     // Note: As Q is a Lyapunov function, Q̇ is always negative. Therefore, the most effective thrust direction is the
     // one that minimizes Q̇.
@@ -737,16 +791,16 @@ Tuple<double, double> QLaw::computeEffectivity(
     };
 
     Vector6d coeVector = aCOEVector;
-    VectorXd dQ_dt(trueAnomalyAngles_.size());
+    VectorXd dQ_dt(trueAnomalyAngles.size());
 
     // For each true anomaly, compute Q̇
     // Coarse grid search is sufficient, no need to for finding the exact root.
     Index i = 0;
-    for (const double& trueAnomalyAngle : trueAnomalyAngles_)
+    for (Index j = 0; j < (Index)trueAnomalyAngles.size(); ++j)
     {
-        coeVector[5] = trueAnomalyAngle;
+        coeVector[5] = trueAnomalyAngles(j);
 
-        const Matrix53d dOE_dF = QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
+        const Matrix53d dOE_dF = QLaw::Compute_dOE_dF(coeVector, aGravitationalParameter);
         const Vector3d thrustDirection = dQ_dOE.transpose() * dOE_dF;
 
         dQ_dt[i] = compute_dQn_dt(thrustDirection);
@@ -767,7 +821,7 @@ Tuple<double, double> QLaw::computeEffectivity(
     // η = (Q̇n - Q̇nx) / (Q̇nn - Q̇nx) -> (current Q̇ - maximum Q̇) / (minimum Q̇ - maximum Q̇)
     const double etaRelative = (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt);
 
-    return {etaAbsolute, etaRelative};
+    return {etaRelative, etaAbsolute};
 }
 
 }  // namespace guidancelaw

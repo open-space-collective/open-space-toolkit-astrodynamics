@@ -600,3 +600,144 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
         }
     }
 }
+
+class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectivity
+    : public ::testing::TestWithParam<std::tuple<QLaw::GradientStrategy, QLaw::COEDomain>>
+{
+    void SetUp() override
+    {
+        const COE currentCOE = {
+            Length::Meters(7000.0e3),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        const COE::CartesianState cartesianState = currentCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        initialState_ = State {
+            Instant::J2000(),
+            cartesianState.first,
+            cartesianState.second,
+        };
+    }
+
+   protected:
+    const COE targetCOE_ = {
+        Length::Meters(42000.0e3),
+        0.01,
+        Angle::Degrees(0.05),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters parameters_ = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            {COE::Element::Eccentricity, {1.0, 1e-4}},
+            {COE::Element::Inclination, {1.0, 1e-4}},
+            {COE::Element::Raan, {1.0, 1e-4}},
+            {COE::Element::Aop, {1.0, 1e-4}},
+        },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        1.0,
+        Length::Kilometers(6578.0),
+        Real::Undefined(),
+        Real::Undefined(),
+    };
+
+    const Derived gravitationalParameter_ = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
+
+    const Real thrustAcceleration_ = 1.0 / 300.0;
+
+    State initialState_ = State::Undefined();
+};
+
+static std::string GenerateTestName(
+    const ::testing::TestParamInfo<std::tuple<QLaw::GradientStrategy, QLaw::COEDomain>>& info
+)
+{
+    const QLaw::GradientStrategy strategy = std::get<0>(info.param);
+    const QLaw::COEDomain domain = std::get<1>(info.param);
+
+    std::string strategyStr =
+        (strategy == QLaw::GradientStrategy::FiniteDifference) ? "FiniteDifference" : "Analytical";
+    std::string domainStr = (domain == QLaw::COEDomain::Osculating) ? "Osculating" : "BrouwerLyddaneMeanLong";
+    return strategyStr + "_" + domainStr;
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectivity,
+    OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectivity,
+    ::testing::Values(
+        std::make_tuple(QLaw::GradientStrategy::FiniteDifference, QLaw::COEDomain::Osculating),
+        std::make_tuple(QLaw::GradientStrategy::FiniteDifference, QLaw::COEDomain::BrouwerLyddaneMeanLong),
+        std::make_tuple(QLaw::GradientStrategy::Analytical, QLaw::COEDomain::Osculating),
+        std::make_tuple(QLaw::GradientStrategy::Analytical, QLaw::COEDomain::BrouwerLyddaneMeanLong)
+    ),
+    GenerateTestName
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectivity, ComputeEffectivity)
+{
+    const QLaw::COEDomain coeDomain = std::get<1>(GetParam());
+    const QLaw::GradientStrategy gradientStrategy = std::get<0>(GetParam());
+
+    const QLaw qlaw = {
+        targetCOE_,
+        gravitationalParameter_,
+        parameters_,
+        coeDomain,
+        gradientStrategy,
+    };
+
+    // Test with default true anomaly angles (empty array)
+    {
+        const Tuple<double, double> effectivity = qlaw.computeEffectivity(initialState_, thrustAcceleration_);
+
+        const double etaRelative = std::get<0>(effectivity);
+        const double etaAbsolute = std::get<1>(effectivity);
+
+        // Effectivity values should be in range [0, 1] or slightly above 1 for absolute
+        EXPECT_GE(etaRelative, 0.0);
+        EXPECT_LE(etaRelative, 1.0);
+        EXPECT_GT(etaAbsolute, 0.0);
+        EXPECT_LE(etaAbsolute, 1.0);
+
+        // Both values should be finite
+        EXPECT_TRUE(std::isfinite(etaRelative));
+        EXPECT_TRUE(std::isfinite(etaAbsolute));
+    }
+
+    // Test with custom true anomaly angles
+    {
+        const Array<Angle> trueAnomalyAngles = {
+            Angle::Degrees(0.0),
+            Angle::Degrees(90.0),
+            Angle::Degrees(180.0),
+            Angle::Degrees(270.0),
+        };
+
+        const Tuple<double, double> effectivity =
+            qlaw.computeEffectivity(initialState_, thrustAcceleration_, trueAnomalyAngles);
+
+        const double etaRelative = std::get<0>(effectivity);
+        const double etaAbsolute = std::get<1>(effectivity);
+
+        // Effectivity values should be in range [0, 1] or slightly above 1 for absolute
+        EXPECT_GE(etaRelative, 0.0);
+        EXPECT_LE(etaRelative, 1.0);
+        EXPECT_GT(etaAbsolute, 0.0);
+
+        // Both values should be finite
+        EXPECT_TRUE(std::isfinite(etaRelative));
+        EXPECT_TRUE(std::isfinite(etaAbsolute));
+    }
+}

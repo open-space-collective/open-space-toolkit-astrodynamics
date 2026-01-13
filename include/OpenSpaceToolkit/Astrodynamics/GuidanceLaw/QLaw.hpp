@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
@@ -41,12 +42,14 @@ using ostk::mathematics::object::VectorXd;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 /// @brief    The Q-law is a Lyapunov feedback control law developed by Petropoulos,
@@ -238,6 +241,22 @@ class QLaw : public GuidanceLaw
     /// @return The coordinates in the GCRF frame
     static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
+    /// @brief Compute the effectivity of the guidance law
+    ///
+    /// @ref
+    /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
+    /// @param aState The state from which to extract orbital elements
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param aGravitationalParameter The gravitational parameter
+    /// @param trueAnomalyAngles Optional list of true anomaly angles. If not provided, uses default grid
+    ///
+    /// @return A tuple containing the relative and absolute effectivity
+    Tuple<double, double> computeEffectivity(
+        const State& aState,
+        const Real& aThrustAcceleration,
+        const Array<Angle>& trueAnomalyAngles = Array<Angle>::Empty()
+    ) const;
+
    private:
     const Parameters parameters_;
     const double mu_;
@@ -252,6 +271,8 @@ class QLaw : public GuidanceLaw
 
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
 
+    Vector6d convertCartesianStateToCOEVector(const COE::CartesianState& aCartesianState) const;
+
     Vector5d computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
     Vector5d computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const;
 
@@ -259,9 +280,13 @@ class QLaw : public GuidanceLaw
     ///
     /// @ref
     /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
-    Tuple<double, double> computeEffectivity(
-        const Vector6d& aCOEVector, const Vector3d& aThrustDirection, const Vector5d& dQ_dOE
-    ) const;
+    static Tuple<double, double> ComputeEffectivity(
+        const Vector6d& aCOEVector,
+        const Vector3d& aThrustDirection,
+        const Vector5d& dQ_dOE,
+        const Derived& aGravitationalParameter,
+        const VectorXd& trueAnomalyAngles
+    );
 };
 
 }  // namespace guidancelaw
