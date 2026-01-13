@@ -319,7 +319,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             "compute_effectivity",
             &QLaw::computeEffectivity,
             R"doc(
-                Compute the effectivity of the guidance law.
+                Compute the relative and absolute effectivity of the guidance law.
 
                 Args:
                     state (State): The state from which to extract orbital elements.

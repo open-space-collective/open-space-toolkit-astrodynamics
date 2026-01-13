@@ -241,7 +241,7 @@ class QLaw : public GuidanceLaw
     /// @return The coordinates in the GCRF frame
     static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
-    /// @brief Compute the effectivity of the guidance law
+    /// @brief Compute the relative and absolute effectivity of the guidance law
     ///
     /// @ref
     /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
