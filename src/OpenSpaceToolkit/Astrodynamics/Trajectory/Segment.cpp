@@ -720,7 +720,10 @@ Segment::Solution Segment::solve(
 
     if (!maneuverConstraints_.isDefined())
     {
-        return solveManeuver_(aState, maximumPropagationDuration, this->getThrusterDynamics());
+        // There are no maneuver constraints, we can simply return the solution with all the maneuvers in it.
+        return solveLOFCompliantManeuverSubsegment_(
+            aState, maximumPropagationDuration, this->getThrusterDynamics(), false
+        );
     }
 
     Array<State> segmentStates = {aState};
@@ -794,13 +797,11 @@ Segment::Solution Segment::solve(
     };
 
     // Helper lambda to solve a single maneuver and extract results
-    const auto solveManeuver = [&](const Shared<Thruster>& thrusterDynamics
-                               ) -> std::pair<Segment::Solution, Array<flightManeuver>>
+    const auto solveSingleManeuver = [&](const Shared<Thruster>& thrusterDynamics) -> std::pair<Segment::Solution, Array<flightManeuver>>
     {
         const State& lastState = segmentStates.accessLast();
-
         const Segment::Solution maneuverSolution =
-            solveManeuver_(lastState, maximumInstant - lastState.accessInstant(), thrusterDynamics);
+            solveLOFCompliantManeuverSubsegment_(lastState, maximumInstant - lastState.accessInstant(), thrusterDynamics, true);
 
         if (maneuverSolution.states.getSize() <= 2)
         {
@@ -913,7 +914,7 @@ Segment::Solution Segment::solve(
             }
         }
 
-        const auto [maneuverSubSegmentSolution, subsegmentManeuvers] = solveManeuver(segmentThrusterDynamics);
+        const auto [maneuverSubSegmentSolution, subsegmentManeuvers] = solveSingleManeuver(segmentThrusterDynamics);
 
         // No maneuvers found - add states
         if (subsegmentManeuvers.isEmpty())
@@ -1147,14 +1148,15 @@ Segment::Solution Segment::solveCoast_(const State& aState, const Duration& maxi
     return solveWithDynamics_(aState, maximumPropagationDuration, freeDynamicsArray_, eventCondition_);
 }
 
-Segment::Solution Segment::solveManeuver_(
-    const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
+Segment::Solution Segment::solveLOFCompliantManeuverSubsegment_(
+    const State& aState,
+    const Duration& maximumPropagationDuration,
+    const Shared<Thruster>& aThrusterDynamics,
+    const bool& stopAtFirstThrustCutOff
 ) const
 {
     const Segment::Solution solution =
-        maneuverConstraints_.isDefined()
-            ? solveSingleManeuver_(aState, maximumPropagationDuration, aThrusterDynamics)
-            : solveMultipleManeuvers_(aState, maximumPropagationDuration, aThrusterDynamics);
+        solveRawManeuversInSubsegment_(aState, maximumPropagationDuration, aThrusterDynamics, stopAtFirstThrustCutOff);
 
     // If we're not forcing a constant maneuver direction in the Local Orbital Frame, return the solution
     if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
@@ -1192,35 +1194,23 @@ Segment::Solution Segment::solveManeuver_(
     Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_;
     dynamicsArray.add(heterogeneousThrustDynamicsSPtr);
 
-    // If there are maneuver constraints, we're solving maneuver by maneuver.
-    // In that case, solving until the maximum propagation instant would return coast fragments to the
-    // outer loop, missing maneuvers beyond the first one.
+    // If we're solving maneuver by maneuver (stopAtFirstThrustCutOff=true), solving until the maximum propagation
+    // instant would return coast fragments to the outer loop, missing maneuvers beyond the first one.
     return solveWithDynamics_(
         aState,
-        maneuverConstraints_.isDefined() ? (solutionManeuvers.accessLast().getInterval().getEnd() - aState.getInstant()
-                                           ) + Duration::Seconds(1.0)  // Add small buffer to
-                                         : maximumPropagationDuration,
+        stopAtFirstThrustCutOff ? (solutionManeuvers.accessLast().getInterval().getEnd() - aState.getInstant()
+                                 ) + Duration::Seconds(1.0)  // Add small buffer
+                                : maximumPropagationDuration,
         dynamicsArray,
         eventCondition_
     );
 }
 
-Segment::Solution Segment::solveMultipleManeuvers_(
-    const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
-) const
-{
-    // Combine free dynamics and thruster dynamics into a single array
-    Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_;
-    if (aThrusterDynamics != nullptr)
-    {
-        dynamicsArray.add(aThrusterDynamics);
-    }
-    return solveWithDynamics_(aState, maximumPropagationDuration, dynamicsArray, eventCondition_);
-}
-
-Segment::Solution Segment::solveSingleManeuver_(
-    const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
-
+Segment::Solution Segment::solveRawManeuversInSubsegment_(
+    const State& aState,
+    const Duration& maximumPropagationDuration,
+    const Shared<Thruster>& thrusterDynamics,
+    const bool& stopAtFirstThrustCutOff
 ) const
 {
     // Combine free dynamics and thruster dynamics into a single array
@@ -1228,43 +1218,60 @@ Segment::Solution Segment::solveSingleManeuver_(
     dynamicsArray.add(thrusterDynamics);
 
     // Determine the event condition to use for solving
-    Shared<EventCondition> singleManeuverEventCondition = eventCondition_;
+    Shared<EventCondition> eventConditionToUse = eventCondition_;
 
-    const Shared<const GuidanceLaw> guidanceLaw = thrusterDynamics->getGuidanceLaw();
-
-    const std::function<Real(const State&)> thrustAccelerationNormEvaluator = [&guidanceLaw](const State& state) -> Real
+    if (stopAtFirstThrustCutOff)
     {
-        const Vector3d positionCoordinates = state.getPosition().inMeters().accessCoordinates();
-        const Vector3d velocityCoordinates =
-            state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+        const Shared<const GuidanceLaw> guidanceLaw = thrusterDynamics->getGuidanceLaw();
 
-        // Set the thrust acceleration to 1.0, as we're only interested to see if it's on or off.
-        const Vector3d thrustAcceleration = guidanceLaw->calculateThrustAccelerationAt(
-            state.accessInstant(), positionCoordinates, velocityCoordinates, 1.0, state.accessFrame()
+        const std::function<Real(const State&)> thrustAccelerationNormEvaluator = [&guidanceLaw](const State& state
+                                                                                  ) -> Real
+        {
+            const Vector3d positionCoordinates = state.getPosition().inMeters().accessCoordinates();
+            const Vector3d velocityCoordinates =
+                state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+
+            // Set the thrust acceleration to 1.0, as we're only interested to see if it's on or off.
+            const Vector3d thrustAcceleration = guidanceLaw->calculateThrustAccelerationAt(
+                state.accessInstant(), positionCoordinates, velocityCoordinates, 1.0, state.accessFrame()
+            );
+
+            return thrustAcceleration.norm();
+        };
+
+        // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm will either be 1.0
+        // if on, or 0.0 if off.
+        const Shared<RealCondition> thrustOffCondition = std::make_shared<RealCondition>(
+            "Thrust Off Condition", RealCondition::Criterion::NegativeCrossing, thrustAccelerationNormEvaluator, 0.5
         );
 
-        return thrustAcceleration.norm();
-    };
-
-    // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm will either be 1.0
-    // if on, or 0.0 if off.
-    const Shared<RealCondition> thrustOffCondition = std::make_shared<RealCondition>(
-        "Thrust Off Condition", RealCondition::Criterion::NegativeCrossing, thrustAccelerationNormEvaluator, 0.5
-    );
-
-    singleManeuverEventCondition = std::make_shared<LogicalCondition>(
-        "Combined Event or Thrust Off Condition",
-        LogicalCondition::Type::Or,
-        Array<Shared<EventCondition>> {eventCondition_, thrustOffCondition}
-    );
+        eventConditionToUse = std::make_shared<LogicalCondition>(
+            "Combined Event or Thrust Off Condition",
+            LogicalCondition::Type::Or,
+            Array<Shared<EventCondition>> {eventCondition_, thrustOffCondition}
+        );
+    }
 
     Segment::Solution solution =
-        solveWithDynamics_(aState, maximumPropagationDuration, dynamicsArray, singleManeuverEventCondition);
+        solveWithDynamics_(aState, maximumPropagationDuration, dynamicsArray, eventConditionToUse);
 
     // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
-    // To do so, we can check the last state against the initial state to see if the event condition is satisfied.
-    solution.conditionIsSatisfied = eventCondition_->isSatisfied(solution.states.accessLast(), aState);
+    // To do so, we propagate from the second to last solution state to one second after the last solution state,
+    // and re-evaluate the event condition.
+    const Propagator propagator = {
+        numericalSolver_,
+        freeDynamicsArray_,
+    };
+
+    const State& lastSolutionState = solution.states.accessLast();
+    const State& secondToLastSolutionState =
+        (solution.states.getSize() > 2) ? solution.states[solution.states.getSize() - 2] : lastSolutionState;
+
+    solution.conditionIsSatisfied = eventCondition_->isSatisfied(
+        propagator.calculateStateAt(lastSolutionState, lastSolutionState.accessInstant() + Duration::Seconds(1.0)),
+        secondToLastSolutionState
+    );
 
     return solution;
 }
