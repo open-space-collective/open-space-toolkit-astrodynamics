@@ -159,6 +159,8 @@ String Segment::StringFromMaximumManeuverDurationViolationStrategy(
             return "TruncateStart";
         case MaximumManeuverDurationViolationStrategy::Center:
             return "Center";
+        case MaximumManeuverDurationViolationStrategy::Chunk:
+            return "Chunk";
         default:
             return "Unknown";
     };
@@ -906,6 +908,21 @@ Segment::Solution Segment::solve(
                 acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
                 return maneuverLOFCompliantSolution.conditionIsSatisfied;
+            }
+
+            case MaximumManeuverDurationViolationStrategy::Chunk:
+            {
+                const Interval validManeuverInterval = Interval::Closed(
+                    candidateManeuverInterval.getStart(),
+                    candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
+                );
+
+                const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
+                const auto [maneuverSolution, _] = solveManeuverForInterval(slicedThruster, validManeuverInterval);
+
+                acceptManeuver(maneuverSolution, validManeuverInterval);
+
+                return maneuverSolution.conditionIsSatisfied;
             }
 
             default:
