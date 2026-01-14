@@ -705,7 +705,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effecti
         const double etaRelative = std::get<0>(effectivity);
         const double etaAbsolute = std::get<1>(effectivity);
 
-        // Effectivity values should be in range [0, 1] or slightly above 1 for absolute
+        // Effectivity values are expected to be in range [0, 1] (or slightly above 1 for absolute)
         EXPECT_GE(etaRelative, 0.0);
         EXPECT_LE(etaRelative, 1.0);
         EXPECT_GT(etaAbsolute, 0.0);
@@ -723,10 +723,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effecti
         const double etaRelative = std::get<0>(effectivity);
         const double etaAbsolute = std::get<1>(effectivity);
 
-        // Effectivity values should be in range [0, 1] or slightly above 1 for absolute
+        // Effectivity values are expected to be in range [0, 1] (or slightly above 1 for absolute)
         EXPECT_GE(etaRelative, 0.0);
         EXPECT_LE(etaRelative, 1.0);
         EXPECT_GT(etaAbsolute, 0.0);
+        EXPECT_LE(etaAbsolute, 1.0);
 
         // Both values should be finite
         EXPECT_TRUE(std::isfinite(etaRelative));
