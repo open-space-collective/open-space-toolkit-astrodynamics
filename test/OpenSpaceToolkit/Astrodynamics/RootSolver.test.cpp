@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 #include <Global.test.hpp>
@@ -68,12 +70,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve)
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Bisection)
 {
     // Define a simple quadratic function
-    auto func = [](const double& x)
     {
-        return (x * x) - 4;
-    };
+        auto func = [](const double& x)
+        {
+            return (x * x) - 4;
+        };
 
-    EXPECT_NO_THROW(defaultRootSolver_.bisection(func, 1.0, 5.0));
+        const RootSolver::Solution solution = defaultRootSolver_.bisection(func, 1.0, 5.0);
+        EXPECT_DOUBLE_EQ(solution.root, 2.0);
+        EXPECT_LE(solution.lowerBound, 2.0);
+        EXPECT_GE(solution.upperBound, 2.0);
+        EXPECT_LT(solution.iterationCount, defaultMaxIterations_);
+        EXPECT_TRUE(solution.hasConverged);
+    }
+
+    // Test with a function that has no exact root
+    {
+        auto func = [](const double& x)
+        {
+            return (x * x) - 2.0;
+        };
+
+        const RootSolver::Solution solution = defaultRootSolver_.bisection(func, 1.0, 5.0);
+        EXPECT_NEAR(solution.root, std::sqrt(2.0), 1e-8);
+        EXPECT_LT(std::sqrt(2.0) - solution.lowerBound, 1e-8);
+        EXPECT_LT(solution.upperBound - std::sqrt(2.0), 1e-8);
+        EXPECT_LT(solution.iterationCount, defaultMaxIterations_);
+        EXPECT_TRUE(solution.hasConverged);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Print)
