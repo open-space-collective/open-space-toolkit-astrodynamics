@@ -3098,3 +3098,227 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeu
 
     EXPECT_NO_THROW(maneuverSegment.solve(initialState, simulationDuration));
 }
+
+struct QLawHangingScenarioParams
+{
+    String description;
+    Duration maximumSimulationDuration;
+    double smaWeight;
+    double eccWeight;
+    double incWeight;
+    double raanWeight;
+    double aopWeight;
+    Real absoluteEffectivityThreshold;
+    Real relativeEffectivityThreshold;
+};
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_QLawHangingScenarios
+    : public ::testing::TestWithParam<QLawHangingScenarioParams>
+{
+   protected:
+    void SetUp() override
+    {
+        // Set up Earth with high-fidelity models (EGM96 70x70, NRLMSISE00)
+        earthSPtr_ = std::make_shared<Celestial>(Earth::FromModels(
+            std::make_shared<EarthGravitationalModel>(
+                EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70
+            ),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+        ));
+
+        // Satellite system
+        const Composite satelliteGeometry = Composite(Cuboid(
+            {0.0, 0.0, 0.0},
+            {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+             ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+             ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 0.0, 0.0}
+        ));
+        satelliteSystem_ = SatelliteSystem(
+            Mass::Kilograms(187.7),  // dry mass
+            satelliteGeometry,
+            Matrix3d::Identity(),
+            2.2325,                       // cross-sectional area
+            2.2076995796217687,           // drag coefficient
+            PropulsionSystem(0.0161, 1140.26)  // thrust (N), specific impulse (s)
+        );
+
+        // Initial state (2026-01-18T12:00:00 UTC)
+        initialInstant_ = Instant::DateTime(DateTime(2026, 1, 18, 12, 0, 0), Scale::UTC);
+        coordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker({
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            CoordinateSubset::Mass(),
+            CoordinateSubset::SurfaceArea(),
+            CoordinateSubset::DragCoefficient(),
+        }));
+
+        VectorXd initialCoordinates(9);
+        initialCoordinates << 480759.22263433575, 2524081.1716118655, -6427037.693699427,  // position (m)
+            1411.2255878143976, -6965.459370114721, -2629.039243147846,                    // velocity (m/s)
+            193.3655889361863,                                                             // mass (kg)
+            2.2325,                                                                        // surface area (m^2)
+            2.2076995796217687;                                                            // drag coefficient
+
+        initialState_ = State(initialInstant_, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr_);
+
+        // Compute initial BLM COE for target construction
+        initialBLM_ = BrouwerLyddaneMeanLong::Cartesian(
+            {initialState_.getPosition(), initialState_.getVelocity()},
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        );
+
+        // Environment and dynamics
+        environment_ = Environment(initialInstant_, {earthSPtr_});
+        dynamics_ = Dynamics::FromEnvironment(environment_);
+
+        // Numerical solver
+        numericalSolver_ = NumericalSolver::DefaultConditional();
+    }
+
+    // Tolerances (same for all scenarios)
+    const double smaTolerance_ = 200.0;             // meters
+    const double eccTolerance_ = 100e-6;
+    const double incTolerance_ = 0.0;               // radians
+    const double raanTolerance_ = 0.0;              // radians
+    const double aopTolerance_ = 0.130899693899575; // 7.5 degrees in radians
+
+    Shared<Celestial> earthSPtr_;
+    SatelliteSystem satelliteSystem_ = SatelliteSystem::Default();
+    Instant initialInstant_ = Instant::Undefined();
+    Shared<const CoordinateBroker> coordinateBrokerSPtr_;
+    State initialState_ = State::Undefined();
+    BrouwerLyddaneMeanLong initialBLM_ = BrouwerLyddaneMeanLong::Undefined();
+    Environment environment_ = Environment::Default();
+    Array<Shared<Dynamics>> dynamics_;
+    NumericalSolver numericalSolver_ = NumericalSolver::Undefined();
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    QLawHangingScenarios,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_QLawHangingScenarios,
+    ::testing::Values(
+        // Scenario 1: SMA targeting without effectivity thresholds
+        QLawHangingScenarioParams {
+            "SMA_NoEff",
+            Duration::Hours(13.0),
+            1.0,                   // smaWeight
+            0.0,                   // eccWeight
+            0.0,                   // incWeight
+            0.0,                   // raanWeight
+            0.0,                   // aopWeight
+            Real::Undefined(),     // absoluteEffectivityThreshold
+            Real::Undefined(),     // relativeEffectivityThreshold
+        },
+        // Scenario 2: SMA targeting with effectivity thresholds
+        QLawHangingScenarioParams {
+            "SMA_WithEff",
+            Duration::Hours(13.0),
+            1.0,                   // smaWeight
+            0.0,                   // eccWeight
+            0.0,                   // incWeight
+            0.0,                   // raanWeight
+            0.0,                   // aopWeight
+            0.5,                   // absoluteEffectivityThreshold
+            0.5,                   // relativeEffectivityThreshold
+        },
+        // Scenario 3: Eccentricity targeting without effectivity thresholds
+        QLawHangingScenarioParams {
+            "ECC_NoEff",
+            Duration::Hours(10.0),
+            0.0,                   // smaWeight
+            1.0,                   // eccWeight
+            0.0,                   // incWeight
+            0.0,                   // raanWeight
+            0.0,                   // aopWeight
+            Real::Undefined(),     // absoluteEffectivityThreshold
+            Real::Undefined(),     // relativeEffectivityThreshold
+        }
+    ),
+    [](const ::testing::TestParamInfo<QLawHangingScenarioParams>& paramInfo)
+    {
+        return paramInfo.param.description;
+    }
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_QLawHangingScenarios, HangingScenarios)
+{
+    const auto params = GetParam();
+
+    // Build target COE based on initial BLM
+    const COE initialBLMAsCOE = initialBLM_.toCOE();
+    const COE targetCOE = {
+        Length::Meters(6912136.3),           // target semi-major axis
+        0.001068989,                         // target eccentricity
+        initialBLM_.getInclination(),        // keep initial inclination
+        initialBLM_.getRaan(),               // keep initial RAAN
+        Angle::Degrees(90.0),                // target AoP
+        initialBLMAsCOE.getTrueAnomaly(),    // true anomaly (not targeted, for constructor consistency)
+    };
+
+    // Build QLaw parameters from test params
+    Map<COE::Element, Tuple<double, double>> elementWeightsMap;
+    if (params.smaWeight > 0.0)
+    {
+        elementWeightsMap[COE::Element::SemiMajorAxis] = {params.smaWeight, smaTolerance_};
+    }
+    if (params.eccWeight > 0.0)
+    {
+        elementWeightsMap[COE::Element::Eccentricity] = {params.eccWeight, eccTolerance_};
+    }
+    if (params.incWeight > 0.0)
+    {
+        elementWeightsMap[COE::Element::Inclination] = {params.incWeight, incTolerance_};
+    }
+    if (params.raanWeight > 0.0)
+    {
+        elementWeightsMap[COE::Element::Raan] = {params.raanWeight, raanTolerance_};
+    }
+    if (params.aopWeight > 0.0)
+    {
+        elementWeightsMap[COE::Element::Aop] = {params.aopWeight, aopTolerance_};
+    }
+
+    const QLaw::Parameters qlawParams = {
+        elementWeightsMap,
+        3,                                       // m
+        4,                                       // n
+        2,                                       // r
+        0.01,                                    // b
+        100,                                     // k
+        0.0,                                     // periapsisWeight
+        Length::Kilometers(6578.0),              // minimumPeriapsisRadius
+        params.absoluteEffectivityThreshold,
+        params.relativeEffectivityThreshold,
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        EarthGravitationalModel::EGM2008.gravitationalParameter_,
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem_, qlawSPtr);
+
+    // Event condition: maximum simulation duration
+    const Shared<InstantCondition> endConditionSPtr = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::PositiveCrossing, initialInstant_ + params.maximumSimulationDuration
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        "QLaw Maneuver Segment",
+        endConditionSPtr,
+        thrusterSPtr,
+        dynamics_,
+        numericalSolver_,
+    );
+
+    // This should complete without hanging
+    const Segment::Solution solution = maneuverSegment.solve(initialState_, params.maximumSimulationDuration);
+
+    EXPECT_FALSE(solution.states.isEmpty());
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+}
