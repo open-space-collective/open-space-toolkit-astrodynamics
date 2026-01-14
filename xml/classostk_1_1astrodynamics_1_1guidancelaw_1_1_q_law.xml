@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="107" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="106" bodyend="110"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="110" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="109" bodyend="113"/>
       </memberdef>
       <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2d649eab8690e26e573f1471d3b2fbff" prot="public" static="no" strong="yes">
         <type></type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="113" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="112" bodyend="117"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="116" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="115" bodyend="120"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="242" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="242" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="258" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="258" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a33ca4555b6f81ece5347ab26c6ae91e9" prot="private" static="no" mutable="no">
         <type>const double</type>
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="243" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="243" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="259" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="259" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1aff162d08aa137e1eb7847f4251f273e3" prot="private" static="no" mutable="no">
         <type>const Vector6d</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="244" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="244" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="260" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="260" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a4935a793c78220b93147f3852ba92e22" prot="private" static="no" mutable="no">
         <type>const Derived</type>
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="245" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="245" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="261" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="261" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a7a0233fff38c739aacfa00425d31c54f" prot="private" static="no" mutable="no">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1ac6c05a39e0417bbbf3bfd707fdfe888d" kindref="member">GradientStrategy</ref></type>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="246" column="28" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="246" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="262" column="28" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="262" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a74940c6c35bea4d2155aa728cd2c83be" prot="private" static="no" mutable="no">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref></type>
@@ -141,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="247" column="34" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="247" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="263" column="34" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="263" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1ab4c49472c75cc4dd90f69679f79b8156" prot="private" static="no" mutable="no">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref></type>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="248" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="248" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="264" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="264" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a97f350cb44e0fd5a3e08d7d2317ee5a4" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2d649eab8690e26e573f1471d3b2fbff" kindref="member">COEDomain</ref></type>
@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="249" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="249" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="265" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="265" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a63410aa56dcf1366c7f8eea231c89352" prot="private" static="no" mutable="no">
         <type>const VectorXd</type>
@@ -181,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="251" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="251" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="267" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="267" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -260,7 +260,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="127" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="108" bodyend="127"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="130" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="113" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a0d69e22dc885e36b9dfaeb63096ba82a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -274,7 +274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="136" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="129" bodyend="129"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="139" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="134" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a6332d26be69fc74b667d957fff1d849f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters" kindref="compound">Parameters</ref></type>
@@ -291,7 +291,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="152" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="144" bodyend="147"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="155" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="149" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a40b341ee7b1c233e141764b9efd4f24e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
@@ -308,7 +308,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="157" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="149" bodyend="152"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="160" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="154" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a7b746a24907970a5d820bf354c2c44c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1ac6c05a39e0417bbbf3bfd707fdfe888d" kindref="member">GradientStrategy</ref></type>
@@ -325,7 +325,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="162" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="154" bodyend="157"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="165" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="159" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a5466a2c3eca7c68a4d79a2677606b4ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2d649eab8690e26e573f1471d3b2fbff" kindref="member">COEDomain</ref></type>
@@ -342,7 +342,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="167" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="159" bodyend="162"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="170" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="164" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1af6e00ee6b34a99c866d14ff2e2000f7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -384,7 +384,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="173" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="137" bodyend="142"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="176" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="142" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1add770ececad5c96ad2e6711d0c295121" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Vector3d</type>
@@ -463,7 +463,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="185" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="164" bodyend="215"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="188" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="169" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1acb6c98f18d6a47442b6a943b2549ab5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" kindref="member">Vector5d</ref></type>
@@ -505,7 +505,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="199" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="320" bodyend="409"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="202" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="284" bodyend="373"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a830bc22b51c63d2fb248780ca12db7c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -547,7 +547,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="207" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="278" bodyend="318"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="210" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="242" bodyend="282"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1af2f3f951c169748b9cb3779c68dffc7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" kindref="member">Vector5d</ref></type>
@@ -589,7 +589,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="215" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="217" bodyend="227"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="218" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="191" bodyend="201"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a9cf5c3729dc145cfddf3c68c963a3c70" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Vector3d</type>
@@ -631,7 +631,62 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="223" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="229" bodyend="276"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="226" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="203" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1aeccd8aebc5f33d882f9f84ac43cb01d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple&lt; double, double &gt;</type>
+        <definition>Tuple&lt; double, double &gt; ostk::astrodynamics::guidancelaw::QLaw::computeEffectivity</definition>
+        <argsstring>(const State &amp;aState, const Real &amp;aThrustAcceleration, const Size &amp;discretizationStepCount=50) const</argsstring>
+        <name>computeEffectivity</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aThrustAcceleration</declname>
+        </param>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>discretizationStepCount</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+<para>Compute the relative and absolute effectivity of the guidance law. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ulink url="https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers">https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers</ulink> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state from which to extract orbital elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>discretizationStepCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of discretization steps for the true anomaly</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the relative and absolute effectivity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="253" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="389" bodyend="406"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -677,7 +732,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="147" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="131" bodyend="135"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="150" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="136" bodyend="140"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -721,7 +776,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="231" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="425" bodyend="472"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="234" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="408" bodyend="455"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a3984a9b030036da2e313301fca8e4821" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Matrix3d</type>
@@ -763,7 +818,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="239" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="411" bodyend="423"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="242" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="375" bodyend="387"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -777,12 +832,55 @@
           <declname>aCOEVector</declname>
         </param>
         <briefdescription>
+<para>Compute the delta of the orbital elements. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOEVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5-dimensional vector of classical orbital elements (excluding true anomaly)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The delta of the orbital elements </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="253" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="708" bodyend="717"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="274" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="705" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1afb6bf72f1cd8837141275aca32cb73d8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector6d</type>
+        <definition>Vector6d ostk::astrodynamics::guidancelaw::QLaw::convertCartesianStateToCOEVector</definition>
+        <argsstring>(const COE::CartesianState &amp;aCartesianState) const</argsstring>
+        <name>convertCartesianStateToCOEVector</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afe61bec3df3ed29002a9bc07f3f53311" kindref="member">COE::CartesianState</ref> &amp;</type>
+          <declname>aCartesianState</declname>
+        </param>
+        <briefdescription>
+<para>Convert a Cartesian state to a COE vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCartesianState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Cartesian state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The COE vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="281" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="716" bodyend="752"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2caa932c79eca93be361214b3874002a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" kindref="member">Vector5d</ref></type>
@@ -798,12 +896,33 @@
           <declname>aThrustAcceleration</declname>
         </param>
         <briefdescription>
+<para>Compute the analytical derivative of Q with respect to the orbital elements. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOEVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5-dimensional vector of classical orbital elements (excluding true anomaly) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The analytical derivative of Q with respect to the orbital elements </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="255" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="474" bodyend="683"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="289" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="457" bodyend="666"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a846a0ea043d710e4d9d33bf7d3e8b2fa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" kindref="member">Vector5d</ref></type>
@@ -819,39 +938,141 @@
           <declname>aThrustAcceleration</declname>
         </param>
         <briefdescription>
+<para>Compute the numerical derivative of Q with respect to the orbital elements. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOEVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 5-dimensional vector of classical orbital elements (excluding true anomaly) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The numerical derivative of Q with respect to the orbital elements </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="256" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="685" bodyend="706"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="297" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="668" bodyend="689"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1ab9a958817d4559ac5f15c263d7db5696" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a49baa10e19ab669c6c8588945751b354" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::guidancelaw::QLaw::computeThrustVector</definition>
+        <argsstring>(const Vector6d &amp;aCOEVector, const double &amp;aThrustAcceleration) const</argsstring>
+        <name>computeThrustVector</name>
+        <param>
+          <type>const Vector6d &amp;</type>
+          <declname>aCOEVector</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>aThrustAcceleration</declname>
+        </param>
+        <briefdescription>
+<para>Compute the thrust vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOEVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 6-dimensional vector of classical orbital elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The thrust vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="305" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="691" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1afaf1cc9eccd85cb835e43551d8bfee58" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Tuple&lt; double, double &gt;</type>
-        <definition>Tuple&lt; double, double &gt; ostk::astrodynamics::guidancelaw::QLaw::computeEffectivity</definition>
-        <argsstring>(const Vector6d &amp;aCOEVector, const Vector3d &amp;aThrustDirection, const Vector5d &amp;dQ_dOE) const</argsstring>
-        <name>computeEffectivity</name>
+        <definition>Tuple&lt; double, double &gt; ostk::astrodynamics::guidancelaw::QLaw::computeEffectivity_</definition>
+        <argsstring>(const Vector6d &amp;aCOEVector, const Vector3d &amp;currentThrustVector, const double &amp;aThrustAcceleration, const VectorXd &amp;trueAnomalyAngles) const</argsstring>
+        <name>computeEffectivity_</name>
         <param>
           <type>const Vector6d &amp;</type>
           <declname>aCOEVector</declname>
         </param>
         <param>
           <type>const Vector3d &amp;</type>
-          <declname>aThrustDirection</declname>
+          <declname>currentThrustVector</declname>
         </param>
         <param>
-          <type>const <ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" kindref="member">Vector5d</ref> &amp;</type>
-          <declname>dQ_dOE</declname>
+          <type>const double &amp;</type>
+          <declname>aThrustAcceleration</declname>
+        </param>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>trueAnomalyAngles</declname>
         </param>
         <briefdescription>
 <para>Compute the effectivity of the guidance law. </para>
         </briefdescription>
         <detaileddescription>
-<para><ulink url="https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers">https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers</ulink> </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCOEVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 6-dimensional vector of classical orbital elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>currentThrustVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current thrust vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trueAnomalyAngles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The true anomaly angles</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The effectivity of the guidance law <ulink url="https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers">https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers</ulink> </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="262" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="719" bodyend="771"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="317" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="754" bodyend="808"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -889,7 +1110,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="62" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="61" bodyend="265"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="64" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="63" bodyend="323"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1add770ececad5c96ad2e6711d0c295121" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>calculateThrustAccelerationAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2d649eab8690e26e573f1471d3b2fbff" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>COEDomain</name></member>
@@ -898,11 +1119,14 @@
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1af2f3f951c169748b9cb3779c68dffc7c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>compute_dQ_dOE</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2caa932c79eca93be361214b3874002a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeAnalytical_dQ_dOE</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a0b8ef4de76f304cb05e5ab21aa93eba2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeDeltaCOE</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1ab9a958817d4559ac5f15c263d7db5696" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeEffectivity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1aeccd8aebc5f33d882f9f84ac43cb01d4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeEffectivity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1afaf1cc9eccd85cb835e43551d8bfee58" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeEffectivity_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a846a0ea043d710e4d9d33bf7d3e8b2fa" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeNumerical_dQ_dOE</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1acb6c98f18d6a47442b6a943b2549ab5d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeOrbitalElementsMaximalChange</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a830bc22b51c63d2fb248780ca12db7c2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeQ</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a9cf5c3729dc145cfddf3c68c963a3c70" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeThrustDirection</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a49baa10e19ab669c6c8588945751b354" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>computeThrustVector</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1afb6bf72f1cd8837141275aca32cb73d8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>convertCartesianStateToCOEVector</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a74940c6c35bea4d2155aa728cd2c83be" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>finiteDifferenceSolver_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a5466a2c3eca7c68a4d79a2677606b4ab" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>getCOEDomain</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a7b746a24907970a5d820bf354c2c44c4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::QLaw</scope><name>getGradientStrategy</name></member>

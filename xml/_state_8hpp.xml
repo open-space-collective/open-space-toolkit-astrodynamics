@@ -26,6 +26,7 @@
     <includedby refid="_transform_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp</includedby>
     <includedby refid="_flight_2_profile_2_model_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp</includedby>
     <includedby refid="_profile_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp</includedby>
+    <includedby refid="_q_law_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</includedby>
     <includedby refid="_finite_difference_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp</includedby>
     <includedby refid="_least_squares_solver_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp</includedby>
     <includedby refid="_local_orbital_frame_transform_provider_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp</includedby>
@@ -303,6 +304,8 @@
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
         <childnode refid="70" relation="include">
         </childnode>
         <childnode refid="73" relation="include">
@@ -347,7 +350,7 @@
         </childnode>
         <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
@@ -739,7 +742,7 @@
         </childnode>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
         <childnode refid="70" relation="include">
         </childnode>
@@ -808,7 +811,7 @@
         <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="69">
+      <node id="68">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
         <link refid="_q_law_8cpp"/>
       </node>
@@ -894,10 +897,10 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="68">
+      <node id="67">
         <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp</label>
         <link refid="_q_law_8hpp"/>
-        <childnode refid="69" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
       </node>
       <node id="36">
@@ -972,10 +975,10 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp</label>
         <link refid="_local_orbital_frame_transform_provider_8cpp"/>
       </node>
-      <node id="67">
+      <node id="69">
         <label>include/OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp</label>
         <link refid="_finite_difference_solver_8hpp"/>
-        <childnode refid="68" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
         <childnode refid="70" relation="include">
         </childnode>

@@ -1070,6 +1070,7 @@
     <member refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters_1abec711405eb0b2685840076cc30d6b41" kind="variable"><name>validElements_</name></member>
     <member refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters_1af3c19b01c41fe33ca7faec58f4eee786" kind="function"><name>Parameters</name></member>
     <member refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters_1a7bc06c3e43ddbb87e0fdef25b0e6c4e1" kind="function"><name>getControlWeights</name></member>
+    <member refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters_1a5df5dcee42205e93fb06c41ed9e62495" kind="function"><name>getConvergenceThresholds</name></member>
     <member refid="structostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1_1_parameters_1ab64e2c9c67f9da8cc904f28750a6778a" kind="function"><name>getMinimumPeriapsisRadius</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_pass" kind="class"><name>ostk::astrodynamics::trajectory::orbit::Pass</name>
@@ -1268,13 +1269,16 @@
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a830bc22b51c63d2fb248780ca12db7c2" kind="function"><name>computeQ</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1af2f3f951c169748b9cb3779c68dffc7c" kind="function"><name>compute_dQ_dOE</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a9cf5c3729dc145cfddf3c68c963a3c70" kind="function"><name>computeThrustDirection</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1aeccd8aebc5f33d882f9f84ac43cb01d4" kind="function"><name>computeEffectivity</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a8f94cc3d8532a14a66eda491ca8d0e72" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a1f1ddd2fd72ec6e18ebca9b73cdf4e05" kind="function"><name>Compute_dOE_dF</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a3984a9b030036da2e313301fca8e4821" kind="function"><name>ThetaRHToGCRF</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a0b8ef4de76f304cb05e5ab21aa93eba2" kind="function"><name>computeDeltaCOE</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1afb6bf72f1cd8837141275aca32cb73d8" kind="function"><name>convertCartesianStateToCOEVector</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a2caa932c79eca93be361214b3874002a" kind="function"><name>computeAnalytical_dQ_dOE</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a846a0ea043d710e4d9d33bf7d3e8b2fa" kind="function"><name>computeNumerical_dQ_dOE</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1ab9a958817d4559ac5f15c263d7db5696" kind="function"><name>computeEffectivity</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a49baa10e19ab669c6c8588945751b354" kind="function"><name>computeThrustVector</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1afaf1cc9eccd85cb835e43551d8bfee58" kind="function"><name>computeEffectivity_</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kind="class"><name>ostk::astrodynamics::eventcondition::RealCondition</name>
     <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kind="enum"><name>Criterion</name></member>
@@ -1414,6 +1418,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1aad6d8ba02e45dd9d25f2f9aea8161589" kind="function"><name>solveCoast_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ad46d3006cc38b4e3a4c379c7db9e487c" kind="function"><name>solveMultipleManeuvers_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a3b2168f1d84438316549f6952efbc5e3" kind="function"><name>solveSingleManeuver_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a8bbb5b8ddfbe1a765a5afe2fd2082a17" kind="function"><name>propagateWithDynamics_</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence" kind="class"><name>ostk::astrodynamics::trajectory::Sequence</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1aec9f3144ba0e368e902875d47e24a8e6" kind="variable"><name>segments_</name></member>
