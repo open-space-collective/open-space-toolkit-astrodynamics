@@ -128,6 +128,7 @@ class TestQLawParameters:
 
     def test_getters(self, parameters: QLaw.Parameters):
         assert parameters.get_control_weights() is not None
+        assert parameters.get_convergence_thresholds() is not None
         assert parameters.m == 5
         assert parameters.n == 6
         assert parameters.r == 7

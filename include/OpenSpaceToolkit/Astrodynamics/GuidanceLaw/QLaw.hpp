@@ -80,6 +80,7 @@ class QLaw : public GuidanceLaw
         );
 
         Vector5d getControlWeights() const;
+        Vector5d getConvergenceThresholds() const;
         Length getMinimumPeriapsisRadius() const;
 
         const double m;

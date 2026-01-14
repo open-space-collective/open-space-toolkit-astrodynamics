@@ -182,6 +182,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         )
 
         .def(
+            "get_convergence_thresholds",
+            &QLaw::Parameters::getConvergenceThresholds,
+            R"doc(
+                Get the convergence thresholds.
+
+                Returns:
+                    np.array: The convergence thresholds.
+            )doc"
+        )
+
+        .def(
             "get_minimum_periapsis_radius",
             &QLaw::Parameters::getMinimumPeriapsisRadius,
             R"doc(

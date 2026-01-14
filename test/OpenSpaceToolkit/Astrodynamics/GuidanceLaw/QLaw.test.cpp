@@ -195,6 +195,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetPar
     EXPECT_NO_THROW(qlaw_.getParameters());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetControlWeightsAndConvergenceThresholds)
+{
+    const QLaw::Parameters parametersWithUniqueWeightsAndThresholds = {
+        {
+            {COE::Element::SemiMajorAxis, {0.1, 100.0}},
+            {COE::Element::Eccentricity, {0.2, 1e-3}},
+            {COE::Element::Inclination, {0.3, 1.0}},
+            {COE::Element::Raan, {0.4, 2.0}},
+            {COE::Element::Aop, {0.5, 3.0}},
+        },
+    };
+
+    const Vector5d controlWeights = parametersWithUniqueWeightsAndThresholds.getControlWeights();
+    EXPECT_EQ(controlWeights(0), 0.1);
+    EXPECT_EQ(controlWeights(1), 0.2);
+    EXPECT_EQ(controlWeights(2), 0.3);
+    EXPECT_EQ(controlWeights(3), 0.4);
+    EXPECT_EQ(controlWeights(4), 0.5);
+
+    const Vector5d thresholds = parametersWithUniqueWeightsAndThresholds.getConvergenceThresholds();
+    EXPECT_EQ(thresholds(0), 100.0);
+    EXPECT_EQ(thresholds(1), 1.0e-3);
+    EXPECT_EQ(thresholds(2), 1.0);
+    EXPECT_EQ(thresholds(3), 2.0);
+    EXPECT_EQ(thresholds(4), 3.0);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetTargetCOE)
 {
     EXPECT_EQ(qlaw_.getTargetCOE(), targetCOE_);
@@ -667,9 +694,13 @@ static std::string GenerateTestName(
     const QLaw::GradientStrategy strategy = std::get<0>(info.param);
     const QLaw::COEDomain domain = std::get<1>(info.param);
 
-    std::string strategyStr =
-        (strategy == QLaw::GradientStrategy::FiniteDifference) ? "FiniteDifference" : "Analytical";
-    std::string domainStr = (domain == QLaw::COEDomain::Osculating) ? "Osculating" : "BrouwerLyddaneMeanLong";
+    std::string strategyStr = (strategy == QLaw::GradientStrategy::FiniteDifference) ? "FiniteDifference"
+                            : (strategy == QLaw::GradientStrategy::Analytical)       ? "Analytical"
+                                                                                     : "UnknownGradientStrategy";
+    std::string domainStr = (domain == QLaw::COEDomain::Osculating)              ? "Osculating"
+                          : (domain == QLaw::COEDomain::BrouwerLyddaneMeanLong)  ? "BrouwerLyddaneMeanLong"
+                          : (domain == QLaw::COEDomain::BrouwerLyddaneMeanShort) ? "BrouwerLyddaneMeanShort"
+                                                                                 : "UnknownCOEDomain";
     return strategyStr + "_" + domainStr;
 }
 
@@ -679,8 +710,10 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         std::make_tuple(QLaw::GradientStrategy::FiniteDifference, QLaw::COEDomain::Osculating),
         std::make_tuple(QLaw::GradientStrategy::FiniteDifference, QLaw::COEDomain::BrouwerLyddaneMeanLong),
+        std::make_tuple(QLaw::GradientStrategy::FiniteDifference, QLaw::COEDomain::BrouwerLyddaneMeanShort),
         std::make_tuple(QLaw::GradientStrategy::Analytical, QLaw::COEDomain::Osculating),
-        std::make_tuple(QLaw::GradientStrategy::Analytical, QLaw::COEDomain::BrouwerLyddaneMeanLong)
+        std::make_tuple(QLaw::GradientStrategy::Analytical, QLaw::COEDomain::BrouwerLyddaneMeanLong),
+        std::make_tuple(QLaw::GradientStrategy::Analytical, QLaw::COEDomain::BrouwerLyddaneMeanShort)
     ),
     GenerateTestName
 );

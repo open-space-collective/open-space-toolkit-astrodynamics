@@ -100,6 +100,11 @@ Vector5d QLaw::Parameters::getControlWeights() const
     return controlWeights_;
 }
 
+Vector5d QLaw::Parameters::getConvergenceThresholds() const
+{
+    return convergenceThresholds_;
+}
+
 Length QLaw::Parameters::getMinimumPeriapsisRadius() const
 {
     return Length::Meters(minimumPeriapsisRadius_);
