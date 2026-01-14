@@ -247,7 +247,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     // Search for the exact time of the condition change
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionStateVector(aState.accessCoordinates().size());
-    const double solutionTime = solution.root;
+
+    // ensure that the solution time has crossed the condition
+    const double solutionTime = (signedTimeStep > 0.0) ? solution.upperBound : solution.lowerBound;
 
     stepper.calc_state(solutionTime, solutionStateVector);
     const State solutionState = createState(solutionStateVector, solutionTime);
