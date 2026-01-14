@@ -441,11 +441,7 @@ class Segment
     /// @param aState The initial state of the segment
     /// @param aManeuver The maneuver
     /// @return The segment solution
-<<<<<<< HEAD
     Segment::Solution constructLOFCompliantManeuverSolution_(
-=======
-    Pair<Segment::Solution, Interval> constructLOFCompliantManeuverSolution_(
->>>>>>> 8a134445 (wip:)
         const State& aState,
         const flightManeuver& aManeuver
     ) const;
@@ -480,12 +476,8 @@ class Segment
         const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
     ) const;
 
-<<<<<<< HEAD
     /// @brief Solve the maneuver for a given interval. Coasts until the start of the maneuver interval and then solves the maneuver for the given interval.
     /// This guarantees that we have a state at the start and end of the maneuver interval.
-=======
-    /// @brief Solve the maneuver for a given interval
->>>>>>> 8a134445 (wip:)
     ///
     /// @param aState The initial state of the segment
     /// @param thrusterDynamics The thruster dynamics

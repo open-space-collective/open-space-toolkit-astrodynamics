@@ -757,8 +757,6 @@ Segment::Solution Segment::solve(
         const Segment::Solution coastSegmentSolution =
             solveCoast_(lastState, std::min(endInstant, maximumInstant) - lastState.accessInstant());
 
-        std::cout << "Coast segment solution: " << coastSegmentSolution.states[1].accessInstant().toString() << " - " << coastSegmentSolution.states.accessLast().accessInstant().toString() << std::endl;
-
         segmentStates.add(Array<State>(coastSegmentSolution.states.begin() + 1, coastSegmentSolution.states.end()));
 
         segmentConditionIsSatisfied = coastSegmentSolution.conditionIsSatisfied;
@@ -769,7 +767,6 @@ Segment::Solution Segment::solve(
     // Helper lambda to solve a single maneuver and extract results
     const auto solveSingleManeuver = [&](const Shared<Thruster>& thrusterDynamics) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
     {
-        std::cout << "Solving single maneuver from state: " << segmentStates.accessLast().accessInstant().toString() << std::endl;
         const State& lastState = segmentStates.accessLast();
         const Segment::Solution maneuverSolution = solveNextManeuver_(lastState, maximumPropagationDuration, thrusterDynamics);
 
@@ -816,7 +813,6 @@ Segment::Solution Segment::solve(
         std::make_shared<HeterogeneousGuidanceLaw>();
     const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const FlightManeuver& maneuver) -> void
     {
-        std::cout << "Accepting maneuver from state: " << maneuverSolution.getThrusterDynamics()->getName() << " at interval: " << maneuverSolution.states[1].accessInstant().toString() << " - " << maneuverSolution.states.accessLast().accessInstant().toString() << std::endl;
         segmentStates.add(Array<State>(maneuverSolution.states.begin() + 1, maneuverSolution.states.end()));
 
         segmentConditionIsSatisfied = maneuverSolution.conditionIsSatisfied;
@@ -825,8 +821,6 @@ Segment::Solution Segment::solve(
 
         // Reset the multiplier to 1, as we have accepted a maneuver
         multiplier = 1;
-
-        std::cout << "Accepting maneuver: " << maneuverSolution.getThrusterDynamics()->getName() << " at interval: " << maneuverInterval << std::endl;
 
         segmentHeterogenousGuidanceLaw->addGuidanceLaw(
             maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), previousManeuverInterval
@@ -936,7 +930,6 @@ Segment::Solution Segment::solve(
                 Array<State>(maneuverSubSegmentSolution.states.begin() + 1, maneuverSubSegmentSolution.states.end())
             );
             segmentConditionIsSatisfied = maneuverSubSegmentSolution.conditionIsSatisfied;
-            std::cout << "No maneuvers found - adding states at instant: " << maneuverSubSegmentSolution.states.accessFirst().accessInstant().toString() << " - " << maneuverSubSegmentSolution.states.accessLast().accessInstant().toString() << "and satisfied: " << segmentConditionIsSatisfied << std::endl;
 
             continue;
         }
@@ -1000,8 +993,6 @@ Segment::Solution Segment::solve(
         segmentHeterogenousGuidanceLaw,
         this->getThrusterDynamics()->getName() + " (Maneuvering Constraints)"
     ));
-
-    std::cout << "ACCEPTING WE ARE DONE \n\n\n\n\n" << std::endl;
 
     return Segment::Solution(
         name_, segmentDynamics, segmentStates, segmentConditionIsSatisfied, Segment::Type::Maneuver
