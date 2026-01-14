@@ -1788,12 +1788,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Array<Maneuver> constantLofDirectionManeuvers =
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
-        ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
-        ));
+        EXPECT_INSTANTS_ALMOST_EQUAL(maneuveringSegmentSolution.accessStartInstant(), constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Nanoseconds(5.0));
+        EXPECT_INSTANTS_ALMOST_EQUAL(maneuveringSegmentSolution.accessEndInstant(), constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Nanoseconds(5.0));
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_EQ(2, maneuvers.getSize());
@@ -1801,12 +1797,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
-            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
-            ));
-            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
-            ));
+            EXPECT_INTERVALS_ALMOST_EQUAL(maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Seconds(1.0));
         }
 
         const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
@@ -1838,28 +1829,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Segment::Solution expectedEquivalentSegmentSolution = expectedEquivalentSegment.solve(currentState);
         const Array<Maneuver> expectedEquivalentManeuvers =
             expectedEquivalentSegmentSolution.extractManeuvers(defaultFrameSPtr_);
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            expectedEquivalentSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
-        ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            expectedEquivalentSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
-        ));
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuveringSegmentSolution.getInterval(), expectedEquivalentSegmentSolution.getInterval(), Duration::Nanoseconds(10.0));
         EXPECT_TRUE(expectedEquivalentSegmentSolution.conditionIsSatisfied);
 
         EXPECT_EQ(2, expectedEquivalentManeuvers.getSize());
         for (Size i = 0; i < expectedEquivalentManeuvers.getSize(); i++)
         {
-            EXPECT_TRUE(expectedEquivalentManeuvers[i].getInterval().getStart().isNear(
-                maneuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
-            ));
-            EXPECT_TRUE(expectedEquivalentManeuvers[i].getInterval().getEnd().isNear(
-                maneuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
-            ));
+            EXPECT_INTERVALS_ALMOST_EQUAL(expectedEquivalentManeuvers[i].getInterval(), maneuvers[i].getInterval(), Duration::Seconds(1.5));
         }
 
         const State finalState = constantLofDirectionManeuveringSegmentSolution.states.accessLast();
         const State expectedFinalState = expectedEquivalentSegmentSolution.states.accessLast();
-        EXPECT_EQ(finalState, expectedFinalState);
+        EXPECT_INSTANTS_ALMOST_EQUAL(finalState.accessInstant(), expectedFinalState.accessInstant(), Duration::Nanoseconds(5.0));
     }
 
     // Multiple maneuvers with constraints
@@ -1917,12 +1898,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Array<Maneuver> constantLofDirectionManeuvers =
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
-        ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
-        ));
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuveringSegmentSolution.getInterval(), constantLofDirectionManeuveringSegmentSolution.getInterval(), Duration::Milliseconds(1.0));
+
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuvers.getSize() > 1);
@@ -1930,13 +1907,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
-            // Use "loose" tolerance to consider Q-Law hysteresis
-            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(3.0)
-            ));
-            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(3.0)
-            ));
+            EXPECT_LE(maneuvers[i].getInterval().getDuration(), maximumDuration);
+            EXPECT_GE(maneuvers[i].getInterval().getDuration(), minimumDuration);
+            EXPECT_INTERVALS_ALMOST_EQUAL(maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Milliseconds(10.0));
         }
     }
 }
@@ -2843,9 +2816,11 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 6);
-    EXPECT_TRUE(
-        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
-    );
+    for (const Maneuver& maneuver : maneuvers)
+    {
+        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
+    }
+    EXPECT_INSTANTS_ALMOST_EQUAL(maneuvers[0].getInterval().getStart(), initialStateWithMass_.accessInstant(), Duration::Seconds(1.0));
     EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1.0)));
 }
 

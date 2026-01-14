@@ -105,7 +105,7 @@ State NumericalSolver::integrateTime(
     const State& aState, const Instant& anEndTime, const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    observedStates_ = {aState};
+    observedStates_ = {};
 
     const StateBuilder stateBuilder = {aState};
 
@@ -113,9 +113,10 @@ State NumericalSolver::integrateTime(
         aState.accessCoordinates(), (anEndTime - aState.accessInstant()).inSeconds(), aSystemOfEquations
     );
 
-    for (const auto& state : MathNumericalSolver::getObservedStateVectors())
+    const auto observedStateVectors = MathNumericalSolver::getObservedStateVectors();
+    for (auto& state : observedStateVectors)
     {
-        observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
+        observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), std::move(state.first)));
     }
 
     return stateBuilder.build(anEndTime, solution.first);

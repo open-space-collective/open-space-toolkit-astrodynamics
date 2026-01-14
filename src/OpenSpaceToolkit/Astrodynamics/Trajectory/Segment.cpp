@@ -757,8 +757,6 @@ Segment::Solution Segment::solve(
         const Segment::Solution coastSegmentSolution =
             solveCoast_(lastState, std::min(endInstant, maximumInstant) - lastState.accessInstant());
 
-        std::cout << "Coast segment solution: " << coastSegmentSolution.states[1].accessInstant().toString() << " - " << coastSegmentSolution.states.accessLast().accessInstant().toString() << std::endl;
-
         segmentStates.add(Array<State>(coastSegmentSolution.states.begin() + 1, coastSegmentSolution.states.end()));
 
         segmentConditionIsSatisfied = coastSegmentSolution.conditionIsSatisfied;
@@ -769,7 +767,6 @@ Segment::Solution Segment::solve(
     // Helper lambda to solve a single maneuver and extract results
     const auto solveSingleManeuver = [&](const Shared<Thruster>& thrusterDynamics) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
     {
-        std::cout << "Solving single maneuver from state: " << segmentStates.accessLast().accessInstant().toString() << std::endl;
         const State& lastState = segmentStates.accessLast();
         const Segment::Solution maneuverSolution = solveNextManeuver_(lastState, maximumPropagationDuration, thrusterDynamics);
 
@@ -788,34 +785,45 @@ Segment::Solution Segment::solve(
         return {maneuverSolution, maneuvers.accessFirst()};
     };
 
-    const auto constructLOFCompliantManeuverSolution = [&](const Segment::Solution& maneuverSolution, const FlightManeuver& maneuver) -> Pair<Segment::Solution, Interval>
+    const auto constructLOFCompliantManeuverSolution = [&](const Segment::Solution& maneuverSolution, const FlightManeuver& maneuver) -> Segment::Solution
     {
         if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
             !this->constantManeuverDirectionLocalOrbitalFrameFactory_->isDefined())
         {
-            return {maneuverSolution, maneuver.getInterval()};
+            return maneuverSolution;
         }
 
         return constructLOFCompliantManeuverSolution_(segmentStates.accessLast(), maneuver);
     };
 
+    // This is necessary for scenarios where we have a variable attitude guidance law that produces a maneuver (t0, tf)
+    // which is then modified into a constant attitude guidance law maneuver.
+    // When the next maneuver is solved for, the variable attitude guidance law might produce a thrust at tf because the position velocity state
+    // at tf is now different, because it has been propagated with the constant thrust dynamics.
+    // This is mostly required for the case that we have no minimum maneuver separation constraint.
+    static const Duration shortManeuverThreshold = Duration::Seconds(5.0);
+
+    // This is used to increase the coast duration after a short maneuver, in the case that we are doing several short maneuvers in a row.
+    // This is reset when a maneuver has been accepted.
+    Size multiplier = 1;
+
     // Helper lambda to accept a maneuver solution, updating segmentStates and segmentHeterogenousGuidanceLaw
     // It also updates the last maneuver interval
     const Shared<HeterogeneousGuidanceLaw> segmentHeterogenousGuidanceLaw =
         std::make_shared<HeterogeneousGuidanceLaw>();
-    const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const Interval& maneuverInterval) -> void
+    const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const FlightManeuver& maneuver) -> void
     {
-        std::cout << "Accepting maneuver from state: " << maneuverSolution.getThrusterDynamics()->getName() << " at interval: " << maneuverSolution.states[1].accessInstant().toString() << " - " << maneuverSolution.states.accessLast().accessInstant().toString() << std::endl;
         segmentStates.add(Array<State>(maneuverSolution.states.begin() + 1, maneuverSolution.states.end()));
 
         segmentConditionIsSatisfied = maneuverSolution.conditionIsSatisfied;
 
-        previousManeuverInterval = maneuverInterval;
+        previousManeuverInterval = maneuver.getInterval();
 
-        std::cout << "Accepting maneuver: " << maneuverSolution.getThrusterDynamics()->getName() << " at interval: " << maneuverInterval << std::endl;
+        // Reset the multiplier to 1, as we have accepted a maneuver
+        multiplier = 1;
 
         segmentHeterogenousGuidanceLaw->addGuidanceLaw(
-            maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), maneuverInterval
+            maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), previousManeuverInterval
         );
     };
 
@@ -849,9 +857,10 @@ Segment::Solution Segment::solve(
 
                 const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
                 const Segment::Solution maneuverSolution = solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
-                const auto [maneuverLOFCompliantSolution, maneuverLOFCompliantInterval] = constructLOFCompliantManeuverSolution(maneuverSolution, candidateManeuver);
+                const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+                const Segment::Solution maneuverLOFCompliantSolution = constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
-                acceptManeuver(maneuverLOFCompliantSolution, maneuverLOFCompliantInterval);
+                acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
                 return maneuverLOFCompliantSolution.conditionIsSatisfied;
             }
@@ -864,9 +873,10 @@ Segment::Solution Segment::solve(
                 );
                 const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
                 const Segment::Solution maneuverSolution = solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
-                const auto [maneuverLOFCompliantSolution, maneuverLOFCompliantInterval] = constructLOFCompliantManeuverSolution(maneuverSolution, candidateManeuver);
+                const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+                const Segment::Solution maneuverLOFCompliantSolution = constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
-                acceptManeuver(maneuverLOFCompliantSolution, maneuverLOFCompliantInterval);
+                acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
                 return maneuverLOFCompliantSolution.conditionIsSatisfied;
             }
@@ -878,9 +888,10 @@ Segment::Solution Segment::solve(
                 );
                 const Shared<Thruster> centeredThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
                 const Segment::Solution maneuverSolution = solveManeuverForInterval_(segmentStates.accessLast(), centeredThruster, validManeuverInterval);
-                const auto [maneuverLOFCompliantSolution, maneuverLOFCompliantInterval] = constructLOFCompliantManeuverSolution(maneuverSolution, candidateManeuver);
+                const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+                const Segment::Solution maneuverLOFCompliantSolution = constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
-                acceptManeuver(maneuverLOFCompliantSolution, maneuverLOFCompliantInterval);
+                acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
                 return maneuverLOFCompliantSolution.conditionIsSatisfied;
             }
@@ -912,8 +923,6 @@ Segment::Solution Segment::solve(
 
         const auto [maneuverSubSegmentSolution, subsegmentManeuver] = solveSingleManeuver(segmentThrusterDynamics);
 
-        std::cout << "Maneuver subsegment solution: " << maneuverSubSegmentSolution << std::endl;
-
         // No maneuvers found - add states
         if (!subsegmentManeuver.has_value())
         {
@@ -921,12 +930,22 @@ Segment::Solution Segment::solve(
                 Array<State>(maneuverSubSegmentSolution.states.begin() + 1, maneuverSubSegmentSolution.states.end())
             );
             segmentConditionIsSatisfied = maneuverSubSegmentSolution.conditionIsSatisfied;
-            std::cout << "No maneuvers found - adding states at instant: " << maneuverSubSegmentSolution.states.accessFirst().accessInstant().toString() << " - " << maneuverSubSegmentSolution.states.accessLast().accessInstant().toString() << "and satisfied: " << segmentConditionIsSatisfied << std::endl;
 
             continue;
         }
 
         const Interval candidateManeuverInterval = subsegmentManeuver->getInterval();
+
+
+        if (candidateManeuverInterval.getDuration() < shortManeuverThreshold)
+        {
+            segmentConditionIsSatisfied = solveAndAcceptCoast(candidateManeuverInterval.getEnd() + shortManeuverThreshold * multiplier);
+
+            // Increment the multiplier for each time we skip a short maneuver
+            ++multiplier;
+
+            continue;
+        }
 
         // Check minimum maneuver duration constraint
         if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
@@ -943,7 +962,7 @@ Segment::Solution Segment::solve(
             // short maneuver is filtered out as it doesn't meet the minimum duration constraint. The satellite will
             // coast until the end of the original manevuer and then check for the next maneuver. The guidance law might
             // still produce a yet smaller maneuver (since the satellite might still be at an optimum orbit location),
-            // which again gest filtered out. This process continues until the maneuver is finally skipped.
+            // which again gets filtered out. This process continues until the maneuver is finally skipped.
             Instant instantToCoastTo = candidateManeuverInterval.getEnd();
             if (candidateManeuverInterval.getDuration().isZero())
             {
@@ -961,9 +980,8 @@ Segment::Solution Segment::solve(
         else
         {
             // Candidate maneuver passed all constraints - accept it
-            std::cout << "LAST STATE CURRENTLY: " << segmentStates.accessLast().accessInstant().toString() << std::endl;
-            const auto [maneuverLOFCompliantSolution, maneuverLOFCompliantInterval] = constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
-            acceptManeuver(maneuverLOFCompliantSolution, maneuverLOFCompliantInterval);
+            const Segment::Solution maneuverLOFCompliantSolution = constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
+            acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
         }
     }
 
@@ -975,8 +993,6 @@ Segment::Solution Segment::solve(
         segmentHeterogenousGuidanceLaw,
         this->getThrusterDynamics()->getName() + " (Maneuvering Constraints)"
     ));
-
-    std::cout << "ACCEPTING WE ARE DONE \n\n\n\n\n" << std::endl;
 
     return Segment::Solution(
         name_, segmentDynamics, segmentStates, segmentConditionIsSatisfied, Segment::Type::Maneuver
@@ -1134,12 +1150,6 @@ Array<State> Segment::propagateWithDynamics_(
 
     for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
     {
-        // TBI: Investigate why this is necessary
-        if (states.contains(state))
-        {
-            continue;
-        }
-
         states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
     }
 
@@ -1153,7 +1163,7 @@ Segment::Solution Segment::solveCoast_(const State& aState, const Duration& maxi
     return solution;
 }
 
-Pair<Segment::Solution, Interval> Segment::constructLOFCompliantManeuverSolution_(
+Segment::Solution Segment::constructLOFCompliantManeuverSolution_(
     const State& aState,
     const FlightManeuver& aManeuver
 ) const
@@ -1164,28 +1174,13 @@ Pair<Segment::Solution, Interval> Segment::constructLOFCompliantManeuverSolution
         this->constantManeuverDirectionMaximumAllowedAngularOffset_
     ));
 
-    // Add a small buffer to ensure that we are not starting to thrust immediately after the preceding maneuver ends.
-    // This is necessary for scenarios where we have a variable attitude guidance law that produces a maneuver (t0, tf)
-    // which is then modified into a constant attitude guidance law maneuver.
-    // When the next maneuver is solved for, the variable attitude guidance law might produce a thrust at tf because the position velocity state
-    // at tf is different, because it has been propagated with the constant thrust dynamics.
-    // This is mostly required for the case that we have no minimum maneuver separation constraint.
-
-    Interval maneuverInterval = aManeuver.getInterval();
-    if (!maneuverConstraints_.minimumSeparation.isDefined())
-    {
-        maneuverInterval = Interval::Closed(aManeuver.getInterval().getStart() + Duration::Seconds(1.0), aManeuver.getInterval().getEnd());
-    }
-
     const Shared<Thruster> constantThrustDynamics = std::make_shared<Thruster>(
         thrusterDynamicsSPtr_->getSatelliteSystem(),
         constantThrust,
         thrusterDynamicsSPtr_->getName() + " (Constant Thrust)"
     );
 
-    std::cout << "MANEUVER INTERVAL: " << maneuverInterval.toString() << std::endl;
-
-    return {solveManeuverForInterval_(aState, constantThrustDynamics, maneuverInterval), maneuverInterval};
+    return solveManeuverForInterval_(aState, constantThrustDynamics, aManeuver.getInterval());
 }
 
 Segment::Solution Segment::solveNextManeuver_(
@@ -1252,16 +1247,18 @@ Segment::Solution Segment::solveManeuverForInterval_(
     // Coast until the start of the maneuver to ensure we begin solving the maneuver at the exact start instant
     const Array<State> coastStates =
         propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
-    states.add(Array<State>(coastStates.begin() + 1, coastStates.end()));
+    states.add(std::move(coastStates));
 
     const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
 
     // Solve the maneuver for just the defined interval
+    const State lastState = coastStates.isEmpty() ? aState : coastStates.accessLast();
     const Array<State> maneuverStates =
-        propagateWithDynamics_(coastStates.accessLast(), validManeuverInterval.getEnd(), dynamicsArray);
-    states.add(Array<State>(maneuverStates.begin() + 1, maneuverStates.end()));
-
-    std::cout << "First and Last state solved for maneuver: " << states.accessFirst().accessInstant().toString() << " - " << states.accessLast().accessInstant().toString() << std::endl;
+        propagateWithDynamics_(lastState, validManeuverInterval.getEnd(), dynamicsArray);
+    
+    // Skip the first maneuver state if we have coast states (it duplicates the last coast state)
+    const auto maneuverStartIter = coastStates.isEmpty() ? maneuverStates.begin() : maneuverStates.begin() + 1;
+    states.add(Array<State>(maneuverStartIter, maneuverStates.end()));
 
     return {
         name_,
