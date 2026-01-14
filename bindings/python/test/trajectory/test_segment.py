@@ -692,3 +692,43 @@ class TestManeuverConstraints:
         assert (
             maneuver_constraints.interval_has_valid_maximum_duration(interval) is not None
         )
+
+
+class TestStringFromMaximumManeuverDurationViolationStrategy:
+    def test_string_from_maximum_maneuver_duration_violation_strategy(self):
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(
+                Segment.MaximumManeuverDurationViolationStrategy.Fail
+            )
+            == "Fail"
+        )
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(
+                Segment.MaximumManeuverDurationViolationStrategy.Skip
+            )
+            == "Skip"
+        )
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(
+                Segment.MaximumManeuverDurationViolationStrategy.TruncateEnd
+            )
+            == "TruncateEnd"
+        )
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(
+                Segment.MaximumManeuverDurationViolationStrategy.TruncateStart
+            )
+            == "TruncateStart"
+        )
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(
+                Segment.MaximumManeuverDurationViolationStrategy.Center
+            )
+            == "Center"
+        )
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(
+                Segment.MaximumManeuverDurationViolationStrategy.Chunk
+            )
+            == "Chunk"
+        )

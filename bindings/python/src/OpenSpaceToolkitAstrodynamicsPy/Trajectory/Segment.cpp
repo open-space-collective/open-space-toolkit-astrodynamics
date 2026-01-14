@@ -672,5 +672,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
 
+        .def_static(
+            "string_from_maximum_maneuver_duration_violation_strategy",
+            &Segment::StringFromMaximumManeuverDurationViolationStrategy,
+            arg("strategy"),
+            R"doc(
+                Get the string representation of a MaximumManeuverDurationViolationStrategy.
+
+                Args:
+                    strategy (MaximumManeuverDurationViolationStrategy): The strategy.
+
+                Returns:
+                    str: The string representation of the strategy.
+            )doc"
+        )
+
         ;
 }

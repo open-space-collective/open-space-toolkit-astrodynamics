@@ -468,6 +468,48 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Inte
     ));
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)
+{
+    {
+        EXPECT_EQ(
+            "Fail",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Fail
+            )
+        );
+        EXPECT_EQ(
+            "Skip",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Skip
+            )
+        );
+        EXPECT_EQ(
+            "TruncateEnd",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+            )
+        );
+        EXPECT_EQ(
+            "TruncateStart",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+            )
+        );
+        EXPECT_EQ(
+            "Center",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Center
+            )
+        );
+        EXPECT_EQ(
+            "Chunk",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Chunk
+            )
+        );
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
     void SetUp() override
