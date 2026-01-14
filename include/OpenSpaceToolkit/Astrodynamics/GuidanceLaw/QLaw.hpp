@@ -269,7 +269,7 @@ class QLaw : public GuidanceLaw
 
     /// @brief Compute the delta of the orbital elements
     ///
-    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (exluding true anomaly)
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (excluding true anomaly)
     ///
     /// @return The delta of the orbital elements
     Vector5d computeDeltaCOE(const Vector5d& aCOEVector) const;
@@ -283,7 +283,7 @@ class QLaw : public GuidanceLaw
 
     /// @brief Compute the analytical derivative of Q with respect to the orbital elements
     ///
-    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (exluding true anomaly)
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (excluding true anomaly)
     /// @param aThrustAcceleration The thrust acceleration
     ///
     /// @return The analytical derivative of Q with respect to the orbital elements
@@ -291,7 +291,7 @@ class QLaw : public GuidanceLaw
 
     /// @brief Compute the numerical derivative of Q with respect to the orbital elements
     ///
-    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (exluding true anomaly)
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (excluding true anomaly)
     /// @param aThrustAcceleration The thrust acceleration
     ///
     /// @return The numerical derivative of Q with respect to the orbital elements
