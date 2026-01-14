@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1767944985656,
+  "lastUpdate": 1768384421377,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 7179748699.099991,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 7179232809.400006 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "950bbf2453557a0883343d18d6e4838bb99d9ac7",
+          "message": "feat: expose QLaw effectivity computation and convergence thresholds (#631)\n\n* feat: add public method to compute QLaw sensitivity\n\n* Apply suggestions from code review\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\n\n* fix: tests\n\n* chore: format\n\n* refactor: apply MR suggestion\n\n* feat: expose control weight\n\n* docs: address typo\n\n* refactor: remove unnecessary import\n\n---------\n\nCo-authored-by: Antoine Paletta <98616558+apaletta3@users.noreply.github.com>\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2026-01-14T09:26:17Z",
+          "tree_id": "700b922f5aaabc5a832fc256c3694e7633bcb6ac",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/950bbf2453557a0883343d18d6e4838bb99d9ac7"
+        },
+        "date": 1768384419849,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4701812488.7,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4672880667.199999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4077822087.4,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4077286470.3000007 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7196459948.6,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7195742586.799997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7195631642.299997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7194565025 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7190262815.80002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7189685892.100004 ns\nthreads: 1"
           }
         ]
       }
