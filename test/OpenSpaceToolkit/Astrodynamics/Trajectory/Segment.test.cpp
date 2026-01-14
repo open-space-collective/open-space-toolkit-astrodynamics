@@ -593,7 +593,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         100,                         // K value
         1.0,                         // Periapsis weight
         Length::Kilometers(6578.0),  // Minimum periapsis
-        0.5,                         // Absolute effectivity threshold
+        Real::Undefined(),           // Absolute effectivity threshold
+        0.5,                         // Relative effectivity threshold
     };
 
     const QLaw defaultQLaw_ = {

@@ -6,6 +6,8 @@ import numpy as np
 
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
 from ostk.physics.unit import Derived
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 from ostk.physics.time import Instant
@@ -16,6 +18,7 @@ from ostk.physics.unit import Angle
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics import GuidanceLaw
 from ostk.astrodynamics.guidance_law import QLaw
+from ostk.astrodynamics.trajectory import State
 
 
 @pytest.fixture
@@ -103,6 +106,21 @@ def instant() -> Instant:
     return Instant.J2000()
 
 
+@pytest.fixture
+def position(frame: Frame, position_coordinates: list[float]) -> Position:
+    return Position.meters(position_coordinates, frame)
+
+
+@pytest.fixture
+def velocity(frame: Frame, velocity_coordinates: list[float]) -> Velocity:
+    return Velocity.meters_per_second(velocity_coordinates, frame)
+
+
+@pytest.fixture
+def state(instant: Instant, position: Position, velocity: Velocity) -> State:
+    return State(instant=instant, position=position, velocity=velocity)
+
+
 class TestQLawParameters:
     def test_constructors(self, parameters: QLaw.Parameters):
         assert parameters is not None
@@ -110,6 +128,7 @@ class TestQLawParameters:
 
     def test_getters(self, parameters: QLaw.Parameters):
         assert parameters.get_control_weights() is not None
+        assert parameters.get_convergence_thresholds() is not None
         assert parameters.m == 5
         assert parameters.n == 6
         assert parameters.r == 7
@@ -165,3 +184,26 @@ class TestQLaw:
                 output_frame=frame,
             )
         ) == np.array([0.0, 0.0033333320640941645, 2.9088817174504986e-06])
+
+    def test_compute_effectivity(
+        self,
+        q_law: QLaw,
+        state: State,
+        thrust_acceleration: float,
+    ):
+        assert (
+            q_law.compute_effectivity(
+                state=state,
+                thrust_acceleration=thrust_acceleration,
+            )
+            is not None
+        )
+
+        assert (
+            q_law.compute_effectivity(
+                state=state,
+                thrust_acceleration=thrust_acceleration,
+                discretization_step_count=15,
+            )
+            is not None
+        )

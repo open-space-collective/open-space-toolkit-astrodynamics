@@ -182,6 +182,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         )
 
         .def(
+            "get_convergence_thresholds",
+            &QLaw::Parameters::getConvergenceThresholds,
+            R"doc(
+                Get the convergence thresholds.
+
+                Returns:
+                    np.array: The convergence thresholds.
+            )doc"
+        )
+
+        .def(
             "get_minimum_periapsis_radius",
             &QLaw::Parameters::getMinimumPeriapsisRadius,
             R"doc(
@@ -313,6 +324,26 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("velocity_coordinates"),
             arg("thrust_acceleration"),
             arg("output_frame")
+        )
+
+        .def(
+            "compute_effectivity",
+            &QLaw::computeEffectivity,
+            R"doc(
+                Compute the relative and absolute effectivity of the guidance law.
+
+                Args:
+                    state (State): The state from which to extract orbital elements.
+                    thrust_acceleration (float): The thrust acceleration.
+                    discretization_step_count (int): The number of discretization steps for the true anomaly. Default to 50.
+
+                Returns:
+                    tuple[float, float]: A tuple containing the relative and absolute effectivity.
+
+            )doc",
+            arg("state"),
+            arg("thrust_acceleration"),
+            arg("discretization_step_count") = 50
         )
 
         ;
