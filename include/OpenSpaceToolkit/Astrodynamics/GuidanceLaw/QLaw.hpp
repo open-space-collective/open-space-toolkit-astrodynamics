@@ -251,9 +251,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return A tuple containing the relative and absolute effectivity
     Tuple<double, double> computeEffectivity(
-        const State& aState,
-        const Real& aThrustAcceleration,
-        const Size& discretizationStepCount = 50
+        const State& aState, const Real& aThrustAcceleration, const Size& discretizationStepCount = 50
     ) const;
 
    private:
