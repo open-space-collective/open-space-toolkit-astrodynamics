@@ -436,20 +436,14 @@ class Segment
         const Shared<EventCondition>& anEventCondition
     ) const;
 
-    /// @brief Solve the raw maneuvers in a 'subsegment'. This maneuvers are Local Orbital Frame (LOF) compliant, but
-    /// not necessarily fully constraint-compliant yet.
+    /// @brief For a given maneuver, construct a solution that is Local Orbital Frame (LOF) compliant.
     ///
     /// @param aState The initial state of the segment
-    /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aThrusterDynamics The thruster dynamics
-    /// @param stopAtFirstThrustCutOff If true, it will stop at the first thrust cut-off, returning a solution with a
-    /// single maneuver.
+    /// @param aManeuver The maneuver
     /// @return The segment solution
-    Segment::Solution solveLOFCompliantManeuverSubsegment_(
+    Pair<Segment::Solution, Interval> constructLOFCompliantManeuverSolution_(
         const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Shared<Thruster>& aThrusterDynamics,
-        const bool& stopAtFirstThrustCutOff
+        const flightManeuver& aManeuver
     ) const;
 
     /// @brief Solve the coast segment, uses the internal free dynamics array and event condition of the segment.
@@ -459,19 +453,16 @@ class Segment
     /// @return The segment solution
     Segment::Solution solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const;
 
-    /// @brief Solve the raw maneuvers in a 'subsegment'. This maneuvers are not necessarily constraint-compliant yet.
+    /// @brief Solve till the next maneuver ends. This maneuver is not necessarily constraint-compliant yet.
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
     /// @param thrusterDynamics The thruster dynamics.
-    /// @param stopAtFirstThrustCutOff If true, it will stop at the first thrust cut-off, returning a solution with a
-    /// single burn.
     /// @return The segment solution
-    Segment::Solution solveRawManeuversInSubsegment_(
+    Segment::Solution solveNextManeuver_(
         const State& aState,
         const Duration& maximumPropagationDuration,
-        const Shared<Thruster>& thrusterDynamics,
-        const bool& stopAtFirstThrustCutOff
+        const Shared<Thruster>& thrusterDynamics
     ) const;
 
     /// @brief Propagate the segment with the provided dynamics and event condition. This method is used to propagate
@@ -483,6 +474,16 @@ class Segment
     /// @return States
     Array<State> propagateWithDynamics_(
         const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+    ) const;
+
+    /// @brief Solve the maneuver for a given interval
+    ///
+    /// @param aState The initial state of the segment
+    /// @param thrusterDynamics The thruster dynamics
+    /// @param validManeuverInterval The valid maneuver interval
+    /// @return The segment solution
+    Segment::Solution solveManeuverForInterval_(
+        const State& aState, const Shared<Thruster>& thrusterDynamics, const Interval& validManeuverInterval
     ) const;
 };
 
