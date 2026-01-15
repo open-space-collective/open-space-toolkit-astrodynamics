@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <memory>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -100,12 +102,27 @@ String RealCondition::StringFromCriterion(const Criterion& aCriterion)
 
 RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, const Duration& aDuration)
 {
+    // Use a shared_ptr to capture the reference instant in the lambda.
+    // This improves precision by computing duration from the initial instant
+    // rather than from J2000, avoiding floating-point errors when subtracting
+    // large numbers (millions of seconds from J2000).
+    auto referenceInstant = std::make_shared<Instant>(Instant::Undefined());
+
     return {
         "Duration",
         aCriterion,
-        [](const State& aState) -> Real
+        [referenceInstant](const State& aState) -> Real
         {
-            return (aState.accessInstant() - Instant::J2000()).inSeconds();
+            // On first evaluation (from updateTarget), set the reference instant
+            if (!referenceInstant->isDefined())
+            {
+                *referenceInstant = aState.accessInstant();
+                return 0.0;
+            }
+
+            // Compute duration from reference instant (small time differences)
+            // instead of from J2000 (large time differences), preserving precision
+            return (aState.accessInstant() - *referenceInstant).inSeconds();
         },
         {aDuration.inSeconds(), EventCondition::Target::Type::Relative}
     };
