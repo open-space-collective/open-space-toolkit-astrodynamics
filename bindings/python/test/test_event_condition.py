@@ -33,7 +33,9 @@ def target(target_value: float) -> EventCondition.Target:
 
 @pytest.fixture
 def event_condition(
-    name: str, evaluator: Callable, target: EventCondition.Target
+    name: str,
+    evaluator: Callable,
+    target: EventCondition.Target,
 ) -> EventCondition:
     class MyEventCondition(EventCondition):
         def is_satisfied(
@@ -49,14 +51,33 @@ def event_condition(
     return MyEventCondition(name, evaluator, target)
 
 
+@pytest.fixture
+def state() -> State:
+    return State(
+        Instant.J2000(),
+        Position.meters([0.0, 0.0, 0.0], Frame.GCRF()),
+        Velocity.meters_per_second([0.0, 0.0, 0.0], Frame.GCRF()),
+    )
+
+
 class TestEventCondition:
-    def test_subclass(self, event_condition: EventCondition):
+    def test_subclass(
+        self,
+        event_condition: EventCondition,
+    ):
         assert event_condition is not None
 
-    def test_get_name(self, event_condition: EventCondition, name: str):
+    def test_get_name(
+        self,
+        event_condition: EventCondition,
+        name: str,
+    ):
         assert event_condition.get_name() == name
 
-    def test_get_evaluator(self, event_condition: EventCondition):
+    def test_get_evaluator(
+        self,
+        event_condition: EventCondition,
+    ):
         assert event_condition.get_evaluator() is not None
 
     def test_get_target(
@@ -64,9 +85,17 @@ class TestEventCondition:
     ):
         assert event_condition.get_target() == target
 
+    def test_evaluate(
+        self,
+        event_condition: EventCondition,
+        state: State,
+    ):
+        assert event_condition.evaluate(state) == 5.0
+
     def test_update_target(
         self,
         event_condition: EventCondition,
+        state: State,
     ):
         current_target_value_offset: float = event_condition.get_target().value_offset
         event_condition.update_target(

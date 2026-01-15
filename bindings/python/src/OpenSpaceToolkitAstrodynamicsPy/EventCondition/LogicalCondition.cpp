@@ -82,6 +82,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
                 )doc"
             )
 
+            .def(
+                "evaluate",
+                &LogicalCondition::evaluate,
+                arg("state"),
+                R"doc(
+                    Evaluate the logical condition.
+
+                    For OR conditions, returns the maximum evaluation value across all sub-conditions.
+                    For AND conditions, returns the minimum evaluation value across all sub-conditions.
+
+                    Args:
+                        state (State): The state at which to evaluate the logical condition.
+
+                    Returns:
+                        Real: The value of the logical condition at the given state.
+                )doc"
+            )
+
             ;
     }
 }

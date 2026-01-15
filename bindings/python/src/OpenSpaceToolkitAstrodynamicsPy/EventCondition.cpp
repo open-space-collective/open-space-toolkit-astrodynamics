@@ -250,6 +250,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             )
 
             .def(
+                "evaluate",
+                &EventCondition::evaluate,
+                arg("state"),
+                R"doc(
+                    Evaluate the event condition.
+
+                    Args:
+                        state (State): The state at which to evaluate the event condition.
+
+                    Returns:
+                        Real: The value of the event condition at the given state.
+                )doc"
+            )
+
+            .def(
                 "update_target",
                 &EventCondition::updateTarget,
                 R"doc(

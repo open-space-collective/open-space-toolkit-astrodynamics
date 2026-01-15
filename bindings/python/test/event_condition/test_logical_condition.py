@@ -57,7 +57,8 @@ def state() -> State:
 
 @pytest.fixture
 def logical_condition(
-    logical_condition_type: LogicalCondition.Type, event_conditions: list[RealCondition]
+    logical_condition_type: LogicalCondition.Type,
+    event_conditions: list[RealCondition],
 ) -> LogicalCondition:
     return LogicalCondition("Logical", logical_condition_type, event_conditions)
 
@@ -111,10 +112,19 @@ class TestLogicalCondition:
         state: State,
     ):
         logical_condition: LogicalCondition = LogicalCondition(
-            "Logical Condition", logical_condition_type, event_conditions
+            "Logical Condition",
+            logical_condition_type,
+            event_conditions,
         )
 
         assert (
             logical_condition.is_satisfied(previous_state=state, current_state=state)
             == expected_result
         )
+
+    def test_evaluate(
+        self,
+        logical_condition: LogicalCondition,
+        state: State,
+    ):
+        assert logical_condition.evaluate(state) == -1.0
