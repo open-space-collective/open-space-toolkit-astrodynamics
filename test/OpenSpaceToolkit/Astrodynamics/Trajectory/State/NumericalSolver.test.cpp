@@ -446,7 +446,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Conditio
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_LogicalCondition)
 {
-    // Test that LogicalCondition-based event conditions work with the numerical solver
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + Duration::Seconds(5.0);
     const Instant endInstant = defaultStartInstant_ + Duration::Seconds(10.0);
