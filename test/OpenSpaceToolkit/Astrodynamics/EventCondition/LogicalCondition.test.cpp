@@ -232,3 +232,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Clone)
 {
     EXPECT_NO_THROW({ Unique<LogicalCondition> clonedCondition(defaultLogicalCondition_.clone()); });
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate)
+{
+    {
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::And, defaultEventConditions_);
+
+        EXPECT_EQ(logicalCondition.evaluate(defaultState_), -1.0);
+    }
+
+    {
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::Or, defaultEventConditions_);
+
+        EXPECT_EQ(logicalCondition.evaluate(defaultState_), 1.0);
+    }
+}

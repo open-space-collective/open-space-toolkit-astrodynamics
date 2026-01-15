@@ -103,6 +103,11 @@ EventCondition::Target EventCondition::getTarget() const
     return target_;
 }
 
+Real EventCondition::evaluate(const State& aState) const
+{
+    return evaluator_(aState);
+}
+
 void EventCondition::updateTarget(const State& aState)
 {
     if (!evaluator_)

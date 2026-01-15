@@ -108,6 +108,13 @@ class EventCondition
     /// @return Target
     Target getTarget() const;
 
+    /// @brief Evaluate the Event Condition
+    ///
+    /// @param aState A state to evaluate the Event Condition
+    ///
+    /// @return Real number representing the evaluation result of the Event Condition
+    virtual Real evaluate(const State& aState) const;
+
     /// @brief Update the target value if the Event Condition is relative
     ///
     /// @param aState A state to calculate the relative target from

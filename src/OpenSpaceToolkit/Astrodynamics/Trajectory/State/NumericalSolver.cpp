@@ -235,11 +235,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         NumericalSolver::StateVector stateVector(stepper.current_state());
         stepper.calc_state(aTime, stateVector);
 
-        const bool isSatisfied = anEventCondition.isSatisfied(
-            createState(stateVector, aTime), createState(stepper.previous_state(), stepper.previous_time())
-        );
+        const State state = createState(stateVector, aTime);
 
-        return isSatisfied ? 1.0 : -1.0;
+        return anEventCondition.evaluate(state);
     };
 
     // Condition at previousTime => False
@@ -248,7 +246,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionStateVector(aState.accessCoordinates().size());
 
-    // ensure that the solution time has crossed the condition
+    // Ensure that the solution time has crossed the condition
     const double solutionTime = (signedTimeStep > 0.0) ? solution.upperBound : solution.lowerBound;
 
     stepper.calc_state(solutionTime, solutionStateVector);

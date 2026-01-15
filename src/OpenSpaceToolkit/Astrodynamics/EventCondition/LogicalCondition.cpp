@@ -1,5 +1,9 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 
 namespace ostk
@@ -8,6 +12,9 @@ namespace astrodynamics
 {
 namespace eventcondition
 {
+
+using ostk::core::type::Real;
+using ostk::core::type::Size;
 
 LogicalCondition::LogicalCondition(
     const String& aName, const LogicalCondition::Type& aType, const Array<Shared<EventCondition>>& eventConditions
@@ -37,6 +44,39 @@ void LogicalCondition::updateTarget(const State& aState)
     {
         eventCondition->updateTarget(aState);
     }
+}
+
+Real LogicalCondition::evaluate(const State& aState) const
+{
+    if (eventConditions_.isEmpty())
+    {
+        return 0.0;
+    }
+
+    Real result = eventConditions_[0]->evaluate(aState);
+
+    for (Size i = 1; i < eventConditions_.getSize(); ++i)
+    {
+        const Real value = eventConditions_[i]->evaluate(aState);
+
+        switch (type_)
+        {
+            case Type::Or:
+                // crosses zero when ANY condition crosses
+                result = std::max(result, value);
+                break;
+
+            case Type::And:
+                // crosses zero when ALL conditions have crossed
+                result = std::min(result, value);
+                break;
+
+            default:
+                throw ostk::core::error::runtime::Wrong("Type");
+        }
+    }
+
+    return result;
 }
 
 bool LogicalCondition::isSatisfied(const State& currentState, const State& previousState) const

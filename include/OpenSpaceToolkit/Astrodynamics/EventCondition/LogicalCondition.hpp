@@ -70,6 +70,16 @@ class LogicalCondition : public EventCondition
     ///                  representing the individual event conditions.
     Array<Shared<EventCondition>> getEventConditions() const;
 
+    /// @brief Evaluate the Logical Connective Event Condition.
+    ///
+    /// For OR conditions, returns the maximum evaluation value across all sub-conditions.
+    /// For AND conditions, returns the minimum evaluation value across all sub-conditions.
+    ///
+    /// @param aState A state to evaluate the Event Condition.
+    ///
+    /// @return Real number representing the evaluation result.
+    virtual Real evaluate(const State& aState) const override;
+
     /// @brief Check if the Logical Connective Event Condition is satisfied.
     ///
     /// @param currentState A state.
