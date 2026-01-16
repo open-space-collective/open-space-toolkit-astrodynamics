@@ -230,14 +230,17 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
-    const auto checkCondition = [&anEventCondition, &stepper, &createState](const double& aTime) -> double
+    previousState = createState(stepper.previous_state(), previousTime);
+
+    const auto checkCondition = [&anEventCondition, &stepper, &createState, &previousState](const double& aTime
+                                ) -> double
     {
         NumericalSolver::StateVector stateVector(stepper.current_state());
         stepper.calc_state(aTime, stateVector);
 
-        const bool isSatisfied = anEventCondition.isSatisfied(
-            createState(stateVector, aTime), createState(stepper.previous_state(), stepper.previous_time())
-        );
+        const State state = createState(stateVector, aTime);
+
+        const bool isSatisfied = anEventCondition.isSatisfied(state, previousState);
 
         return isSatisfied ? 1.0 : -1.0;
     };
@@ -247,11 +250,18 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     // Search for the exact time of the condition change
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionStateVector(aState.accessCoordinates().size());
-    const double solutionTime = solution.root;
+
+    // Ensure that the solution time has crossed the condition
+    const double solutionTime = (signedTimeStep > 0.0) ? solution.upperBound : solution.lowerBound;
 
     stepper.calc_state(solutionTime, solutionStateVector);
     const State solutionState = createState(solutionStateVector, solutionTime);
-    observeState(solutionState);
+
+    // If the solution state is not the same as the initial state, add it to the observed states
+    if (solutionState.accessInstant() != aState.accessInstant())
+    {
+        observeState(solutionState);
+    }
 
     return {
         solutionState,
