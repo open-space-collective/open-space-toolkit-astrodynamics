@@ -53,21 +53,34 @@ Real LogicalCondition::evaluate(const State& aState) const
         return 0.0;
     }
 
-    Real result = eventConditions_[0]->evaluate(aState);
+    // Lambda to get normalized evaluation value where positive = satisfied
+    // For conditions where evaluate() returns negative when satisfied (e.g., NegativeCrossing),
+    // we flip the sign so that positive always means "toward satisfaction"
+    const auto getNormalizedValue = [&aState](const Shared<EventCondition>& condition) -> Real
+    {
+        Real value = condition->evaluate(aState);
+        if (condition->evaluateNegativeWhenSatisfied())
+        {
+            return -value;
+        }
+        return value;
+    };
+
+    Real result = getNormalizedValue(eventConditions_[0]);
 
     for (Size i = 1; i < eventConditions_.getSize(); ++i)
     {
-        const Real value = eventConditions_[i]->evaluate(aState);
+        const Real value = getNormalizedValue(eventConditions_[i]);
 
         switch (type_)
         {
             case Type::Or:
-                // crosses zero when ANY condition crosses
+                // crosses zero when ANY condition crosses (max of normalized values)
                 result = std::max(result, value);
                 break;
 
             case Type::And:
-                // crosses zero when ALL conditions have crossed
+                // crosses zero when ALL conditions have crossed (min of normalized values)
                 result = std::min(result, value);
                 break;
 

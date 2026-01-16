@@ -133,5 +133,10 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+bool EventCondition::evaluateNegativeWhenSatisfied() const
+{
+    return false;
+}
+
 }  // namespace astrodynamics
 }  // namespace ostk

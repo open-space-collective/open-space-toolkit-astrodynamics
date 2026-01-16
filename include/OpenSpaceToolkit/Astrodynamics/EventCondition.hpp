@@ -145,6 +145,11 @@ class EventCondition
     String name_;
     std::function<Real(const State&)> evaluator_;
     Target target_;
+
+    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    ///
+    /// @return True if the condition's evaluate() returns negative when satisfied.
+    virtual bool evaluateNegativeWhenSatisfied() const;
 };
 
 }  // namespace astrodynamics

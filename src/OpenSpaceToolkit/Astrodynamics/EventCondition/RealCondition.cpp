@@ -72,6 +72,11 @@ RealCondition* RealCondition::clone() const
     return new RealCondition(*this);
 }
 
+bool RealCondition::evaluateNegativeWhenSatisfied() const
+{
+    return criterion_ == Criterion::NegativeCrossing || criterion_ == Criterion::StrictlyNegative;
+}
+
 String RealCondition::StringFromCriterion(const Criterion& aCriterion)
 {
     switch (aCriterion)

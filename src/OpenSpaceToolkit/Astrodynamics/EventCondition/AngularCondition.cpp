@@ -88,6 +88,16 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+Real AngularCondition::evaluate(const State& aState) const
+{
+    const Real currentAngle = evaluator_(aState);
+    const Real targetAngle = target_.value + target_.valueOffset;
+
+    // Compute the signed angular difference, normalized to [-π, π)
+    // This ensures the value crosses zero when the angle crosses the target
+    return std::fmod(currentAngle - targetAngle + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+}
+
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
     return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value + target_.valueOffset));
@@ -97,6 +107,7 @@ AngularCondition* AngularCondition::clone() const
 {
     return new AngularCondition(*this);
 }
+
 
 AngularCondition AngularCondition::WithinRange(
     const String& aName, const std::function<Real(const State&)>& anEvaluator, const Pair<Angle, Angle>& aTargetRange
@@ -120,6 +131,11 @@ String AngularCondition::StringFromCriterion(const Criterion& aCriterion)
         default:
             throw ostk::core::error::runtime::Wrong("Criterion");
     }
+}
+
+bool AngularCondition::evaluateNegativeWhenSatisfied() const
+{
+    return criterion_ == Criterion::NegativeCrossing;
 }
 
 bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)

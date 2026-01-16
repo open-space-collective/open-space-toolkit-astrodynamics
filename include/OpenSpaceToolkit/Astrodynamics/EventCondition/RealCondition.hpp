@@ -130,6 +130,14 @@ class RealCondition : public EventCondition
     std::function<bool(const Real&, const Real&)> comparator_;
 
     static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
+
+    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    ///
+    /// For NegativeCrossing and StrictlyNegative criteria, the condition is satisfied
+    /// when evaluate() returns a negative value.
+    ///
+    /// @return True if criterion is NegativeCrossing or StrictlyNegative.
+    bool evaluateNegativeWhenSatisfied() const;
 };
 
 }  // namespace eventcondition
