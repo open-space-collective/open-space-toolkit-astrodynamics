@@ -141,15 +141,19 @@ class EventCondition
     /// @return Boolean value indicating if the Event Condition is met
     virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
 
+    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    ///
+    /// This is used by LogicalCondition to normalize sub-condition evaluations.
+    /// For criteria like NegativeCrossing and StrictlyNegative, the condition is satisfied
+    /// when evaluate() returns a negative value, so this method returns true for those criteria.
+    ///
+    /// @return True if evaluate() returns negative when satisfied, false otherwise.
+    virtual bool evaluateNegativeWhenSatisfied() const;
+
    protected:
     String name_;
     std::function<Real(const State&)> evaluator_;
     Target target_;
-
-    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
-    ///
-    /// @return True if the condition's evaluate() returns negative when satisfied.
-    virtual bool evaluateNegativeWhenSatisfied() const;
 };
 
 }  // namespace astrodynamics

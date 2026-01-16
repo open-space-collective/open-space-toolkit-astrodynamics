@@ -105,7 +105,7 @@ EventCondition::Target EventCondition::getTarget() const
 
 Real EventCondition::evaluate(const State& aState) const
 {
-    return evaluator_(aState);
+    return evaluator_(aState) - (target_.value + target_.valueOffset);
 }
 
 void EventCondition::updateTarget(const State& aState)

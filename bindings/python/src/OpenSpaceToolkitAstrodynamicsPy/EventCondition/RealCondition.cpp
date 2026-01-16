@@ -192,6 +192,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                 arg("duration")
             )
 
+            .def(
+                "evaluate_negative_when_satisfied",
+                &RealCondition::evaluateNegativeWhenSatisfied,
+                R"doc(
+                    Returns whether this condition's evaluate() returns negative when satisfied.
+
+                    For NegativeCrossing and StrictlyNegative criteria, the condition is satisfied
+                    when evaluate() returns a negative value.
+
+                    Returns:
+                        bool: True if criterion is NegativeCrossing or StrictlyNegative.
+                )doc"
+            )
+
             ;
     }
 }

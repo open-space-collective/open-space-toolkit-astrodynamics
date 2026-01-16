@@ -119,6 +119,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Getters)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Evaluate)
+{
+    const AngularCondition condition = {
+        "PositiveCrossing",
+        AngularCondition::Criterion::PositiveCrossing,
+        defaultEvaluator_,
+        Angle::Degrees(15.0),
+    };
+
+    EXPECT_NEAR(
+        condition.evaluate(generateState(Angle::Degrees(0.0).inRadians())), -Angle::Degrees(15.0).inRadians(), 1e-15
+    );
+    EXPECT_NEAR(
+        condition.evaluate(generateState(Angle::Degrees(-15.0).inRadians())), -Angle::Degrees(30.0).inRadians(), 1e-15
+    );
+    EXPECT_NEAR(
+        condition.evaluate(generateState(Angle::Degrees(15.0).inRadians())), Angle::Degrees(0.0).inRadians(), 1e-15
+    );
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfied)
 {
     // Positive Crossing
@@ -370,6 +390,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfi
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Clone)
 {
     EXPECT_NO_THROW({ Unique<AngularCondition> clonedCondition(defaultCondition_.clone()); });
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, EvaluateNegativeWhenSatisfied)
+{
+    {
+        const AngularCondition condition = {
+            "NegativeCrossing",
+            AngularCondition::Criterion::NegativeCrossing,
+            defaultEvaluator_,
+            Angle::Degrees(15.0),
+        };
+        EXPECT_TRUE(condition.evaluateNegativeWhenSatisfied());
+    }
+
+    {
+        const AngularCondition condition = {
+            "PositiveCrossing",
+            AngularCondition::Criterion::PositiveCrossing,
+            defaultEvaluator_,
+            Angle::Degrees(15.0),
+        };
+        EXPECT_FALSE(condition.evaluateNegativeWhenSatisfied());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, StringFromCriterion)

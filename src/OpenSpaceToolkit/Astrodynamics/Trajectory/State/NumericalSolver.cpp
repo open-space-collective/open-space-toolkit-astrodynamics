@@ -251,7 +251,12 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
 
     stepper.calc_state(solutionTime, solutionStateVector);
     const State solutionState = createState(solutionStateVector, solutionTime);
-    observeState(solutionState);
+
+    // If the solution state is not the same as the initial state, add it to the observed states
+    if (solutionState.accessInstant() != aState.accessInstant())
+    {
+        observeState(solutionState);
+    }
 
     return {
         solutionState,

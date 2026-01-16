@@ -43,9 +43,9 @@ using ostk::astrodynamics::eventcondition::BooleanCondition;
 using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
-using ostk::astrodynamics::trajectory::StateBuilder;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::StateBuilder;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::testing::Test
 {
@@ -263,12 +263,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_
 
     // Create a RealCondition with StrictlyPositive criterion
     // For StrictlyPositive: positive evaluate = satisfied
-    const Shared<RealCondition> strictlyPositiveCondition = std::make_shared<RealCondition>(RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(5.0)));
+    const Shared<RealCondition> strictlyPositiveCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(5.0))
+    );
 
     // Create a RealCondition with NegativeCrossing criterion
     // For NegativeCrossing: negative evaluate = satisfied (value is below target)
     const Shared<RealCondition> negativeCrossingCondition = std::make_shared<RealCondition>(
-        RealCondition::DurationCondition(RealCondition::Criterion::NegativeCrossing, Duration::Seconds(10.0)));
+        RealCondition::DurationCondition(RealCondition::Criterion::NegativeCrossing, Duration::Seconds(10.0))
+    );
 
     // Verify the evaluateNegativeWhenSatisfied flag
     EXPECT_FALSE(strictlyPositiveCondition->evaluateNegativeWhenSatisfied());
@@ -284,9 +287,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_
         );
 
         const LogicalCondition orCondition = LogicalCondition(
-            "Or Condition",
-            LogicalCondition::Type::Or,
-            {strictlyPositiveCondition, negativeCrossingCondition}
+            "Or Condition", LogicalCondition::Type::Or, {strictlyPositiveCondition, negativeCrossingCondition}
         );
 
         const Real evaluateResult = orCondition.evaluate(stateAt7s);
@@ -304,9 +305,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_
         );
 
         const LogicalCondition andCondition = LogicalCondition(
-            "And Condition",
-            LogicalCondition::Type::And,
-            {strictlyPositiveCondition, negativeCrossingCondition}
+            "And Condition", LogicalCondition::Type::And, {strictlyPositiveCondition, negativeCrossingCondition}
         );
 
         const Real evaluateResult = andCondition.evaluate(stateAt3s);
@@ -321,7 +320,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_
         std::make_shared<CoordinateSubset>(CoordinateSubset("ANGLE", 1))
     };
     const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), angularSubsets);
-    const auto buildState = [&stateBuilder](const Duration& aDuration, const Angle& angle) -> State {
+    const auto buildState = [&stateBuilder](const Duration& aDuration, const Angle& angle) -> State
+    {
         VectorXd coordinates(1);
         coordinates << angle.inRadians();
         return stateBuilder.build(Instant::J2000() + aDuration, coordinates);
@@ -337,15 +337,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_
         Angle::Radians(3.0)
     );
 
-    const Shared<RealCondition> realStrictlyPositive = std::make_shared<RealCondition>(RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(1.0)));
+    const Shared<RealCondition> realStrictlyPositive = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(1.0))
+    );
 
     EXPECT_TRUE(angularNegativeCrossing->evaluateNegativeWhenSatisfied());
     EXPECT_FALSE(realStrictlyPositive->evaluateNegativeWhenSatisfied());
 
     const LogicalCondition orCondition = LogicalCondition(
-        "Or with Angular",
-        LogicalCondition::Type::Or,
-        {angularNegativeCrossing, realStrictlyPositive}
+        "Or with Angular", LogicalCondition::Type::Or, {angularNegativeCrossing, realStrictlyPositive}
     );
 
     // Test case 1: Both conditions effectively satisfied
@@ -380,5 +380,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_
         const Real evaluateResult = orCondition.evaluate(state);
         EXPECT_DOUBLE_EQ(evaluateResult, -0.5);
     }
-
 }

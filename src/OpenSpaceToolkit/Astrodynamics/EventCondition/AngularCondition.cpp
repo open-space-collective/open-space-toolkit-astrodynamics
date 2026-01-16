@@ -90,12 +90,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
 Real AngularCondition::evaluate(const State& aState) const
 {
-    const Real currentAngle = evaluator_(aState);
-    const Real targetAngle = target_.value + target_.valueOffset;
-
-    // Compute the signed angular difference, normalized to [-π, π)
-    // This ensures the value crosses zero when the angle crosses the target
-    return std::fmod(currentAngle - targetAngle + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+    return NormalizedAngularDistance(evaluator_(aState), target_.value + target_.valueOffset);
 }
 
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
@@ -108,6 +103,10 @@ AngularCondition* AngularCondition::clone() const
     return new AngularCondition(*this);
 }
 
+bool AngularCondition::evaluateNegativeWhenSatisfied() const
+{
+    return criterion_ == Criterion::NegativeCrossing;
+}
 
 AngularCondition AngularCondition::WithinRange(
     const String& aName, const std::function<Real(const State&)>& anEvaluator, const Pair<Angle, Angle>& aTargetRange
@@ -133,45 +132,36 @@ String AngularCondition::StringFromCriterion(const Criterion& aCriterion)
     }
 }
 
-bool AngularCondition::evaluateNegativeWhenSatisfied() const
+Real AngularCondition::NormalizedAngularDistance(const Real& angle, const Real& target)
 {
-    return criterion_ == Criterion::NegativeCrossing;
+    // Compute the signed angular difference, normalized to [-π, π)
+    // Positive result means angle is "ahead" of target (in positive angular direction)
+    // Negative result means angle is "behind" target
+    return std::fmod(angle - target + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
 }
 
 bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
 {
-    // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+    const Real previousAngularDistance = NormalizedAngularDistance(previousValue, targetValue);
+    const Real currentAngularDistance = NormalizedAngularDistance(currentValue, targetValue);
 
-    if (deltaAngle <= 0.0)
-    {
-        return false;
-    }
+    // Compute direction of movement
+    const Real deltaAngle = NormalizedAngularDistance(currentValue, previousValue);
 
-    if (previousValue < targetValue && currentValue >= targetValue)
-    {
-        return true;
-    }
-
-    return (currentValue < previousValue) && (targetValue >= previousValue || targetValue < currentValue);
+    // Positive crossing: moving in positive direction and crossed from behind target to at/ahead of target
+    return (deltaAngle > 0.0) && (previousAngularDistance < 0.0) && (currentAngularDistance >= 0.0);
 }
 
 bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
 {
-    // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+    const Real previousAngularDistance = NormalizedAngularDistance(previousValue, targetValue);
+    const Real currentAngularDistance = NormalizedAngularDistance(currentValue, targetValue);
 
-    if (deltaAngle >= 0.0)
-    {
-        return false;
-    }
+    // Compute direction of movement
+    const Real deltaAngle = NormalizedAngularDistance(currentValue, previousValue);
 
-    if (previousValue > targetValue && currentValue <= targetValue)
-    {
-        return true;
-    }
-
-    return (currentValue > previousValue) && (targetValue <= previousValue || targetValue > currentValue);
+    // Negative crossing: moving in negative direction and crossed from ahead of target to at/behind target
+    return (deltaAngle < 0.0) && (previousAngularDistance > 0.0) && (currentAngularDistance <= 0.0);
 }
 
 std::function<bool(const Real&, const Real&, const Real&)> AngularCondition::GenerateComparator(

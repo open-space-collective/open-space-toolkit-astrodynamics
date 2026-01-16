@@ -250,6 +250,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             )
 
             .def(
+                "update_target",
+                &EventCondition::updateTarget,
+                R"doc(
+                    Update the target value if the event condition is relative.
+
+                    Args:
+                        state (State): The state to calculate the relative target from.
+                )doc",
+                arg("state")
+            )
+
+            .def(
                 "evaluate",
                 &EventCondition::evaluate,
                 arg("state"),
@@ -262,18 +274,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                     Returns:
                         Real: The value of the event condition at the given state.
                 )doc"
-            )
-
-            .def(
-                "update_target",
-                &EventCondition::updateTarget,
-                R"doc(
-                    Update the target value if the event condition is relative.
-
-                    Args:
-                        state (State): The state to calculate the relative target from.
-                )doc",
-                arg("state")
             )
 
             .def(
@@ -290,6 +290,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
                     Returns:
                        is_satisfied (bool): True if the event condition is satisfied, False otherwise.
+                )doc"
+            )
+
+            .def(
+                "evaluate_negative_when_satisfied",
+                &EventCondition::evaluateNegativeWhenSatisfied,
+                R"doc(
+                    Returns whether this condition's evaluate() returns negative when satisfied.
+
+                    This is used by LogicalCondition to normalize sub-condition evaluations.
+                    For criteria like NegativeCrossing and StrictlyNegative, the condition is satisfied
+                    when evaluate() returns a negative value, so this method returns true for those criteria.
+
+                    Returns:
+                        bool: True if evaluate() returns negative when satisfied, False otherwise.
                 )doc"
             )
 

@@ -124,6 +124,14 @@ class AngularCondition : public EventCondition
     /// @return Pointer to the cloned EventCondition
     virtual AngularCondition* clone() const override;
 
+    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    ///
+    /// For NegativeCrossing criterion, the condition is satisfied when crossing
+    /// from above to below the target.
+    ///
+    /// @return True if criterion is NegativeCrossing.
+    virtual bool evaluateNegativeWhenSatisfied() const override;
+
     /// @brief Create an angular condition that is satisfied when the angle is within a range
     ///
     /// @param aName A string representing the name of the Angular Event Condition
@@ -148,13 +156,13 @@ class AngularCondition : public EventCondition
     std::function<bool(const Real&, const Real&, const Real&)> comparator_;
     Pair<Real, Real> targetRange_;
 
-    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    /// @brief Compute the signed angular distance from angle to target, normalized to [-π, π)
     ///
-    /// For NegativeCrossing criterion, the condition is satisfied when crossing
-    /// from above to below the target.
+    /// @param angle The current angle in radians
+    /// @param target The target angle in radians
     ///
-    /// @return True if criterion is NegativeCrossing.
-    bool evaluateNegativeWhenSatisfied() const;
+    /// @return Signed angular distance in radians, positive if angle is "ahead" of target
+    static Real NormalizedAngularDistance(const Real& angle, const Real& target);
 
     static bool IsPositiveCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
     static bool IsNegativeCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);

@@ -767,7 +767,7 @@ Segment::Solution Segment::solve(
         const Array<State> coastStates =
             propagateWithDynamics_(segmentStates.accessLast(), validManeuverInterval.getStart(), freeDynamicsArray_);
 
-        subsegmentStates.add(Array<State>(coastStates.begin(), coastStates.end()));
+        subsegmentStates.add(coastStates);
 
         const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
 

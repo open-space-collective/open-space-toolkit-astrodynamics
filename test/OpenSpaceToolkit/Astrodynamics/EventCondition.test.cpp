@@ -204,3 +204,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, UpdateTarget)
         EXPECT_NO_THROW(eventCondition.updateTarget(state));
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Evaluate)
+{
+    {
+        const State state = {
+            Instant::J2000(),
+            Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
+            Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::GCRF()),
+        };
+
+        const TestCondition condition = {
+            "name",
+            []([[maybe_unused]] const State& aState) -> Real
+            {
+                return 1.0;
+            },
+            {15.0, EventCondition::Target::Type::Absolute}
+        };
+
+        EXPECT_EQ(condition.evaluate(state), -14.0);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EvaluateNegativeWhenSatisfied)
+{
+    {
+        EXPECT_FALSE(defaultCondition_.evaluateNegativeWhenSatisfied());
+    }
+}

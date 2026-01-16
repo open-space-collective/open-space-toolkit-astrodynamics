@@ -103,6 +103,13 @@ class TestAngularCondition:
 
         assert within_range_condition.get_target_range() == target_range
 
+    def test_evaluate(
+        self,
+        state: State,
+        event_condition: AngularCondition,
+    ):
+        assert event_condition.evaluate(state) is not None
+
     def test_is_satisfied(self, state: State, event_condition: AngularCondition):
         assert (
             event_condition.is_satisfied(previous_state=state, current_state=state)

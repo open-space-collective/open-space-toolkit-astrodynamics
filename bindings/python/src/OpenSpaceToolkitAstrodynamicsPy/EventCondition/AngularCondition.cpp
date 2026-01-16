@@ -132,6 +132,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
             )
 
             .def(
+                "evaluate",
+                &AngularCondition::evaluate,
+                R"doc(
+                    Evaluate the angular event condition.
+
+                    Returns the signed angular distance from the current angle to the target,
+                    normalized to the range [-pi, pi). Positive values indicate the current angle
+                    is "ahead" of the target (in the positive angular direction).
+
+                    Args:
+                        state (State): The current state.
+
+                    Returns:
+                        float: The angular distance to target in radians.
+
+                )doc",
+                arg("state")
+            )
+
+            .def(
                 "is_satisfied",
                 &AngularCondition::isSatisfied,
                 R"doc(
@@ -147,6 +167,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 )doc",
                 arg("current_state"),
                 arg("previous_state")
+            )
+
+            .def(
+                "evaluate_negative_when_satisfied",
+                &AngularCondition::evaluateNegativeWhenSatisfied,
+                R"doc(
+                    Returns whether this condition's evaluate() returns negative when satisfied.
+
+                    For NegativeCrossing criterion, the condition is satisfied when crossing
+                    from above to below the target.
+
+                    Returns:
+                        bool: True if criterion is NegativeCrossing.
+                )doc"
             )
 
             .def_static(
@@ -183,6 +217,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
 
                 )doc",
                 arg("criterion")
+            )
+
+            .def_static(
+                "normalized_angular_distance",
+                &AngularCondition::NormalizedAngularDistance,
+                R"doc(
+                    Compute the signed angular distance from angle to target, normalized to [-pi, pi).
+
+                    Positive result means angle is "ahead" of target (in positive angular direction).
+                    Negative result means angle is "behind" target.
+
+                    Args:
+                        angle (float): The current angle in radians.
+                        target (float): The target angle in radians.
+
+                    Returns:
+                        float: Signed angular distance in radians.
+
+                )doc",
+                arg("angle"),
+                arg("target")
             )
 
             ;
