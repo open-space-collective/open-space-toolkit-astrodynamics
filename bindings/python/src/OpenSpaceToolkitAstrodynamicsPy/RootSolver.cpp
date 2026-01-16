@@ -34,7 +34,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
             "root",
             &RootSolver::Solution::root,
             R"doc(
-                The root of the function.
+                The root of the function, computed as the midpoint of the bounds, lowerBound + (upperBound - lowerBound) / 2.0.
+
+                Type:
+                    float
+            )doc"
+        )
+        .def_readwrite(
+            "lower_bound",
+            &RootSolver::Solution::lowerBound,
+            R"doc(
+                The lower bound of the root, within the interval [root - tolerance, root].
+
+                Type:
+                    float
+            )doc"
+        )
+        .def_readwrite(
+            "upper_bound",
+            &RootSolver::Solution::upperBound,
+            R"doc(
+                The upper bound of the root, within the interval [root, root + tolerance].
 
                 Type:
                     float

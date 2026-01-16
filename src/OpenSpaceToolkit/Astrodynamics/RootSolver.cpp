@@ -52,6 +52,8 @@ RootSolver::Solution RootSolver::bracketAndSolve(
 
     return {
         r.first + (r.second - r.first) / 2.0,
+        r.first,
+        r.second,
         (Size)iteratorCount,
         (Size)iteratorCount < maximumIterationCount_,
     };
@@ -72,6 +74,8 @@ RootSolver::Solution RootSolver::solve(
 
     return {
         r.first + (r.second - r.first) / 2.0,
+        r.first,
+        r.second,
         (Size)iteratorCount,
         (Size)iteratorCount < maximumIterationCount_,
     };
@@ -92,6 +96,8 @@ RootSolver::Solution RootSolver::bisection(
 
     return {
         r.first + (r.second - r.first) / 2.0,
+        r.first,
+        r.second,
         (Size)iteratorCount,
         (Size)iteratorCount < maximumIterationCount_,
     };
