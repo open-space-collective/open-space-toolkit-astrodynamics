@@ -99,6 +99,17 @@ class AngularCondition : public EventCondition
     /// printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Evaluate the Angular Event Condition
+    ///
+    /// Returns the signed angular distance from the current angle to the target,
+    /// normalized to the range [-π, π). Positive values indicate the current angle
+    /// is "ahead" of the target (in the positive angular direction).
+    ///
+    /// @param aState The current state
+    ///
+    /// @return Real number representing the angular distance to target in radians
+    virtual Real evaluate(const State& aState) const override;
+
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
     ///
@@ -112,6 +123,14 @@ class AngularCondition : public EventCondition
     ///
     /// @return Pointer to the cloned EventCondition
     virtual AngularCondition* clone() const override;
+
+    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    ///
+    /// For NegativeCrossing criterion, the condition is satisfied when crossing
+    /// from above to below the target.
+    ///
+    /// @return True if criterion is NegativeCrossing.
+    virtual bool evaluateNegativeWhenSatisfied() const override;
 
     /// @brief Create an angular condition that is satisfied when the angle is within a range
     ///
@@ -136,6 +155,14 @@ class AngularCondition : public EventCondition
     Criterion criterion_;
     std::function<bool(const Real&, const Real&, const Real&)> comparator_;
     Pair<Real, Real> targetRange_;
+
+    /// @brief Compute the signed angular distance from angle to target, normalized to [-π, π)
+    ///
+    /// @param angle The current angle in radians
+    /// @param target The target angle in radians
+    ///
+    /// @return Signed angular distance in radians, positive if angle is "ahead" of target
+    static Real NormalizedAngularDistance(const Real& angle, const Real& target);
 
     static bool IsPositiveCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
     static bool IsNegativeCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);

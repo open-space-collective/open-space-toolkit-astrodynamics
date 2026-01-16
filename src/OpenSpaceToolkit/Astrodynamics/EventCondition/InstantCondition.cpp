@@ -15,12 +15,13 @@ InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& a
     : RealCondition(
           "Instant Condition",
           aCriterion,
-          [](const State& aState) -> Real
+          [anInstant](const State& aState) -> Real
           {
-              return (aState.accessInstant() - Instant::J2000()).inSeconds();
+              return (aState.accessInstant() - anInstant).inSeconds();
           },
-          (anInstant - Instant::J2000()).inSeconds()
-      )
+          0.0
+      ),
+      instant_(anInstant)
 {
 }
 
@@ -28,7 +29,7 @@ InstantCondition::~InstantCondition() {}
 
 Instant InstantCondition::getInstant() const
 {
-    return Instant::J2000() + Duration::Seconds(getTarget().value);
+    return instant_;
 }
 
 }  // namespace eventcondition

@@ -108,6 +108,13 @@ class EventCondition
     /// @return Target
     Target getTarget() const;
 
+    /// @brief Evaluate the Event Condition
+    ///
+    /// @param aState A state to evaluate the Event Condition
+    ///
+    /// @return Real number representing the evaluation result of the Event Condition
+    virtual Real evaluate(const State& aState) const;
+
     /// @brief Update the target value if the Event Condition is relative
     ///
     /// @param aState A state to calculate the relative target from
@@ -133,6 +140,15 @@ class EventCondition
     ///
     /// @return Boolean value indicating if the Event Condition is met
     virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
+
+    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
+    ///
+    /// This is used by LogicalCondition to normalize sub-condition evaluations.
+    /// For criteria like NegativeCrossing and StrictlyNegative, the condition is satisfied
+    /// when evaluate() returns a negative value, so this method returns true for those criteria.
+    ///
+    /// @return True if evaluate() returns negative when satisfied, false otherwise.
+    virtual bool evaluateNegativeWhenSatisfied() const;
 
    protected:
     String name_;
