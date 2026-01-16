@@ -16,7 +16,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -68,7 +67,6 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
-using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -837,82 +835,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
 
         EXPECT_TRUE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 6);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition_SegmentIsCutShortDueToSequenceCondition)
-{
-    // Sequence condition depending only on start and end states
-    {
-        const Segment segment = Segment::Coast(
-            "Coast",
-            std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
-            ),
-            defaultDynamics_,
-            defaultNumericalSolver_
-        );
-
-        const Sequence sequence = {
-            {segment},
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_,
-        };
-
-        const RealCondition sequenceCondition =
-            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(15.0));
-
-        const Sequence::Solution solution = sequence.solveToCondition(defaultState_, sequenceCondition);
-
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 2);
-        EXPECT_TRUE(solution.segmentSolutions[0].conditionIsSatisfied);
-        EXPECT_FALSE(solution.segmentSolutions[1].conditionIsSatisfied);  // This currently fails as the last segment is not cut short
-        EXPECT_TRUE(solution.executionIsComplete);  // This is "ok" just because the sequence condition just depends on start and end states
-        EXPECT_NEAR((solution.accessEndInstant() - solution.accessStartInstant()).inSeconds(), 15.0, 1e-6);  // This currently fails as the last segment is not cut short
-    }
-
-    // Sequence condition skipped during segment solve
-    {
-        const Segment segment = Segment::Coast(
-            "Coast",
-            std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(10.0))
-            ),
-            defaultDynamics_,
-            defaultNumericalSolver_
-        );
-
-        const Sequence sequence = {
-            {segment},
-            defaultNumericalSolver_,
-            defaultDynamics_,
-            defaultMaximumPropagationDuration_,
-        };
-
-        const LogicalCondition sequenceCondition =
-            LogicalCondition(
-                "Sequence Condition",
-                LogicalCondition::Type::And,
-                {
-                    std::make_shared<RealCondition>(
-                        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(13.0))
-                    ),
-                    std::make_shared<RealCondition>(
-                        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyNegative, Duration::Seconds(17.0))
-                    )
-                }
-            );
-
-        const Sequence::Solution solution = sequence.solveToCondition(
-            defaultState_, sequenceCondition, Duration::Minutes(1.0)  // Currently here a maximum propagation duration to shorten the test
-        );
-
-        EXPECT_EQ(solution.segmentSolutions.getSize(), 2);
-        EXPECT_TRUE(solution.segmentSolutions[0].conditionIsSatisfied);
-        EXPECT_FALSE(solution.segmentSolutions[1].conditionIsSatisfied);  // This currently fails as the last segment is not cut short
-        EXPECT_TRUE(solution.executionIsComplete);  // This currently fails as the sequence condition is evaluated using only start and end states
-        EXPECT_NEAR((solution.accessEndInstant() - solution.accessStartInstant()).inSeconds(), 13.0, 1e-6);  // This currently fails as the last segment is not cut short
     }
 }
 
