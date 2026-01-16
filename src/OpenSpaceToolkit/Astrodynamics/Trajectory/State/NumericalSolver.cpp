@@ -230,14 +230,19 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
-    const auto checkCondition = [&anEventCondition, &stepper, &createState](const double& aTime) -> double
+    previousState = createState(stepper.previous_state(), previousTime);
+
+    const auto checkCondition = [&anEventCondition, &stepper, &createState, &previousState](const double& aTime
+                                ) -> double
     {
         NumericalSolver::StateVector stateVector(stepper.current_state());
         stepper.calc_state(aTime, stateVector);
 
         const State state = createState(stateVector, aTime);
 
-        return anEventCondition.evaluate(state);
+        const bool isSatisfied = anEventCondition.isSatisfied(state, previousState);
+
+        return isSatisfied ? 1.0 : -1.0;
     };
 
     // Condition at previousTime => False

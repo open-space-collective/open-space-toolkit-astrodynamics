@@ -103,11 +103,6 @@ EventCondition::Target EventCondition::getTarget() const
     return target_;
 }
 
-Real EventCondition::evaluate(const State& aState) const
-{
-    return evaluator_(aState) - (target_.value + target_.valueOffset);
-}
-
 void EventCondition::updateTarget(const State& aState)
 {
     if (!evaluator_)
@@ -131,11 +126,6 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
         << "Target Type:" << EventCondition::Target::StringFromType(target_.type);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-bool EventCondition::evaluateNegativeWhenSatisfied() const
-{
-    return false;
 }
 
 }  // namespace astrodynamics

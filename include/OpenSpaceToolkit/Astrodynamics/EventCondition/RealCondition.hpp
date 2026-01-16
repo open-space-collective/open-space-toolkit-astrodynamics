@@ -89,6 +89,13 @@ class RealCondition : public EventCondition
     /// printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Evaluate the Event Condition
+    ///
+    /// @param aState The current state
+    ///
+    /// @return Real number representing the evaluation result of the Event Condition
+    Real evaluate(const State& state) const;
+
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
     ///
@@ -102,14 +109,6 @@ class RealCondition : public EventCondition
     ///
     /// @return Pointer to the cloned Real Condition
     virtual RealCondition* clone() const override;
-
-    /// @brief Returns whether this condition's evaluate() returns negative when satisfied.
-    ///
-    /// For NegativeCrossing and StrictlyNegative criteria, the condition is satisfied
-    /// when evaluate() returns a negative value.
-    ///
-    /// @return True if criterion is NegativeCrossing or StrictlyNegative.
-    virtual bool evaluateNegativeWhenSatisfied() const override;
 
     /// @brief Convert criterion to string
     ///

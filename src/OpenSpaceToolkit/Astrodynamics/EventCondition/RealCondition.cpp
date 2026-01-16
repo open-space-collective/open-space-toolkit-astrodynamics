@@ -57,6 +57,11 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+Real RealCondition::evaluate(const State& aState) const
+{
+    return this->evaluator_(aState) - (target_.value + target_.valueOffset);
+}
+
 bool RealCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
     return comparator_(evaluate(currentState), evaluate(previousState));
@@ -65,11 +70,6 @@ bool RealCondition::isSatisfied(const State& currentState, const State& previous
 RealCondition* RealCondition::clone() const
 {
     return new RealCondition(*this);
-}
-
-bool RealCondition::evaluateNegativeWhenSatisfied() const
-{
-    return criterion_ == Criterion::NegativeCrossing || criterion_ == Criterion::StrictlyNegative;
 }
 
 String RealCondition::StringFromCriterion(const Criterion& aCriterion)
