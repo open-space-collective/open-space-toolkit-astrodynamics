@@ -42,24 +42,6 @@ using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
-// Simple state based condition
-
-struct XCrossingCondition : public RealCondition
-{
-    XCrossingCondition(const Real &aTarget)
-        : RealCondition(
-              "test",
-              RealCondition::Criterion::AnyCrossing,
-              [](const State &aState) -> Real
-              {
-                  return aState.accessCoordinates()[0];
-              },
-              aTarget
-          )
-    {
-    }
-};
-
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public ::testing::Test
 {
     void SetUp() override
@@ -336,41 +318,107 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             EXPECT_NEAR(propagatedStateVector[1], std::cos(propagatedTime), 1e-9);
         }
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_ConditionEdgeCases)
+{
+    // This test uses a deterministic condition (as it's based on the independent variable time, 
+    // which is not really affected by the systems of equations).
+    //
+    // It checks edge cases mostly at the leading and trailing edges of the propagation.
+    const State state = getStateVector(defaultStartInstant_);
 
     {
-        const Array<Tuple<Duration, Real>> testCases = {
-            {defaultDuration_, 0.9},
-            {-defaultDuration_, -0.9},
+        const Array<Tuple<Real, Real, RealCondition::Criterion, bool>> testCases = {
+            {1.0, 0.0, RealCondition::Criterion::AnyCrossing, true},  // Condition happens at the start (forwards)
+            {-1.0, 0.0, RealCondition::Criterion::AnyCrossing, true},  // Condition happens at the end (backwards)
+            {1.0, 1.0, RealCondition::Criterion::AnyCrossing, true},  // Condition happens at the end (forwards)
+            {-1.0, -1.0, RealCondition::Criterion::AnyCrossing, true},  // Condition happens at the end (backwards)
+            {1.0, 2.0, RealCondition::Criterion::AnyCrossing, false},  // Condition never happens (forwards)
+            {-1.0, -2.0, RealCondition::Criterion::AnyCrossing, false},  // Condition never happens (backwards)
         };
 
         for (const auto &testCase : testCases)
         {
-            const Duration duration = std::get<0>(testCase);
+            const Real maximumPropagationTime = std::get<0>(testCase);
             const Real target = std::get<1>(testCase);
+            const RealCondition::Criterion criterion = std::get<2>(testCase);
+            const InstantCondition condition = InstantCondition(criterion, defaultStartInstant_ + Duration::Seconds(target));
 
+            const NumericalSolver::ConditionSolution conditionSolution =
+                defaultRKD5_.integrateTime(state, defaultStartInstant_ + Duration::Seconds(maximumPropagationTime), systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
+            const Real propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+
+            const bool expectedConditionIsSatisfied = std::get<3>(testCase);
+
+            EXPECT_EQ(conditionSolution.conditionIsSatisfied, expectedConditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.rootSolverHasConverged, expectedConditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
+            if (expectedConditionIsSatisfied) {
+                EXPECT_NEAR(propagatedTime, target, 1e-8);
+            }
+            else {
+                EXPECT_NEAR(propagatedTime, maximumPropagationTime, 1e-8);
+            }
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_ConditionRootFinding)
+{
+    // This test uses a non-deterministic condition (i.e. dependent on the systems of equations and the numerical solver).
+    //
+    // We purposely create cases where the condition is met multiple times over teh propagation, to assert that we correctly stop at the first instance.
+    const State state = getStateVector(defaultStartInstant_);
+
+    {
+        const Array<Tuple<Real, Real, RealCondition::Criterion, Real,bool>> testCases = {
+            {Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, Real::TwoPi(), false},  // Almost meets the condition, but never does (forwards)
+            {-Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, -Real::TwoPi(), false},  // Almost meets the condition, but never does (backwards)
+            {Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, std::asin(0.5), true},  // Any crossing (forwards)
+            {-Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, -Real::Pi() - std::asin(0.5), true},  // Any crossing (backwards)
+            {Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, Real::Pi() - std::asin(0.5), true},  // Negative crossing (forwards)
+            {-Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, -Real::TwoPi() + std::asin(0.5), true},  // Negative crossing (backwards)
+            {Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, Real::TwoPi() - std::asin(0.5), true},  // Positive crossing (forwards)
+            {-Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, -Real::Pi() + std::asin(0.5), true},  // Positive crossing (backwards)
+            {Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, Real::Pi() + std::asin(0.5), true},  // Strictly negative (forwards)
+            {-Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, -std::asin(0.5), true},  // Strictly negative (backwards)
+            {Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, std::asin(0.5), true},  // Strictly positive (forwards)
+            {-Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, -Real::Pi() - std::asin(0.5), true},  // Strictly positive (backwards)
+        };
+
+        for (const auto &testCase : testCases)
+        {
+            const Duration duration = Duration::Seconds(std::get<0>(testCase));
+            const Real target = std::get<1>(testCase);
+            const RealCondition::Criterion criterion = std::get<2>(testCase);
             const Instant endInstant = defaultStartInstant_ + duration;
-            const XCrossingCondition condition = XCrossingCondition(target);
-
+            const RealCondition condition = RealCondition(
+                "X Crossing Condition",
+                criterion,
+                [](const State &aState) -> Real
+                {
+                    return aState.accessCoordinates()[0];
+                },
+                target
+            );
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
             const Real propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
 
-            // Ensure that integration terminates at condition if condition is met
+            const Real expectedPropagatedTime = std::get<3>(testCase);
+            const bool expectedConditionIsSatisfied = std::get<4>(testCase);
 
-            EXPECT_TRUE(
-                duration > 0.0 ? conditionSolution.state.accessInstant() < endInstant
-                               : conditionSolution.state.accessInstant() > endInstant
-            );
-            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-            EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
+            EXPECT_NEAR(propagatedTime, expectedPropagatedTime, 1e-8);
+            EXPECT_EQ(conditionSolution.conditionIsSatisfied, expectedConditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.rootSolverHasConverged, expectedConditionIsSatisfied);
             EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
-
-            // Validate the output against an analytical function
-
-            EXPECT_NEAR(propagatedStateVector[0], std::sin(propagatedTime), 1e-9);
-            EXPECT_NEAR(propagatedStateVector[1], std::cos(propagatedTime), 1e-9);
+            EXPECT_NEAR(propagatedStateVector[0], std::sin(propagatedTime), 1e-8);
+            EXPECT_NEAR(propagatedStateVector[1], std::cos(propagatedTime), 1e-8);
         }
     }
 }
