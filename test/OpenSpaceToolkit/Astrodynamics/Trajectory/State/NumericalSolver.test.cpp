@@ -375,7 +375,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     // This test uses a non-deterministic condition (i.e. dependent on the systems of equations and the numerical
     // solver).
     //
-    // We purposely create cases where the condition is met multiple times over teh propagation, to assert that we
+    // We purposely create cases where the condition is met multiple times over the propagation, to assert that we
     // correctly stop at the first instance.
     const State state = getStateVector(defaultStartInstant_);
 
