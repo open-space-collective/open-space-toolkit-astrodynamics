@@ -25,13 +25,27 @@ using ostk::physics::environment::Object;
 VisibilityCriterion::LineOfSight::LineOfSight(const Environment& anEnvironment)
     : environment(anEnvironment)
 {
+    if (!anEnvironment.hasCentralCelestialObject())
+    {
+        std::cout << "Warning: Environment must have a central celestial object for LineOfSight criterion."
+                  << std::endl;
+    }
 }
 
 bool VisibilityCriterion::LineOfSight::isSatisfied(
     const Instant& anInstant, const Vector3d& aFromPositionCoordinates_ITRF, const Vector3d& aToPositionCoordinates_ITRF
 ) const
 {
-    static const Shared<const Frame> commonFrameSPtr = Frame::ITRF();
+    // TBR: Deprecate this check in a future release
+    Shared<const Frame> commonFrameSPtr = nullptr;
+    if (this->environment.hasCentralCelestialObject())
+    {
+        commonFrameSPtr = this->environment.accessCentralCelestialObject()->accessFrame();
+    }
+    else
+    {
+        commonFrameSPtr = Frame::ITRF();
+    }
 
     this->environment.setInstant(anInstant);
 
