@@ -100,6 +100,21 @@ Vector5d QLaw::Parameters::getControlWeights() const
     return controlWeights_;
 }
 
+double QLaw::Parameters::getControlWeight(const COE::Element& anElement) const
+{
+    Index i = 0;
+    for (const COE::Element& element : validElements_)
+    {
+        if (element == anElement)
+        {
+            return controlWeights_(i);
+        }
+        ++i;
+    }
+
+    throw ostk::core::error::RuntimeError("Cannot get weight for [" + COE::StringFromElement(anElement) + "].");
+}
+
 Vector5d QLaw::Parameters::getConvergenceThresholds() const
 {
     return convergenceThresholds_;
@@ -108,6 +123,22 @@ Vector5d QLaw::Parameters::getConvergenceThresholds() const
 Length QLaw::Parameters::getMinimumPeriapsisRadius() const
 {
     return Length::Meters(minimumPeriapsisRadius_);
+}
+
+void QLaw::Parameters::setControlWeight(const COE::Element& anElement, const double& aWeight)
+{
+    Index i = 0;
+    for (const COE::Element& element : validElements_)
+    {
+        if (element == anElement)
+        {
+            controlWeights_(i) = aWeight;
+            return;
+        }
+        ++i;
+    }
+
+    throw ostk::core::error::RuntimeError("Cannot set weight for [" + COE::StringFromElement(anElement) + "].");
 }
 
 QLaw::QLaw(
@@ -147,6 +178,11 @@ void QLaw::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 QLaw::Parameters QLaw::getParameters() const
+{
+    return parameters_;
+}
+
+QLaw::Parameters& QLaw::accessParameters()
 {
     return parameters_;
 }

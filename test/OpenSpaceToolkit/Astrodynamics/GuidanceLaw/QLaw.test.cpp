@@ -222,6 +222,52 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetCon
     EXPECT_EQ(thresholds(4), 3.0);
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, SetAndGetControlWeight)
+{
+    QLaw::Parameters parameters = {
+        {
+            {COE::Element::SemiMajorAxis, {0.1, 100.0}},
+            {COE::Element::Eccentricity, {0.2, 1e-3}},
+            {COE::Element::Inclination, {0.3, 1.0}},
+            {COE::Element::Raan, {0.4, 2.0}},
+            {COE::Element::Aop, {0.5, 3.0}},
+        },
+    };
+
+    // Verify initial weights
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::SemiMajorAxis), 0.1);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Eccentricity), 0.2);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Inclination), 0.3);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Raan), 0.4);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Aop), 0.5);
+
+    // Update weights
+    parameters.setControlWeight(COE::Element::SemiMajorAxis, 1.0);
+    parameters.setControlWeight(COE::Element::Eccentricity, 2.0);
+    parameters.setControlWeight(COE::Element::Inclination, 3.0);
+    parameters.setControlWeight(COE::Element::Raan, 4.0);
+    parameters.setControlWeight(COE::Element::Aop, 5.0);
+
+    // Verify updated weights
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::SemiMajorAxis), 1.0);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Eccentricity), 2.0);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Inclination), 3.0);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Raan), 4.0);
+    EXPECT_EQ(parameters.getControlWeight(COE::Element::Aop), 5.0);
+
+    // Verify via getControlWeights as well
+    const Vector5d controlWeights = parameters.getControlWeights();
+    EXPECT_EQ(controlWeights(0), 1.0);
+    EXPECT_EQ(controlWeights(1), 2.0);
+    EXPECT_EQ(controlWeights(2), 3.0);
+    EXPECT_EQ(controlWeights(3), 4.0);
+    EXPECT_EQ(controlWeights(4), 5.0);
+
+    // Test invalid element throws
+    EXPECT_THROW(parameters.setControlWeight(COE::Element::TrueAnomaly, 1.0), ostk::core::error::RuntimeError);
+    EXPECT_THROW(parameters.getControlWeight(COE::Element::TrueAnomaly), ostk::core::error::RuntimeError);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetTargetCOE)
 {
     EXPECT_EQ(qlaw_.getTargetCOE(), targetCOE_);

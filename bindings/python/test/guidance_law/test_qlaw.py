@@ -139,6 +139,52 @@ class TestQLawParameters:
         assert parameters.absolute_effectivity_threshold == 0.2
         assert parameters.relative_effectivity_threshold == 0.3
 
+    def test_set_and_get_control_weight(self):
+        parameters = QLaw.Parameters(
+            element_weights={
+                COE.Element.SemiMajorAxis: (0.1, 100.0),
+                COE.Element.Eccentricity: (0.2, 1e-3),
+                COE.Element.Inclination: (0.3, 1.0),
+                COE.Element.Raan: (0.4, 2.0),
+                COE.Element.Aop: (0.5, 3.0),
+            },
+        )
+
+        # Verify initial weights
+        assert parameters.get_control_weight(COE.Element.SemiMajorAxis) == 0.1
+        assert parameters.get_control_weight(COE.Element.Eccentricity) == 0.2
+        assert parameters.get_control_weight(COE.Element.Inclination) == 0.3
+        assert parameters.get_control_weight(COE.Element.Raan) == 0.4
+        assert parameters.get_control_weight(COE.Element.Aop) == 0.5
+
+        # Update weights
+        parameters.set_control_weight(COE.Element.SemiMajorAxis, 1.0)
+        parameters.set_control_weight(COE.Element.Eccentricity, 2.0)
+        parameters.set_control_weight(COE.Element.Inclination, 3.0)
+        parameters.set_control_weight(COE.Element.Raan, 4.0)
+        parameters.set_control_weight(COE.Element.Aop, 5.0)
+
+        # Verify updated weights
+        assert parameters.get_control_weight(COE.Element.SemiMajorAxis) == 1.0
+        assert parameters.get_control_weight(COE.Element.Eccentricity) == 2.0
+        assert parameters.get_control_weight(COE.Element.Inclination) == 3.0
+        assert parameters.get_control_weight(COE.Element.Raan) == 4.0
+        assert parameters.get_control_weight(COE.Element.Aop) == 5.0
+
+        # Verify via get_control_weights as well
+        control_weights = parameters.get_control_weights()
+        assert control_weights[0] == 1.0
+        assert control_weights[1] == 2.0
+        assert control_weights[2] == 3.0
+        assert control_weights[3] == 4.0
+        assert control_weights[4] == 5.0
+
+        # Test invalid element throws
+        with pytest.raises(RuntimeError):
+            parameters.set_control_weight(COE.Element.TrueAnomaly, 1.0)
+        with pytest.raises(RuntimeError):
+            parameters.get_control_weight(COE.Element.TrueAnomaly)
+
 
 class TestQLaw:
     def test_constructors(

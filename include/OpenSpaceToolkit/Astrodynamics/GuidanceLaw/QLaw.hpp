@@ -81,6 +81,8 @@ class QLaw : public GuidanceLaw
         Vector5d getControlWeights() const;
         Vector5d getConvergenceThresholds() const;
         Length getMinimumPeriapsisRadius() const;
+        double getControlWeight(const COE::Element& anElement) const;
+        void setControlWeight(const COE::Element& anElement, const double& aWeight);
 
         const double m;
         const double n;
@@ -153,6 +155,11 @@ class QLaw : public GuidanceLaw
     ///
     /// @return Parameters
     Parameters getParameters() const;
+
+    /// @brief Access Parameters (returns a reference)
+    ///
+    /// @return Parameters reference
+    Parameters& accessParameters();
 
     /// @brief Get target COE
     ///
@@ -255,7 +262,7 @@ class QLaw : public GuidanceLaw
     ) const;
 
    private:
-    const Parameters parameters_;
+    Parameters parameters_;
     const double mu_;
     const Vector6d targetCOEVector_;
     const Derived gravitationalParameter_;

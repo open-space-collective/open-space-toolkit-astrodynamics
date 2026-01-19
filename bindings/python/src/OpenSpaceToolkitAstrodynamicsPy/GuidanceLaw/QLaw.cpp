@@ -182,6 +182,21 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         )
 
         .def(
+            "get_control_weight",
+            &QLaw::Parameters::getControlWeight,
+            R"doc(
+                Get the control weight for a specific orbital element.
+
+                Args:
+                    element (COE.Element): The orbital element.
+
+                Returns:
+                    float: The control weight.
+            )doc",
+            arg("element")
+        )
+
+        .def(
             "get_convergence_thresholds",
             &QLaw::Parameters::getConvergenceThresholds,
             R"doc(
@@ -201,6 +216,20 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Returns:
                     Length: The minimum periapsis radius.
             )doc"
+        )
+
+        .def(
+            "set_control_weight",
+            &QLaw::Parameters::setControlWeight,
+            R"doc(
+                Set the control weight for a specific orbital element.
+
+                Args:
+                    element (COE.Element): The orbital element.
+                    weight (float): The weight to set.
+            )doc",
+            arg("element"),
+            arg("weight")
         )
 
         ;
@@ -267,6 +296,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             &QLaw::getParameters,
             R"doc(
                 Get the parameters.
+
+                Returns:
+                    QLaw.Parameters: The parameters.
+            )doc"
+        )
+        .def(
+            "access_parameters",
+            &QLaw::accessParameters,
+            return_value_policy::reference_internal,
+            R"doc(
+                Access the parameters.
 
                 Returns:
                     QLaw.Parameters: The parameters.
