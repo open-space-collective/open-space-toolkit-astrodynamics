@@ -1942,10 +1942,10 @@ TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MultipleManeuvers_WithManeuverConstraintsThatHaveNoImpact
 )
 {
-    // This tests reproduces an issue where a maneuver-constrained segment (even though the constraints have no impact 
+    // This tests reproduces an issue where a maneuver-constrained segment (even though the constraints have no impact
     // since the minimum values are too little and the maximum value is too large), was taking a long time to converge.
     //
-    // It gets compared agains the very same unconstrained segment. The only difference is the constrained one will 
+    // It gets compared agains the very same unconstrained segment. The only difference is the constrained one will
     // take a different logic path to solve.
     {
         const Duration minimumDuration = Duration::Milliseconds(1.0);

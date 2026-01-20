@@ -441,10 +441,8 @@ class Segment
     /// @param aState The initial state of the segment
     /// @param aManeuver The maneuver
     /// @return The segment solution
-    Segment::Solution constructLOFCompliantManeuverSolution_(
-        const State& aState,
-        const flightManeuver& aManeuver
-    ) const;
+    Segment::Solution constructLOFCompliantManeuverSolution_(const State& aState, const flightManeuver& aManeuver)
+        const;
 
     /// @brief Solve the coast segment, uses the internal free dynamics array and event condition of the segment.
     ///
@@ -460,9 +458,7 @@ class Segment
     /// @param thrusterDynamics The thruster dynamics.
     /// @return The segment solution
     Segment::Solution solveNextManeuver_(
-        const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Shared<Thruster>& thrusterDynamics
+        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
     ) const;
 
     /// @brief Propagate the segment with the provided dynamics and event condition. This method is used to propagate
@@ -476,8 +472,9 @@ class Segment
         const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
     ) const;
 
-    /// @brief Solve the maneuver for a given interval. Coasts until the start of the maneuver interval and then solves the maneuver for the given interval.
-    /// This guarantees that we have a state at the start and end of the maneuver interval.
+    /// @brief Solve the maneuver for a given interval. Coasts until the start of the maneuver interval and then solves
+    /// the maneuver for the given interval. This guarantees that we have a state at the start and end of the maneuver
+    /// interval.
     ///
     /// @param aState The initial state of the segment
     /// @param thrusterDynamics The thruster dynamics
