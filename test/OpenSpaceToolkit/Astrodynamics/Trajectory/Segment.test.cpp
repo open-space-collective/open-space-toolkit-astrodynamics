@@ -64,6 +64,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::iterator::Zip;
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
@@ -2915,8 +2916,10 @@ TEST_F(
         Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
     );
 
+    const Duration maximumDuration = Duration::Minutes(30.0);
+
     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
-        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, maximumDuration)
     );
 
     const Segment maneuverSegment = Segment::Maneuver(
@@ -2937,10 +2940,35 @@ TEST_F(
     {
         EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
     }
-    EXPECT_INSTANTS_ALMOST_EQUAL(
-        maneuvers[0].getInterval().getStart(), initialStateWithMass_.accessInstant(), Duration::Seconds(1.0)
-    );
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(5.0), Duration::Seconds(1.0)));
+
+    // Candidate:   0--------------15-----------------30
+    // Maneuver 1   0----5
+    // Maneuver 2          5.1--10.1
+    // Maneuver 3                    10.2--15.2
+    // Maneuver 4                               15.3--20.3
+    // Maneuver 5                                          20.4--25.4
+    // Maneuver 6                                                     25.5--30.0
+
+    Array<Interval> expectedManeuverIntervals = {Interval::Closed(
+        initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + constraints.maximumDuration
+    )};
+
+    for (Size i = 1; i < maneuvers.getSize() - 1; ++i)
+    {
+        const Instant maneuverStart = expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation;
+        const Instant maneuverEnd = maneuverStart + constraints.maximumDuration;
+        expectedManeuverIntervals.add(Interval::Closed(maneuverStart, maneuverEnd));
+    }
+
+    expectedManeuverIntervals.add(Interval::Closed(
+        expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation,
+        initialStateWithMass_.accessInstant() + maximumDuration
+    ));
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+    {
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
+    }
 }
 
 TEST_F(
@@ -3048,6 +3076,32 @@ TEST_F(
     for (const Maneuver& maneuver : maneuvers)
     {
         EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
+    }
+
+    // Candidate:   0--------------15-----------------30
+    // Maneuver 1            12.5------17.5
+    // Candidate:                       17.6-----------30
+    // Maneuver 2                          21.6---26.6
+    // ...
+
+    const Array<Interval> expectedManeuverIntervals = Array<Interval> {
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(12.5),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(17.5)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(20.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+        )
+    };
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+    {
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10));
     }
 }
 

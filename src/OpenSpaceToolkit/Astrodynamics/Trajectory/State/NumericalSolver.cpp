@@ -114,7 +114,7 @@ State NumericalSolver::integrateTime(
     );
 
     const auto observedStateVectors = MathNumericalSolver::getObservedStateVectors();
-    for (auto& state : observedStateVectors)
+    for (const auto& state : observedStateVectors)
     {
         observedStates_.add(
             stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), std::move(state.first))
