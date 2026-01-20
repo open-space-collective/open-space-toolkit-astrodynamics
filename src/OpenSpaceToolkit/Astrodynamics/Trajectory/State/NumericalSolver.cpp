@@ -115,9 +115,7 @@ State NumericalSolver::integrateTime(
 
     for (const auto& state : MathNumericalSolver::getObservedStateVectors())
     {
-        observedStates_.add(
-            stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first)
-        );
+        observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
     }
 
     return stateBuilder.build(anEndTime, solution.first);
