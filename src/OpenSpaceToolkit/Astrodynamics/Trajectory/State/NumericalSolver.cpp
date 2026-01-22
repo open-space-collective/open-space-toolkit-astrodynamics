@@ -470,8 +470,11 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
 
         if (currentTime != finalTime)
         {
+            // Compute step size with correct sign for the direction from currentTime to finalTime.
+            // This handles the case where we overshot finalTime and need to integrate backwards.
+            const double adjustmentStepSize = (finalTime - currentTime) / 10.0;
             integrateToTime<Stepper>(
-                stepper, currentStateVector, currentTime, finalTime, signedTimeStep, aSystemOfEquations
+                stepper, currentStateVector, currentTime, finalTime, adjustmentStepSize, aSystemOfEquations
             );
         }
 
@@ -555,7 +558,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
             const RootSolver::Solution solution =
                 rootSolver.bisection(checkConditionPropagated, previousTime, currentTime);
 
-            const double solutionTime = static_cast<double>(solution.root);
+            const double solutionTime = solution.upperBound;
             const double subStepSize = (solutionTime - previousTime) / 10.0;
             NumericalSolver::StateVector solutionStateVector = previousStateVector;
 
