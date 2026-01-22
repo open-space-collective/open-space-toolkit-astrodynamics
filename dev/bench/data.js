@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1769048803164,
+  "lastUpdate": 1769083366310,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 7202967220.499977,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 7202348604.900009 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e4b1d3e14814a349db8a64c3b507001f2d4722e0",
+          "message": "feat: add Chunk strategy for maximum maneuver duration violation (#632)\n\n* feat: add Chunk strategy for maximum maneuver duration violation\n\nAdd a new Chunk strategy to MaximumManeuverDurationViolationStrategy that\nsplits maneuvers exceeding the maximum duration into multiple chunks from\nthe leading edge, rather than truncating or centering.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\n\n* chore: fix coverage\n\n* feat: rebase and fix tests\n\n* refactor: apply MR suggestions\n\n---------\n\nCo-authored-by: Claude Opus 4.5 <noreply@anthropic.com>\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2026-01-22T11:35:43Z",
+          "tree_id": "a19c984e2febb8b171a86cbb016101d29896fd4d",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/e4b1d3e14814a349db8a64c3b507001f2d4722e0"
+        },
+        "date": 1769083364729,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4759938235.599993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4680752510.700001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4092249745.3999877,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4091899547.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7202652933.499979,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7201686602.599998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7198527326.300006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7197731500.500006 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7205283018.700027,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7204432335.999994 ns\nthreads: 1"
           }
         ]
       }
