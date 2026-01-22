@@ -2906,7 +2906,7 @@ TEST_F(
 
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
-    Solve_ManeuverDurationExceedsMaximum_TruncateEndStrategy_MultipleManeuvers
+    Solve_ManeuverDurationExceedsMaximum_TruncateEndStrategy_Behaviour
 )
 {
     const Segment::ManeuverConstraints constraints(
@@ -2935,7 +2935,7 @@ TEST_F(
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
-    EXPECT_EQ(maneuvers.getSize(), 6);
+    EXPECT_EQ(maneuvers.getSize(), 1);
     for (const Maneuver& maneuver : maneuvers)
     {
         EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
@@ -2943,27 +2943,10 @@ TEST_F(
 
     // Candidate:   0--------------15-----------------30
     // Maneuver 1   0----5
-    // Maneuver 2          5.1--10.1
-    // Maneuver 3                    10.2--15.2
-    // Maneuver 4                               15.3--20.3
-    // Maneuver 5                                          20.4--25.4
-    // Maneuver 6                                                     25.5--30.0
 
-    Array<Interval> expectedManeuverIntervals = {Interval::Closed(
-        initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + constraints.maximumDuration
+    const Array<Interval> expectedManeuverIntervals = Array<Interval> {Interval::Closed(
+        initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(5.0)
     )};
-
-    for (Size i = 1; i < maneuvers.getSize() - 1; ++i)
-    {
-        const Instant maneuverStart = expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation;
-        const Instant maneuverEnd = maneuverStart + constraints.maximumDuration;
-        expectedManeuverIntervals.add(Interval::Closed(maneuverStart, maneuverEnd));
-    }
-
-    expectedManeuverIntervals.add(Interval::Closed(
-        expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation,
-        initialStateWithMass_.accessInstant() + maximumDuration
-    ));
 
     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
     {
@@ -2973,7 +2956,44 @@ TEST_F(
 
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
-    Solve_ManeuverDurationExceedsMaximum_TruncateStartStrategy_MultipleManeuvers
+    Solve_ManeuverDurationExceedsMaximum_TruncateStartStrategy_ConditionSatisfied
+)
+{
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),  // Maximum duration
+        Duration::Seconds(1.0),
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+    );
+
+    // Event condition that will be satisfied during sliced maneuver
+    const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(3.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        eventCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+    EXPECT_EQ(maneuvers.getSize(), 1);
+    EXPECT_TRUE(
+        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    );
+    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1.0)));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Solve_ManeuverDurationExceedsMaximum_TruncateStartStrategy_Behaviour
 )
 {
     const Segment::ManeuverConstraints constraints(
@@ -3001,12 +3021,16 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    EXPECT_TRUE(maneuvers.accessFirst().getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(25.0), Duration::Seconds(1e-1)
-    ));
-    EXPECT_TRUE(maneuvers.accessFirst().getInterval().getEnd().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Seconds(1e-1)
-    ));
+
+    const Array<Interval> expectedManeuverIntervals = Array<Interval> {Interval::Closed(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(25.0),
+        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+    )};
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+    {
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
+    }
 }
 
 TEST_F(
@@ -3043,10 +3067,7 @@ TEST_F(
     EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1e-1)));
 }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
-    Solve_ManeuverDurationExceedsMaximum_CenterStrategy_MultipleManeuvers
-)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationExceedsMaximum_CenterStrategy_Behaviour)
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Undefined(),
@@ -3072,7 +3093,7 @@ TEST_F(
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
-    EXPECT_EQ(maneuvers.getSize(), 3);
+    EXPECT_EQ(maneuvers.getSize(), 1);
     for (const Maneuver& maneuver : maneuvers)
     {
         EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
@@ -3080,24 +3101,11 @@ TEST_F(
 
     // Candidate:   0--------------15-----------------30
     // Maneuver 1            12.5------17.5
-    // Candidate:                       17.6-----------30
-    // Maneuver 2                          21.6---26.6
-    // ...
 
-    const Array<Interval> expectedManeuverIntervals = Array<Interval> {
-        Interval::Closed(
-            initialStateWithMass_.accessInstant() + Duration::Minutes(12.5),
-            initialStateWithMass_.accessInstant() + Duration::Minutes(17.5)
-        ),
-        Interval::Closed(
-            initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
-            initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(20.0)
-        ),
-        Interval::Closed(
-            initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
-            initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
-        )
-    };
+    const Array<Interval> expectedManeuverIntervals = Array<Interval> {Interval::Closed(
+        initialStateWithMass_.accessInstant() + Duration::Minutes(12.5),
+        initialStateWithMass_.accessInstant() + Duration::Minutes(17.5)
+    )};
 
     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
     {
@@ -3145,10 +3153,7 @@ TEST_F(
     );
 }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
-    Solve_ManeuverDurationExceedsMaximum_ChunkStrategy_MultipleManeuvers
-)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationExceedsMaximum_ChunkStrategy_Behaviour)
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Undefined(),
