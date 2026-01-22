@@ -15,6 +15,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/DurationCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
@@ -35,6 +36,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::BooleanCondition;
+using ostk::astrodynamics::eventcondition::DurationCondition;
 using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
@@ -99,9 +101,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, UpdateTar
             defaultName_,
             defaultType_,
             {
-                std::make_shared<RealCondition>(
-                    RealCondition::DurationCondition(RealCondition::Criterion::AnyCrossing, Duration::Seconds(30.0))
-                ),
+                std::make_shared<DurationCondition>(RealCondition::Criterion::AnyCrossing, Duration::Seconds(30.0)),
             }
         );
         EXPECT_NO_THROW(logicalCondition.updateTarget(defaultState_));

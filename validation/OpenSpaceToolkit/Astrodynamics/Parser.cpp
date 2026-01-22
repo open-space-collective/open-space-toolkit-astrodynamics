@@ -289,10 +289,10 @@ Segment Parser::CreateSegment(
     Shared<RealCondition> conditionSPtr = nullptr;
     if (segmentDictionary["data"]["stop-condition"]["type"].accessString() == "RELATIVE_TIME")
     {
-        conditionSPtr = std::make_shared<RealCondition>(RealCondition::DurationCondition(
+        conditionSPtr = std::make_shared<DurationCondition>(
             RealCondition::Criterion::StrictlyPositive,
             Duration::Seconds(segmentDictionary["data"]["stop-condition"]["data"]["duration"].accessReal())
-        ));
+        );
     }
     else if (segmentDictionary["data"]["stop-condition"]["type"].accessString() == "ABSOLUTE_TIME")
     {

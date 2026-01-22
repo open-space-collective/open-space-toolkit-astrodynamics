@@ -288,7 +288,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
     };
 
     const RealCondition defaultDurationCondition =
-        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(60.0));
+        DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Seconds(60.0));
 
     const InstantCondition defaultInstantCondition1 = InstantCondition(
         InstantCondition::Criterion::StrictlyPositive, Instant::DateTime(DateTime(2023, 1, 1, 0, 3, 0), Scale::UTC)
