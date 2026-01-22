@@ -105,7 +105,7 @@ State NumericalSolver::integrateTime(
     const State& aState, const Instant& anEndTime, const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    observedStates_ = {aState};
+    observedStates_ = {};
 
     const StateBuilder stateBuilder = {aState};
 

@@ -69,18 +69,19 @@ class Segment
     /// Strategy to use when a maneuver exceeds the maximum duration constraint.
     ///
     /// Example:
-    /// Proposed maneuver: [--------------------|------------]
-    /// TruncateEnd:       [--------------------]
-    /// TruncateStart:                  [--------------------]
-    /// Center:                     [--------------------]
+    /// Maximum duration:  [------]
+    /// Proposed maneuver: [---------------------------------]
+    /// TruncateEnd:       [------]
+    /// Center:                          [------]
+    /// TruncateStart:                                [------]
     enum class MaximumManeuverDurationViolationStrategy
     {
         Fail,           ///< Will throw a RuntimeError if a maneuver exceeds the maximum duration.
         Skip,           ///< The maneuver will be skipped entirely.
-        TruncateEnd,    ///< The maneuver will be shortened to the maximum duration, truncating the end segment.
-        TruncateStart,  ///< The maneuver will be shortened to the maximum duration, truncating the start segment.
-        Center  ///< The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered
-                ///< part of the maneuver.
+        TruncateEnd,    ///< The maneuver will be shortened to the maximum duration, truncating the end.
+        TruncateStart,  ///< The maneuver will be shortened to the maximum duration, truncating the start.
+        Center,         ///< The maneuver will be shortened to the maximum duration, truncating the edges,
+                        ///< keeping the centered part of the maneuver.
     };
 
     struct ManeuverConstraints
@@ -435,16 +436,13 @@ class Segment
         const Shared<EventCondition>& anEventCondition
     ) const;
 
-    /// @brief Solve the maneuver segment with the provided thruster dynamics. Uses the internal event condition of the
-    /// segment.
+    /// @brief For a given maneuver, construct a solution that is Local Orbital Frame (LOF) compliant.
     ///
     /// @param aState The initial state of the segment
-    /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aThrusterDynamics The thruster dynamics
+    /// @param aManeuver The maneuver
     /// @return The segment solution
-    Segment::Solution solveManeuver_(
-        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
-    ) const;
+    Segment::Solution constructLOFCompliantManeuverSolution_(const State& aState, const flightManeuver& aManeuver)
+        const;
 
     /// @brief Solve the coast segment, uses the internal free dynamics array and event condition of the segment.
     ///
@@ -453,28 +451,18 @@ class Segment
     /// @return The segment solution
     Segment::Solution solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const;
 
-    /// @brief Solve the maneuver segment producing multiple maneuvers, with the provided dynamics array.
-    ///
-    /// @param aState The initial state of the segment
-    /// @param maximumPropagationDuration The maximum propagation duration
-    /// @param aThrusterDynamics The thruster dynamics
-    /// @return The segment solution
-    Segment::Solution solveMultipleManeuvers_(
-        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& aThrusterDynamics
-    ) const;
-
-    /// @brief Solve the maneuver segment producing at most one maneuver, with the provided dynamics array.
+    /// @brief Solve till the next maneuver ends. This maneuver is not necessarily constraint-compliant yet.
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
     /// @param thrusterDynamics The thruster dynamics.
     /// @return The segment solution
-    Segment::Solution solveSingleManeuver_(
+    Segment::Solution solveNextManeuver_(
         const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
     ) const;
 
     /// @brief Propagate the segment with the provided dynamics and event condition. This method is used to propagate
-    /// the segment until a given instant.
+    /// the segment until a given instant, not based on an event condition.
     ///
     /// @param aState The initial state of the segment
     /// @param anEndInstant The end instant
@@ -482,6 +470,18 @@ class Segment
     /// @return States
     Array<State> propagateWithDynamics_(
         const State& aState, const Instant& anEndInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+    ) const;
+
+    /// @brief Solve the maneuver for a given interval. Coasts until the start of the maneuver interval and then solves
+    /// the maneuver for the given interval. This guarantees that we have a state at the start and end of the maneuver
+    /// interval.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param thrusterDynamics The thruster dynamics
+    /// @param validManeuverInterval The valid maneuver interval
+    /// @return The segment solution
+    Segment::Solution solveManeuverForInterval_(
+        const State& aState, const Shared<Thruster>& thrusterDynamics, const Interval& validManeuverInterval
     ) const;
 };
 

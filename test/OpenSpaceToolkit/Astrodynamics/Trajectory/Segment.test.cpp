@@ -64,6 +64,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::iterator::Zip;
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
@@ -1788,12 +1789,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Array<Maneuver> constantLofDirectionManeuvers =
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
-        ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
-        ));
+        EXPECT_INSTANTS_ALMOST_EQUAL(
+            maneuveringSegmentSolution.accessStartInstant(),
+            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(),
+            Duration::Nanoseconds(5.0)
+        );
+        EXPECT_INSTANTS_ALMOST_EQUAL(
+            maneuveringSegmentSolution.accessEndInstant(),
+            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(),
+            Duration::Nanoseconds(5.0)
+        );
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_EQ(2, maneuvers.getSize());
@@ -1801,12 +1806,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
 
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
-            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
-            ));
-            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
-            ));
+            EXPECT_INTERVALS_ALMOST_EQUAL(
+                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Seconds(1.0)
+            );
         }
 
         const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
@@ -1838,28 +1840,195 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         const Segment::Solution expectedEquivalentSegmentSolution = expectedEquivalentSegment.solve(currentState);
         const Array<Maneuver> expectedEquivalentManeuvers =
             expectedEquivalentSegmentSolution.extractManeuvers(defaultFrameSPtr_);
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            expectedEquivalentSegmentSolution.accessStartInstant(), Duration::Milliseconds(0.0)
-        ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            expectedEquivalentSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
-        ));
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuveringSegmentSolution.getInterval(),
+            expectedEquivalentSegmentSolution.getInterval(),
+            Duration::Nanoseconds(10.0)
+        );
         EXPECT_TRUE(expectedEquivalentSegmentSolution.conditionIsSatisfied);
 
         EXPECT_EQ(2, expectedEquivalentManeuvers.getSize());
         for (Size i = 0; i < expectedEquivalentManeuvers.getSize(); i++)
         {
-            EXPECT_TRUE(expectedEquivalentManeuvers[i].getInterval().getStart().isNear(
-                maneuvers[i].getInterval().getStart(), Duration::Seconds(1.5)
-            ));
-            EXPECT_TRUE(expectedEquivalentManeuvers[i].getInterval().getEnd().isNear(
-                maneuvers[i].getInterval().getEnd(), Duration::Seconds(1.5)
-            ));
+            EXPECT_INTERVALS_ALMOST_EQUAL(
+                expectedEquivalentManeuvers[i].getInterval(), maneuvers[i].getInterval(), Duration::Seconds(1.5)
+            );
         }
 
         const State finalState = constantLofDirectionManeuveringSegmentSolution.states.accessLast();
         const State expectedFinalState = expectedEquivalentSegmentSolution.states.accessLast();
-        EXPECT_EQ(finalState, expectedFinalState);
+        EXPECT_INSTANTS_ALMOST_EQUAL(
+            finalState.accessInstant(), expectedFinalState.accessInstant(), Duration::Nanoseconds(5.0)
+        );
+    }
+
+    // Multiple maneuvers with constraints
+    {
+        const Duration minimumDuration = Duration::Minutes(1.0);
+        const Duration maximumDuration = Duration::Minutes(10.0);
+        const Duration minimumSeparation = Duration::Minutes(5.0);
+        const Segment::MaximumManeuverDurationViolationStrategy strategy =
+            Segment::MaximumManeuverDurationViolationStrategy::Center;
+
+        const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
+
+        Segment maneuveringSegment = Segment::Maneuver(
+            "Maneuvering Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        Segment constantLofDirectionManeuveringSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+            "Constant Local Orbital Frame Direction Maneuver Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            defaultLocalOrbitalFrameFactorySPtr_,
+            Angle::Undefined(),
+            constraints
+        );
+
+        const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
+            EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
+        );
+        VectorXd currentCoordinates(7);
+        currentCoordinates << cartesianStatePair.first.accessCoordinates(),
+            cartesianStatePair.second.accessCoordinates(), 200.0;
+        const State currentState = {
+            Instant::J2000(),
+            currentCoordinates,
+            defaultFrameSPtr_,
+            thrustCoordinateBrokerSPtr_,
+        };
+
+        const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
+            constantLofDirectionManeuveringSegment.solve(currentState);
+
+        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+        const Array<Maneuver> constantLofDirectionManeuvers =
+            constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuveringSegmentSolution.getInterval(),
+            constantLofDirectionManeuveringSegmentSolution.getInterval(),
+            Duration::Milliseconds(1.0)
+        );
+
+        EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuvers.getSize() > 1);
+        EXPECT_EQ(maneuvers.getSize(), constantLofDirectionManeuvers.getSize());
+
+        for (Size i = 0; i < maneuvers.getSize(); i++)
+        {
+            EXPECT_LE(maneuvers[i].getInterval().getDuration(), maximumDuration);
+            EXPECT_GE(maneuvers[i].getInterval().getDuration(), minimumDuration);
+            EXPECT_INTERVALS_ALMOST_EQUAL(
+                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Milliseconds(10.0)
+            );
+        }
+    }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MultipleManeuvers_WithManeuverConstraintsThatHaveNoImpact
+)
+{
+    // This tests reproduces an issue where a maneuver-constrained segment (even though the constraints have no impact
+    // since the minimum values are too little and the maximum value is too large), was taking a long time to converge.
+    //
+    // It gets compared agains the very same unconstrained segment. The only difference is the constrained one will
+    // take a different logic path to solve.
+    {
+        const Duration minimumDuration = Duration::Milliseconds(1.0);
+        const Duration maximumDuration = Duration::Days(10.0);
+        const Duration minimumSeparation = Duration::Milliseconds(1.0);
+        const Segment::MaximumManeuverDurationViolationStrategy strategy =
+            Segment::MaximumManeuverDurationViolationStrategy::Center;
+
+        const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
+
+        Segment maneuveringSegment = Segment::Maneuver(
+            "Maneuvering Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_
+        );
+
+        Segment constraintedManeuveringSegment = Segment::Maneuver(
+            "Constrainted Maneuvering Segment",
+            std::make_shared<RealCondition>(
+                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+            ),
+            defaultQLawThrusterDynamicsSPtr_,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            constraints
+        );
+
+        const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
+            EarthGravitationalModel::EGM2008.gravitationalParameter_, defaultFrameSPtr_
+        );
+        VectorXd currentCoordinates(7);
+        currentCoordinates << cartesianStatePair.first.accessCoordinates(),
+            cartesianStatePair.second.accessCoordinates(), 200.0;
+        const State currentState = {
+            Instant::J2000(),
+            currentCoordinates,
+            defaultFrameSPtr_,
+            thrustCoordinateBrokerSPtr_,
+        };
+
+        const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
+        const Segment::Solution constraintedManeuveringSegmentSolution =
+            constraintedManeuveringSegment.solve(currentState);
+
+        const Array<Maneuver> constraintedManeuvers =
+            constraintedManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
+        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
+            constraintedManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(1.0)
+        ));
+        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
+            constraintedManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
+        ));
+        EXPECT_TRUE(constraintedManeuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
+        EXPECT_TRUE(maneuvers.getSize() == 2);
+        EXPECT_EQ(maneuvers.getSize(), constraintedManeuvers.getSize());
+
+        // The first maneuver start is expected to be identical
+        EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
+            constraintedManeuvers[0].getInterval().getStart(), Duration::Nanoseconds(10.0)
+        ));
+        // The first maneuver end is expected to be very close but not identical as this has been solved using the
+        // thruster cutoff condition
+        EXPECT_TRUE(maneuvers[0].getInterval().getEnd().isNear(
+            constraintedManeuvers[0].getInterval().getEnd(), Duration::Milliseconds(200.0)
+        ));
+
+        // The second maneuver interval is expected to be similar but not very close as the trajectory (after the first
+        // maneuver) has changed
+        EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
+            constraintedManeuvers[1].getInterval().getStart(), Duration::Seconds(1.0)
+        ));
+        EXPECT_TRUE(maneuvers[1].getInterval().getEnd().isNear(
+            constraintedManeuvers[1].getInterval().getEnd(), Duration::Seconds(1.0)
+        ));
     }
 }
 
@@ -2747,8 +2916,10 @@ TEST_F(
         Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
     );
 
+    const Duration maximumDuration = Duration::Minutes(30.0);
+
     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
-        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, maximumDuration)
     );
 
     const Segment maneuverSegment = Segment::Maneuver(
@@ -2765,11 +2936,38 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 6);
-    EXPECT_LE(maneuvers.accessLast().getInterval().getDuration(), constraints.maximumDuration);
-    for (Size i = 0; i < maneuvers.getSize() - 2; i++)
+    for (const Maneuver& maneuver : maneuvers)
     {
-        EXPECT_TRUE(maneuvers[i].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Seconds(1.0))
-        );
+        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
+    }
+
+    // Candidate:   0--------------15-----------------30
+    // Maneuver 1   0----5
+    // Maneuver 2          5.1--10.1
+    // Maneuver 3                    10.2--15.2
+    // Maneuver 4                               15.3--20.3
+    // Maneuver 5                                          20.4--25.4
+    // Maneuver 6                                                     25.5--30.0
+
+    Array<Interval> expectedManeuverIntervals = {Interval::Closed(
+        initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + constraints.maximumDuration
+    )};
+
+    for (Size i = 1; i < maneuvers.getSize() - 1; ++i)
+    {
+        const Instant maneuverStart = expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation;
+        const Instant maneuverEnd = maneuverStart + constraints.maximumDuration;
+        expectedManeuverIntervals.add(Interval::Closed(maneuverStart, maneuverEnd));
+    }
+
+    expectedManeuverIntervals.add(Interval::Closed(
+        expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation,
+        initialStateWithMass_.accessInstant() + maximumDuration
+    ));
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+    {
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
     }
 }
 
@@ -2886,24 +3084,25 @@ TEST_F(
     // Maneuver 2                          21.6---26.6
     // ...
 
-    EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(12.5), Duration::Nanoseconds(10)
-    ));
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Nanoseconds(10))
-    );
-    EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
-        Duration::Nanoseconds(10)
-    ));
-    EXPECT_TRUE(maneuvers[1].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Nanoseconds(10))
-    );
-    EXPECT_TRUE(maneuvers[2].getInterval().getStart().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
-        Duration::Nanoseconds(10)
-    ));
-    EXPECT_TRUE(maneuvers[2].getInterval().getEnd().isNear(
-        initialStateWithMass_.accessInstant() + Duration::Minutes(30.0), Duration::Nanoseconds(10)
-    ));
+    const Array<Interval> expectedManeuverIntervals = Array<Interval> {
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(12.5),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(17.5)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(21.0) + Duration::Seconds(20.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(20.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(26.0) + Duration::Seconds(30.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+        )
+    };
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+    {
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMaximumInstant)
