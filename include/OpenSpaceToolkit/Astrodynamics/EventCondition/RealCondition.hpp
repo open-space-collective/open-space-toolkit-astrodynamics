@@ -123,6 +123,7 @@ class RealCondition : public EventCondition
     /// @param aDuration A duration
     ///
     /// @return A Duration based condition
+    [[deprecated("Use DurationCondition instead.")]]
     static RealCondition DurationCondition(const Criterion& aCriterion, const Duration& aDuration);
 
    private:

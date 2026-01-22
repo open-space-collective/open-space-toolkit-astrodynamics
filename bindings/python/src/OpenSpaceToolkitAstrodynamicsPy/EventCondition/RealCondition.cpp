@@ -177,7 +177,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
 
             .def_static(
                 "duration_condition",
-                &RealCondition::DurationCondition,
+                [](const RealCondition::Criterion& aCriterion, const Duration& aDuration)
+                {
+                    PyErr_WarnEx(PyExc_DeprecationWarning, "Use DurationCondition instead.", 1);
+                    return RealCondition::DurationCondition(aCriterion, aDuration);
+                },
                 R"doc(
                     Generate a duration condition.
 
