@@ -1331,14 +1331,13 @@ TEST_P(
 
     for (Size idx = 0; idx < params.expectedManeuverIntervals.getSize(); ++idx)
     {
-        const Instant expectedStart = referenceInstant + std::get<0>(params.expectedManeuverIntervals[idx]);
-        const Instant expectedEnd = referenceInstant + std::get<1>(params.expectedManeuverIntervals[idx]);
+        const Interval expectedInterval = Interval::Closed(
+            referenceInstant + std::get<0>(params.expectedManeuverIntervals[idx]),
+            referenceInstant + std::get<1>(params.expectedManeuverIntervals[idx])
+        );
 
-        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getStart().isNear(expectedStart, tolerance));
-        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getEnd().isNear(expectedEnd, tolerance));
-
-        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getStart().isNear(expectedStart, tolerance));
-        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getEnd().isNear(expectedEnd, tolerance));
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuversUsingRepetitionCount[idx].getInterval(), expectedInterval, tolerance);
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuversUsingCondition[idx].getInterval(), expectedInterval, tolerance);
     }
 }
 
