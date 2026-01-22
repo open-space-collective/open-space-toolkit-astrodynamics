@@ -1,6 +1,7 @@
 # Apache License 2.0
 
 import pytest
+
 import numpy as np
 
 from ostk.physics import Environment
@@ -695,40 +696,24 @@ class TestManeuverConstraints:
 
 
 class TestStringFromMaximumManeuverDurationViolationStrategy:
-    def test_string_from_maximum_maneuver_duration_violation_strategy(self):
+    @pytest.mark.parametrize(
+        "strategy,expected_string",
+        [
+            (Segment.MaximumManeuverDurationViolationStrategy.Fail, "Fail"),
+            (Segment.MaximumManeuverDurationViolationStrategy.Skip, "Skip"),
+            (Segment.MaximumManeuverDurationViolationStrategy.TruncateEnd, "TruncateEnd"),
+            (
+                Segment.MaximumManeuverDurationViolationStrategy.TruncateStart,
+                "TruncateStart",
+            ),
+            (Segment.MaximumManeuverDurationViolationStrategy.Center, "Center"),
+            (Segment.MaximumManeuverDurationViolationStrategy.Chunk, "Chunk"),
+        ],
+    )
+    def test_string_from_maximum_maneuver_duration_violation_strategy(
+        self, strategy, expected_string
+    ):
         assert (
-            Segment.string_from_maximum_maneuver_duration_violation_strategy(
-                Segment.MaximumManeuverDurationViolationStrategy.Fail
-            )
-            == "Fail"
-        )
-        assert (
-            Segment.string_from_maximum_maneuver_duration_violation_strategy(
-                Segment.MaximumManeuverDurationViolationStrategy.Skip
-            )
-            == "Skip"
-        )
-        assert (
-            Segment.string_from_maximum_maneuver_duration_violation_strategy(
-                Segment.MaximumManeuverDurationViolationStrategy.TruncateEnd
-            )
-            == "TruncateEnd"
-        )
-        assert (
-            Segment.string_from_maximum_maneuver_duration_violation_strategy(
-                Segment.MaximumManeuverDurationViolationStrategy.TruncateStart
-            )
-            == "TruncateStart"
-        )
-        assert (
-            Segment.string_from_maximum_maneuver_duration_violation_strategy(
-                Segment.MaximumManeuverDurationViolationStrategy.Center
-            )
-            == "Center"
-        )
-        assert (
-            Segment.string_from_maximum_maneuver_duration_violation_strategy(
-                Segment.MaximumManeuverDurationViolationStrategy.Chunk
-            )
-            == "Chunk"
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(strategy)
+            == expected_string
         )

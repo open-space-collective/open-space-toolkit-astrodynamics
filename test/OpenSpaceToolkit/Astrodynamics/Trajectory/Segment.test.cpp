@@ -3178,7 +3178,7 @@ TEST_F(
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 6);
 
-    // Candidate:   0--------------15-----------------30
+    // Candidate:   0-------------------------15----------------------------30
     // Maneuver 1   0----5
     // Maneuver 2          5.1--10.1
     // Maneuver 3                    10.2--15.2
@@ -3186,21 +3186,31 @@ TEST_F(
     // Maneuver 5                                          20.4--25.4
     // Maneuver 6                                                     25.5--30.0
 
-    Array<Interval> expectedManeuverIntervals = {Interval::Closed(
-        initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + constraints.maximumDuration
-    )};
-
-    for (Size i = 1; i < maneuvers.getSize() - 1; ++i)
-    {
-        const Instant maneuverStart = expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation;
-        const Instant maneuverEnd = maneuverStart + constraints.maximumDuration;
-        expectedManeuverIntervals.add(Interval::Closed(maneuverStart, maneuverEnd));
-    }
-
-    expectedManeuverIntervals.add(Interval::Closed(
-        expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation,
-        initialStateWithMass_.accessInstant() + maximumDuration
-    ));
+    const Array<Interval> expectedManeuverIntervals = {
+        Interval::Closed(
+            initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(5.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(5.0) + Duration::Seconds(10.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(10.0) + Duration::Seconds(10.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(10.0) + Duration::Seconds(20.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(15.0) + Duration::Seconds(20.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(15.0) + Duration::Seconds(30.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(20.0) + Duration::Seconds(30.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(20.0) + Duration::Seconds(40.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(25.0) + Duration::Seconds(40.0)
+        ),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant() + Duration::Minutes(25.0) + Duration::Seconds(50.0),
+            initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+        ),
+    };
 
     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
     {
