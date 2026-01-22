@@ -159,6 +159,8 @@ String Segment::StringFromMaximumManeuverDurationViolationStrategy(
             return "TruncateStart";
         case MaximumManeuverDurationViolationStrategy::Center:
             return "Center";
+        case MaximumManeuverDurationViolationStrategy::Chunk:
+            return "Chunk";
         default:
             return "Unknown";
     };
@@ -898,6 +900,26 @@ Segment::Solution Segment::solve(
                 const Shared<Thruster> centeredThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
                 const Segment::Solution maneuverSolution =
                     solveManeuverForInterval_(segmentStates.accessLast(), centeredThruster, validManeuverInterval);
+                const FlightManeuver validManeuver =
+                    maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+                const Segment::Solution maneuverLOFCompliantSolution =
+                    constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
+
+                acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
+
+                return maneuverLOFCompliantSolution.conditionIsSatisfied;
+            }
+
+            case MaximumManeuverDurationViolationStrategy::Chunk:
+            {
+                const Interval validManeuverInterval = Interval::Closed(
+                    candidateManeuverInterval.getStart(),
+                    candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
+                );
+
+                const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
+                const Segment::Solution maneuverSolution =
+                    solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
                 const FlightManeuver validManeuver =
                     maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
                 const Segment::Solution maneuverLOFCompliantSolution =

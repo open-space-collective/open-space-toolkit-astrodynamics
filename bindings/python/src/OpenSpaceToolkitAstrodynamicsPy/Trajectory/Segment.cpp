@@ -51,14 +51,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             Fail: Will throw a RuntimeError if a maneuver exceeds the maximum duration.
             Skip: The maneuver will be skipped entirely.
-            TruncateEnd: The maneuver will be shortened to the maximum duration, truncating the end segment.
-            TruncateStart: The maneuver will be shortened to the maximum duration, truncating the start segment.
+            TruncateEnd: The maneuver will be shortened to the maximum duration, truncating the trailing edge.
+            TruncateStart: The maneuver will be shortened to the maximum duration, truncating the leading edge.
             Center: The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered part of the maneuver.
+            Chunk: The maneuver will be split into chunks from the leading edge.
 
-            Proposed maneuver: [--------------------|------------]
-            TruncateEnd:       [--------------------]
-            TruncateStart:                  [--------------------]
-            Center:                     [--------------------]
+            Example:
+            Maximum duration:  [------]
+            Proposed maneuver: [---------------------------------]
+            TruncateEnd:       [------]
+            Center:                          [------]
+            TruncateStart:                                [------]
+            Chunk:             [------]  [------]  [------]  [---]
         )doc"
     )
 
@@ -73,18 +77,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .value(
             "TruncateEnd",
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
-            "The maneuver will be shortened to the maximum duration, truncating the end segment."
+            "The maneuver will be shortened to the maximum duration, truncating the trailing edge."
         )
         .value(
             "TruncateStart",
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
-            "The maneuver will be shortened to the maximum duration, truncating the start segment."
+            "The maneuver will be shortened to the maximum duration, truncating the leading edge."
         )
         .value(
             "Center",
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             "The maneuver will be shortened to the maximum duration, truncating the edges, keeping the centered part "
             "of the maneuver."
+        )
+        .value(
+            "Chunk",
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            "The maneuver will be split into chunks from the leading edge."
         )
 
         ;
@@ -660,6 +669,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
                 Returns:
                     Segment: The maneuver segment.
+            )doc"
+        )
+
+        .def_static(
+            "string_from_maximum_maneuver_duration_violation_strategy",
+            &Segment::StringFromMaximumManeuverDurationViolationStrategy,
+            arg("strategy"),
+            R"doc(
+                Get the string representation of a MaximumManeuverDurationViolationStrategy.
+
+                Args:
+                    strategy (MaximumManeuverDurationViolationStrategy): The strategy.
+
+                Returns:
+                    str: The string representation of the strategy.
             )doc"
         )
 

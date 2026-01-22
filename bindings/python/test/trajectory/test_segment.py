@@ -1,6 +1,7 @@
 # Apache License 2.0
 
 import pytest
+
 import numpy as np
 
 from ostk.physics import Environment
@@ -691,4 +692,28 @@ class TestManeuverConstraints:
     ):
         assert (
             maneuver_constraints.interval_has_valid_maximum_duration(interval) is not None
+        )
+
+
+class TestStringFromMaximumManeuverDurationViolationStrategy:
+    @pytest.mark.parametrize(
+        "strategy,expected_string",
+        [
+            (Segment.MaximumManeuverDurationViolationStrategy.Fail, "Fail"),
+            (Segment.MaximumManeuverDurationViolationStrategy.Skip, "Skip"),
+            (Segment.MaximumManeuverDurationViolationStrategy.TruncateEnd, "TruncateEnd"),
+            (
+                Segment.MaximumManeuverDurationViolationStrategy.TruncateStart,
+                "TruncateStart",
+            ),
+            (Segment.MaximumManeuverDurationViolationStrategy.Center, "Center"),
+            (Segment.MaximumManeuverDurationViolationStrategy.Chunk, "Chunk"),
+        ],
+    )
+    def test_string_from_maximum_maneuver_duration_violation_strategy(
+        self, strategy, expected_string
+    ):
+        assert (
+            Segment.string_from_maximum_maneuver_duration_violation_strategy(strategy)
+            == expected_string
         )
