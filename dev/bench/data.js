@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1768608668903,
+  "lastUpdate": 1769048803164,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 7193815304.300016,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 7192960314.600003 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f938847ca0dfb2db445e6228213f906d97c71f4c",
+          "message": "feat: maneuver by maneuver (#633)\n\n* feat: maneuver by maneuver\n\n* wip:\n\n* feat: works!\n\n* test: add Solve_MultipleManeuvers_WithManeuverConstraintsThatHaveNoImpact test\n\n* test: add OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_QLawHangingScenariosWhenReachingThreshold test\n\n* test: add 'HangingScenariosWhenReachingTarget' test\n\n* test: remove hanging scenario tests, reason is understood\n\n* wip:\n\n* feat: works!\n\n* chore: style\n\n* tests: clean up tests\n\n* feat: cleanup\n\n* Apply suggestion from @vishwa2710\n\n---------\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2026-01-21T17:59:28-08:00",
+          "tree_id": "ec9f926ad0f4de108b952506a3e227c9bf6f4477",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/f938847ca0dfb2db445e6228213f906d97c71f4c"
+        },
+        "date": 1769048800622,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4807421270.100008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4698564049.200001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4083236829.399999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4082907072.6000047 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7204297986.099981,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7203723531.100001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7208943942.599989,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7208443322.899999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7202967220.499977,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7202348604.900009 ns\nthreads: 1"
           }
         ]
       }
