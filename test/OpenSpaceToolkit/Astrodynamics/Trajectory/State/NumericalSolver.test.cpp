@@ -564,7 +564,7 @@ TEST_F(
 
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
+    const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
 
     const NumericalSolver::ConditionSolution conditionSolution =
         solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
@@ -590,7 +590,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
+    const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
 
     const NumericalSolver::ConditionSolution conditionSolution =
         solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
@@ -618,7 +618,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     const State state = getStateVector(defaultStartInstant_);
     const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition = InstantCondition(targetInstant, RealCondition::Criterion::AnyCrossing);
+    const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
 
     const NumericalSolver::ConditionSolution conditionSolution =
         solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
