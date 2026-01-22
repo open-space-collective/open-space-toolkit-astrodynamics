@@ -918,11 +918,16 @@ Segment::Solution Segment::solve(
                 );
 
                 const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
-                const auto [maneuverSolution, _] = solveManeuverForInterval(slicedThruster, validManeuverInterval);
+                const Segment::Solution maneuverSolution =
+                    solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
+                const FlightManeuver validManeuver =
+                    maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+                const Segment::Solution maneuverLOFCompliantSolution =
+                    constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
-                acceptManeuver(maneuverSolution, validManeuverInterval);
+                acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
-                return maneuverSolution.conditionIsSatisfied;
+                return maneuverLOFCompliantSolution.conditionIsSatisfied;
             }
 
             default:

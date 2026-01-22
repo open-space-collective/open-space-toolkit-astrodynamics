@@ -468,48 +468,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Inte
     ));
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)
-{
-    {
-        EXPECT_EQ(
-            "Fail",
-            Segment::StringFromMaximumManeuverDurationViolationStrategy(
-                Segment::MaximumManeuverDurationViolationStrategy::Fail
-            )
-        );
-        EXPECT_EQ(
-            "Skip",
-            Segment::StringFromMaximumManeuverDurationViolationStrategy(
-                Segment::MaximumManeuverDurationViolationStrategy::Skip
-            )
-        );
-        EXPECT_EQ(
-            "TruncateEnd",
-            Segment::StringFromMaximumManeuverDurationViolationStrategy(
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
-            )
-        );
-        EXPECT_EQ(
-            "TruncateStart",
-            Segment::StringFromMaximumManeuverDurationViolationStrategy(
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
-            )
-        );
-        EXPECT_EQ(
-            "Center",
-            Segment::StringFromMaximumManeuverDurationViolationStrategy(
-                Segment::MaximumManeuverDurationViolationStrategy::Center
-            )
-        );
-        EXPECT_EQ(
-            "Chunk",
-            Segment::StringFromMaximumManeuverDurationViolationStrategy(
-                Segment::MaximumManeuverDurationViolationStrategy::Chunk
-            )
-        );
-    }
-}
-
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
     void SetUp() override
@@ -3178,10 +3136,13 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    EXPECT_TRUE(
-        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    EXPECT_INTERVALS_ALMOST_EQUAL(
+        maneuvers[0].getInterval(),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(3.0)
+        ),
+        Duration::Nanoseconds(10.0)
     );
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1.0)));
 }
 
 TEST_F(
@@ -3196,8 +3157,10 @@ TEST_F(
         Segment::MaximumManeuverDurationViolationStrategy::Chunk
     );
 
+    const Duration maximumDuration = Duration::Minutes(30.0);
+
     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
-        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, maximumDuration)
     );
 
     const Segment maneuverSegment = Segment::Maneuver(
@@ -3214,11 +3177,34 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 6);
-    EXPECT_LE(maneuvers.accessLast().getInterval().getDuration(), constraints.maximumDuration);
-    for (Size i = 0; i < maneuvers.getSize() - 2; i++)
+
+    // Candidate:   0--------------15-----------------30
+    // Maneuver 1   0----5
+    // Maneuver 2          5.1--10.1
+    // Maneuver 3                    10.2--15.2
+    // Maneuver 4                               15.3--20.3
+    // Maneuver 5                                          20.4--25.4
+    // Maneuver 6                                                     25.5--30.0
+
+    Array<Interval> expectedManeuverIntervals = {Interval::Closed(
+        initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + constraints.maximumDuration
+    )};
+
+    for (Size i = 1; i < maneuvers.getSize() - 1; ++i)
     {
-        EXPECT_TRUE(maneuvers[i].getInterval().getDuration().isNear(constraints.maximumDuration, Duration::Seconds(1.0))
-        );
+        const Instant maneuverStart = expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation;
+        const Instant maneuverEnd = maneuverStart + constraints.maximumDuration;
+        expectedManeuverIntervals.add(Interval::Closed(maneuverStart, maneuverEnd));
+    }
+
+    expectedManeuverIntervals.add(Interval::Closed(
+        expectedManeuverIntervals.accessLast().getEnd() + constraints.minimumSeparation,
+        initialStateWithMass_.accessInstant() + maximumDuration
+    ));
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+    {
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
     }
 }
 
@@ -3413,4 +3399,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeu
     );
 
     EXPECT_NO_THROW(maneuverSegment.solve(initialState, simulationDuration));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)
+{
+    {
+        EXPECT_EQ(
+            "Fail",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Fail
+            )
+        );
+        EXPECT_EQ(
+            "Skip",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Skip
+            )
+        );
+        EXPECT_EQ(
+            "TruncateEnd",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+            )
+        );
+        EXPECT_EQ(
+            "TruncateStart",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+            )
+        );
+        EXPECT_EQ(
+            "Center",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Center
+            )
+        );
+        EXPECT_EQ(
+            "Chunk",
+            Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                Segment::MaximumManeuverDurationViolationStrategy::Chunk
+            )
+        );
+    }
 }
