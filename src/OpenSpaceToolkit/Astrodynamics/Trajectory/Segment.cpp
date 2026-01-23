@@ -870,7 +870,12 @@ Segment::Solution Segment::solve(
 
                 acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
-                return maneuverLOFCompliantSolution.conditionIsSatisfied;
+                if (maneuverLOFCompliantSolution.conditionIsSatisfied)
+                {
+                    return true;
+                }
+
+                return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
             }
 
             case MaximumManeuverDurationViolationStrategy::TruncateStart:
@@ -907,7 +912,12 @@ Segment::Solution Segment::solve(
 
                 acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
 
-                return maneuverLOFCompliantSolution.conditionIsSatisfied;
+                if (maneuverLOFCompliantSolution.conditionIsSatisfied)
+                {
+                    return true;
+                }
+
+                return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
             }
 
             case MaximumManeuverDurationViolationStrategy::Chunk:

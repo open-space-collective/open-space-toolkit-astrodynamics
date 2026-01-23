@@ -1033,8 +1033,7 @@ struct ManeuveringConstraintsTestParams
     String description;
     Array<Tuple<Duration, Duration>> maneuverIntervals;
     Segment::ManeuverConstraints maneuverConstraints;
-    Array<Tuple<Duration, Duration, bool>>
-        expectedManeuverIntervals;  // bool: true if we should use a "loose" tolerance
+    Array<Tuple<Duration, Duration>> expectedManeuverIntervals;
 };
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence_ManeuveringConstraints_Parameterized
@@ -1071,7 +1070,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
-            Array<Tuple<Duration, Duration, bool>>::Empty()
+            Array<Tuple<Duration, Duration>>::Empty()
         },
         // With Minimum Maneuver Duration Constraint
         ManeuveringConstraintsTestParams {
@@ -1089,10 +1088,10 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
-            Array<Tuple<Duration, Duration, bool>> {
-                Tuple<Duration, Duration, bool> {Duration::Minutes(10.0), Duration::Minutes(21.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(85.0), Duration::Minutes(100.0), false}
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(10.0), Duration::Minutes(21.0)},
+                {Duration::Minutes(50.0), Duration::Minutes(70.0)},
+                {Duration::Minutes(85.0), Duration::Minutes(100.0)}
             }
         },
         // With Minimum Maneuver Separation Constraint
@@ -1111,14 +1110,11 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(10.0),
                 Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
-            Array<Tuple<Duration, Duration, bool>> {
-                Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(7.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(25.0), Duration::Minutes(30.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(50.0), Duration::Minutes(70.0), false},
-                Tuple<Duration, Duration, bool> {
-                    Duration::Minutes(80.0), Duration::Minutes(100.0), true
-                }  // Lose tolerance as the maneuver start will be delayed to satisfy the minimum separation, and it
-                   // might start slightly later (due to the numerical step)
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(0.0), Duration::Minutes(7.0)},
+                {Duration::Minutes(25.0), Duration::Minutes(30.0)},
+                {Duration::Minutes(50.0), Duration::Minutes(70.0)},
+                {Duration::Minutes(80.0), Duration::Minutes(100.0)}
             }
         },
         // With Maximum Maneuver Duration Constraint (Skip Strategy)
@@ -1136,24 +1132,24 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Segment::MaximumManeuverDurationViolationStrategy::Skip
             ),
-            Array<Tuple<Duration, Duration, bool>> {
-                Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
-            }
+            Array<Tuple<Duration, Duration>> {{Duration::Minutes(20.0), Duration::Minutes(25.0)}}
         },
-        // With Maximum Maneuver Duration Constraint (Slice Strategy)
+        // With Maximum Maneuver Duration Constraint (TruncateEnd Strategy)
         ManeuveringConstraintsTestParams {
             "MaximumManeuverDurationTruncateEnd",
             Array<Tuple<Duration, Duration>> {
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
-                },  // Too long, sliced [0, 10] (skiping [13, 14] as it would be too short)
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                },  // Too long, truncated to [0, 10] (skiping [13, 14] as it would be too short)
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
-                },  // Too long, sliced to [30, 40] and [43, 50]
+                },  // Too long, truncated to [30, 40]
                 Tuple<Duration, Duration> {
                     Duration::Minutes(60.0), Duration::Minutes(110.0)
-                }  // Too long, sliced to [60, 70], [73, 83], [86, 96] (skiping [99, 100] as it would be too short)
+                }  // Too long, truncated to [60, 70]
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
@@ -1161,14 +1157,41 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(3.0),
                 Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
-            Array<Tuple<Duration, Duration, bool>> {
-                Tuple<Duration, Duration, bool> {Duration::Minutes(0.0), Duration::Minutes(10.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(30.0), Duration::Minutes(40.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(43.0), Duration::Minutes(50.0), true},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(60.0), Duration::Minutes(70.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(73.0), Duration::Minutes(83.0), true},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(86.0), Duration::Minutes(96.0), true}
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(0.0), Duration::Minutes(10.0)},
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(30.0), Duration::Minutes(40.0)},
+                {Duration::Minutes(60.0), Duration::Minutes(70.0)}
+            }
+        },
+        // With Maximum Maneuver Duration Constraint (TruncateStart Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDurationTruncateStart",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(-5.0), Duration::Minutes(14.0)
+                },  // Too long, truncated to [4, 14]
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(30.0), Duration::Minutes(50.0)
+                },  // Too long, truncated to [40, 50]
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(60.0), Duration::Minutes(110.0)
+                }  // Too long, truncated to [90, 100]
+            },
+            Segment::ManeuverConstraints(
+                Duration::Minutes(4.0),
+                Duration::Minutes(10.0),
+                Duration::Minutes(3.0),
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(4.0), Duration::Minutes(14.0)},
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(40.0), Duration::Minutes(50.0)},
+                {Duration::Minutes(90.0), Duration::Minutes(100.0)}
             }
         },
         // With Maximum Maneuver Duration Constraint (Center Strategy)
@@ -1178,7 +1201,9 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
                 },  // Too long, centered around 7.0
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
                 },  // Too long, centered around 40.0
@@ -1192,13 +1217,44 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Minutes(3.0),
                 Segment::MaximumManeuverDurationViolationStrategy::Center
             ),
-            Array<Tuple<Duration, Duration, bool>> {
-                Tuple<Duration, Duration, bool> {Duration::Minutes(2.0), Duration::Minutes(12.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(20.0), Duration::Minutes(25.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(35.0), Duration::Minutes(45.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(48.0), Duration::Minutes(50.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(75.0), Duration::Minutes(85.0), false},
-                Tuple<Duration, Duration, bool> {Duration::Minutes(89.0), Duration::Minutes(99.0), false},
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(2.0), Duration::Minutes(12.0)},
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(35.0), Duration::Minutes(45.0)},
+                {Duration::Minutes(75.0), Duration::Minutes(85.0)}
+            }
+        },
+        // With Maximum Maneuver Duration Constraint (Chunk Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDurationChunk",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(-5.0), Duration::Minutes(14.0)
+                },  // Too long, chunked to [0, 10] (skiping [13, 14] as it would be too short)
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(30.0), Duration::Minutes(50.0)
+                },  // Too long, chunked to [30, 40] and [43, 50]
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(60.0), Duration::Minutes(110.0)
+                }  // Too long, chunked to [60, 70], [73, 83], [86, 96] (skiping [99, 100] as it would be too short)
+            },
+            Segment::ManeuverConstraints(
+                Duration::Minutes(4.0),
+                Duration::Minutes(10.0),
+                Duration::Minutes(3.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Chunk
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(0.0), Duration::Minutes(10.0)},
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(30.0), Duration::Minutes(40.0)},
+                {Duration::Minutes(43.0), Duration::Minutes(50.0)},
+                {Duration::Minutes(60.0), Duration::Minutes(70.0)},
+                {Duration::Minutes(73.0), Duration::Minutes(83.0)},
+                {Duration::Minutes(86.0), Duration::Minutes(96.0)}
             }
         }
     ),
@@ -1283,16 +1339,13 @@ TEST_P(
 
     for (Size idx = 0; idx < params.expectedManeuverIntervals.getSize(); ++idx)
     {
-        const Instant expectedStart = referenceInstant + std::get<0>(params.expectedManeuverIntervals[idx]);
-        const Instant expectedEnd = referenceInstant + std::get<1>(params.expectedManeuverIntervals[idx]);
-        const Duration toleranceToUse =
-            std::get<2>(params.expectedManeuverIntervals[idx]) ? Duration::Seconds(20.0) : tolerance;
+        const Interval expectedInterval = Interval::Closed(
+            referenceInstant + std::get<0>(params.expectedManeuverIntervals[idx]),
+            referenceInstant + std::get<1>(params.expectedManeuverIntervals[idx])
+        );
 
-        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getStart().isNear(expectedStart, toleranceToUse));
-        EXPECT_TRUE(maneuversUsingRepetitionCount[idx].getInterval().getEnd().isNear(expectedEnd, toleranceToUse));
-
-        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getStart().isNear(expectedStart, toleranceToUse));
-        EXPECT_TRUE(maneuversUsingCondition[idx].getInterval().getEnd().isNear(expectedEnd, toleranceToUse));
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuversUsingRepetitionCount[idx].getInterval(), expectedInterval, tolerance);
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuversUsingCondition[idx].getInterval(), expectedInterval, tolerance);
     }
 }
 
