@@ -3,10 +3,14 @@
 #include <boost/numeric/odeint.hpp>
 #include <boost/numeric/odeint/external/eigen/eigen.hpp>
 
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -21,9 +25,14 @@ namespace state
 
 using namespace boost::numeric::odeint;
 
+using ostk::core::container::Pair;
+
+using ostk::mathematics::curvefitting::Interpolator;
+
 using ostk::physics::time::Duration;
 
 using ostk::astrodynamics::RootSolver;
+using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
@@ -376,7 +385,7 @@ inline typename std::enable_if<!IsFixedStepStepper<Stepper>::value>::type doStep
     }
 }
 
-/// @brief Integrate to a target time with a fixed-step stepper
+/// @brief Integrate to a target time with a stepper
 template <typename Stepper, typename System>
 inline void integrateToTime(
     Stepper& stepper,
@@ -388,6 +397,27 @@ inline void integrateToTime(
 )
 {
     integrate_adaptive(stepper, system, stateVector, startTime, endTime, stepSize);
+}
+
+/// @brief Integrate to a target times with a stepper
+template <typename Stepper, typename System>
+inline Array<NumericalSolver::Solution> integrateToTimes(
+    Stepper& stepper, NumericalSolver::StateVector stateVector, double startTime, double endTime, const System& system
+)
+{
+    const int numberOfSteps = 20;
+    const double stepSize = endTime / numberOfSteps;
+    const VectorXd durations = VectorXd::LinSpaced(numberOfSteps, startTime, endTime);
+
+    Array<NumericalSolver::Solution> stateVectors = Array<NumericalSolver::Solution>::Empty();
+    stateVectors.reserve(numberOfSteps);
+    const auto observer = [&stateVectors](const VectorXd& aStateVector, const double& aTime) -> void
+    {
+        stateVectors.add(NumericalSolver::Solution(aStateVector, aTime));
+    };
+    integrate_times(stepper, system, stateVector, durations.begin(), durations.end(), stepSize, observer);
+
+    return stateVectors;
 }
 
 }  // namespace
@@ -490,6 +520,8 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         };
     }
 
+    std::function<NumericalSolver::StateVector(const double&)> stateGenerator;
+
     // Handle root finding based on strategy
     switch (rootFindingStrategy)
     {
@@ -507,79 +539,104 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
 
         case NumericalSolver::RootFindingStrategy::LinearInterpolation:
         {
-            const auto linearInterpolate = [&previousStateVector, &currentStateVector, previousTime, currentTime](
-                                               const double& t
-                                           ) -> NumericalSolver::StateVector
+            stateGenerator = [&previousStateVector, &currentStateVector, previousTime, currentTime](
+                                 const double& targetTime
+                             ) -> NumericalSolver::StateVector
             {
-                const double alpha = (t - previousTime) / (currentTime - previousTime);
+                const double alpha = (targetTime - previousTime) / (currentTime - previousTime);
                 return previousStateVector * (1.0 - alpha) + currentStateVector * alpha;
             };
 
-            const auto checkConditionLinear = [&](const double& aTime) -> double
-            {
-                const NumericalSolver::StateVector interpolatedCoords = linearInterpolate(aTime);
-                const State interpolatedState = createState(interpolatedCoords, aTime);
-                const bool isSatisfied =
-                    anEventCondition.isSatisfied(interpolatedState, createState(previousStateVector, previousTime));
-                return isSatisfied ? 1.0 : -1.0;
-            };
-
-            const RootSolver::Solution solution = rootSolver.bisection(checkConditionLinear, previousTime, currentTime);
-
-            const NumericalSolver::StateVector solutionStateVector = linearInterpolate(solution.root);
-            const State solutionState = createState(solutionStateVector, solution.root);
-            observeState(solutionState);
-
-            return {
-                solutionState,
-                true,
-                solution.iterationCount,
-                solution.hasConverged,
-            };
+            break;
         }
 
         case NumericalSolver::RootFindingStrategy::Propagated:
         {
-            const auto checkConditionPropagated = [&](const double& targetTime) -> double
+            stateGenerator = [&stepper,
+                              &aSystemOfEquations,
+                              &anEventCondition,
+                              &createState,
+                              &previousStateVector,
+                              &previousTime,
+                              &previousState](const double& targetTime) -> NumericalSolver::StateVector
             {
-                NumericalSolver::StateVector tempStateVector = previousStateVector;
+                NumericalSolver::StateVector stateVectorAtTargetTime = previousStateVector;
                 const double subStepSize = (targetTime - previousTime) / 10.0;
 
                 integrateToTime<Stepper>(
-                    stepper, tempStateVector, previousTime, targetTime, subStepSize, aSystemOfEquations
+                    stepper, stateVectorAtTargetTime, previousTime, targetTime, subStepSize, aSystemOfEquations
                 );
 
-                const State propagatedState = createState(tempStateVector, targetTime);
-                const bool isSatisfied =
-                    anEventCondition.isSatisfied(propagatedState, createState(previousStateVector, previousTime));
-                return isSatisfied ? 1.0 : -1.0;
+                return stateVectorAtTargetTime;
             };
 
-            const RootSolver::Solution solution =
-                rootSolver.bisection(checkConditionPropagated, previousTime, currentTime);
+            break;
+        }
 
-            const double solutionTime = solution.upperBound;
-            const double subStepSize = (solutionTime - previousTime) / 10.0;
-            NumericalSolver::StateVector solutionStateVector = previousStateVector;
-
-            integrateToTime<Stepper>(
-                stepper, solutionStateVector, previousTime, solutionTime, subStepSize, aSystemOfEquations
+        case NumericalSolver::RootFindingStrategy::CubicInterpolation:
+        {
+            const Array<NumericalSolver::Solution> stateVectors =
+                integrateToTimes<Stepper>(stepper, previousStateVector, previousTime, currentTime, aSystemOfEquations);
+            const Array<State> states = stateVectors.map<State>(
+                [&createState](const NumericalSolver::Solution& aSolution) -> State
+                {
+                    return createState(aSolution.first, aSolution.second);
+                }
             );
 
-            const State solutionState = createState(solutionStateVector, solutionTime);
-            observeState(solutionState);
+            const Tabulated tabulated = Tabulated(states, Interpolator::Type::CubicSpline);
 
-            return {
-                solutionState,
-                true,
-                solution.iterationCount,
-                solution.hasConverged,
+            stateGenerator = [tabulated, &aState](const double& targetTime) -> NumericalSolver::StateVector
+            {
+                const Instant instant = aState.accessInstant() + Duration::Seconds(targetTime);
+                return tabulated.calculateStateAt(instant).accessCoordinates();
             };
+
+            break;
         }
 
         default:
             throw ostk::core::error::runtime::Wrong("Root Finding Strategy");
     }
+
+    // Since previousState gets updated in the stepping loop, we need to reset it here
+    previousState = createState(previousStateVector, previousTime);
+
+    const auto checkCondition = [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime
+                                ) -> double
+    {
+        const NumericalSolver::StateVector stateCoordinates = stateGenerator(aTime);
+        const State interpolatedState = createState(stateCoordinates, aTime);
+        const bool isSatisfied = anEventCondition.isSatisfied(interpolatedState, previousState);
+        return isSatisfied ? 1.0 : -1.0;
+    };
+
+    // Condition at previousTime => False
+    // Condition at currentTime => True
+    // Search for the exact time of the condition change
+    const RootSolver::Solution solution = rootSolver.bisection(checkCondition, previousTime, currentTime);
+
+    // Ensure that the solution time has crossed the condition
+    const double solutionTime = (signedTimeStep > 0.0) ? solution.upperBound : solution.lowerBound;
+    const double subStepSize = (solutionTime - previousTime) / 10.0;
+    NumericalSolver::StateVector solutionStateVector = previousStateVector;
+
+    integrateToTime<Stepper>(stepper, solutionStateVector, previousTime, solutionTime, subStepSize, aSystemOfEquations);
+
+    const State solutionState = createState(solutionStateVector, solutionTime);
+
+    // If the solution state is not the same as the initial state, add it to the observed states
+    if (solutionState.accessInstant() != aState.accessInstant())
+    {
+        observeState(solutionState);
+    }
+
+    return {
+        solutionState,
+        true,
+        solution.iterationCount,
+        solution.hasConverged,
+    };
 }
 
 NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledStepper(

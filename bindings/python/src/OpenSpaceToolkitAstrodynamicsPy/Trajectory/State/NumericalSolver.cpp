@@ -117,8 +117,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const Real&,
                     const Real&,
                     const Real&,
-                    const RootSolver&
-                    >(),
+                    const RootSolver&>(),
                 R"doc(
                     Constructor.
 
