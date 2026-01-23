@@ -52,6 +52,7 @@ class NumericalSolver : public MathNumericalSolver
                               ///< dynamics.
         Propagated,           ///< Re-integrate with smaller steps during root finding. Accurate but slower.
         Skip,                 ///< Return the first step boundary where condition is satisfied. Simplest, no refinement.
+        CubicInterpolation,   ///< Cubic interpolation between step endpoints. Fast and accurate.
     };
 
     /// @brief Constructor
