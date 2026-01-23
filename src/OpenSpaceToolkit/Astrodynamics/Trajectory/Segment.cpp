@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <numeric>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Error/Runtime/Wrong.hpp>
 
