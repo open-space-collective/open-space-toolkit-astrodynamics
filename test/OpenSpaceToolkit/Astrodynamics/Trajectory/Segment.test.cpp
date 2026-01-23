@@ -2034,7 +2034,7 @@ TEST_F(
 
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
-    Solve_MultipleManeuvers_ManeuverConstraints_And_ConstantLocalOrbitalFrameDirectionManeuver
+    Regression_Solve_MultipleManeuvers_ManeuverConstraints_And_ConstantLocalOrbitalFrameDirectionManeuver
 )
 {
     // This tests reproduces a bug where, when considering maneuver constraints, as well as enforcing constant local
@@ -3301,7 +3301,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeuversAtSegmentEndConvergence)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_SinglePointManeuversAtSegmentEndConvergence)
 {
     // This tests reproduces one of many possible scenarios where the minimum maneuver duration
     // constraint is violated until it converges to a single point maneuver, causing a Maneuver
@@ -3418,6 +3418,149 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_SinglePointManeu
     );
 
     EXPECT_NO_THROW(maneuverSegment.solve(initialState, simulationDuration));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Regression_Solve_WithEnforceConstantLocalOrbitalFrameDirectionManeuvers
+)
+{
+    // This test reproduces a scenario where the constant LOF maneuver enforcement was not working correctly.
+    // As of 17.2.0, the scenario produced a first maneuver with a maximum angular offset of more than
+    // 7 degrees, despite the enforcement.
+    //
+    // As of 17.3.0 the scenario is working as expected, likely thanks to the fixes in PRs:
+    // https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/633
+    // https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/637
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2026, 1, 23, 8, 0, 11, 67, 434), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 1.9075;
+    const double dragCoefficient = 3.136627094727547;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << -1388312.4222396174, 5854128.404467535, -3374153.642313565,  // position (m)
+        271.2397672190935, 3835.2843591910514, 6553.295986465305,                      // velocity (m/s)
+        198.2,                                                                         // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(187.7),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        crossSectionalArea,
+        dragCoefficient,
+        PropulsionSystem(0.0161, 1140.26)  // thrust (N), specific impulse (s)
+    );
+
+    const BrouwerLyddaneMeanLong initialBLM = BrouwerLyddaneMeanLong::Cartesian(
+        {initialState.getPosition(), initialState.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+
+    const Environment environment(initialInstant, {earthSPtr});
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+    const NumericalSolver numericalSolver = NumericalSolver::DefaultConditional();
+
+    const COE initialBLMAsCOE = initialBLM.toCOE();
+    const COE targetCOE = {
+        Length::Meters(6901136.2999999998),  // target semi-major axis
+        0.0010715,                           // target eccentricity
+        initialBLM.getInclination(),         // keep initial inclination
+        initialBLM.getRaan(),                // keep initial RAAN
+        Angle::Degrees(90.0),                // target AoP
+        initialBLMAsCOE.getTrueAnomaly(),    // true anomaly (not targeted, for constructor consistency)
+    };
+
+    Map<COE::Element, Tuple<double, double>> elementWeightsMap;
+    elementWeightsMap[COE::Element::SemiMajorAxis] = {1.0, 0.0};
+    elementWeightsMap[COE::Element::Eccentricity] = {1.0, 0.0};
+    elementWeightsMap[COE::Element::Aop] = {1.0, 0.0};
+
+    const QLaw::Parameters qlawParams = {
+        elementWeightsMap,
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.6,
+        0.6,
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        EarthGravitationalModel::EGM2008.gravitationalParameter_,
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const Duration maximumSimulationDuration = Duration::Hours(2.0);
+
+    const Shared<InstantCondition> endConditionSPtr = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::PositiveCrossing, initialInstant + maximumSimulationDuration
+    );
+
+    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+
+    const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+        "QLaw Maneuver Segment",
+        endConditionSPtr,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        tnwFactorySPtr,
+        Angle::Undefined(),
+        {Duration::Minutes(20.0),
+         Duration::Minutes(40.0),
+         Duration::Minutes(55.0),
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialState, maximumSimulationDuration);
+
+    EXPECT_FALSE(solution.states.isEmpty());
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+
+    // Extract maneuvers and verify that the maximum angular offset is close to 0 degrees for each
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(Frame::GCRF());
+    EXPECT_FALSE(maneuvers.isEmpty());
+
+    for (const auto& maneuver : maneuvers)
+    {
+        const Maneuver::MeanDirectionAndMaximumAngularOffset result =
+            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(tnwFactorySPtr);
+
+        const Angle maximumAngularOffset = result.second;
+        EXPECT_NEAR(maximumAngularOffset.inDegrees(), 0.0, 0.0);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)
