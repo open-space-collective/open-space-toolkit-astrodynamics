@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1769171940958,
+  "lastUpdate": 1769179848760,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 7184736383.599966,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 7184107819.200007 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "92f2334c3728fd494a34a81608ca04cb563483bf",
+          "message": "fix: build packages in main branch environment (#640)\n\nfix: explicitely include optional in Segment.cpp\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2026-01-23T14:23:46Z",
+          "tree_id": "4745af8ee43a381af3ca4b2647b14c9ed4f54430",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/92f2334c3728fd494a34a81608ca04cb563483bf"
+        },
+        "date": 1769179846999,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4717124060.199995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4661735831.199999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4078528060.100007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4078161926.0000024 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7185534736.799968,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7184885928.400003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7185420868.600034,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7184804481.000006 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7188233653.999998,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7187488437.699997 ns\nthreads: 1"
           }
         ]
       }
