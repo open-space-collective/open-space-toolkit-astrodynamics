@@ -4,6 +4,21 @@
     <compoundname>ostk::astrodynamics::eventcondition::InstantCondition</compoundname>
     <basecompoundref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" prot="public" virt="non-virtual">ostk::astrodynamics::eventcondition::RealCondition</basecompoundref>
     <includes refid="_instant_condition_8hpp" local="no">InstantCondition.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1a4975ed6d1715a50d6289f74bba7bf627" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::eventcondition::InstantCondition::instant_</definition>
+        <argsstring></argsstring>
+        <name>instant_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="44" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ac5c268d99db7473ea38391c0ef8f3fb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -45,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="33" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="14" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="33" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="14" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ae85b6b1f9165b37c83440f5e3da2ef80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -59,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="36" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="27" bodyend="27"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="36" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="28" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1aebad3e4e871bdd3e3189fec984168cfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -76,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="41" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="29" bodyend="32"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="41" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -140,7 +155,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="22" bodyend="42"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="22" bodyend="45"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>Criterion</name></member>
@@ -154,6 +169,7 @@
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1aebad3e4e871bdd3e3189fec984168cfd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getInstant</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a87dde43e3ace08e700b68a7c7b1cab81" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1a4975ed6d1715a50d6289f74bba7bf627" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>instant_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ac5c268d99db7473ea38391c0ef8f3fb1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>InstantCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a64c1b504ab76b56255be7a82ea164a67" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>isSatisfied</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1af55b4fe880915e5fa993476d205ad3ad" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>name_</name></member>

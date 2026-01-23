@@ -28,6 +28,7 @@ ostk.astrodynamics.trajectory.Segment
       ~Segment.get_type
       ~Segment.maneuver
       ~Segment.solve
+      ~Segment.string_from_maximum_maneuver_duration_violation_strategy
    
    
 

@@ -17,9 +17,9 @@
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit">ostk::astrodynamics::trajectory::orbit</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1state">ostk::astrodynamics::trajectory::state</innernamespace>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1a47c52b7b4577f8dc30a9800e6a4d07d9" prot="public" static="no">
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1a72e61a9e78662c2a7ff7e40718d609ae" prot="public" static="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">ostk::astrodynamics::flight::Maneuver</ref></type>
-        <definition>typedef ostk::astrodynamics::flight::Maneuver ostk::astrodynamics::trajectory::flightManeuver</definition>
+        <definition>using ostk::astrodynamics::trajectory::flightManeuver = typedef ostk::astrodynamics::flight::Maneuver</definition>
         <argsstring></argsstring>
         <name>flightManeuver</name>
         <briefdescription>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="33" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="33" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="34" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1a66cd142976c1eca75ef16a631f7f361f" prot="public" static="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" kindref="compound">ostk::astrodynamics::dynamics::Tabulated</ref></type>
@@ -67,7 +67,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="36" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="36" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="37" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1a44a470c653b7f75a3f11d3527ec63ad2" prot="public" static="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">ostk::astrodynamics::flight::Maneuver</ref></type>
+        <definition>using ostk::astrodynamics::trajectory::FlightManeuver = typedef ostk::astrodynamics::flight::Maneuver</definition>
+        <argsstring></argsstring>
+        <name>FlightManeuver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="49" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="49" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -273,7 +286,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="140" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="140" bodyend="144"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="141" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="141" bodyend="145"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1ab640b5be3c09a09fa451f3adf1156743" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -314,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="575" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="575" bodyend="580"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="578" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="578" bodyend="583"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1ab00b680d2a463981d7dfa0ebfb3b18fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -355,7 +368,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="646" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="646" bodyend="651"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" line="649" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="649" bodyend="654"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1aa852d2f3d5db88b95d6397c87decb251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>

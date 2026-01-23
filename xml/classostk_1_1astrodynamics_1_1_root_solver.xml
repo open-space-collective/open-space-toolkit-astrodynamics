@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="107" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="107" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="110" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="110" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_root_solver_1a39166b03c95820292b725bb579c19dea" prot="private" static="no" mutable="no">
         <type>Real</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="108" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="108" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="111" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="111" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="36" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="15" bodyend="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="39" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="15" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1a52afc12358b9132f5f091745c8d3a321" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="39" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="21" bodyend="21"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="42" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="21" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1a9682a2689e35763cdd1533f1753541a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Size</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="51" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="30" bodyend="33"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="54" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1a915b562b4140e3e4379054e1f3644c7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="56" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="35" bodyend="38"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="59" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="35" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1af68d74c62cd228a81883f9ab6bf91714" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></type>
@@ -188,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="66" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="40" bodyend="58"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="69" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="40" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1a89f1b9abfebeeca5fef2c75774eec816" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></type>
@@ -242,7 +242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="80" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="60" bodyend="78"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="83" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="62" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1a269d952e1d23201ec771af0097eb4c8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution" kindref="compound">Solution</ref></type>
@@ -296,7 +296,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="91" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="80" bodyend="98"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="94" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="84" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_root_solver_1ab0fbb3bd8518fbd345e8bb3e6eb6d0e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -337,7 +337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="99" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="100" bodyend="108"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="102" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="106" bodyend="114"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -381,7 +381,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="46" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="23" bodyend="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="49" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="23" bodyend="28"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -400,7 +400,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="104" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="110" bodyend="113"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="107" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="116" bodyend="119"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -415,7 +415,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="110" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="115" bodyend="121"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="113" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="121" bodyend="127"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -423,7 +423,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="19" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="18" bodyend="111"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="19" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="18" bodyend="114"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_root_solver_1a269d952e1d23201ec771af0097eb4c8e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver</scope><name>bisection</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_root_solver_1af68d74c62cd228a81883f9ab6bf91714" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver</scope><name>bracketAndSolve</name></member>
