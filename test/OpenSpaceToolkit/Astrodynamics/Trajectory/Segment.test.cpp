@@ -2047,7 +2047,7 @@ TEST_F(
         const Duration maximumDuration = Duration::Minutes(10.0);
         const Duration minimumSeparation = Duration::Minutes(5.0);
         const Segment::MaximumManeuverDurationViolationStrategy strategy =
-            Segment::MaximumManeuverDurationViolationStrategy::Center;
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk;
 
         const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
 
@@ -2112,12 +2112,9 @@ TEST_F(
         {
             // We use a looser tolerance as the constant local orbital frame maneuvers will produce
             // a slightly different trajectory.
-            EXPECT_TRUE(maneuvers[i].getInterval().getStart().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getStart(), Duration::Seconds(3.0)
-            ));
-            EXPECT_TRUE(maneuvers[i].getInterval().getEnd().isNear(
-                constantLofDirectionManeuvers[i].getInterval().getEnd(), Duration::Seconds(3.0)
-            ));
+            EXPECT_INTERVALS_ALMOST_EQUAL(
+                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Seconds(3.0)
+            );
         }
     }
 }
