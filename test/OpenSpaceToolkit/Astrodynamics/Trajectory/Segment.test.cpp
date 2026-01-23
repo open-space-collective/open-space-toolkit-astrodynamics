@@ -2895,10 +2895,13 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    EXPECT_TRUE(
-        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    EXPECT_INTERVALS_ALMOST_EQUAL(
+        maneuvers[0].getInterval(),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(3.0)
+        ),
+        Duration::Nanoseconds(10.0)
     );
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1.0)));
 }
 
 TEST_F(
@@ -2933,10 +2936,6 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    for (const Maneuver& maneuver : maneuvers)
-    {
-        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
-    }
 
     // Candidate:   0--------------15-----------------30
     // Maneuver 1   0----5
@@ -2982,10 +2981,13 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    EXPECT_TRUE(
-        maneuvers[0].getInterval().getStart().isNear(initialStateWithMass_.accessInstant(), Duration::Seconds(1.0))
+    EXPECT_INTERVALS_ALMOST_EQUAL(
+        maneuvers[0].getInterval(),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(3.0)
+        ),
+        Duration::Nanoseconds(10.0)
     );
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1.0)));
 }
 
 TEST_F(
@@ -3018,6 +3020,9 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
+
+    // Candidate:   0--------------15-----------------30
+    // Maneuver 1                               25----30
 
     const Array<Interval> expectedManeuverIntervals = Array<Interval> {Interval::Closed(
         initialStateWithMass_.accessInstant() + Duration::Minutes(25.0),
@@ -3061,7 +3066,13 @@ TEST_F(
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    EXPECT_TRUE(maneuvers[0].getInterval().getDuration().isNear(Duration::Minutes(3.0), Duration::Seconds(1e-1)));
+    EXPECT_INTERVALS_ALMOST_EQUAL(
+        maneuvers[0].getInterval(),
+        Interval::Closed(
+            initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(3.0)
+        ),
+        Duration::Nanoseconds(10.0)
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationExceedsMaximum_CenterStrategy_Behaviour)
@@ -3091,10 +3102,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     EXPECT_TRUE(solution.conditionIsSatisfied);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    for (const Maneuver& maneuver : maneuvers)
-    {
-        EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration + Duration::Nanoseconds(10));
-    }
 
     // Candidate:   0--------------15-----------------30
     // Maneuver 1            12.5------17.5

@@ -1141,7 +1141,9 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
                 },  // Too long, truncated to [0, 10] (skiping [13, 14] as it would be too short)
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // Untouched
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
                 },  // Too long, truncated to [30, 40]
@@ -1169,7 +1171,9 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
                 },  // Too long, truncated to [4, 14]
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // Untouched
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
                 },  // Too long, truncated to [40, 50]
@@ -1197,7 +1201,9 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
                 },  // Too long, centered around 7.0
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // Untouched
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
                 },  // Too long, centered around 40.0
@@ -1225,7 +1231,9 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {
                     Duration::Minutes(-5.0), Duration::Minutes(14.0)
                 },  // Too long, chunked to [0, 10] (skiping [13, 14] as it would be too short)
-                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // Untouched
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(20.0), Duration::Minutes(25.0)
+                },  // Not modified (already compliant)
                 Tuple<Duration, Duration> {
                     Duration::Minutes(30.0), Duration::Minutes(50.0)
                 },  // Too long, chunked to [30, 40] and [43, 50]
