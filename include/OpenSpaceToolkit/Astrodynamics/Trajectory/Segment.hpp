@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -50,6 +51,7 @@ using ostk::physics::unit::Mass;
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 using flightManeuver = ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
@@ -152,6 +154,24 @@ class Segment
             const Segment::Type& aSegmentType
         );
 
+        /// @brief Constructor
+        ///
+        /// @param aName Name of the segment
+        /// @param aDynamicsArray Array of dynamics
+        /// @param aStateArray Array of states for the segment
+        /// @param aConditionIsSatisfied True if the event condition is satisfied
+        /// @param aSegmentType Type of segment
+        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments). Defaults to empty.
+        /// @return An instance of Solution
+        Solution(
+            const String& aName,
+            const Array<Shared<Dynamics>>& aDynamicsArray,
+            const Array<State>& aStateArray,
+            const bool& aConditionIsSatisfied,
+            const Segment::Type& aSegmentType,
+            const Array<Interval>& aManeuverIntervals
+        );
+
         /// @brief Access Start Instant
         /// @return Start Instant
         const Instant& accessStartInstant() const;
@@ -245,11 +265,12 @@ class Segment
         /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Solution& aSolution);
 
-        String name;                       // Name of the segment.
-        Array<Shared<Dynamics>> dynamics;  // List of dynamics used.
-        Array<State> states;               // Array of states for the segment.
-        bool conditionIsSatisfied;         // True if the event condition is satisfied.
-        Segment::Type segmentType;         // Type of segment.
+        String name;                        // Name of the segment.
+        Array<Shared<Dynamics>> dynamics;   // List of dynamics used.
+        Array<State> states;                // Array of states for the segment.
+        bool conditionIsSatisfied;          // True if the event condition is satisfied.
+        Segment::Type segmentType;          // Type of segment.
+        Array<Interval> maneuverIntervals;  // Explicit maneuver intervals (for maneuver segments).
     };
 
     /// @brief Output stream operator
@@ -453,13 +474,31 @@ class Segment
     /// @return The segment solution
     Segment::Solution solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const;
 
-    /// @brief Solve till the next maneuver ends. This maneuver is not necessarily constraint-compliant yet.
+    /// @brief Get the thruster on/off condition
+    /// @param thrusterDynamics The thruster dynamics
+    /// @param isOn If true, the condition will trigger when the thruster turns on, otherwise it will trigger when the
+    /// thruster turns off.
+    /// @return The thruster on/off condition
+    Shared<RealCondition> getThrusterToggleCondition_(const Shared<Thruster>& thrusterDynamics, const bool& isOn) const;
+
+    /// @brief Solve till the maneuver ends. This maneuver is not necessarily constraint-compliant yet. It's assumed
+    /// that the thruster is on at the provided state.
     ///
     /// @param aState The initial state of the segment
     /// @param maximumPropagationDuration The maximum propagation duration
     /// @param thrusterDynamics The thruster dynamics.
     /// @return The segment solution
-    Segment::Solution solveNextManeuver_(
+    Segment::Solution solveTillThrusterOff_(
+        const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
+    ) const;
+
+    /// @brief Solve till the thruster is on. This is a coast arc that ends when the thruster is on.
+    ///
+    /// @param aState The initial state of the segment
+    /// @param maximumPropagationDuration The maximum propagation duration
+    /// @param thrusterDynamics The thruster dynamics.
+    /// @return The segment solution
+    Segment::Solution solveTillThrusterOn_(
         const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
     ) const;
 
