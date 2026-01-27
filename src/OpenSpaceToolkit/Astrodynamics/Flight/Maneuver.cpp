@@ -201,9 +201,6 @@ Array<State> Maneuver::getStates() const
 
 Interval Maneuver::getInterval() const
 {
-    // The interval spans from the first state (when thrust starts) to the last state.
-    // The last state may be an "off" state (zero acceleration) representing when the thruster turned off,
-    // and this should be included in the interval since the maneuver duration spans from on to off.
     return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
 }
 

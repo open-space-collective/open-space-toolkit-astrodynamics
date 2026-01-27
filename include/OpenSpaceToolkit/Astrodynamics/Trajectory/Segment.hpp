@@ -145,15 +145,13 @@ class Segment
         /// @param aStateArray Array of states for the segment
         /// @param aConditionIsSatisfied True if the event condition is satisfied
         /// @param aSegmentType Type of segment
-        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments). Defaults to empty.
         /// @return An instance of Solution
         Solution(
             const String& aName,
             const Array<Shared<Dynamics>>& aDynamicsArray,
             const Array<State>& aStateArray,
             const bool& aConditionIsSatisfied,
-            const Segment::Type& aSegmentType,
-            const Array<Interval>& aManeuverIntervals = Array<Interval>::Empty()
+            const Segment::Type& aSegmentType
         );
 
         /// @brief Constructor
@@ -163,7 +161,7 @@ class Segment
         /// @param aStateArray Array of states for the segment
         /// @param aConditionIsSatisfied True if the event condition is satisfied
         /// @param aSegmentType Type of segment
-        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments). Defaults to empty.
+        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments).
         /// @return An instance of Solution
         Solution(
             const String& aName,
