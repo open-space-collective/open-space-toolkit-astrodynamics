@@ -760,9 +760,6 @@ Segment::Solution Segment::solve(
         const Segment::Solution coastSegmentSolution =
             solveCoast_(lastState, std::min(endInstant, maximumInstant) - lastState.accessInstant());
 
-        std::cout << "Adding States A accepting coast: "
-                  << (coastSegmentSolution.states.getSize() > 1 ? coastSegmentSolution.states[1].accessInstant().toString() : "N/A") << " -> "
-                  << coastSegmentSolution.states.accessLast().accessInstant().toString() << std::endl;
         segmentStates.add(Array<State>(coastSegmentSolution.states.begin() + 1, coastSegmentSolution.states.end()));
 
         segmentConditionIsSatisfied = coastSegmentSolution.conditionIsSatisfied;
@@ -775,8 +772,11 @@ Segment::Solution Segment::solve(
                                      ) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
     {
         const State& lastState = segmentStates.accessLast();
-        const Segment::Solution maneuverSolution =
-            solveNextManeuver_(lastState, maximumPropagationDuration, thrusterDynamics);
+        const Segment::Solution maneuverSolution = solveNextManeuver_(
+            lastState,
+            std::min(maximumPropagationDuration, maximumInstant - lastState.accessInstant()),
+            thrusterDynamics
+        );
 
         if (maneuverSolution.states.getSize() <= 2)
         {
@@ -822,9 +822,6 @@ Segment::Solution Segment::solve(
         std::make_shared<HeterogeneousGuidanceLaw>();
     const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const FlightManeuver& maneuver) -> void
     {
-        std::cout << "Adding States B accepting maneuver: "
-                  << (maneuverSolution.states.getSize() > 1 ? maneuverSolution.states[1].accessInstant().toString() : "N/A") << " -> "
-                  << maneuverSolution.states.accessLast().accessInstant().toString() << std::endl;
         segmentStates.add(Array<State>(maneuverSolution.states.begin() + 1, maneuverSolution.states.end()));
 
         segmentConditionIsSatisfied = maneuverSolution.conditionIsSatisfied;
@@ -977,9 +974,6 @@ Segment::Solution Segment::solve(
         // No maneuvers found - add states
         if (!subsegmentManeuver.has_value())
         {
-            std::cout << "Adding States C No Maneuvers Found: "
-                      << (maneuverSubSegmentSolution.states.getSize() > 1 ? maneuverSubSegmentSolution.states[1].accessInstant().toString() : "N/A") << " -> "
-                      << maneuverSubSegmentSolution.states.accessLast().accessInstant().toString() << std::endl;
             segmentStates.add(
                 Array<State>(maneuverSubSegmentSolution.states.begin() + 1, maneuverSubSegmentSolution.states.end())
             );
