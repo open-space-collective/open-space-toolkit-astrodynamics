@@ -481,24 +481,24 @@ class Segment
     /// @return The thruster on/off condition
     Shared<RealCondition> getThrusterToggleCondition_(const Shared<Thruster>& thrusterDynamics, const bool& isOn) const;
 
-    /// @brief Solve till the maneuver ends. This maneuver is not necessarily constraint-compliant yet. It's assumed
+    /// @brief Solve until the maneuver ends. This maneuver is not necessarily constraint-compliant yet. It's assumed
     /// that the thruster is on at the provided state.
     ///
     /// @param aState The initial state of the segment
     /// @param anEndInstant The end instant
     /// @param thrusterDynamics The thruster dynamics.
     /// @return The segment solution
-    Segment::Solution solveTillThrusterOff_(
+    Segment::Solution solveUntilThrusterOff_(
         const State& aState, const Instant& anEndInstant, const Shared<Thruster>& thrusterDynamics
     ) const;
 
-    /// @brief Solve till the thruster is on. This is a coast arc that ends when the thruster is on.
+    /// @brief Solve until the thruster is on. This is a coast arc that ends when the thruster is on.
     ///
     /// @param aState The initial state of the segment
     /// @param anEndInstant The end instant
     /// @param thrusterDynamics The thruster dynamics.
     /// @return The segment solution
-    Segment::Solution solveTillThrusterOn_(
+    Segment::Solution solveUntilThrusterOn_(
         const State& aState, const Instant& anEndInstant, const Shared<Thruster>& thrusterDynamics
     ) const;
 
@@ -524,6 +524,14 @@ class Segment
     Segment::Solution solveManeuverForInterval_(
         const State& aState, const Shared<Thruster>& thrusterDynamics, const Interval& validManeuverInterval
     ) const;
+
+    /// @brief Re-evaluate the event condition. This function evaluates the event condition using the last two
+    /// states in the state array, defaulting to the initial state when the size of the state array is not enough.
+    ///
+    /// @param aState The initial state
+    /// @param aStateArray The state array
+    /// @return True if the event condition is satisfied
+    bool reEvaluateEventCondition_(const State& aState, const Array<State>& aStateArray) const;
 };
 
 }  // namespace trajectory

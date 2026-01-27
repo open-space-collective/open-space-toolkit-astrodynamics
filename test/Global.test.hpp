@@ -167,6 +167,33 @@
         }                                                                                                    \
     } while (0)
 
+#define ASSERT_STATES_ARE_STRICTLY_MONOTONIC(states)                                                                   \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((states).size() < 2)                                                                                       \
+        {                                                                                                              \
+            break;                                                                                                     \
+        }                                                                                                              \
+        const bool isIncreasing = (states)[1].getInstant() > (states)[0].getInstant();                                 \
+        for (size_t i = 1; i < (states).size(); ++i)                                                                   \
+        {                                                                                                              \
+            const auto& prevInstant = (states)[i - 1].getInstant();                                                    \
+            const auto& currInstant = (states)[i].getInstant();                                                        \
+            if (isIncreasing)                                                                                          \
+            {                                                                                                          \
+                ASSERT_TRUE(currInstant > prevInstant)                                                                 \
+                    << "States are not monotonically increasing at index " << i << ". Instant at index " << (i - 1)    \
+                    << ": " << prevInstant.toString() << ", instant at index " << i << ": " << currInstant.toString(); \
+            }                                                                                                          \
+            else                                                                                                       \
+            {                                                                                                          \
+                ASSERT_TRUE(currInstant < prevInstant)                                                                 \
+                    << "States are not monotonically decreasing at index " << i << ". Instant at index " << (i - 1)    \
+                    << ": " << prevInstant.toString() << ", instant at index " << i << ": " << currInstant.toString(); \
+            }                                                                                                          \
+        }                                                                                                              \
+    } while (0)
+
 namespace ostk
 {
 namespace astrodynamics

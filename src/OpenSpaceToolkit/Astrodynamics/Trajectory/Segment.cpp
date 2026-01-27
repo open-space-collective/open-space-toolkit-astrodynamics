@@ -777,21 +777,19 @@ Segment::Solution Segment::solve(
                                      ) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
     {
         const State& lastState = segmentStates.accessLast();
-        const Segment::Solution coastSolution = solveTillThrusterOn_(lastState, maximumInstant, thrusterDynamics);
+        const Segment::Solution coastSolution = solveUntilThrusterOn_(lastState, maximumInstant, thrusterDynamics);
 
-        segmentStates.add(Array<State>(coastSolution.states.begin() + 1, coastSolution.states.end()));
-
-        segmentConditionIsSatisfied = coastSolution.conditionIsSatisfied;
-
-        if (segmentConditionIsSatisfied)
+        if (coastSolution.conditionIsSatisfied)
         {
             return {coastSolution, std::nullopt};
         }
 
-        ;
+        // Only adding the coast states after the early return above, otherwise, the caller to this
+        // function will append them a second time.
+        segmentStates.add(Array<State>(coastSolution.states.begin() + 1, coastSolution.states.end()));
 
         const Segment::Solution maneuverSolution =
-            solveTillThrusterOff_(segmentStates.accessLast(), maximumInstant, thrusterDynamics);
+            solveUntilThrusterOff_(segmentStates.accessLast(), maximumInstant, thrusterDynamics);
 
         if (maneuverSolution.states.getSize() <= 2)
         {
@@ -1264,7 +1262,7 @@ Shared<RealCondition> Segment::getThrusterToggleCondition_(const Shared<Thruster
     );
 }
 
-Segment::Solution Segment::solveTillThrusterOff_(
+Segment::Solution Segment::solveUntilThrusterOff_(
     const State& aState, const Instant& anEndInstant, const Shared<Thruster>& thrusterDynamics
 ) const
 {
@@ -1285,15 +1283,14 @@ Segment::Solution Segment::solveTillThrusterOff_(
 
     // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
-    // To do so, we can check the last state against the initial state to see if the event condition is satisfied.
-    solution.conditionIsSatisfied = eventCondition_->isSatisfied(solution.states.accessLast(), aState);
+    solution.conditionIsSatisfied = reEvaluateEventCondition_(aState, solution.states);
     solution.segmentType = Segment::Type::Maneuver;
     solution.maneuverIntervals = {Interval::Closed(aState.getInstant(), solution.states.accessLast().getInstant())};
 
     return solution;
 }
 
-Segment::Solution Segment::solveTillThrusterOn_(
+Segment::Solution Segment::solveUntilThrusterOn_(
     const State& aState, const Instant& anEndInstant, const Shared<Thruster>& thrusterDynamics
 ) const
 {
@@ -1310,8 +1307,7 @@ Segment::Solution Segment::solveTillThrusterOn_(
 
     // As the event condition could have terminated due to the thruster on condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
-    // To do so, we can check the last state against the initial state to see if the event condition is satisfied.
-    solution.conditionIsSatisfied = eventCondition_->isSatisfied(solution.states.accessLast(), aState);
+    solution.conditionIsSatisfied = reEvaluateEventCondition_(aState, solution.states);
     solution.segmentType = Segment::Type::Coast;
 
     return solution;
@@ -1343,10 +1339,28 @@ Segment::Solution Segment::solveManeuverForInterval_(
         name_,
         dynamicsArray,
         states,
-        eventCondition_->isSatisfied(states.accessLast(), aState),
+        reEvaluateEventCondition_(aState, states),
         Segment::Type::Maneuver,
         Array<Interval> {validManeuverInterval}
     };
+}
+
+bool Segment::reEvaluateEventCondition_(const State& aState, const Array<State>& aStateArray) const
+{
+    if (aStateArray.getSize() > 1)
+    {
+        const State& lastState = aStateArray.accessLast();
+        const State& secondToLastState = aStateArray[aStateArray.getSize() - 2];
+        return eventCondition_->isSatisfied(lastState, secondToLastState);
+    }
+
+    if (aStateArray.getSize() == 1)
+    {
+        const State& lastState = aStateArray.accessLast();
+        return eventCondition_->isSatisfied(lastState, aState);
+    }
+
+    return eventCondition_->isSatisfied(aState, aState);
 }
 
 }  // namespace trajectory
