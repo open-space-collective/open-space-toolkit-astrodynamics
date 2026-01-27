@@ -17,6 +17,7 @@ from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
 from ostk.physics.time import Instant
+from ostk.physics.time import Interval
 from ostk.physics.time import Scale
 from ostk.physics.unit import Derived
 from ostk.physics.unit import Length
@@ -359,6 +360,9 @@ def segment_solution(
         states=states,
         condition_is_satisfied=True,
         segment_type=Segment.Type.Maneuver,
+        maneuver_intervals=[
+            Interval.closed(states[0].get_instant(), states[1].get_instant()),
+        ],
     )
 
 

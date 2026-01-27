@@ -257,6 +257,9 @@ def maneuver_segment_solution(
         states=states,
         condition_is_satisfied=True,
         segment_type=Segment.Type.Maneuver,
+        maneuver_intervals=[
+            Interval.closed(states[0].get_instant(), states[1].get_instant()),
+        ],
     )
 
 
@@ -271,6 +274,7 @@ class TestSegmentSolution:
         assert segment_solution.states is not None
         assert segment_solution.condition_is_satisfied is not None
         assert segment_solution.segment_type is not None
+        assert segment_solution.maneuver_intervals is not None
 
     def test_getters_and_accessors(
         self,
@@ -306,7 +310,7 @@ class TestSegmentSolution:
         self,
         maneuver_segment_solution: Segment.Solution,
     ):
-        assert maneuver_segment_solution.extract_maneuvers(Frame.GCRF()) is not None
+        assert len(maneuver_segment_solution.extract_maneuvers(Frame.GCRF())) > 0
 
     def test_calculate_states_at(
         self,
