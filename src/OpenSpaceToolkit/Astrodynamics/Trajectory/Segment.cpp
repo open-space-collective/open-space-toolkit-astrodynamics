@@ -733,7 +733,7 @@ Segment::Solution Segment::solve(
 {
     if (type_ == Segment::Type::Coast)
     {
-        return solveCoast_(aState, maximumPropagationDuration);
+        return solveCoast_(aState, aState.accessInstant() + maximumPropagationDuration);
     }
 
     // We must solve maneuver by maneuver to get the exact maneuver start and stop times
@@ -763,8 +763,7 @@ Segment::Solution Segment::solve(
     const auto solveAndAcceptCoast = [&](const Instant& endInstant) -> bool
     {
         const State& lastState = segmentStates.accessLast();
-        const Segment::Solution coastSegmentSolution =
-            solveCoast_(lastState, std::min(endInstant, maximumInstant) - lastState.accessInstant());
+        const Segment::Solution coastSegmentSolution = solveCoast_(lastState, std::min(endInstant, maximumInstant));
 
         segmentStates.add(Array<State>(coastSegmentSolution.states.begin() + 1, coastSegmentSolution.states.end()));
 
@@ -778,11 +777,7 @@ Segment::Solution Segment::solve(
                                      ) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
     {
         const State& lastState = segmentStates.accessLast();
-        const Segment::Solution coastSolution = solveTillThrusterOn_(
-            lastState,
-            std::min(maximumPropagationDuration, maximumInstant - lastState.accessInstant()),
-            thrusterDynamics
-        );
+        const Segment::Solution coastSolution = solveTillThrusterOn_(lastState, maximumInstant, thrusterDynamics);
 
         segmentStates.add(Array<State>(coastSolution.states.begin() + 1, coastSolution.states.end()));
 
@@ -795,11 +790,8 @@ Segment::Solution Segment::solve(
 
         ;
 
-        const Segment::Solution maneuverSolution = solveTillThrusterOff_(
-            segmentStates.accessLast(),
-            std::min(maximumPropagationDuration, maximumInstant - segmentStates.accessLast().accessInstant()),
-            thrusterDynamics
-        );
+        const Segment::Solution maneuverSolution =
+            solveTillThrusterOff_(segmentStates.accessLast(), maximumInstant, thrusterDynamics);
 
         if (maneuverSolution.states.getSize() <= 2)
         {
@@ -1160,7 +1152,7 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
 
 Segment::Solution Segment::solveWithDynamics_(
     const State& aState,
-    const Duration& maximumPropagationDuration,
+    const Instant& anEndInstant,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Shared<EventCondition>& anEventCondition
 ) const
@@ -1170,9 +1162,8 @@ Segment::Solution Segment::solveWithDynamics_(
         aDynamicsArray,
     };
 
-    const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
-        aState, aState.accessInstant() + maximumPropagationDuration, *anEventCondition
-    );
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(aState, anEndInstant, *anEventCondition);
 
     // Expand states based on input state
     const StateBuilder stateBuilder = {aState};
@@ -1237,10 +1228,9 @@ Segment::Solution Segment::constructLOFCompliantManeuverSolution_(const State& a
     return solveManeuverForInterval_(aState, constantThrustDynamics, aManeuver.getInterval());
 }
 
-Segment::Solution Segment::solveCoast_(const State& aState, const Duration& maximumPropagationDuration) const
+Segment::Solution Segment::solveCoast_(const State& aState, const Instant& anEndInstant) const
 {
-    Segment::Solution solution =
-        solveWithDynamics_(aState, maximumPropagationDuration, freeDynamicsArray_, eventCondition_);
+    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, eventCondition_);
     solution.segmentType = Segment::Type::Coast;
 
     return solution;
@@ -1275,7 +1265,7 @@ Shared<RealCondition> Segment::getThrusterToggleCondition_(const Shared<Thruster
 }
 
 Segment::Solution Segment::solveTillThrusterOff_(
-    const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
+    const State& aState, const Instant& anEndInstant, const Shared<Thruster>& thrusterDynamics
 ) const
 {
     const Shared<RealCondition> thrusterToggleCondition = getThrusterToggleCondition_(thrusterDynamics, false);
@@ -1291,8 +1281,7 @@ Segment::Solution Segment::solveTillThrusterOff_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution =
-        solveWithDynamics_(aState, maximumPropagationDuration, dynamicsArray, combinedCondition);
+    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, dynamicsArray, combinedCondition);
 
     // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
@@ -1305,7 +1294,7 @@ Segment::Solution Segment::solveTillThrusterOff_(
 }
 
 Segment::Solution Segment::solveTillThrusterOn_(
-    const State& aState, const Duration& maximumPropagationDuration, const Shared<Thruster>& thrusterDynamics
+    const State& aState, const Instant& anEndInstant, const Shared<Thruster>& thrusterDynamics
 ) const
 {
     const Shared<RealCondition> thrusterToggleCondition = getThrusterToggleCondition_(thrusterDynamics, true);
@@ -1317,8 +1306,7 @@ Segment::Solution Segment::solveTillThrusterOn_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution =
-        solveWithDynamics_(aState, maximumPropagationDuration, freeDynamicsArray_, combinedCondition);
+    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, combinedCondition);
 
     // As the event condition could have terminated due to the thruster on condition, we want to re-evaluate the
     // segment event condition to see if it's satisfied.
