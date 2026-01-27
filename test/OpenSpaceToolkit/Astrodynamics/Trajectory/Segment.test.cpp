@@ -1046,6 +1046,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
                 const Size startingIndex = findStartingIndex(maneuverStates[0].accessInstant());
                 EXPECT_LT(startingIndex, maneuveringSegmentSolution.states.getSize());
+                ASSERT_LE(startingIndex + maneuverStates.getSize(), maneuveringSegmentSolution.states.getSize());
 
                 for (Size i = 0; i < maneuverStates.getSize(); i++)
                 {
