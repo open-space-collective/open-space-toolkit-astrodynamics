@@ -133,6 +133,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
+    // Mass flow rate profile with 0.0 last value
+    {
+        Array<State> statesWithIncorrectMassFlowRateProfile = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, 0.0)
+        };
+
+        EXPECT_NO_THROW(Maneuver {statesWithIncorrectMassFlowRateProfile});
+    }
+
     {
         EXPECT_THROW(
             {
@@ -268,7 +280,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("Mass flow rate profile must have strictly negative values.", e.getMessage());
+                    EXPECT_EQ(
+                        "Mass flow rate profile must have strictly negative values (except the last state which may be "
+                        "zero).",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Last state has positive mass flow rate
+    {
+        Array<State> statesWithIncorrectMassFlowRateProfile = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, 1.0e-5)
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver {statesWithIncorrectMassFlowRateProfile};
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Last state must have non-positive mass flow rate.", e.getMessage());
                     throw;
                 }
             },

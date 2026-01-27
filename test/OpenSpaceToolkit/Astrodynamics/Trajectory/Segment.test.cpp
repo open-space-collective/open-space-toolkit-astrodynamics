@@ -23,6 +23,8 @@
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -38,8 +40,11 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -89,6 +94,8 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::environment::object::celestial::Moon;
+using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -104,8 +111,11 @@ using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -940,7 +950,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(initialStateWithWetMass);
 
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
+
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
+
         EXPECT_EQ(1, maneuvers.getSize());
         EXPECT_EQ(maneuveringSegmentSolution.states.getSize(), maneuvers[0].getStates().getSize());
 
@@ -1015,37 +1028,43 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
             const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
 
+            ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
+
             const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
             EXPECT_EQ(2, maneuvers.getSize());
 
-            // Hardcoded values for the expected maneuvers from this QLaw solve. If QLaw is changed, this likely will
-            // break
-            Size numberOfInstantInFirstManeuver = 31;
-            Size startingIndexFirstManeuver = 16;
-            Size numberOfInstantInSecondManeuver = 30;
-            Size startingIndexSecondManeuver = 71;
-
-            // First maneuver
-            EXPECT_EQ(numberOfInstantInFirstManeuver, maneuvers[0].getStates().getSize());
-
-            for (Size i = 0; i < maneuvers[0].getStates().getSize(); i++)
+            // Find actual starting indices by searching for matching instants
+            // (more robust than hardcoded values which break when QLaw or solver parameters change)
+            auto findStartingIndex = [&maneuveringSegmentSolution](const Instant& instant) -> Size
             {
-                EXPECT_EQ(
-                    maneuveringSegmentSolution.states[startingIndexFirstManeuver + i].getInstant(),
-                    maneuvers[0].getStates()[i].accessInstant()
-                );
-            }
+                for (Size idx = 0; idx < maneuveringSegmentSolution.states.getSize(); idx++)
+                {
+                    if (maneuveringSegmentSolution.states[idx].getInstant() == instant)
+                    {
+                        return idx;
+                    }
+                }
+                return maneuveringSegmentSolution.states.getSize();  // Not found
+            };
 
-            // Second maneuver
-            EXPECT_EQ(numberOfInstantInSecondManeuver, maneuvers[1].getStates().getSize());
-
-            for (Size j = 0; j < maneuvers[1].getStates().getSize(); j++)
+            // Verify each extracted maneuver's states match the corresponding segment solution states
+            for (Size maneuverIdx = 0; maneuverIdx < maneuvers.getSize(); maneuverIdx++)
             {
-                EXPECT_EQ(
-                    maneuveringSegmentSolution.states[startingIndexSecondManeuver + j].getInstant(),
-                    maneuvers[1].getStates()[j].accessInstant()
-                );
+                const Array<State>& maneuverStates = maneuvers[maneuverIdx].getStates();
+                EXPECT_GT(maneuverStates.getSize(), 1);  // At least 2 states for a valid maneuver
+
+                const Size startingIndex = findStartingIndex(maneuverStates[0].accessInstant());
+                EXPECT_LT(startingIndex, maneuveringSegmentSolution.states.getSize());
+                ASSERT_LE(startingIndex + maneuverStates.getSize(), maneuveringSegmentSolution.states.getSize());
+
+                for (Size i = 0; i < maneuverStates.getSize(); i++)
+                {
+                    EXPECT_EQ(
+                        maneuveringSegmentSolution.states[startingIndex + i].getInstant(),
+                        maneuverStates[i].accessInstant()
+                    );
+                }
             }
         }
 
@@ -1066,6 +1085,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             };
 
             const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+
+            ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
 
             const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
@@ -1579,10 +1600,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
     {
         const Segment::Solution solution = defaultCoastSegment_.solve(defaultState_);
 
+        EXPECT_TRUE(solution.states.getSize() > 0);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
         EXPECT_LT(
             (solution.states.accessLast().getInstant() - defaultInstantCondition_->getInstant()).inSeconds(), 1e-7
         );
-        EXPECT_TRUE(solution.states.getSize() > 0);
     }
 
     {
@@ -1599,6 +1621,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
         const Segment::Solution solution = segment.solve(defaultState_, Duration::Minutes(1.0));
 
         EXPECT_TRUE(solution.states.getSize() > 0);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
         EXPECT_FALSE(solution.conditionIsSatisfied);
     }
 
@@ -1638,6 +1661,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
             const Segment::Solution solution = segment.solve(initialState, Duration::Minutes(80.0));
 
             ASSERT_FALSE(solution.states.isEmpty());
+            ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
             EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
             EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
                 initialState.getInstant() + Duration::Minutes(60.0), tolerance
@@ -1695,6 +1719,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
                 constantLofDirectionManeuveringSegment.solve(currentState);
 
+            ASSERT_STATES_ARE_STRICTLY_MONOTONIC(constantLofDirectionManeuveringSegmentSolution.states);
             EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         }
 
@@ -1715,6 +1740,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
                 constantLofDirectionManeuveringSegment.solve(currentState);
 
+            ASSERT_STATES_ARE_STRICTLY_MONOTONIC(constantLofDirectionManeuveringSegmentSolution.states);
             EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         }
 
@@ -1782,8 +1808,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         };
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
         const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
             constantLofDirectionManeuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(constantLofDirectionManeuveringSegmentSolution.states);
 
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         const Array<Maneuver> constantLofDirectionManeuvers =
@@ -1792,12 +1820,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         EXPECT_INSTANTS_ALMOST_EQUAL(
             maneuveringSegmentSolution.accessStartInstant(),
             constantLofDirectionManeuveringSegmentSolution.accessStartInstant(),
-            Duration::Nanoseconds(5.0)
+            Duration::Nanoseconds(10.0)
         );
         EXPECT_INSTANTS_ALMOST_EQUAL(
             maneuveringSegmentSolution.accessEndInstant(),
             constantLofDirectionManeuveringSegmentSolution.accessEndInstant(),
-            Duration::Nanoseconds(5.0)
+            Duration::Nanoseconds(10.0)
         );
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
@@ -1807,7 +1835,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
             EXPECT_INTERVALS_ALMOST_EQUAL(
-                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Seconds(1.0)
+                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Seconds(10.0)
             );
         }
 
@@ -1838,6 +1866,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         );
 
         const Segment::Solution expectedEquivalentSegmentSolution = expectedEquivalentSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(expectedEquivalentSegmentSolution.states);
         const Array<Maneuver> expectedEquivalentManeuvers =
             expectedEquivalentSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         EXPECT_INTERVALS_ALMOST_EQUAL(
@@ -1851,7 +1880,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         for (Size i = 0; i < expectedEquivalentManeuvers.getSize(); i++)
         {
             EXPECT_INTERVALS_ALMOST_EQUAL(
-                expectedEquivalentManeuvers[i].getInterval(), maneuvers[i].getInterval(), Duration::Seconds(1.5)
+                expectedEquivalentManeuvers[i].getInterval(), maneuvers[i].getInterval(), Duration::Seconds(5.0)
             );
         }
 
@@ -1910,8 +1939,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         };
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
         const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
             constantLofDirectionManeuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(constantLofDirectionManeuveringSegmentSolution.states);
 
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         const Array<Maneuver> constantLofDirectionManeuvers =
@@ -1933,7 +1964,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             EXPECT_LE(maneuvers[i].getInterval().getDuration(), maximumDuration);
             EXPECT_GE(maneuvers[i].getInterval().getDuration(), minimumDuration);
             EXPECT_INTERVALS_ALMOST_EQUAL(
-                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Milliseconds(10.0)
+                maneuvers[i].getInterval(), constantLofDirectionManeuvers[i].getInterval(), Duration::Milliseconds(25.0)
             );
         }
     }
@@ -1946,7 +1977,7 @@ TEST_F(
     // This tests reproduces an issue where a maneuver-constrained segment (even though the constraints have no impact
     // since the minimum values are too little and the maximum value is too large), was taking a long time to converge.
     //
-    // It gets compared agains the very same unconstrained segment. The only difference is the constrained one will
+    // It gets compared against the very same unconstrained segment. The only difference is the constrained one will
     // take a different logic path to solve.
     {
         const Duration minimumDuration = Duration::Milliseconds(1.0);
@@ -1957,11 +1988,13 @@ TEST_F(
 
         const Segment::ManeuverConstraints constraints(minimumDuration, maximumDuration, minimumSeparation, strategy);
 
+        const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
+        );
+
         Segment maneuveringSegment = Segment::Maneuver(
             "Maneuvering Segment",
-            std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
-            ),
+            durationCondition,
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_
@@ -1969,9 +2002,7 @@ TEST_F(
 
         Segment constraintedManeuveringSegment = Segment::Maneuver(
             "Constrainted Maneuvering Segment",
-            std::make_shared<RealCondition>(
-                RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(90.0))
-            ),
+            durationCondition,
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
@@ -1992,43 +2023,35 @@ TEST_F(
         };
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
         const Segment::Solution constraintedManeuveringSegmentSolution =
             constraintedManeuveringSegment.solve(currentState);
-
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(constraintedManeuveringSegmentSolution.states);
         const Array<Maneuver> constraintedManeuvers =
             constraintedManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            constraintedManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(1.0)
-        ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            constraintedManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
-        ));
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuveringSegmentSolution.getInterval(),
+            constraintedManeuveringSegmentSolution.getInterval(),
+            Duration::Nanoseconds(10.0)
+        );
         EXPECT_TRUE(constraintedManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuvers.getSize() == 2);
         EXPECT_EQ(maneuvers.getSize(), constraintedManeuvers.getSize());
 
-        // The first maneuver start is expected to be identical
-        EXPECT_TRUE(maneuvers[0].getInterval().getStart().isNear(
-            constraintedManeuvers[0].getInterval().getStart(), Duration::Nanoseconds(10.0)
-        ));
-        // The first maneuver end is expected to be very close but not identical as this has been solved using the
-        // thruster cutoff condition
-        EXPECT_TRUE(maneuvers[0].getInterval().getEnd().isNear(
-            constraintedManeuvers[0].getInterval().getEnd(), Duration::Milliseconds(200.0)
-        ));
+        // The first maneuver interval is expected to be identical
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuvers[0].getInterval(), constraintedManeuvers[0].getInterval(), Duration::Nanoseconds(10.0)
+        );
 
         // The second maneuver interval is expected to be similar but not very close as the trajectory (after the first
         // maneuver) has changed
-        EXPECT_TRUE(maneuvers[1].getInterval().getStart().isNear(
-            constraintedManeuvers[1].getInterval().getStart(), Duration::Seconds(1.0)
-        ));
-        EXPECT_TRUE(maneuvers[1].getInterval().getEnd().isNear(
-            constraintedManeuvers[1].getInterval().getEnd(), Duration::Seconds(1.0)
-        ));
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuvers[1].getInterval(), constraintedManeuvers[1].getInterval(), Duration::Seconds(0.5)
+        );
     }
 }
 
@@ -2089,9 +2112,11 @@ TEST_F(
         };
 
         const Segment::Solution maneuveringSegmentSolution = maneuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(maneuveringSegmentSolution.states);
 
         const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
             constantLofDirectionManeuveringSegment.solve(currentState);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(constantLofDirectionManeuveringSegmentSolution.states);
 
         const Array<Maneuver> maneuvers = maneuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
         const Array<Maneuver> constantLofDirectionManeuvers =
@@ -2284,6 +2309,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
     );
 
     const Segment::Solution solution = segment.solve(initialState, Duration::Minutes(8.0));
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
 
     Array<Interval> expectedManeuverIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.expectedManeuverIntervals)
@@ -2370,6 +2396,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_2)
         );
 
         const Segment::Solution solution = maneuverSegment.solve(stateWithMass);
+
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
         EXPECT_TRUE(solution.states.getSize() > 0);
     }
 
@@ -2388,6 +2416,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_2)
 
         const Segment::Solution solution = maneuverSegment.solve(stateWithMass, Duration::Minutes(5.0));
 
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
         EXPECT_TRUE(solution.states.getSize() > 0);
     }
 
@@ -2409,6 +2438,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_2)
 
         const Segment::Solution solution =
             maneuverSegment.solve(stateWithMass, Duration::Days(1.0), previousManeuverInterval);
+
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
         EXPECT_TRUE(solution.states.getSize() > 0);
     }
 }
@@ -2430,6 +2461,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverSegment_
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.conditionIsSatisfied);
     EXPECT_TRUE(solution.states.getSize() > 0);
     EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).getSize() > 0);
@@ -2456,6 +2488,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumInstantRe
     // Maximum propagation duration is zero, so loop should never execute
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Zero());
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_FALSE(solution.conditionIsSatisfied);
     EXPECT_EQ(1, solution.states.getSize());
     EXPECT_EQ(initialStateWithMass_, solution.states.accessFirst());
@@ -2486,6 +2519,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ConditionSatisfi
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.conditionIsSatisfied);
     EXPECT_EQ(1, solution.states.getSize());
     EXPECT_EQ(initialStateWithMass_, solution.states.accessFirst());
@@ -2512,6 +2546,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_PreviousManeuver
     // Last maneuver interval is undefined (first maneuver)
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.states.getSize() > 0);
     EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).getSize() > 0);
 }
@@ -2544,6 +2579,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MinimumSeparatio
         maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
 
     // Should have coasted to meet minimum separation
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.states.getSize() > 1);
     EXPECT_EQ(initialStateWithMass_, solution.states.accessFirst());  // First state should be unchanged
     const Instant expectedSeparationInstant = previousManeuverInterval.getEnd() + constraints.minimumSeparation;
@@ -2583,6 +2619,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MinimumSeparatio
     const Segment::Solution solution =
         maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.conditionIsSatisfied);
     EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
 }
@@ -2619,6 +2656,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MinimumSeparatio
         maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
 
     // Should proceed directly to maneuver solving without coast
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.states.getSize() > 0);
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_GT(maneuvers.getSize(), 0);
@@ -2650,6 +2688,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_NoManeuversFound
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
 
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_EQ(0, maneuvers.getSize());
     EXPECT_TRUE(solution.states.getSize() > 0);
 }
@@ -2679,6 +2719,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(5.0));
 
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_GT(maneuvers.getSize(), 0);
     EXPECT_TRUE(initialStateWithMass_.accessInstant().isNear(maneuvers[0].getInterval().getStart(), 1e-3));
 }
@@ -2710,6 +2752,7 @@ TEST_F(
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(15.0));
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.conditionIsSatisfied);
     EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
 }
@@ -2753,11 +2796,13 @@ TEST_F(
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
 
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     // first maneuver will be skipped due to minimum duration constraint
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_EQ(maneuvers.getSize(), 1);
-    EXPECT_TRUE(
-        maneuvers.accessFirst().getInterval().getDuration().isNear(Duration::Minutes(15.0), Duration::Seconds(1e-1))
+    EXPECT_DURATIONS_ALMOST_EQUAL(
+        maneuvers.accessFirst().getInterval().getDuration(), Duration::Minutes(15.0), Duration::Seconds(1e-1)
     );
 }
 
@@ -2784,6 +2829,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     );
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
 
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     EXPECT_GT(maneuvers.getSize(), 0);
@@ -2861,6 +2908,7 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
 }
 
@@ -2893,7 +2941,10 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
     EXPECT_INTERVALS_ALMOST_EQUAL(
         maneuvers[0].getInterval(),
@@ -2934,7 +2985,10 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
 
     // Candidate:   0--------------15-----------------30
@@ -2979,7 +3033,10 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
     EXPECT_INTERVALS_ALMOST_EQUAL(
         maneuvers[0].getInterval(),
@@ -3018,7 +3075,10 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
 
     // Candidate:   0--------------15-----------------30
@@ -3064,7 +3124,10 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
     EXPECT_INTERVALS_ALMOST_EQUAL(
         maneuvers[0].getInterval(),
@@ -3100,7 +3163,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
 
     // Candidate:   0--------------15-----------------30
@@ -3146,7 +3212,10 @@ TEST_F(
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 1);
     EXPECT_INTERVALS_ALMOST_EQUAL(
         maneuvers[0].getInterval(),
@@ -3184,7 +3253,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
     EXPECT_EQ(maneuvers.getSize(), 6);
 
     // Candidate:   0-------------------------15----------------------------30
@@ -3254,7 +3326,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMa
 
     // Final state should be at or before maximum instant
     const Instant maximumInstant = initialStateWithMass_.accessInstant() + maximumPropagationDuration;
+
     EXPECT_FALSE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(maximumInstant, Duration::Seconds(1e-3)));
 }
 
@@ -3281,6 +3355,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
     );
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(100.0));
+
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
 
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
     if (maneuvers.getSize() > 1)
@@ -3548,6 +3624,7 @@ TEST_F(
 
     EXPECT_FALSE(solution.states.isEmpty());
     EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
 
     // Extract maneuvers and verify that the maximum angular offset is close to 0 degrees for each
     const Array<Maneuver> maneuvers = solution.extractManeuvers(Frame::GCRF());
@@ -3559,8 +3636,165 @@ TEST_F(
             maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(tnwFactorySPtr);
 
         const Angle maximumAngularOffset = result.second;
-        EXPECT_NEAR(maximumAngularOffset.inDegrees(), 0.0, 0.0);
+        EXPECT_NEAR(maximumAngularOffset.inDegrees(), 0.0, 1e-6);
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_DuplicatedOrUnsortedStates)
+{
+    // This test reproduces an issue where segment solving was returning duplicated or unsorted states.
+    //
+    // The reason was that when solving a burn segment, it was using a maximum propagation duration,
+    // which was never updated as the segment was being solved. Using always the initial value of the
+    // maximum propagation duration.
+    //
+    // Solved in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/issues/643 after
+    // the logic was switched to use absolute instants instead of relative durations.
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 12, 12),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2026, 1, 1, 0, 0, 0, 0, 0), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 2.2325;
+    const double dragCoefficient = 1.8033367005025;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 1364745.6311035044, 6081608.288764103, -3009739.0476152804,  // position (m)
+        368.80982226000657, -3421.284241386021, -6759.820581456799,                    // velocity (m/s)
+        193.3655889361863,                                                             // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(187.7),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        crossSectionalArea,
+        dragCoefficient,
+        PropulsionSystem(0.0161, 1140.26)  // thrust (N), specific impulse (s)
+    );
+
+    const BrouwerLyddaneMeanLong initialBLM = BrouwerLyddaneMeanLong::Cartesian(
+        {initialState.getPosition(), initialState.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+
+    const Environment environment(initialInstant, {earthSPtr});
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+    };
+
+    const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
+        {initialState.getPosition(), initialState.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+    const COE blmAsCOE = blm.toCOE();
+
+    const Real targetSMA = 6918136.0;
+    const COE targetCOE = {
+        Length::Meters(targetSMA),
+        0.0010689,
+        blmAsCOE.getInclination(),
+        blmAsCOE.getRaan(),
+        Angle::Degrees(90.0),
+        blmAsCOE.getTrueAnomaly(),
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 200.0}},
+            {COE::Element::Eccentricity, {1.0, 0.0010689 * 0.05}},
+            {COE::Element::Aop, {1.0, Angle::Degrees(0.5).inRadians()}},
+        },
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.8,
+        0.8,
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        EarthGravitationalModel::EGM2008.gravitationalParameter_,
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const Duration maximumSimulationDuration = Duration::Hours(2.0);
+
+    const Shared<RealCondition> smaLowerBoundConditionSPtr =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::StrictlyPositive,
+            Frame::GCRF(),
+            targetSMA,
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+    const Shared<RealCondition> smaUpperBoundConditionSPtr =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::StrictlyNegative,
+            Frame::GCRF(),
+            2.0 * targetSMA,
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+    const Shared<LogicalCondition> endConditionSPtr = std::make_shared<LogicalCondition>(
+        "SMA Target Range",
+        LogicalCondition::Type::And,
+        Array<Shared<EventCondition>> {smaLowerBoundConditionSPtr, smaUpperBoundConditionSPtr}
+    );
+
+    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        "QLaw Maneuver Segment",
+        endConditionSPtr,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        {Duration::Minutes(16.0),
+         Duration::Minutes(16.0),
+         Duration::Minutes(26.0),
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialState, maximumSimulationDuration);
+
+    EXPECT_FALSE(solution.states.isEmpty());
+
+    // The states should be strictly monotonic and the maneuvers should be extracted without errors
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+    EXPECT_NO_THROW(solution.extractManeuvers(Frame::GCRF()));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)

@@ -98,14 +98,21 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
     // Ensure that mass flow rate profile is expressed in strictly negative numbers
     if (std::any_of(
             states_.begin(),
-            states_.end(),
+            states_.end() - 1,
             [](const State& aState)
             {
                 return aState.extractCoordinate(RequiredCoordinateSubsets[3])[0] >= 0.0;
             }
         ))
     {
-        throw ostk::core::error::RuntimeError("Mass flow rate profile must have strictly negative values.");
+        throw ostk::core::error::RuntimeError(
+            "Mass flow rate profile must have strictly negative values (except the last state which may be zero)."
+        );
+    }
+
+    if (states_.accessLast().extractCoordinate(RequiredCoordinateSubsets[3])[0] > 0.0)
+    {
+        throw ostk::core::error::RuntimeError("Last state must have non-positive mass flow rate.");
     }
 }
 
@@ -335,6 +342,13 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
 
     for (const auto& thrustAccelerationInLof : thrustAccelerationsInLof)
     {
+        // Skip zero-acceleration states (e.g., the "off" state at the end of a maneuver)
+        // since we can't calculate an angle with a zero-norm vector
+        if (thrustAccelerationInLof.norm() == 0.0)
+        {
+            continue;
+        }
+
         const Angle offset = Angle::Between(thrustAccelerationInLof, meanThrustDirectionInLof);
         if (offset.inDegrees(0.0, 360.0) > maximumAngularOffset.inDegrees(0.0, 360.0))
         {

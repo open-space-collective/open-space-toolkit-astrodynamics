@@ -399,6 +399,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Extr
 
         const Sequence::Solution solution = sequence.solve(initialState, 2);
 
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
+
         const Array<Maneuver> maneuvers = solution.extractManeuvers(frameSPtr);
         EXPECT_EQ(maneuvers.getSize(), 0);
     }
@@ -453,6 +455,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution_Extr
         };
 
         const Sequence::Solution solution = sequence.solve(initialState, 2);
+
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
         const Array<Maneuver> extractedManeuvers = solution.extractManeuvers(frameSPtr);
         EXPECT_EQ(extractedManeuvers.getSize(), 3);
@@ -715,6 +719,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
     {
         const Sequence::Solution solution = defaultSequence_.solve(defaultState_, defaultRepetitionCount_);
 
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
+
         EXPECT_TRUE(
             solution.segmentSolutions.getSize() == defaultSequence_.getSegments().getSize() * defaultRepetitionCount_
         );
@@ -747,6 +753,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         EXPECT_FALSE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
     }
 }
 
@@ -769,6 +776,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
 
         EXPECT_TRUE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
     }
 
     // sequence failure, segment termination due to maximum propagation duration
@@ -789,6 +797,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
         EXPECT_FALSE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
     }
 
     // sequence failure, event condition not met
@@ -808,6 +817,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
             sequence.solveToCondition(defaultState_, eventCondition, Duration::Minutes(1.0));
 
         EXPECT_FALSE(solution.executionIsComplete);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
     }
 
     // sequence completion due to duration condition (Regression test)
@@ -835,6 +845,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
 
         EXPECT_TRUE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), 6);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
     }
 }
 
@@ -916,6 +927,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     const Sequence::Solution solution = sequence.solve(state, defaultRepetitionCount_);
 
     EXPECT_TRUE(solution.segmentSolutions.getSize() == 2 * defaultRepetitionCount_);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
     EXPECT_EQ(solution.accessStartInstant(), Instant::J2000());
     EXPECT_EQ(solution.accessEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
@@ -975,6 +987,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 
         EXPECT_TRUE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), reptitionCount);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
         COE initialCOE = COE::Cartesian(
             {defaultState_.getPosition(), defaultState_.getVelocity()},
@@ -1013,6 +1026,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 
         EXPECT_TRUE(solution.executionIsComplete);
         EXPECT_EQ(solution.segmentSolutions.getSize(), reptitionCount);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
         Size iter = 1;
         for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
@@ -1329,6 +1343,8 @@ TEST_P(
     EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getEnd().isNear(
         referenceInstant + Duration::Minutes(100.0), tolerance
     ));
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solutionUsingRepetitionCount.getStates());
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solutionUsingCondition.getStates());
 
     // Extract maneuvers from both solutions
     const Array<Maneuver> maneuversUsingRepetitionCount = solutionUsingRepetitionCount.extractManeuvers(Frame::GCRF());
@@ -1516,12 +1532,14 @@ TEST_F(
         EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getEnd().isNear(
             Instant::J2000() + Duration::Minutes(30.0), tolerance
         ));
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solutionUsingRepetitionCount.getStates());
 
         EXPECT_TRUE(solutionUsingCondition.executionIsComplete);
         EXPECT_TRUE(solutionUsingCondition.getInterval().getStart().isNear(Instant::J2000(), tolerance));
         EXPECT_TRUE(
             solutionUsingCondition.getInterval().getEnd().isNear(Instant::J2000() + Duration::Minutes(30.0), tolerance)
         );
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solutionUsingCondition.getStates());
 
         const Array<Maneuver> maneuversUsingRepetitionCount =
             solutionUsingRepetitionCount.extractManeuvers(Frame::GCRF());
@@ -1594,7 +1612,9 @@ TEST_F(
             maximumPropagationDuration,
         };
         const Sequence::Solution solutionUsingRepetitionCount = sequence.solve(initialState, 2);
+
         EXPECT_TRUE(solutionUsingRepetitionCount.executionIsComplete);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solutionUsingRepetitionCount.getStates());
         EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getStart().isNear(Instant::J2000(), tolerance));
         EXPECT_TRUE(solutionUsingRepetitionCount.getInterval().getEnd().isNear(
             Instant::J2000() + Duration::Minutes(30.0), tolerance

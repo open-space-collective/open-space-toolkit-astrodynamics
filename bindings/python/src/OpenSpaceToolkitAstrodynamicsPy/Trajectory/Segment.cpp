@@ -127,6 +127,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
+        .def(
+            init<
+                const String&,
+                const Array<Shared<Dynamics>>&,
+                const Array<State>&,
+                const bool&,
+                const Segment::Type&,
+                const Array<Interval>&>(),
+            arg("name"),
+            arg("dynamics"),
+            arg("states"),
+            arg("condition_is_satisfied"),
+            arg("segment_type"),
+            arg("maneuver_intervals"),
+            R"doc(
+                Construct a Segment Solution with maneuver intervals.
+
+                Args:
+                    name (str): The name of the segment.
+                    dynamics (list[Dynamics]): The dynamics.
+                    states (list[State]): The states.
+                    condition_is_satisfied (bool): Whether the event condition is satisfied.
+                    segment_type (Type): The type of the segment.
+                    maneuver_intervals (list[Interval]): The maneuver intervals (for maneuver segments).
+
+            )doc"
+        )
 
         .def("__str__", &(shiftToString<Segment::Solution>))
         .def("__repr__", &(shiftToString<Segment::Solution>))
@@ -174,6 +201,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 The type of the segment.
 
                 :type: Type
+            )doc"
+        )
+        .def_readonly(
+            "maneuver_intervals",
+            &Segment::Solution::maneuverIntervals,
+            R"doc(
+                The maneuver intervals (for maneuver segments).
+
+                :type: list[Interval]
             )doc"
         )
 
