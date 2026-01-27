@@ -425,27 +425,89 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, AERIntervalIsS
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, AERMaskIsSatisfied)
+struct AERMaskIsSatisfiedTestCase
 {
+    Angle azimuth;
+    Angle elevation;
+    Length range;
+    bool expectedResult;
+
+    friend std::ostream& operator<<(std::ostream& os, const AERMaskIsSatisfiedTestCase& testCase)
     {
-        Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {45.0, 15.0}, {90.0, 20.0}};
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        os << "{ "
+           << "Azimuth: " << testCase.azimuth.toString() << ", "
+           << "Elevation: " << testCase.elevation.toString() << ", "
+           << "Range: " << testCase.range.toString() << ", "
+           << "Expected: " << (testCase.expectedResult ? "True" : "False") << " }";
+        return os;
+    }
+};
 
-        const VisibilityCriterion visibilityCriterion =
-            VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
+class OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisfied
+    : public OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion,
+      public ::testing::WithParamInterface<AERMaskIsSatisfiedTestCase>
+{
+};
 
-        const auto aerMask = visibilityCriterion.as<VisibilityCriterion::AERMask>();
-        ASSERT_TRUE(aerMask.has_value());
+TEST_P(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisfied, Test)
+{
+    const auto& param = GetParam();
 
-        AER aer(Angle::Degrees(22.5), Angle::Degrees(20.0), Length::Meters(500e3));
+    const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {45.0, 15.0}, {90.0, 20.0}};
+    const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
-        EXPECT_TRUE(aerMask.value().isSatisfied(aer));
+    const VisibilityCriterion visibilityCriterion =
+        VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
 
-        AER aerOutside(Angle::Degrees(22.5), Angle::Degrees(5.0), Length::Meters(500e3));
+    const auto aerMask = visibilityCriterion.as<VisibilityCriterion::AERMask>();
+    ASSERT_TRUE(aerMask.has_value());
 
-        EXPECT_FALSE(aerMask.value().isSatisfied(aerOutside));
+    EXPECT_EQ(
+        aerMask.value().isSatisfied(param.azimuth.inRadians(), param.elevation.inRadians(), param.range.inMeters()),
+        param.expectedResult
+    );
+
+    if (std::abs(param.elevation.inDegrees()) <= 90.0 && param.azimuth.inDegrees() <= 360.0)
+    {
+        const AER aer(param.azimuth, param.elevation, param.range);
+        EXPECT_EQ(aerMask.value().isSatisfied(aer), param.expectedResult);
     }
 }
+
+INSTANTIATE_TEST_SUITE_P(
+    AERMaskIsSatisfied,
+    OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisfied,
+    ::testing::Values(
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(22.5), Angle::Degrees(20.0), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.0), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.1), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(360.0), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(360.1), Angle::Degrees(10.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(360.1), Angle::Degrees(91.0), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {
+            Angle::Degrees(360.0 * (1.0 - std::numeric_limits<double>::epsilon())),
+            Angle::Degrees(10.1),
+            Length::Meters(500e3),
+            true
+        },
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(45.0), Angle::Degrees(15.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.0), Angle::Degrees(20.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(89.9), Angle::Degrees(20.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.1), Angle::Degrees(20.1), Length::Meters(500e3), true},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(22.5), Angle::Degrees(12.4), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.0), Angle::Degrees(9.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(0.1), Angle::Degrees(9.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {
+            Angle::Degrees(360.0 * (1.0 - std::numeric_limits<double>::epsilon())),
+            Angle::Degrees(9.9),
+            Length::Meters(500e3),
+            false
+        },
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.0), Angle::Degrees(19.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(89.9), Angle::Degrees(19.9), Length::Meters(500e3), false},
+        AERMaskIsSatisfiedTestCase {Angle::Degrees(90.1), Angle::Degrees(19.9), Length::Meters(500e3), false}
+    )
+);
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, LineOfSightIsSatisfied)
 {
