@@ -853,7 +853,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 
     const NumericalSolver defaultHighPrecisionNumericalSolver_ = {
         NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
         5.0,
         1.0e-12,
         1.0e-12,
@@ -3246,11 +3246,6 @@ TEST_F(
         ),
     };
 
-    for (const Interval& interval : guidanceLawIntervals)
-    {
-        std::cout << "guidanceLawInterval: " << interval.toString() << std::endl;
-    }
-
     const Shared<Thruster> customThrusterDynamics =
         std::make_shared<Thruster>(defaultSatelliteSystem_,
         std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
@@ -3261,7 +3256,7 @@ TEST_F(
         customThrusterDynamics,
         defaultDynamics_,
         defaultHighPrecisionNumericalSolver_,  // Have to use high precision numerical solver to get a precise
-        duration constraints
+        constraints
     );
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
@@ -3304,7 +3299,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     EXPECT_GT(maneuvers.getSize(), 0);
     for (const Maneuver& maneuver : maneuvers)
     {
-        std::cout << "TEST MANEUVER: " << maneuver.getInterval().toString() << std::endl;
         EXPECT_LE(maneuver.getInterval().getDuration(), constraints.maximumDuration);
     }
 }
