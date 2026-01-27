@@ -23,6 +23,8 @@
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -38,8 +40,11 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -89,6 +94,8 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::environment::object::celestial::Moon;
+using ostk::physics::environment::object::celestial::Sun;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -104,8 +111,11 @@ using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::EventCondition;
+using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -3628,6 +3638,163 @@ TEST_F(
         const Angle maximumAngularOffset = result.second;
         EXPECT_NEAR(maximumAngularOffset.inDegrees(), 0.0, 1e-6);
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_DuplicatedOrUnsortedStates)
+{
+    // This test reproduces an issue where segment solving was returning duplicated or unsorted states.
+    //
+    // The reason was that when solving a burn segment, it was using a maximum propagation duration,
+    // which was never updated as the segment was being solved. Using always the initial value of the
+    // maximum propagation duration.
+    //
+    // Solved in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/issues/643 after
+    // the logic was switched to use absolute instants instead of relative durations.
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 12, 12),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2026, 1, 1, 0, 0, 0, 0, 0), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 2.2325;
+    const double dragCoefficient = 1.8033367005025;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 1364745.6311035044, 6081608.288764103, -3009739.0476152804,  // position (m)
+        368.80982226000657, -3421.284241386021, -6759.820581456799,                    // velocity (m/s)
+        193.3655889361863,                                                             // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(187.7),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        crossSectionalArea,
+        dragCoefficient,
+        PropulsionSystem(0.0161, 1140.26)  // thrust (N), specific impulse (s)
+    );
+
+    const BrouwerLyddaneMeanLong initialBLM = BrouwerLyddaneMeanLong::Cartesian(
+        {initialState.getPosition(), initialState.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+
+    const Environment environment(initialInstant, {earthSPtr});
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+    };
+
+    const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
+        {initialState.getPosition(), initialState.getVelocity()},
+        EarthGravitationalModel::EGM2008.gravitationalParameter_
+    );
+    const COE blmAsCOE = blm.toCOE();
+
+    const Real targetSMA = 6918136.0;
+    const COE targetCOE = {
+        Length::Meters(targetSMA),
+        0.0010689,
+        blmAsCOE.getInclination(),
+        blmAsCOE.getRaan(),
+        Angle::Degrees(90.0),
+        blmAsCOE.getTrueAnomaly(),
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 200.0}},
+            {COE::Element::Eccentricity, {1.0, 0.0010689 * 0.05}},
+            {COE::Element::Aop, {1.0, Angle::Degrees(0.5).inRadians()}},
+        },
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.8,
+        0.8,
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        EarthGravitationalModel::EGM2008.gravitationalParameter_,
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const Duration maximumSimulationDuration = Duration::Hours(2.0);
+
+    const Shared<RealCondition> smaLowerBoundConditionSPtr =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::StrictlyPositive,
+            Frame::GCRF(),
+            targetSMA,
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+    const Shared<RealCondition> smaUpperBoundConditionSPtr =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::StrictlyNegative,
+            Frame::GCRF(),
+            2.0 * targetSMA,
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+    const Shared<LogicalCondition> endConditionSPtr = std::make_shared<LogicalCondition>(
+        "SMA Target Range",
+        LogicalCondition::Type::And,
+        Array<Shared<EventCondition>> {smaLowerBoundConditionSPtr, smaUpperBoundConditionSPtr}
+    );
+
+    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        "QLaw Maneuver Segment",
+        endConditionSPtr,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        {Duration::Minutes(16.0),
+         Duration::Minutes(16.0),
+         Duration::Minutes(26.0),
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    const Segment::Solution solution = maneuverSegment.solve(initialState, maximumSimulationDuration);
+
+    EXPECT_FALSE(solution.states.isEmpty());
+
+    // The states should be strictly monotonic and the maneuvers should be extracted without errors
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+    EXPECT_NO_THROW(solution.extractManeuvers(Frame::GCRF()));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)
