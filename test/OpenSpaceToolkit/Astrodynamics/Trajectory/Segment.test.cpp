@@ -3797,6 +3797,124 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     EXPECT_NO_THROW(solution.extractManeuvers(Frame::GCRF()));
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_NonStrictlyNegativeMassFlowRate)
+{
+    // This test reproduces an issue where the mass flow rate was not strictly negative in the maneuver.
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 0, 0),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2025, 1, 1, 0, 0, 0, 0, 0), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 2.5;
+    const double dragCoefficient = 2.2;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 6878137.0, 0.0, 0.0,  // position (m)
+        0.0, 0.0, 7612.608173223869,            // velocity (m/s)
+        200.0,                                  // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(180.0),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        0.0,                             // crossSectionalArea (not used in Python's propulsion system)
+        0.0,                             // dragCoefficient (not used in Python's propulsion system)
+        PropulsionSystem(0.017, 1244.0)  // thrust (N), specific impulse (s)
+    );
+
+    const Environment environment(earthSPtr, {std::make_shared<Sun>(Sun::Default())}, initialInstant);
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        10.0,
+        1.0e-12,
+        1.0e-12,
+    };
+
+    const COE targetCOE = {
+        Length::Meters(10.0e10),
+        0.0,                    // eccentricity
+        Angle::Degrees(70.5),   // inclination (middle of 70-71 deg range)
+        Angle::Degrees(170.5),  // RAAN (middle of 170-171 deg range)
+        Angle::Degrees(0.0),    // AoP
+        Angle::Degrees(0.0),    // true anomaly
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 500.0}},
+            {COE::Element::Inclination, {1.0, Angle::Degrees(1.0).inRadians()}},
+            {COE::Element::Raan, {1.0, Angle::Degrees(1.0).inRadians()}},
+        },
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.8,                         // relativeEffectivityThreshold
+        0.8,                         // absoluteEffectivityThreshold
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        earthSPtr->getGravitationalParameter(),
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const Duration maximumSimulationDuration = Duration::Hours(2.0);
+
+    const Shared<InstantCondition> endConditionSPtr = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::PositiveCrossing, initialInstant + maximumSimulationDuration
+    );
+
+    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+
+    const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+        "QLaw Maneuver Segment",
+        endConditionSPtr,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        tnwFactorySPtr,
+        Angle::Undefined(),
+        {Duration::Minutes(10.0),
+         Duration::Minutes(60.0),
+         Duration::Minutes(15.0),
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    EXPECT_NO_THROW(maneuverSegment.solve(initialState, maximumSimulationDuration));
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)
 {
     {
