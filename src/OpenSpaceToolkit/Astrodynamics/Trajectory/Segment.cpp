@@ -522,11 +522,13 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     for (Index stateIndex = 0; stateIndex < numberOfstates; ++stateIndex)
     {
         const State& state = this->states[stateIndex];
-
+        
         VectorXd dynamicsContributionAtState = aDynamicsSPtr->computeContribution(
             state.getInstant(), builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates(), aFrameSPtr
         );
-
+        
+        std::cout << "State coordinates: " << builder.reduce(state.inFrame(aFrameSPtr)).getCoordinates().transpose() << std::endl;
+        std::cout << "Dynamics contribution at state " << state.getInstant().toString() << " is " << dynamicsContributionAtState.transpose() << std::endl;
         dynamicsContributionMatrix.row(stateIndex) = dynamicsContributionAtState;
     }
 
@@ -812,7 +814,11 @@ Segment::Solution Segment::solve(
             return {maneuverSolution, std::nullopt};
         }
 
+        std::cout << "Extracting maneuvers from " << std::endl;
+        std::cout << maneuverSolution.states.accessFirst().getInstant().toString() << std::endl;
+        std::cout << maneuverSolution.states.accessLast().getInstant().toString() << std::endl;
         const Array<FlightManeuver> maneuvers = maneuverSolution.extractManeuvers(aState.accessFrame());
+        std::cout << "Extracted." << std::endl;
 
         if (maneuvers.isEmpty())
         {
@@ -1283,7 +1289,9 @@ Segment::Solution Segment::solveUntilThrusterOff_(
 ) const
 {
     const Shared<RealCondition> thrusterToggleCondition = getThrusterToggleCondition_(thrusterDynamics, false);
-
+    
+    std::cout << "Thruster off at initial state " << aState.getInstant().toString() << " is " << thrusterToggleCondition->getEvaluator()(aState) << std::endl;
+    std::cout << "Initial state coordinates: " << aState.getCoordinates().transpose() << std::endl;
     // Combine free dynamics and thruster dynamics into a single array
     Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_;
     dynamicsArray.add(thrusterDynamics);
@@ -1333,22 +1341,20 @@ Segment::Solution Segment::solveManeuverForInterval_(
     const State& aState, const Shared<Thruster>& thrusterDynamics, const Interval& validManeuverInterval
 ) const
 {
-    Array<State> states = Array<State>::Empty();
-
+    
     // Coast until the start of the maneuver to ensure we begin solving the maneuver at the exact start instant
-    const Array<State> coastStates =
+    Array<State> states =
         propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
-    states.add(std::move(coastStates));
-
+    
     const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
 
     // Solve the maneuver for just the defined interval
-    const State lastState = coastStates.isEmpty() ? aState : coastStates.accessLast();
+    const State lastState = states.isEmpty() ? aState : states.accessLast();
     const Array<State> maneuverStates =
         propagateWithDynamics_(lastState, validManeuverInterval.getEnd(), dynamicsArray);
 
     // Skip the first maneuver state if we have coast states (it duplicates the last coast state)
-    const auto maneuverStartIter = coastStates.isEmpty() ? maneuverStates.begin() : maneuverStates.begin() + 1;
+    const auto maneuverStartIter = states.isEmpty() ? maneuverStates.begin() : maneuverStates.begin() + 1;
     states.add(Array<State>(maneuverStartIter, maneuverStates.end()));
 
     return {
