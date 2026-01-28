@@ -788,8 +788,24 @@ Segment::Solution Segment::solve(
         // function will append them a second time.
         segmentStates.add(Array<State>(coastSolution.states.begin() + 1, coastSolution.states.end()));
 
+        Instant maximumManeuverSolutionInstant = maximumInstant;
+
+        if (maneuverConstraints_.maximumDuration.isDefined() &&
+            maneuverConstraints_.maximumDurationStrategy == MaximumManeuverDurationViolationStrategy::Chunk)
+        {
+            // Performance when considering a maximum maneuver duration constraint for the "Chunk" strategy
+            // can be optimized by eliminating redundant solver iterations and unnecessary trimming.
+            //
+            // Since the "Chunk" strategy does not need to know when the burn is going to end, we can safely
+            // assume that the burn (or chunk for that matter) should not take longer than said maximum duration.
+            maximumManeuverSolutionInstant = std::min(
+                segmentStates.accessLast().accessInstant() + maneuverConstraints_.maximumDuration,
+                maximumManeuverSolutionInstant
+            );
+        }
+
         const Segment::Solution maneuverSolution =
-            solveUntilThrusterOff_(segmentStates.accessLast(), maximumInstant, thrusterDynamics);
+            solveUntilThrusterOff_(segmentStates.accessLast(), maximumManeuverSolutionInstant, thrusterDynamics);
 
         if (maneuverSolution.states.getSize() <= 2)
         {
