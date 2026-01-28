@@ -793,8 +793,11 @@ Segment::Solution Segment::solve(
         if (maneuverConstraints_.maximumDuration.isDefined() &&
             maneuverConstraints_.maximumDurationStrategy == MaximumManeuverDurationViolationStrategy::Chunk)
         {
-            // Since we know that the burn is about to start, we can foresee the maximum maneuver solution
-            // instant the Chunk strategy. This prevents unnecessary solving and trimming, improving performance.
+            // Performance when considering a maximum maneuver duration constraint for the "Chunk" strategy
+            // can be optimized by eliminating redundant solver iterations and unnecessary trimming.
+            //
+            // Since the "Chunk" strategy does not need to know when the burn is going to end, we can safely
+            // assume that the burn (or chunk for that matter) should not take longer than said maximum duration.
             maximumManeuverSolutionInstant = std::min(
                 segmentStates.accessLast().accessInstant() + maneuverConstraints_.maximumDuration,
                 maximumManeuverSolutionInstant
