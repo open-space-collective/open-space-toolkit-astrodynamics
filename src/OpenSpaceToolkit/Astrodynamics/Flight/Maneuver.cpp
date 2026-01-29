@@ -87,6 +87,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
     // - Remove all leading zero mass flow rate states
     // - Allow a single trailing zero mass flow rate state
     Array<State> sanitizedStates = Array<State>::Empty();
+    Duration largestInterval = Duration::Zero();
     bool maneuverStartFound = false;
     bool maneuverEndFound = false;
 
@@ -112,6 +113,11 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
             }
 
             maneuverStartFound = true;
+            if (!sanitizedStates.isEmpty())
+            {
+                largestInterval =
+                    std::max(largestInterval, state.accessInstant() - sanitizedStates.accessLast().accessInstant());
+            }
             sanitizedStates.add(state);
             continue;
         }
@@ -128,6 +134,11 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
         if (!maneuverEndFound)
         {
             maneuverEndFound = true;
+            if (!sanitizedStates.isEmpty())
+            {
+                largestInterval =
+                    std::max(largestInterval, state.accessInstant() - sanitizedStates.accessLast().accessInstant());
+            }
             sanitizedStates.add(state);
             continue;
         }
@@ -139,13 +150,6 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
     }
 
     // Check the largest interval between states is within the recommended limits
-    Duration largestInterval = Duration::Zero();
-    for (Size k = 0; k < sanitizedStates.getSize() - 1; ++k)
-    {
-        largestInterval =
-            std::max(largestInterval, sanitizedStates[k + 1].accessInstant() - sanitizedStates[k].accessInstant());
-    }
-
     if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
     {
         std::cout << "WARNING: Some intervals between the instants defined for this Maneuver are larger than the "
