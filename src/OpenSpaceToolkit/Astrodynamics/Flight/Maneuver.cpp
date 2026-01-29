@@ -105,20 +105,6 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
             }
         ))
     {
-
-        for (const State& state : states_)
-        {
-            const Instant& instant = state.accessInstant();
-            const Real acceleration = state.extractCoordinate(RequiredCoordinateSubsets[2])[0];       // Acceleration
-            const Real massFlowRate = state.extractCoordinate(RequiredCoordinateSubsets[3])[0];       // Mass flow rate
-
-            std::cout << "Maneuver State: "
-                      << "Instant = " << instant.toString() 
-                      << ", Acceleration = " << acceleration 
-                      << ", Mass Flow Rate = " << massFlowRate 
-                      << std::endl;
-        }
-
         throw ostk::core::error::RuntimeError(
             "Mass flow rate profile must have strictly negative values (except the last state which may be zero)."
         );
