@@ -2075,55 +2075,51 @@
 <codeline lineno="1333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>validManeuverInterval</highlight></codeline>
 <codeline lineno="1334"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="1335"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1336"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>Array&lt;State&gt;::Empty();</highlight></codeline>
-<codeline lineno="1337"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coast<sp/>until<sp/>the<sp/>start<sp/>of<sp/>the<sp/>maneuver<sp/>to<sp/>ensure<sp/>we<sp/>begin<sp/>solving<sp/>the<sp/>maneuver<sp/>at<sp/>the<sp/>exact<sp/>start<sp/>instant</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>coastStates<sp/>=</highlight></codeline>
-<codeline lineno="1340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagateWithDynamics_(aState,<sp/>validManeuverInterval.getStart(),<sp/>freeDynamicsArray_);</highlight></codeline>
-<codeline lineno="1341"><highlight class="normal"><sp/><sp/><sp/><sp/>states.add(std::move(coastStates));</highlight></codeline>
-<codeline lineno="1342"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>dynamicsArray<sp/>=<sp/>freeDynamicsArray_<sp/>+<sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>{thrusterDynamics};</highlight></codeline>
-<codeline lineno="1344"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>maneuver<sp/>for<sp/>just<sp/>the<sp/>defined<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>lastState<sp/>=<sp/>coastStates.isEmpty()<sp/>?<sp/>aState<sp/>:<sp/>coastStates.accessLast();</highlight></codeline>
-<codeline lineno="1347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>maneuverStates<sp/>=</highlight></codeline>
-<codeline lineno="1348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagateWithDynamics_(lastState,<sp/>validManeuverInterval.getEnd(),<sp/>dynamicsArray);</highlight></codeline>
+<codeline lineno="1336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coast<sp/>until<sp/>the<sp/>start<sp/>of<sp/>the<sp/>maneuver<sp/>to<sp/>ensure<sp/>we<sp/>begin<sp/>solving<sp/>the<sp/>maneuver<sp/>at<sp/>the<sp/>exact<sp/>start<sp/>instant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1337"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>propagateWithDynamics_(aState,<sp/>validManeuverInterval.getStart(),<sp/>freeDynamicsArray_);</highlight></codeline>
+<codeline lineno="1338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>dynamicsArray<sp/>=<sp/>freeDynamicsArray_<sp/>+<sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>{thrusterDynamics};</highlight></codeline>
+<codeline lineno="1340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>maneuver<sp/>for<sp/>just<sp/>the<sp/>defined<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>lastState<sp/>=<sp/>states.isEmpty()<sp/>?<sp/>aState<sp/>:<sp/>states.accessLast();</highlight></codeline>
+<codeline lineno="1343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>maneuverStates<sp/>=</highlight></codeline>
+<codeline lineno="1344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagateWithDynamics_(lastState,<sp/>validManeuverInterval.getEnd(),<sp/>dynamicsArray);</highlight></codeline>
+<codeline lineno="1345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>the<sp/>first<sp/>maneuver<sp/>state<sp/>if<sp/>we<sp/>have<sp/>coast<sp/>states<sp/>(it<sp/>duplicates<sp/>the<sp/>last<sp/>coast<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>maneuverStartIter<sp/>=<sp/>states.isEmpty()<sp/>?<sp/>maneuverStates.begin()<sp/>:<sp/>maneuverStates.begin()<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="1348"><highlight class="normal"><sp/><sp/><sp/><sp/>states.add(Array&lt;State&gt;(maneuverStartIter,<sp/>maneuverStates.end()));</highlight></codeline>
 <codeline lineno="1349"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>the<sp/>first<sp/>maneuver<sp/>state<sp/>if<sp/>we<sp/>have<sp/>coast<sp/>states<sp/>(it<sp/>duplicates<sp/>the<sp/>last<sp/>coast<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>maneuverStartIter<sp/>=<sp/>coastStates.isEmpty()<sp/>?<sp/>maneuverStates.begin()<sp/>:<sp/>maneuverStates.begin()<sp/>+<sp/>1;</highlight></codeline>
-<codeline lineno="1352"><highlight class="normal"><sp/><sp/><sp/><sp/>states.add(Array&lt;State&gt;(maneuverStartIter,<sp/>maneuverStates.end()));</highlight></codeline>
-<codeline lineno="1353"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="1355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
-<codeline lineno="1356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsArray,</highlight></codeline>
-<codeline lineno="1357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
-<codeline lineno="1358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reEvaluateEventCondition_(aState,<sp/>states),</highlight></codeline>
-<codeline lineno="1359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>,</highlight></codeline>
-<codeline lineno="1360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>{validManeuverInterval}</highlight></codeline>
-<codeline lineno="1361"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1362"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1363"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1364"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Segment::reEvaluateEventCondition_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1365"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>&gt;<sp/>1)</highlight></codeline>
-<codeline lineno="1367"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
-<codeline lineno="1369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>secondToLastState<sp/>=<sp/>aStateArray[aStateArray.getSize()<sp/>-<sp/>2];</highlight></codeline>
-<codeline lineno="1370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>secondToLastState);</highlight></codeline>
-<codeline lineno="1371"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1372"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>==<sp/>1)</highlight></codeline>
-<codeline lineno="1374"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
-<codeline lineno="1376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>aState);</highlight></codeline>
-<codeline lineno="1377"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1378"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(aState,<sp/>aState);</highlight></codeline>
-<codeline lineno="1380"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1381"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1382"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1383"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1384"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="1351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
+<codeline lineno="1352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsArray,</highlight></codeline>
+<codeline lineno="1353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
+<codeline lineno="1354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reEvaluateEventCondition_(aState,<sp/>states),</highlight></codeline>
+<codeline lineno="1355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>,</highlight></codeline>
+<codeline lineno="1356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>{validManeuverInterval}</highlight></codeline>
+<codeline lineno="1357"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1360"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Segment::reEvaluateEventCondition_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1361"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>&gt;<sp/>1)</highlight></codeline>
+<codeline lineno="1363"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
+<codeline lineno="1365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>secondToLastState<sp/>=<sp/>aStateArray[aStateArray.getSize()<sp/>-<sp/>2];</highlight></codeline>
+<codeline lineno="1366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>secondToLastState);</highlight></codeline>
+<codeline lineno="1367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>==<sp/>1)</highlight></codeline>
+<codeline lineno="1370"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
+<codeline lineno="1372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>aState);</highlight></codeline>
+<codeline lineno="1373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(aState,<sp/>aState);</highlight></codeline>
+<codeline lineno="1376"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1378"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1379"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1380"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp"/>
   </compounddef>
