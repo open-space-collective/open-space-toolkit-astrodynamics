@@ -104,6 +104,75 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         EXPECT_NO_THROW(Maneuver {defaultStates_});
     }
 
+    // No states provided
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver {{}};
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("No states provided.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Unsorted states
+    {
+        const Array<State> unsortedStates = {
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
+            stateGenerator(Instant::J2000()),
+            stateGenerator(Instant::J2000() + Duration::Seconds(7.0)),
+            stateGenerator(Instant::J2000() + Duration::Seconds(5.0)),
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver {unsortedStates};
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(e.getMessage().find("Unsorted or Duplicate State Array"), std::string::npos);
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Duplicate states
+    {
+        const Array<State> sortedButDuplicateStates = {
+            stateGenerator(Instant::J2000()),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
+            stateGenerator(Instant::J2000() + Duration::Seconds(5.0)),
+        };
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Maneuver {sortedButDuplicateStates};
+                }
+                catch (const ostk::core::error::runtime::Wrong& e)
+                {
+                    EXPECT_NE(e.getMessage().find("Unsorted or Duplicate State Array"), std::string::npos);
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Missing coordinate subsets
     {
         const Array<State> statesWithoutAcceleration = {
             stateGenerator(Instant::J2000()),
@@ -125,7 +194,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("THRUST_ACCELERATION not found in states.", e.getMessage());
+                    EXPECT_NE(
+                        e.getMessage().find("Coordinate Subset THRUST_ACCELERATION not found"), std::string::npos
+                    );
                     throw;
                 }
             },
@@ -133,28 +204,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
-    // Mass flow rate profile with 0.0 last value
+    // Positive mass flow rate
     {
-        Array<State> statesWithIncorrectMassFlowRateProfile = {
-            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
+        const Array<State> statesWithPositiveMassFlowRate = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, 1.0e-5),
             stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
             stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, 0.0)
         };
 
-        EXPECT_NO_THROW(Maneuver {statesWithIncorrectMassFlowRateProfile});
-    }
-
-    {
         EXPECT_THROW(
             {
                 try
                 {
-                    Maneuver {{}};
+                    Maneuver {statesWithPositiveMassFlowRate};
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("No states provided.", e.getMessage());
+                    EXPECT_EQ("Positive mass flow rate at index 0.", e.getMessage());
                     throw;
                 }
             },
@@ -162,76 +228,160 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         );
     }
 
-    // Unsorted instant array
+    // Intermediate zero mass flow rate
     {
-        const Array<State> unorderedStates = {
-            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
-            stateGenerator(Instant::J2000()),
-            stateGenerator(Instant::J2000() + Duration::Seconds(7.0)),
-            stateGenerator(Instant::J2000() + Duration::Seconds(5.0)),
+        const Array<State> statesWithIntermediateZeroMassFlowRate = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(4.0), {0.0, 0.0, 1.0}, -1.0e-5),
         };
 
         EXPECT_THROW(
             {
                 try
                 {
-                    Maneuver {unorderedStates};
+                    Maneuver {statesWithIntermediateZeroMassFlowRate};
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Unsorted or Duplicate State Array} is wrong.", e.getMessage());
+                    EXPECT_EQ("Negative mass flow rate at index 3 after a zero mass flow rate.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
-    // Only two states, but are duplicates
+    // Intermediate zero mass flow rate (with leading zeross)
     {
-        const Array<State> duplicateStates_ = {
-            stateGenerator(Instant::J2000()),
-            stateGenerator(Instant::J2000()),
+        const Array<State> statesWithIntermediateZeroMassFlowRateWithLeadingZeros = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 0.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(4.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(5.0), {0.0, 0.0, 1.0}, -1.0e-5),
         };
 
         EXPECT_THROW(
             {
                 try
                 {
-                    Maneuver {duplicateStates_};
+                    Maneuver {statesWithIntermediateZeroMassFlowRateWithLeadingZeros};
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Unsorted or Duplicate State Array} is wrong.", e.getMessage());
+                    EXPECT_EQ("Negative mass flow rate at index 4 after a zero mass flow rate.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
-    // State array with duplicates
+    // No states left after sanitization
     {
-        const Array<State> duplicateStates_ = {
-            stateGenerator(Instant::J2000()),
-            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
-            stateGenerator(Instant::J2000() + Duration::Seconds(1.0)),
-            stateGenerator(Instant::J2000() + Duration::Seconds(5.0)),
+        const Array<State> allZeroMassFlowRateStates = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 0.0}, 0.0),
         };
 
         EXPECT_THROW(
             {
                 try
                 {
-                    Maneuver {duplicateStates_};
+                    Maneuver {allZeroMassFlowRateStates};
                 }
-                catch (const ostk::core::error::runtime::Wrong& e)
+                catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ("{Unsorted or Duplicate State Array} is wrong.", e.getMessage());
+                    EXPECT_EQ("No states left after sanitization.", e.getMessage());
                     throw;
                 }
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Leading zero mass flow rate states
+    {
+        Array<State> statesWithLeadingZeroMassFlowRate = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(4.0), {0.0, 0.0, 1.0}, -1.0e-5),
+        };
+
+        const Maneuver maneuver = Maneuver {statesWithLeadingZeroMassFlowRate};
+        EXPECT_EQ(maneuver.getStates().getSize(), 3);
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuver.getInterval(),
+            Interval::Closed(Instant::J2000() + Duration::Seconds(2.0), Instant::J2000() + Duration::Seconds(4.0)),
+            Duration::Zero()
+        );
+    }
+
+    // Trailing zero mass flow rate states
+    {
+        Array<State> statesWithTrailingZeroMassFlowRate = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(4.0), {0.0, 0.0, 0.0}, 0.0),
+        };
+
+        const Maneuver maneuver = Maneuver {statesWithTrailingZeroMassFlowRate};
+        EXPECT_EQ(maneuver.getStates().getSize(), 4);
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuver.getInterval(),
+            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Seconds(3.0)),
+            Duration::Zero()
+        );
+    }
+
+    // Maneuver with leading and trailing zero mass flow rate states
+    {
+        Array<State> statesWithLeadingAndTrailingZeroMassFlowRate = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(4.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(5.0), {0.0, 0.0, 0.0}, 0.0),
+            stateGenerator(Instant::J2000() + Duration::Seconds(6.0), {0.0, 0.0, 0.0}, 0.0),
+        };
+
+        const Maneuver maneuver = Maneuver {statesWithLeadingAndTrailingZeroMassFlowRate};
+        EXPECT_EQ(maneuver.getStates().getSize(), 4);
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuver.getInterval(),
+            Interval::Closed(Instant::J2000() + Duration::Seconds(2.0), Instant::J2000() + Duration::Seconds(5.0)),
+            Duration::Zero()
+        );
+    }
+
+    // Maneuver with no leading and no trailing zero mass flow rate states
+    {
+        Array<State> statesWithNoLeadingAndNoTrailingZeroMassFlowRate = {
+            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(4.0), {0.0, 0.0, 1.0}, -1.0e-5),
+            stateGenerator(Instant::J2000() + Duration::Seconds(5.0), {0.0, 0.0, 1.0}, -1.0e-5),
+        };
+
+        const Maneuver maneuver = Maneuver {statesWithNoLeadingAndNoTrailingZeroMassFlowRate};
+        EXPECT_EQ(maneuver.getStates().getSize(), 6);
+        EXPECT_INTERVALS_ALMOST_EQUAL(
+            maneuver.getInterval(),
+            Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Seconds(5.0)),
+            Duration::Zero()
         );
     }
 
@@ -261,60 +411,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         testing::internal::CaptureStdout();
         Maneuver {shortStates};
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-
-    // Mass flow rate profile with zero or positive mass flow rates
-    {
-        Array<State> statesWithIncorrectMassFlowRateProfile = {
-            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, 1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, -1.0e-5)
-        };
-
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Maneuver {statesWithIncorrectMassFlowRateProfile};
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ(
-                        "Mass flow rate profile must have strictly negative values (except the last state which may be "
-                        "zero).",
-                        e.getMessage()
-                    );
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-
-    // Last state has positive mass flow rate
-    {
-        Array<State> statesWithIncorrectMassFlowRateProfile = {
-            stateGenerator(Instant::J2000(), {0.0, 0.0, 1.0}, -1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(1.0), {0.0, 0.0, 1.0}, -1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(2.0), {0.0, 0.0, 1.0}, -1.0e-5),
-            stateGenerator(Instant::J2000() + Duration::Seconds(3.0), {0.0, 0.0, 1.0}, 1.0e-5)
-        };
-
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Maneuver {statesWithIncorrectMassFlowRateProfile};
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Last state must have non-positive mass flow rate.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
     }
 }
 

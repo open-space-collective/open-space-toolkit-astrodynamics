@@ -42,41 +42,108 @@ const Array<Shared<const CoordinateSubset>> Maneuver::RequiredCoordinateSubsets 
 const Shared<const CoordinateSubset> Maneuver::DefaultAccelerationCoordinateSubsetSPtr = RequiredCoordinateSubsets[2];
 
 Maneuver::Maneuver(const Array<State>& aStateArray)
-    : states_(aStateArray)
 {
-    // Sanitize the inputs
-    if (this->states_.isEmpty())
+    if (aStateArray.isEmpty())
     {
         throw ostk::core::error::RuntimeError("No states provided.");
     }
 
-    for (const auto& coordinateSubset : RequiredCoordinateSubsets)
+    // Check if the states are sorted and contain all required coordinate subsets
+    for (Size k = 0; k < aStateArray.getSize(); ++k)
     {
-        if (!std::all_of(
-                states_.begin(),
-                states_.end(),
-                [&coordinateSubset](const State& aState)
-                {
-                    return aState.hasSubset(coordinateSubset);
-                }
-            ))
+        const State& state = aStateArray[k];
+
+        if (k < aStateArray.getSize() - 1)
         {
-            throw ostk::core::error::RuntimeError(String::Format("{} not found in states.", coordinateSubset->getName())
-            );
+            const State& nextState = aStateArray[k + 1];
+            if (state.accessInstant() >= nextState.accessInstant())
+            {
+                throw ostk::core::error::runtime::Wrong(
+                    "Unsorted or Duplicate State Array",
+                    String::Format(
+                        "Index {}: {} > Index {}: {}",
+                        k,
+                        state.accessInstant().toString(),
+                        k + 1,
+                        nextState.accessInstant().toString()
+                    )
+                );
+            }
+        }
+
+        for (const auto& coordinateSubset : RequiredCoordinateSubsets)
+        {
+            if (!state.hasSubset(coordinateSubset))
+            {
+                throw ostk::core::error::RuntimeError(String::Format(
+                    "Coordinate Subset {} not found in states at index {}.", coordinateSubset->getName(), k
+                ));
+            }
         }
     }
 
-    const Duration maneuverDuration = states_.accessLast().accessInstant() - states_.accessFirst().accessInstant();
-    Duration largestInterval = Duration::Zero();
+    // Sanitize the states:
+    // - Check there are no positive mass flow rate states
+    // - Remove all leading zero mass flow rate states
+    // - Allow a single trailing zero mass flow rate state
+    Array<State> sanitizedStates = Array<State>::Empty();
+    bool maneuverStartFound = false;
+    bool maneuverEndFound = false;
 
-    for (Size k = 0; k < states_.getSize() - 1; ++k)
+    for (Size k = 0; k < aStateArray.getSize(); k++)
     {
-        if (states_[k].accessInstant() >= states_[k + 1].accessInstant())
+        const State& state = aStateArray[k];
+        const Real massFlowRate = state.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+
+        // Check mass flow rate is not positive
+        if (massFlowRate > 0.0)
         {
-            throw ostk::core::error::runtime::Wrong("Unsorted or Duplicate State Array");
+            throw ostk::core::error::RuntimeError(String::Format("Positive mass flow rate at index {}.", k));
         }
 
-        largestInterval = std::max(largestInterval, states_[k + 1].accessInstant() - states_[k].accessInstant());
+        if (massFlowRate < 0.0)
+        {
+            // check that once we register a zero, no more negative mass flow rate states are found afterwards
+            if (maneuverEndFound)
+            {
+                throw ostk::core::error::RuntimeError(
+                    String::Format("Negative mass flow rate at index {} after a zero mass flow rate.", k)
+                );
+            }
+
+            maneuverStartFound = true;
+            sanitizedStates.add(state);
+            continue;
+        }
+
+        // (From here onwards it's only zero mass flow rate states)
+
+        // Don't add leading zero mass flow rate states
+        if (!maneuverStartFound)
+        {
+            continue;
+        }
+
+        // Add only one trailing zero mass flow rate state
+        if (!maneuverEndFound)
+        {
+            maneuverEndFound = true;
+            sanitizedStates.add(state);
+            continue;
+        }
+    }
+
+    if (sanitizedStates.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("No states left after sanitization.");
+    }
+
+    // Check the largest interval between states is within the recommended limits
+    Duration largestInterval = Duration::Zero();
+    for (Size k = 0; k < sanitizedStates.getSize() - 1; ++k)
+    {
+        largestInterval =
+            std::max(largestInterval, sanitizedStates[k + 1].accessInstant() - sanitizedStates[k].accessInstant());
     }
 
     if (largestInterval > Maneuver::MaximumRecommendedInterpolationInterval)
@@ -86,6 +153,9 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
                   << Maneuver::MaximumRecommendedInterpolationInterval.inSeconds() << " seconds." << std::endl;
     }
 
+    // Check the maneuver duration is within the recommended limits
+    const Duration maneuverDuration =
+        sanitizedStates.accessLast().accessInstant() - sanitizedStates.accessFirst().accessInstant();
     if (maneuverDuration < Maneuver::MinimumRecommendedDuration)
     {
         std::cout
@@ -95,25 +165,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
             << std::endl;
     }
 
-    // Ensure that mass flow rate profile is expressed in strictly negative numbers
-    if (std::any_of(
-            states_.begin(),
-            states_.end() - 1,
-            [](const State& aState)
-            {
-                return aState.extractCoordinate(RequiredCoordinateSubsets[3])[0] >= 0.0;
-            }
-        ))
-    {
-        throw ostk::core::error::RuntimeError(
-            "Mass flow rate profile must have strictly negative values (except the last state which may be zero)."
-        );
-    }
-
-    if (states_.accessLast().extractCoordinate(RequiredCoordinateSubsets[3])[0] > 0.0)
-    {
-        throw ostk::core::error::RuntimeError("Last state must have non-positive mass flow rate.");
-    }
+    states_ = sanitizedStates;
 }
 
 bool Maneuver::operator==(const Maneuver& aManeuver) const

@@ -3797,9 +3797,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     EXPECT_NO_THROW(solution.extractManeuvers(Frame::GCRF()));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_NonStrictlyNegativeMassFlowRate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_ManeuverWithALeadingZeroMassFlowRateState)
 {
-    // This test reproduces an issue where the mass flow rate was not strictly negative in the maneuver.
+    // This test reproduces an issue where a maneuver with a leading zero mass flow rate state was produced.
+    //
+    // It was fixed in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/646
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 0, 0),
         std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
