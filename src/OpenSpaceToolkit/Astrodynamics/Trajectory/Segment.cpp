@@ -1333,22 +1333,18 @@ Segment::Solution Segment::solveManeuverForInterval_(
     const State& aState, const Shared<Thruster>& thrusterDynamics, const Interval& validManeuverInterval
 ) const
 {
-    Array<State> states = Array<State>::Empty();
-
     // Coast until the start of the maneuver to ensure we begin solving the maneuver at the exact start instant
-    const Array<State> coastStates =
-        propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
-    states.add(std::move(coastStates));
+    Array<State> states = propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
 
     const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
 
     // Solve the maneuver for just the defined interval
-    const State lastState = coastStates.isEmpty() ? aState : coastStates.accessLast();
+    const State lastState = states.isEmpty() ? aState : states.accessLast();
     const Array<State> maneuverStates =
         propagateWithDynamics_(lastState, validManeuverInterval.getEnd(), dynamicsArray);
 
     // Skip the first maneuver state if we have coast states (it duplicates the last coast state)
-    const auto maneuverStartIter = coastStates.isEmpty() ? maneuverStates.begin() : maneuverStates.begin() + 1;
+    const auto maneuverStartIter = states.isEmpty() ? maneuverStates.begin() : maneuverStates.begin() + 1;
     states.add(Array<State>(maneuverStartIter, maneuverStates.end()));
 
     return {
