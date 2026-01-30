@@ -294,6 +294,8 @@ String NumericalSolver::StringFromRootFindingStrategy(const RootFindingStrategy&
             return "LinearInterpolation";
         case RootFindingStrategy::Skip:
             return "Skip";
+        case RootFindingStrategy::CubicInterpolation:
+            return "CubicInterpolation";
         default:
             throw ostk::core::error::runtime::Wrong("Root Finding Strategy");
     }
@@ -584,7 +586,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
                 }
             );
 
-            const Tabulated tabulated = Tabulated(states, Interpolator::Type::CubicSpline);
+            const Tabulated tabulated = Tabulated(states, Interpolator::Type::BarycentricRational);
 
             stateGenerator = [tabulated, &aState](const double& targetTime) -> NumericalSolver::StateVector
             {
