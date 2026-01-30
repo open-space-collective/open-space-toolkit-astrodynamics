@@ -584,7 +584,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
                 }
             );
 
-            const Tabulated tabulated = Tabulated(states, Interpolator::Type::CubicSpline);
+            const Tabulated tabulated = Tabulated(states, Interpolator::Type::BarycentricRational);
 
             stateGenerator = [tabulated, &aState](const double& targetTime) -> NumericalSolver::StateVector
             {

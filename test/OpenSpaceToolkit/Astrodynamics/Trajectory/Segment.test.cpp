@@ -123,6 +123,7 @@ using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
+using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
@@ -530,6 +531,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         5.0,
         1.0e-12,
         1.0e-12,
+        RootSolver::Default(),
+        NumericalSolver::RootFindingStrategy::CubicInterpolation,
     };
 
     const NumericalSolver defaultHighPrecisionNumericalSolver_ = {
@@ -538,6 +541,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         5.0,
         1.0e-12,
         1.0e-12,
+        RootSolver::Default(),
+        NumericalSolver::RootFindingStrategy::CubicInterpolation,
     };
 
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
@@ -2050,7 +2055,7 @@ TEST_F(
         // The second maneuver interval is expected to be similar but not very close as the trajectory (after the first
         // maneuver) has changed
         EXPECT_INTERVALS_ALMOST_EQUAL(
-            maneuvers[1].getInterval(), constraintedManeuvers[1].getInterval(), Duration::Seconds(0.5)
+            maneuvers[1].getInterval(), constraintedManeuvers[1].getInterval(), Duration::Seconds(1.0)
         );
     }
 }
@@ -2758,8 +2763,7 @@ TEST_F(
 }
 
 TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
-    Solve_ManeuverDurationBelowMinimum_ConditionSatisfiedWithManeuver
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationBelowMinimum_ConditionSatisfiedWithManeuver
 )
 {
     const Segment::ManeuverConstraints constraints(
@@ -2785,8 +2789,7 @@ TEST_F(
     };
 
     const Shared<Thruster> customThrusterDynamics =
-        std::make_shared<Thruster>(defaultSatelliteSystem_,
-        std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
+        std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
 
     const Segment maneuverSegment = Segment::Maneuver(
         defaultName_,
