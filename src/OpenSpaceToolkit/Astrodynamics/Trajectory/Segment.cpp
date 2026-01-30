@@ -377,6 +377,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
     };
 
     Array<FlightManeuver> extractedManeuvers = Array<FlightManeuver>::Empty();
+
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
@@ -1045,6 +1046,7 @@ Segment::Solution Segment::solve(
             // Candidate maneuver passed all constraints - accept it
             const Segment::Solution maneuverLOFCompliantSolution =
                 constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
+
             acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
         }
     }

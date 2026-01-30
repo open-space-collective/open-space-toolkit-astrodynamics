@@ -218,7 +218,7 @@ def numerical_solver() -> NumericalSolver:
 def conditional_numerical_solver() -> NumericalSolver:
     return NumericalSolver(
         NumericalSolver.LogType.NoLog,
-        NumericalSolver.StepperType.RungeKuttaDopri5,
+        NumericalSolver.StepperType.RungeKuttaFehlberg78,
         5.0,
         1.0e-15,
         1.0e-15,

@@ -161,7 +161,7 @@ class Segment
         /// @param aStateArray Array of states for the segment
         /// @param aConditionIsSatisfied True if the event condition is satisfied
         /// @param aSegmentType Type of segment
-        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments). Defaults to empty.
+        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments).
         /// @return An instance of Solution
         Solution(
             const String& aName,
