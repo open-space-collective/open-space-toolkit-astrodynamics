@@ -718,6 +718,345 @@ INSTANTIATE_TEST_SUITE_P(
     GenerateTestName
 );
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ParametersWithHysteresis)
+{
+    // Construct with hysteresis thresholds
+    {
+        const QLaw::Parameters params = {
+            {
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-3}},
+            },
+            3,
+            4,
+            2,
+            0.01,
+            100,
+            0.0,
+            Length::Kilometers(6578.0),
+            Real::Undefined(),
+            Real::Undefined(),
+            {
+                {COE::Element::SemiMajorAxis, 50.0},
+                {COE::Element::Eccentricity, 5e-4},
+            },
+        };
+
+        const Vector5d hysteresisThresholds = params.getHysteresisThresholds();
+        EXPECT_EQ(hysteresisThresholds(0), 50.0);
+        EXPECT_EQ(hysteresisThresholds(1), 5e-4);
+        // Elements without hysteresis entries default to convergence thresholds
+        EXPECT_EQ(hysteresisThresholds(2), 1e-10);
+        EXPECT_EQ(hysteresisThresholds(3), 1e-10);
+        EXPECT_EQ(hysteresisThresholds(4), 1e-10);
+    }
+
+    // Validation: hysteresis > convergence should throw
+    {
+        EXPECT_THROW(
+            QLaw::Parameters(
+                {
+                    {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                },
+                3,
+                4,
+                2,
+                0.01,
+                100,
+                0.0,
+                Length::Kilometers(6578.0),
+                Real::Undefined(),
+                Real::Undefined(),
+                {
+                    {COE::Element::SemiMajorAxis, 200.0},
+                }
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // With buffer duration
+    {
+        const QLaw::Parameters params = {
+            {
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            },
+            3,
+            4,
+            2,
+            0.01,
+            100,
+            0.0,
+            Length::Kilometers(6578.0),
+            Real::Undefined(),
+            Real::Undefined(),
+            {
+                {COE::Element::SemiMajorAxis, 50.0},
+            },
+            Duration::Seconds(60.0),
+        };
+
+        EXPECT_TRUE(params.getWeightTransitionBufferDuration().isDefined());
+        EXPECT_EQ(params.getWeightTransitionBufferDuration(), Duration::Seconds(60.0));
+    }
+
+    // Without hysteresis: defaults
+    {
+        const QLaw::Parameters params = {
+            {
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            },
+        };
+
+        const Vector5d hysteresisThresholds = params.getHysteresisThresholds();
+        // Should default to convergence thresholds
+        EXPECT_EQ(hysteresisThresholds(0), 100.0);
+        EXPECT_FALSE(params.getWeightTransitionBufferDuration().isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, HysteresisBehavior)
+{
+    // Test hysteresis engage/release cycle for SMA targeting
+    // Convergence threshold = 100m, hysteresis threshold = 50m
+    const COE targetCOE = {
+        Length::Meters(42000.0e3),
+        0.01,
+        Angle::Degrees(0.05),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters params = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+        },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        0.0,
+        Length::Kilometers(6578.0),
+        Real::Undefined(),
+        Real::Undefined(),
+        {
+            {COE::Element::SemiMajorAxis, 50.0},
+        },
+    };
+
+    const QLaw qlaw = {
+        targetCOE,
+        gravitationalParameter_,
+        params,
+        QLaw::COEDomain::Osculating,
+        QLaw::GradientStrategy::FiniteDifference,
+    };
+
+    const Instant instant = Instant::J2000();
+
+    // State far from target (7000 km vs 42000 km) -> expect non-zero thrust (engaged)
+    {
+        const COE farCOE = {
+            Length::Meters(7000.0e3),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        const COE::CartesianState cartState = farCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        const Vector3d acceleration = qlaw.calculateThrustAccelerationAt(
+            instant, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+
+        EXPECT_GT(acceleration.norm(), 0.0);
+    }
+
+    // State inside hysteresis threshold (within 50m of target SMA)
+    // The scaled delta = weight * |delta_SMA| = 1.0 * 20.0 = 20.0 < 50.0 -> should release
+    {
+        const COE nearCOE = {
+            Length::Meters(42000.0e3 + 20.0),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        const COE::CartesianState cartState = nearCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        const Vector3d acceleration = qlaw.calculateThrustAccelerationAt(
+            instant, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+
+        EXPECT_NEAR(acceleration.norm(), 0.0, 1e-14);
+    }
+
+    // State in neutral zone (between 50m and 100m from target SMA)
+    // The scaled delta = 1.0 * 75.0 = 75.0, which is > hysteresis(50) but < convergence(100)
+    // Since the element was just released, it should STAY released (hysteresis retention)
+    {
+        const COE neutralCOE = {
+            Length::Meters(42000.0e3 + 75.0),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        const COE::CartesianState cartState = neutralCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        const Vector3d acceleration = qlaw.calculateThrustAccelerationAt(
+            instant, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+
+        // Should still be zero because element remains released in the neutral zone
+        EXPECT_NEAR(acceleration.norm(), 0.0, 1e-14);
+    }
+
+    // State outside convergence threshold (> 100m from target SMA) -> should re-engage
+    {
+        const COE outsideCOE = {
+            Length::Meters(42000.0e3 + 200.0),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        const COE::CartesianState cartState = outsideCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        const Vector3d acceleration = qlaw.calculateThrustAccelerationAt(
+            instant, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+
+        EXPECT_GT(acceleration.norm(), 0.0);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, WeightTransitionBuffer)
+{
+    const COE targetCOE = {
+        Length::Meters(42000.0e3),
+        0.01,
+        Angle::Degrees(0.05),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters params = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+        },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        0.0,
+        Length::Kilometers(6578.0),
+        Real::Undefined(),
+        Real::Undefined(),
+        {
+            {COE::Element::SemiMajorAxis, 50.0},
+        },
+        Duration::Seconds(60.0),
+    };
+
+    const QLaw qlaw = {
+        targetCOE,
+        gravitationalParameter_,
+        params,
+        QLaw::COEDomain::Osculating,
+        QLaw::GradientStrategy::FiniteDifference,
+    };
+
+    const Instant t0 = Instant::J2000();
+
+    // First call: far from target -> engaged, non-zero thrust (initializes hysteresis)
+    {
+        const COE farCOE = {
+            Length::Meters(7000.0e3),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+        const COE::CartesianState cartState = farCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        const Vector3d accel = qlaw.calculateThrustAccelerationAt(
+            t0, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+        EXPECT_GT(accel.norm(), 0.0);
+    }
+
+    // Second call: inside hysteresis threshold -> element releases, weight changes, buffer starts
+    {
+        const COE nearCOE = {
+            Length::Meters(42000.0e3 + 20.0),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+        const COE::CartesianState cartState = nearCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+        const Instant t1 = t0 + Duration::Seconds(1.0);
+
+        const Vector3d accel = qlaw.calculateThrustAccelerationAt(
+            t1, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+        EXPECT_NEAR(accel.norm(), 0.0, 1e-14);
+    }
+
+    // Third call: outside convergence threshold, during buffer period -> should be zero (buffering)
+    {
+        const COE outsideCOE = {
+            Length::Meters(42000.0e3 + 200.0),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+        const COE::CartesianState cartState = outsideCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+        const Instant t2 = t0 + Duration::Seconds(30.0);  // Within 60s buffer
+
+        const Vector3d accel = qlaw.calculateThrustAccelerationAt(
+            t2, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+        EXPECT_NEAR(accel.norm(), 0.0, 1e-14);
+    }
+
+    // Fourth call: outside convergence threshold, after buffer expires -> thrust resumes
+    {
+        const COE outsideCOE = {
+            Length::Meters(42000.0e3 + 200.0),
+            0.01,
+            Angle::Degrees(0.05),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+        const COE::CartesianState cartState = outsideCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+        const Instant t3 = t0 + Duration::Seconds(120.0);  // After 60s buffer
+
+        const Vector3d accel = qlaw.calculateThrustAccelerationAt(
+            t3, cartState.first.getCoordinates(), cartState.second.getCoordinates(), 1e-3, Frame::GCRF()
+        );
+        EXPECT_GT(accel.norm(), 0.0);
+    }
+}
+
 TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectivity, ComputeEffectivity)
 {
     const QLaw::COEDomain coeDomain = std::get<1>(GetParam());

@@ -13,6 +13,7 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Derived;
 
@@ -141,7 +142,9 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 const double&,
                 const Length&,
                 const Real&,
-                const Real&>(),
+                const Real&,
+                const Map<COE::Element, double>&,
+                const Duration&>(),
             R"doc(
                 Constructor.
 
@@ -156,6 +159,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     minimum_periapsis_radius (Length): Minimum periapsis radius. Default to 6578.0 km.
                     absolute_effectivity_threshold (Real): Absolute effectivity threshold. Default to undefined (not used).
                     relative_effectivity_threshold (Real): Relative effectivity threshold. Default to undefined (not used).
+                    hysteresis_thresholds (dict): Key-value pair of COE elements and inner hysteresis thresholds. Default to empty (no hysteresis).
+                    weight_transition_buffer_duration (Duration): Duration to coast after a weight change. Default to undefined (not used).
 
             )doc",
             arg("element_weights"),
@@ -167,7 +172,9 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("periapsis_weight") = 0.0,
             arg_v("minimum_periapsis_radius", Length::Kilometers(6578.0), "Length.kilometers(6578.0)"),
             arg("absolute_effectivity_threshold") = Real::Undefined(),
-            arg("relative_effectivity_threshold") = Real::Undefined()
+            arg("relative_effectivity_threshold") = Real::Undefined(),
+            arg("hysteresis_thresholds") = Map<COE::Element, double>(),
+            arg_v("weight_transition_buffer_duration", Duration::Undefined(), "Duration.undefined()")
         )
 
         .def(
@@ -200,6 +207,28 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
                 Returns:
                     Length: The minimum periapsis radius.
+            )doc"
+        )
+
+        .def(
+            "get_hysteresis_thresholds",
+            &QLaw::Parameters::getHysteresisThresholds,
+            R"doc(
+                Get the hysteresis thresholds.
+
+                Returns:
+                    np.array: The hysteresis thresholds.
+            )doc"
+        )
+
+        .def(
+            "get_weight_transition_buffer_duration",
+            &QLaw::Parameters::getWeightTransitionBufferDuration,
+            R"doc(
+                Get the weight transition buffer duration.
+
+                Returns:
+                    Duration: The weight transition buffer duration.
             )doc"
         )
 

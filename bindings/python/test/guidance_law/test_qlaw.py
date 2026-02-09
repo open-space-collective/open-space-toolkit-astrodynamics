@@ -15,6 +15,8 @@ from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 
 
+from ostk.physics.time import Duration
+
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 from ostk.astrodynamics import GuidanceLaw
 from ostk.astrodynamics.guidance_law import QLaw
@@ -207,3 +209,48 @@ class TestQLaw:
             )
             is not None
         )
+
+
+class TestQLawParametersHysteresis:
+    def test_parameters_with_hysteresis(self):
+        params = QLaw.Parameters(
+            element_weights={
+                COE.Element.SemiMajorAxis: (1.0, 100.0),
+                COE.Element.Eccentricity: (1.0, 1e-3),
+            },
+            hysteresis_thresholds={
+                COE.Element.SemiMajorAxis: 50.0,
+                COE.Element.Eccentricity: 5e-4,
+            },
+        )
+
+        assert params is not None
+        hysteresis = params.get_hysteresis_thresholds()
+        assert hysteresis[0] == 50.0
+        assert hysteresis[1] == 5e-4
+
+    def test_parameters_with_buffer_duration(self):
+        params = QLaw.Parameters(
+            element_weights={
+                COE.Element.SemiMajorAxis: (1.0, 100.0),
+            },
+            hysteresis_thresholds={
+                COE.Element.SemiMajorAxis: 50.0,
+            },
+            weight_transition_buffer_duration=Duration.seconds(60.0),
+        )
+
+        assert params.get_weight_transition_buffer_duration().is_defined()
+        assert params.get_weight_transition_buffer_duration() == Duration.seconds(60.0)
+
+    def test_backward_compatibility(self):
+        params = QLaw.Parameters(
+            element_weights={
+                COE.Element.SemiMajorAxis: (1.0, 100.0),
+            },
+        )
+
+        hysteresis = params.get_hysteresis_thresholds()
+        # Without hysteresis, thresholds default to convergence thresholds
+        assert hysteresis[0] == 100.0
+        assert not params.get_weight_transition_buffer_duration().is_defined()

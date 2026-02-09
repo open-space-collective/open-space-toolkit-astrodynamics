@@ -75,12 +75,16 @@ class QLaw : public GuidanceLaw
             const double& aPeriapsisWeight = 0.0,
             const Length& minimumPeriapsisradius = Length::Kilometers(6578.0),
             const Real& absoluteEffectivityThreshold = Real::Undefined(),
-            const Real& relativeEffectivityThreshold = Real::Undefined()
+            const Real& relativeEffectivityThreshold = Real::Undefined(),
+            const Map<COE::Element, double>& aHysteresisThresholdsMap = {},
+            const Duration& aWeightTransitionBufferDuration = Duration::Undefined()
         );
 
         Vector5d getControlWeights() const;
         Vector5d getConvergenceThresholds() const;
         Length getMinimumPeriapsisRadius() const;
+        Vector5d getHysteresisThresholds() const;
+        Duration getWeightTransitionBufferDuration() const;
 
         const double m;
         const double n;
@@ -97,6 +101,9 @@ class QLaw : public GuidanceLaw
         const double minimumPeriapsisRadius_;
         Vector5d convergenceThresholds_;
         Vector5d controlWeights_;
+        Vector5d hysteresisThresholds_;
+        bool hasHysteresis_;
+        Duration weightTransitionBufferDuration_;
         const Array<COE::Element> validElements_ = {
             COE::Element::SemiMajorAxis,
             COE::Element::Eccentricity,
@@ -264,7 +271,18 @@ class QLaw : public GuidanceLaw
     const StateBuilder stateBuilder_;
     COEDomain coeDomain_;
 
+    mutable Vector5d effectiveWeights_;
+    mutable Eigen::Array<bool, 5, 1> elementEngaged_;
+    mutable bool hysteresisInitialized_;
+    mutable Instant weightTransitionBufferEnd_;
+
     const VectorXd trueAnomalyAngles_ = VectorXd::LinSpaced(50, 0.0, 2.0 * M_PI);
+
+    /// @brief Update per-element hysteresis state based on current orbital elements
+    ///
+    /// @param aCOEVector The 5-dimensional vector of classical orbital elements (excluding true anomaly)
+    /// @param anInstant The current instant
+    void updateHysteresisState(const Vector5d& aCOEVector, const Instant& anInstant) const;
 
     /// @brief Compute the delta of the orbital elements
     ///

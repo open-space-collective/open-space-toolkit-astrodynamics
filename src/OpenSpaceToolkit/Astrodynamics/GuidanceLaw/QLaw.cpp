@@ -40,7 +40,9 @@ QLaw::Parameters::Parameters(
     const double& aPeriapsisWeight,
     const Length& minimumPeriapsisradius,
     const Real& anAbsoluteEffectivityThreshold,
-    const Real& aRelativeEffectivityThreshold
+    const Real& aRelativeEffectivityThreshold,
+    const Map<COE::Element, double>& aHysteresisThresholdsMap,
+    const Duration& aWeightTransitionBufferDuration
 )
     : m(aMValue),
       n(aNValue),
@@ -52,7 +54,10 @@ QLaw::Parameters::Parameters(
       relativeEffectivityThreshold(aRelativeEffectivityThreshold),
       minimumPeriapsisRadius_(minimumPeriapsisradius.inMeters()),
       convergenceThresholds_(Vector5d::Ones() * 1e-10),
-      controlWeights_(Vector5d::Zero())
+      controlWeights_(Vector5d::Zero()),
+      hysteresisThresholds_(Vector5d::Ones() * 1e-10),
+      hasHysteresis_(false),
+      weightTransitionBufferDuration_(aWeightTransitionBufferDuration)
 {
     if (anElementWeightsMap.empty())
     {
@@ -77,6 +82,40 @@ QLaw::Parameters::Parameters(
         }
         ++i;
     }
+
+    // Default hysteresis thresholds to convergence thresholds (no neutral zone)
+    hysteresisThresholds_ = convergenceThresholds_;
+
+    // Validate and apply hysteresis thresholds
+    for (const auto& it : aHysteresisThresholdsMap)
+    {
+        if (!validElements_.contains(it.first))
+        {
+            throw ostk::core::error::RuntimeError(
+                "Cannot set hysteresis threshold for [" + COE::StringFromElement(it.first) + "]."
+            );
+        }
+
+        Index j = 0;
+        for (const COE::Element& element : validElements_)
+        {
+            if (element == it.first)
+            {
+                if (it.second > convergenceThresholds_(j))
+                {
+                    throw ostk::core::error::RuntimeError(
+                        "Hysteresis threshold for [" + COE::StringFromElement(it.first) +
+                        "] must be less than or equal to the convergence threshold."
+                    );
+                }
+                hysteresisThresholds_(j) = it.second;
+                break;
+            }
+            ++j;
+        }
+    }
+
+    hasHysteresis_ = !aHysteresisThresholdsMap.empty();
 
     if (anAbsoluteEffectivityThreshold.isDefined())
     {
@@ -110,6 +149,16 @@ Length QLaw::Parameters::getMinimumPeriapsisRadius() const
     return Length::Meters(minimumPeriapsisRadius_);
 }
 
+Vector5d QLaw::Parameters::getHysteresisThresholds() const
+{
+    return hysteresisThresholds_;
+}
+
+Duration QLaw::Parameters::getWeightTransitionBufferDuration() const
+{
+    return weightTransitionBufferDuration_;
+}
+
 QLaw::QLaw(
     const COE& aCOE,
     const Derived& aGravitationalParameter,
@@ -127,7 +176,11 @@ QLaw::QLaw(
           FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
       ),
       stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
-      coeDomain_(aCOEDomain)
+      coeDomain_(aCOEDomain),
+      effectiveWeights_(aParameterSet.getControlWeights()),
+      elementEngaged_(Eigen::Array<bool, 5, 1>::Constant(true)),
+      hysteresisInitialized_(false),
+      weightTransitionBufferEnd_(Instant::Undefined())
 {
 }
 
@@ -167,7 +220,7 @@ QLaw::COEDomain QLaw::getCOEDomain() const
 }
 
 Vector3d QLaw::calculateThrustAccelerationAt(
-    [[maybe_unused]] const Instant& anInstant,
+    const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
     const Real& aThrustAcceleration,
@@ -180,6 +233,13 @@ Vector3d QLaw::calculateThrustAccelerationAt(
     };
 
     Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
+
+    updateHysteresisState(coeVector.segment<5>(0), anInstant);
+
+    if (weightTransitionBufferEnd_.isDefined() && anInstant < weightTransitionBufferEnd_)
+    {
+        return {0.0, 0.0, 0.0};
+    }
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
@@ -202,13 +262,24 @@ Vector5d QLaw::compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustA
 
 Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& aThrustAcceleration) const
 {
-    const Vector5d deltaCOE = computeDeltaCOE(aCOEVector.segment<5>(0));
-
-    // Within tolerance of all targeted elements. No need to thrust.
-    if ((parameters_.controlWeights_.array() * deltaCOE.array().abs() <= parameters_.convergenceThresholds_.array())
-            .all())
+    if (parameters_.hasHysteresis_)
     {
-        return {0.0, 0.0, 0.0};
+        if (effectiveWeights_.isZero())
+        {
+            return {0.0, 0.0, 0.0};
+        }
+    }
+    else
+    {
+        const Vector5d deltaCOE = computeDeltaCOE(aCOEVector.segment<5>(0));
+
+        // Within tolerance of all targeted elements. No need to thrust.
+        if ((parameters_.controlWeights_.array() * deltaCOE.array().abs() <=
+             parameters_.convergenceThresholds_.array())
+                .all())
+        {
+            return {0.0, 0.0, 0.0};
+        }
     }
 
     const Vector3d thrustVector = computeThrustVector(aCOEVector, aThrustAcceleration);
@@ -276,7 +347,7 @@ double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAccelerat
 
     const Vector5d deltaCOE_divided_maximalCOE = (deltaCOE.cwiseQuotient(maximalCOE));
 
-    return periapsisScaling * (parameters_.controlWeights_.cwiseProduct(scalingCOE)
+    return periapsisScaling * (effectiveWeights_.cwiseProduct(scalingCOE)
                                    .cwiseProduct(deltaCOE_divided_maximalCOE.cwiseProduct(deltaCOE_divided_maximalCOE)))
                                   .sum();
 }
@@ -468,11 +539,11 @@ Vector5d QLaw::computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double
     const double& rightAscensionOfAscendingNodeTarget = targetCOEVector_(3);
     const double& argumentOfPeriapsisTarget = targetCOEVector_(4);
 
-    const double& semiMajorAxisWeight = parameters_.controlWeights_(0);
-    const double& eccentricityWeight = parameters_.controlWeights_(1);
-    const double& inclinationWeight = parameters_.controlWeights_(2);
-    const double& rightAscensionOfAscendingNodeWeight = parameters_.controlWeights_(3);
-    const double& argumentOfPeriapsisWeight = parameters_.controlWeights_(4);
+    const double& semiMajorAxisWeight = effectiveWeights_(0);
+    const double& eccentricityWeight = effectiveWeights_(1);
+    const double& inclinationWeight = effectiveWeights_(2);
+    const double& rightAscensionOfAscendingNodeWeight = effectiveWeights_(3);
+    const double& argumentOfPeriapsisWeight = effectiveWeights_(4);
 
     const double& periapsisWeight = parameters_.periapsisWeight;
     const double& minimumPeriapsisRadius = parameters_.minimumPeriapsisRadius_;
@@ -700,6 +771,63 @@ Vector3d QLaw::computeThrustVector(const Vector6d& aCOEVector, const double& aTh
     }
 
     return dQ_dOE.transpose() * derivativeMatrix;
+}
+
+void QLaw::updateHysteresisState(const Vector5d& aCOEVector, const Instant& anInstant) const
+{
+    if (!parameters_.hasHysteresis_)
+    {
+        return;
+    }
+
+    const Vector5d deltaCOE = computeDeltaCOE(aCOEVector);
+    bool anyWeightChanged = false;
+
+    for (Index i = 0; i < 5; ++i)
+    {
+        if (parameters_.controlWeights_(i) == 0.0)
+        {
+            continue;
+        }
+
+        const double scaledDelta = parameters_.controlWeights_(i) * std::abs(deltaCOE(i));
+
+        if (!hysteresisInitialized_)
+        {
+            elementEngaged_(i) = (scaledDelta > parameters_.convergenceThresholds_(i));
+        }
+        else
+        {
+            if (elementEngaged_(i))
+            {
+                if (scaledDelta <= parameters_.hysteresisThresholds_(i))
+                {
+                    elementEngaged_(i) = false;
+                }
+            }
+            else
+            {
+                if (scaledDelta > parameters_.convergenceThresholds_(i))
+                {
+                    elementEngaged_(i) = true;
+                }
+            }
+        }
+
+        const double newWeight = elementEngaged_(i) ? parameters_.controlWeights_(i) : 0.0;
+        if (newWeight != effectiveWeights_(i))
+        {
+            anyWeightChanged = true;
+        }
+        effectiveWeights_(i) = newWeight;
+    }
+
+    hysteresisInitialized_ = true;
+
+    if (anyWeightChanged && parameters_.weightTransitionBufferDuration_.isDefined())
+    {
+        weightTransitionBufferEnd_ = anInstant + parameters_.weightTransitionBufferDuration_;
+    }
 }
 
 Vector5d QLaw::computeDeltaCOE(const Vector5d& aCOEVector) const
