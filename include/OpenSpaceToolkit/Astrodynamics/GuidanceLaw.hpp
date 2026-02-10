@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
@@ -25,6 +26,7 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 /// @brief An interface for a Guidance Law that can compute an acceleration contribution. To be
@@ -36,6 +38,12 @@ class GuidanceLaw
     ///
     /// @param aName A name
     GuidanceLaw(const String& aName);
+
+    /// @brief Constructor
+    ///
+    /// @param aName A name
+    /// @param aWeightTransitionBufferDuration A duration for which to coast after a state transition
+    GuidanceLaw(const String& aName, const Duration& aWeightTransitionBufferDuration);
 
     /// @brief Destructor
     virtual ~GuidanceLaw();
@@ -55,6 +63,11 @@ class GuidanceLaw
     ///
     /// @return The name
     String getName() const;
+
+    /// @brief Get the weight transition buffer duration
+    ///
+    /// @return The weight transition buffer duration
+    Duration getWeightTransitionBufferDuration() const;
 
     /// @brief Print guidance law
     ///
@@ -82,6 +95,19 @@ class GuidanceLaw
 
    protected:
     const String name_;
+    const Duration weightTransitionBufferDuration_;
+    mutable Instant weightTransitionBufferEnd_;
+
+    /// @brief Notify that a state transition has occurred, starting the transition buffer
+    ///
+    /// @param anInstant The instant at which the transition occurred
+    void notifyStateTransition(const Instant& anInstant) const;
+
+    /// @brief Check whether the guidance law is currently in a transition buffer (coasting)
+    ///
+    /// @param anInstant The current instant
+    /// @return True if the guidance law is in a transition buffer
+    bool isInTransitionBuffer(const Instant& anInstant) const;
 };
 
 }  // namespace astrodynamics

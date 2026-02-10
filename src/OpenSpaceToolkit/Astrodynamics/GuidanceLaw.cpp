@@ -9,7 +9,14 @@ namespace astrodynamics
 {
 
 GuidanceLaw::GuidanceLaw(const String& aName)
-    : name_(aName)
+    : GuidanceLaw(aName, Duration::Undefined())
+{
+}
+
+GuidanceLaw::GuidanceLaw(const String& aName, const Duration& aWeightTransitionBufferDuration)
+    : name_(aName),
+      weightTransitionBufferDuration_(aWeightTransitionBufferDuration),
+      weightTransitionBufferEnd_(Instant::Undefined())
 {
 }
 
@@ -24,6 +31,24 @@ std::ostream& operator<<(std::ostream& anOutputStream, const GuidanceLaw& aGuida
 String GuidanceLaw::getName() const
 {
     return name_;
+}
+
+Duration GuidanceLaw::getWeightTransitionBufferDuration() const
+{
+    return weightTransitionBufferDuration_;
+}
+
+void GuidanceLaw::notifyStateTransition(const Instant& anInstant) const
+{
+    if (weightTransitionBufferDuration_.isDefined())
+    {
+        weightTransitionBufferEnd_ = anInstant + weightTransitionBufferDuration_;
+    }
+}
+
+bool GuidanceLaw::isInTransitionBuffer(const Instant& anInstant) const
+{
+    return weightTransitionBufferEnd_.isDefined() && anInstant < weightTransitionBufferEnd_;
 }
 
 void GuidanceLaw::print(std::ostream& anOutputStream, bool displayDecorator) const

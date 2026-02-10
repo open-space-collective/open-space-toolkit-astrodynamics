@@ -2,6 +2,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ConstantThrust.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/HeterogeneousGuidanceLaw.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/QLaw.cpp>
@@ -15,6 +17,7 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::GuidanceLaw;
@@ -80,6 +83,20 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
         )
 
         .def(
+            init<const String&, const Duration&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    name (str): The name of the guidance law.
+                    weight_transition_buffer_duration (Duration): Duration for which to coast after a state transition.
+
+            )doc",
+            arg("name"),
+            arg("weight_transition_buffer_duration")
+        )
+
+        .def(
             "get_name",
             &GuidanceLaw::getName,
             R"doc(
@@ -87,6 +104,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
 
                 Returns:
                     str: The name of the guidance law.
+            )doc"
+        )
+
+        .def(
+            "get_weight_transition_buffer_duration",
+            &GuidanceLaw::getWeightTransitionBufferDuration,
+            R"doc(
+                Get the weight transition buffer duration.
+
+                Returns:
+                    Duration: The weight transition buffer duration.
             )doc"
         )
 

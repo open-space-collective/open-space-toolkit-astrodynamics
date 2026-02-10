@@ -20,6 +20,7 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::GuidanceLaw;
@@ -29,6 +30,11 @@ class MockGuidanceLaw : public GuidanceLaw
    public:
     MockGuidanceLaw(const String& aName)
         : GuidanceLaw(aName)
+    {
+    }
+
+    MockGuidanceLaw(const String& aName, const Duration& aWeightTransitionBufferDuration)
+        : GuidanceLaw(aName, aWeightTransitionBufferDuration)
     {
     }
 
@@ -74,4 +80,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, GetName)
 {
     EXPECT_EQ(defaultGuidanceLaw_.getName(), defaultName_);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, ConstructorWithBuffer)
+{
+    const Duration bufferDuration = Duration::Seconds(30.0);
+    EXPECT_NO_THROW(MockGuidanceLaw mockGuidanceLaw(defaultName_, bufferDuration));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, GetWeightTransitionBufferDuration_Undefined)
+{
+    EXPECT_FALSE(defaultGuidanceLaw_.getWeightTransitionBufferDuration().isDefined());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, GetWeightTransitionBufferDuration_Defined)
+{
+    const Duration bufferDuration = Duration::Seconds(30.0);
+    const MockGuidanceLaw guidanceLaw(defaultName_, bufferDuration);
+
+    EXPECT_EQ(guidanceLaw.getWeightTransitionBufferDuration(), bufferDuration);
 }

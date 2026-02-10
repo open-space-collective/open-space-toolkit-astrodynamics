@@ -166,7 +166,7 @@ QLaw::QLaw(
     const COEDomain& aCOEDomain,
     const GradientStrategy& aGradientStrategy
 )
-    : GuidanceLaw("Q-Law"),
+    : GuidanceLaw("Q-Law", aParameterSet.getWeightTransitionBufferDuration()),
       parameters_(aParameterSet),
       mu_(aGravitationalParameter.in(Derived::Unit::MeterCubedPerSecondSquared())),
       targetCOEVector_(aCOE.getSIVector(COE::AnomalyType::True)),
@@ -179,8 +179,7 @@ QLaw::QLaw(
       coeDomain_(aCOEDomain),
       effectiveWeights_(aParameterSet.getControlWeights()),
       elementEngaged_(Eigen::Array<bool, 5, 1>::Constant(true)),
-      hysteresisInitialized_(false),
-      weightTransitionBufferEnd_(Instant::Undefined())
+      hysteresisInitialized_(false)
 {
 }
 
@@ -236,7 +235,7 @@ Vector3d QLaw::calculateThrustAccelerationAt(
 
     updateHysteresisState(coeVector.segment<5>(0), anInstant);
 
-    if (weightTransitionBufferEnd_.isDefined() && anInstant < weightTransitionBufferEnd_)
+    if (isInTransitionBuffer(anInstant))
     {
         return {0.0, 0.0, 0.0};
     }
@@ -824,9 +823,9 @@ void QLaw::updateHysteresisState(const Vector5d& aCOEVector, const Instant& anIn
 
     hysteresisInitialized_ = true;
 
-    if (anyWeightChanged && parameters_.weightTransitionBufferDuration_.isDefined())
+    if (anyWeightChanged)
     {
-        weightTransitionBufferEnd_ = anInstant + parameters_.weightTransitionBufferDuration_;
+        notifyStateTransition(anInstant);
     }
 }
 

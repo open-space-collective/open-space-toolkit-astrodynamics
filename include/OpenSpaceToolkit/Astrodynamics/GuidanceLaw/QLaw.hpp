@@ -274,7 +274,6 @@ class QLaw : public GuidanceLaw
     mutable Vector5d effectiveWeights_;
     mutable Eigen::Array<bool, 5, 1> elementEngaged_;
     mutable bool hysteresisInitialized_;
-    mutable Instant weightTransitionBufferEnd_;
 
     const VectorXd trueAnomalyAngles_ = VectorXd::LinSpaced(50, 0.0, 2.0 * M_PI);
 
