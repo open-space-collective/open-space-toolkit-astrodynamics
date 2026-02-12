@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -36,6 +37,7 @@ namespace trajectory
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
@@ -95,11 +97,40 @@ class Segment
     struct ManeuverConstraints
     {
         /// @brief Constructor
+        ///
         /// @param aMinimumDuration The minimum duration for a maneuver. Defaults to Undefined.
         /// @param aMaximumDuration The maximum duration for a maneuver. Defaults to Undefined.
         /// @param aMinimumSeparation The minimum separation between maneuvers. Defaults to Undefined.
         /// @param aMaximumDurationStrategy The strategy when maximum duration is violated. Defaults to Fail.
         ManeuverConstraints(
+            const Duration& aMinimumDuration = Duration::Undefined(),
+            const Duration& aMaximumDuration = Duration::Undefined(),
+            const Duration& aMinimumSeparation = Duration::Undefined(),
+            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy =
+                MaximumManeuverDurationViolationStrategy::Fail
+        )
+            : ManeuverConstraints(
+                  aMinimumDuration,
+                  aMaximumDuration,
+                  aMinimumSeparation,
+                  aMaximumDurationStrategy,
+                  Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined())
+              )
+        {
+        }
+
+        /// @brief Create a maneuver constraints instance with maximum duty cycle.
+        ///
+        /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denumerator. For example,
+        /// {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes over
+        /// any 98 minutes interval.
+        /// @param aMinimumDuration The minimum duration for a maneuver. Defaults to Undefined.
+        /// @param aMaximumDuration The maximum duration for a maneuver. Defaults to Undefined.
+        /// @param aMinimumSeparation The minimum separation between maneuvers. Defaults to Undefined.
+        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated. Defaults to Fail.
+        /// @return ManeuverConstraints instance
+        static ManeuverConstraints ManeuverDutyCycle(
+            const Pair<Duration, Duration>& aMaximumDutyCycle,
             const Duration& aMinimumDuration = Duration::Undefined(),
             const Duration& aMaximumDuration = Duration::Undefined(),
             const Duration& aMinimumSeparation = Duration::Undefined(),
@@ -111,6 +142,7 @@ class Segment
         Duration maximumDuration;
         Duration minimumSeparation;
         MaximumManeuverDurationViolationStrategy maximumDurationStrategy;
+        Pair<Duration, Duration> maximumDutyCycle;
 
         /// @brief Check if the maneuver constraints are defined
         /// @return True if the maneuver constraints are defined
@@ -126,6 +158,19 @@ class Segment
         /// @return True if the maximum duration is valid
         bool intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const;
 
+        /// @brief Check if the maximum duty cycle constraint is valid
+        ///
+        /// This function checks the interval prior to the candidate maneuver end and assesses if it exceeds the maximum
+        /// duty cycle.
+        ///
+        /// @param aManeuverInterval The maneuver interval
+        /// @param aPreviousManeuverIntervals Array of previous maneuver intervals
+        /// @return A pair containing a boolean indicating if the constraint is valid and the earliest instant at which
+        /// a maneuver can be performed if it's invalid
+        Pair<bool, Instant> intervalHasValidMaximumDutyCycle(
+            const Interval& aManeuverInterval, const Array<Interval>& aPreviousManeuverIntervals
+        ) const;
+
         /// @brief Print the maneuver constraints
         /// @param anOutputStream An output stream
         /// @param displayDecorator If true, display decorators
@@ -136,6 +181,24 @@ class Segment
         /// @param aManeuverConstraints A maneuver constraints
         /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const ManeuverConstraints& aManeuverConstraints);
+
+       private:
+        /// @brief Private constructor with all properties (no defaults)
+        ///
+        /// @param aMinimumDuration The minimum duration for a maneuver
+        /// @param aMaximumDuration The maximum duration for a maneuver
+        /// @param aMinimumSeparation The minimum separation between maneuvers
+        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated
+        /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denumerator. For example,
+        /// {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes over
+        /// any 98 minutes interval.
+        ManeuverConstraints(
+            const Duration& aMinimumDuration,
+            const Duration& aMaximumDuration,
+            const Duration& aMinimumSeparation,
+            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
+            const Pair<Duration, Duration>& aMaximumDutyCycle
+        );
     };
 
     /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.

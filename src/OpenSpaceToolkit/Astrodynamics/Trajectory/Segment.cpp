@@ -48,17 +48,179 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 using ostk::astrodynamics::trajectory::StateBuilder;
 using FlightManeuver = ostk::astrodynamics::flight::Maneuver;
 
+bool Segment::ManeuverConstraints::isDefined() const
+{
+    return minimumDuration.isDefined() || maximumDuration.isDefined() || minimumSeparation.isDefined() ||
+           (maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined());
+}
+
+bool Segment::ManeuverConstraints::intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const
+{
+    if (!minimumDuration.isDefined())
+    {
+        return true;
+    }
+
+    return aManeuverInterval.getDuration() >= minimumDuration;
+}
+
+bool Segment::ManeuverConstraints::intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const
+{
+    if (!maximumDuration.isDefined())
+    {
+        return true;
+    }
+
+    return aManeuverInterval.getDuration() <= maximumDuration;
+}
+
+Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
+    const Interval& aManeuverInterval, const Array<Interval>& aPreviousManeuverIntervals
+) const
+{
+    // If there are no maximum duty cycle constraints, return valid
+    if (!maximumDutyCycle.first.isDefined() || !maximumDutyCycle.second.isDefined())
+    {
+        return Pair<bool, Instant>(true, Instant::Undefined());
+    }
+
+    // If there are no previous maneuver intervals, return valid
+    if (aPreviousManeuverIntervals.isEmpty())
+    {
+        return Pair<bool, Instant>(true, Instant::Undefined());
+    }
+
+    // Create the "tail" interval (from the candidate maneuver end back to the maximum duty cycle denumerator)
+    const Interval tailInterval =
+        Interval::Closed(aManeuverInterval.getEnd() - maximumDutyCycle.second, aManeuverInterval.getEnd());
+
+    // Compute the coast intervals during the tail:
+    const Array<Interval> tailCoastIntervals = Interval::GetGaps(aPreviousManeuverIntervals, tailInterval);
+
+    // Get the sum of the coast intervals during the tail
+    const Duration tailCoastDuration = std::accumulate(
+        tailCoastIntervals.begin(),
+        tailCoastIntervals.end(),
+        Duration::Zero(),
+        [](const Duration& sum, const Interval& interval)
+        {
+            return sum + interval.getDuration();
+        }
+    );
+
+    const Duration tailManeuverDuration = tailInterval.getDuration() - tailCoastDuration;
+    const Duration excessManeuverDuration =
+        tailManeuverDuration + aManeuverInterval.getDuration() - maximumDutyCycle.first;
+    // If we're surpassing the maximum duty cycle, return invalid
+    if (excessManeuverDuration > Duration::Zero())
+    {
+        return Pair<bool, Instant>(false, aManeuverInterval.getStart() + excessManeuverDuration);
+    }
+
+    return Pair<bool, Instant>(true, Instant::Undefined());
+}
+
+void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Header(anOutputStream, "Maneuver Constraints");
+    }
+
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Minimum Duration:" << (this->minimumDuration.isDefined() ? this->minimumDuration.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Maximum Duration:" << (this->maximumDuration.isDefined() ? this->maximumDuration.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Minimum Separation:"
+        << (this->minimumSeparation.isDefined() ? this->minimumSeparation.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Maximum Duration Strategy:"
+        << Segment::StringFromMaximumManeuverDurationViolationStrategy(this->maximumDurationStrategy);
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "maximum duty cycle:"
+        << (this->maximumDutyCycle.first.isDefined() && this->maximumDutyCycle.second.isDefined()
+                ? String::Format(
+                      "[{}, {}]", this->maximumDutyCycle.first.toString(), this->maximumDutyCycle.second.toString()
+                  )
+                : "Undefined");
+
+    if (displayDecorator)
+    {
+        ostk::core::utils::Print::Footer(anOutputStream);
+    }
+}
+
 Segment::ManeuverConstraints::ManeuverConstraints(
     const Duration& aMinimumDuration,
     const Duration& aMaximumDuration,
     const Duration& aMinimumSeparation,
-    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
+    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
+    const Pair<Duration, Duration>& aMaximumDutyCycle
 )
     : minimumDuration(aMinimumDuration),
       maximumDuration(aMaximumDuration),
       minimumSeparation(aMinimumSeparation),
-      maximumDurationStrategy(aMaximumDurationStrategy)
+      maximumDurationStrategy(aMaximumDurationStrategy),
+      maximumDutyCycle(aMaximumDutyCycle)
 {
+    // Validate that both or neither of the duty cycle components are defined
+    // This must be checked first before any comparisons
+    if ((maximumDutyCycle.first.isDefined() && !maximumDutyCycle.second.isDefined()) ||
+        (!maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined()))
+    {
+        throw ostk::core::error::RuntimeError(
+            "Either both or neither of maximum duty cycle numerator and denumerator must be defined."
+        );
+    }
+
+    if (maximumDutyCycle.first.isDefined() && maximumDutyCycle.first <= Duration::Zero())
+    {
+        throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be greater than zero.");
+    }
+
+    if (maximumDutyCycle.second.isDefined() && maximumDutyCycle.second <= Duration::Zero())
+    {
+        throw ostk::core::error::RuntimeError("maximum duty cycle denumerator must be greater than zero.");
+    }
+
+    if (maximumDutyCycle.first.isDefined() && !(maximumDutyCycle.first < maximumDutyCycle.second))
+    {
+        throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be less than denumerator.");
+    }
+
+    // If both the maximum duty cycle and the maximum duration are defined, the maximum duration must be less or equal
+    // than the maximum duty cycle numerator. As one cannot perform a maneuver that is longer than the maximum duty
+    // cycle numerator. E.g.:
+    // - Maximum duty cycle: 40 minutes / 98 minutes
+    // - Maximum duration: 60 minutes
+    //
+    // One cannot try to allocate any maneuver that is longer than 40min, as the maneuver itself would exceed the
+    // maximum duty cycle.
+    if (maximumDutyCycle.first.isDefined() && maximumDuration.isDefined() && maximumDuration > maximumDutyCycle.first)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Maximum duration must be less or equal than maximum duty cycle numerator."
+        );
+    }
+
+    if (maximumDutyCycle.first.isDefined())
+    {
+        // If the maximum duty cycle is defined but the maximum duration is not, the maximum duration should be set to
+        // the maximum duty cycle numerator. This will ensure that maneuvers, by themselves, do not exceed the maximum
+        // duty cycle.
+        if (!maximumDuration.isDefined())
+        {
+            maximumDuration = maximumDutyCycle.first;
+        }
+
+        // Prevent aliasing error message below if the minimum separation is not defined.
+        if (!minimumSeparation.isDefined())
+        {
+            minimumSeparation = Duration::Seconds(1.0);
+        }
+    }
+
     if (minimumDuration.isDefined() && minimumDuration <= Duration::Zero())
     {
         throw ostk::core::error::RuntimeError("Minimum duration must be greater than zero.");
@@ -89,53 +251,17 @@ Segment::ManeuverConstraints::ManeuverConstraints(
     }
 }
 
-bool Segment::ManeuverConstraints::isDefined() const
+Segment::ManeuverConstraints Segment::ManeuverConstraints::ManeuverDutyCycle(
+    const Pair<Duration, Duration>& aMaximumDutyCycle,
+    const Duration& aMinimumDuration,
+    const Duration& aMaximumDuration,
+    const Duration& aMinimumSeparation,
+    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
+)
 {
-    return minimumDuration.isDefined() || maximumDuration.isDefined() || minimumSeparation.isDefined();
-}
-
-bool Segment::ManeuverConstraints::intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const
-{
-    if (!minimumDuration.isDefined())
-    {
-        return true;
-    }
-
-    return aManeuverInterval.getDuration() >= minimumDuration;
-}
-
-bool Segment::ManeuverConstraints::intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const
-{
-    if (!maximumDuration.isDefined())
-    {
-        return true;
-    }
-
-    return aManeuverInterval.getDuration() <= maximumDuration;
-}
-
-void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
-{
-    if (displayDecorator)
-    {
-        ostk::core::utils::Print::Header(anOutputStream, "Maneuver Constraints");
-    }
-
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Minimum Duration:" << (this->minimumDuration.isDefined() ? this->minimumDuration.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Maximum Duration:" << (this->maximumDuration.isDefined() ? this->maximumDuration.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Minimum Separation:"
-        << (this->minimumSeparation.isDefined() ? this->minimumSeparation.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Maximum Duration Strategy:"
-        << Segment::StringFromMaximumManeuverDurationViolationStrategy(this->maximumDurationStrategy);
-
-    if (displayDecorator)
-    {
-        ostk::core::utils::Print::Footer(anOutputStream);
-    }
+    return ManeuverConstraints(
+        aMinimumDuration, aMaximumDuration, aMinimumSeparation, aMaximumDurationStrategy, aMaximumDutyCycle
+    );
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Segment::ManeuverConstraints& aManeuverConstraints)
@@ -741,6 +867,13 @@ Segment::Solution Segment::solve(
     Array<State> segmentStates = {aState};
     Array<Interval> acceptedManeuverIntervals = Array<Interval>::Empty();
 
+    // Array of all historical maneuvers (previous and accepted during this segment solve)
+    Array<Interval> historicalManeuverIntervals = Array<Interval>::Empty();
+    if (previousManeuverInterval.isDefined())
+    {
+        historicalManeuverIntervals.add(previousManeuverInterval);
+    }
+
     // Helper lambda to build a thruster dynamics that only thrusts within the given interval
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
     const Shared<const GuidanceLaw> originalGuidanceLaw = segmentThrusterDynamics->getGuidanceLaw();
@@ -859,6 +992,7 @@ Segment::Solution Segment::solve(
 
         // Track the accepted maneuver interval for explicit maneuver extraction
         acceptedManeuverIntervals.add(previousManeuverInterval);
+        historicalManeuverIntervals.add(previousManeuverInterval);
 
         // Reset the multiplier to 1, as we have accepted a maneuver
         multiplier = 1;
@@ -1005,6 +1139,16 @@ Segment::Solution Segment::solve(
             // Increment the multiplier for each time we skip a short maneuver
             ++multiplier;
 
+            continue;
+        }
+
+        // Check maximum duty cycle constraint
+        const Pair<bool, Instant> hasValidMaximumDutyCycle = maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+            candidateManeuverInterval, historicalManeuverIntervals
+        );
+        if (!hasValidMaximumDutyCycle.first)
+        {
+            segmentConditionIsSatisfied = solveAndAcceptCoast(hasValidMaximumDutyCycle.second);
             continue;
         }
 

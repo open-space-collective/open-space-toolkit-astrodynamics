@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -71,6 +72,7 @@
 using ostk::core::container::Array;
 using ostk::core::container::iterator::Zip;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
 using ostk::core::type::Real;
@@ -476,6 +478,99 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Inte
     EXPECT_FALSE(constraints.intervalHasValidMaximumDuration(
         Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(11.0))
     ));
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, ManeuverDutyCycle)
+{
+    // Only mandatory aguments
+    {
+        const Segment::ManeuverConstraints constraints = Segment::ManeuverConstraints::ManeuverDutyCycle(
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0))
+        );
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // All arguments
+    {
+        const Segment::ManeuverConstraints constraints = Segment::ManeuverConstraints::ManeuverDutyCycle(
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0)),
+            Duration::Minutes(1.0),
+            Duration::Minutes(10.0),
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+        );
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // Only numerator is defined
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints::ManeuverDutyCycle(
+                        Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Undefined())
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Either both or neither of maximum duty cycle numerator and denumerator must be defined.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Only denumerator is defined
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints::ManeuverDutyCycle(
+                        Pair<Duration, Duration>(Duration::Undefined(), Duration::Minutes(98.0))
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Either both or neither of maximum duty cycle numerator and denumerator must be defined.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maximum duration is greater than maximum duty cycle numerator
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints::ManeuverDutyCycle(
+                        Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0)),
+                        Duration::Undefined(),
+                        Duration::Minutes(41.0)
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Maximum duration must be less or equal than maximum duty cycle numerator.", e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
 }
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
