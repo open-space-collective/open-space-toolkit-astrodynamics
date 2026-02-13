@@ -849,10 +849,15 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         // 35 |      y      | true   <- end of analysisInterval
         //
         // At t=35, if we took a 10s step back to t=25, then both endpoints appear to be in an access, and the root
-        // finder will fail because it doesn't bracket a zero-crossing. Instead, we should start from the end of the
-        // previous Interval at t=20, and take a 10s step forward.
+        // finder will fail because it doesn't bracket a zero-crossing.
+        // In the general case, we should start from whichever is greater: the previous interval plus one step, or the
+        // current interval minus one step.
+
+        const Instant intervalPreviousStep = interval.getStart() - this->step_;
+
         const Instant lowerBoundPreviousInstant =
-            i == 0 ? (interval.getStart() - this->step_) : (accessIntervals[i - 1].getEnd() + this->step_);
+            i == 0 ? intervalPreviousStep
+                   : std::max(intervalPreviousStep, accessIntervals[i - 1].getEnd() + this->step_);
 
         const Instant lowerBoundInstant = interval.getStart();
 
