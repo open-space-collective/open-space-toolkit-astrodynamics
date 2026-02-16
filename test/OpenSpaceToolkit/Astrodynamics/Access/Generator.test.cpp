@@ -1210,14 +1210,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_7)
         // Compute Accesses
         // Choose the analysis interval and step size such that:
         // - Exactly 1 coarse instant is out-of-access (at the orbitEpoch).
-        // - The final coarse instant is less than one step after the previous, and is in-access.
+        // - The final coarse instant is less than one step after the previous coarse instant, and is in-access.
         // - The final coarse instant, minus one step (2024-12-31 23:59:30), is in-access.
         // 2024-12-31 23:57:00 [UTC] | inAccess: 1
         // 2024-12-31 23:58:00 [UTC] | inAccess: 1
         // 2024-12-31 23:59:00 [UTC] | inAccess: 1
-        //     2024-12-31 23:59:30 [UTC] | inAccess: 1
+        //     2024-12-31 23:59:30 [UTC] | inAccess: 1 (not a coarse instant)
         // 2025-01-01 00:00:00 [UTC] | inAccess: 0
-        //     2025-01-01 00:00:30 [UTC] | inAccess: 1
+        // 2025-01-01 00:00:30 [UTC] | inAccess: 1 (final coarse instant)
         const Interval accessAnalysisInterval =
             Interval::Closed(orbitEpoch - Duration::Minutes(3.0), orbitEpoch + Duration::Seconds(30.0));
 
@@ -1241,11 +1241,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_8)
     // Ensure that accesses not found by the coarse search are not inadvertedly used when computing precise crossings.
 
     {
-        // Create an orbit that is directly overhead the North Pole at its epoch.
+        // Create an orbit that is directly overhead the North Pole at its epoch, and flies "west to east" (270 -> 90
+        // degrees azimuth)
         const Instant orbitEpoch = Instant::Parse("2025-01-01T00:00:00", Scale::UTC, DateTime::Format::ISO8601);
         const Position position = Position::Meters({0.0, 0.0, 7e6}, Frame::ITRF()).inFrame(Frame::GCRF(), orbitEpoch);
-        const Velocity velocity = Velocity::MetersPerSecond({0.0, 8e3, 0.0}, Frame::ITRF())
-                                      .inFrame(position, Frame::GCRF(), orbitEpoch);  // Flying west -> east
+        const Velocity velocity =
+            Velocity::MetersPerSecond({0.0, 8e3, 0.0}, Frame::ITRF()).inFrame(position, Frame::GCRF(), orbitEpoch);
 
         const Orbit orbit = {
             Kepler(
@@ -1255,15 +1256,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_8)
                 defaultEarthSPtr_->getEquatorialRadius(),
                 EarthGravitationalModel::EGM2008.J2_,
                 EarthGravitationalModel::EGM2008.J4_,
-                Kepler::PerturbationType::J2
+                Kepler::PerturbationType::None
             ),
             defaultEarthSPtr_
         };
 
         // Create an AccessTarget at the North Pole with an azimuth-elevation mask such that:
-        // - Access 1 (~orbitEpoch - 1 orbit) is longer than the coarse step size
+        // - Access 1 (~orbitEpoch - 1 orbital period) is longer than the coarse step size
         // - Access 2 (~orbitEpoch) is shorter than the coarse step size
-        // - Access 3 (~orbitEpoch + 1 orbit) is longer than the coarse step size
+        // - Access 3 (~orbitEpoch + 1 orbital period) is longer than the coarse step size
         // - The midpoint of [<coarse LOS of Access 1> + 1 step, <coarse AOS of Access 3>] falls within Access 2
         const LLA lla = {
             Angle::Degrees(90.0),
@@ -1271,6 +1272,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_8)
             Length::Meters(0.0),
         };
 
+        // - A "tall blockage" around 270 -> 90 azimuth makes Access 2 shorter, but doesn't affect Access 1 or 3
+        // - A "low point" around 295 azimuth makes Access 3's AOS earlier, which is needed so that the midpoint between
+        // the coarse LOS of Access 1 and coarse AOS of Access 3 falls within Access 2.
         const ostk::core::container::Map<Real, Real> azimuthElevationMask = {
             {1.0, 5.0},
             {1.5, 0.0},
