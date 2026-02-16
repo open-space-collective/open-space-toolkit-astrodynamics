@@ -56,7 +56,7 @@ class NumericalSolver : public MathNumericalSolver
     ///                  numerical integration
     /// @param aStepperType An enum indicating the type of numerical stepper used to perform
     ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step the numerical solver will
+    /// @param aTimeStep A number indicating the initial guess time step (in seconds) the numerical solver will
     ///                  take
     /// @param aRelativeTolerance A number indicating the relative integration tolerance
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
@@ -144,7 +144,7 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief Create a fixed step size numerical solver.
     ///
-    /// @param aTimeStep The time step to use for integration.
+    /// @param aTimeStep The time step (in seconds) to use for integration.
     /// @param aSystemOfEquations System of equations to integrate.
     ///
     /// @return A fixed step size numerical solver.
@@ -158,7 +158,7 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief Create a conditional numerical solver.
     ///
-    /// @param aTimeStep The initial time step to use.
+    /// @param aTimeStep The initial time step (in seconds) to use.
     /// @param aRelativeTolerance The relative tolerance to use.
     /// @param anAbsoluteTolerance The absolute tolerance to use.
     /// @param stateLogger A function that takes a `State` object and logs.
@@ -218,7 +218,7 @@ class NumericalSolver : public MathNumericalSolver
     ///                  numerical integration
     /// @param aStepperType An enum indicating the type of numerical stepper used to perform
     ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step the numerical solver will
+    /// @param aTimeStep A number indicating the initial guess time step (in seconds) the numerical solver will
     ///                  take
     /// @param aRelativeTolerance A number indicating the relative integration tolerance
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
