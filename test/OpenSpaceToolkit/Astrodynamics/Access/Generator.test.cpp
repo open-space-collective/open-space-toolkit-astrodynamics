@@ -1210,13 +1210,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_7)
         // Compute Accesses
         // Choose the analysis interval and step size such that:
         // - Exactly 1 coarse instant is out-of-access (at the orbitEpoch).
-        // - The final coarse instant is less than one step after the previous, and is in-access.
+        // - The final coarse instant is less than one step after the previous coarse instant, and is in-access.
         // - The final coarse instant, minus one step (2024-12-31 23:59:30), is in-access.
         // 2024-12-31 23:57:00 [UTC] | inAccess: 1
         // 2024-12-31 23:58:00 [UTC] | inAccess: 1
         // 2024-12-31 23:59:00 [UTC] | inAccess: 1
+        //     2024-12-31 23:59:30 [UTC] | inAccess: 1 (not a coarse instant)
         // 2025-01-01 00:00:00 [UTC] | inAccess: 0
-        // 2025-01-01 00:00:30 [UTC] | inAccess: 1
+        // 2025-01-01 00:00:30 [UTC] | inAccess: 1 (final coarse instant)
         const Interval accessAnalysisInterval =
             Interval::Closed(orbitEpoch - Duration::Minutes(3.0), orbitEpoch + Duration::Seconds(30.0));
 
@@ -1232,6 +1233,90 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_7)
         EXPECT_EQ(accesses[0].getType(), Access::Type::Partial);
         EXPECT_EQ(accesses[1].getType(), Access::Type::Partial);
         EXPECT_EQ(accesses[1].getInterval().getEnd(), accessAnalysisInterval.getEnd());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_8)
+{
+    // Ensure that accesses not found by the coarse search are not inadvertedly used when computing precise crossings.
+
+    {
+        // Create an orbit that is directly overhead the North Pole at its epoch, and flies "west to east" (270 -> 90
+        // degrees azimuth)
+        const Instant orbitEpoch = Instant::Parse("2025-01-01T00:00:00", Scale::UTC, DateTime::Format::ISO8601);
+        const Position position = Position::Meters({0.0, 0.0, 7e6}, Frame::ITRF()).inFrame(Frame::GCRF(), orbitEpoch);
+        const Velocity velocity =
+            Velocity::MetersPerSecond({0.0, 8e3, 0.0}, Frame::ITRF()).inFrame(position, Frame::GCRF(), orbitEpoch);
+
+        const Orbit orbit = {
+            Kepler(
+                COE::Cartesian({position, velocity}, defaultEarthSPtr_->getGravitationalParameter()),
+                orbitEpoch,
+                defaultEarthSPtr_->getGravitationalParameter(),
+                defaultEarthSPtr_->getEquatorialRadius(),
+                EarthGravitationalModel::EGM2008.J2_,
+                EarthGravitationalModel::EGM2008.J4_,
+                Kepler::PerturbationType::None
+            ),
+            defaultEarthSPtr_
+        };
+
+        // Create an AccessTarget at the North Pole with an azimuth-elevation mask such that:
+        // - Access 1 (~orbitEpoch - 1 orbital period) is longer than the coarse step size
+        // - Access 2 (~orbitEpoch) is shorter than the coarse step size
+        // - Access 3 (~orbitEpoch + 1 orbital period) is longer than the coarse step size
+        // - The midpoint of [<coarse LOS of Access 1> + 1 step, <coarse AOS of Access 3>] falls within Access 2
+        const LLA lla = {
+            Angle::Degrees(90.0),
+            Angle::Degrees(0.0),
+            Length::Meters(0.0),
+        };
+
+        // - A "tall blockage" around 270 -> 90 azimuth makes Access 2 shorter, but doesn't affect Access 1 or 3
+        // - A "low point" around 295 azimuth makes Access 3's AOS earlier, which is needed so that the midpoint between
+        // the coarse LOS of Access 1 and coarse AOS of Access 3 falls within Access 2.
+        const ostk::core::container::Map<Real, Real> azimuthElevationMask = {
+            {1.0, 5.0},
+            {1.5, 0.0},
+            {2.0, 0.0},
+            {84.0, 5.0},
+            {85.0, 55.0},
+            {95.0, 55.0},
+            {96.0, 5.0},
+            {264.0, 5.0},
+            {265.0, 87.0},
+            {275.0, 87.0},
+            {276.0, 5.0},
+            {290.0, -5.0},
+            {300.0, -5.0},
+            {359.0, 0.0}
+        };
+        const ostk::mathematics::object::Interval<Real> rangeRange =
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
+
+        const VisibilityCriterion visibilityCriterion =
+            VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeRange);
+
+        const AccessTarget accessTarget =
+            AccessTarget::FromPosition(visibilityCriterion, Position::FromLLA(lla, defaultEarthSPtr_));
+
+        // Compute Accesses
+        // Choose the analysis interval and step size such that Access 2 is not found in the coarse search.
+        const Interval accessAnalysisInterval = Interval::Closed(
+            orbitEpoch - Duration::Hours(2.0) + Duration::Minutes(1.0), orbitEpoch + Duration::Hours(2.0)
+        );
+
+        const Generator generator =
+            Generator(defaultEnvironment_, Duration::Seconds(120.0), Duration::Seconds(5.0), {}, {});
+
+        const Array<Access> accesses = generator.computeAccesses(accessAnalysisInterval, accessTarget, orbit);
+
+        // Expect 2 accesses (1 and 3)
+        EXPECT_EQ(accesses.getSize(), 2);
+
+        // Regression test; if Access 2 was found when computing precise crossings for Access 3, then Access 3 would be
+        // around 2 hours long.
+        EXPECT_LT(accesses[1].getInterval().getDuration(), Duration::Minutes(20.0));
     }
 }
 
