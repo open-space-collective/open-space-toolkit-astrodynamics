@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Args:
                         log_type (NumericalSolver.LogType): The type of logging.
                         stepper_type (NumericalSolver.StepperType): The type of stepper.
-                        time_step (float): The time step.
+                        time_step (float): The time step (in seconds).
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         root_solver (RootSolver, optional): The root solver. Defaults to RootSolver.Default().
@@ -292,7 +292,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Args:
                         stepper_type (NumericalSolver.StepperType): The type of stepper.
-                        time_step (float): The time step.
+                        time_step (float): The time step (in seconds).
 
                     Returns:
                         NumericalSolver: The numerical solver.
@@ -321,7 +321,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Return a conditional numerical solver.
 
                     Args:
-                        time_step (float): The time step.
+                        time_step (float): The time step (in seconds).
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         state_logger (StateLogger, optional): The state logger. Defaults to None.
