@@ -105,7 +105,7 @@
 <parametername>aTimeStep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A number indicating the initial guess time step the numerical solver will take </para>
+<para>A number indicating the initial guess time step (in seconds) the numerical solver will take </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -563,7 +563,7 @@
 <parametername>aTimeStep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The time step to use for integration. </para>
+<para>The time step (in seconds) to use for integration. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -644,7 +644,7 @@
 <parametername>aTimeStep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The initial time step to use. </para>
+<para>The initial time step (in seconds) to use. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -743,7 +743,7 @@
 <parametername>aTimeStep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A number indicating the initial guess time step the numerical solver will take </para>
+<para>A number indicating the initial guess time step (in seconds) the numerical solver will take </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
