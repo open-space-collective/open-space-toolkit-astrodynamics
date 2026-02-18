@@ -665,6 +665,7 @@ clean: ## Clean
 	rm -rf "$(CURDIR)/coverage"
 	rm -rf "$(CURDIR)/packages"
 	rm -rf "$(CURDIR)/.open-space-toolkit"
+	find "$(CURDIR)" -type d -name ".mypy_cache" -not -path "$(CURDIR)/.git/*" -exec rm -rf {} +
 
 .PHONY: clean
 
