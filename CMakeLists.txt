@@ -33,7 +33,7 @@ OPTION (BUILD_WITHOUT_DEPRECATED_DECLARATION_WARNINGS "Build without deprecated 
 
 ### Compatibility Check
 
-CMAKE_MINIMUM_REQUIRED (VERSION "2.8.12" FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED (VERSION "3.5" FATAL_ERROR)
 
 ### Paths
 
@@ -42,6 +42,7 @@ LIST (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake")
 ### Policies
 
 CMAKE_POLICY (SET "CMP0048" NEW)
+CMAKE_POLICY (SET "CMP0167" OLD)
 
 ## Version
 
@@ -151,9 +152,19 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated")
 
-ELSE ()
+ELSEIF (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow")
+
+ELSEIF (MSVC)
+
+    # MSVC warning flags
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /utf-8 /FS")
+    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -DWIN32_LEAN_AND_MEAN -D_USE_MATH_DEFINES)
+    SET (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    SET (CMAKE_CXX_STANDARD 17)
+    # Force include Real formatter to make ostk::core::type::Real formattable with fmt on MSVC.
+    ADD_COMPILE_OPTIONS(/FI"${CMAKE_INSTALL_PREFIX}/include/OpenSpaceToolkit/Mathematics/RealFormatter.hpp")
 
 ENDIF ()
 
@@ -164,7 +175,9 @@ SET (CMAKE_CXX_EXTENSIONS OFF)
 
 IF (BUILD_WITH_DEBUG_SYMBOLS)
 
-    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+    IF (NOT MSVC)
+        SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+    ENDIF ()
 
 ENDIF ()
 
@@ -200,7 +213,7 @@ IF (WIN32)
     SET (INSTALL_DATA "bin")                            # C:\Programme\<project>
     SET (INSTALL_BIN "bin")                             # C:\Programme\<project>
     SET (INSTALL_LIB "lib")                             # C:\Programme\<project>\lib
-    SET (INSTALL_INCLUDE "include")                     # C:\Programme\<project>\include
+    SET (INSTALL_INCLUDE "include/${PROJECT_PATH}")     # C:\Programme\<project>\include\<project>
     SET (INSTALL_DOC "doc")                             # C:\Programme\<project>\doc
     SET (INSTALL_SHORTCUTS ".")                         # Not available under Windows
     SET (INSTALL_ICONS ".")                             # Not available under Windows
@@ -262,7 +275,10 @@ FIND_PACKAGE ("Boost" "1.82" REQUIRED COMPONENTS log log_setup thread)
 IF (BUILD_WITH_BOOST_STACKTRACE)
 ## Stacktrace definitions
 # Detect system architecture
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+if(WIN32)
+        # Windows does not use backtrace.h
+        message(STATUS "Windows detected, skipping backtrace include")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
         # Architecture-specific include for x86_64
         set(BACKTRACE_INCLUDE "/usr/lib/gcc/x86_64-linux-gnu/9/include/backtrace.h")
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
@@ -272,10 +288,11 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
         message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
     endif()
 
-    # Add definitions with architecture-specific path
     ADD_DEFINITIONS(-DBOOST_THREAD_DYN_LINK)
-    ADD_DEFINITIONS(-DBOOST_STACKTRACE_USE_BACKTRACE)
-    ADD_DEFINITIONS(-DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=<${BACKTRACE_INCLUDE}>)
+    if(NOT WIN32)
+        ADD_DEFINITIONS(-DBOOST_STACKTRACE_USE_BACKTRACE)
+        ADD_DEFINITIONS(-DBOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=<${BACKTRACE_INCLUDE}>)
+    endif()
 ENDIF()
 
 IF (NOT Boost_FOUND)
@@ -285,6 +302,12 @@ ENDIF ()
 ### Eigen [3]
 
 FIND_PACKAGE ("Eigen3" REQUIRED)
+
+# Support both module (EIGEN3_*) and config (Eigen3_*) packages
+IF (Eigen3_FOUND AND NOT EIGEN3_FOUND)
+    SET (EIGEN3_FOUND ${Eigen3_FOUND})
+    SET (EIGEN3_INCLUDE_DIR ${Eigen3_INCLUDE_DIRS})
+ENDIF ()
 
 IF (EIGEN3_FOUND)
     INCLUDE_DIRECTORIES (${EIGEN3_INCLUDE_DIR})
@@ -314,9 +337,27 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
+### fmt
+
+FIND_PACKAGE (fmt CONFIG REQUIRED)
+
+IF (TARGET fmt::fmt)
+    SET (FMT_LIBRARY_TARGET fmt::fmt)
+ELSEIF (TARGET fmt::fmt-header-only)
+    SET (FMT_LIBRARY_TARGET fmt::fmt-header-only)
+ELSE ()
+    MESSAGE (SEND_ERROR "[fmt] target not found.")
+ENDIF ()
+
+GET_TARGET_PROPERTY (FMT_INCLUDE_DIRS ${FMT_LIBRARY_TARGET} INTERFACE_INCLUDE_DIRECTORIES)
+IF (FMT_INCLUDE_DIRS)
+    # Keep fmt headers first to avoid mixing versions from other package include roots.
+    INCLUDE_DIRECTORIES (BEFORE ${FMT_INCLUDE_DIRS})
+ENDIF ()
+
 ### Open Space Toolkit ▸ Core [5.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitCore" "5" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" REQUIRED)
 
 IF (NOT OpenSpaceToolkitCore_FOUND)
 
@@ -326,7 +367,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ I/O [4.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitIO" "4" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitIO" REQUIRED)
 
 IF (NOT OpenSpaceToolkitIO_FOUND)
 
@@ -336,7 +377,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Mathematics [4.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitMathematics" "4" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" REQUIRED)
 
 IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
@@ -346,7 +387,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Physics [13.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "13" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 
@@ -384,12 +425,19 @@ IF (BUILD_SHARED_LIBRARY)
 
     TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/include/")
     TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/src/")
+    TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitCore_INCLUDE_DIRS})
+    TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitIO_INCLUDE_DIRS})
+    TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitMathematics_INCLUDE_DIRS})
+    TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitPhysics_INCLUDE_DIRS})
 
-    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "pthread")
-    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "dl")
+    IF (NOT WIN32)
+        TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "pthread")
+        TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "dl")
+    ENDIF ()
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${Boost_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${SGP4_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${NLopt_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${FMT_LIBRARY_TARGET})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitIO_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
@@ -416,12 +464,19 @@ IF (BUILD_STATIC_LIBRARY)
     ADD_LIBRARY (${STATIC_LIBRARY_TARGET} STATIC ${STATIC_LIBRARY_SRCS})
 
     TARGET_INCLUDE_DIRECTORIES (${STATIC_LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/include/")
+    TARGET_INCLUDE_DIRECTORIES (${STATIC_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitCore_INCLUDE_DIRS})
+    TARGET_INCLUDE_DIRECTORIES (${STATIC_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitIO_INCLUDE_DIRS})
+    TARGET_INCLUDE_DIRECTORIES (${STATIC_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitMathematics_INCLUDE_DIRS})
+    TARGET_INCLUDE_DIRECTORIES (${STATIC_LIBRARY_TARGET} PUBLIC ${OpenSpaceToolkitPhysics_INCLUDE_DIRS})
 
-    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} "pthread")
-    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} "dl")
+    IF (NOT WIN32)
+        TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} "pthread")
+        TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} "dl")
+    ENDIF ()
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${Boost_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${SGP4_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${NLopt_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${FMT_LIBRARY_TARGET})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitIO_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
@@ -447,7 +502,9 @@ IF (BUILD_SCRIPT)
 
     TARGET_INCLUDE_DIRECTORIES (${UTILITY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/include/")
 
-    TARGET_LINK_LIBRARIES (${UTILITY_TARGET} "pthread")
+    IF (NOT WIN32)
+        TARGET_LINK_LIBRARIES (${UTILITY_TARGET} "pthread")
+    ENDIF ()
     TARGET_LINK_LIBRARIES (${UTILITY_TARGET} ${Boost_STACKTRACE_BACKTRACE_LIBRARY})
     TARGET_LINK_LIBRARIES (${UTILITY_TARGET} ${SHARED_LIBRARY_TARGET})
 

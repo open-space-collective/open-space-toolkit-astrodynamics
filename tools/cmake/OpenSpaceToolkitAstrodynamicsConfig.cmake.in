@@ -2,8 +2,62 @@
 
 SET (OpenSpaceToolkitAstrodynamics_ROOT_DIR ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} @CMAKE_INSTALL_PREFIX@)
 
-FIND_PATH (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR "OpenSpaceToolkit/Astrodynamics/Access.hpp" PATHS ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} PATH_SUFFIXES "include" NO_DEFAULT_PATH)
-FIND_LIBRARY (OpenSpaceToolkitAstrodynamics_LIBRARY NAMES "libopen-space-toolkit-astrodynamics.so" PATHS ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} PATH_SUFFIXES "lib" NO_DEFAULT_PATH)
+FIND_PATH (
+    OpenSpaceToolkitAstrodynamics_INCLUDE_DIR
+    NAMES
+        "OpenSpaceToolkit/Astrodynamics/Access.hpp"
+        "Access.hpp"
+    PATHS
+        ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}
+    PATH_SUFFIXES
+        "include"
+        "include/OpenSpaceToolkit/Astrodynamics"
+    NO_DEFAULT_PATH
+)
+
+IF (WIN32)
+
+    # Link-time library (.lib)
+    FIND_LIBRARY (
+        OpenSpaceToolkitAstrodynamics_LIBRARY
+        NAMES
+            "open-space-toolkit-astrodynamics"
+            "libopen-space-toolkit-astrodynamics"
+        PATHS
+            ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}
+        PATH_SUFFIXES
+            "lib"
+        NO_DEFAULT_PATH
+    )
+
+    # Runtime library (.dll), optional for deployment tooling
+    FIND_FILE (
+        OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARY
+        NAMES
+            "open-space-toolkit-astrodynamics.dll"
+        PATHS
+            ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}
+        PATH_SUFFIXES
+            "bin"
+            "lib"
+        NO_DEFAULT_PATH
+    )
+
+ELSE ()
+
+    FIND_LIBRARY (
+        OpenSpaceToolkitAstrodynamics_LIBRARY
+        NAMES
+            "libopen-space-toolkit-astrodynamics.so"
+            "open-space-toolkit-astrodynamics"
+        PATHS
+            ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}
+        PATH_SUFFIXES
+            "lib"
+        NO_DEFAULT_PATH
+    )
+
+ENDIF ()
 
 # MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_ROOT_DIR = ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}")
 # MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_INCLUDE_DIR = ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}")
@@ -12,8 +66,19 @@ FIND_LIBRARY (OpenSpaceToolkitAstrodynamics_LIBRARY NAMES "libopen-space-toolkit
 
 IF (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR)
 
-    SET (OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR} ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics)
+    IF (EXISTS "${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics/Access.hpp")
+        SET (
+            OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS
+            ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}
+            ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics
+        )
+    ELSE ()
+        # Fallback for legacy flat install layout where Access.hpp is directly under include.
+        SET (OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR})
+    ENDIF ()
+
     SET (OpenSpaceToolkitAstrodynamics_LIBRARIES ${OpenSpaceToolkitAstrodynamics_LIBRARY})
+    SET (OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARIES ${OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARY})
 
     SET (OpenSpaceToolkitAstrodynamics_FOUND TRUE)
 
