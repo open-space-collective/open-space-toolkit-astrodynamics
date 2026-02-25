@@ -68,10 +68,14 @@ class TLESolver
     static const Shared<const CoordinateSubset> TrueLongitudeSubset;
     static const Shared<const CoordinateSubset> BStarSubset;
 
+    /// @brief Analysis results from TLE estimation.
     class Analysis
     {
        public:
         /// @brief Constructor
+        ///
+        /// @param aEstimatedTLE The estimated TLE resulting from the solver
+        /// @param anAnalysis The least squares solver analysis containing convergence and residual information
         Analysis(const TLE& aEstimatedTLE, const LeastSquaresSolver::Analysis& anAnalysis);
 
         /// @brief Stream Operator
@@ -80,8 +84,8 @@ class TLESolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        TLE estimatedTLE;
-        LeastSquaresSolver::Analysis solverAnalysis;
+        TLE estimatedTLE;  ///< The estimated TLE produced by the solver.
+        LeastSquaresSolver::Analysis solverAnalysis;  ///< Least squares solver analysis results.
     };
 
     /// @brief Constructor

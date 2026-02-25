@@ -185,9 +185,38 @@ class AccessTarget
     AccessTarget(const Type& aType, const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory);
 };
 
+/// @brief Computes access intervals between a trajectory and one or more access targets.
+///
+/// @details The Generator evaluates visibility between a "from" trajectory (e.g. a satellite) and
+/// one or more AccessTarget objects over a given time interval. It steps through the interval at a
+/// configurable cadence, detects crossings of the visibility condition, and then refines each
+/// crossing to within a configurable tolerance. Optional access-level and state-level filter
+/// functions allow further pruning of the resulting Access objects.
 class Generator
 {
    public:
+    /// @brief Constructor.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = {
+    ///         environment,
+    ///         Duration::Minutes(1.0),
+    ///         Duration::Microseconds(1.0),
+    ///         accessFilter,
+    ///         stateFilter
+    ///     };
+    /// @endcode
+    ///
+    /// @param anEnvironment The space environment used for frame transformations and celestial body
+    /// access.
+    /// @param aStep The time step used when sampling the interval to detect visibility crossings.
+    /// Defaults to 1 minute.
+    /// @param aTolerance The temporal tolerance used when refining the precise time of an access
+    /// crossing. Defaults to 1 microsecond.
+    /// @param anAccessFilter An optional predicate applied to each candidate Access object; only
+    /// accesses for which the predicate returns true are retained.
+    /// @param aStateFilter An optional predicate applied to the pair of from/to States at each
+    /// sample; samples for which the predicate returns false are treated as non-visible.
     Generator(
         const Environment& anEnvironment,
         const Duration& aStep = DEFAULT_STEP,
@@ -196,20 +225,96 @@ class Generator
         const std::function<bool(const State&, const State&)>& aStateFilter = {}
     );
 
+    /// @brief Check whether this Generator is defined.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     bool defined = generator.isDefined();
+    /// @endcode
+    ///
+    /// @return True if the Generator is defined, false otherwise.
     bool isDefined() const;
 
+    /// @brief Get the time step used when sampling the interval.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     Duration step = generator.getStep();
+    /// @endcode
+    ///
+    /// @return The sampling time step.
     Duration getStep() const;
 
+    /// @brief Get the temporal tolerance used for crossing refinement.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     Duration tolerance = generator.getTolerance();
+    /// @endcode
+    ///
+    /// @return The crossing refinement tolerance.
     Duration getTolerance() const;
 
+    /// @brief Get the access filter predicate.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     std::function<bool(const Access&)> filter = generator.getAccessFilter();
+    /// @endcode
+    ///
+    /// @return The access filter function, or an empty function if none was set.
     std::function<bool(const Access&)> getAccessFilter() const;
 
+    /// @brief Get the state filter predicate.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     std::function<bool(const State&, const State&)> filter = generator.getStateFilter();
+    /// @endcode
+    ///
+    /// @return The state filter function, or an empty function if none was set.
     std::function<bool(const State&, const State&)> getStateFilter() const;
 
+    /// @brief Get a boolean condition function that evaluates visibility at a given instant.
+    ///
+    /// @details Returns a callable that, when invoked with an Instant, evaluates whether the
+    /// given access target is visible from the "to" trajectory at that moment. This is primarily
+    /// used internally to drive the crossing-detection logic, but is exposed for advanced use
+    /// cases such as custom solvers.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     std::function<bool(const Instant&)> condition =
+    ///         generator.getConditionFunction(accessTarget, toTrajectory);
+    ///     bool visible = condition(instant);
+    /// @endcode
+    ///
+    /// @param anAccessTarget The access target to evaluate visibility against.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @return A function that returns true when the target is visible at a given instant.
     std::function<bool(const Instant&)> getConditionFunction(
         const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
     ) const;
 
+    /// @brief Compute accesses between a single access target and a trajectory over a time interval.
+    ///
+    /// @details Steps through the given interval at the configured step size, detects transitions
+    /// in the visibility condition, and refines each transition to within the configured tolerance.
+    /// The optional access filter and state filter are applied during this process.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     Array<Access> accesses = generator.computeAccesses(
+    ///         interval, accessTarget, toTrajectory
+    ///     );
+    /// @endcode
+    ///
+    /// @param anInterval The time interval over which to compute accesses.
+    /// @param anAccessTarget The access target to evaluate visibility against.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param coarse If true, skips precise crossing refinement and returns coarse intervals only.
+    /// Defaults to false.
+    /// @return An array of Access objects representing each visibility window.
     Array<Access> computeAccesses(
         const physics::time::Interval& anInterval,
         const AccessTarget& anAccessTarget,
@@ -217,6 +322,26 @@ class Generator
         const bool& coarse = false
     ) const;
 
+    /// @brief Compute accesses between multiple access targets and a trajectory over a time interval.
+    ///
+    /// @details Equivalent to calling the single-target overload for each element of
+    /// someAccessTargets, but may use a more efficient batched implementation for fixed targets.
+    /// Returns one array of Access objects per target, in the same order as someAccessTargets.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     Array<Array<Access>> allAccesses = generator.computeAccesses(
+    ///         interval, accessTargets, toTrajectory
+    ///     );
+    /// @endcode
+    ///
+    /// @param anInterval The time interval over which to compute accesses.
+    /// @param someAccessTargets The array of access targets to evaluate visibility against.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param coarse If true, skips precise crossing refinement and returns coarse intervals only.
+    /// Defaults to false.
+    /// @return An array of access arrays, one per access target, in the same order as
+    /// someAccessTargets.
     Array<Array<Access>> computeAccesses(
         const physics::time::Interval& anInterval,
         const Array<AccessTarget>& someAccessTargets,
@@ -224,14 +349,64 @@ class Generator
         const bool& coarse = false
     ) const;
 
+    /// @brief Set the time step used when sampling the interval.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     generator.setStep(Duration::Seconds(30.0));
+    /// @endcode
+    ///
+    /// @param aStep The new sampling time step.
     void setStep(const Duration& aStep);
 
+    /// @brief Set the temporal tolerance used for crossing refinement.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     generator.setTolerance(Duration::Milliseconds(1.0));
+    /// @endcode
+    ///
+    /// @param aTolerance The new crossing refinement tolerance.
     void setTolerance(const Duration& aTolerance);
 
+    /// @brief Set the access filter predicate.
+    ///
+    /// @details The filter is applied to each candidate Access object after all crossings have been
+    /// refined. Only accesses for which the predicate returns true are included in the result.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     generator.setAccessFilter([](const Access& access) {
+    ///         return access.getDuration() > Duration::Minutes(5.0);
+    ///     });
+    /// @endcode
+    ///
+    /// @param anAccessFilter The new access filter function.
     void setAccessFilter(const std::function<bool(const Access&)>& anAccessFilter);
 
+    /// @brief Set the state filter predicate.
+    ///
+    /// @details The filter is evaluated at each sample instant. If the predicate returns false for
+    /// a given pair of from/to States, that sample is treated as non-visible regardless of the
+    /// geometric visibility criterion.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = { ... };
+    ///     generator.setStateFilter([](const State& fromState, const State& toState) {
+    ///         return someCustomCheck(fromState, toState);
+    ///     });
+    /// @endcode
+    ///
+    /// @param aStateFilter The new state filter function.
     void setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter);
 
+    /// @brief Construct an undefined Generator.
+    ///
+    /// @code{.cpp}
+    ///     Generator generator = Generator::Undefined();
+    /// @endcode
+    ///
+    /// @return An undefined Generator instance.
     static Generator Undefined();
 
    private:

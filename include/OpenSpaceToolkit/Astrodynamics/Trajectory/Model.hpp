@@ -26,18 +26,39 @@ using ostk::astrodynamics::trajectory::State;
 class Model
 {
    public:
+    /// @brief Default constructor.
     Model();
 
+    /// @brief Destructor (pure virtual).
     virtual ~Model() = 0;
 
+    /// @brief Clone the model.
+    ///
+    /// @return Pointer to the cloned model.
     virtual Model* clone() const = 0;
 
+    /// @brief Equal to operator.
+    ///
+    /// @param aModel Another model.
+    /// @return True if models are equal.
     virtual bool operator==(const Model& aModel) const = 0;
 
+    /// @brief Not equal to operator.
+    ///
+    /// @param aModel Another model.
+    /// @return True if models are not equal.
     virtual bool operator!=(const Model& aModel) const = 0;
 
+    /// @brief Output stream operator.
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param aModel A model.
+    /// @return A reference to output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel);
 
+    /// @brief Check if model is defined.
+    ///
+    /// @return True if model is defined.
     virtual bool isDefined() const = 0;
 
     /// @brief Returns true if model can be converted to type
@@ -65,10 +86,22 @@ class Model
         return *modelPtr;
     }
 
+    /// @brief Calculate state at a given instant.
+    ///
+    /// @param anInstant An instant.
+    /// @return State at the given instant.
     virtual State calculateStateAt(const Instant& anInstant) const = 0;
 
+    /// @brief Calculate states at given instants.
+    ///
+    /// @param anInstantArray An array of instants.
+    /// @return Array of states.
     virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const;
 
+    /// @brief Print model.
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator If true, display decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
 };
 

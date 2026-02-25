@@ -53,20 +53,24 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class OrbitDeterminationSolver
 {
    public:
+    /// @brief Analysis results from orbit determination.
     class Analysis
     {
        public:
         /// @brief Constructor
+        ///
+        /// @param anEstimatedState The estimated state resulting from orbit determination
+        /// @param anAnalysis The least squares solver analysis containing convergence and residual information
         Analysis(const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis);
 
-        /// @brief Print analysis
+        /// @brief Stream insertion operator
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Analysis& anAnalysis);
 
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        State estimatedState;  // Matching the frame and expanded coordinates of the provided initial guess state.
-        LeastSquaresSolver::Analysis solverAnalysis;
+        State estimatedState;  ///< Matching the frame and expanded coordinates of the provided initial guess state.
+        LeastSquaresSolver::Analysis solverAnalysis;  ///< Least squares solver analysis results.
     };
 
     /// @brief Constructor

@@ -202,6 +202,14 @@ class VisibilityCriterion
 
     /// @brief Creates a visibility criterion from azimuth, elevation, and range intervals.
     ///
+    /// @code{.cpp}
+    ///     VisibilityCriterion criterion = VisibilityCriterion::FromAERInterval(
+    ///         Interval<Real>::Closed(0.0, 360.0),
+    ///         Interval<Real>::Closed(0.0, 90.0),
+    ///         Interval<Real>::Closed(0.0, 1.0e7)
+    ///     ) ;
+    /// @endcode
+    ///
     /// @param anAzimuthInterval Azimuth interval in degrees.
     /// @param anElevationInterval Elevation interval in degrees.
     /// @param aRangeInterval Range interval in meters.
@@ -214,6 +222,13 @@ class VisibilityCriterion
 
     /// @brief Creates a visibility criterion from an azimuth-elevation mask and range interval.
     ///
+    /// @code{.cpp}
+    ///     VisibilityCriterion criterion = VisibilityCriterion::FromAERMask(
+    ///         {{0.0, 5.0}, {90.0, 10.0}, {180.0, 5.0}, {270.0, 10.0}},
+    ///         Interval<Real>::Closed(0.0, 1.0e7)
+    ///     ) ;
+    /// @endcode
+    ///
     /// @param anAzimuthElevationMask A map of azimuth angles to elevation angles in degrees.
     /// @param aRangeInterval Range interval in meters.
     /// @return The visibility criterion instance.
@@ -223,11 +238,21 @@ class VisibilityCriterion
 
     /// @brief Creates a visibility criterion based on line-of-sight considerations.
     ///
+    /// @code{.cpp}
+    ///     VisibilityCriterion criterion = VisibilityCriterion::FromLineOfSight(environment) ;
+    /// @endcode
+    ///
     /// @param anEnvironment The environment to consider for line-of-sight calculations.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromLineOfSight(const Environment& anEnvironment);
 
     /// @brief Creates a visibility criterion from an elevation interval.
+    ///
+    /// @code{.cpp}
+    ///     VisibilityCriterion criterion = VisibilityCriterion::FromElevationInterval(
+    ///         Interval<Real>::Closed(10.0, 90.0)
+    ///     ) ;
+    /// @endcode
     ///
     /// @param anElevationInterval The elevation interval in degrees.
     /// @return The visibility criterion instance.

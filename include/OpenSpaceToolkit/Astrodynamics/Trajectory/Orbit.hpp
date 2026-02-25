@@ -64,18 +64,18 @@ class Orbit : public Trajectory
     enum class FrameType
     {
 
-        Undefined,  // Undefined frame
-        NED,        // North-East-Down (NED) frame
-        LVLH,       // Local Vertical-Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
-                    // orbital momentum)
-        VVLH,       // Vehicle Velocity-Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis
-                    // aligned with opposite of orbital momentum)
-        LVLHGD,     // Local Vertical-Local Horizontal-GeoDetic (LVLHGD) frame
-        LVLHGDGT,   // Local Vertical-Local Horizontal-GeoDetic-GroundTrack (LVLHGDGT) frame
-        QSW,        // QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
-        TNW,  // Tangent-Normal-Wideband frame (X axis aligned with velocity, Z axis aligned with orbital momentum)
-        VNC   // Velocity-Normal-Conormal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
-              // momentum)
+        Undefined,  ///< Undefined frame
+        NED,        ///< North-East-Down (NED) frame
+        LVLH,       ///< Local Vertical-Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
+                    ///< orbital momentum)
+        VVLH,       ///< Vehicle Velocity-Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis
+                    ///< aligned with opposite of orbital momentum)
+        LVLHGD,     ///< Local Vertical-Local Horizontal-GeoDetic (LVLHGD) frame
+        LVLHGDGT,   ///< Local Vertical-Local Horizontal-GeoDetic-GroundTrack (LVLHGDGT) frame
+        QSW,        ///< QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
+        TNW,  ///< Tangent-Normal-Wideband frame (X axis aligned with velocity, Z axis aligned with orbital momentum)
+        VNC   ///< Velocity-Normal-Conormal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
+              ///< momentum)
     };
 
     typedef Array<Pass>::ConstIterator ConstPassIterator;

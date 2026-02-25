@@ -43,6 +43,7 @@ class Thruster : public Dynamics
         const String& aName = "Thruster"
     );
 
+    /// @brief Destructor
     ~Thruster();
 
     /// @brief Get satellite system
