@@ -159,8 +159,6 @@ Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCyc
     // i.e. there is no "room" for the candidate maneuver. This is due to previous maneuvers during the tail
     // interval already saturating (or even over-saturating) the duty cycle.
     //
-    // We need to solve this numerically.
-    //
     // Consider the following:
     // - Be "t_*" an arbitraty instant
     // - Be SUM(t_i, t_j) the sum of the previous maneuvers durations between t_j and t_j
@@ -177,7 +175,10 @@ Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCyc
     //
     // SUM(t_* - den, t_*) - num = 0
     //
-    // We can then use a root solver find the zero of that equation, giving us the earliest valid start instant:
+    // Unlike the previous cases, we need to solve this numerically, as we cannot really express the equation
+    // above as an analytical "t_* = ..."" function.
+    //
+    // We can use a root solver to find the zero of that equation, giving us the earliest valid start instant:
     const Instant t0 = tailManeuverIntervals.accessFirst().getStart();
     const auto function = [t0, numerator, denominator, aPreviousManeuverIntervals](const double& x) -> double
     {
