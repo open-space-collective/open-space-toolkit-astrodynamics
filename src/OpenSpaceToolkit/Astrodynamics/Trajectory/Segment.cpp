@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -84,23 +85,52 @@ Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCyc
         return Pair<bool, Instant>(true, Instant::Undefined());
     }
 
-    // If there are no previous maneuver intervals, return valid
-    if (aPreviousManeuverIntervals.isEmpty())
+    // If the candidate maneuver duration is greater than the maximum duty cycle numerator, return invalid
+    if (aManeuverInterval.getDuration() > maximumDutyCycle.first)
     {
-        return Pair<bool, Instant>(true, Instant::Undefined());
+        return Pair<bool, Instant>(false, aManeuverInterval.getEnd() - maximumDutyCycle.first);
     }
 
-    // Create the "tail" interval (from the candidate maneuver end back to the maximum duty cycle denumerator)
+    // Check that previous maneuvers do not overlap with the candidate maneuver
+    if (!Interval::LogicalAnd(aPreviousManeuverIntervals, {aManeuverInterval}).isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Candidate maneuver overlaps with previous maneuvers.");
+    }
+
+    const Duration numerator = maximumDutyCycle.first;
+    const Duration denominator = maximumDutyCycle.second;
+
+    // Once we've performed the sanity checks, we can now assess the maximum duty cycle constraint.
+    //
+    // Consider the following:
+    // - Be "t_s" is the start of the candidate maneuver interval
+    // - Be "t_e" is the end of the candidate maneuver interval
+    // - Be "SUM(t_i, t_j)" is the sum of maneuver durations between t_j and t_j
+    // - Be "num" and "den" are the numerator and denominator of the maximum duty cycle respectively
+    //
+    // Then, in order to comply with the maximum duty cycle, the following inequality must be satisfied:
+    //
+    // SUM(t_e - den, t_e) <= num
+    //
+    // Which can be rewritten as:
+    //
+    // SUM(t_e - den, t_s) + (t_e - t_s) <= num
+    //
+    // Finally getting the earliest possible start time for the maneuver:
+    //
+    // t_s >= t_e + SUM(t_e - den, t_s) - num
+
+    // Create the "tail" interval (from the candidate maneuver start back to the maximum duty cycle denominator)
     const Interval tailInterval =
-        Interval::Closed(aManeuverInterval.getEnd() - maximumDutyCycle.second, aManeuverInterval.getEnd());
+        Interval::Closed(aManeuverInterval.getEnd() - denominator, aManeuverInterval.getStart());
 
-    // Compute the coast intervals during the tail:
-    const Array<Interval> tailCoastIntervals = Interval::GetGaps(aPreviousManeuverIntervals, tailInterval);
+    // Compute the maneuver intervals during the tail
+    const Array<Interval> tailManeuverIntervals = Interval::LogicalAnd(aPreviousManeuverIntervals, {tailInterval});
 
-    // Get the sum of the coast intervals during the tail
-    const Duration tailCoastDuration = std::accumulate(
-        tailCoastIntervals.begin(),
-        tailCoastIntervals.end(),
+    // Get the sum of the maneuver intervals during the tail
+    const Duration tailManeuverDuration = std::accumulate(
+        tailManeuverIntervals.begin(),
+        tailManeuverIntervals.end(),
         Duration::Zero(),
         [](const Duration& sum, const Interval& interval)
         {
@@ -108,16 +138,72 @@ Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCyc
         }
     );
 
-    const Duration tailManeuverDuration = tailInterval.getDuration() - tailCoastDuration;
-    const Duration excessManeuverDuration =
-        tailManeuverDuration + aManeuverInterval.getDuration() - maximumDutyCycle.first;
-    // If we're surpassing the maximum duty cycle, return invalid
-    if (excessManeuverDuration > Duration::Zero())
+    // Get the analytical earliest valid start instant
+    const Instant earliestValidStartInstant = aManeuverInterval.getEnd() + tailManeuverDuration - numerator;
+
+    if (earliestValidStartInstant <= aManeuverInterval.getStart())
     {
-        return Pair<bool, Instant>(false, aManeuverInterval.getStart() + excessManeuverDuration);
+        // The candidate maneuver starts at or after the earliest valid start instant,
+        // i.e. the candiate maneuver is valid.
+        return Pair<bool, Instant>(true, Instant::Undefined());
     }
 
-    return Pair<bool, Instant>(true, Instant::Undefined());
+    if (earliestValidStartInstant < aManeuverInterval.getEnd())
+    {
+        // The candidate maneuver is not valid, it needs so be truncated
+        // to the earliest valid start instant.
+        return Pair<bool, Instant>(false, earliestValidStartInstant);
+    }
+
+    // If we made it this far it's because the earliest valid start is at or after the candidate maneuver end,
+    // i.e. there is no "room" for the candidate maneuver. This is due to previous maneuvers during the tail
+    // interval already saturating (or even over-saturating) the duty cycle.
+    //
+    // We need to solve this numerically.
+    //
+    // Consider the following:
+    // - Be "t_*" an arbitraty instant
+    // - Be SUM(t_i, t_j) the sum of the previous maneuvers durations between t_j and t_j
+    //
+    // We need to find t_* such that:
+    //
+    // SUM(t_* - den, t_*) <= num
+    //
+    // With the earliest valid start instat being the first one that satisfies the inequality:
+    //
+    // SUM(t_* - den, t_*) = num
+    //
+    // Which can be rewritten as:
+    //
+    // SUM(t_* - den, t_*) - num = 0
+    //
+    // We can then use a root solver find the zero of that equation, giving us the earliest valid start instant:
+    const Instant t0 = tailManeuverIntervals.accessFirst().getStart();
+    const auto function = [t0, numerator, denominator, aPreviousManeuverIntervals](const double& x) -> double
+    {
+        const Instant tStar = t0 + denominator + Duration::Seconds(x);
+        const Interval interval = Interval::Closed(tStar - denominator, tStar);
+        const Array<Interval> maneuverIntervals = Interval::LogicalAnd(aPreviousManeuverIntervals, {interval});
+
+        // Get the sum of the maneuver intervals during the tail
+        const Duration maneuverDuration = std::accumulate(
+            maneuverIntervals.begin(),
+            maneuverIntervals.end(),
+            Duration::Zero(),
+            [](const Duration& sum, const Interval& elem)
+            {
+                return sum + elem.getDuration();
+            }
+        );
+
+        return (maneuverDuration - numerator).inSeconds();
+    };
+
+    const RootSolver rootSolver = RootSolver::Default();
+    const RootSolver::Solution solution = rootSolver.bisection(function, 0.0, denominator.inSeconds());
+
+    // We return the upper bound to fall on the conservative side.
+    return Pair<bool, Instant>(false, t0 + denominator + Duration::Seconds(solution.upperBound));
 }
 
 void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -170,7 +256,7 @@ Segment::ManeuverConstraints::ManeuverConstraints(
         (!maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined()))
     {
         throw ostk::core::error::RuntimeError(
-            "Either both or neither of maximum duty cycle numerator and denumerator must be defined."
+            "Either both or neither of maximum duty cycle numerator and denominator must be defined."
         );
     }
 
@@ -181,12 +267,12 @@ Segment::ManeuverConstraints::ManeuverConstraints(
 
     if (maximumDutyCycle.second.isDefined() && maximumDutyCycle.second <= Duration::Zero())
     {
-        throw ostk::core::error::RuntimeError("maximum duty cycle denumerator must be greater than zero.");
+        throw ostk::core::error::RuntimeError("maximum duty cycle denominator must be greater than zero.");
     }
 
     if (maximumDutyCycle.first.isDefined() && !(maximumDutyCycle.first < maximumDutyCycle.second))
     {
-        throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be less than denumerator.");
+        throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be less than denominator.");
     }
 
     // If both the maximum duty cycle and the maximum duration are defined, the maximum duration must be less or equal
@@ -249,19 +335,6 @@ Segment::ManeuverConstraints::ManeuverConstraints(
             "aliasing issues which can cause sequential maneuver intervals to overlap by a nanosecond."
         );
     }
-}
-
-Segment::ManeuverConstraints Segment::ManeuverConstraints::ManeuverDutyCycle(
-    const Pair<Duration, Duration>& aMaximumDutyCycle,
-    const Duration& aMinimumDuration,
-    const Duration& aMaximumDuration,
-    const Duration& aMinimumSeparation,
-    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
-)
-{
-    return ManeuverConstraints(
-        aMinimumDuration, aMaximumDuration, aMinimumSeparation, aMaximumDurationStrategy, aMaximumDutyCycle
-    );
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Segment::ManeuverConstraints& aManeuverConstraints)
@@ -867,7 +940,8 @@ Segment::Solution Segment::solve(
     Array<State> segmentStates = {aState};
     Array<Interval> acceptedManeuverIntervals = Array<Interval>::Empty();
 
-    // Array of all historical maneuvers (previous and accepted during this segment solve)
+    // Array of all historical maneuvers (those accepted during previous segment solve and those
+    // accepted during this current segment solve)
     Array<Interval> historicalManeuverIntervals = Array<Interval>::Empty();
     if (previousManeuverInterval.isDefined())
     {
@@ -1148,6 +1222,7 @@ Segment::Solution Segment::solve(
         );
         if (!hasValidMaximumDutyCycle.first)
         {
+            // If the candidate maneuver is invalid, we to coast until the earliest valid start instant.
             segmentConditionIsSatisfied = solveAndAcceptCoast(hasValidMaximumDutyCycle.second);
             continue;
         }

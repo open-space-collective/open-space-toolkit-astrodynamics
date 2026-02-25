@@ -119,23 +119,21 @@ class Segment
         {
         }
 
-        /// @brief Create a maneuver constraints instance with maximum duty cycle.
+        /// @brief Constructor with all parameters (all with default undefined values, aMaximumDutyCycle last).
         ///
-        /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denumerator. For example,
-        /// {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes over
-        /// any 98 minutes interval.
-        /// @param aMinimumDuration The minimum duration for a maneuver. Defaults to Undefined.
-        /// @param aMaximumDuration The maximum duration for a maneuver. Defaults to Undefined.
-        /// @param aMinimumSeparation The minimum separation between maneuvers. Defaults to Undefined.
-        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated. Defaults to Fail.
-        /// @return ManeuverConstraints instance
-        static ManeuverConstraints ManeuverDutyCycle(
-            const Pair<Duration, Duration>& aMaximumDutyCycle,
-            const Duration& aMinimumDuration = Duration::Undefined(),
-            const Duration& aMaximumDuration = Duration::Undefined(),
-            const Duration& aMinimumSeparation = Duration::Undefined(),
-            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy =
-                MaximumManeuverDurationViolationStrategy::Fail
+        /// @param aMinimumDuration The minimum duration for a maneuver.
+        /// @param aMaximumDuration The maximum duration for a maneuver.
+        /// @param aMinimumSeparation The minimum separation between maneuvers.
+        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated.
+        /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denominator. For example,
+        ///     {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes
+        ///     over any 98 minutes interval.
+        ManeuverConstraints(
+            const Duration& aMinimumDuration,
+            const Duration& aMaximumDuration,
+            const Duration& aMinimumSeparation,
+            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
+            const Pair<Duration, Duration>& aMaximumDutyCycle
         );
 
         Duration minimumDuration;
@@ -181,24 +179,6 @@ class Segment
         /// @param aManeuverConstraints A maneuver constraints
         /// @return An output stream
         friend std::ostream& operator<<(std::ostream& anOutputStream, const ManeuverConstraints& aManeuverConstraints);
-
-       private:
-        /// @brief Private constructor with all properties (no defaults)
-        ///
-        /// @param aMinimumDuration The minimum duration for a maneuver
-        /// @param aMaximumDuration The maximum duration for a maneuver
-        /// @param aMinimumSeparation The minimum separation between maneuvers
-        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated
-        /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denumerator. For example,
-        /// {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes over
-        /// any 98 minutes interval.
-        ManeuverConstraints(
-            const Duration& aMinimumDuration,
-            const Duration& aMaximumDuration,
-            const Duration& aMinimumSeparation,
-            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
-            const Pair<Duration, Duration>& aMaximumDutyCycle
-        );
     };
 
     /// @brief Once a segment is set up with an event condition, it can be solved, resulting in this segment's Solution.
