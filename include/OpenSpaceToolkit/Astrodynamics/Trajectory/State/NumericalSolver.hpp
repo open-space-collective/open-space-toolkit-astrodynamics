@@ -132,17 +132,31 @@ class NumericalSolver : public MathNumericalSolver
         const EventCondition& anEventCondition
     );
 
-    /// @brief Undefined
+    /// @brief Construct an undefined numerical solver.
     ///
-    /// @return An undefined numerical solver
+    /// @code{.cpp}
+    ///     NumericalSolver solver = NumericalSolver::Undefined() ;
+    /// @endcode
+    ///
+    /// @return An undefined numerical solver.
     static NumericalSolver Undefined();
 
-    /// @brief Default
+    /// @brief Construct a default numerical solver.
     ///
-    /// @return A default numerical solver
+    /// @code{.cpp}
+    ///     NumericalSolver solver = NumericalSolver::Default() ;
+    /// @endcode
+    ///
+    /// @return A default numerical solver.
     static NumericalSolver Default();
 
     /// @brief Create a fixed step size numerical solver.
+    ///
+    /// @code{.cpp}
+    ///     NumericalSolver solver = NumericalSolver::FixedStepSize(
+    ///         NumericalSolver::StepperType::RungeKutta4, 30.0
+    ///     ) ;
+    /// @endcode
     ///
     /// @param aTimeStep The time step (in seconds) to use for integration.
     /// @param aSystemOfEquations System of equations to integrate.
@@ -151,6 +165,10 @@ class NumericalSolver : public MathNumericalSolver
     static NumericalSolver FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep);
 
     /// @brief Default conditional
+    ///
+    /// @code{.cpp}
+    ///     NumericalSolver solver = NumericalSolver::DefaultConditional() ;
+    /// @endcode
     ///
     /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
     /// @return A default conditional numerical solver.

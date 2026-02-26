@@ -34,8 +34,11 @@ using ostk::physics::time::Instant;
 
 class CoordinateBroker;
 
-/// @brief State coordinate subset. It contains information related to a particular group of coordinates. It does not
-/// contain the coordinate values.
+/// @brief State coordinate subset.
+///
+/// @details Contains information related to a particular group of coordinates (name, size, and ID).
+/// It does not contain the coordinate values. Subclasses (CartesianPosition, CartesianVelocity, etc.)
+/// override frame transformation and addition/subtraction behavior for their specific coordinate types.
 class CoordinateSubset
 {
    public:
@@ -136,29 +139,49 @@ class CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const;
 
-    /// @brief Return a default Mass instance
+    /// @brief Return a default Mass instance.
     ///
-    /// @return The default Mass shared pointer instance
+    /// @code{.cpp}
+    ///     Shared<const CoordinateSubset> massSPtr = CoordinateSubset::Mass() ;
+    /// @endcode
+    ///
+    /// @return The default Mass shared pointer instance.
     static Shared<const CoordinateSubset> Mass();
 
-    /// @brief Return a default Surface Area instance
+    /// @brief Return a default Surface Area instance.
     ///
-    /// @return The default Surface Area shared pointer instance
+    /// @code{.cpp}
+    ///     Shared<const CoordinateSubset> surfaceAreaSPtr = CoordinateSubset::SurfaceArea() ;
+    /// @endcode
+    ///
+    /// @return The default Surface Area shared pointer instance.
     static Shared<const CoordinateSubset> SurfaceArea();
 
-    /// @brief Return a default Drag Coefficient instance
+    /// @brief Return a default Drag Coefficient instance.
     ///
-    /// @return The default DragCoefficient shared pointer instance
+    /// @code{.cpp}
+    ///     Shared<const CoordinateSubset> dragCoeffSPtr = CoordinateSubset::DragCoefficient() ;
+    /// @endcode
+    ///
+    /// @return The default DragCoefficient shared pointer instance.
     static Shared<const CoordinateSubset> DragCoefficient();
 
-    /// @brief Return a default Mass Flow Rate instance
+    /// @brief Return a default Mass Flow Rate instance.
     ///
-    /// @return The default Mass Flow Rate shared pointer instance
+    /// @code{.cpp}
+    ///     Shared<const CoordinateSubset> massFlowRateSPtr = CoordinateSubset::MassFlowRate() ;
+    /// @endcode
+    ///
+    /// @return The default Mass Flow Rate shared pointer instance.
     static Shared<const CoordinateSubset> MassFlowRate();
 
-    /// @brief Return a default Ballistic Coefficient instance
+    /// @brief Return a default Ballistic Coefficient instance.
     ///
-    /// @return The default Ballistic Coefficient shared pointer instance
+    /// @code{.cpp}
+    ///     Shared<const CoordinateSubset> ballisticCoeffSPtr = CoordinateSubset::BallisticCoefficient() ;
+    /// @endcode
+    ///
+    /// @return The default Ballistic Coefficient shared pointer instance.
     static Shared<const CoordinateSubset> BallisticCoefficient();
 
    private:

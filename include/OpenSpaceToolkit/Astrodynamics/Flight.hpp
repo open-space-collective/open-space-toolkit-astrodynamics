@@ -10,7 +10,10 @@ namespace ostk
 namespace astrodynamics
 {
 
-/// @brief Spacecraft flight
+/// @brief Spacecraft flight.
+///
+/// @details Provides classes and models for representing spacecraft flight dynamics,
+/// including flight profiles, maneuvers, and satellite systems.
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Flight_dynamics_(spacecraft)
 }

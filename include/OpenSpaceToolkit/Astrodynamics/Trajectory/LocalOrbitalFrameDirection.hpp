@@ -24,18 +24,23 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
-/// @brief Local Orbital Frame Direction
+/// @brief Local Orbital Frame Direction.
 ///
-/// @note                       A unit vector, expressed with a Local Orbital Frame Factory.
+/// @details A unit vector expressed in a local orbital frame, defined by a 3D direction vector and
+/// a LocalOrbitalFrameFactory that determines how the frame is constructed from a given state.
 class LocalOrbitalFrameDirection
 {
    public:
-    /// @brief Constructor
+    /// @brief Constructor.
     ///
-    /// @param aValue A vector value
-    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory shared pointer
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameDirection direction = { Vector3d::UnitX(), factorySPtr } ;
+    /// @endcode
     ///
-    /// @return Local orbital frame direction
+    /// @param aValue A vector value (will be normalized).
+    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory shared pointer.
+    /// @return Local orbital frame direction.
     LocalOrbitalFrameDirection(
         const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
     );
@@ -63,9 +68,14 @@ class LocalOrbitalFrameDirection
         std::ostream& anOutputStream, const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection
     );
 
-    /// @brief Check if local orbital frame direction is defined
+    /// @brief Check if local orbital frame direction is defined.
     ///
-    /// @return True if local orbital frame direction is defined
+    /// @code{.cpp}
+    ///     LocalOrbitalFrameDirection direction = { ... } ;
+    ///     bool defined = direction.isDefined() ;
+    /// @endcode
+    ///
+    /// @return True if local orbital frame direction is defined.
     bool isDefined() const;
 
     /// @brief Print local orbital frame direction
@@ -79,19 +89,33 @@ class LocalOrbitalFrameDirection
     /// @return The local orbital frame factory
     const Shared<const LocalOrbitalFrameFactory>& accessLocalOrbitalFrameFactory() const;
 
-    /// @brief Get vector value
+    /// @brief Get the unit direction vector value.
     ///
-    /// @return The vector value
+    /// @code{.cpp}
+    ///     LocalOrbitalFrameDirection direction = { ... } ;
+    ///     Vector3d value = direction.getValue() ;
+    /// @endcode
+    ///
+    /// @return The vector value.
     Vector3d getValue() const;
 
-    /// @brief Get local orbital frame factory
+    /// @brief Get local orbital frame factory.
     ///
-    /// @return The local orbital frame factory
+    /// @code{.cpp}
+    ///     LocalOrbitalFrameDirection direction = { ... } ;
+    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = direction.getLocalOrbitalFrameFactory() ;
+    /// @endcode
+    ///
+    /// @return The local orbital frame factory.
     Shared<const LocalOrbitalFrameFactory> getLocalOrbitalFrameFactory() const;
 
-    /// @brief Undefined local orbital frame direction
+    /// @brief Construct an undefined local orbital frame direction.
     ///
-    /// @return The undefined local orbital frame direction
+    /// @code{.cpp}
+    ///     LocalOrbitalFrameDirection direction = LocalOrbitalFrameDirection::Undefined() ;
+    /// @endcode
+    ///
+    /// @return An undefined local orbital frame direction.
     static LocalOrbitalFrameDirection Undefined();
 
    private:

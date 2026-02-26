@@ -22,7 +22,10 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief Trajectory model (abstract)
+/// @brief Trajectory model (abstract).
+///
+/// @details Base class for all trajectory models. Provides the interface for calculating states
+/// at given instants. Concrete implementations include Tabulated, Propagated, SGP4, and Kepler models.
 class Model
 {
    public:

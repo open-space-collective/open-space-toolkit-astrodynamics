@@ -39,16 +39,25 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief Factory class to generate States with common reference frame and coordinate subsets
+/// @brief Factory class to generate States with common reference frame and coordinate subsets.
+///
+/// @details Encapsulates a reference frame and a set of coordinate subsets (e.g., position, velocity, mass)
+/// to efficiently build State objects with consistent structure. Supports adding/removing subsets
+/// via the + and - operators.
 class StateBuilder
 {
    public:
     /// @brief Constructor.
     ///
-    /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
-    /// resolved in
-    /// @param aCoordinateSubsetsArray The array of coordinate subsets defining the output
-    /// States
+    /// @code{.cpp}
+    ///     StateBuilder builder = {
+    ///         Frame::GCRF(),
+    ///         { CartesianPosition::Default(), CartesianVelocity::Default() }
+    ///     } ;
+    /// @endcode
+    ///
+    /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and resolved in.
+    /// @param aCoordinateSubsetsArray The array of coordinate subsets defining the output States.
     StateBuilder(
         const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
     );
@@ -105,21 +114,39 @@ class StateBuilder
 
     /// @brief Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
     ///
-    /// @return A State linked to the Frame and Coordinates Broker of the StateBuilder
+    /// @code{.cpp}
+    ///     StateBuilder builder = { ... } ;
+    ///     State state = builder.build(anInstant, aCoordinates) ;
+    /// @endcode
+    ///
+    /// @param anInstant The instant of the state.
+    /// @param aCoordinates The coordinate values.
+    /// @return A State linked to the Frame and Coordinates Broker of the StateBuilder.
     const State build(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
     /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder.
-    /// @note The output state is provided in the Frame of the StateBuilder.
     ///
-    /// @param aState the state from which the coordinates will be taken.
+    /// @code{.cpp}
+    ///     StateBuilder builder = { ... } ;
+    ///     State reducedState = builder.reduce(aState) ;
+    /// @endcode
+    ///
+    /// @note The output state is provided in the Frame of the StateBuilder.
+    /// @param aState The state from which the coordinates will be taken.
     /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State reduce(const State& aState) const;
 
-    /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder.
-    /// @note The output state is provided in the Frame of the StateBuilder.
+    /// @brief Produce a State with the CoordinateSubsets specified by the StateBuilder,
+    /// filling missing subsets from a default state.
     ///
-    /// @param aState the state from which the coordinates will be taken.
-    /// @param defaultState the state from which missing coordinates will be taken.
+    /// @code{.cpp}
+    ///     StateBuilder builder = { ... } ;
+    ///     State expandedState = builder.expand(aState, defaultState) ;
+    /// @endcode
+    ///
+    /// @note The output state is provided in the Frame of the StateBuilder.
+    /// @param aState The state from which the coordinates will be taken.
+    /// @param defaultState The state from which missing coordinates will be taken.
     /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State expand(const State& aState, const State& defaultState) const;
 
@@ -156,7 +183,11 @@ class StateBuilder
 
     /// @brief Get an undefined StateBuilder.
     ///
-    /// @return An undefined StateBuilder
+    /// @code{.cpp}
+    ///     StateBuilder builder = StateBuilder::Undefined() ;
+    /// @endcode
+    ///
+    /// @return An undefined StateBuilder.
     static StateBuilder Undefined();
 
    private:

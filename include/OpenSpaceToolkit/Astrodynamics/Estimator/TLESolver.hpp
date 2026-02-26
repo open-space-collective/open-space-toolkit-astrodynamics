@@ -57,6 +57,10 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 /// @brief Class for estimating TLE mean elements.
+///
+/// @details Estimates Two-Line Element (TLE) sets from orbital observations using a least squares
+/// approach. The solver can accept initial guesses as TLEs, Cartesian states with B* values,
+/// or plain Cartesian states.
 class TLESolver
 {
    public:
@@ -84,11 +88,15 @@ class TLESolver
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        TLE estimatedTLE;  ///< The estimated TLE produced by the solver.
+        TLE estimatedTLE;                             ///< The estimated TLE produced by the solver.
         LeastSquaresSolver::Analysis solverAnalysis;  ///< Least squares solver analysis results.
     };
 
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     TLESolver solver = {} ;  // Uses all defaults
+    /// @endcode
     ///
     /// @param aSolver Solver to use, defaults to default Least Squares Solver
     /// @param aSatelliteNumber Satellite number for TLE, defaults to 0
@@ -166,6 +174,11 @@ class TLESolver
     const StateBuilder& accessTLEStateBuilder() const;
 
     /// @brief Estimate TLE from observations
+    ///
+    /// @code{.cpp}
+    ///     TLESolver solver = { ... } ;
+    ///     TLESolver::Analysis analysis = solver.estimate(aTLE, anObservationStateArray) ;
+    /// @endcode
     ///
     /// @param anInitialGuessState Initial guess (TLE, Cartesian State+BStar pair, or Cartesian State)
     /// @param anObservationStateArray Observations to fit against

@@ -48,7 +48,11 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
 
-/// @brief Class to solve non-linear least squares problems
+/// @brief Class to solve non-linear least squares problems.
+///
+/// @details Implements a batch weighted least squares algorithm for orbit determination and
+/// state estimation. Iteratively refines a state estimate by minimizing the weighted sum of
+/// squared residuals between observations and computed values.
 class LeastSquaresSolver
 {
    public:
@@ -68,8 +72,8 @@ class LeastSquaresSolver
         /// @brief Print step
         void print(std::ostream& anOutputStream) const;
 
-        Real rmsError;    ///< RMS error for this step.
-        VectorXd xHat;    ///< State correction vector for this step.
+        Real rmsError;  ///< RMS error for this step.
+        VectorXd xHat;  ///< State correction vector for this step.
     };
 
     /// @brief Analysis results from the least squares solver.
@@ -102,18 +106,22 @@ class LeastSquaresSolver
         /// @brief computeResidualStates
         Array<State> computeResidualStates(const Array<State>& anObservationStateArray) const;
 
-        Real rmsError;                             ///< RMS error of the solution.
-        Size observationCount;                     ///< Number of observations used.
-        Size iterationCount;                       ///< Number of iterations performed.
-        String terminationCriteria;                ///< Description of why the solver terminated.
-        State estimatedState;                      ///< Estimated state at the solution.
-        MatrixXd estimatedCovariance;              ///< Estimated covariance matrix of the solution.
-        MatrixXd estimatedFrisbeeCovariance;       ///< Estimated Frisbee covariance matrix of the solution.
-        Array<State> computedObservationStates;    ///< Array of computed observation states at the solution.
-        Array<Step> steps;                         ///< Array of solver iteration steps.
+        Real rmsError;                           ///< RMS error of the solution.
+        Size observationCount;                   ///< Number of observations used.
+        Size iterationCount;                     ///< Number of iterations performed.
+        String terminationCriteria;              ///< Description of why the solver terminated.
+        State estimatedState;                    ///< Estimated state at the solution.
+        MatrixXd estimatedCovariance;            ///< Estimated covariance matrix of the solution.
+        MatrixXd estimatedFrisbeeCovariance;     ///< Estimated Frisbee covariance matrix of the solution.
+        Array<State> computedObservationStates;  ///< Array of computed observation states at the solution.
+        Array<Step> steps;                       ///< Array of solver iteration steps.
     };
 
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     LeastSquaresSolver solver = { 10, 1e-3 } ;
+    /// @endcode
     ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
@@ -166,6 +174,10 @@ class LeastSquaresSolver
     static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualStateArray);
 
     /// @brief Default constructor
+    ///
+    /// @code{.cpp}
+    ///     LeastSquaresSolver solver = LeastSquaresSolver::Default() ;
+    /// @endcode
     ///
     /// @return A default instance
     static LeastSquaresSolver Default();

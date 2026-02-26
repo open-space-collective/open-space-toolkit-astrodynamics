@@ -30,12 +30,13 @@ using ostk::astrodynamics::trajectory::State;
 class AngularCondition : public EventCondition
 {
    public:
+    /// @brief Criterion type for evaluating the angular condition.
     enum class Criterion
     {
-        AnyCrossing,
-        PositiveCrossing,
-        NegativeCrossing,
-        WithinRange
+        AnyCrossing,       ///< Triggered on any crossing of the target angle.
+        PositiveCrossing,  ///< Triggered when angle crosses target in the positive direction.
+        NegativeCrossing,  ///< Triggered when angle crosses target in the negative direction.
+        WithinRange        ///< Triggered when angle is within a specified range.
     };
 
     /// @brief Constructor
@@ -77,19 +78,34 @@ class AngularCondition : public EventCondition
     /// @brief Virtual destructor
     virtual ~AngularCondition();
 
-    /// @brief Get the criterion of the Event Condition
+    /// @brief Get the criterion of the Event Condition.
     ///
-    /// @return Enum representing the criterion of the Event Condition
+    /// @code{.cpp}
+    ///     AngularCondition condition = { ... } ;
+    ///     AngularCondition::Criterion criterion = condition.getCriterion() ;
+    /// @endcode
+    ///
+    /// @return Enum representing the criterion of the Event Condition.
     Criterion getCriterion() const;
 
-    /// @brief Get target
+    /// @brief Get the target angle.
     ///
-    /// @return Target
+    /// @code{.cpp}
+    ///     AngularCondition condition = { ... } ;
+    ///     Angle targetAngle = condition.getTargetAngle() ;
+    /// @endcode
+    ///
+    /// @return The target angle.
     Angle getTargetAngle() const;
 
-    /// @brief Get target range
+    /// @brief Get the target range.
     ///
-    /// @return Target range
+    /// @code{.cpp}
+    ///     AngularCondition condition = { ... } ;
+    ///     Pair<Angle, Angle> targetRange = condition.getTargetRange() ;
+    /// @endcode
+    ///
+    /// @return The target angle range as a pair of (lower, upper) angles.
     Pair<Angle, Angle> getTargetRange() const;
 
     /// @brief Print the Event Condition
@@ -113,23 +129,32 @@ class AngularCondition : public EventCondition
     /// @return Pointer to the cloned EventCondition
     virtual AngularCondition* clone() const override;
 
-    /// @brief Create an angular condition that is satisfied when the angle is within a range
+    /// @brief Create an angular condition that is satisfied when the angle is within a range.
     ///
-    /// @param aName A string representing the name of the Angular Event Condition
-    /// @param anEvaluator A function evaluating a state to an angle in radians
-    /// @param aTargetRange A pair of angles representing the range of angles that satisfy the
-    /// @return Angular Event Condition
+    /// @code{.cpp}
+    ///     AngularCondition condition = AngularCondition::WithinRange(
+    ///         "Elevation", anEvaluator, { Angle::Degrees(10.0), Angle::Degrees(90.0) }
+    ///     ) ;
+    /// @endcode
+    ///
+    /// @param aName A string representing the name of the Angular Event Condition.
+    /// @param anEvaluator A function evaluating a state to an angle in radians.
+    /// @param aTargetRange A pair of angles representing the range.
+    /// @return Angular Event Condition.
     static AngularCondition WithinRange(
         const String& aName,
         const std::function<Real(const State&)>& anEvaluator,
         const Pair<Angle, Angle>& aTargetRange
     );
 
-    /// @brief Convert criterion to string
+    /// @brief Convert criterion to string.
     ///
-    /// @param aCriterion An enum representing the criterion
+    /// @code{.cpp}
+    ///     String str = AngularCondition::StringFromCriterion(AngularCondition::Criterion::AnyCrossing) ;
+    /// @endcode
     ///
-    /// @return String representing the given criterion
+    /// @param aCriterion An enum representing the criterion.
+    /// @return String representing the given criterion.
     static String StringFromCriterion(const Criterion& aCriterion);
 
    private:

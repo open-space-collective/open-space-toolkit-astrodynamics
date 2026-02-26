@@ -132,8 +132,8 @@ class QLaw : public GuidanceLaw
 
     enum class GradientStrategy
     {
-        Analytical,      ///< Use analytical gradient computation.
-        FiniteDifference ///< Use finite difference gradient computation.
+        Analytical,       ///< Use analytical gradient computation.
+        FiniteDifference  ///< Use finite difference gradient computation.
     };
 
     enum class COEDomain

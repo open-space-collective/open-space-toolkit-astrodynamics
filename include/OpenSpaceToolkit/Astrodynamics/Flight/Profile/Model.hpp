@@ -28,7 +28,10 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief Profile model (abstract)
+/// @brief Profile model (abstract).
+///
+/// @details Base class for all flight profile models. Provides the interface for calculating states
+/// and body-frame axes at given instants. Concrete implementations include Tabulated and Transform models.
 class Model
 {
    public:

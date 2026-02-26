@@ -55,24 +55,44 @@ class Generator
         const Duration& aSearchTolerance = Duration::Milliseconds(1.0)
     );
 
-    /// @brief Check if eclipse generator is defined
+    /// @brief Check if eclipse generator is defined.
     ///
-    /// @return True if eclipse generator is defined
+    /// @code{.cpp}
+    ///     Generator eclipseGenerator = { ... } ;
+    ///     bool defined = eclipseGenerator.isDefined() ;
+    /// @endcode
+    ///
+    /// @return True if eclipse generator is defined.
     bool isDefined() const;
 
-    /// @brief Get the environment
+    /// @brief Get the environment.
     ///
-    /// @return Environment
+    /// @code{.cpp}
+    ///     Generator eclipseGenerator = { ... } ;
+    ///     Environment environment = eclipseGenerator.getEnvironment() ;
+    /// @endcode
+    ///
+    /// @return The environment.
     Environment getEnvironment() const;
 
-    /// @brief Get the search step size
+    /// @brief Get the search step size.
     ///
-    /// @return Search step size
+    /// @code{.cpp}
+    ///     Generator eclipseGenerator = { ... } ;
+    ///     Duration stepSize = eclipseGenerator.getSearchStepSize() ;
+    /// @endcode
+    ///
+    /// @return The search step size.
     Duration getSearchStepSize() const;
 
-    /// @brief Get the search tolerance
+    /// @brief Get the search tolerance.
     ///
-    /// @return Search tolerance
+    /// @code{.cpp}
+    ///     Generator eclipseGenerator = { ... } ;
+    ///     Duration tolerance = eclipseGenerator.getSearchTolerance() ;
+    /// @endcode
+    ///
+    /// @return The search tolerance.
     Duration getSearchTolerance() const;
 
     /// @brief Generate eclipses for a given trajectory over the provided analysis interval

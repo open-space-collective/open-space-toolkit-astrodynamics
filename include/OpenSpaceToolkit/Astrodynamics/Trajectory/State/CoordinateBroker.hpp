@@ -30,95 +30,155 @@ using ostk::core::type::String;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief State coordinate broker.
+/// @brief State coordinate broker
+/// @details Manages the mapping between coordinate subsets and their indices within a full state
+/// coordinates vector. The broker tracks which coordinate subsets are present and their
+/// positions, enabling extraction of individual subset values from the full vector.
 class CoordinateBroker
 {
    public:
-    /// @brief Constructor
+    /// @brief Default constructor
     ///
     /// @code{.cpp}
-    ///                  CoordinateBroker coordinatesBroker();
+    ///              CoordinateBroker coordinateBroker ;
     /// @endcode
     CoordinateBroker();
 
-    /// @brief Constructor
+    /// @brief Constructor with coordinate subsets
     ///
     /// @code{.cpp}
-    ///                  CoordinateBroker coordinatesBroker({asubsetSPtr, anotherSubsetSPtr});
+    ///              CoordinateBroker coordinateBroker = {
+    ///                  {CartesianPosition::Default(), CartesianVelocity::Default()}
+    ///              } ;
     /// @endcode
     ///
-    /// @param aCoordinateSubsetsArray the coordinate subsets to consider
+    /// @param aCoordinateSubsetsArray The coordinate subsets to consider
     CoordinateBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray);
 
-    /// @brief Equal to operator
+    /// @brief Equality operator
+    ///
+    /// @code{.cpp}
+    ///              CoordinateBroker broker1 = { ... } ;
+    ///              CoordinateBroker broker2 = { ... } ;
+    ///              bool isEqual = (broker1 == broker2) ;
+    /// @endcode
     ///
     /// @param aCoordinateBroker A coordinate broker
-    ///
-    /// @return True if CoordinateBrokers equal
+    /// @return True if CoordinateBrokers are equal
     bool operator==(const CoordinateBroker& aCoordinateBroker) const;
 
-    /// @brief Not equal to operator
+    /// @brief Inequality operator
+    ///
+    /// @code{.cpp}
+    ///              CoordinateBroker broker1 = { ... } ;
+    ///              CoordinateBroker broker2 = { ... } ;
+    ///              bool isNotEqual = (broker1 != broker2) ;
+    /// @endcode
     ///
     /// @param aCoordinateBroker A coordinate broker
-    ///
     /// @return True if CoordinateBrokers are not equal
     bool operator!=(const CoordinateBroker& aCoordinateBroker) const;
 
-    /// @brief Return the considered coordinate subsets
+    /// @brief Access the considered coordinate subsets
     ///
-    /// @return The considered coordinate subsets
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              const Array<Shared<const CoordinateSubset>>& subsets = broker.accessSubsets() ;
+    /// @endcode
+    ///
+    /// @return A const reference to the considered coordinate subsets
     const Array<Shared<const CoordinateSubset>>& accessSubsets() const;
 
-    /// @brief Return the total number of coordinates
+    /// @brief Get the total number of coordinates across all subsets
+    ///
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              Size count = broker.getNumberOfCoordinates() ;
+    /// @endcode
     ///
     /// @return The total number of coordinates
     Size getNumberOfCoordinates() const;
 
-    /// @brief Return the total number of coordinate subsets
+    /// @brief Get the total number of coordinate subsets
+    ///
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              Size count = broker.getNumberOfSubsets() ;
+    /// @endcode
     ///
     /// @return The total number of coordinate subsets
     Size getNumberOfSubsets() const;
 
-    /// @brief Return the considered coordinate subsets
+    /// @brief Get the considered coordinate subsets
+    ///
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              Array<Shared<const CoordinateSubset>> subsets = broker.getSubsets() ;
+    /// @endcode
     ///
     /// @return The considered coordinate subsets
     Array<Shared<const CoordinateSubset>> getSubsets() const;
 
-    /// @brief Add a coordinate subset to be considered, returning the starting index it will occupy
-    /// (or that it occupies if it was already added) in the state coordinates
+    /// @brief Add a coordinate subset to be considered
     ///
-    /// @param aCoordinateSubsetSPtr a coordinate subset to be considered
+    /// @code{.cpp}
+    ///              CoordinateBroker broker ;
+    ///              Index index = broker.addSubset(CartesianPosition::Default()) ;
+    /// @endcode
     ///
-    /// @return The starting index of the subset in the state coordinates
+    /// @param aCoordinateSubsetSPtr A coordinate subset to be considered
+    /// @return The starting index of the subset in the state coordinates (or the existing
+    ///         index if the subset was already added)
     Index addSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr);
 
     /// @brief Check if a coordinate subset has already been considered
     ///
-    /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              bool exists = broker.hasSubset(CartesianPosition::Default()) ;
+    /// @endcode
     ///
+    /// @param aCoordinateSubsetSPtr The coordinate subset to be checked
     /// @return True if the coordinate subset is already considered
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
-    /// @brief Get index of a coordinate subset
+    /// @brief Get the starting index of a coordinate subset
     ///
-    /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              Index index = broker.getSubsetIndex(CartesianPosition::Default()) ;
+    /// @endcode
     ///
-    /// @return The index of the coordinate subset
+    /// @param aCoordinateSubsetSPtr The coordinate subset to be checked
+    /// @return The starting index of the coordinate subset
     Index getSubsetIndex(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
     /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
-    /// @param aFullCoordinatesVector the full coordinates vecctor
-    /// @param aCoordinateSubset the coordinate subsets of interest
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              VectorXd fullCoordinates = { ... } ;
+    ///              CoordinateSubset subset = { ... } ;
+    ///              VectorXd coordinates = broker.extractCoordinate(fullCoordinates, subset) ;
+    /// @endcode
     ///
+    /// @param aFullCoordinatesVector The full coordinates vector
+    /// @param aCoordinateSubset The coordinate subset of interest
     /// @return The coordinates of the subset
     VectorXd extractCoordinate(const VectorXd& aFullCoordinatesVector, const CoordinateSubset& aCoordinateSubset) const;
 
     /// @brief Extract the coordinates of a given subset from the full coordinates vector
     ///
-    /// @param aFullCoordinatesVector the full coordinates vecctor
-    /// @param aCoordinateSubsetSPtr the coordinate subsets of interest
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              VectorXd fullCoordinates = { ... } ;
+    ///              VectorXd coordinates = broker.extractCoordinate(
+    ///                  fullCoordinates, CartesianPosition::Default()
+    ///              ) ;
+    /// @endcode
     ///
+    /// @param aFullCoordinatesVector The full coordinates vector
+    /// @param aCoordinateSubsetSPtr The coordinate subset of interest
     /// @return The coordinates of the subset
     VectorXd extractCoordinate(
         const VectorXd& aFullCoordinatesVector, const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr
@@ -126,9 +186,16 @@ class CoordinateBroker
 
     /// @brief Extract the coordinates of an array of subsets from the full coordinates vector
     ///
-    /// @param aFullCoordinatesVector the full coordinates vecctor
-    /// @param aCoordinateSubsetsArray the array of coordinate subsets of interest
+    /// @code{.cpp}
+    ///              CoordinateBroker broker = { ... } ;
+    ///              VectorXd fullCoordinates = { ... } ;
+    ///              VectorXd coordinates = broker.extractCoordinates(
+    ///                  fullCoordinates, {CartesianPosition::Default(), CartesianVelocity::Default()}
+    ///              ) ;
+    /// @endcode
     ///
+    /// @param aFullCoordinatesVector The full coordinates vector
+    /// @param aCoordinateSubsetsArray The array of coordinate subsets of interest
     /// @return The coordinates of the array of subsets in the same order as the input subsets
     VectorXd extractCoordinates(
         const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray

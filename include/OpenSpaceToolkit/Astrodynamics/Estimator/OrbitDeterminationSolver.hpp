@@ -49,7 +49,11 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 #define DEFAULT_LEAST_SQUARES_SOLVER LeastSquaresSolver::Default()  // Default least squares solver
 #define DEFAULT_ESTIMATION_FRAME Frame::GCRF()                      // Default estimation frame
 
-/// @brief Orbit Determination solver using least squares
+/// @brief Orbit Determination solver using least squares.
+///
+/// @details Uses a batch least squares approach to estimate an orbital state from observations.
+/// The solver propagates an initial guess state and iteratively refines it to minimize residuals
+/// against observations.
 class OrbitDeterminationSolver
 {
    public:
@@ -74,6 +78,10 @@ class OrbitDeterminationSolver
     };
 
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     OrbitDeterminationSolver solver = {} ;  // Uses all defaults
+    /// @endcode
     ///
     /// @param anEnvironment Environment, Defaults to Environment::Default()
     /// @param aNumericalSolver Numerical solver, Defaults to NumericalSolver::Default()
@@ -107,6 +115,12 @@ class OrbitDeterminationSolver
     const Shared<const Frame>& accessEstimationFrame() const;
 
     /// @brief Estimate state from observations
+    ///
+    /// @code{.cpp}
+    ///     OrbitDeterminationSolver solver = { ... } ;
+    ///     OrbitDeterminationSolver::Analysis analysis =
+    ///         solver.estimate(anInitialGuessState, anObservationStateArray) ;
+    /// @endcode
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationStateArray Observations to fit against

@@ -29,13 +29,14 @@ using ostk::astrodynamics::trajectory::State;
 class RealCondition : public EventCondition
 {
    public:
+    /// @brief Criterion type for evaluating the condition.
     enum class Criterion
     {
-        PositiveCrossing,
-        NegativeCrossing,
-        AnyCrossing,
-        StrictlyPositive,
-        StrictlyNegative
+        PositiveCrossing,  ///< Triggered when value crosses target from below.
+        NegativeCrossing,  ///< Triggered when value crosses target from above.
+        AnyCrossing,       ///< Triggered on any crossing of the target value.
+        StrictlyPositive,  ///< Triggered when value is strictly above target.
+        StrictlyNegative   ///< Triggered when value is strictly below target.
     };
 
     /// @brief Constructor
@@ -77,9 +78,14 @@ class RealCondition : public EventCondition
     /// @brief Virtual destructor
     virtual ~RealCondition();
 
-    /// @brief Get the criterion of the Event Condition
+    /// @brief Get the criterion of the Event Condition.
     ///
-    /// @return Enum representing the criterion of the Event Condition
+    /// @code{.cpp}
+    ///     RealCondition condition = { ... } ;
+    ///     RealCondition::Criterion criterion = condition.getCriterion() ;
+    /// @endcode
+    ///
+    /// @return Enum representing the criterion of the Event Condition.
     Criterion getCriterion() const;
 
     /// @brief Print the Event Condition
@@ -89,11 +95,16 @@ class RealCondition : public EventCondition
     /// printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Evaluate the Event Condition
+    /// @brief Evaluate the Event Condition.
     ///
-    /// @param aState The current state
+    /// @code{.cpp}
+    ///     RealCondition condition = { ... } ;
+    ///     State state = { ... } ;
+    ///     Real value = condition.evaluate(state) ;
+    /// @endcode
     ///
-    /// @return Real number representing the evaluation result of the Event Condition
+    /// @param aState The current state.
+    /// @return Real number representing the evaluation result of the Event Condition.
     Real evaluate(const State& state) const;
 
     /// @brief Check if the Event Condition is satisfied based on current state and previous
@@ -110,19 +121,27 @@ class RealCondition : public EventCondition
     /// @return Pointer to the cloned Real Condition
     virtual RealCondition* clone() const override;
 
-    /// @brief Convert criterion to string
+    /// @brief Convert criterion to string.
     ///
-    /// @param aCriterion An enum representing the criterion
+    /// @code{.cpp}
+    ///     String str = RealCondition::StringFromCriterion(RealCondition::Criterion::PositiveCrossing) ;
+    /// @endcode
     ///
-    /// @return String representing the given criterion
+    /// @param aCriterion An enum representing the criterion.
+    /// @return String representing the given criterion.
     static String StringFromCriterion(const Criterion& aCriterion);
 
-    /// @brief Generate a Duration based condition
+    /// @brief Generate a Duration based condition.
     ///
-    /// @param aCriterion An enum representing the criterion
-    /// @param aDuration A duration
+    /// @code{.cpp}
+    ///     RealCondition condition = RealCondition::DurationCondition(
+    ///         RealCondition::Criterion::PositiveCrossing, Duration::Hours(2.0)
+    ///     ) ;
+    /// @endcode
     ///
-    /// @return A Duration based condition
+    /// @param aCriterion An enum representing the criterion.
+    /// @param aDuration A duration.
+    /// @return A Duration based condition.
     static RealCondition DurationCondition(const Criterion& aCriterion, const Duration& aDuration);
 
    private:

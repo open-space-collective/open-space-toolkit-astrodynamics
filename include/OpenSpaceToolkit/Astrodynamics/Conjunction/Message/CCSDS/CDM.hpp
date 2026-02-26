@@ -156,7 +156,8 @@ class CDM
     //    – State Vector
     //    – Covariance Matrix
 
-    /// @brief CDM per-object data section containing OD parameters, physical properties, state vector, and covariance matrix.
+    /// @brief CDM per-object data section containing OD parameters, physical properties, state vector, and covariance
+    /// matrix.
     struct Data
     {
         // OD Parameters

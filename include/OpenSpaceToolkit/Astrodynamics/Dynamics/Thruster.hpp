@@ -34,6 +34,10 @@ class Thruster : public Dynamics
    public:
     /// @brief Constructor
     ///
+    /// @code{.cpp}
+    ///     Thruster thruster = { aSatelliteSystem, aGuidanceLaw, "Thruster" } ;
+    /// @endcode
+    ///
     /// @param aSatelliteSystem A satellite system
     /// @param aGuidanceLaw A guidance law
     /// @param aName A name
@@ -48,10 +52,20 @@ class Thruster : public Dynamics
 
     /// @brief Get satellite system
     ///
+    /// @code{.cpp}
+    ///     Thruster thruster = { ... } ;
+    ///     SatelliteSystem satelliteSystem = thruster.getSatelliteSystem() ;
+    /// @endcode
+    ///
     /// @return Satellite system
     SatelliteSystem getSatelliteSystem() const;
 
     /// @brief Get guidance law
+    ///
+    /// @code{.cpp}
+    ///     Thruster thruster = { ... } ;
+    ///     Shared<const GuidanceLaw> guidanceLaw = thruster.getGuidanceLaw() ;
+    /// @endcode
     ///
     /// @return Guidance law
     Shared<const GuidanceLaw> getGuidanceLaw() const;

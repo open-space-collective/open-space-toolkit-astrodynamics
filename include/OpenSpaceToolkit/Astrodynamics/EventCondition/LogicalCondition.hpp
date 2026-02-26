@@ -28,10 +28,11 @@ using ostk::astrodynamics::trajectory::State;
 class LogicalCondition : public EventCondition
 {
    public:
+    /// @brief Logical connective type.
     enum class Type
     {
-        And,
-        Or
+        And,  ///< All sub-conditions must be satisfied.
+        Or    ///< At least one sub-condition must be satisfied.
     };
 
     /// @brief Constructor.
@@ -55,7 +56,12 @@ class LogicalCondition : public EventCondition
 
     /// @brief Get the type of the logical connective.
     ///
-    /// @return The type.
+    /// @code{.cpp}
+    ///     LogicalCondition condition = { ... } ;
+    ///     LogicalCondition::Type type = condition.getType() ;
+    /// @endcode
+    ///
+    /// @return The logical connective type.
     LogicalCondition::Type getType() const;
 
     /// @brief Update the target of the individual event conditions composing the Logical Connective
@@ -66,8 +72,12 @@ class LogicalCondition : public EventCondition
 
     /// @brief Get the individual event conditions composing the Logical Connective Event Condition.
     ///
-    /// @return An Array of shared pointers to EventCondition instances,
-    ///                  representing the individual event conditions.
+    /// @code{.cpp}
+    ///     LogicalCondition condition = { ... } ;
+    ///     Array<Shared<EventCondition>> conditions = condition.getEventConditions() ;
+    /// @endcode
+    ///
+    /// @return An Array of shared pointers to EventCondition instances.
     Array<Shared<EventCondition>> getEventConditions() const;
 
     /// @brief Check if the Logical Connective Event Condition is satisfied.

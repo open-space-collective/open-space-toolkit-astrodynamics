@@ -18,7 +18,10 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::eventcondition::RealCondition;
 
-/// @brief A duration based event condition
+/// @brief An instant-based event condition.
+///
+/// @details Triggers when the propagation reaches a specified instant, using a RealCondition
+/// that compares elapsed seconds since the reference instant.
 class InstantCondition : public RealCondition
 {
    public:
@@ -35,9 +38,14 @@ class InstantCondition : public RealCondition
     /// @brief Virtual destructor
     virtual ~InstantCondition();
 
-    /// @brief Get instant
+    /// @brief Get the target instant.
     ///
-    /// @return Instant
+    /// @code{.cpp}
+    ///     InstantCondition condition = { ... } ;
+    ///     Instant instant = condition.getInstant() ;
+    /// @endcode
+    ///
+    /// @return The target instant.
     Instant getInstant() const;
 
    private:

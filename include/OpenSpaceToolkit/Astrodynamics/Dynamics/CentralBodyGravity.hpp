@@ -25,79 +25,115 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::Dynamics;
 
-/// @brief Define the acceleration experienced by a point mass due to gravity
+/// @brief Central body gravitational dynamics.
+///
+/// @details Defines the gravitational acceleration experienced by a spacecraft due to the central
+/// body. The central body's gravitational model (e.g., spherical, EGM96, EGM2008) is obtained
+/// from the associated Celestial object.
 class CentralBodyGravity : public Dynamics
 {
    public:
-    /// @brief Constructor
+    /// @brief Constructor.
     ///
     /// @code{.cpp}
-    ///                  const aCelestial = { ... };
-    ///                  CentralBodyGravity centralBodyGravity = { aCelestial };
+    ///     Shared<const Celestial> celestialSPtr = { ... } ;
+    ///     CentralBodyGravity centralBodyGravity = { celestialSPtr } ;
     /// @endcode
     ///
-    /// @param aCelestial A Celestial Object
+    /// @param aCelestial A celestial object representing the central body.
     CentralBodyGravity(const Shared<const Celestial>& aCelestial);
 
-    /// @brief Constructor
+    /// @brief Constructor with name.
     ///
     /// @code{.cpp}
-    ///                  const aCelestial = { ... };
-    ///                  const aName = { ... };
-    ///                  CentralBodyGravity centralBodyGravity = { aCelestial, aName };
+    ///     Shared<const Celestial> celestialSPtr = { ... } ;
+    ///     CentralBodyGravity centralBodyGravity = { celestialSPtr, "Earth Gravity" } ;
     /// @endcode
     ///
-    /// @param aCelestial A celestial object
-    /// @param aName A name
+    /// @param aCelestial A celestial object representing the central body.
+    /// @param aName A name for the dynamics.
     CentralBodyGravity(const Shared<const Celestial>& aCelestial, const String& aName);
 
-    /// @brief Destructor
+    /// @brief Destructor.
     virtual ~CentralBodyGravity() override;
 
-    /// @brief Output stream operator
+    /// @brief Stream insertion operator.
     ///
-    /// @param anOutputStream An output stream
-    /// @param aCentralBodyGravity A central body gravity dynamics
-    /// @return A reference to output stream
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     std::cout << centralBodyGravity ;
+    /// @endcode
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param aCentralBodyGravity A central body gravity dynamics.
+    /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity& aCentralBodyGravity);
 
-    /// @brief Check if central body gravity dynamics is defined
+    /// @brief Check if the central body gravity dynamics is defined.
     ///
-    /// @return True if central body gravity dynamics is defined
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     bool defined = centralBodyGravity.isDefined() ;
+    /// @endcode
+    ///
+    /// @return True if the central body gravity dynamics is defined.
     virtual bool isDefined() const override;
 
-    /// @brief Get celestial
+    /// @brief Get the celestial object.
     ///
-    /// @return A celestial object
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     Shared<const Celestial> celestial = centralBodyGravity.getCelestial() ;
+    /// @endcode
+    ///
+    /// @return A shared pointer to the celestial object.
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief Return the coordinate subsets that the instance reads from
+    /// @brief Get the coordinate subsets that the instance reads from.
     ///
-    /// @return The coordinate subsets that the instance reads from
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     Array<Shared<const CoordinateSubset>> readSubsets = centralBodyGravity.getReadCoordinateSubsets() ;
+    /// @endcode
+    ///
+    /// @return The coordinate subsets that the instance reads from.
     virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinate subsets that the instance writes to
+    /// @brief Get the coordinate subsets that the instance writes to.
     ///
-    /// @return The coordinate subsets that the instance writes to
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     Array<Shared<const CoordinateSubset>> writeSubsets = centralBodyGravity.getWriteCoordinateSubsets() ;
+    /// @endcode
+    ///
+    /// @return The coordinate subsets that the instance writes to.
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.
     ///
-    /// @param anInstant        An instant
-    /// @param x                The reduced state vector (this vector will follow the structure determined by the 'read'
-    /// coordinate subsets)
-    /// @param aFrameSPtr       The frame in which the state vector is expressed
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     VectorXd contribution = centralBodyGravity.computeContribution(anInstant, x, aFrameSPtr) ;
+    /// @endcode
     ///
-    /// @return The reduced derivative state vector (this vector must follow the structure determined by
-    /// the 'write' coordinate subsets) expressed in the given frame
+    /// @param anInstant An instant.
+    /// @param x The reduced state vector (follows the structure determined by the read coordinate subsets).
+    /// @param aFrameSPtr The frame in which the state vector is expressed.
+    /// @return The reduced derivative state vector (follows the structure determined by the write coordinate subsets)
+    /// expressed in the given frame.
     virtual VectorXd computeContribution(
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
 
-    /// @brief Print central body gravity dynamics
+    /// @brief Print the central body gravity dynamics.
     ///
-    /// @param anOutputStream An output stream
-    /// @param (optional) displayDecorators If true, display decorators
+    /// @code{.cpp}
+    ///     CentralBodyGravity centralBodyGravity = { ... } ;
+    ///     centralBodyGravity.print(std::cout) ;
+    /// @endcode
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator If true, display decorators.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:

@@ -41,11 +41,24 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief Trajectory State
+/// @brief Trajectory state at a given instant in time.
+///
+/// @details Represents the complete state of an object at a specific instant, consisting of coordinates
+/// (such as position, velocity, attitude, angular velocity, etc.) expressed in a given reference frame.
+/// The coordinates are defined by a set of coordinate subsets managed through a CoordinateBroker.
 class State
 {
    public:
     /// @brief Constructor with a pre-defined Coordinates Broker.
+    ///
+    /// @code{.cpp}
+    ///     State state = {
+    ///         Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+    ///         aCoordinates,
+    ///         Frame::GCRF(),
+    ///         aCoordinateBrokerSPtr
+    ///     } ;
+    /// @endcode
     ///
     /// @param anInstant An instant
     /// @param aCoordinates The coordinates at the instant in International System of Units
@@ -62,6 +75,15 @@ class State
     /// @brief Constructor. This constructor makes a new Coordinates Broker under the hood for every
     /// State. When possible, users should prefer passing in an existing Coordinates Broker or using a StateBuilder to
     /// reduce memory footprint when constructing many states.
+    ///
+    /// @code{.cpp}
+    ///     State state = {
+    ///         Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+    ///         aCoordinates,
+    ///         Frame::GCRF(),
+    ///         { CartesianPosition::Default(), CartesianVelocity::Default() }
+    ///     } ;
+    /// @endcode
     ///
     /// @param anInstant An instant
     /// @param aCoordinates The coordinates at the instant in International System of Units
@@ -95,6 +117,14 @@ class State
     );
 
     /// @brief Utility constructor for Position/Velocity only.
+    ///
+    /// @code{.cpp}
+    ///     State state = {
+    ///         Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+    ///         Position::Meters({ 7000000.0, 0.0, 0.0 }, Frame::GCRF()),
+    ///         Velocity::MetersPerSecond({ 0.0, 7546.05, 0.0 }, Frame::GCRF())
+    ///     } ;
+    /// @endcode
     ///
     /// @param anInstant An instant
     /// @param aPosition The cartesian position at the instant in International System of Units
@@ -183,7 +213,6 @@ class State
     /// @return The reference frame
     Shared<const Frame> getFrame() const;
 
-    /// @brief Get the coordinates of the State.
     /// @brief Get the cartesian position associated with the State (if present).
     ///
     /// @return The cartesian position
@@ -216,12 +245,22 @@ class State
 
     /// @brief Check if the State has a given coordinate subset.
     ///
+    /// @code{.cpp}
+    ///     State state = { ... } ;
+    ///     bool hasMass = state.hasSubset(CoordinateSubset::Mass()) ;
+    /// @endcode
+    ///
     /// @param aCoordinateSubsetSPtr the coordinate subset to be checked
     ///
     /// @return True if the coordinate subset is included in the State
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
     /// @brief Extract the coordinates for a single subset.
+    ///
+    /// @code{.cpp}
+    ///     State state = { ... } ;
+    ///     VectorXd positionCoordinates = state.extractCoordinate(CartesianPosition::Default()) ;
+    /// @endcode
     ///
     /// @param aSubsetSPtr The subset to extract the coordinates for
     /// @return The coordinates for the subset
@@ -235,6 +274,11 @@ class State
 
     /// @brief Transform the State to a different reference frame.
     ///
+    /// @code{.cpp}
+    ///     State state = { ... } ;
+    ///     State stateInITRF = state.inFrame(Frame::ITRF()) ;
+    /// @endcode
+    ///
     /// @param aFrameSPtr The reference frame to transform to
     /// @return The transformed State
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
@@ -246,6 +290,10 @@ class State
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief Get an undefined State.
+    ///
+    /// @code{.cpp}
+    ///     State state = State::Undefined() ;
+    /// @endcode
     ///
     /// @return An undefined State
     static State Undefined();

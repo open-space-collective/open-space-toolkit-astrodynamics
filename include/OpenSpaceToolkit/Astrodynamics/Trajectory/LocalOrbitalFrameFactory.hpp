@@ -31,23 +31,35 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
-/// @brief A local orbital frame factory
+/// @brief A local orbital frame factory.
 ///
-/// @note                       Allows to generate Frames based on instant, position, velocity.
+/// @details Creates local orbital reference frames (e.g., LVLH, TNW, QSW, VNC, NED) from a given
+/// state (position and velocity). The factory generates frames on demand, parameterized by a parent
+/// frame and a frame type.
 class LocalOrbitalFrameFactory
 {
    public:
     typedef std::function<Transform(const State&)> TransformGenerator;
-    /// @brief Generate a frame shared pointer based on current state input
+    /// @brief Generate a frame shared pointer based on current state input.
     ///
-    /// @param aState A State
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
+    ///     State state = { ... } ;
+    ///     Shared<const Frame> frame = factorySPtr->generateFrame(state) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to the frame created
+    /// @param aState A State.
+    /// @return A shared pointer to the frame created.
     Shared<const Frame> generateFrame(const State& aState) const;
 
-    /// @brief Check if local orbital frame factory is defined
+    /// @brief Check if local orbital frame factory is defined.
     ///
-    /// @return True if local orbital frame factory is defined
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = { ... } ;
+    ///     bool defined = factorySPtr->isDefined() ;
+    /// @endcode
+    ///
+    /// @return True if local orbital frame factory is defined.
     bool isDefined() const;
 
     /// @brief Accessor for the parent frame.
@@ -60,51 +72,73 @@ class LocalOrbitalFrameFactory
     /// @return Type
     LocalOrbitalFrameTransformProvider::Type getProviderType() const;
 
-    /// @brief NED Constructor
+    /// @brief Construct a NED (North-East-Down) local orbital frame factory.
     ///
-    /// @param aParentFrame A parent frame
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> nedFactorySPtr = LocalOrbitalFrameFactory::NED(Frame::GCRF()) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    /// @param aParentFrame A parent frame.
+    /// @return A shared pointer to a LocalOrbitalFrameFactory.
     static Shared<const LocalOrbitalFrameFactory> NED(const Shared<const Frame>& aParentFrame);
 
-    /// @brief LVLH Constructor
+    /// @brief Construct a LVLH (Local Vertical Local Horizontal) local orbital frame factory.
     ///
-    /// @param aParentFrame A parent frame
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> lvlhFactorySPtr = LocalOrbitalFrameFactory::LVLH(Frame::GCRF()) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    /// @param aParentFrame A parent frame.
+    /// @return A shared pointer to a LocalOrbitalFrameFactory.
     static Shared<const LocalOrbitalFrameFactory> LVLH(const Shared<const Frame>& aParentFrame);
 
-    /// @brief VVLH Constructor
+    /// @brief Construct a VVLH (Vehicle Velocity Local Horizontal) local orbital frame factory.
     ///
-    /// @param aParentFrame A parent frame
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> vvlhFactorySPtr = LocalOrbitalFrameFactory::VVLH(Frame::GCRF()) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    /// @param aParentFrame A parent frame.
+    /// @return A shared pointer to a LocalOrbitalFrameFactory.
     static Shared<const LocalOrbitalFrameFactory> VVLH(const Shared<const Frame>& aParentFrame);
 
-    /// @brief QSW Constructor
+    /// @brief Construct a QSW local orbital frame factory.
     ///
-    /// @param aParentFrame A parent frame
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(Frame::GCRF()) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    /// @param aParentFrame A parent frame.
+    /// @return A shared pointer to a LocalOrbitalFrameFactory.
     static Shared<const LocalOrbitalFrameFactory> QSW(const Shared<const Frame>& aParentFrame);
 
-    /// @brief TNW Constructor
+    /// @brief Construct a TNW (Tangent-Normal-Wideband) local orbital frame factory.
     ///
-    /// @param aParentFrame A parent frame
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    /// @param aParentFrame A parent frame.
+    /// @return A shared pointer to a LocalOrbitalFrameFactory.
     static Shared<const LocalOrbitalFrameFactory> TNW(const Shared<const Frame>& aParentFrame);
 
-    /// @brief VNC Constructor
+    /// @brief Construct a VNC (Velocity-Normal-Co-normal) local orbital frame factory.
     ///
-    /// @param aParentFrame A parent frame
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> vncFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF()) ;
+    /// @endcode
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
+    /// @param aParentFrame A parent frame.
+    /// @return A shared pointer to a LocalOrbitalFrameFactory.
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
 
-    /// @brief Undefined local orbital frame factory constructor
+    /// @brief Construct an undefined local orbital frame factory.
     ///
-    /// @return Undefined local orbital frame factory shared pointer
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = LocalOrbitalFrameFactory::Undefined() ;
+    /// @endcode
+    ///
+    /// @return Undefined local orbital frame factory shared pointer.
     static Shared<const LocalOrbitalFrameFactory> Undefined();
 
     /// @brief Construct function
