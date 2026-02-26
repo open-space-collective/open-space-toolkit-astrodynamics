@@ -6,12 +6,10 @@ FIND_PATH (
     OpenSpaceToolkitAstrodynamics_INCLUDE_DIR
     NAMES
         "OpenSpaceToolkit/Astrodynamics/Access.hpp"
-        "Access.hpp"
     PATHS
         ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}
     PATH_SUFFIXES
         "include"
-        "include/OpenSpaceToolkit/Astrodynamics"
     NO_DEFAULT_PATH
 )
 
@@ -66,19 +64,11 @@ ENDIF ()
 
 IF (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR)
 
-    IF (EXISTS "${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics/Access.hpp")
-        SET (
-            OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS
-            ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}
-            ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics
-        )
-    ELSE ()
-        # Fallback for legacy flat install layout where Access.hpp is directly under include.
-        SET (OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR})
-    ENDIF ()
-
+    SET (OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR})
     SET (OpenSpaceToolkitAstrodynamics_LIBRARIES ${OpenSpaceToolkitAstrodynamics_LIBRARY})
-    SET (OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARIES ${OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARY})
+    IF (WIN32 AND OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARY)
+        SET (OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARIES ${OpenSpaceToolkitAstrodynamics_RUNTIME_LIBRARY})
+    ENDIF ()
 
     SET (OpenSpaceToolkitAstrodynamics_FOUND TRUE)
 

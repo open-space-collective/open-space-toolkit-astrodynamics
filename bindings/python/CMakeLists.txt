@@ -129,7 +129,7 @@ FUNCTION (PY_ADD_MODULE NAME)
         ENDIF ()
     ENDIF ()
     IF (MSVC)
-        TARGET_COMPILE_OPTIONS (${NAME} PRIVATE /bigobj $<$<CONFIG:Release>:/Od /Ob0>)
+        TARGET_COMPILE_OPTIONS (${NAME} PRIVATE /bigobj /Zm300)
     ENDIF ()
 
     # Target Properties
@@ -188,32 +188,34 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
 
         # Build wheels with cmake
         ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
-                            COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
-                            COMMAND rm -rf "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
-                            COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
-                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}/__init__.py"
-                            COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/*" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}.*${EXTENSION}*.so" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
-                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/requirements.txt"
-                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/README.md"
-                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && python${PYTHON_VERSION} -m pip install .
-                            COMMAND python${PYTHON_VERSION} -m "pybind11_stubgen" -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" # generate stubs in same dir as binaries
-                            COMMAND find "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}" -type f -name "*.pyi" -exec sed -i "s/: \\\\.\\\\.\\\\./: typing.Any/g" {} + # crudely fix broken stubs; need to escape \\
-                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && python${PYTHON_VERSION} -m build --no-isolation -w
-                            COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/dist"
-                            COMMAND cp "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dist/*" "${CMAKE_CURRENT_BINARY_DIR}/dist"
+                            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
+                            COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
+                            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
+                            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}"
+                            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}/__init__.py"
+                            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
+                            COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${SHARED_LIBRARY_TARGET}>" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}"
+                            COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${LIBRARY_TARGET}_${PYTHON_VERSION}>" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
+                            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/requirements.txt"
+                            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/README.md"
+                            COMMAND "${PYTHON_${PYTHON_VERSION}_EXECUTABLE}" -m pip install .
+                            COMMAND "${PYTHON_${PYTHON_VERSION}_EXECUTABLE}" -m pybind11_stubgen -o "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" "${PROJECT_GROUP}.${PROJECT_SUBGROUP}"
+                            COMMAND "${PYTHON_${PYTHON_VERSION}_EXECUTABLE}" -m build --no-isolation -w
+                            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/dist"
+                            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dist" "${CMAKE_CURRENT_BINARY_DIR}/dist"
+                            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
                             DEPENDS ${DEPS})
     ELSE ()
         # Build package directories only to integrate with a ci build wheel process
         ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
-                            COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
-                            COMMAND rm -rf "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
-                            COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
-                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}/__init__.py"
-                            COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/*" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}.*${EXTENSION}*.so" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
+                            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
+                            COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
+                            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
+                            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}"
+                            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}/__init__.py"
+                            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
+                            COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${SHARED_LIBRARY_TARGET}>" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}"
+                            COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${LIBRARY_TARGET}_${PYTHON_VERSION}>" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
                             DEPENDS ${DEPS})
     ENDIF ()
 
@@ -239,7 +241,6 @@ SET (
     PYTHON_SEARCH_VERSIONS
     "${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}"
     CACHE STRING "Versions of Python bindings to build."
-    FORCE
 )
 
 MESSAGE (STATUS "Looking for available python versions...")

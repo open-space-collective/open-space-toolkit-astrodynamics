@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_RootSolver__
 #define __OpenSpaceToolkit_Astrodynamics_RootSolver__
 
+#include <functional>
+
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 

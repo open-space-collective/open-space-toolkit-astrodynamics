@@ -2,7 +2,13 @@
 
 #include <iostream>
 
+#if __has_include(<sgp4/SGP4.h>)
 #include <sgp4/SGP4.h>
+#elif __has_include(<libsgp4/SGP4.h>)
+#include <libsgp4/SGP4.h>
+#else
+#error "SGP4 header not found. Expected <sgp4/SGP4.h> or <libsgp4/SGP4.h>."
+#endif
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
