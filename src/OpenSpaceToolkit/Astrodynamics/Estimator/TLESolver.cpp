@@ -241,8 +241,7 @@ TLESolver::Analysis TLESolver::estimate(
     {
         // Denormalize the state
         const VectorXd denormalizedCoords = aNormalizedState.getCoordinates().cwiseProduct(scaleFactors);
-        const State denormalizedState =
-            tleStateBuilder_.build(aNormalizedState.getInstant(), denormalizedCoords);
+        const State denormalizedState = tleStateBuilder_.build(aNormalizedState.getInstant(), denormalizedCoords);
 
         const TLE tle = TLEStateToTLE(denormalizedState);
         const SGP4 sgp4(tle);
@@ -259,11 +258,7 @@ TLESolver::Analysis TLESolver::estimate(
     };
 
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
-        normalizedInitialState,
-        observationsInEstimationFrame,
-        stateGenerator,
-        anInitialGuessSigmas,
-        anObservationSigmas
+        normalizedInitialState, observationsInEstimationFrame, stateGenerator, anInitialGuessSigmas, anObservationSigmas
     );
 
     // Denormalize the estimated state and convert to TLE
