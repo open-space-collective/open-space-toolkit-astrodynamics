@@ -64,14 +64,16 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-Array<State> loadData(const String& aFileName)
+Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrameSPtr = Frame::ITRF())
 {
     Array<State> observations;
 
     const Table observationData = Table::Load(
-        File::Path(Path::Parse(
-            String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
-        )),
+        File::Path(
+            Path::Parse(
+                String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
+            )
+        ),
         Table::Format::CSV,
         true
     );
@@ -80,12 +82,10 @@ Array<State> loadData(const String& aFileName)
     {
         const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].accessString()), Scale::UTC);
         const Position position = Position::Meters(
-            {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()},
-            Frame::ITRF()
+            {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()}, aFrameSPtr
         );
         const Velocity velocity = Velocity::MetersPerSecond(
-            {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()},
-            Frame::ITRF()
+            {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()}, aFrameSPtr
         );
 
         const State state = State(instant, position, velocity);
@@ -477,5 +477,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)
             EXPECT_LT(positionDelta.norm(), 10000.0);
             EXPECT_LT(velocityDelta.norm(), 12.0);
         }
+    }
+}
+
+// Regression test: An eccentricity over 1 is produced
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
+{
+    const Array<State> observations = loadData("bad_states_tle", Frame::GCRF());
+
+    const TLESolver solver = {LeastSquaresSolver::Default(), 0, "00001A", 0, true};
+
+    const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
+
+    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+
+    // Verify the estimated TLE is valid by propagating
+    const TLE estimatedTLE = analysis.estimatedTLE;
+    const SGP4 sgp4(estimatedTLE);
+
+    for (Size i = 0; i < observations.getSize(); i += 50)
+    {
+        const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
+        const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -
+                                       observations[i].inFrame(Frame::GCRF()).getPosition().getCoordinates();
+
+        EXPECT_LT(positionDelta.norm(), 5000.0);
     }
 }
