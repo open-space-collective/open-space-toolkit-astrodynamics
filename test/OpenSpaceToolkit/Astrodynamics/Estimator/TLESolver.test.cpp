@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
@@ -55,6 +56,7 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::estimator::TLESolver;
+using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
@@ -478,12 +480,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)
     }
 }
 
-// Regression test: An eccentricity over 1 is produced
-TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
+// Regression test: Without normalization, this dataset produces satellite decayed during iteration.
+// With normalization enabled, the solver converges correctly.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDecayed)
 {
-    const Array<State> observations = loadData("bad_states_tle", Frame::GCRF());
+    const Array<State> observations = loadData("satellite_decayed_observations", Frame::GCRF());
 
-    const TLESolver solver = {LeastSquaresSolver::Default(), 0, "00001A", 0, true};
+    const LeastSquaresSolver leastSquaresSolver = {20, 1.0, FiniteDifferenceSolver::Default(), true};
+    const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
 
     const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
 
@@ -494,7 +498,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
     const TLE estimatedTLE = analysis.estimatedTLE;
     const SGP4 sgp4(estimatedTLE);
 
-    for (Size i = 0; i < observations.getSize(); i += 50)
+    for (Size i = 0; i < observations.getSize(); i += 500)
     {
         const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
         const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -

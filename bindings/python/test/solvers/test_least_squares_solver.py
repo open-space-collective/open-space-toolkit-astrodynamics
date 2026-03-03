@@ -214,7 +214,6 @@ def state_generator() -> Callable:
 
 
 class TestLeastSquaresSolverStep:
-
     def test_constructor(
         self,
         step: LeastSquaresSolver.Step,
@@ -232,7 +231,6 @@ class TestLeastSquaresSolverStep:
 
 
 class TestLeastSquaresSolverAnalysis:
-
     def test_constructor(
         self,
         analysis: LeastSquaresSolver.Analysis,
@@ -282,6 +280,15 @@ class TestLeastSquaresSolver:
         assert least_squares_solver.get_max_iteration_count() == max_iteration_count
         assert least_squares_solver.get_rms_update_threshold() == rms_update_threshold
         assert least_squares_solver.get_finite_difference_solver() is not None
+        assert least_squares_solver.get_normalize_state() is False
+
+    def test_constructor_with_normalize_state(self):
+        solver = LeastSquaresSolver(
+            maximum_iteration_count=20,
+            rms_update_threshold=1.0,
+            normalize_state=True,
+        )
+        assert solver.get_normalize_state() is True
 
     def test_solve_defaults(
         self,

@@ -313,6 +313,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Constructor)
         EXPECT_NO_THROW(LeastSquaresSolver::Default());
         EXPECT_NO_THROW(LeastSquaresSolver(maxIterationCount_, rmsUpdateThreshold_));
         EXPECT_NO_THROW(LeastSquaresSolver(maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_));
+        EXPECT_NO_THROW(LeastSquaresSolver(maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_, true));
+        EXPECT_NO_THROW(LeastSquaresSolver(maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_, false));
     }
 
     {
@@ -328,6 +330,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Getters)
         EXPECT_EQ(solver_.getMaxIterationCount(), maxIterationCount_);
         EXPECT_EQ(solver_.getRmsUpdateThreshold(), rmsUpdateThreshold_);
         EXPECT_NO_THROW(solver_.getFiniteDifferenceSolver());
+        EXPECT_FALSE(solver_.getNormalizeState());
+    }
+
+    {
+        const LeastSquaresSolver normalizedSolver = {
+            maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_, true
+        };
+        EXPECT_TRUE(normalizedSolver.getNormalizeState());
     }
 }
 

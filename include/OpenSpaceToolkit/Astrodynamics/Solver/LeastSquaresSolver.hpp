@@ -132,6 +132,19 @@ class LeastSquaresSolver
         const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER
     );
 
+    /// @brief Constructor with state normalization option
+    ///
+    /// @param aMaxIterationCount Maximum number of iterations
+    /// @param aRmsUpdateThreshold Minimum RMS threshold
+    /// @param aFiniteDifferenceSolver Finite difference solver
+    /// @param normalizeState Whether to normalize state coordinates before solving
+    LeastSquaresSolver(
+        const Size& aMaxIterationCount,
+        const Real& aRmsUpdateThreshold,
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver,
+        const bool normalizeState
+    );
+
     /// @brief Get max iteration count
     ///
     /// @return Max iteration count
@@ -146,6 +159,11 @@ class LeastSquaresSolver
     ///
     /// @return Finite difference solver
     FiniteDifferenceSolver getFiniteDifferenceSolver() const;
+
+    /// @brief Get normalize state flag
+    ///
+    /// @return True if state normalization is enabled
+    bool getNormalizeState() const;
 
     /// @brief Solve the non-linear least squares problem
     /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for
@@ -186,6 +204,7 @@ class LeastSquaresSolver
     Size maxIterationCount_;
     Real rmsUpdateThreshold_;
     FiniteDifferenceSolver finiteDifferenceSolver_;
+    bool normalizeState_;
 
     /// @brief Extract the inverse squares of the sigmas
     ///

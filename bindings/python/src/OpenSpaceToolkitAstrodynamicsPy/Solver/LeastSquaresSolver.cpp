@@ -226,6 +226,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.default()")
         )
         .def(
+            init<const Size&, const Real&, const FiniteDifferenceSolver&, const bool>(),
+            R"doc(
+                Constructor with state normalization option.
+
+                Args:
+                    maximum_iteration_count (int): Maximum number of iterations.
+                    rms_update_threshold (float): Minimum RMS threshold.
+                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver.
+                    normalize_state (bool): Whether to normalize state coordinates before solving.
+            )doc",
+            arg("maximum_iteration_count"),
+            arg("rms_update_threshold"),
+            arg("finite_difference_solver"),
+            arg("normalize_state")
+        )
+        .def(
             "get_max_iteration_count",
             &LeastSquaresSolver::getMaxIterationCount,
             R"doc(
@@ -253,6 +269,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
                 Returns:
                     FiniteDifferenceSolver: The finite difference solver.
+            )doc"
+        )
+        .def(
+            "get_normalize_state",
+            &LeastSquaresSolver::getNormalizeState,
+            R"doc(
+                Get whether state normalization is enabled.
+
+                Returns:
+                    bool: True if state normalization is enabled.
             )doc"
         )
         .def(

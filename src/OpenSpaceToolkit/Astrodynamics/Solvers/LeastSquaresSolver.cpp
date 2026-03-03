@@ -125,7 +125,30 @@ LeastSquaresSolver::LeastSquaresSolver(
 )
     : maxIterationCount_(aMaxIterationCount),
       rmsUpdateThreshold_(aRmsUpdateThreshold),
-      finiteDifferenceSolver_(aFiniteDifferenceSolver)
+      finiteDifferenceSolver_(aFiniteDifferenceSolver),
+      normalizeState_(false)
+{
+    if (aMaxIterationCount == 0)
+    {
+        throw ostk::core::error::RuntimeError("Max iteration count must be greater than 0.");
+    }
+
+    if (aRmsUpdateThreshold <= 0.0)
+    {
+        throw ostk::core::error::RuntimeError("RMS update threshold must be greater than 0.");
+    }
+}
+
+LeastSquaresSolver::LeastSquaresSolver(
+    const Size& aMaxIterationCount,
+    const Real& aRmsUpdateThreshold,
+    const FiniteDifferenceSolver& aFiniteDifferenceSolver,
+    const bool normalizeState
+)
+    : maxIterationCount_(aMaxIterationCount),
+      rmsUpdateThreshold_(aRmsUpdateThreshold),
+      finiteDifferenceSolver_(aFiniteDifferenceSolver),
+      normalizeState_(normalizeState)
 {
     if (aMaxIterationCount == 0)
     {
@@ -153,6 +176,11 @@ FiniteDifferenceSolver LeastSquaresSolver::getFiniteDifferenceSolver() const
     return finiteDifferenceSolver_;
 }
 
+bool LeastSquaresSolver::getNormalizeState() const
+{
+    return normalizeState_;
+}
+
 LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const State& anInitialGuessState,
     const Array<State>& anObservationStateArray,
@@ -173,10 +201,47 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         throw ostk::core::error::runtime::Undefined("Observation state array");
     }
 
+    // Compute normalization scale factors (identity-like if normalization is disabled)
+    VectorXd scaleFactors;
+    if (normalizeState_)
+    {
+        const VectorXd initialCoords = anInitialGuessState.getCoordinates();
+        scaleFactors.resize(initialCoords.size());
+        for (Eigen::Index i = 0; i < initialCoords.size(); ++i)
+        {
+            scaleFactors(i) = std::max(std::abs(initialCoords(i)), 1e-8);
+        }
+    }
+
+    // Build the effective initial guess (normalized if enabled)
+    const StateBuilder initialGuessStateBuilder(anInitialGuessState);
+    const State effectiveInitialGuessState =
+        normalizeState_
+            ? initialGuessStateBuilder.build(
+                  anInitialGuessState.getInstant(), anInitialGuessState.getCoordinates().cwiseQuotient(scaleFactors)
+              )
+            : anInitialGuessState;
+
+    // Wrap state generator to denormalize before calling the original (pass-through if normalization is disabled)
+    const std::function<Array<State>(const State&, const Array<Instant>&)> effectiveStateGenerator =
+        normalizeState_
+            ? std::function<Array<State>(const State&, const Array<Instant>&)>(
+                  [&aStateGenerator,
+                   &initialGuessStateBuilder,
+                   &scaleFactors](const State& aNormalizedState, const Array<Instant>& anInstantArray) -> Array<State>
+                  {
+                      const VectorXd denormalizedCoords = aNormalizedState.getCoordinates().cwiseProduct(scaleFactors);
+                      const State denormalizedState =
+                          initialGuessStateBuilder.build(aNormalizedState.getInstant(), denormalizedCoords);
+                      return aStateGenerator(denormalizedState, anInstantArray);
+                  }
+              )
+            : aStateGenerator;
+
     // Setup state builders
-    const Instant estimatedStateInstant = anInitialGuessState.getInstant();
-    const StateBuilder estimationStateBuilder(anInitialGuessState);
-    const Shared<const Frame>& estimationStateFrame = anInitialGuessState.accessFrame();
+    const Instant estimatedStateInstant = effectiveInitialGuessState.getInstant();
+    const StateBuilder estimationStateBuilder(effectiveInitialGuessState);
+    const Shared<const Frame>& estimationStateFrame = effectiveInitialGuessState.accessFrame();
     const StateBuilder observationStateBuilder(anObservationStateArray[0]);
     const Array<Shared<const CoordinateSubset>> observationStateSubsets =
         observationStateBuilder.getCoordinateSubsets();
@@ -229,7 +294,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Initialize state vectors
     // X∗ (nominal trajectory)
-    VectorXd XNom = anInitialGuessState.accessCoordinates();
+    VectorXd XNom = effectiveInitialGuessState.accessCoordinates();
     // x̂ = X - X∗
     VectorXd xHat = VectorXd::Zero(estimationStateDimension);
 
@@ -251,7 +316,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     // Compute observation coordinates in the estimation frame
     const auto computeObservationsCoordinates = [&](const State& state, const Array<Instant>& instants) -> MatrixXd
     {
-        const Array<State> states = aStateGenerator(state, instants);
+        const Array<State> states = effectiveStateGenerator(state, instants);
 
         MatrixXd coordinates(observationStateDimension, observationCount);
 
@@ -302,6 +367,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         {
             // yᵢ = Yᵢ - G(X∗ᵢ)
             const VectorXd& y = residualCoordinates.col(i);
+
             // Hᵢ = H(tᵢ,t₀) (observations sensitivity matrix for current observations)
             const MatrixXd& H = HFull[i];
 
@@ -341,7 +407,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Compute final covariance matrices
     // P̂ = Λ⁻¹
-    const MatrixXd PHat = Lambda.ldlt().solve(MatrixXd::Identity(Lambda.rows(), Lambda.cols()));
+    MatrixXd PHat = Lambda.ldlt().solve(MatrixXd::Identity(Lambda.rows(), Lambda.cols()));
 
     // Pₑ = P̂ Pₑ P̂
     PHatFrisbee = PHat * PHatFrisbee * PHat;
@@ -354,6 +420,26 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             anObservationStateArray[i].getInstant(), computedObservationCoordinates.col(i)
         ));
     }
+
+    // Denormalize outputs if normalization was enabled
+    if (normalizeState_)
+    {
+        // Denormalize the estimated state
+        const VectorXd denormCoords = currentEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
+        currentEstimatedState = initialGuessStateBuilder.build(currentEstimatedState.getInstant(), denormCoords);
+
+        // Transform covariances: P_denorm = S * P_norm * S
+        const MatrixXd S = scaleFactors.asDiagonal();
+        PHat = S * PHat * S;
+        PHatFrisbee = S * PHatFrisbee * S;
+
+        // Denormalize step xHat values
+        for (auto& step : steps)
+        {
+            step.xHat = step.xHat.cwiseProduct(scaleFactors);
+        }
+    }
+
     return Analysis(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
 }
 

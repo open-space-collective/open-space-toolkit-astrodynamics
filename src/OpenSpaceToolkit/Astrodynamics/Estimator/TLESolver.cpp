@@ -220,30 +220,9 @@ TLESolver::Analysis TLESolver::estimate(
     // the board.
     initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
 
-    // Compute scale factors from the initial state to normalize the state vector.
-    // This improves conditioning of the Jacobian by bringing all state components to ~O(1).
-    const VectorXd initialCoords = initialGuessTLEState.getCoordinates();
-    VectorXd scaleFactors(initialCoords.size());
-    for (Eigen::Index i = 0; i < initialCoords.size(); ++i)
+    const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        scaleFactors(i) = std::max(std::abs(initialCoords(i)), 1e-8);
-    }
-
-    // Normalize the initial state (use estimation frame to match observations)
-    const VectorXd normalizedCoords = initialCoords.cwiseQuotient(scaleFactors);
-    const StateBuilder estimationFrameBuilder(estimationFrameSPtr_, tleStateBuilder_.getCoordinateSubsets());
-    const State normalizedInitialState =
-        estimationFrameBuilder.build(initialGuessTLEState.getInstant(), normalizedCoords);
-
-    // Wrap the state generator to denormalize before generating observations
-    const auto stateGenerator =
-        [this, &scaleFactors](const State& aNormalizedState, const Array<Instant>& anInstantArray) -> Array<State>
-    {
-        // Denormalize the state
-        const VectorXd denormalizedCoords = aNormalizedState.getCoordinates().cwiseProduct(scaleFactors);
-        const State denormalizedState = tleStateBuilder_.build(aNormalizedState.getInstant(), denormalizedCoords);
-
-        const TLE tle = TLEStateToTLE(denormalizedState);
+        const TLE tle = TLEStateToTLE(aState);
         const SGP4 sgp4(tle);
 
         Array<State> states;
@@ -258,14 +237,10 @@ TLESolver::Analysis TLESolver::estimate(
     };
 
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
-        normalizedInitialState, observationsInEstimationFrame, stateGenerator, anInitialGuessSigmas, anObservationSigmas
+        initialGuessTLEState, observationsInEstimationFrame, stateGenerator, anInitialGuessSigmas, anObservationSigmas
     );
 
-    // Denormalize the estimated state and convert to TLE
-    const VectorXd estimatedDenormCoords = analysis.estimatedState.getCoordinates().cwiseProduct(scaleFactors);
-    const State estimatedDenormState =
-        tleStateBuilder_.build(analysis.estimatedState.getInstant(), estimatedDenormCoords);
-    const TLE estimatedTLE = TLEStateToTLE(estimatedDenormState);
+    const TLE estimatedTLE = TLEStateToTLE(analysis.estimatedState);
 
     return Analysis(estimatedTLE, analysis);
 }
