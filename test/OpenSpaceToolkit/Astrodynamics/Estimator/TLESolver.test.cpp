@@ -71,9 +71,11 @@ Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrame
     Array<State> observations;
 
     const Table observationData = Table::Load(
-        File::Path(Path::Parse(
-            String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
-        )),
+        File::Path(
+            Path::Parse(
+                String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
+            )
+        ),
         Table::Format::CSV,
         true
     );
@@ -486,7 +488,38 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
 {
     const Array<State> observations = loadData("satellite_decayed_observations", Frame::GCRF());
 
-    const LeastSquaresSolver leastSquaresSolver = {20, 1.0, FiniteDifferenceSolver::Default(), true};
+    const LeastSquaresSolver leastSquaresSolver = {
+        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+    };
+    const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
+
+    const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
+
+    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+
+    // Verify the estimated TLE is valid by propagating
+    const TLE estimatedTLE = analysis.estimatedTLE;
+    const SGP4 sgp4(estimatedTLE);
+
+    for (Size i = 0; i < observations.getSize(); i += 500)
+    {
+        const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
+        const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -
+                                       observations[i].inFrame(Frame::GCRF()).getPosition().getCoordinates();
+
+        EXPECT_LT(positionDelta.norm(), 5000.0);
+    }
+}
+
+// Regression test: With MaxAbsoluteCoordinateScaling normalization, eccentricity > 1 dataset converges.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
+{
+    const Array<State> observations = loadData("eccentricity_over_1_observations", Frame::GCRF());
+
+    const LeastSquaresSolver leastSquaresSolver = {
+        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+    };
     const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
 
     const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);

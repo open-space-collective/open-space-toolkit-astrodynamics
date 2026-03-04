@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver__
 #define __OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver__
 
+#include <functional>
 #include <unordered_map>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
@@ -56,6 +57,8 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class LeastSquaresSolver
 {
    public:
+    using ScaleFactorGenerator = std::function<VectorXd(const State&)>;
+
     /// @brief A single iteration step of the least squares solver.
     class Step
     {
@@ -132,17 +135,17 @@ class LeastSquaresSolver
         const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER
     );
 
-    /// @brief Constructor with state normalization option
+    /// @brief Constructor with custom scale factor generator
     ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
     /// @param aFiniteDifferenceSolver Finite difference solver
-    /// @param normalizeState Whether to normalize state coordinates before solving
+    /// @param aScaleFactorGenerator Function to generate scale factors from a state
     LeastSquaresSolver(
         const Size& aMaxIterationCount,
         const Real& aRmsUpdateThreshold,
         const FiniteDifferenceSolver& aFiniteDifferenceSolver,
-        const bool normalizeState
+        const ScaleFactorGenerator& aScaleFactorGenerator
     );
 
     /// @brief Get max iteration count
@@ -160,10 +163,10 @@ class LeastSquaresSolver
     /// @return Finite difference solver
     FiniteDifferenceSolver getFiniteDifferenceSolver() const;
 
-    /// @brief Get normalize state flag
+    /// @brief Get the scale factor generator
     ///
-    /// @return True if state normalization is enabled
-    bool getNormalizeState() const;
+    /// @return Scale factor generator function
+    ScaleFactorGenerator getScaleFactorGenerator() const;
 
     /// @brief Solve the non-linear least squares problem
     /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for
@@ -191,6 +194,16 @@ class LeastSquaresSolver
     /// @return Empirical covariance
     static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualStateArray);
 
+    /// @brief Create a scale factor generator that returns all ones (no scaling)
+    ///
+    /// @return ScaleFactorGenerator that performs no scaling
+    static ScaleFactorGenerator NoScaling();
+
+    /// @brief Create a scale factor generator that uses max absolute coordinate values
+    ///
+    /// @return ScaleFactorGenerator that scales by max(|coord_i|, 1e-8)
+    static ScaleFactorGenerator MaxAbsoluteCoordinateScaling();
+
     /// @brief Default constructor
     ///
     /// @code{.cpp}
@@ -204,7 +217,7 @@ class LeastSquaresSolver
     Size maxIterationCount_;
     Real rmsUpdateThreshold_;
     FiniteDifferenceSolver finiteDifferenceSolver_;
-    bool normalizeState_;
+    ScaleFactorGenerator scaleFactorGenerator_;
 
     /// @brief Extract the inverse squares of the sigmas
     ///

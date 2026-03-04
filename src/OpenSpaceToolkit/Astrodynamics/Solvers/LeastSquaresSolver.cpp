@@ -126,7 +126,7 @@ LeastSquaresSolver::LeastSquaresSolver(
     : maxIterationCount_(aMaxIterationCount),
       rmsUpdateThreshold_(aRmsUpdateThreshold),
       finiteDifferenceSolver_(aFiniteDifferenceSolver),
-      normalizeState_(false)
+      scaleFactorGenerator_(NoScaling())
 {
     if (aMaxIterationCount == 0)
     {
@@ -143,12 +143,12 @@ LeastSquaresSolver::LeastSquaresSolver(
     const Size& aMaxIterationCount,
     const Real& aRmsUpdateThreshold,
     const FiniteDifferenceSolver& aFiniteDifferenceSolver,
-    const bool normalizeState
+    const ScaleFactorGenerator& aScaleFactorGenerator
 )
     : maxIterationCount_(aMaxIterationCount),
       rmsUpdateThreshold_(aRmsUpdateThreshold),
       finiteDifferenceSolver_(aFiniteDifferenceSolver),
-      normalizeState_(normalizeState)
+      scaleFactorGenerator_(aScaleFactorGenerator)
 {
     if (aMaxIterationCount == 0)
     {
@@ -176,9 +176,9 @@ FiniteDifferenceSolver LeastSquaresSolver::getFiniteDifferenceSolver() const
     return finiteDifferenceSolver_;
 }
 
-bool LeastSquaresSolver::getNormalizeState() const
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::getScaleFactorGenerator() const
 {
-    return normalizeState_;
+    return scaleFactorGenerator_;
 }
 
 LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
@@ -201,42 +201,26 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         throw ostk::core::error::runtime::Undefined("Observation state array");
     }
 
-    // Compute normalization scale factors (identity-like if normalization is disabled)
-    VectorXd scaleFactors;
-    if (normalizeState_)
-    {
-        const VectorXd initialCoords = anInitialGuessState.getCoordinates();
-        scaleFactors.resize(initialCoords.size());
-        for (Eigen::Index i = 0; i < initialCoords.size(); ++i)
-        {
-            scaleFactors(i) = std::max(std::abs(initialCoords(i)), 1e-8);
-        }
-    }
+    // Compute scale factors using the generator
+    const VectorXd scaleFactors = scaleFactorGenerator_(anInitialGuessState);
 
-    // Build the effective initial guess (normalized if enabled)
+    // Build the effective initial guess (normalized by scale factors)
     const StateBuilder initialGuessStateBuilder(anInitialGuessState);
-    const State effectiveInitialGuessState =
-        normalizeState_
-            ? initialGuessStateBuilder.build(
-                  anInitialGuessState.getInstant(), anInitialGuessState.getCoordinates().cwiseQuotient(scaleFactors)
-              )
-            : anInitialGuessState;
+    const State effectiveInitialGuessState = initialGuessStateBuilder.build(
+        anInitialGuessState.getInstant(), anInitialGuessState.getCoordinates().cwiseQuotient(scaleFactors)
+    );
 
-    // Wrap state generator to denormalize before calling the original (pass-through if normalization is disabled)
+    // Wrap state generator to denormalize before calling the original
     const std::function<Array<State>(const State&, const Array<Instant>&)> effectiveStateGenerator =
-        normalizeState_
-            ? std::function<Array<State>(const State&, const Array<Instant>&)>(
-                  [&aStateGenerator,
-                   &initialGuessStateBuilder,
-                   &scaleFactors](const State& aNormalizedState, const Array<Instant>& anInstantArray) -> Array<State>
-                  {
-                      const VectorXd denormalizedCoords = aNormalizedState.getCoordinates().cwiseProduct(scaleFactors);
-                      const State denormalizedState =
-                          initialGuessStateBuilder.build(aNormalizedState.getInstant(), denormalizedCoords);
-                      return aStateGenerator(denormalizedState, anInstantArray);
-                  }
-              )
-            : aStateGenerator;
+        [&aStateGenerator,
+         &initialGuessStateBuilder,
+         &scaleFactors](const State& aNormalizedState, const Array<Instant>& anInstantArray) -> Array<State>
+    {
+        const VectorXd denormalizedCoords = aNormalizedState.getCoordinates().cwiseProduct(scaleFactors);
+        const State denormalizedState =
+            initialGuessStateBuilder.build(aNormalizedState.getInstant(), denormalizedCoords);
+        return aStateGenerator(denormalizedState, anInstantArray);
+    };
 
     // Setup state builders
     const Instant estimatedStateInstant = effectiveInitialGuessState.getInstant();
@@ -421,8 +405,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         ));
     }
 
-    // Denormalize outputs if normalization was enabled
-    if (normalizeState_)
+    // Denormalize outputs
     {
         // Denormalize the estimated state
         const VectorXd denormCoords = currentEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
@@ -460,6 +443,28 @@ MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aR
     }
 
     return (coordinates.transpose() * coordinates) / count;
+}
+
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::NoScaling()
+{
+    return [](const State& aState) -> VectorXd
+    {
+        return VectorXd::Ones(aState.getCoordinates().size());
+    };
+}
+
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+{
+    return [](const State& aState) -> VectorXd
+    {
+        const VectorXd coordinates = aState.getCoordinates();
+        VectorXd scaleFactors(coordinates.size());
+        for (Eigen::Index i = 0; i < coordinates.size(); ++i)
+        {
+            scaleFactors(i) = std::max(std::abs(coordinates(i)), 1e-8);
+        }
+        return scaleFactors;
+    };
 }
 
 LeastSquaresSolver LeastSquaresSolver::Default()

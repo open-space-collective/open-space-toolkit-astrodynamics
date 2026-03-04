@@ -280,15 +280,47 @@ class TestLeastSquaresSolver:
         assert least_squares_solver.get_max_iteration_count() == max_iteration_count
         assert least_squares_solver.get_rms_update_threshold() == rms_update_threshold
         assert least_squares_solver.get_finite_difference_solver() is not None
-        assert least_squares_solver.get_normalize_state() is False
+        assert least_squares_solver.get_scale_factor_generator() is not None
 
-    def test_constructor_with_normalize_state(self):
+    def test_constructor_with_scale_factor_generator(self):
         solver = LeastSquaresSolver(
             maximum_iteration_count=20,
             rms_update_threshold=1.0,
-            normalize_state=True,
+            finite_difference_solver=FiniteDifferenceSolver.default(),
+            scale_factor_generator=LeastSquaresSolver.max_absolute_coordinate_scaling(),
         )
-        assert solver.get_normalize_state() is True
+        assert solver.get_scale_factor_generator() is not None
+
+    def test_no_scaling(self):
+        generator = LeastSquaresSolver.no_scaling()
+        assert generator is not None
+
+    def test_max_absolute_coordinate_scaling(self):
+        generator = LeastSquaresSolver.max_absolute_coordinate_scaling()
+        assert generator is not None
+
+    def test_custom_scale_factor_generator(
+        self,
+        initial_guess: State,
+        observations: list[State],
+        state_generator: callable,
+    ):
+        custom_generator = lambda state: np.ones(len(state.get_coordinates())) * 2.0
+
+        solver = LeastSquaresSolver(
+            maximum_iteration_count=20,
+            rms_update_threshold=1.0,
+            finite_difference_solver=FiniteDifferenceSolver.default(),
+            scale_factor_generator=custom_generator,
+        )
+
+        analysis = solver.solve(
+            initial_guess=initial_guess,
+            observations=observations,
+            state_generator=state_generator,
+        )
+
+        assert analysis is not None
 
     def test_solve_defaults(
         self,
