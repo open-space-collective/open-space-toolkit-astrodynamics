@@ -137,6 +137,12 @@ class LeastSquaresSolver
 
     /// @brief Constructor with custom scale factor generator
     ///
+    /// @code{.cpp}
+    ///     auto solver = LeastSquaresSolver(
+    ///         20, 1.0, FiniteDifferenceSolver.default(), LeastSquaresSolver.max_absolute_coordinate_scaling()
+    ///     );
+    /// @endcode
+    ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
     /// @param aFiniteDifferenceSolver Finite difference solver
@@ -164,6 +170,10 @@ class LeastSquaresSolver
     FiniteDifferenceSolver getFiniteDifferenceSolver() const;
 
     /// @brief Get the scale factor generator
+    ///
+    /// @code{.cpp}
+    ///     auto generator = solver.getScaleFactorGenerator();
+    /// @endcode
     ///
     /// @return Scale factor generator function
     ScaleFactorGenerator getScaleFactorGenerator() const;
@@ -196,10 +206,18 @@ class LeastSquaresSolver
 
     /// @brief Create a scale factor generator that returns all ones (no scaling)
     ///
+    /// @code{.cpp}
+    ///     auto generator = LeastSquaresSolver.no_scaling();
+    /// @endcode
+    ///
     /// @return ScaleFactorGenerator that performs no scaling
     static ScaleFactorGenerator NoScaling();
 
     /// @brief Create a scale factor generator that uses max absolute coordinate values
+    ///
+    /// @code{.cpp}
+    ///     auto generator = LeastSquaresSolver.max_absolute_coordinate_scaling();
+    /// @endcode
     ///
     /// @return ScaleFactorGenerator that scales by max(|coord_i|, 1e-8)
     static ScaleFactorGenerator MaxAbsoluteCoordinateScaling();
