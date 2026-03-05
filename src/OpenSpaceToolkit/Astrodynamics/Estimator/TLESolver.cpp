@@ -98,10 +98,11 @@ TLESolver::TLESolver(
 {
     if (anEstimationFrameSPtr != Frame::TEME())
     {
-        std::cerr << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. For best performance, use "
-                     "the default TEME frame (the native frame for SGP4/TLE). Non-TEME frames will be removed in a "
-                     "future version."
-                  << std::endl;
+        std::cerr
+            << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. For best performance, use "
+               "the default TEME frame (the native frame for SGP4/TLE). Non-TEME frame support will be removed in a "
+               "future version."
+            << std::endl;
     }
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
@@ -220,18 +221,14 @@ TLESolver::Analysis TLESolver::estimate(
     const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
         [this](const State& aState) -> State
         {
-            return aState.inFrame(estimationFrameSPtr_);
+            return aState.inFrame(tleStateBuilder_.getFrame());
         }
     );
-
-    // The TLE state is built in TEME but the estimation frame may differ (for backward compatibility).
-    // This inFrame call is a no-op when estimationFrameSPtr_ is TEME (the default/recommended case).
-    initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
 
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
-        const SGP4 sgp4(tle, estimationFrameSPtr_);
+        const SGP4 sgp4(tle, tleStateBuilder_.getFrame());
 
         Array<State> states;
         states.reserve(anInstantArray.getSize());
