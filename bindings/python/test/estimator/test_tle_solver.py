@@ -79,6 +79,7 @@ class TestTLESolver:
         assert solver.access_international_designator() == "00001A"
         assert solver.access_revolution_number() == 0
         assert solver.access_estimate_b_star() is True
+        assert solver.access_estimation_frame() == Frame.TEME()
 
     def test_access_methods(self, tle_solver: TLESolver):
         assert isinstance(tle_solver.access_solver(), LeastSquaresSolver)

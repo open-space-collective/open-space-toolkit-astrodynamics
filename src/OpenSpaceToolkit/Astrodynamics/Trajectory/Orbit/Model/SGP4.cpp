@@ -27,7 +27,7 @@ using ostk::physics::coordinate::Transform;
 class SGP4::Impl
 {
    public:
-    Impl(const TLE& aTle);
+    Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr);
 
     Impl(const SGP4::Impl& anImpl) = delete;
 
@@ -37,13 +37,15 @@ class SGP4::Impl
 
    private:
     const TLE& tle_;
+    const Shared<const Frame>& outputFrameSPtr_;
     libsgp4::SGP4 sgp4_;
 
     Shared<const Frame> temeFrameOfEpochSPtr_;
 };
 
-SGP4::Impl::Impl(const TLE& aTle)
+SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : tle_(aTle),
+      outputFrameSPtr_(anOutputFrameSPtr),
       sgp4_(libsgp4::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
       temeFrameOfEpochSPtr_(Frame::TEME())
 {
@@ -70,20 +72,30 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 
     const State state_TEME = {anInstant, position_TEME, velocity_TEME};
 
-    return state_TEME.inFrame(Frame::GCRF());
+    return state_TEME.inFrame(this->outputFrameSPtr_);
 }
 
 SGP4::SGP4(const TLE& aTle)
     : Model(),
       tle_(aTle),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_))
+      outputFrameSPtr_(Frame::GCRF()),
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+{
+}
+
+SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
+    : Model(),
+      tle_(aTle),
+      outputFrameSPtr_(anOutputFrameSPtr),
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
 {
 }
 
 SGP4::SGP4(const SGP4& aSGP4Model)
     : Model(aSGP4Model),
       tle_(aSGP4Model.tle_),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_))
+      outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
 {
 }
 
@@ -96,8 +108,9 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
         Model::operator=(aSGP4Model);
 
         this->tle_ = aSGP4Model.tle_;
+        this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
 
-        this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_);
+        this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
     }
 
     return *this;
@@ -115,7 +128,7 @@ bool SGP4::operator==(const SGP4& aSGP4Model) const
         return false;
     }
 
-    return this->tle_ == aSGP4Model.tle_;
+    return (this->tle_ == aSGP4Model.tle_) && (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
 }
 
 bool SGP4::operator!=(const SGP4& aSGP4Model) const
@@ -143,6 +156,16 @@ TLE SGP4::getTle() const
     }
 
     return this->tle_;
+}
+
+Shared<const Frame> SGP4::getOutputFrame() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    return this->outputFrameSPtr_;
 }
 
 Instant SGP4::getEpoch() const

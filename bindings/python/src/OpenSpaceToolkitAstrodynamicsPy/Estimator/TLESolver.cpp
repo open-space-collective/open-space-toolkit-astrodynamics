@@ -91,7 +91,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             arg("international_designator") = "00001A",
             arg("revolution_number") = 0,
             arg("estimate_b_star") = true,
-            arg_v("estimation_frame", Frame::GCRF(), "Frame.GCRF()"),
+            arg_v("estimation_frame", Frame::TEME(), "Frame.TEME()"),
             R"doc(
                 Construct a new TLESolver object.
 
@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     international_designator (str, optional): International designator for TLE. Defaults to "00001A".
                     revolution_number (int, optional): Revolution number. Defaults to 0.
                     estimate_b_star (bool, optional): Whether to also estimate the B* parameter. Defaults to True.
-                    estimation_frame (Frame, optional): Frame for estimation. Defaults to GCRF.
+                    estimation_frame (Frame, optional): Frame for estimation. Defaults to TEME.
             )doc"
         )
         .def(
@@ -212,6 +212,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
                 Returns:
                     bool: whether to estimate B*.
+            )doc"
+        )
+        .def(
+            "access_estimation_frame",
+            &TLESolver::accessEstimationFrame,
+            return_value_policy::reference_internal,
+            R"doc(
+                Access the estimation frame.
+
+                Returns:
+                    Frame: The estimation frame.
             )doc"
         )
         .def(

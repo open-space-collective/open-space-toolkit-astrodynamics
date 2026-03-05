@@ -5,9 +5,11 @@
 
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
@@ -30,8 +32,11 @@ namespace model
 
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
+
+using ostk::physics::coordinate::Frame;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
@@ -45,6 +50,8 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
     SGP4(const TLE& aTle);
+
+    SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr);
 
     SGP4(const SGP4& aSGP4Model);
 
@@ -64,6 +71,8 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 
     TLE getTle() const;
 
+    Shared<const Frame> getOutputFrame() const;
+
     virtual Instant getEpoch() const override;
 
     virtual Integer getRevolutionNumberAtEpoch() const override;
@@ -81,6 +90,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     class Impl;
 
     TLE tle_;
+    Shared<const Frame> outputFrameSPtr_;
 
     Unique<SGP4::Impl> implUPtr_;
 };

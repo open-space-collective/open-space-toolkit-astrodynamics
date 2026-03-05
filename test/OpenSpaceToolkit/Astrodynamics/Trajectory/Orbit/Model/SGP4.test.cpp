@@ -26,37 +26,94 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::container::Array;
+using ostk::core::container::Table;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
+using ostk::mathematics::object::Vector3d;
+
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
+using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::State;
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
+{
+    {
+        const TLE tle = TLE::Load(File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
+        ));
+
+        // Default constructor (GCRF output)
+        const SGP4 sgp4Default(tle);
+        EXPECT_TRUE(sgp4Default.isDefined());
+        EXPECT_EQ(*sgp4Default.getOutputFrame(), *Frame::GCRF());
+
+        // Constructor with output frame
+        const SGP4 sgp4Teme(tle, Frame::TEME());
+        EXPECT_TRUE(sgp4Teme.isDefined());
+        EXPECT_EQ(*sgp4Teme.getOutputFrame(), *Frame::TEME());
+
+        const SGP4 sgp4Gcrf(tle, Frame::GCRF());
+        EXPECT_TRUE(sgp4Gcrf.isDefined());
+        EXPECT_EQ(*sgp4Gcrf.getOutputFrame(), *Frame::GCRF());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStateAt_OutputFrame)
+{
+    {
+        const TLE tle = TLE::Load(File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
+        ));
+
+        const SGP4 sgp4Default(tle);
+        const SGP4 sgp4Teme(tle, Frame::TEME());
+        const SGP4 sgp4Gcrf(tle, Frame::GCRF());
+
+        const Instant instant = tle.getEpoch();
+
+        const State stateDefault = sgp4Default.calculateStateAt(instant);
+        const State stateTeme = sgp4Teme.calculateStateAt(instant);
+        const State stateGcrf = sgp4Gcrf.calculateStateAt(instant);
+
+        // Default should be GCRF
+        EXPECT_EQ(*Frame::GCRF(), *stateDefault.getPosition().accessFrame());
+
+        // TEME constructor should output TEME
+        EXPECT_EQ(*Frame::TEME(), *stateTeme.getPosition().accessFrame());
+
+        // GCRF constructor should output GCRF
+        EXPECT_EQ(*Frame::GCRF(), *stateGcrf.getPosition().accessFrame());
+
+        // All should give the same position when converted to same frame
+        const State stateTemelInGcrf = stateTeme.inFrame(Frame::GCRF());
+        EXPECT_GT(1e-6, (stateDefault.getPosition().getCoordinates() - stateTemelInGcrf.getPosition().getCoordinates()).norm());
+        EXPECT_GT(1e-6, (stateDefault.getVelocity().getCoordinates() - stateTemelInGcrf.getVelocity().getCoordinates()).norm());
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 {
-    using ostk::core::container::Array;
-    using ostk::core::container::Table;
-    using ostk::core::filesystem::File;
-    using ostk::core::filesystem::Path;
-    using ostk::core::type::Real;
-    using ostk::core::type::Shared;
-
-    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::coordinate::Frame;
-    using ostk::physics::coordinate::Position;
-    using ostk::physics::coordinate::Velocity;
-    using ostk::physics::Environment;
-    using ostk::physics::environment::object::celestial::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::unit::Angle;
-    using ostk::physics::unit::Derived;
-    using ostk::physics::unit::Length;
-
-    using ostk::astrodynamics::trajectory::Orbit;
-    using ostk::astrodynamics::trajectory::orbit::model::SGP4;
-    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
-    using ostk::astrodynamics::trajectory::State;
 
     {
         // Environment setup

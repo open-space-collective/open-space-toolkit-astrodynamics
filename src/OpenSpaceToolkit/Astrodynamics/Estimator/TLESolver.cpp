@@ -223,14 +223,14 @@ TLESolver::Analysis TLESolver::estimate(
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
-        const SGP4 sgp4(tle);
+        const SGP4 sgp4(tle, estimationFrameSPtr_);
 
         Array<State> states;
         states.reserve(anInstantArray.getSize());
 
         for (const Instant& instant : anInstantArray)
         {
-            states.add(sgp4.calculateStateAt(instant).inFrame(estimationFrameSPtr_));
+            states.add(sgp4.calculateStateAt(instant));
         }
 
         return states;
@@ -261,8 +261,8 @@ Orbit TLESolver::estimateOrbit(
 
 State TLESolver::TLEToTLEState(const TLE& aTLE) const
 {
-    const SGP4 sgp4(aTLE);
-    const State state = sgp4.calculateStateAt(aTLE.getEpoch()).inFrame(tleStateBuilder_.getFrame());
+    const SGP4 sgp4(aTLE, tleStateBuilder_.getFrame());
+    const State state = sgp4.calculateStateAt(aTLE.getEpoch());
 
     const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
         {state.getPosition(), state.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_

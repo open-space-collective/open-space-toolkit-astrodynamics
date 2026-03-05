@@ -210,7 +210,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Accessors)
         EXPECT_EQ(tleSolver_.accessInternationalDesignator(), "00001A");
         EXPECT_EQ(tleSolver_.accessRevolutionNumber(), 0);
         EXPECT_EQ(tleSolver_.accessEstimateBStar(), true);
-        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::GCRF());
+        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::TEME());
         EXPECT_EQ(tleSolver_.accessDefaultBStar(), 0.0);
         EXPECT_EQ(tleSolver_.accessFirstDerivativeMeanMotionDividedBy2(), 0.0);
         EXPECT_EQ(tleSolver_.accessSecondDerivativeMeanMotionDividedBy6(), 0.0);
