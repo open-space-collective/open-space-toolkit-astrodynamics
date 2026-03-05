@@ -44,8 +44,8 @@ class TLE
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              TLE tle("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                      "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
     /// @endcode
     ///
     /// @param aFirstLine A first line
@@ -55,9 +55,9 @@ class TLE
     /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              TLE tle("ISS (ZARYA)",
-    ///                      "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                      "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
+    ///     TLE tle = TLE("ISS (ZARYA)",
+    ///                   "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
     /// @endcode
     ///
     /// @param aSatelliteName A satellite name
@@ -68,7 +68,9 @@ class TLE
     /// @brief Equal to operator
     ///
     /// @code{.cpp}
-    ///              TLE("...", "...") == TLE("...", "...");
+    ///     TLE tle = TLE("...", "...");
+    ///     TLE tle2 = TLE("...", "...");
+    ///     tle == tle2;
     /// @endcode
     ///
     /// @param aTle A TLE
@@ -78,7 +80,9 @@ class TLE
     /// @brief Not equal to operator
     ///
     /// @code{.cpp}
-    ///              TLE("...", "...") != TLE("...", "...");
+    ///     TLE tle = TLE("...", "...");
+    ///     TLE tle2 = TLE("...", "...");
+    ///     tle != tle2;
     /// @endcode
     ///
     /// @param aTle A TLE
@@ -88,7 +92,7 @@ class TLE
     /// @brief Output stream operator
     ///
     /// @code{.cpp}
-    ///              TLE tle("...", "...");
+    ///     TLE tle = TLE("...", "...");
     ///              std::cout << tle;
     /// @endcode
     ///
@@ -100,7 +104,7 @@ class TLE
     /// @brief Check if TLE is defined
     ///
     /// @code{.cpp}
-    ///              TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                  "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537").isDefined();
     ///                  // True
     /// @endcode
@@ -111,7 +115,7 @@ class TLE
     /// @brief Get satellite name
     ///
     /// @code{.cpp}
-    ///              TLE("ISS (ZARYA)",
+    ///     TLE tle = TLE("ISS (ZARYA)",
     ///                  "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                  "2 25544  51.6416 247.4627 0006703 130.5360
     ///                  325.0288 15.72125391563537").getSatelliteName(); // "ISS (ZARYA)"
@@ -123,7 +127,7 @@ class TLE
     /// @brief Get first line
     ///
     /// @code{.cpp}
-    ///              TLE("ISS (ZARYA)",
+    ///     TLE tle = TLE("ISS (ZARYA)",
     ///                  "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                  "2 25544  51.6416 247.4627 0006703 130.5360
     ///                  325.0288 15.72125391563537").getSatelliteName(); // "1 25544U 98067A   08264.51782528
@@ -136,11 +140,10 @@ class TLE
     /// @brief Get second line
     ///
     /// @code{.cpp}
-    ///              TLE("ISS (ZARYA)",
-    ///                  "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                  "2 25544  51.6416 247.4627 0006703 130.5360
-    ///                  325.0288 15.72125391563537").getSatelliteName(); // "2 25544  51.6416 247.4627 0006703
-    ///                  130.5360 325.0288 15.72125391563537"
+    ///     TLE tle = TLE("ISS (ZARYA)",
+    ///                   "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                   "2 25544  51.6416 247.4627 0006703 130.5360325.0288 15.72125391563537").getSatelliteName(); //
+    ///                   "2 25544  51.6416 247.4627 0006703130.5360 325.0288 15.72125391563537"
     /// @endcode
     ///
     /// @return Second line
@@ -267,7 +270,7 @@ class TLE
     /// @brief Returns true if TLE can be generated from the given string
     ///
     /// @code{.cpp}
-    ///              TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n
+    ///     bool canParse = TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n
     ///                             2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537"); //
     ///                             True
     /// @endcode
@@ -279,7 +282,7 @@ class TLE
     /// @brief Returns true if TLE can be generated from the given lines
     ///
     /// @code{.cpp}
-    ///              TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///     bool canParse = TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537"); //
     ///                            True
     /// @endcode
@@ -292,9 +295,8 @@ class TLE
     /// @brief Constructs a TLE from a given string
     ///
     /// @code{.cpp}
-    ///              TLE tle = TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0 2927\n
-    ///                                    2 25544  51.6416 247.4627 0006703 130.5360
-    ///                                    325.0288 15.72125391563537");
+    ///     TLE tle = TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0 2927\n
+    ///                           2 25544  51.6416 247.4627 0006703 130.5360325.0288 15.72125391563537");
     /// @endcode
     ///
     /// @param aString A string
@@ -304,7 +306,7 @@ class TLE
     /// @brief Load a TLE from a given file
     ///
     /// @code{.cpp}
-    ///              TLE tle = TLE::File(File::Path(Path::String("/path/to/file.tle")));
+    ///     TLE tle = TLE::Load(File::Path(Path::String("/path/to/file.tle")));
     /// @endcode
     ///
     /// @param aFile A file
@@ -313,6 +315,46 @@ class TLE
 
     /// @brief Construct a TLE from its components
     ///
+    /// @code{.cpp}
+    ///     TLE tle = TLE::Construct(
+    ///         "ISS (ZARYA)",
+    ///         25544,
+    ///         "U",
+    ///         "98067A",
+    ///         Instant::J2000(),
+    ///         -0.00002182,
+    ///         0.0,
+    ///         -0.11606e-4,
+    ///         0,
+    ///         292,
+    ///         7,
+    ///         51.6416,
+    ///         247.4627,
+    ///         0.0006703,
+    ///         130.5360,
+    ///         325.0288,
+    ///         15.72125391563537,
+    ///         56353
+    ///     );
+    /// @endcode
+    ///
+    /// @param aSatelliteName A satellite name
+    /// @param aSatelliteNumber A satellite number
+    /// @param aClassification A classification
+    /// @param anInternationalDesignator An international designator
+    /// @param anEpoch An epoch
+    /// @param aMeanMotionFirstTimeDerivativeDividedByTwo A mean motion first time derivative divided by two
+    /// @param aMeanMotionSecondTimeDerivativeDividedBySix A mean motion second time derivative divided by six
+    /// @param aBStarDragTerm A B* drag term
+    /// @param anEphemerisType An ephemeris type
+    /// @param anElementSetNumber An element set number
+    /// @param anInclination An inclination
+    /// @param aRaan A RAAN
+    /// @param anEccentricity An eccentricity
+    /// @param anAop An AOP
+    /// @param aMeanAnomaly A mean anomaly
+    /// @param aMeanMotion A mean motion
+    /// @param aRevolutionNumberAtEpoch A revolution number at epoch
     /// @return TLE
     static TLE Construct(
         const String& aSatelliteName,
@@ -334,6 +376,47 @@ class TLE
         const Integer& aRevolutionNumberAtEpoch
     );
 
+    /// @brief Construct a TLE from its components
+    ///
+    /// @code{.cpp}
+    ///     TLE tle = TLE::Construct(
+    ///         25544,
+    ///         "U",
+    ///         "98067A",
+    ///         Instant::J2000(),
+    ///         -0.00002182,
+    ///         0.0,
+    ///         -0.11606e-4,
+    ///         0,
+    ///         292,
+    ///         7,
+    ///         51.6416,
+    ///         247.4627,
+    ///         0.0006703,
+    ///         130.5360,
+    ///         325.0288,
+    ///         15.72125391563537,
+    ///         56353
+    ///     );
+    /// @endcode
+    ///
+    /// @param aSatelliteNumber A satellite number
+    /// @param aClassification A classification
+    /// @param anInternationalDesignator An international designator
+    /// @param anEpoch An epoch
+    /// @param aMeanMotionFirstTimeDerivativeDividedByTwo A mean motion first time derivative divided by two
+    /// @param aMeanMotionSecondTimeDerivativeDividedBySix A mean motion second time derivative divided by six
+    /// @param aBStarDragTerm A B* drag term
+    /// @param anEphemerisType An ephemeris type
+    /// @param anElementSetNumber An element set number
+    /// @param anInclination An inclination
+    /// @param aRaan A RAAN
+    /// @param anEccentricity An eccentricity
+    /// @param anAop An AOP
+    /// @param aMeanAnomaly A mean anomaly
+    /// @param aMeanMotion A mean motion
+    /// @param aRevolutionNumberAtEpoch A revolution number at epoch
+    /// @return TLE
     static TLE Construct(
         const Integer& aSatelliteNumber,
         const String& aClassification,
@@ -356,8 +439,8 @@ class TLE
     /// @brief Generate checksum for the given TLE line
     ///
     /// @code{.cpp}
-    ///              TLE::GenerateChecksum("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0
-    ///              2927");
+    ///     Integer checksum = TLE::GenerateChecksum("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0
+    ///     2927");
     /// @endcode
     ///
     /// @param aLine A TLE line

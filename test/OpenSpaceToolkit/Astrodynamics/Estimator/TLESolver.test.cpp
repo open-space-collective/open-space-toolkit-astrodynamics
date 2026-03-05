@@ -71,9 +71,11 @@ Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrame
     Array<State> observations;
 
     const Table observationData = Table::Load(
-        File::Path(Path::Parse(
-            String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
-        )),
+        File::Path(
+            Path::Parse(
+                String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
+            )
+        ),
         Table::Format::CSV,
         true
     );
@@ -210,7 +212,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Accessors)
         EXPECT_EQ(tleSolver_.accessInternationalDesignator(), "00001A");
         EXPECT_EQ(tleSolver_.accessRevolutionNumber(), 0);
         EXPECT_EQ(tleSolver_.accessEstimateBStar(), true);
-        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::GCRF());
+        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::TEME());
         EXPECT_EQ(tleSolver_.accessDefaultBStar(), 0.0);
         EXPECT_EQ(tleSolver_.accessFirstDerivativeMeanMotionDividedBy2(), 0.0);
         EXPECT_EQ(tleSolver_.accessSecondDerivativeMeanMotionDividedBy6(), 0.0);
@@ -510,7 +512,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
     }
 }
 
-// Regression test: With MaxAbsoluteCoordinateScaling normalization, eccentricity > 1 dataset converges.
+// Regression test: With MaxAbsoluteCoordinateScaling normalization, eccentricity > 1 dataset converges
+// when estimation is done in GCRF. With TEME estimation (now the default for performance), the different
+// numerical path through parameter space can cause intermediate eccentricity > 1, so this test uses GCRF
+// explicitly to verify normalization still works for this edge case.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
 {
     const Array<State> observations = loadData("eccentricity_over_1_observations", Frame::GCRF());
@@ -518,7 +523,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
     const LeastSquaresSolver leastSquaresSolver = {
         20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
     };
-    const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
+    const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true, Frame::GCRF()};
 
     const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
 
@@ -527,13 +532,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
 
     // Verify the estimated TLE is valid by propagating
     const TLE estimatedTLE = analysis.estimatedTLE;
-    const SGP4 sgp4(estimatedTLE);
+    const SGP4 sgp4(estimatedTLE, Frame::TEME());
 
     for (Size i = 0; i < observations.getSize(); i += 500)
     {
         const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
         const Vector3d positionDelta = propagatedState.getPosition().getCoordinates() -
-                                       observations[i].inFrame(Frame::GCRF()).getPosition().getCoordinates();
+                                       observations[i].inFrame(Frame::TEME()).getPosition().getCoordinates();
 
         EXPECT_LT(positionDelta.norm(), 5000.0);
     }

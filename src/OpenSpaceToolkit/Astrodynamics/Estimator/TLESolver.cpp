@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <iostream>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -94,6 +96,13 @@ TLESolver::TLESolver(
       elementSetNumber_(0),
       tleStateBuilder_(StateBuilder::Undefined())
 {
+    if (anEstimationFrameSPtr != Frame::TEME())
+    {
+        std::cerr << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. For best performance, use "
+                     "the default TEME frame (the native frame for SGP4/TLE). Non-TEME frames will be removed in a "
+                     "future version."
+                  << std::endl;
+    }
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
         SemiLatusRectumSubset,
@@ -215,22 +224,21 @@ TLESolver::Analysis TLESolver::estimate(
         }
     );
 
-    // TBI: This will do nothing except just change the frame value as the initial state consists of Modified
-    // Equinoctial elements We should remove the estimationFrameSPtr_ as an input and just use TEME consistently across
-    // the board.
+    // The TLE state is built in TEME but the estimation frame may differ (for backward compatibility).
+    // This inFrame call is a no-op when estimationFrameSPtr_ is TEME (the default/recommended case).
     initialGuessTLEState = initialGuessTLEState.inFrame(estimationFrameSPtr_);
 
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         const TLE tle = TLEStateToTLE(aState);
-        const SGP4 sgp4(tle);
+        const SGP4 sgp4(tle, estimationFrameSPtr_);
 
         Array<State> states;
         states.reserve(anInstantArray.getSize());
 
         for (const Instant& instant : anInstantArray)
         {
-            states.add(sgp4.calculateStateAt(instant).inFrame(estimationFrameSPtr_));
+            states.add(sgp4.calculateStateAt(instant));
         }
 
         return states;
@@ -260,8 +268,8 @@ Orbit TLESolver::estimateOrbit(
 
 State TLESolver::TLEToTLEState(const TLE& aTLE) const
 {
-    const SGP4 sgp4(aTLE);
-    const State state = sgp4.calculateStateAt(aTLE.getEpoch()).inFrame(tleStateBuilder_.getFrame());
+    const SGP4 sgp4(aTLE, tleStateBuilder_.getFrame());
+    const State state = sgp4.calculateStateAt(aTLE.getEpoch());
 
     const ModifiedEquinoctial modifiedEquinoctial = ModifiedEquinoctial::Cartesian(
         {state.getPosition(), state.getVelocity()}, EarthGravitationalModel::EGM2008.gravitationalParameter_

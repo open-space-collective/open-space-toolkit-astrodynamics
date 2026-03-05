@@ -103,14 +103,15 @@ class TLESolver
     /// @param anInternationalDesignator International designator for TLE, defaults to "00001A"
     /// @param aRevolutionNumber Revolution number, defaults to 0
     /// @param anEstimateBStar Whether to also estimate the B* parameter, defaults to true
-    /// @param anEstimationFrameSPtr Estimation frame, defaults to GCRF
+    /// @param anEstimationFrameSPtr (Deprecated) Estimation frame, defaults to TEME. For best performance, use
+    /// the default TEME frame (the native frame for SGP4/TLE). Non-TEME frames will be removed in a future version.
     TLESolver(
         const LeastSquaresSolver& aSolver = LeastSquaresSolver::Default(),
         const Integer& aSatelliteNumber = 0,
         const String& anInternationalDesignator = "00001A",
         const Integer& aRevolutionNumber = 0,
         const bool anEstimateBStar = true,
-        const Shared<const Frame>& anEstimationFrameSPtr = Frame::GCRF()
+        const Shared<const Frame>& anEstimationFrameSPtr = Frame::TEME()
     );
 
     /// @brief Access solver
