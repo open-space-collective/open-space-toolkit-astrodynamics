@@ -59,15 +59,22 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 #define DEFAULT_MANEUVER_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
 /// @brief Store an acceleration and mass flow rate profile of a spacecraft maneuver.
+///
+/// @details Represents a spacecraft maneuver defined by a time-ordered array of states containing
+/// position, velocity, acceleration, and mass flow rate. Provides methods to compute delta-V,
+/// delta-mass, average thrust, average specific impulse, and to convert to tabulated dynamics.
 class Maneuver
 {
    public:
-    static const Shared<const Frame> DefaultAccelFrameSPtr;
-    static const Shared<const CoordinateSubset> DefaultAccelerationCoordinateSubsetSPtr;
-    static const Duration MinimumRecommendedDuration;
-    static const Duration MaximumRecommendedInterpolationInterval;
-    static const Array<Shared<const CoordinateSubset>> RequiredCoordinateSubsets;
+    static const Shared<const Frame> DefaultAccelFrameSPtr;  ///< Default frame for acceleration profile.
+    static const Shared<const CoordinateSubset>
+        DefaultAccelerationCoordinateSubsetSPtr;                    ///< Default acceleration coordinate subset.
+    static const Duration MinimumRecommendedDuration;               ///< Minimum recommended maneuver duration.
+    static const Duration MaximumRecommendedInterpolationInterval;  ///< Maximum recommended interpolation interval.
+    static const Array<Shared<const CoordinateSubset>>
+        RequiredCoordinateSubsets;  ///< Required coordinate subsets for maneuver states.
 
+    /// @brief Pair of mean thrust direction in a local orbital frame and the maximum angular offset.
     typedef Pair<LocalOrbitalFrameDirection, Angle> MeanDirectionAndMaximumAngularOffset;
 
     /// @brief Constructor

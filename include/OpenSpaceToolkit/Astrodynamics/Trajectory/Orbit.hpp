@@ -64,23 +64,27 @@ class Orbit : public Trajectory
     enum class FrameType
     {
 
-        Undefined,  // Undefined frame
-        NED,        // North-East-Down (NED) frame
-        LVLH,       // Local Vertical-Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
-                    // orbital momentum)
-        VVLH,       // Vehicle Velocity-Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis
-                    // aligned with opposite of orbital momentum)
-        LVLHGD,     // Local Vertical-Local Horizontal-GeoDetic (LVLHGD) frame
-        LVLHGDGT,   // Local Vertical-Local Horizontal-GeoDetic-GroundTrack (LVLHGDGT) frame
-        QSW,        // QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
-        TNW,  // Tangent-Normal-Wideband frame (X axis aligned with velocity, Z axis aligned with orbital momentum)
-        VNC   // Velocity-Normal-Conormal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
-              // momentum)
+        Undefined,  ///< Undefined frame
+        NED,        ///< North-East-Down (NED) frame
+        LVLH,       ///< Local Vertical-Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
+                    ///< orbital momentum)
+        VVLH,      ///< Vehicle Velocity-Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis
+                   ///< aligned with opposite of orbital momentum)
+        LVLHGD,    ///< Local Vertical-Local Horizontal-GeoDetic (LVLHGD) frame
+        LVLHGDGT,  ///< Local Vertical-Local Horizontal-GeoDetic-GroundTrack (LVLHGDGT) frame
+        QSW,       ///< QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
+        TNW,  ///< Tangent-Normal-Wideband frame (X axis aligned with velocity, Z axis aligned with orbital momentum)
+        VNC   ///< Velocity-Normal-Conormal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital
+              ///< momentum)
     };
 
     typedef Array<Pass>::ConstIterator ConstPassIterator;
 
     /// @brief Constructor.
+    ///
+    /// @code{.cpp}
+    ///     Orbit orbit = { aModel, Earth::Default() } ;
+    /// @endcode
     ///
     /// @param aModel An orbit model.
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
@@ -135,17 +139,32 @@ class Orbit : public Trajectory
 
     /// @brief Get the revolution number at a given instant.
     ///
+    /// @code{.cpp}
+    ///     Orbit orbit = { ... } ;
+    ///     Integer revNumber = orbit.getRevolutionNumberAt(anInstant) ;
+    /// @endcode
+    ///
     /// @param anInstant Instant to get the revolution number at.
     /// @return Revolution number at the given instant.
     Integer getRevolutionNumberAt(const Instant& anInstant) const;
 
     /// @brief Get the pass at a given instant.
     ///
+    /// @code{.cpp}
+    ///     Orbit orbit = { ... } ;
+    ///     Pass pass = orbit.getPassAt(anInstant) ;
+    /// @endcode
+    ///
     /// @param anInstant Instant to get the pass at.
     /// @return Pass at the given instant.
     Pass getPassAt(const Instant& anInstant) const;
 
     /// @brief Get the pass with a given revolution number.
+    ///
+    /// @code{.cpp}
+    ///     Orbit orbit = { ... } ;
+    ///     Pass pass = orbit.getPassWithRevolutionNumber(1) ;
+    /// @endcode
     ///
     /// @param aRevolutionNumber Revolution number to get the pass for.
     /// @param aStepDuration Step duration to use. Defaults to Duration::Minutes(10.0).
@@ -162,6 +181,11 @@ class Orbit : public Trajectory
 
     /// @brief Get the orbital frame of a given type.
     ///
+    /// @code{.cpp}
+    ///     Orbit orbit = { ... } ;
+    ///     Shared<const Frame> lvlhFrame = orbit.getOrbitalFrame(Orbit::FrameType::LVLH) ;
+    /// @endcode
+    ///
     /// @param aFrameType Type of the frame to get.
     /// @return Shared pointer to the orbital frame of the given type.
     Shared<const Frame> getOrbitalFrame(const Orbit::FrameType& aFrameType) const;
@@ -174,12 +198,20 @@ class Orbit : public Trajectory
 
     /// @brief Constructs an undefined orbit
     ///
+    /// @code{.cpp}
+    ///     Orbit orbit = Orbit::Undefined() ;
+    /// @endcode
+    ///
     /// @return Undefined orbit
     static Orbit Undefined();
 
     /// @brief Constructs a circular orbit
     ///
     /// Model: Kepler (No Perturbation).
+    ///
+    /// @code{.cpp}
+    ///     Orbit orbit = Orbit::Circular(anEpoch, Length::Kilometers(500.0), Angle::Degrees(97.4), Earth::Default()) ;
+    /// @endcode
     ///
     /// @param anEpoch An orbit epoch
     /// @param anAltitude An orbit altitude (wrt. equatorial radius)
@@ -240,6 +272,12 @@ class Orbit : public Trajectory
     /// @brief Constructs a Sun-synchronous orbit
     ///
     /// Model: Kepler (J2 Perturbation).
+    ///
+    /// @code{.cpp}
+    ///     Orbit orbit = Orbit::SunSynchronous(
+    ///         anEpoch, Length::Kilometers(500.0), Time(10, 30, 0), Earth::Default()
+    ///     ) ;
+    /// @endcode
     ///
     /// @param anEpoch An orbit epoch
     /// @param anAltitude An orbit altitude (wrt. equatorial radius)

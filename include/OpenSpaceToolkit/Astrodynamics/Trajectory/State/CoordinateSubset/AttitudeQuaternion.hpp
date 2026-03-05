@@ -31,8 +31,10 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-/// @brief  Attitude Quaternion (XYZS format).
-
+/// @brief Attitude Quaternion coordinate subset (XYZS format).
+///
+/// @details Represents the rotation quaternion from the attitude reference frame to the satellite body
+/// frame, stored in XYZS (vector-first, scalar-last) format. This subset has a size of 4.
 class AttitudeQuaternion : public CoordinateSubset
 {
    public:
@@ -66,6 +68,10 @@ class AttitudeQuaternion : public CoordinateSubset
     ) const override;
 
     /// @brief Return the default instance
+    ///
+    /// @code{.cpp}
+    ///     Shared<const AttitudeQuaternion> attitudeQuaternionSPtr = AttitudeQuaternion::Default() ;
+    /// @endcode
     ///
     /// @return The default instance
     static Shared<const AttitudeQuaternion> Default();

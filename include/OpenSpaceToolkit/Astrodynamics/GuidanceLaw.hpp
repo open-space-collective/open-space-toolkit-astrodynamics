@@ -51,9 +51,14 @@ class GuidanceLaw
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const GuidanceLaw& aGuidanceLaw);
 
-    /// @brief Get name
+    /// @brief Get the guidance law name.
     ///
-    /// @return The name
+    /// @code{.cpp}
+    ///     GuidanceLaw guidanceLaw = { ... } ;
+    ///     String name = guidanceLaw.getName() ;
+    /// @endcode
+    ///
+    /// @return The name.
     String getName() const;
 
     /// @brief Print guidance law

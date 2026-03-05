@@ -34,6 +34,12 @@ using ostk::astrodynamics::trajectory::State;
 ///   onto the plane defined by the negative orbital momentum vector [Y] and the nadir vector [Z].
 /// - The total off-nadir angle is the angle between the nadir vector [Z] and the satellite->target vector.
 ///
+/// @code{.cpp}
+///     State state = { ... } ;
+///     Position targetPosition = { ... } ;
+///     auto [alongTrack, crossTrack, totalOffNadir] = ComputeOffNadirAngles(state, targetPosition) ;
+/// @endcode
+///
 /// @param aState The state of the satellite
 /// @param aTargetPosition The position of the target
 /// @return A tuple containing the along-track, cross-track and total off-nadir angles

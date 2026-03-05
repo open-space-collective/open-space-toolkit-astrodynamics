@@ -86,6 +86,13 @@ class LocalOrbitalFrameTransformProvider : public Provider
 
     /// @brief Construct a local orbital frame transform provider shared pointer for the provided type
     ///
+    /// @code{.cpp}
+    ///     Shared<const LocalOrbitalFrameTransformProvider> providerSPtr =
+    ///         LocalOrbitalFrameTransformProvider::Construct(
+    ///             LocalOrbitalFrameTransformProvider::Type::VNC, aState
+    ///         ) ;
+    /// @endcode
+    ///
     /// @param aType A local orbital frame provider type
     /// @param aState A state
     ///
@@ -104,6 +111,12 @@ class LocalOrbitalFrameTransformProvider : public Provider
     );
 
     /// @brief Convert local orbital frame transform provider type to string
+    ///
+    /// @code{.cpp}
+    ///     String str = LocalOrbitalFrameTransformProvider::StringFromType(
+    ///         LocalOrbitalFrameTransformProvider::Type::VNC
+    ///     ) ;
+    /// @endcode
     ///
     /// @param aType A local orbital frame provider type
     ///

@@ -49,27 +49,39 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 #define DEFAULT_LEAST_SQUARES_SOLVER LeastSquaresSolver::Default()  // Default least squares solver
 #define DEFAULT_ESTIMATION_FRAME Frame::GCRF()                      // Default estimation frame
 
-/// @brief Orbit Determination solver using least squares
+/// @brief Orbit Determination solver using least squares.
+///
+/// @details Uses a batch least squares approach to estimate an orbital state from observations.
+/// The solver propagates an initial guess state and iteratively refines it to minimize residuals
+/// against observations.
 class OrbitDeterminationSolver
 {
    public:
+    /// @brief Analysis results from orbit determination.
     class Analysis
     {
        public:
         /// @brief Constructor
+        ///
+        /// @param anEstimatedState The estimated state resulting from orbit determination
+        /// @param anAnalysis The least squares solver analysis containing convergence and residual information
         Analysis(const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis);
 
-        /// @brief Print analysis
+        /// @brief Stream insertion operator
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Analysis& anAnalysis);
 
         /// @brief Print analysis
         void print(std::ostream& anOutputStream) const;
 
-        State estimatedState;  // Matching the frame and expanded coordinates of the provided initial guess state.
-        LeastSquaresSolver::Analysis solverAnalysis;
+        State estimatedState;  ///< Matching the frame and expanded coordinates of the provided initial guess state.
+        LeastSquaresSolver::Analysis solverAnalysis;  ///< Least squares solver analysis results.
     };
 
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     OrbitDeterminationSolver solver = {} ;  // Uses all defaults
+    /// @endcode
     ///
     /// @param anEnvironment Environment, Defaults to Environment::Default()
     /// @param aNumericalSolver Numerical solver, Defaults to NumericalSolver::Default()
@@ -103,6 +115,12 @@ class OrbitDeterminationSolver
     const Shared<const Frame>& accessEstimationFrame() const;
 
     /// @brief Estimate state from observations
+    ///
+    /// @code{.cpp}
+    ///     OrbitDeterminationSolver solver = { ... } ;
+    ///     OrbitDeterminationSolver::Analysis analysis =
+    ///         solver.estimate(anInitialGuessState, anObservationStateArray) ;
+    /// @endcode
     ///
     /// @param anInitialGuessState Initial guess state
     /// @param anObservationStateArray Observations to fit against

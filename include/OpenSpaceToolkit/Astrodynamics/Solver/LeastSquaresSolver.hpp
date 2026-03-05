@@ -48,14 +48,22 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
 
-/// @brief Class to solve non-linear least squares problems
+/// @brief Class to solve non-linear least squares problems.
+///
+/// @details Implements a batch weighted least squares algorithm for orbit determination and
+/// state estimation. Iteratively refines a state estimate by minimizing the weighted sum of
+/// squared residuals between observations and computed values.
 class LeastSquaresSolver
 {
    public:
+    /// @brief A single iteration step of the least squares solver.
     class Step
     {
        public:
         /// @brief Constructor
+        ///
+        /// @param aRmsError RMS error for this step.
+        /// @param anXHat State correction vector for this step.
         Step(const Real& aRmsError, const VectorXd& anXHat);
 
         /// @brief Stream step
@@ -64,14 +72,22 @@ class LeastSquaresSolver
         /// @brief Print step
         void print(std::ostream& anOutputStream) const;
 
-        Real rmsError;
-        VectorXd xHat;
+        Real rmsError;  ///< RMS error for this step.
+        VectorXd xHat;  ///< State correction vector for this step.
     };
 
+    /// @brief Analysis results from the least squares solver.
     class Analysis
     {
        public:
         /// @brief Constructor
+        ///
+        /// @param aTerminationCriteria Termination criteria description.
+        /// @param anEstimatedState Estimated state.
+        /// @param anEstimatedCovariance Estimated covariance matrix.
+        /// @param anEstimatedFrisbeeCovariance Estimated Frisbee covariance matrix.
+        /// @param aComputedObservationsStateArray Array of computed observation states.
+        /// @param aStepArray Array of solver iteration steps.
         Analysis(
             const String& aTerminationCriteria,
             const State& anEstimatedState,
@@ -90,18 +106,22 @@ class LeastSquaresSolver
         /// @brief computeResidualStates
         Array<State> computeResidualStates(const Array<State>& anObservationStateArray) const;
 
-        Real rmsError;
-        Size observationCount;
-        Size iterationCount;
-        String terminationCriteria;
-        State estimatedState;
-        MatrixXd estimatedCovariance;
-        MatrixXd estimatedFrisbeeCovariance;
-        Array<State> computedObservationStates;
-        Array<Step> steps;
+        Real rmsError;                           ///< RMS error of the solution.
+        Size observationCount;                   ///< Number of observations used.
+        Size iterationCount;                     ///< Number of iterations performed.
+        String terminationCriteria;              ///< Description of why the solver terminated.
+        State estimatedState;                    ///< Estimated state at the solution.
+        MatrixXd estimatedCovariance;            ///< Estimated covariance matrix of the solution.
+        MatrixXd estimatedFrisbeeCovariance;     ///< Estimated Frisbee covariance matrix of the solution.
+        Array<State> computedObservationStates;  ///< Array of computed observation states at the solution.
+        Array<Step> steps;                       ///< Array of solver iteration steps.
     };
 
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     LeastSquaresSolver solver = { 10, 1e-3 } ;
+    /// @endcode
     ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
@@ -154,6 +174,10 @@ class LeastSquaresSolver
     static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualStateArray);
 
     /// @brief Default constructor
+    ///
+    /// @code{.cpp}
+    ///     LeastSquaresSolver solver = LeastSquaresSolver::Default() ;
+    /// @endcode
     ///
     /// @return A default instance
     static LeastSquaresSolver Default();

@@ -93,6 +93,13 @@ class System
     /// @return Composite
     Composite getGeometry() const;
 
+    /// @brief Construct an undefined system.
+    ///
+    /// @code{.cpp}
+    ///     System system = System::Undefined() ;
+    /// @endcode
+    ///
+    /// @return Undefined system.
     static System Undefined();
 
    private:

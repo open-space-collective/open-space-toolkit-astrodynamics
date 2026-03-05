@@ -57,7 +57,11 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
-/// @brief Represent a propagation segment for astrodynamics purposes
+/// @brief Represent a propagation segment for astrodynamics purposes.
+///
+/// @details A Segment represents a phase of a trajectory, either a coast arc (no thrust)
+/// or a maneuver arc (with thrust). Segments are composed together into a Sequence to define
+/// a complete trajectory. Each segment has an event condition that determines when it terminates.
 class Segment
 {
    public:
@@ -322,6 +326,11 @@ class Segment
 
     /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
     ///
+    /// @code{.cpp}
+    ///     Segment segment = Segment::Coast("Coast", anEventCondition, aDynamicsArray, aNumericalSolver) ;
+    ///     Segment::Solution solution = segment.solve(aState) ;
+    /// @endcode
+    ///
     /// @param aState Initial state for the segment
     /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
     /// @param previousManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined.
@@ -340,6 +349,10 @@ class Segment
 
     /// @brief Create a coasting segment
     ///
+    /// @code{.cpp}
+    ///     Segment coastSegment = Segment::Coast("Coast", anEventCondition, aDynamicsArray, aNumericalSolver) ;
+    /// @endcode
+    ///
     /// @param aName A name
     /// @param anEventConditionSPtr An event condition
     /// @param aDynamicsArray Array of dynamics
@@ -353,6 +366,12 @@ class Segment
     );
 
     /// @brief Create a maneuvering segment
+    ///
+    /// @code{.cpp}
+    ///     Segment maneuverSegment = Segment::Maneuver(
+    ///         "Maneuver", anEventCondition, aThrusterDynamics, aDynamicsArray, aNumericalSolver
+    ///     ) ;
+    /// @endcode
     ///
     /// @param aName A name
     /// @param anEventConditionSPtr An event condition

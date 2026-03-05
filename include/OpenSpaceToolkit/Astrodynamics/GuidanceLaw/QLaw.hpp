@@ -63,8 +63,21 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class QLaw : public GuidanceLaw
 {
    public:
+    /// @brief Parameters for the Q-law guidance law.
     struct Parameters
     {
+        /// @brief Constructor.
+        ///
+        /// @param anElementWeightsMap A map of orbital element weights and convergence thresholds.
+        /// @param aMValue The m scaling exponent.
+        /// @param aNValue The n scaling exponent.
+        /// @param aRValue The r scaling exponent.
+        /// @param aBValue The b smoothing parameter.
+        /// @param aKValue The k periapsis penalty scaling factor.
+        /// @param aPeriapsisWeight The periapsis constraint weight.
+        /// @param minimumPeriapsisradius The minimum allowed periapsis radius.
+        /// @param absoluteEffectivityThreshold The absolute effectivity threshold.
+        /// @param relativeEffectivityThreshold The relative effectivity threshold.
         Parameters(
             const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
             const Size& aMValue = 3,
@@ -78,8 +91,19 @@ class QLaw : public GuidanceLaw
             const Real& relativeEffectivityThreshold = Real::Undefined()
         );
 
+        /// @brief Get control weights.
+        ///
+        /// @return A 5-dimensional vector of control weights.
         Vector5d getControlWeights() const;
+
+        /// @brief Get convergence thresholds.
+        ///
+        /// @return A 5-dimensional vector of convergence thresholds.
         Vector5d getConvergenceThresholds() const;
+
+        /// @brief Get minimum periapsis radius.
+        ///
+        /// @return The minimum periapsis radius.
         Length getMinimumPeriapsisRadius() const;
 
         const double m;
@@ -108,15 +132,15 @@ class QLaw : public GuidanceLaw
 
     enum class GradientStrategy
     {
-        Analytical,
-        FiniteDifference
+        Analytical,       ///< Use analytical gradient computation.
+        FiniteDifference  ///< Use finite difference gradient computation.
     };
 
     enum class COEDomain
     {
-        Osculating,
-        BrouwerLyddaneMeanLong,
-        BrouwerLyddaneMeanShort
+        Osculating,              ///< Use osculating orbital elements.
+        BrouwerLyddaneMeanLong,  ///< Use Brouwer-Lyddane mean long elements.
+        BrouwerLyddaneMeanShort  ///< Use Brouwer-Lyddane mean short elements.
     };
 
     /// @brief Constructor

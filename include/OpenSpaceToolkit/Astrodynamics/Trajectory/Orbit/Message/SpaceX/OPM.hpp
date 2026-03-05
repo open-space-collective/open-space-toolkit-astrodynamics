@@ -83,12 +83,14 @@ using ostk::astrodynamics::trajectory::State;
 class OPM
 {
    public:
+    /// @brief OPM header containing generation and launch dates.
     struct Header
     {
         Instant generationDate;
         Instant launchDate;
     };
 
+    /// @brief OPM deployment entry containing state and orbital element information for a single payload.
     struct Deployment
     {
         String name;
@@ -105,31 +107,144 @@ class OPM
         Angle meanMeanAnomaly;
         Real ballisticCoefficient;  // [kg/m2]
 
+        /// @brief Convert deployment to a trajectory state.
+        ///
+        /// @code{.cpp}
+        ///     OPM::Deployment deployment = ... ;
+        ///     State state = deployment.toState() ;
+        /// @endcode
+        ///
+        /// @return A trajectory state corresponding to this deployment.
         State toState() const;
     };
 
+    /// @brief Construct an OPM from a header and an array of deployments.
+    ///
+    /// @code{.cpp}
+    ///     OPM::Header header = ... ;
+    ///     Array<OPM::Deployment> deployments = ... ;
+    ///     OPM opm = {header, deployments} ;
+    /// @endcode
+    ///
+    /// @param aHeader An OPM header.
+    /// @param aDeploymentArray An array of OPM deployments.
     OPM(const OPM::Header& aHeader, const Array<OPM::Deployment>& aDeploymentArray);
 
+    /// @brief Output stream operator.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     std::cout << opm ;
+    /// @endcode
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param anOPM An OPM.
+    /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM);
 
+    /// @brief Check if the OPM is defined.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     bool defined = opm.isDefined() ;
+    /// @endcode
+    ///
+    /// @return True if the OPM is defined.
     bool isDefined() const;
 
+    /// @brief Get the OPM header.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     OPM::Header header = opm.getHeader() ;
+    /// @endcode
+    ///
+    /// @return The OPM header.
     OPM::Header getHeader() const;
 
+    /// @brief Get all deployments in the OPM.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     Array<OPM::Deployment> deployments = opm.getDeployments() ;
+    /// @endcode
+    ///
+    /// @return An array of OPM deployments.
     Array<OPM::Deployment> getDeployments() const;
 
+    /// @brief Get the deployment at a given index.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     OPM::Deployment deployment = opm.getDeploymentAt(0) ;
+    /// @endcode
+    ///
+    /// @param anIndex A deployment index.
+    /// @return The OPM deployment at the given index.
     OPM::Deployment getDeploymentAt(const Index& anIndex) const;
 
+    /// @brief Get the deployment with a given name.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     OPM::Deployment deployment = opm.getDeploymentWithName("payload-001") ;
+    /// @endcode
+    ///
+    /// @param aName A deployment name.
+    /// @return The OPM deployment with the given name.
     OPM::Deployment getDeploymentWithName(const String& aName) const;
 
+    /// @brief Print the OPM to an output stream.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = ... ;
+    ///     opm.print(std::cout, true) ;
+    /// @endcode
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator If true, display a decorator around the output.
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Construct an undefined OPM.
+    ///
+    /// @code{.cpp}
+    ///     OPM opm = OPM::Undefined() ;
+    /// @endcode
+    ///
+    /// @return An undefined OPM.
     static OPM Undefined();
 
+    /// @brief Construct an OPM from a dictionary.
+    ///
+    /// @code{.cpp}
+    ///     container::Dictionary dictionary = ... ;
+    ///     OPM opm = OPM::Dictionary(dictionary) ;
+    /// @endcode
+    ///
+    /// @param aDictionary A dictionary.
+    /// @return An OPM.
     static OPM Dictionary(const container::Dictionary& aDictionary);
 
+    /// @brief Parse an OPM from a string.
+    ///
+    /// @code{.cpp}
+    ///     String opmString = ... ;
+    ///     OPM opm = OPM::Parse(opmString) ;
+    /// @endcode
+    ///
+    /// @param aString A string.
+    /// @return An OPM.
     static OPM Parse(const String& aString);
 
+    /// @brief Load an OPM from a file.
+    ///
+    /// @code{.cpp}
+    ///     File file = File::Path(Path::Parse("/path/to/opm.yaml")) ;
+    ///     OPM opm = OPM::Load(file) ;
+    /// @endcode
+    ///
+    /// @param aFile A file.
+    /// @return An OPM.
     static OPM Load(const File& aFile);
 
    private:

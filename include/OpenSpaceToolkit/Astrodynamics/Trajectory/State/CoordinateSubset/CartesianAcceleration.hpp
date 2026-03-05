@@ -40,21 +40,31 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
+/// @brief Cartesian Acceleration coordinate subset.
+///
+/// @details Represents the acceleration vector in Cartesian coordinates (x, y, z).
+/// Depends on associated CartesianPosition and CartesianVelocity subsets for frame transformations.
 class CartesianAcceleration : public CoordinateSubset
 {
    public:
-    /// @brief Constructor for CartesianAcceleration
+    /// @brief Constructor.
     ///
-    /// @param aCartesianPositionSPtr Shared pointer to a CartesianPosition coordinate subset
-    /// @param aCartesianVelocitySPtr Shared pointer to a CartesianVelocity coordinate subset
-    /// @param aName Name of the coordinate subset
+    /// @code{.cpp}
+    ///     Shared<const CartesianPosition> positionSPtr = CartesianPosition::Default() ;
+    ///     Shared<const CartesianVelocity> velocitySPtr = CartesianVelocity::Default() ;
+    ///     CartesianAcceleration acceleration = { positionSPtr, velocitySPtr, "Acceleration" } ;
+    /// @endcode
+    ///
+    /// @param aCartesianPositionSPtr Shared pointer to a CartesianPosition coordinate subset.
+    /// @param aCartesianVelocitySPtr Shared pointer to a CartesianVelocity coordinate subset.
+    /// @param aName Name of the coordinate subset.
     CartesianAcceleration(
         const Shared<const CartesianPosition>& aCartesianPositionSPtr,
         const Shared<const CartesianVelocity>& aCartesianVelocitySPtr,
         const String& aName
     );
 
-    /// @brief Destructor for CartesianAcceleration
+    /// @brief Destructor.
     ~CartesianAcceleration();
 
     /// @brief Transforms the coordinates to a different frame.
@@ -74,14 +84,22 @@ class CartesianAcceleration : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override;
 
-    /// @brief Returns the default CartesianAcceleration object
+    /// @brief Return the default instance.
     ///
-    /// @return Shared pointer to the default CartesianAcceleration object
+    /// @code{.cpp}
+    ///     Shared<const CartesianAcceleration> accelerationSPtr = CartesianAcceleration::Default() ;
+    /// @endcode
+    ///
+    /// @return Shared pointer to the default CartesianAcceleration instance.
     static Shared<const CartesianAcceleration> Default();
 
-    /// @brief Returns the thrust acceleration
+    /// @brief Return the thrust acceleration instance.
     ///
-    /// @return Shared pointer to the thrust acceleration
+    /// @code{.cpp}
+    ///     Shared<const CartesianAcceleration> thrustAccelSPtr = CartesianAcceleration::ThrustAcceleration() ;
+    /// @endcode
+    ///
+    /// @return Shared pointer to the thrust acceleration instance.
     static Shared<const CartesianAcceleration> ThrustAcceleration();
 
    private:

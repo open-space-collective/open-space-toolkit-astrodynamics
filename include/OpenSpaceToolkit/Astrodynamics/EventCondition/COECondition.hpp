@@ -45,6 +45,15 @@ class COECondition
    public:
     /// @brief Semi-Major Axis based constructor
     ///
+    /// @code{.cpp}
+    ///     RealCondition condition = COECondition::SemiMajorAxis(
+    ///         RealCondition::Criterion::AnyCrossing,
+    ///         Frame::GCRF(),
+    ///         EventCondition::Target(7000000.0),
+    ///         gravitationalParameter
+    ///     ) ;
+    /// @endcode
+    ///
     /// @param aCriterion The criterion used to resolve the Event Condition
     /// @param aFrameSPtr A frame in which the element is to be computed
     /// @param aTarget A Target

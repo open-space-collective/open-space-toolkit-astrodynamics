@@ -60,27 +60,38 @@ class COE
    public:
     enum class Element
     {
-        SemiMajorAxis,
-        Eccentricity,
-        Inclination,
-        Raan,
-        Aop,
-        TrueAnomaly,
-        MeanAnomaly,
-        EccentricAnomaly,
-        ArgumentOfLatitude
+        SemiMajorAxis,      ///< Semi-major axis (a)
+        Eccentricity,       ///< Eccentricity (e)
+        Inclination,        ///< Inclination (i)
+        Raan,               ///< Right Ascension of the Ascending Node (RAAN)
+        Aop,                ///< Argument of Periapsis (AoP)
+        TrueAnomaly,        ///< True anomaly
+        MeanAnomaly,        ///< Mean anomaly
+        EccentricAnomaly,   ///< Eccentric anomaly
+        ArgumentOfLatitude  ///< Argument of latitude
     };
 
     enum class AnomalyType
     {
-        True,
-        Mean,
-        Eccentric,
+        True,       ///< True anomaly
+        Mean,       ///< Mean anomaly
+        Eccentric,  ///< Eccentric anomaly
     };
 
     typedef Pair<Position, Velocity> CartesianState;
 
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     COE coe = {
+    ///         Length::Kilometers(7000.0),
+    ///         0.001,
+    ///         Angle::Degrees(97.4),
+    ///         Angle::Degrees(0.0),
+    ///         Angle::Degrees(0.0),
+    ///         Angle::Degrees(0.0)
+    ///     } ;
+    /// @endcode
     ///
     /// @param aSemiMajorAxis A semi-major axis
     /// @param anEccentricity An eccentricity
@@ -218,6 +229,12 @@ class COE
 
     /// @brief Get Cartesian state
     ///
+    /// @code{.cpp}
+    ///     COE coe = { ... } ;
+    ///     Derived mu = EarthGravitationalModel::EGM2008.gravitationalParameter ;
+    ///     COE::CartesianState cartesianState = coe.getCartesianState(mu, Frame::GCRF()) ;
+    /// @endcode
+    ///
     /// @param aGravitationalParameter A gravitational parameter
     /// @param aFrameSPtr A frame
     /// @return Cartesian state
@@ -247,12 +264,23 @@ class COE
 
     /// @brief Construct a COE from a cartesian state
     ///
+    /// @code{.cpp}
+    ///     COE::CartesianState cartesianState = { position, velocity } ;
+    ///     Derived mu = Derived(3.986004418e14, Derived::Unit::GravitationalParameter()) ;
+    ///     COE coe = COE::Cartesian(cartesianState, mu) ;
+    /// @endcode
+    ///
     /// @param aCartesianState A cartesian state
     /// @param aGravitationalParameter A gravitational parameter
     /// @return COE
     static COE Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter);
 
     /// @brief Construct a COE from a vector
+    ///
+    /// @code{.cpp}
+    ///     Vector6d coeVector = { 7000000.0, 0.001, 1.7, 0.0, 0.0, 0.0 } ;
+    ///     COE coe = COE::FromSIVector(coeVector, COE::AnomalyType::True) ;
+    /// @endcode
     ///
     /// @param aCOEVector A vector
     /// @param anAnomalyType An anomaly type
@@ -482,6 +510,12 @@ class COE
 
     /// @brief Construct a Sun-synchronous COE
     ///
+    /// @code{.cpp}
+    ///     COE coe = COE::SunSynchronous(
+    ///         Length::Kilometers(6878.0), Time(10, 30, 0), anEpoch, Earth::Default()
+    ///     ) ;
+    /// @endcode
+    ///
     /// @param aSemiMajorAxis A semi-major axis
     /// @param aLocalTimeAtAscendingNode A local time at ascending node
     /// @param anEpoch An epoch
@@ -543,6 +577,10 @@ class COE
     );
 
     /// @brief Convert element to string
+    ///
+    /// @code{.cpp}
+    ///     String str = COE::StringFromElement(COE::Element::SemiMajorAxis) ;
+    /// @endcode
     ///
     /// @param anElement An element
     /// @return String representing the element

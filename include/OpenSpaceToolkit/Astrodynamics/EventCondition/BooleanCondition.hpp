@@ -21,6 +21,9 @@ using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief An Event Condition that can evaluate each state to a boolean.
+///
+/// @details Wraps a boolean evaluator as a RealCondition by mapping true/false to 1.0/0.0.
+/// Supports an optional inverse flag that flips the boolean result before evaluation.
 class BooleanCondition : public RealCondition
 {
    public:
@@ -46,9 +49,14 @@ class BooleanCondition : public RealCondition
     /// @brief Virtual destructor
     virtual ~BooleanCondition();
 
-    /// @brief Check if the condition is inversed
+    /// @brief Check if the condition is inversed.
     ///
-    /// @return Boolean value indicating whether the condition is inversed
+    /// @code{.cpp}
+    ///     BooleanCondition condition = { ... } ;
+    ///     bool inversed = condition.isInversed() ;
+    /// @endcode
+    ///
+    /// @return True if the condition is inversed.
     bool isInversed() const;
 
     /// @brief Print the Boolean Event Condition

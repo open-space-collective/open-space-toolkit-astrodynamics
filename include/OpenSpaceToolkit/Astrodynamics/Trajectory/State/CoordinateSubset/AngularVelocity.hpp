@@ -27,8 +27,11 @@ using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 
-/// @brief  Angular Velocity.
-
+/// @brief Angular Velocity coordinate subset.
+///
+/// @details Represents the angular velocity of the satellite body frame with respect to the attitude
+/// reference frame, expressed in the satellite body frame. Requires an associated AttitudeQuaternion
+/// subset for frame transformations.
 class AngularVelocity : public CoordinateSubset
 {
    public:
@@ -63,6 +66,10 @@ class AngularVelocity : public CoordinateSubset
     ) const;
 
     /// @brief Return the default instance
+    ///
+    /// @code{.cpp}
+    ///     Shared<const AngularVelocity> angularVelocitySPtr = AngularVelocity::Default() ;
+    /// @endcode
     ///
     /// @return The default instance
     static Shared<const AngularVelocity> Default();

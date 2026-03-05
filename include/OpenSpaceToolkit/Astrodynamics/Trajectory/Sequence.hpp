@@ -43,6 +43,10 @@ using ostk::astrodynamics::trajectory::Segment;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief Represent a sequence of trajectory segments executed in order.
+///
+/// @details A Sequence chains together multiple Segments (coast arcs and maneuver arcs)
+/// to define a complete trajectory plan. The sequence is solved iteratively, with each segment's
+/// terminal state used as the initial state for the next segment.
 class Sequence
 {
    public:
@@ -185,6 +189,11 @@ class Sequence
 
     /// @brief Add a trajectory segment.
     ///
+    /// @code{.cpp}
+    ///     Sequence sequence = { ... } ;
+    ///     sequence.addSegment(aCoastSegment) ;
+    /// @endcode
+    ///
     /// @param aTrajectorySegment A trajectory segment.
     void addSegment(const Segment& aTrajectorySegment);
 
@@ -206,12 +215,22 @@ class Sequence
 
     /// @brief Solve the sequence given an initial state, for a number of reptitions.
     ///
+    /// @code{.cpp}
+    ///     Sequence sequence = { ... } ;
+    ///     Sequence::Solution solution = sequence.solve(anInitialState) ;
+    /// @endcode
+    ///
     /// @param aState Initial state for the sequence.
     /// @param aRepetitionCount Number of repetitions. Defaults to 1, i.e. execute sequence once.
     /// @return A Solution that contains solutions for each segment.
     Solution solve(const State& aState, const Size& aRepetitionCount = 1) const;
 
     /// @brief Solve the sequence given an initial state.
+    ///
+    /// @code{.cpp}
+    ///     Sequence sequence = { ... } ;
+    ///     Sequence::Solution solution = sequence.solveToCondition(anInitialState, anEventCondition) ;
+    /// @endcode
     ///
     /// @param aState Initial state for the sequence.
     /// @param anEventCondition An event condition.

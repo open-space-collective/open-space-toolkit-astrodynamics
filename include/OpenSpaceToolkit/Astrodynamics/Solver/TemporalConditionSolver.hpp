@@ -28,6 +28,9 @@ using ostk::physics::time::Interval;
 
 /// @brief Given a set of conditions and a time interval, this solver computes all sub-intervals over which conditions
 /// are met.
+///
+/// @details Uses a temporal grid with bisection to find switching instants where conditions transition
+/// between satisfied and unsatisfied states. The grid step size determines the minimum detectable event window.
 class TemporalConditionSolver
 {
    public:
@@ -59,32 +62,57 @@ class TemporalConditionSolver
 
     /// @brief Get the time step.
     ///
+    /// @code{.cpp}
+    ///     TemporalConditionSolver solver = { ... } ;
+    ///     Duration timeStep = solver.getTimeStep() ;
+    /// @endcode
+    ///
     /// @return Time step.
     Duration getTimeStep() const;
 
     /// @brief Get the tolerance.
+    ///
+    /// @code{.cpp}
+    ///     TemporalConditionSolver solver = { ... } ;
+    ///     Duration tolerance = solver.getTolerance() ;
+    /// @endcode
     ///
     /// @return Tolerance.
     Duration getTolerance() const;
 
     /// @brief Get the maximum iteration count.
     ///
+    /// @code{.cpp}
+    ///     TemporalConditionSolver solver = { ... } ;
+    ///     Size maxIterCount = solver.getMaximumIterationCount() ;
+    /// @endcode
+    ///
     /// @return Maximum iteration count.
     Size getMaximumIterationCount() const;
 
     /// @brief Find the intervals over which the provided condition is true.
     ///
+    /// @code{.cpp}
+    ///     TemporalConditionSolver solver = { Duration::Minutes(1.0), Duration::Microseconds(1.0) } ;
+    ///     auto condition = [](const Instant& instant) { return true ; } ;
+    ///     Array<Interval> intervals = solver.solve(condition, anInterval) ;
+    /// @endcode
+    ///
     /// @param aCondition A temporal condition.
     /// @param anInterval A time interval within which to perform the search.
-    ///
     /// @return An array of time intervals.
     Array<Interval> solve(const TemporalConditionSolver::Condition& aCondition, const Interval& anInterval) const;
 
     /// @brief Find the intervals over which all provided conditions are true.
     ///
+    /// @code{.cpp}
+    ///     TemporalConditionSolver solver = { Duration::Minutes(1.0), Duration::Microseconds(1.0) } ;
+    ///     Array<TemporalConditionSolver::Condition> conditions = { ... } ;
+    ///     Array<Interval> intervals = solver.solve(conditions, anInterval) ;
+    /// @endcode
+    ///
     /// @param aConditionArray An array of temporal conditions.
     /// @param anInterval A time interval within which to perform the search.
-    ///
     /// @return An array of time intervals.
     Array<Interval> solve(const Array<TemporalConditionSolver::Condition>& aConditionArray, const Interval& anInterval)
         const;

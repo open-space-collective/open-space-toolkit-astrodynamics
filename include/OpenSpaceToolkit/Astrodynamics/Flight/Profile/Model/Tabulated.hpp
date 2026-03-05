@@ -47,13 +47,19 @@ using TabulatedTrajectory = ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-/// @brief Tabulated profile model
+/// @brief Tabulated profile model.
 ///
-/// Represents a tabulated profile model based on a set of states.
+/// @details Represents a flight profile model that interpolates states from a set of tabulated data
+/// points. Attitude quaternions are interpolated using SLERP, while other coordinate subsets use
+/// the specified interpolator type (defaults to Barycentric Rational).
 class Tabulated : public virtual Model
 {
    public:
     /// @brief Constructor
+    ///
+    /// @code{.cpp}
+    ///     flight::profile::model::Tabulated tabulated = { aStateArray } ;
+    /// @endcode
     ///
     /// @param aStateArray An array of states
     /// @param anInterpolatorType  The type of interpolation used for all but the AttitudeQuaternion subset. Attitude
@@ -127,6 +133,11 @@ class Tabulated : public virtual Model
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
     /// @brief Load a tabulated model from a file
+    ///
+    /// @code{.cpp}
+    ///     flight::profile::model::Tabulated tabulated =
+    ///         flight::profile::model::Tabulated::Load(File::Path(Path::Parse("/path/to/profile.csv"))) ;
+    /// @endcode
     ///
     /// @param aFile A file
     /// @return Tabulated model

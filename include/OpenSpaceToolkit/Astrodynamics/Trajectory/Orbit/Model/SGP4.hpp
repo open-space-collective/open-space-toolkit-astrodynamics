@@ -41,35 +41,95 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
+/// @brief SGP4 orbit model.
+///
+/// @details Simplified General Perturbations 4 (SGP4) orbit propagation model using Two-Line Element (TLE) sets.
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
+    /// @brief Construct an SGP4 model from a TLE.
+    ///
+    /// @code{.cpp}
+    ///     TLE tle = TLE::Load(File::Path(Path::Parse("/path/to/tle.txt")));
+    ///     SGP4 sgp4 = SGP4(tle);
+    /// @endcode
+    ///
+    /// @param aTle A Two-Line Element set.
     SGP4(const TLE& aTle);
 
+    /// @brief Copy constructor.
+    ///
+    /// @param aSGP4Model An SGP4 model to copy.
     SGP4(const SGP4& aSGP4Model);
 
+    /// @brief Destructor.
     ~SGP4();
 
+    /// @brief Copy assignment operator.
+    ///
+    /// @param aSGP4Model An SGP4 model to copy.
+    /// @return A reference to this SGP4 model.
     SGP4& operator=(const SGP4& aSGP4Model);
 
+    /// @brief Clone this SGP4 model.
+    ///
+    /// @return A pointer to a cloned SGP4 model.
     virtual SGP4* clone() const override;
 
+    /// @brief Check equality with another SGP4 model.
+    ///
+    /// @param aSGP4Model An SGP4 model to compare against.
+    /// @return True if the models are equal.
     bool operator==(const SGP4& aSGP4Model) const;
 
+    /// @brief Check inequality with another SGP4 model.
+    ///
+    /// @param aSGP4Model An SGP4 model to compare against.
+    /// @return True if the models are not equal.
     bool operator!=(const SGP4& aSGP4Model) const;
 
+    /// @brief Stream insertion operator.
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param aSGP4Model An SGP4 model to stream.
+    /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model);
 
+    /// @brief Check if the SGP4 model is defined.
+    ///
+    /// @return True if the model is defined.
     virtual bool isDefined() const override;
 
+    /// @brief Get the TLE associated with this model.
+    ///
+    /// @return The Two-Line Element set.
     TLE getTle() const;
 
+    /// @brief Get the epoch of the SGP4 model.
+    ///
+    /// @return The epoch instant.
     virtual Instant getEpoch() const override;
 
+    /// @brief Get the revolution number at epoch.
+    ///
+    /// @return The revolution number at epoch.
     virtual Integer getRevolutionNumberAtEpoch() const override;
 
+    /// @brief Calculate the state at a given instant.
+    ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tle);
+    ///     State state = sgp4.calculateStateAt(Instant::Now());
+    /// @endcode
+    ///
+    /// @param anInstant An instant at which to calculate the state.
+    /// @return The orbital state at the given instant.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
+    /// @brief Print the SGP4 model to an output stream.
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator If true, display a decorator around the output.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    protected:

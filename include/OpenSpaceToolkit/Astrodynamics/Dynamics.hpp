@@ -48,8 +48,14 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 class Dynamics
 {
    public:
+    /// @brief Context for dynamics evaluation, mapping coordinate subsets to state vector indices.
     struct Context
     {
+        /// @brief Constructor
+        ///
+        /// @param aDynamicsSPtr A shared pointer to the dynamics
+        /// @param aReadIndexes Read index mapping from coordinate subsets to state vector positions
+        /// @param aWriteIndexes Write index mapping from coordinate subsets to state vector positions
         Context(
             const Shared<Dynamics>& aDynamicsSPtr,
             const Array<Pair<Index, Size>>& aReadIndexes,

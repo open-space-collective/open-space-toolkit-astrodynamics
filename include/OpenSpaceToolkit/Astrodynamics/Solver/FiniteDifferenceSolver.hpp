@@ -34,15 +34,19 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief Finite Difference solver
+/// @brief Finite Difference solver.
+///
+/// @details Computes numerical derivatives (State Transition Matrices, gradients, Jacobians)
+/// using forward, backward, or central finite difference schemes.
 class FiniteDifferenceSolver
 {
    public:
+    /// @brief Finite difference scheme type.
     enum class Type
     {
-        Forward,
-        Backward,
-        Central
+        Forward,   ///< Forward finite difference scheme.
+        Backward,  ///< Backward finite difference scheme.
+        Central    ///< Central finite difference scheme.
     };
 
     /// @brief Constructor
@@ -72,15 +76,30 @@ class FiniteDifferenceSolver
 
     /// @brief Get the Type.
     ///
+    /// @code{.cpp}
+    ///     FiniteDifferenceSolver solver = { ... } ;
+    ///     FiniteDifferenceSolver::Type type = solver.getType() ;
+    /// @endcode
+    ///
     /// @return The Type.
     Type getType() const;
 
     /// @brief Get the step percentage.
     ///
+    /// @code{.cpp}
+    ///     FiniteDifferenceSolver solver = { ... } ;
+    ///     Real stepPercentage = solver.getStepPercentage() ;
+    /// @endcode
+    ///
     /// @return The step percentage.
     Real getStepPercentage() const;
 
     /// @brief Get the step duration.
+    ///
+    /// @code{.cpp}
+    ///     FiniteDifferenceSolver solver = { ... } ;
+    ///     Duration stepDuration = solver.getStepDuration() ;
+    /// @endcode
     ///
     /// @return The step duration.
     Duration getStepDuration() const;
@@ -139,14 +158,21 @@ class FiniteDifferenceSolver
     /// @param (optional) displayDecorators if true, display decorators.
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Convert a type to string
+    /// @brief Convert a type to string.
+    ///
+    /// @code{.cpp}
+    ///     String str = FiniteDifferenceSolver::StringFromType(FiniteDifferenceSolver::Type::Central) ;
+    /// @endcode
     ///
     /// @param aType A type.
-    ///
     /// @return The string name of the type.
     static String StringFromType(const Type& aType);
 
-    /// @brief Default Finite Difference Solver
+    /// @brief Default Finite Difference Solver.
+    ///
+    /// @code{.cpp}
+    ///     FiniteDifferenceSolver solver = FiniteDifferenceSolver::Default() ;
+    /// @endcode
     ///
     /// @return The default Finite Difference Solver.
     static FiniteDifferenceSolver Default();

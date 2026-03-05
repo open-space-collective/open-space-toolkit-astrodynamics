@@ -58,14 +58,22 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 class BrouwerLyddaneMean : public COE
 {
    public:
-    /// @brief Constructor
+    /// @brief Constructor.
     ///
-    /// @param aSemiMajorAxis A semi-major axis
-    /// @param anEccentricity An eccentricity
-    /// @param anInclination An inclination
-    /// @param aRaan A raan
-    /// @param anAop An aop
-    /// @param aMeanAnomaly A mean anomaly
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMean blm = {
+    ///         Length::Kilometers(7000.0), 0.001,
+    ///         Angle::Degrees(97.5), Angle::Degrees(0.0),
+    ///         Angle::Degrees(0.0), Angle::Degrees(0.0)
+    ///     } ;
+    /// @endcode
+    ///
+    /// @param aSemiMajorAxis A semi-major axis.
+    /// @param anEccentricity An eccentricity.
+    /// @param anInclination An inclination.
+    /// @param aRaan A right ascension of ascending node.
+    /// @param anAop An argument of periapsis.
+    /// @param aMeanAnomaly A mean anomaly.
     BrouwerLyddaneMean(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
@@ -75,32 +83,58 @@ class BrouwerLyddaneMean : public COE
         const Angle &aMeanAnomaly
     );
 
-    /// @brief Get Mean anomaly
+    /// @brief Get the mean anomaly.
     ///
-    /// @return Mean anomaly
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMean blm = { ... } ;
+    ///     Angle meanAnomaly = blm.getMeanAnomaly() ;
+    /// @endcode
+    ///
+    /// @return The mean anomaly.
     virtual Angle getMeanAnomaly() const override;
 
-    /// @brief Get True anomaly
+    /// @brief Get the true anomaly.
     ///
-    /// @return True anomaly
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMean blm = { ... } ;
+    ///     Angle trueAnomaly = blm.getTrueAnomaly() ;
+    /// @endcode
+    ///
+    /// @return The true anomaly.
     virtual Angle getTrueAnomaly() const override;
 
-    /// @brief Get Eccentric anomaly
+    /// @brief Get the eccentric anomaly.
     ///
-    /// @return Eccentric anomaly
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMean blm = { ... } ;
+    ///     Angle eccentricAnomaly = blm.getEccentricAnomaly() ;
+    /// @endcode
+    ///
+    /// @return The eccentric anomaly.
     virtual Angle getEccentricAnomaly() const override;
 
-    /// @brief Get cartesian state
+    /// @brief Get the cartesian state (position, velocity) from the mean elements.
     ///
-    /// @param aGravitationalParameter A gravitational parameter
-    /// @param aFrameSPtr A frame
-    /// @return Cartesian state
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMean blm = { ... } ;
+    ///     Derived mu = Derived(3.986004418e14, Derived::Unit::GravitationalParameter()) ;
+    ///     COE::CartesianState cartesianState = blm.getCartesianState(mu, Frame::GCRF()) ;
+    /// @endcode
+    ///
+    /// @param aGravitationalParameter A gravitational parameter.
+    /// @param aFrameSPtr A frame.
+    /// @return Cartesian state (position, velocity pair).
     COE::CartesianState getCartesianState(const Derived &aGravitationalParameter, const Shared<const Frame> &aFrameSPtr)
         const;
 
-    /// @brief Convert to COE
+    /// @brief Convert to classical orbital elements (COE).
     ///
-    /// @return COE
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMeanLong blmLong = { ... } ;
+    ///     COE coe = blmLong.toCOE() ;
+    /// @endcode
+    ///
+    /// @return Classical orbital elements.
     virtual COE toCOE() const = 0;
 
    protected:

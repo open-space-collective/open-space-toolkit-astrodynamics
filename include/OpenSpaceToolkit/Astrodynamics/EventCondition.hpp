@@ -31,23 +31,55 @@ using ostk::astrodynamics::trajectory::State;
 class EventCondition
 {
    public:
+    /// @brief Target value for an event condition.
     struct Target
     {
+        /// @brief Target type.
         enum class Type
         {
-            Absolute,
-            Relative
+            Absolute,  ///< Absolute target value.
+            Relative   ///< Relative target value (offset from initial state).
         };
 
+        /// @brief Constructor
+        ///
+        /// @param aValue A real target value
+        /// @param aType A target type (Absolute or Relative)
         Target(const Real& aValue, const Type& aType = Type::Absolute);
+
+        /// @brief Constructor
+        ///
+        /// @param anAngle An angle target value
+        /// @param aType A target type (Absolute or Relative)
         Target(const Angle& anAngle, const Type& aType = Type::Absolute);
+
+        /// @brief Constructor
+        ///
+        /// @param aLength A length target value
+        /// @param aType A target type (Absolute or Relative)
         Target(const Length& aLength, const Type& aType = Type::Absolute);
 
+        /// @brief Equality operator
+        ///
+        /// @param aTarget A target to compare against
+        /// @return True if targets are equal
         bool operator==(const Target& aTarget) const;
+
+        /// @brief Inequality operator
+        ///
+        /// @param aTarget A target to compare against
+        /// @return True if targets are not equal
         bool operator!=(const Target& aTarget) const;
 
+        /// @brief Check if target is defined
+        ///
+        /// @return True if target is defined
         bool isDefined() const;
 
+        /// @brief Get string representation of a target type
+        ///
+        /// @param aType A target type
+        /// @return String representation of the target type
         static String StringFromType(const Type& aType);
 
         const Real value;

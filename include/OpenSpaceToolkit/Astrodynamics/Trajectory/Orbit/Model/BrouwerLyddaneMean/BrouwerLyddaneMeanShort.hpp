@@ -76,28 +76,49 @@ class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
         const Angle &aMeanAnomaly
     );
 
-    /// @brief Construct from a COE
+    /// @brief Construct from classical orbital elements (COE).
     ///
-    /// @param aCOE A COE
-    /// @return Brouwer-Lyddane Mean Short
+    /// @code{.cpp}
+    ///     classicalOE coe = { ... } ;
+    ///     BrouwerLyddaneMeanShort blmShort = BrouwerLyddaneMeanShort::COE(coe) ;
+    /// @endcode
+    ///
+    /// @param aCOE A COE.
+    /// @return Brouwer-Lyddane Mean Short elements.
     static BrouwerLyddaneMeanShort COE(const classicalOE &aCOE);
 
-    /// @brief Convert Brouwer-Lyddane Mean Short to COE
+    /// @brief Convert to classical orbital elements (COE).
     ///
-    /// @return COE
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMeanShort blmShort = { ... } ;
+    ///     classicalOE coe = blmShort.toCOE() ;
+    /// @endcode
+    ///
+    /// @return Classical orbital elements.
     virtual classicalOE toCOE() const override;
 
-    /// @brief Constructor
+    /// @brief Construct from a Cartesian state.
     ///
-    /// @param aCartesianState A cartesian state
-    /// @param aGravitationalParameter A gravitational parameter
+    /// @code{.cpp}
+    ///     COE::CartesianState cartesianState = { position, velocity } ;
+    ///     Derived mu = Derived(3.986004418e14, Derived::Unit::GravitationalParameter()) ;
+    ///     BrouwerLyddaneMeanShort blmShort = BrouwerLyddaneMeanShort::Cartesian(cartesianState, mu) ;
+    /// @endcode
+    ///
+    /// @param aCartesianState A cartesian state.
+    /// @param aGravitationalParameter A gravitational parameter.
+    /// @return Brouwer-Lyddane Mean Short elements.
     static BrouwerLyddaneMeanShort Cartesian(
         const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
     );
 
-    /// @brief Construct an undefined BrouwerLyddaneMeanShort
+    /// @brief Construct an undefined BrouwerLyddaneMeanShort.
     ///
-    /// @return Undefined BrouwerLyddaneMeanLong
+    /// @code{.cpp}
+    ///     BrouwerLyddaneMeanShort blmShort = BrouwerLyddaneMeanShort::Undefined() ;
+    /// @endcode
+    ///
+    /// @return Undefined BrouwerLyddaneMeanShort.
     static BrouwerLyddaneMeanShort Undefined();
 
    private:

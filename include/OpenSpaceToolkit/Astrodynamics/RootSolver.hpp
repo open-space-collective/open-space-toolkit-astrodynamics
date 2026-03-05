@@ -18,14 +18,15 @@ using ostk::core::type::Size;
 class RootSolver
 {
    public:
+    /// @brief Root solver solution.
     struct Solution
     {
-        Real root;  // The root of the function, computed as the midpoint of the bounds, lowerBound + (upperBound -
+        Real root;  ///< The root of the function, computed as the midpoint of the bounds, lowerBound + (upperBound -
                     // lowerBound) / 2.0
-        Real lowerBound;      // The lower bound of the root, within the interval [root - tolerance, root]
-        Real upperBound;      // The upper bound of the root, within the interval [root, root + tolerance]
-        Size iterationCount;  // The number of iterations performed to find the root
-        bool hasConverged;    // Whether the root solver has converged
+        Real lowerBound;      ///< The lower bound of the root, within the interval [root - tolerance, root]
+        Real upperBound;      ///< The upper bound of the root, within the interval [root, root + tolerance]
+        Size iterationCount;  ///< The number of iterations performed to find the root
+        bool hasConverged;    ///< Whether the root solver has converged
     };
 
     /// @brief Constructor

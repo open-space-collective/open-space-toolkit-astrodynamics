@@ -56,6 +56,11 @@ class Pass
 
     /// @brief Constructs a pass.
     ///
+    /// @code{.cpp}
+    ///              Pass pass = { 1, instantAtAscendingNode, instantAtNorthPoint, instantAtDescendingNode,
+    ///              instantAtSouthPoint, instantAtPassBreak } ;
+    /// @endcode
+    ///
     /// @param aRevolutionNumber The revolution number of the pass.
     /// @param anInstantAtAscendingNode The instant at the ascending node of the pass.
     /// @param anInstantAtNorthPoint The instant at the north point of the pass.

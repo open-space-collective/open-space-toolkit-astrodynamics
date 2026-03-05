@@ -68,14 +68,20 @@ class ModifiedEquinoctial
         TrueLongitude     ///< True longitude (L)
     };
 
-    /// @brief Constructor
+    /// @brief Constructor.
     ///
-    /// @param [in] semiLatusRectum Semi-latus rectum
-    /// @param [in] eccentricityX X-component of eccentricity vector
-    /// @param [in] eccentricityY Y-component of eccentricity vector
-    /// @param [in] nodeX X-component of node vector
-    /// @param [in] nodeY Y-component of node vector
-    /// @param [in] trueLongitude True longitude
+    /// @code{.cpp}
+    ///     ModifiedEquinoctial meoe = {
+    ///         Length::Kilometers(7000.0), 0.01, 0.02, 0.001, 0.002, Angle::Degrees(45.0)
+    ///     } ;
+    /// @endcode
+    ///
+    /// @param [in] semiLatusRectum Semi-latus rectum.
+    /// @param [in] eccentricityX X-component of eccentricity vector.
+    /// @param [in] eccentricityY Y-component of eccentricity vector.
+    /// @param [in] nodeX X-component of node vector.
+    /// @param [in] nodeY Y-component of node vector.
+    /// @param [in] trueLongitude True longitude.
     ModifiedEquinoctial(
         const Length& semiLatusRectum,
         const Real& eccentricityX,
@@ -144,10 +150,16 @@ class ModifiedEquinoctial
     /// @return ModifiedEquinoctial elements as a 6D vector in SI units
     Vector6d getSIVector() const;
 
-    /// @brief Convert ModifiedEquinoctial to Classical Orbital Elements
+    /// @brief Convert ModifiedEquinoctial to Classical Orbital Elements.
     ///
-    /// @param [in] aGravitationalParameter Gravitational parameter
-    /// @return Classical Orbital Elements
+    /// @code{.cpp}
+    ///     ModifiedEquinoctial meoe = { ... } ;
+    ///     Derived mu = Derived(3.986004418e14, Derived::Unit::GravitationalParameter()) ;
+    ///     KeplerianCOE coe = meoe.toCOE(mu) ;
+    /// @endcode
+    ///
+    /// @param [in] aGravitationalParameter Gravitational parameter.
+    /// @return Classical Orbital Elements.
     KeplerianCOE toCOE(const Derived& aGravitationalParameter) const;
 
     /// @brief Convert ModifiedEquinoctial to Cartesian state
@@ -165,30 +177,49 @@ class ModifiedEquinoctial
     /// @param [in] (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorators = true) const;
 
-    /// @brief Construct an undefined ModifiedEquinoctial
+    /// @brief Construct an undefined ModifiedEquinoctial.
     ///
-    /// @return Undefined ModifiedEquinoctial
+    /// @code{.cpp}
+    ///     ModifiedEquinoctial meoe = ModifiedEquinoctial::Undefined() ;
+    /// @endcode
+    ///
+    /// @return Undefined ModifiedEquinoctial.
     static ModifiedEquinoctial Undefined();
 
-    /// @brief Create ModifiedEquinoctial from Cartesian state
+    /// @brief Create ModifiedEquinoctial from Cartesian state.
+    ///
+    /// @code{.cpp}
+    ///     Pair<Position, Velocity> cartesianState = { position, velocity } ;
+    ///     Derived mu = Derived(3.986004418e14, Derived::Unit::GravitationalParameter()) ;
+    ///     ModifiedEquinoctial meoe = ModifiedEquinoctial::Cartesian(cartesianState, mu) ;
+    /// @endcode
     ///
     /// @param [in] aCartesianState Cartesian state (position, velocity). Must be in an inertial frame.
     /// @param [in] aGravitationalParameter Gravitational parameter.
-    /// @return ModifiedEquinoctial
+    /// @return ModifiedEquinoctial.
     static ModifiedEquinoctial Cartesian(
         const Pair<Position, Velocity>& aCartesianState, const Derived& aGravitationalParameter
     );
 
-    /// @brief Create ModifiedEquinoctial from Classical Orbital Elements
+    /// @brief Create ModifiedEquinoctial from Classical Orbital Elements.
     ///
-    /// @param [in] aClassicalOrbitalElements Classical Orbital Elements
-    /// @return ModifiedEquinoctial
+    /// @code{.cpp}
+    ///     KeplerianCOE coe = { ... } ;
+    ///     ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(coe) ;
+    /// @endcode
+    ///
+    /// @param [in] aKeplerianElements Classical Orbital Elements.
+    /// @return ModifiedEquinoctial.
     static ModifiedEquinoctial COE(const KeplerianCOE& aKeplerianElements);
 
-    /// @brief Get string from ModifiedEquinoctial element
+    /// @brief Get string from ModifiedEquinoctial element.
     ///
-    /// @param [in] anElement An ModifiedEquinoctial element
-    /// @return String from ModifiedEquinoctial element
+    /// @code{.cpp}
+    ///     String str = ModifiedEquinoctial::StringFromElement(ModifiedEquinoctial::Element::SemiLatusRectum) ;
+    /// @endcode
+    ///
+    /// @param [in] anElement A ModifiedEquinoctial element.
+    /// @return String from ModifiedEquinoctial element.
     static String StringFromElement(const Element& anElement);
 
    private:

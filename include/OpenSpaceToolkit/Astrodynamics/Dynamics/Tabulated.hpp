@@ -40,19 +40,31 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 #define DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 
-/// @brief A tabulated dynamics that uses the provided contribution profile to compute the contribution to the dynamics.
+/// @brief Tabulated dynamics.
+///
+/// @details A dynamics model that uses a pre-computed contribution profile (a time-indexed matrix of
+/// values) to compute the contribution to the state derivative via interpolation. This is useful
+/// for representing dynamics from pre-computed maneuver profiles or externally generated force models.
 class Tabulated : public Dynamics
 {
    public:
     static const Shared<const Frame> DefaultContributionFrameSPtr;
 
-    /// @brief Constructor
+    /// @brief Constructor.
     ///
-    /// @param anInstantArray An array of instants, must be sorted
-    /// @param aContributionProfile A contribution profile, one row for each instant
-    /// @param aWriteCoordinateSubsets An array of coordinate subsets to write to
-    /// @param aFrameSPtr A frame
-    /// @param anInterpolationType An interpolation type
+    /// @code{.cpp}
+    ///     Array<Instant> instants = { ... } ;
+    ///     MatrixXd contributionProfile = { ... } ;
+    ///     Array<Shared<const CoordinateSubset>> writeCoordinateSubsets = { ... } ;
+    ///     Shared<const Frame> frameSPtr = Frame::GCRF() ;
+    ///     Tabulated tabulated = { instants, contributionProfile, writeCoordinateSubsets, frameSPtr } ;
+    /// @endcode
+    ///
+    /// @param anInstantArray An array of instants (must be sorted).
+    /// @param aContributionProfile A contribution profile matrix (one row for each instant).
+    /// @param aWriteCoordinateSubsets An array of coordinate subsets to write to.
+    /// @param aFrameSPtr A frame in which the contribution profile is expressed.
+    /// @param anInterpolationType An interpolation type (defaults to BarycentricRational).
     Tabulated(
         const Array<Instant>& anInstantArray,
         const MatrixXd& aContributionProfile,
@@ -61,77 +73,127 @@ class Tabulated : public Dynamics
         const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE
     );
 
-    /// @brief Output stream operator
+    /// @brief Stream insertion operator.
     ///
     /// @code{.cpp}
-    ///                  std::cout << Dynamics(...);
+    ///     Tabulated tabulated = { ... } ;
+    ///     std::cout << tabulated ;
     /// @endcode
     ///
-    /// @param anOutputStream An output stream
-    /// @param aTabulated A Tabulated dynamics
-    /// @return A reference to output stream
+    /// @param anOutputStream An output stream.
+    /// @param aTabulated A tabulated dynamics.
+    /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aDynamics);
 
-    /// @brief Access instants
+    /// @brief Access the instants.
     ///
-    /// @return The instants
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     const Array<Instant>& instants = tabulated.accessInstants() ;
+    /// @endcode
+    ///
+    /// @return A const reference to the array of instants.
     const Array<Instant>& accessInstants() const;
 
-    /// @brief Access contribution profile
+    /// @brief Access the contribution profile.
     ///
-    /// @return The contribution profile
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     const MatrixXd& profile = tabulated.accessContributionProfile() ;
+    /// @endcode
+    ///
+    /// @return A const reference to the contribution profile matrix.
     const MatrixXd& accessContributionProfile() const;
 
-    /// @brief Get contribution profile corresponding to a subset of coordinates
+    /// @brief Get the contribution profile corresponding to a subset of coordinates.
     ///
-    /// @param aCoordinateSubsetArray A coordinate subset
-    /// @return The contribution profile
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     Array<Shared<const CoordinateSubset>> subsets = { ... } ;
+    ///     MatrixXd profile = tabulated.getContributionProfileFromCoordinateSubsets(subsets) ;
+    /// @endcode
+    ///
+    /// @param aCoordinateSubsetArray An array of coordinate subsets.
+    /// @return The contribution profile matrix for the specified coordinate subsets.
     MatrixXd getContributionProfileFromCoordinateSubsets(
         const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetArray
     ) const;
 
-    /// @brief Access the frame
+    /// @brief Access the frame.
     ///
-    /// @return The frame
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     const Shared<const Frame>& frame = tabulated.accessFrame() ;
+    /// @endcode
+    ///
+    /// @return A const reference to the shared pointer to the frame.
     const Shared<const Frame>& accessFrame() const;
 
-    /// @brief Get the interpolation type
+    /// @brief Get the interpolation type.
     ///
-    /// @return The interpolation type
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     Interpolator::Type type = tabulated.getInterpolationType() ;
+    /// @endcode
+    ///
+    /// @return The interpolation type.
     Interpolator::Type getInterpolationType() const;
 
-    /// @brief Check if dynamics is defined (pure virtual)
+    /// @brief Check if the tabulated dynamics is defined.
     ///
-    /// @return True if dynamics is defined
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     bool defined = tabulated.isDefined() ;
+    /// @endcode
+    ///
+    /// @return True if the tabulated dynamics is defined.
     virtual bool isDefined() const override;
 
-    /// @brief Return the coordinate subsets that the instance reads from (there are none for Tabulated dynamics)
+    /// @brief Get the coordinate subsets that the instance reads from.
     ///
-    /// @return The coordinate subsets that the instance reads from
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     Array<Shared<const CoordinateSubset>> readSubsets = tabulated.getReadCoordinateSubsets() ;
+    /// @endcode
+    ///
+    /// @return The coordinate subsets that the instance reads from (empty for tabulated dynamics).
     virtual Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override;
 
-    /// @brief Return the coordinate subsets that the instance writes to
+    /// @brief Get the coordinate subsets that the instance writes to.
     ///
-    /// @return The coordinate subsets that the instance writes to
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     Array<Shared<const CoordinateSubset>> writeSubsets = tabulated.getWriteCoordinateSubsets() ;
+    /// @endcode
+    ///
+    /// @return The coordinate subsets that the instance writes to.
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
     /// @brief Compute the contribution to the state derivative.
     ///
-    /// @param anInstant An instant
-    /// @param x The reduced state vector (this vector will follow the structure determined by the
-    /// 'read' coordinate subsets)
-    /// @param aFrameSPtr The frame in which the state vector is expressed
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     VectorXd contribution = tabulated.computeContribution(anInstant, x, aFrameSPtr) ;
+    /// @endcode
     ///
-    /// @return The reduced derivative state vector (this vector must follow the structure determined by
-    /// the 'write' coordinate subsets) expressed in the given frame
+    /// @param anInstant An instant.
+    /// @param x The reduced state vector (follows the structure determined by the read coordinate subsets).
+    /// @param aFrameSPtr The frame in which the state vector is expressed.
+    /// @return The reduced derivative state vector (follows the structure determined by the write coordinate subsets)
+    /// expressed in the given frame.
     virtual VectorXd computeContribution(
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
 
-    /// @brief Print Tabulated dynamics
+    /// @brief Print the tabulated dynamics.
     ///
-    /// @param anOutputStream An output stream
-    /// @param (optional) displayDecorators If true, display decorators
+    /// @code{.cpp}
+    ///     Tabulated tabulated = { ... } ;
+    ///     tabulated.print(std::cout) ;
+    /// @endcode
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator If true, display decorators.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
