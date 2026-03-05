@@ -150,6 +150,11 @@ LeastSquaresSolver::LeastSquaresSolver(
       finiteDifferenceSolver_(aFiniteDifferenceSolver),
       scaleFactorGenerator_(aScaleFactorGenerator)
 {
+    if (!aScaleFactorGenerator)
+    {
+        throw ostk::core::error::RuntimeError("Scale factor generator must be defined.");
+    }
+
     if (aMaxIterationCount == 0)
     {
         throw ostk::core::error::RuntimeError("Max iteration count must be greater than 0.");
@@ -203,6 +208,16 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Compute scale factors using the generator
     const VectorXd scaleFactors = scaleFactorGenerator_(anInitialGuessState);
+
+    if (scaleFactors.size() != anInitialGuessState.getCoordinates().size())
+    {
+        throw ostk::core::error::RuntimeError("Scale factors must match the initial guess state dimension.");
+    }
+
+    if ((!scaleFactors.array().isFinite()).any() || (scaleFactors.array() <= 0.0).any())
+    {
+        throw ostk::core::error::RuntimeError("Scale factors must be finite and strictly greater than 0.");
+    }
 
     // Build the effective initial guess (normalized by scale factors)
     const StateBuilder initialGuessStateBuilder(anInitialGuessState);
@@ -266,9 +281,15 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     VectorXd xApriori = VectorXd::Zero(estimationStateDimension);
 
     // P̄⁻¹ = diag(1/σ²)
-    const MatrixXd PAprioriInverse = anInitialGuessSigmas.empty()
-                                       ? MatrixXd::Zero(estimationStateDimension, estimationStateDimension)
-                                       : extractInverseSquaredSigmas(anInitialGuessSigmas, estimationStateBuilder);
+    MatrixXd PAprioriInverse = anInitialGuessSigmas.empty()
+                                 ? MatrixXd::Zero(estimationStateDimension, estimationStateDimension)
+                                 : extractInverseSquaredSigmas(anInitialGuessSigmas, estimationStateBuilder);
+
+    if (!anInitialGuessSigmas.empty())
+    {
+        const MatrixXd S = scaleFactors.asDiagonal();
+        PAprioriInverse = S * PAprioriInverse * S;
+    }
 
     // Setup measurement covariance matrix
     // R⁻¹ = diag(1/σ²)
@@ -407,9 +428,11 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Denormalize outputs
     {
+        const State finalNormalizedEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
+
         // Denormalize the estimated state
-        const VectorXd denormCoords = currentEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
-        currentEstimatedState = initialGuessStateBuilder.build(currentEstimatedState.getInstant(), denormCoords);
+        const VectorXd denormCoords = finalNormalizedEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
+        currentEstimatedState = initialGuessStateBuilder.build(estimatedStateInstant, denormCoords);
 
         // Transform covariances: P_denorm = S * P_norm * S
         const MatrixXd S = scaleFactors.asDiagonal();

@@ -328,6 +328,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Constructor)
         EXPECT_THROW(LeastSquaresSolver(0, 1.0), ostk::core::error::RuntimeError);
         EXPECT_THROW(LeastSquaresSolver(20, 0.0), ostk::core::error::RuntimeError);
         EXPECT_THROW(LeastSquaresSolver(20, -1.0), ostk::core::error::RuntimeError);
+        EXPECT_THROW(LeastSquaresSolver(20, 1.0, finiteDifferenceSolver_, nullptr), ostk::core::error::RuntimeError);
     }
 }
 
@@ -534,6 +535,64 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
 
         EXPECT_THROW(
             solver_.solve(initialGuessState_, observationStates_, generateStates_, invalidSigmas, observationSigmas_),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Test scale factors incorrect size
+    {
+        const LeastSquaresSolver::ScaleFactorGenerator incorrectSizeGenerator = [](const State& aState) -> VectorXd
+        {
+            return VectorXd::Constant(aState.getCoordinates().size() + 1, 1.0);
+        };
+
+        const LeastSquaresSolver solver = {
+            maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_, incorrectSizeGenerator
+        };
+
+        EXPECT_THROW(
+            solver.solve(
+                initialGuessState_, observationStates_, generateStates_, initialGuessSigmas_, observationSigmas_
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Test scale factors not finite
+    {
+        const LeastSquaresSolver::ScaleFactorGenerator notFiniteGenerator = [](const State& aState) -> VectorXd
+        {
+            return VectorXd::Constant(aState.getCoordinates().size(), std::numeric_limits<double>::infinity());
+        };
+
+        const LeastSquaresSolver solver = {
+            maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_, notFiniteGenerator
+        };
+
+        EXPECT_THROW(
+            solver.solve(
+                initialGuessState_, observationStates_, generateStates_, initialGuessSigmas_, observationSigmas_
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Test scale factors not strictly greater than 0
+    {
+        const LeastSquaresSolver::ScaleFactorGenerator notStrictlyGreaterThan0Generator = [](const State& aState
+                                                                                          ) -> VectorXd
+        {
+            return VectorXd::Constant(aState.getCoordinates().size(), 0.0);
+        };
+
+        const LeastSquaresSolver solver = {
+            maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_, notStrictlyGreaterThan0Generator
+        };
+
+        EXPECT_THROW(
+            solver.solve(
+                initialGuessState_, observationStates_, generateStates_, initialGuessSigmas_, observationSigmas_
+            ),
             ostk::core::error::RuntimeError
         );
     }
