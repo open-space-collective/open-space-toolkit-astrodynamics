@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
@@ -55,6 +56,7 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::estimator::TLESolver;
+using ostk::astrodynamics::solver::FiniteDifferenceSolver;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
@@ -64,7 +66,7 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-Array<State> loadData(const String& aFileName)
+Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrameSPtr = Frame::ITRF())
 {
     Array<State> observations;
 
@@ -80,12 +82,10 @@ Array<State> loadData(const String& aFileName)
     {
         const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].accessString()), Scale::UTC);
         const Position position = Position::Meters(
-            {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()},
-            Frame::ITRF()
+            {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()}, aFrameSPtr
         );
         const Velocity velocity = Velocity::MetersPerSecond(
-            {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()},
-            Frame::ITRF()
+            {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()}, aFrameSPtr
         );
 
         const State state = State(instant, position, velocity);
@@ -210,7 +210,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Accessors)
         EXPECT_EQ(tleSolver_.accessInternationalDesignator(), "00001A");
         EXPECT_EQ(tleSolver_.accessRevolutionNumber(), 0);
         EXPECT_EQ(tleSolver_.accessEstimateBStar(), true);
-        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::GCRF());
+        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::TEME());
         EXPECT_EQ(tleSolver_.accessDefaultBStar(), 0.0);
         EXPECT_EQ(tleSolver_.accessFirstDerivativeMeanMotionDividedBy2(), 0.0);
         EXPECT_EQ(tleSolver_.accessSecondDerivativeMeanMotionDividedBy6(), 0.0);
@@ -477,5 +477,67 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)
             EXPECT_LT(positionDelta.norm(), 10000.0);
             EXPECT_LT(velocityDelta.norm(), 12.0);
         }
+    }
+}
+
+// Regression test: Without normalization, this dataset produces satellite decayed during iteration.
+// With normalization enabled, the solver converges correctly.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDecayed)
+{
+    const Array<State> observations = loadData("satellite_decayed_observations", Frame::GCRF());
+
+    const LeastSquaresSolver leastSquaresSolver = {
+        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+    };
+    const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
+
+    const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
+
+    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+
+    // Verify the estimated TLE is valid by propagating
+    const TLE estimatedTLE = analysis.estimatedTLE;
+    const SGP4 sgp4(estimatedTLE);
+
+    for (Size i = 0; i < observations.getSize(); i += 100)
+    {
+        const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
+        const Vector3d positionDelta =
+            propagatedState.getPosition().getCoordinates() -
+            observations[i].inFrame(propagatedState.accessFrame()).getPosition().getCoordinates();
+
+        EXPECT_LT(positionDelta.norm(), 5000.0);
+    }
+}
+
+// Regression test: Without nomrialization, this dataset produces an eccentricity > 1 during iteration.
+// With normalization enabled, the solver converges correctly.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
+{
+    const Array<State> observations = loadData("eccentricity_over_1_observations", Frame::TEME());
+
+    const LeastSquaresSolver leastSquaresSolver = {
+        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+    };
+    const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
+
+    const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
+
+    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+
+    // Verify the estimated TLE is valid by propagating
+    const TLE estimatedTLE = analysis.estimatedTLE;
+    const SGP4 sgp4(estimatedTLE);
+
+    for (Size i = 0; i < observations.getSize(); i += 100)
+    {
+        const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
+        const Vector3d positionDelta =
+            propagatedState.getPosition().getCoordinates() -
+            observations[i].inFrame(propagatedState.accessFrame()).getPosition().getCoordinates();
+
+        EXPECT_LT(positionDelta.norm(), 5000.0);
     }
 }

@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver__
 #define __OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver__
 
+#include <functional>
 #include <unordered_map>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
@@ -56,6 +57,8 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class LeastSquaresSolver
 {
    public:
+    using ScaleFactorGenerator = std::function<VectorXd(const State&)>;
+
     /// @brief A single iteration step of the least squares solver.
     class Step
     {
@@ -132,6 +135,25 @@ class LeastSquaresSolver
         const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER
     );
 
+    /// @brief Constructor with custom scale factor generator
+    ///
+    /// @code{.cpp}
+    ///     auto solver = LeastSquaresSolver(
+    ///         20, 1.0, FiniteDifferenceSolver.default(), LeastSquaresSolver.max_absolute_coordinate_scaling()
+    ///     );
+    /// @endcode
+    ///
+    /// @param aMaxIterationCount Maximum number of iterations
+    /// @param aRmsUpdateThreshold Minimum RMS threshold
+    /// @param aFiniteDifferenceSolver Finite difference solver
+    /// @param aScaleFactorGenerator Function to generate scale factors from a state
+    LeastSquaresSolver(
+        const Size& aMaxIterationCount,
+        const Real& aRmsUpdateThreshold,
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver,
+        const ScaleFactorGenerator& aScaleFactorGenerator
+    );
+
     /// @brief Get max iteration count
     ///
     /// @return Max iteration count
@@ -146,6 +168,15 @@ class LeastSquaresSolver
     ///
     /// @return Finite difference solver
     FiniteDifferenceSolver getFiniteDifferenceSolver() const;
+
+    /// @brief Get the scale factor generator
+    ///
+    /// @code{.cpp}
+    ///     auto generator = solver.getScaleFactorGenerator();
+    /// @endcode
+    ///
+    /// @return Scale factor generator function
+    ScaleFactorGenerator getScaleFactorGenerator() const;
 
     /// @brief Solve the non-linear least squares problem
     /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for
@@ -173,6 +204,24 @@ class LeastSquaresSolver
     /// @return Empirical covariance
     static MatrixXd calculateEmpiricalCovariance(const Array<State>& aResidualStateArray);
 
+    /// @brief Create a scale factor generator that returns all ones (no scaling)
+    ///
+    /// @code{.cpp}
+    ///     auto generator = LeastSquaresSolver.no_scaling();
+    /// @endcode
+    ///
+    /// @return ScaleFactorGenerator that performs no scaling
+    static ScaleFactorGenerator NoScaling();
+
+    /// @brief Create a scale factor generator that uses max absolute coordinate values
+    ///
+    /// @code{.cpp}
+    ///     auto generator = LeastSquaresSolver.max_absolute_coordinate_scaling();
+    /// @endcode
+    ///
+    /// @return ScaleFactorGenerator that scales by max(|coord_i|, 1e-8)
+    static ScaleFactorGenerator MaxAbsoluteCoordinateScaling();
+
     /// @brief Default constructor
     ///
     /// @code{.cpp}
@@ -186,6 +235,7 @@ class LeastSquaresSolver
     Size maxIterationCount_;
     Real rmsUpdateThreshold_;
     FiniteDifferenceSolver finiteDifferenceSolver_;
+    ScaleFactorGenerator scaleFactorGenerator_;
 
     /// @brief Extract the inverse squares of the sigmas
     ///

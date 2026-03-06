@@ -125,8 +125,36 @@ LeastSquaresSolver::LeastSquaresSolver(
 )
     : maxIterationCount_(aMaxIterationCount),
       rmsUpdateThreshold_(aRmsUpdateThreshold),
-      finiteDifferenceSolver_(aFiniteDifferenceSolver)
+      finiteDifferenceSolver_(aFiniteDifferenceSolver),
+      scaleFactorGenerator_(NoScaling())
 {
+    if (aMaxIterationCount == 0)
+    {
+        throw ostk::core::error::RuntimeError("Max iteration count must be greater than 0.");
+    }
+
+    if (aRmsUpdateThreshold <= 0.0)
+    {
+        throw ostk::core::error::RuntimeError("RMS update threshold must be greater than 0.");
+    }
+}
+
+LeastSquaresSolver::LeastSquaresSolver(
+    const Size& aMaxIterationCount,
+    const Real& aRmsUpdateThreshold,
+    const FiniteDifferenceSolver& aFiniteDifferenceSolver,
+    const ScaleFactorGenerator& aScaleFactorGenerator
+)
+    : maxIterationCount_(aMaxIterationCount),
+      rmsUpdateThreshold_(aRmsUpdateThreshold),
+      finiteDifferenceSolver_(aFiniteDifferenceSolver),
+      scaleFactorGenerator_(aScaleFactorGenerator)
+{
+    if (!aScaleFactorGenerator)
+    {
+        throw ostk::core::error::RuntimeError("Scale factor generator must be defined.");
+    }
+
     if (aMaxIterationCount == 0)
     {
         throw ostk::core::error::RuntimeError("Max iteration count must be greater than 0.");
@@ -153,6 +181,11 @@ FiniteDifferenceSolver LeastSquaresSolver::getFiniteDifferenceSolver() const
     return finiteDifferenceSolver_;
 }
 
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::getScaleFactorGenerator() const
+{
+    return scaleFactorGenerator_;
+}
+
 LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const State& anInitialGuessState,
     const Array<State>& anObservationStateArray,
@@ -173,10 +206,41 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         throw ostk::core::error::runtime::Undefined("Observation state array");
     }
 
+    // Compute scale factors using the generator
+    const VectorXd scaleFactors = scaleFactorGenerator_(anInitialGuessState);
+
+    if (scaleFactors.size() != anInitialGuessState.getCoordinates().size())
+    {
+        throw ostk::core::error::RuntimeError("Scale factors must match the initial guess state dimension.");
+    }
+
+    if ((!scaleFactors.array().isFinite()).any() || (scaleFactors.array() <= 0.0).any())
+    {
+        throw ostk::core::error::RuntimeError("Scale factors must be finite and strictly greater than 0.");
+    }
+
+    // Build the effective initial guess (normalized by scale factors)
+    const StateBuilder initialGuessStateBuilder(anInitialGuessState);
+    const State effectiveInitialGuessState = initialGuessStateBuilder.build(
+        anInitialGuessState.getInstant(), anInitialGuessState.getCoordinates().cwiseQuotient(scaleFactors)
+    );
+
+    // Wrap state generator to denormalize before calling the original
+    const std::function<Array<State>(const State&, const Array<Instant>&)> effectiveStateGenerator =
+        [&aStateGenerator,
+         &initialGuessStateBuilder,
+         &scaleFactors](const State& aNormalizedState, const Array<Instant>& anInstantArray) -> Array<State>
+    {
+        const VectorXd denormalizedCoords = aNormalizedState.getCoordinates().cwiseProduct(scaleFactors);
+        const State denormalizedState =
+            initialGuessStateBuilder.build(aNormalizedState.getInstant(), denormalizedCoords);
+        return aStateGenerator(denormalizedState, anInstantArray);
+    };
+
     // Setup state builders
-    const Instant estimatedStateInstant = anInitialGuessState.getInstant();
-    const StateBuilder estimationStateBuilder(anInitialGuessState);
-    const Shared<const Frame>& estimationStateFrame = anInitialGuessState.accessFrame();
+    const Instant estimatedStateInstant = effectiveInitialGuessState.getInstant();
+    const StateBuilder estimationStateBuilder(effectiveInitialGuessState);
+    const Shared<const Frame>& estimationStateFrame = effectiveInitialGuessState.accessFrame();
     const StateBuilder observationStateBuilder(anObservationStateArray[0]);
     const Array<Shared<const CoordinateSubset>> observationStateSubsets =
         observationStateBuilder.getCoordinateSubsets();
@@ -217,9 +281,15 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     VectorXd xApriori = VectorXd::Zero(estimationStateDimension);
 
     // P̄⁻¹ = diag(1/σ²)
-    const MatrixXd PAprioriInverse = anInitialGuessSigmas.empty()
-                                       ? MatrixXd::Zero(estimationStateDimension, estimationStateDimension)
-                                       : extractInverseSquaredSigmas(anInitialGuessSigmas, estimationStateBuilder);
+    MatrixXd PAprioriInverse = anInitialGuessSigmas.empty()
+                                 ? MatrixXd::Zero(estimationStateDimension, estimationStateDimension)
+                                 : extractInverseSquaredSigmas(anInitialGuessSigmas, estimationStateBuilder);
+
+    if (!anInitialGuessSigmas.empty())
+    {
+        const MatrixXd S = scaleFactors.asDiagonal();
+        PAprioriInverse = S * PAprioriInverse * S;
+    }
 
     // Setup measurement covariance matrix
     // R⁻¹ = diag(1/σ²)
@@ -229,7 +299,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Initialize state vectors
     // X∗ (nominal trajectory)
-    VectorXd XNom = anInitialGuessState.accessCoordinates();
+    VectorXd XNom = effectiveInitialGuessState.accessCoordinates();
     // x̂ = X - X∗
     VectorXd xHat = VectorXd::Zero(estimationStateDimension);
 
@@ -251,7 +321,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     // Compute observation coordinates in the estimation frame
     const auto computeObservationsCoordinates = [&](const State& state, const Array<Instant>& instants) -> MatrixXd
     {
-        const Array<State> states = aStateGenerator(state, instants);
+        const Array<State> states = effectiveStateGenerator(state, instants);
 
         MatrixXd coordinates(observationStateDimension, observationCount);
 
@@ -302,6 +372,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         {
             // yᵢ = Yᵢ - G(X∗ᵢ)
             const VectorXd& y = residualCoordinates.col(i);
+
             // Hᵢ = H(tᵢ,t₀) (observations sensitivity matrix for current observations)
             const MatrixXd& H = HFull[i];
 
@@ -341,7 +412,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Compute final covariance matrices
     // P̂ = Λ⁻¹
-    const MatrixXd PHat = Lambda.ldlt().solve(MatrixXd::Identity(Lambda.rows(), Lambda.cols()));
+    MatrixXd PHat = Lambda.ldlt().solve(MatrixXd::Identity(Lambda.rows(), Lambda.cols()));
 
     // Pₑ = P̂ Pₑ P̂
     PHatFrisbee = PHat * PHatFrisbee * PHat;
@@ -354,6 +425,27 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             anObservationStateArray[i].getInstant(), computedObservationCoordinates.col(i)
         ));
     }
+
+    // Denormalize outputs
+    {
+        const State finalNormalizedEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
+
+        // Denormalize the estimated state
+        const VectorXd denormCoords = finalNormalizedEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
+        currentEstimatedState = initialGuessStateBuilder.build(estimatedStateInstant, denormCoords);
+
+        // Transform covariances: P_denorm = S * P_norm * S
+        const MatrixXd S = scaleFactors.asDiagonal();
+        PHat = S * PHat * S;
+        PHatFrisbee = S * PHatFrisbee * S;
+
+        // Denormalize step xHat values
+        for (auto& step : steps)
+        {
+            step.xHat = step.xHat.cwiseProduct(scaleFactors);
+        }
+    }
+
     return Analysis(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
 }
 
@@ -374,6 +466,28 @@ MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aR
     }
 
     return (coordinates.transpose() * coordinates) / count;
+}
+
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::NoScaling()
+{
+    return [](const State& aState) -> VectorXd
+    {
+        return VectorXd::Ones(aState.getCoordinates().size());
+    };
+}
+
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+{
+    return [](const State& aState) -> VectorXd
+    {
+        const VectorXd coordinates = aState.getCoordinates();
+        VectorXd scaleFactors(coordinates.size());
+        for (Eigen::Index i = 0; i < coordinates.size(); ++i)
+        {
+            scaleFactors(i) = std::max(std::abs(coordinates(i)), 1e-8);
+        }
+        return scaleFactors;
+    };
 }
 
 LeastSquaresSolver LeastSquaresSolver::Default()

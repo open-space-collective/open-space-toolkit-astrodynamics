@@ -2,6 +2,7 @@
 /// Apache License 2.0
 
 #include <pybind11/eigen.h>
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
@@ -219,11 +220,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Args:
                     maximum_iteration_count (int): Maximum number of iterations.
                     rms_update_threshold (float): Minimum RMS threshold.
-                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver. Defaults to FiniteDifferenceSolver.Default().
+                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver. Defaults to FiniteDifferenceSolver.default().
             )doc",
             arg("maximum_iteration_count"),
             arg("rms_update_threshold"),
             arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.default()")
+        )
+        .def(
+            init<
+                const Size&,
+                const Real&,
+                const FiniteDifferenceSolver&,
+                const LeastSquaresSolver::ScaleFactorGenerator&>(),
+            R"doc(
+                Constructor with custom scale factor generator.
+
+                Args:
+                    maximum_iteration_count (int): Maximum number of iterations.
+                    rms_update_threshold (float): Minimum RMS threshold.
+                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver.
+                    scale_factor_generator (callable): Function taking a State and returning scale factors as np.ndarray.
+            )doc",
+            arg("maximum_iteration_count"),
+            arg("rms_update_threshold"),
+            arg("finite_difference_solver"),
+            arg("scale_factor_generator")
         )
         .def(
             "get_max_iteration_count",
@@ -253,6 +274,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
                 Returns:
                     FiniteDifferenceSolver: The finite difference solver.
+            )doc"
+        )
+        .def(
+            "get_scale_factor_generator",
+            &LeastSquaresSolver::getScaleFactorGenerator,
+            R"doc(
+                Get the scale factor generator function.
+
+                Returns:
+                    callable: The scale factor generator function.
             )doc"
         )
         .def(
@@ -293,6 +324,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                     ostk::core::error::runtime::Undefined: If the residual array is empty.
             )doc",
             arg("residuals")
+        )
+        .def_static(
+            "no_scaling",
+            &LeastSquaresSolver::NoScaling,
+            R"doc(
+                Create a scale factor generator that returns all ones (no scaling).
+
+                Returns:
+                    callable: A scale factor generator that performs no scaling.
+            )doc"
+        )
+        .def_static(
+            "max_absolute_coordinate_scaling",
+            &LeastSquaresSolver::MaxAbsoluteCoordinateScaling,
+            R"doc(
+                Create a scale factor generator that uses max absolute coordinate values.
+
+                Returns:
+                    callable: A scale factor generator that scales by max(|coord_i|, 1e-8).
+            )doc"
         )
         .def_static(
             "default",

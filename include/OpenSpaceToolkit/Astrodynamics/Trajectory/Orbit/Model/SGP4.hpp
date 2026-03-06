@@ -5,9 +5,11 @@
 
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
@@ -30,8 +32,11 @@ namespace model
 
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
+
+using ostk::physics::coordinate::Frame;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
@@ -50,12 +55,25 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Construct an SGP4 model from a TLE.
     ///
     /// @code{.cpp}
-    ///     TLE tle = TLE::Load(File::Path(Path::Parse("/path/to/tle.txt")));
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
     ///     SGP4 sgp4 = SGP4(tle);
     /// @endcode
     ///
     /// @param aTle A Two-Line Element set.
     SGP4(const TLE& aTle);
+
+    /// @brief Construct an SGP4 model from a TLE and an output frame.
+    ///
+    /// @code{.cpp}
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
+    ///     SGP4 sgp4 = SGP4(tle, Frame::GCRF());
+    /// @endcode
+    ///
+    /// @param aTle A Two-Line Element set.
+    /// @param anOutputFrameSPtr An output frame.
+    SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr);
 
     /// @brief Copy constructor.
     ///
@@ -97,20 +115,50 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 
     /// @brief Check if the SGP4 model is defined.
     ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tle);
+    ///     bool isDefined = sgp4.isDefined();
+    /// @endcode
+    ///
     /// @return True if the model is defined.
     virtual bool isDefined() const override;
 
     /// @brief Get the TLE associated with this model.
     ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tle);
+    ///     TLE tle = sgp4.getTle();
+    /// @endcode
+    ///
     /// @return The Two-Line Element set.
     TLE getTle() const;
 
+    /// @brief Get the output frame of the SGP4 model.
+    ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tle);
+    ///     Frame outputFrame = sgp4.getOutputFrame();
+    /// @endcode
+    ///
+    /// @return The output frame.
+    Shared<const Frame> getOutputFrame() const;
+
     /// @brief Get the epoch of the SGP4 model.
+    ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tle);
+    ///     Instant epoch = sgp4.getEpoch();
+    /// @endcode
     ///
     /// @return The epoch instant.
     virtual Instant getEpoch() const override;
 
     /// @brief Get the revolution number at epoch.
+    ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tle);
+    ///     Integer revolutionNumber = sgp4.getRevolutionNumberAtEpoch();
+    /// @endcode
     ///
     /// @return The revolution number at epoch.
     virtual Integer getRevolutionNumberAtEpoch() const override;
@@ -141,6 +189,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     class Impl;
 
     TLE tle_;
+    Shared<const Frame> outputFrameSPtr_;
 
     Unique<SGP4::Impl> implUPtr_;
 };

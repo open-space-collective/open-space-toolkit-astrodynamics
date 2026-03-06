@@ -26,38 +26,64 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::container::Array;
+using ostk::core::container::Table;
+using ostk::core::filesystem::File;
+using ostk::core::filesystem::Path;
+using ostk::core::type::Real;
+using ostk::core::type::Shared;
+
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
+using ostk::mathematics::object::Vector3d;
+
+using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
+using ostk::physics::Environment;
+using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
+using ostk::physics::unit::Angle;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+
+using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::SGP4;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+using ostk::astrodynamics::trajectory::State;
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    // Default constructor outputs in GCRF
+    {
+        const SGP4 sgp4(tle);
+        EXPECT_EQ(Frame::GCRF(), sgp4.getOutputFrame());
+
+        const State state = sgp4.calculateStateAt(tle.getEpoch());
+        EXPECT_EQ(*Frame::GCRF(), *state.accessFrame());
+    }
+
+    // Constructor with TEME output frame
+    {
+        const SGP4 sgp4(tle, Frame::TEME());
+        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
+
+        const State state = sgp4.calculateStateAt(tle.getEpoch());
+        EXPECT_EQ(*Frame::TEME(), *state.accessFrame());
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 {
-    using ostk::core::container::Array;
-    using ostk::core::container::Table;
-    using ostk::core::filesystem::File;
-    using ostk::core::filesystem::Path;
-    using ostk::core::type::Real;
-    using ostk::core::type::Shared;
-
-    using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
-    using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::coordinate::Frame;
-    using ostk::physics::coordinate::Position;
-    using ostk::physics::coordinate::Velocity;
-    using ostk::physics::Environment;
-    using ostk::physics::environment::object::celestial::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::unit::Angle;
-    using ostk::physics::unit::Derived;
-    using ostk::physics::unit::Length;
-
-    using ostk::astrodynamics::trajectory::Orbit;
-    using ostk::astrodynamics::trajectory::orbit::model::SGP4;
-    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
-    using ostk::astrodynamics::trajectory::State;
-
     {
         // Environment setup
 

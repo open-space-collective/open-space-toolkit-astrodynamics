@@ -8,6 +8,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 {
     using namespace pybind11;
 
+    using ostk::core::type::Shared;
+
+    using ostk::physics::coordinate::Frame;
+
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 
@@ -36,6 +40,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             )
 
             .def(
+                init<TLE, Shared<const Frame>>(),
+                R"doc(
+                    Constructor with output frame.
+
+                    Args:
+                        tle (TLE): The TLE.
+                        output_frame (Frame): The output frame for state calculations.
+
+                )doc",
+                arg("tle"),
+                arg("output_frame")
+            )
+
+            .def(
                 "is_defined",
                 &SGP4::isDefined,
                 R"doc(
@@ -55,6 +73,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                     Returns:
                         TLE: The TLE.
+
+                )doc"
+            )
+
+            .def(
+                "get_output_frame",
+                &SGP4::getOutputFrame,
+                R"doc(
+                    Get the output frame of the `SGP4` model.
+
+                    Returns:
+                        Frame: The output frame.
 
                 )doc"
             )
