@@ -476,7 +476,7 @@ LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::NoScaling()
     };
 }
 
-LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
 {
     return [](const State& aState) -> VectorXd
     {

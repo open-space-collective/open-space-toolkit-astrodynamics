@@ -211,7 +211,7 @@ class TLESolver
     String internationalDesignator_;
     Integer revolutionNumber_;
     bool estimateBStar_;
-    Shared<const Frame> estimationFrameSPtr_;
+    const Shared<const Frame> estimationFrameSPtr_ = Frame::TEME();
 
     mutable Real defaultBStar_;
     Real firstDerivativeMeanMotionDividedBy2_;

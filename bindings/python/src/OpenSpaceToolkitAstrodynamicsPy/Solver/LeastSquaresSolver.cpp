@@ -336,8 +336,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             )doc"
         )
         .def_static(
-            "max_absolute_coordinate_scaling",
-            &LeastSquaresSolver::MaxAbsoluteCoordinateScaling,
+            "maximum_absolute_coordinate_scaling",
+            &LeastSquaresSolver::MaximumAbsoluteCoordinateScaling,
             R"doc(
                 Create a scale factor generator that uses max absolute coordinate values.
 

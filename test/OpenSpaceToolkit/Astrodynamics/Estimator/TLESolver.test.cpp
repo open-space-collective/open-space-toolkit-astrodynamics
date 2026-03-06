@@ -487,7 +487,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
     const Array<State> observations = loadData("satellite_decayed_observations", Frame::GCRF());
 
     const LeastSquaresSolver leastSquaresSolver = {
-        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
     };
     const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
 
@@ -511,14 +511,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
     }
 }
 
-// Regression test: Without nomrialization, this dataset produces an eccentricity > 1 during iteration.
+// Regression test: Without normalization, this dataset produces an eccentricity > 1 during iteration.
 // With normalization enabled, the solver converges correctly.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
 {
     const Array<State> observations = loadData("eccentricity_over_1_observations", Frame::TEME());
 
     const LeastSquaresSolver leastSquaresSolver = {
-        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+        20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
     };
     const TLESolver solver = {leastSquaresSolver, 0, "00001A", 0, true};
 
