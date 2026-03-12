@@ -434,8 +434,9 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         const State finalNormalizedEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
 
         // Denormalize the estimated state
-        const VectorXd denormCoordinates = finalNormalizedEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
-        currentEstimatedState = initialGuessStateBuilder.build(estimatedStateInstant, denormCoordinates);
+        const VectorXd denormalizedCoordinates =
+            finalNormalizedEstimatedState.getCoordinates().cwiseProduct(scaleFactors);
+        currentEstimatedState = initialGuessStateBuilder.build(estimatedStateInstant, denormalizedCoordinates);
 
         // Denormalize covariances: P_denorm = S * P_norm * S
         const MatrixXd S = scaleFactors.asDiagonal();
