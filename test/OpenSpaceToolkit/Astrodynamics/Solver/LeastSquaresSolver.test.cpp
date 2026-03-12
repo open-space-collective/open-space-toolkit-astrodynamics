@@ -320,7 +320,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Constructor)
             maxIterationCount_,
             rmsUpdateThreshold_,
             finiteDifferenceSolver_,
-            LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+            LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
         ));
     }
 
@@ -346,7 +346,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Getters)
             maxIterationCount_,
             rmsUpdateThreshold_,
             finiteDifferenceSolver_,
-            LeastSquaresSolver::MaxAbsoluteCoordinateScaling()
+            LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
         };
         EXPECT_NE(scaledSolver.getScaleFactorGenerator(), nullptr);
     }
@@ -360,9 +360,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, NoScaling)
     EXPECT_TRUE(scaleFactors.isApprox(VectorXd::Ones(scaleFactors.size())));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, MaxAbsoluteCoordinateScaling)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, MaximumAbsoluteCoordinateScaling)
 {
-    const auto generator = LeastSquaresSolver::MaxAbsoluteCoordinateScaling();
+    const auto generator = LeastSquaresSolver::MaximumAbsoluteCoordinateScaling();
     const VectorXd scaleFactors = generator(trueState_);
     const VectorXd coords = trueState_.getCoordinates();
     EXPECT_EQ(scaleFactors.size(), coords.size());

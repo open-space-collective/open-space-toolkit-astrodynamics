@@ -287,7 +287,7 @@ class TestLeastSquaresSolver:
             maximum_iteration_count=20,
             rms_update_threshold=1.0,
             finite_difference_solver=FiniteDifferenceSolver.default(),
-            scale_factor_generator=LeastSquaresSolver.max_absolute_coordinate_scaling(),
+            scale_factor_generator=LeastSquaresSolver.maximum_absolute_coordinate_scaling(),
         )
         assert solver.get_scale_factor_generator() is not None
 
@@ -296,7 +296,7 @@ class TestLeastSquaresSolver:
         assert generator is not None
 
     def test_max_absolute_coordinate_scaling(self):
-        generator = LeastSquaresSolver.max_absolute_coordinate_scaling()
+        generator = LeastSquaresSolver.maximum_absolute_coordinate_scaling()
         assert generator is not None
 
     def test_custom_scale_factor_generator(

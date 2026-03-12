@@ -139,14 +139,15 @@ class LeastSquaresSolver
     ///
     /// @code{.cpp}
     ///     auto solver = LeastSquaresSolver(
-    ///         20, 1.0, FiniteDifferenceSolver.default(), LeastSquaresSolver.max_absolute_coordinate_scaling()
+    ///         20, 1.0, FiniteDifferenceSolver.default(), LeastSquaresSolver.maximum_absolute_coordinate_scaling()
     ///     );
     /// @endcode
     ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
     /// @param aFiniteDifferenceSolver Finite difference solver
-    /// @param aScaleFactorGenerator Function to generate scale factors from a state
+    /// @param aScaleFactorGenerator Function to generate scale factors from a state. Normalizing the decision vector
+    /// ensures that the jacobian is well-conditioned.
     LeastSquaresSolver(
         const Size& aMaxIterationCount,
         const Real& aRmsUpdateThreshold,
@@ -207,20 +208,21 @@ class LeastSquaresSolver
     /// @brief Create a scale factor generator that returns all ones (no scaling)
     ///
     /// @code{.cpp}
-    ///     auto generator = LeastSquaresSolver.no_scaling();
+    ///     auto generator = LeastSquaresSolver::NoScaling();
     /// @endcode
     ///
     /// @return ScaleFactorGenerator that performs no scaling
     static ScaleFactorGenerator NoScaling();
 
-    /// @brief Create a scale factor generator that uses max absolute coordinate values
+    /// @brief Create a scale factor generator that uses max absolute coordinate values.
+    /// This is done by scaling the decision variables by max(|coord_i|, 1e-8).
     ///
     /// @code{.cpp}
-    ///     auto generator = LeastSquaresSolver.max_absolute_coordinate_scaling();
+    ///     auto generator = LeastSquaresSolver::MaximumAbsoluteCoordinateScaling();
     /// @endcode
     ///
     /// @return ScaleFactorGenerator that scales by max(|coord_i|, 1e-8)
-    static ScaleFactorGenerator MaxAbsoluteCoordinateScaling();
+    static ScaleFactorGenerator MaximumAbsoluteCoordinateScaling();
 
     /// @brief Default constructor
     ///

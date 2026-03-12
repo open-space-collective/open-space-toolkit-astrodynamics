@@ -42,7 +42,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             .def(
                 init<TLE, Shared<const Frame>>(),
                 R"doc(
-                    Constructor with output frame.
+                    Constructor with output frame. If TEME, the runtime is faster as no frame
+                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
 
                     Args:
                         tle (TLE): The TLE.

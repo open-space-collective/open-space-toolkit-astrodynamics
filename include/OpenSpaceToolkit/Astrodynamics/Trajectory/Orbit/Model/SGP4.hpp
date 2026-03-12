@@ -63,12 +63,13 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aTle A Two-Line Element set.
     SGP4(const TLE& aTle);
 
-    /// @brief Construct an SGP4 model from a TLE and an output frame.
+    /// @brief Construct an SGP4 model from a TLE and an output frame. If TEME, the runtime is faster as no frame
+    /// transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
     ///
     /// @code{.cpp}
     ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
-    ///     SGP4 sgp4 = SGP4(tle, Frame::GCRF());
+    ///     SGP4 sgp4 = SGP4(tle, Frame::TEME());
     /// @endcode
     ///
     /// @param aTle A Two-Line Element set.

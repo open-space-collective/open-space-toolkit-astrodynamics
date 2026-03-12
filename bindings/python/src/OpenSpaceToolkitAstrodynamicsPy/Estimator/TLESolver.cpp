@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     international_designator (str, optional): International designator for TLE. Defaults to "00001A".
                     revolution_number (int, optional): Revolution number. Defaults to 0.
                     estimate_b_star (bool, optional): Whether to also estimate the B* parameter. Defaults to True.
-                    estimation_frame (Frame, optional): Deprecated. Estimation is always performed in TEME. Providing a non-TEME frame will emit a deprecation warning.
+                    estimation_frame (Frame, optional): (Deprecated) Solving is done natively in TEME. This field will be removed in a future version.
             )doc"
         )
         .def(
