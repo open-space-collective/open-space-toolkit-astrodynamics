@@ -88,7 +88,6 @@ TLESolver::TLESolver(
       internationalDesignator_(anInternationalDesignator),
       revolutionNumber_(aRevolutionNumber),
       estimateBStar_(anEstimateBStar),
-      estimationFrameSPtr_(anEstimationFrameSPtr),
       defaultBStar_(0.0),
       firstDerivativeMeanMotionDividedBy2_(0.0),
       secondDerivativeMeanMotionDividedBy6_(0.0),
@@ -99,9 +98,7 @@ TLESolver::TLESolver(
     if (anEstimationFrameSPtr != Frame::TEME())
     {
         std::cerr
-            << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. For best performance, use "
-               "the default TEME frame (the native frame for SGP4/TLE). Non-TEME frame support will be removed in a "
-               "future version."
+            << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. Solving is done natively in TEME."
             << std::endl;
     }
     // Setup coordinate subsets for TLE state
@@ -149,6 +146,8 @@ const bool& TLESolver::accessEstimateBStar() const
 
 const Shared<const Frame>& TLESolver::accessEstimationFrame() const
 {
+    std::cerr << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. Solving is done natively in TEME."
+              << std::endl;
     return estimationFrameSPtr_;
 }
 

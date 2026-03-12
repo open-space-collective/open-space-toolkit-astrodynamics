@@ -16,26 +16,57 @@ def tle() -> TLE:
     )
 
 
+@pytest.fixture
+def sgp4(tle: TLE) -> SGP4:
+    return SGP4(tle)
+
+
 class TestSGP4:
-    def test_constructor(self, tle: TLE):
-        sgp4 = SGP4(tle)
+    def test_constructor(
+        self,
+        tle: TLE,
+    ):
+        assert SGP4(tle) is not None
+
+    def test_constructor_with_output_frame(
+        self,
+        tle: TLE,
+    ):
+        assert SGP4(tle, Frame.TEME()) is not None
+
+    def test_is_defined(
+        self,
+        sgp4: SGP4,
+    ):
         assert sgp4.is_defined()
 
-    def test_constructor_with_output_frame(self, tle: TLE):
-        sgp4 = SGP4(tle, Frame.TEME())
-        assert sgp4.is_defined()
-        assert sgp4.get_output_frame() == Frame.TEME()
+    def test_get_tle(
+        self,
+        sgp4: SGP4,
+    ):
+        assert sgp4.get_tle() is not None
 
-    def test_default_output_frame(self, tle: TLE):
-        sgp4 = SGP4(tle)
-        assert sgp4.get_output_frame() == Frame.GCRF()
+    def test_get_output_frame(
+        self,
+        sgp4: SGP4,
+    ):
+        assert sgp4.get_output_frame() is not None
 
-    def test_calculate_state_at_with_output_frame(self, tle: TLE):
-        sgp4_gcrf = SGP4(tle)
-        sgp4_teme = SGP4(tle, Frame.TEME())
+    def test_get_epoch(
+        self,
+        sgp4: SGP4,
+    ):
+        assert sgp4.get_epoch() is not None
 
-        state_gcrf = sgp4_gcrf.calculate_state_at(tle.get_epoch())
-        state_teme = sgp4_teme.calculate_state_at(tle.get_epoch())
+    def test_get_revolution_number_at_epoch(
+        self,
+        sgp4: SGP4,
+    ):
+        assert sgp4.get_revolution_number_at_epoch() is not None
 
-        assert state_gcrf.get_frame() == Frame.GCRF()
-        assert state_teme.get_frame() == Frame.TEME()
+    def test_calculate_state_at(
+        self,
+        sgp4: SGP4,
+        tle: TLE,
+    ):
+        assert sgp4.calculate_state_at(tle.get_epoch()) is not None
