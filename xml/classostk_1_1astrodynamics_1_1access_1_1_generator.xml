@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="238" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="238" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="413" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="413" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbef215f83d693acb384956f04ca51e1" prot="private" static="no" mutable="no">
         <type>Duration</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="240" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="240" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="415" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="415" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3ee21269375995ed6e24cdc369149468" prot="private" static="no" mutable="no">
         <type>Duration</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="241" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="241" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="416" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="416" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a93f6d19a83c46a7d8c00a4b0dcb1faa3" prot="private" static="no" mutable="no">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt;</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="243" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="243" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="418" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="418" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a79dd96cb36db13816b88cbc6f291fd75" prot="private" static="no" mutable="no">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="244" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="244" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="419" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="419" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -101,12 +101,63 @@
           <defval>{}</defval>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>environment,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Duration::Minutes(1.0),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Duration::Microseconds(1.0),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>accessFilter,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>stateFilter</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEnvironment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The space environment used for frame transformations and celestial body access. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The time step used when sampling the interval to detect visibility crossings. Defaults to 1 minute. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The temporal tolerance used when refining the precise time of an access crossing. Defaults to 1 microsecond. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAccessFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional predicate applied to each candidate <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> object; only accesses for which the predicate returns true are retained. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStateFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An optional predicate applied to the pair of from/to States at each sample; samples for which the predicate returns false are treated as non-visible. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="191" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="140" bodyend="153"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="220" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="140" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1e243fd78e139af1f1cabd1729fc251a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -114,12 +165,19 @@
         <argsstring>() const</argsstring>
         <name>isDefined</name>
         <briefdescription>
+<para>Check whether this <ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref> is defined. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defined<sp/>=<sp/>generator.isDefined();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the <ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref> is defined, false otherwise. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="199" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="155" bodyend="158"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="236" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="155" bodyend="158"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a2adf2bc167b4976cfa0a2a62f5898f11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -127,12 +185,19 @@
         <argsstring>() const</argsstring>
         <name>getStep</name>
         <briefdescription>
+<para>Get the time step used when sampling the interval. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Duration<sp/>step<sp/>=<sp/>generator.getStep();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The sampling time step. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="201" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="160" bodyend="168"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="246" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="160" bodyend="168"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae922b298068bb965e0b45f605b5cbb43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -140,12 +205,19 @@
         <argsstring>() const</argsstring>
         <name>getTolerance</name>
         <briefdescription>
+<para>Get the temporal tolerance used for crossing refinement. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Duration<sp/>tolerance<sp/>=<sp/>generator.getTolerance();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The crossing refinement tolerance. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="203" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="170" bodyend="178"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="256" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="170" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aa1ad7dc07137fa64d62992c3cf9f85ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &amp;)&gt;</type>
@@ -153,12 +225,19 @@
         <argsstring>() const</argsstring>
         <name>getAccessFilter</name>
         <briefdescription>
+<para>Get the access filter predicate. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Access&amp;)&gt;<sp/>filter<sp/>=<sp/>generator.getAccessFilter();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The access filter function, or an empty function if none was set. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="205" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="180" bodyend="188"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="266" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="180" bodyend="188"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ad19f8b17276b76b3c80af94fa02c4a41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; bool(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;, const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -166,12 +245,19 @@
         <argsstring>() const</argsstring>
         <name>getStateFilter</name>
         <briefdescription>
+<para>Get the state filter predicate. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;)&gt;<sp/>filter<sp/>=<sp/>generator.getStateFilter();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The state filter function, or an empty function if none was set. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="207" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="190" bodyend="198"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="276" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="190" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae2897d02ad4d74f277c6e6cd7fc09b5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; bool(const Instant &amp;)&gt;</type>
@@ -187,12 +273,39 @@
           <declname>aToTrajectory</declname>
         </param>
         <briefdescription>
+<para>Get a boolean condition function that evaluates visibility at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para>Returns a callable that, when invoked with an Instant, evaluates whether the given access target is visible from the &quot;to&quot; trajectory at that moment. This is primarily used internally to drive the crossing-detection logic, but is exposed for advanced use cases such as custom solvers.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;)&gt;<sp/>condition<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>generator.getConditionFunction(accessTarget,<sp/>toTrajectory);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>visible<sp/>=<sp/>condition(instant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAccessTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The access target to evaluate visibility against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aToTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory of the observer (e.g. satellite). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A function that returns true when the target is visible at a given instant. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="209" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="200" bodyend="262"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="295" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="200" bodyend="262"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a214d29186ea54c3074d81bf9a6603876" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt;</type>
@@ -217,12 +330,55 @@
           <defval>false</defval>
         </param>
         <briefdescription>
+<para>Compute accesses between a single access target and a trajectory over a time interval. </para>
         </briefdescription>
         <detaileddescription>
+<para>Steps through the given interval at the configured step size, detects transitions in the visibility condition, and refines each transition to within the configured tolerance. The optional access filter and state filter are applied during this process.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Access&gt;<sp/>accesses<sp/>=<sp/>generator.computeAccesses(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>interval,<sp/>accessTarget,<sp/>toTrajectory</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The time interval over which to compute accesses. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAccessTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The access target to evaluate visibility against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aToTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory of the observer (e.g. satellite). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coarse</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, skips precise crossing refinement and returns coarse intervals only. Defaults to false. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An array of <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> objects representing each visibility window. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="213" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="264" bodyend="294"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="318" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="264" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aba3b221a4227e0b06a8b10bb1d2ac248" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt; &gt;</type>
@@ -247,12 +403,55 @@
           <defval>false</defval>
         </param>
         <briefdescription>
+<para>Compute accesses between multiple access targets and a trajectory over a time interval. </para>
         </briefdescription>
         <detaileddescription>
+<para>Equivalent to calling the single-target overload for each element of someAccessTargets, but may use a more efficient batched implementation for fixed targets. Returns one array of <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> objects per target, in the same order as someAccessTargets.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Array&lt;Access&gt;&gt;<sp/>allAccesses<sp/>=<sp/>generator.computeAccesses(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>interval,<sp/>accessTargets,<sp/>toTrajectory</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The time interval over which to compute accesses. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>someAccessTargets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The array of access targets to evaluate visibility against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aToTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory of the observer (e.g. satellite). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coarse</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, skips precise crossing refinement and returns coarse intervals only. Defaults to false. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An array of access arrays, one per access target, in the same order as someAccessTargets. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="220" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="296" bodyend="358"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="345" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="296" bodyend="358"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a5f3b9a1e35e1fb102c0a8c84e4f6aec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -264,12 +463,26 @@
           <declname>aStep</declname>
         </param>
         <briefdescription>
+<para>Set the time step used when sampling the interval. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">generator.setStep(Duration::Seconds(30.0));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new sampling time step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="227" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="360" bodyend="368"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="360" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="360" bodyend="368"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3cf72f1f58dbb09c81965e4b5efc2587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -281,12 +494,26 @@
           <declname>aTolerance</declname>
         </param>
         <briefdescription>
+<para>Set the temporal tolerance used for crossing refinement. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">generator.setTolerance(Duration::Milliseconds(1.0));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new crossing refinement tolerance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="229" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="370" bodyend="378"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="370" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="370" bodyend="378"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1aca6b21db7ceaa2c23d5c59a79ac4eef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -298,12 +525,29 @@
           <declname>anAccessFilter</declname>
         </param>
         <briefdescription>
+<para>Set the access filter predicate. </para>
         </briefdescription>
         <detaileddescription>
+<para>The filter is applied to each candidate <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> object after all crossings have been refined. Only accesses for which the predicate returns true are included in the result.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">generator.setAccessFilter([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Access&amp;<sp/>access)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>access.getDuration()<sp/>&gt;<sp/>Duration::Minutes(5.0);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAccessFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new access filter function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="231" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="380" bodyend="383"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="385" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="380" bodyend="383"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab71661ad9230d54a449e7df756d2d14a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -315,12 +559,29 @@
           <declname>aStateFilter</declname>
         </param>
         <briefdescription>
+<para>Set the state filter predicate. </para>
         </briefdescription>
         <detaileddescription>
+<para>The filter is evaluated at each sample instant. If the predicate returns false for a given pair of from/to States, that sample is treated as non-visible regardless of the geometric visibility criterion.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">generator.setStateFilter([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>fromState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>toState)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>someCustomCheck(fromState,<sp/>toState);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new state filter function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="233" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="385" bodyend="388"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="401" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="385" bodyend="388"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -330,12 +591,18 @@
         <argsstring>()</argsstring>
         <name>Undefined</name>
         <briefdescription>
+<para>Construct an undefined <ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref>. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1afb8ddb0c56e350fc20de4824c5120169" kindref="member">Generator</ref><sp/>generator<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1d28164d6563e8b92d7f20987d20df51" kindref="member">Generator::Undefined</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>An undefined <ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref> instance. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="235" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="390" bodyend="393"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="410" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="390" bodyend="393"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -362,7 +629,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="246" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="395" bodyend="407"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="421" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="395" bodyend="407"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbdbe36beb8bbf63d1045c220058289d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt; &gt;</type>
@@ -392,7 +659,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="250" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="409" bodyend="708"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="425" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="409" bodyend="708"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a52230a41412b3ce41b8688a8b0a6785e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> &gt;</type>
@@ -421,7 +688,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="257" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="710" bodyend="736"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="432" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="710" bodyend="736"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a03c578cbf4f653ef69892b318754a8ea" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; physics::time::Interval &gt;</type>
@@ -454,7 +721,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="264" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="738" bodyend="903"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="439" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="738" bodyend="903"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -477,7 +744,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="272" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="905" bodyend="946"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="447" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="905" bodyend="946"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a6da150a5ee57db4e9175d0c63c97fecc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref></type>
@@ -510,7 +777,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="274" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="948" bodyend="983"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="449" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="948" bodyend="983"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab77bb1d3c4895a42212585640ca610e8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -539,7 +806,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="282" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="985" bodyend="1074"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="457" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="985" bodyend="1074"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1a606262101c72820e55493026dc611f14" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -564,7 +831,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="289" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="1076" bodyend="1088"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="464" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="1076" bodyend="1088"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae1a56ca0b66c094eb9c29ae495edb9b1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>AER</type>
@@ -593,14 +860,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="293" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="1090" bodyend="1108"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="468" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="1090" bodyend="1108"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para>Computes access intervals between a trajectory and one or more access targets. </para>
     </briefdescription>
     <detaileddescription>
+<para>The <ref refid="classostk_1_1astrodynamics_1_1access_1_1_generator" kindref="compound">Generator</ref> evaluates visibility between a &quot;from&quot; trajectory (e.g. a satellite) and one or more <ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref> objects over a given time interval. It steps through the interval at a configurable cadence, detects crossings of the visibility condition, and then refines each crossing to within a configurable tolerance. Optional access-level and state-level filter functions allow further pruning of the resulting <ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> objects. </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="189" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="188" bodyend="299"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="196" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="195" bodyend="474"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a93f6d19a83c46a7d8c00a4b0dcb1faa3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>accessFilter_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae1a56ca0b66c094eb9c29ae495edb9b1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::Generator</scope><name>CalculateAer</name></member>

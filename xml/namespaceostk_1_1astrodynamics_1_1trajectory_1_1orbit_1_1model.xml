@@ -72,6 +72,26 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output stream to write to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aKeplerianModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler" kindref="compound">Kepler</ref> model to stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to the output stream. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -134,10 +154,30 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSGP4Model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4" kindref="compound">SGP4</ref> model to stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="126" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="126" bodyend="131"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="139" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="139" bodyend="144"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

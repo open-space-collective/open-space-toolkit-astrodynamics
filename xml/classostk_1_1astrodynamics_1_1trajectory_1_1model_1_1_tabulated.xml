@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="96" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="96" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="204" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="204" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1af9f94ac57adaa7ff587c42c1232dde66" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="97" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="97" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="205" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a7bbd4c9ca124a41f6b385de6db824ed6" prot="private" static="no" mutable="no">
         <type>Array&lt; Shared&lt; const Interpolator &gt; &gt;</type>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="98" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="98" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="206" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="206" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -64,12 +64,34 @@
           <defval><ref refid="_trajectory_2_model_2_tabulated_8hpp_1a91dd24281ba22330d682cd8554db9d0a" kindref="member">DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE</ref></defval>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>states<sp/>=<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a9a578e85a765354786ea357d05438f1d" kindref="member">Tabulated</ref><sp/>tabulated(states,<sp/>Interpolator::Type::Linear);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of states defining the tabulated trajectory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterpolationType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The interpolation type to use between states. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="59" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="18" bodyend="56"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="68" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="18" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1ab84d9b28ab8a411f63b45a22c966bd67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> *</type>
@@ -79,12 +101,18 @@
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd">clone</reimplements>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1aec60303c53b1cfd49b18f6bf04f62bf8">clone</reimplementedby>
         <briefdescription>
+<para>Clone the tabulated model. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a9a578e85a765354786ea357d05438f1d" kindref="member">Tabulated</ref>*<sp/>cloned<sp/>=<sp/>tabulated.clone();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A pointer to a cloned <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> instance. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="64" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="58" bodyend="61"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="80" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="58" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1ad3b4a46fbd22546f671fcfb66fb5526a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -96,12 +124,27 @@
           <declname>aTabulatedModel</declname>
         </param>
         <briefdescription>
+<para>Equality operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>equal<sp/>=<sp/>tabulatedA<sp/>==<sp/>tabulatedB;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A tabulated model to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the two tabulated models are equal. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="66" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="63" bodyend="72"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="90" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="63" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a050915907842b8bb588e68391a7469f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -113,12 +156,27 @@
           <declname>aTabulatedModel</declname>
         </param>
         <briefdescription>
+<para>Inequality operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>notEqual<sp/>=<sp/>tabulatedA<sp/>!=<sp/>tabulatedB;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A tabulated model to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the two tabulated models are not equal. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="68" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="74" bodyend="77"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="100" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="74" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1ad5e7338411b5add689c737d9e2cc345f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -128,12 +186,18 @@
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481">isDefined</reimplements>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a4555bef397257e8f4239ece8aff79d0d">isDefined</reimplementedby>
         <briefdescription>
+<para>Check if the tabulated model is defined. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defined<sp/>=<sp/>tabulated.isDefined();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the tabulated model is defined. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="72" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="86" bodyend="89"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="120" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="86" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1ae6853b1b650c36e90b379975d295e0ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interval</type>
@@ -141,12 +205,18 @@
         <argsstring>() const</argsstring>
         <name>getInterval</name>
         <briefdescription>
+<para>Get the time interval spanned by the tabulated states. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Interval<sp/>interval<sp/>=<sp/>tabulated.getInterval();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The time interval from the first to the last state. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="74" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="91" bodyend="99"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="129" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="91" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a5d696211ba9ce1b263a867ec7516806e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interpolator::Type</type>
@@ -154,12 +224,18 @@
         <argsstring>() const</argsstring>
         <name>getInterpolationType</name>
         <briefdescription>
+<para>Get the interpolation type used by the tabulated model. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Interpolator::Type<sp/>type<sp/>=<sp/>tabulated.getInterpolationType();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The interpolation type. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="76" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="101" bodyend="110"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="138" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="101" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a571257998972566c104967a735ac7131" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -167,12 +243,18 @@
         <argsstring>() const</argsstring>
         <name>getFirstState</name>
         <briefdescription>
+<para>Get the first state in the tabulated trajectory. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>first<sp/>=<sp/>tabulated.getFirstState();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The first state. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="78" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="112" bodyend="115"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="147" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="112" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a0f81d9ff49ac8dd6e4c8b9be360f86e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -180,12 +262,18 @@
         <argsstring>() const</argsstring>
         <name>getLastState</name>
         <briefdescription>
+<para>Get the last state in the tabulated trajectory. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>last<sp/>=<sp/>tabulated.getLastState();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The last state. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="80" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="117" bodyend="120"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="156" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="117" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aff8828a9a7c2ef2baf3c2fd0c9e3fb98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -199,12 +287,27 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Calculate the state at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>tabulated.calculateStateAt(instant);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant at which to calculate the state. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The interpolated state at the given instant. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="82" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="122" bodyend="160"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="166" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="122" bodyend="160"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a92535c63e7618408c0cbd5acbba9a10c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -217,12 +320,27 @@
           <declname>anInstantArray</declname>
         </param>
         <briefdescription>
+<para>Calculate the states at a given array of instants. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;State&gt;<sp/>states<sp/>=<sp/>tabulated.calculateStatesAt(instants);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants at which to calculate states. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An array of interpolated states at the given instants. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="84" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="162" bodyend="184"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="176" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="162" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a0dc0ae91d8e127fb2a7c8a77ba481816" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -241,12 +359,33 @@
           <defval>true</defval>
         </param>
         <briefdescription>
+<para>Print the tabulated model to an output stream. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">tabulated.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display a decorator around the output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="86" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="186" bodyend="230"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="186" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="186" bodyend="230"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -264,12 +403,35 @@
           <declname>aTabulatedModel</declname>
         </param>
         <briefdescription>
+<para>Stream insertion operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tabulated;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTabulatedModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A tabulated model to stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="70" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="79" bodyend="84"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="111" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="79" bodyend="84"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -283,12 +445,27 @@
           <declname>aFile</declname>
         </param>
         <briefdescription>
+<para>Load a tabulated trajectory from a file. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a9a578e85a765354786ea357d05438f1d" kindref="member">Tabulated</ref><sp/>tabulated<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aa1d0df1bc3984644065a06e462ff0704" kindref="member">Tabulated::Load</ref>(File::Path(Path::Parse(</highlight><highlight class="stringliteral">&quot;/path/to/file.csv&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file containing tabulated state data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref> trajectory model loaded from the file. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="88" column="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="196" column="22"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -304,12 +481,25 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Equal to operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are equal. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="91" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="232" bodyend="237"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="199" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="232" bodyend="237"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a6f1c5b3736b7b78b5b169d46fa9d011b" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -323,12 +513,25 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Not equal to operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are not equal. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="93" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="239" bodyend="242"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="201" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="239" bodyend="242"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -370,7 +573,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="56" bodyend="99"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" line="57" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp" bodystart="56" bodyend="207"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::model::Tabulated</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aff8828a9a7c2ef2baf3c2fd0c9e3fb98" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::model::Tabulated</scope><name>calculateStateAt</name></member>

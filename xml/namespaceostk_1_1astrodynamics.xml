@@ -51,6 +51,29 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Access<sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>access<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAccess</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An access. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>

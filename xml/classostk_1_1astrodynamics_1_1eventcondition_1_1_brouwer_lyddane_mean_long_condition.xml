@@ -29,6 +29,13 @@
 <para>Semi-Major Axis based constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">RealCondition<sp/>condition<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7c7675adf52eb742e41fe02e3fafa34b" kindref="member">BrouwerLyddaneMeanLongCondition::SemiMajorAxis</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8aa87074e622d8fecce2c96877e39ac8e8a" kindref="member">RealCondition::Criterion::AnyCrossing</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Frame::GCRF(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EventCondition::Target(7000000.0),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>gravitationalParameter</highlight></codeline>
+<codeline><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aCriterion</parametername>
@@ -68,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="54" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="15" bodyend="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="63" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="15" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1dc94269607409324e4637cb53faf43b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
@@ -134,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="69" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="30" bodyend="43"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="78" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="30" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ad45b7f3ad55e734924e681b6ceac8ccf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -200,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="84" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="45" bodyend="58"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="93" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="45" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a17a1fce35cd30929416adcb02f088142" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -254,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="98" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="60" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="107" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="60" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a3fe544cdc6f9c785b402b5888af245e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -320,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="112" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="71" bodyend="84"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="121" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="71" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a98903bd47aab661580ef03bd798413b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -374,7 +381,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="126" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="86" bodyend="95"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="135" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="86" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1aed2b70624ac112989cac042aa7a6e135" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -440,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="140" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="97" bodyend="110"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="149" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="97" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a31451cfcad0884cd50eb94920e1e63ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -494,7 +501,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="154" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="112" bodyend="123"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="163" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="112" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a733629e4455ad51b775b8ca23dc0692e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -560,7 +567,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="168" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="125" bodyend="138"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="177" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="125" bodyend="138"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a8b8f0cfe2e626c1badfb015c2bfca8e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -614,7 +621,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="182" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="140" bodyend="149"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="191" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="140" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1ab2cada38e91aaa155dadccf786e3547e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -680,7 +687,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="196" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="151" bodyend="164"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="205" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="151" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a7889fb984c540ff5720b00a2aac1fc7e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -734,7 +741,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="210" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="166" bodyend="175"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="219" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="166" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1afa14adf68d4c89ce824f869d2ebca35a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -800,7 +807,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="224" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="177" bodyend="190"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="233" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="177" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a8e180cdd5caf8fbdf616e5f0ba57a7ba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -854,7 +861,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="238" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="192" bodyend="203"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="247" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="192" bodyend="203"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1ed7e856a729de6cb37ff0a5d7726a06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -920,7 +927,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="252" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="205" bodyend="218"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="261" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="205" bodyend="218"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a1cd8dc747815af1db8f560d324aafafb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -974,7 +981,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="266" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="220" bodyend="231"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="275" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="220" bodyend="231"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -1001,7 +1008,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="273" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="233" bodyend="279"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="282" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLydanneMeanLongCondition.cpp" bodystart="233" bodyend="279"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1009,7 +1016,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" bodystart="43" bodyend="276"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp" bodystart="43" bodyend="285"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a3fe544cdc6f9c785b402b5888af245e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Aop</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition_1a98903bd47aab661580ef03bd798413b8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</scope><name>Aop</name></member>

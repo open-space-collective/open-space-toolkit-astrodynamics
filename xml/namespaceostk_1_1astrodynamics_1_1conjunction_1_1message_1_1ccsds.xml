@@ -20,6 +20,29 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">CDM<sp/>cdm<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1a7aea10b326214a50641f65e685788b67" kindref="member">CDM::Load</ref>(File::Path(Path::Parse(</highlight><highlight class="stringliteral">&quot;path/to/cdm.txt&quot;</highlight><highlight class="normal">)))<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>cdm<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anCDM</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>

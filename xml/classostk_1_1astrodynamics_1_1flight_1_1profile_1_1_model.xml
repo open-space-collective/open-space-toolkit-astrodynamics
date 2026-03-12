@@ -12,12 +12,13 @@
         <argsstring>()</argsstring>
         <name>Model</name>
         <briefdescription>
+<para>Default constructor. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="35" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="17" bodyend="17"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="39" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="17" bodyend="17"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1abbc19a00caf6c2c526921bcf0f20599a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type></type>
@@ -25,12 +26,13 @@
         <argsstring>()=0</argsstring>
         <name>~Model</name>
         <briefdescription>
+<para>Destructor (pure virtual). </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="37" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="19" bodyend="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="42" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="19" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1aac46947479dc4ea97a4928123f3de026" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> *</type>
@@ -40,31 +42,48 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a95e5dd1e797403c6b99f89e2368d2541">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a4d9eb6c894a7840cc60a813a3d17254f">clone</reimplementedby>
         <briefdescription>
+<para>Clone the model. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the cloned model. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="39" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="47" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ae4bdb2472f45039f690306cf96273a27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
         <definition>virtual bool ostk::astrodynamics::flight::profile::Model::operator==</definition>
         <argsstring>(const Model &amp;aModel) const =0</argsstring>
         <name>operator==</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a1ad52b629dd364dec990c036edb65856">operator==</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a10066de233433639269b05f01c0a990e">operator==</reimplementedby>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model" kindref="compound">Model</ref> &amp;</type>
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Equal to operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are equal. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="41" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="53" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a84c0583f35c7d396cc3bcd7f193e8b8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -77,12 +96,25 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Not equal to operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are not equal. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="43" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="21" bodyend="24"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="59" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="21" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -92,12 +124,16 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5">isDefined</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a7903e9a4e4059b4aa53f4abd498c7de8">isDefined</reimplementedby>
         <briefdescription>
+<para>Check if model is defined. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>True if model is defined. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="47" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="71" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -119,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="53" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="53" bodyend="56"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="77" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="77" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -141,7 +177,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="62" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="62" bodyend="72"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="86" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="86" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1adda39b4823bc386e2cf443430b01fcab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -155,12 +191,25 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Calculate state at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>State at the given instant. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="74" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="102" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a49434a67dfcbbe324264b25b19da3d5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -172,12 +221,25 @@
           <declname>anInstantArray</declname>
         </param>
         <briefdescription>
+<para>Calculate states at given instants. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of states. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="76" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="33" bodyend="50"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="108" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="33" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a435f33740c9c6171593772a1a1feb8a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Axes</type>
@@ -191,12 +253,25 @@
           <declname>anInstant</declname>
         </param>
         <briefdescription>
+<para>Get axes at a given instant. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Axes at the given instant. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="78" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="114" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a30c339ed1ddc3d24707863e9729d7132" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -210,12 +285,25 @@
           <declname>aFrameName</declname>
         </param>
         <briefdescription>
+<para>Construct a body frame. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to body frame. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="80" column="20"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="120" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a3495da149b51ac52a9244145d263e7e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -234,12 +322,31 @@
           <defval>true</defval>
         </param>
         <briefdescription>
+<para>Print model. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display decorator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="82" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="126" column="18"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -257,18 +364,40 @@
           <declname>aModel</declname>
         </param>
         <briefdescription>
+<para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to output stream. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="45" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="26" bodyend="31"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="66" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="26" bodyend="31"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref> model (abstract) </para>
+<para><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile" kindref="compound">Profile</ref> model (abstract). </para>
     </briefdescription>
     <detaileddescription>
+<para>Base class for all flight profile models. Provides the interface for calculating states and body-frame axes at given instants. Concrete implementations include Tabulated and Transform models. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="3">
@@ -288,7 +417,7 @@
         <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model"/>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="32" bodyend="83"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="36" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="35" bodyend="127"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1adda39b4823bc386e2cf443430b01fcab" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>calculateStateAt</name></member>

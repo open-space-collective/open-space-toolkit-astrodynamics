@@ -10,12 +10,13 @@
         <argsstring></argsstring>
         <name>rmsError</name>
         <briefdescription>
+<para>RMS error for this step. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="67" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="67" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="78" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a6fdf5da8d5f96e04a3c253e37fae54ba" prot="public" static="no" mutable="no">
         <type>VectorXd</type>
@@ -23,12 +24,13 @@
         <argsstring></argsstring>
         <name>xHat</name>
         <briefdescription>
+<para>State correction vector for this step. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="68" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="68" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="79" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="79" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -49,10 +51,28 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRmsError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RMS error for this step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anXHat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>State correction vector for this step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="59" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="25" bodyend="29"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="70" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="25" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a51de94a46b08ac3e43b41002ac214416" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -70,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="65" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="38" bodyend="42"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="76" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="38" bodyend="42"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -94,10 +114,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="62" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="31" bodyend="36"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="73" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="31" bodyend="36"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para>A single iteration step of the least squares solver. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -119,7 +140,7 @@
         <label>VectorXd</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="56" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="55" bodyend="69"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="64" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="63" bodyend="80"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a3943b1dc75598d99301f0f34baf273f6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step_1a51de94a46b08ac3e43b41002ac214416" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Step</scope><name>print</name></member>

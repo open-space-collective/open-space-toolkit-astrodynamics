@@ -42,6 +42,10 @@
 </listitem><listitem><para>The total off-nadir angle is the angle between the nadir vector [Z] and the satellite-&gt;target vector.</para>
 </listitem></itemizedlist>
 </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Position<sp/>targetPosition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[alongTrack,<sp/>crossTrack,<sp/>totalOffNadir]<sp/>=<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1a800916091023edd514eb81e189eed42b" kindref="member">ComputeOffNadirAngles</ref>(state,<sp/>targetPosition)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aState</parametername>
@@ -65,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="37" column="7" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="37" bodyend="72" declfile="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" declline="40" declcolumn="7"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="37" column="7" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="37" bodyend="72" declfile="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" declline="46" declcolumn="7"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

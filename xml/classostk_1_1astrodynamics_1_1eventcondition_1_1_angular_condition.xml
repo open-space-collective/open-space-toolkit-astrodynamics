@@ -11,6 +11,7 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaaa87074e622d8fecce2c96877e39ac8e8a" prot="public">
           <name>AnyCrossing</name>
           <briefdescription>
+<para>Triggered on any crossing of the target angle. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -18,6 +19,7 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaaa35f12699e9d62145f3a7222ef63e496d" prot="public">
           <name>PositiveCrossing</name>
           <briefdescription>
+<para>Triggered when angle crosses target in the positive direction. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -25,6 +27,7 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaaa9b59d568492405fa7baf90ef51c09a2b" prot="public">
           <name>NegativeCrossing</name>
           <briefdescription>
+<para>Triggered when angle crosses target in the negative direction. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -32,17 +35,19 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaaa9d3b7edf5d8e24edd6a44803bd3a7691" prot="public">
           <name>WithinRange</name>
           <briefdescription>
+<para>Triggered when angle is within a specified range. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
         <briefdescription>
+<para>Criterion type for evaluating the angular condition. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="33" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="34" bodyend="40"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -57,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="136" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="136" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="161" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a1baa4282e94bcd37a20f7512058e673c" prot="private" static="no" mutable="no">
         <type>std::function&lt; bool(const Real &amp;, const Real &amp;, const Real &amp;)&gt;</type>
@@ -70,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="137" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="137" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="162" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a8ccd04f557d2551f1565369e60a4396e" prot="private" static="no" mutable="no">
         <type>Pair&lt; Real, Real &gt;</type>
@@ -83,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="138" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="138" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="163" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="163" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -151,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="17" bodyend="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="53" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="17" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aada2bb08494e603c405c92439b1e5a90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -217,7 +222,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="70" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="30" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="71" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="30" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a6a73893e2f54fb5ca2c273b4b999fb98" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -231,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="78" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="43" bodyend="43"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="79" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="43" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a8663626e6c7746111268d12c497ae5e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">Criterion</ref></type>
@@ -242,13 +247,16 @@
 <para>Get the criterion of the Event Condition. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Enum representing the criterion of the Event Condition </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a5f8e01e19f828c3f45c893626a0d8a36" kindref="member">AngularCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref><sp/>criterion<sp/>=<sp/>condition.getCriterion()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Enum representing the criterion of the Event Condition. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="83" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="45" bodyend="48"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="89" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="45" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a75b80dc877b821aca397706aba79a3b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -256,16 +264,19 @@
         <argsstring>() const</argsstring>
         <name>getTargetAngle</name>
         <briefdescription>
-<para>Get target. </para>
+<para>Get the target angle. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Target </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a5f8e01e19f828c3f45c893626a0d8a36" kindref="member">AngularCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Angle<sp/>targetAngle<sp/>=<sp/>condition.getTargetAngle()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The target angle. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="88" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="50" bodyend="58"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="99" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="50" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aefbd4562fc09b0a4962c611a6dbd9f8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Pair&lt; Angle, Angle &gt;</type>
@@ -273,16 +284,19 @@
         <argsstring>() const</argsstring>
         <name>getTargetRange</name>
         <briefdescription>
-<para>Get target range. </para>
+<para>Get the target range. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Target range </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a5f8e01e19f828c3f45c893626a0d8a36" kindref="member">AngularCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Pair&lt;Angle,<sp/>Angle&gt;<sp/>targetRange<sp/>=<sp/>condition.getTargetRange()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The target angle range as a pair of (lower, upper) angles. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="93" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="60" bodyend="68"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="109" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="60" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1acfd7a3522e5940398b716b38cea1b2b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -324,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="100" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="70" bodyend="89"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="116" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="70" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a6df7534066d81e3414cb81aeb6cd1cf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -367,7 +381,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="109" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="91" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="125" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="91" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1afc904e8bcfb6079a5215874d47afe4b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref> *</type>
@@ -385,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="114" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="96" bodyend="99"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="130" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="96" bodyend="99"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -410,12 +424,16 @@
 <para>Create an angular condition that is satisfied when the angle is within a range. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a5f8e01e19f828c3f45c893626a0d8a36" kindref="member">AngularCondition</ref><sp/>condition<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1afa5b2ea4d9cee4f333540e2535acded1" kindref="member">AngularCondition::WithinRange</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Elevation&quot;</highlight><highlight class="normal">,<sp/>anEvaluator,<sp/>{<sp/>Angle::Degrees(10.0),<sp/>Angle::Degrees(90.0)<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A string representing the name of the Angular Event Condition </para>
+<para>A string representing the name of the Angular Event Condition. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -423,7 +441,7 @@
 <parametername>anEvaluator</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A function evaluating a state to an angle in radians </para>
+<para>A function evaluating a state to an angle in radians. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -431,17 +449,17 @@
 <parametername>aTargetRange</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A pair of angles representing the range of angles that satisfy the </para>
+<para>A pair of angles representing the range. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Angular Event Condition </para>
+<simplesect kind="return"><para>Angular Event Condition. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="122" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="101" bodyend="106"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="144" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="101" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a134490fba75d997c2e47da86efd33cc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -456,22 +474,24 @@
 <para>Convert criterion to string. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">String<sp/>str<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a134490fba75d997c2e47da86efd33cc2" kindref="member">AngularCondition::StringFromCriterion</ref>(<ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaaa87074e622d8fecce2c96877e39ac8e8a" kindref="member">AngularCondition::Criterion::AnyCrossing</ref>)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aCriterion</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An enum representing the criterion</para>
+<para>An enum representing the criterion. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>String representing the given criterion </para>
+<simplesect kind="return"><para>String representing the given criterion. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="133" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="108" bodyend="123"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="158" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="108" bodyend="123"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -498,7 +518,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="140" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="125" bodyend="141"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="165" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="125" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a1d6699a57b8537c8e118ee60e5408091" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -523,7 +543,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="141" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="143" bodyend="159"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="166" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="143" bodyend="159"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -542,7 +562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="143" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="161" bodyend="190"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="168" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="161" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a600663a7f834d2c14cd20f1ba7d48328" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -571,7 +591,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="145" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="192" bodyend="220"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="170" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.cpp" bodystart="192" bodyend="220"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -623,7 +643,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="31" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="30" bodyend="151"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" line="31" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp" bodystart="30" bodyend="176"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1a5f8e01e19f828c3f45c893626a0d8a36" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::AngularCondition</scope><name>AngularCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aada2bb08494e603c405c92439b1e5a90" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::AngularCondition</scope><name>AngularCondition</name></member>

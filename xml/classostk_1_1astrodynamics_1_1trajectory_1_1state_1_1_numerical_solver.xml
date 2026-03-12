@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="206" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="206" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="224" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="224" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9903c62805af0e50f65fcb1b9e677482" prot="private" static="no" mutable="no">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="207" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="207" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="225" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="225" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7a3878913447b5d2d670e9974463b8da" prot="private" static="no" mutable="no">
         <type>std::function&lt; void(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="208" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="208" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="226" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="226" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -398,7 +398,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="175" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="193" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a42657194abeb324acfc81f7b130206c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>MathNumericalSolver::Solution</type>
@@ -427,7 +427,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="182" column="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="200" column="35"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1acd763e1acdd07001e65fd4a0eeac3e6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>MathNumericalSolver::Solution</type>
@@ -452,7 +452,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="189" column="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="207" column="35"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a186af3589b04e195006b9d82d6a66123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; MathNumericalSolver::Solution &gt;</type>
@@ -477,7 +477,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="195" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="213" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a83b9982057e28655d018c931adb102e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; MathNumericalSolver::Solution &gt;</type>
@@ -490,7 +490,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="201" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="219" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab887da47540920fbab12cadc69729598" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Array&lt; MathNumericalSolver::Solution &gt; &amp;</type>
@@ -503,7 +503,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="203" column="17"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="221" column="17"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -513,16 +513,18 @@
         <argsstring>()</argsstring>
         <name>Undefined</name>
         <briefdescription>
-<para>Undefined. </para>
+<para>Construct an undefined numerical solver. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>An undefined numerical solver </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a81609c2c1e74b6fce23f7231cdd87436" kindref="member">NumericalSolver::Undefined</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>An undefined numerical solver. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="138" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="274" bodyend="285"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="142" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="274" bodyend="285"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
@@ -530,16 +532,18 @@
         <argsstring>()</argsstring>
         <name>Default</name>
         <briefdescription>
-<para>Default. </para>
+<para>Construct a default numerical solver. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>A default numerical solver </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" kindref="member">NumericalSolver::Default</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A default numerical solver. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="143" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="287" bodyend="298"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="151" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="287" bodyend="298"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3a73f98d2818ef7d1370bc28d05db7e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
@@ -558,6 +562,10 @@
 <para>Create a fixed step size numerical solver. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3a73f98d2818ef7d1370bc28d05db7e4" kindref="member">NumericalSolver::FixedStepSize</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>NumericalSolver::StepperType::RungeKutta4,<sp/>30.0</highlight></codeline>
+<codeline><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aTimeStep</parametername>
@@ -581,7 +589,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="151" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="300" bodyend="316"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="165" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="300" bodyend="316"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
@@ -597,6 +605,8 @@
 <para>Default conditional. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" kindref="member">NumericalSolver::DefaultConditional</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>stateLogger</parametername>
@@ -612,7 +622,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="157" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="318" bodyend="321"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="175" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="318" bodyend="321"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a00e1ac8debc837ce03b47aab8d259ce1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
@@ -678,7 +688,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="167" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="323" bodyend="342"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="185" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="323" bodyend="342"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -783,7 +793,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="227" column="5"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="245" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ad5d455c9c9a06ca12b7046120c0568d6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -800,7 +810,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="237" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="360" bodyend="368"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="255" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="360" bodyend="368"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -830,7 +840,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="36" bodyend="238"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="36" bodyend="256"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1318a082c119018153870a84a4e3a720" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>accessObservedStates</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab887da47540920fbab12cadc69729598" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>accessObservedStateVectors</name></member>

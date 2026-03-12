@@ -5,6 +5,21 @@
     <includes refid="_least_squares_solver_8hpp" local="no">LeastSquaresSolver.hpp</includes>
     <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" prot="public">ostk::astrodynamics::solver::LeastSquaresSolver::Analysis</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step" prot="public">ostk::astrodynamics::solver::LeastSquaresSolver::Step</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" prot="public" static="no">
+        <type>std::function&lt; VectorXd(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>using ostk::astrodynamics::solver::LeastSquaresSolver::ScaleFactorGenerator =  std::function&lt;VectorXd(const State&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ScaleFactorGenerator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="60" column="5" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a583372e22d1bd3506c619948c633897b" prot="private" static="no" mutable="no">
         <type>Size</type>
@@ -17,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="162" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="162" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="237" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="237" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a9acdc988c450357637d904e06fbf317b" prot="private" static="no" mutable="no">
         <type>Real</type>
@@ -30,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="163" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="163" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="238" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="238" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1acc76c85ab0f86484a9e178214d206251" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref></type>
@@ -43,7 +58,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="164" column="28" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="164" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="239" column="28" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a195a4550a36b61cc9690ef839a7643db" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" kindref="member">ScaleFactorGenerator</ref></type>
+        <definition>ScaleFactorGenerator ostk::astrodynamics::solver::LeastSquaresSolver::scaleFactorGenerator_</definition>
+        <argsstring></argsstring>
+        <name>scaleFactorGenerator_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="240" column="26" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="240" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -69,6 +97,8 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" kindref="member">LeastSquaresSolver</ref><sp/>solver<sp/>=<sp/>{<sp/>10,<sp/>1e-3<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aMaxIterationCount</parametername>
@@ -98,7 +128,75 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="109" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="121" bodyend="139"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="132" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="121" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1ae897cd15c1c25ef9763f321fb149e229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::solver::LeastSquaresSolver::LeastSquaresSolver</definition>
+        <argsstring>(const Size &amp;aMaxIterationCount, const Real &amp;aRmsUpdateThreshold, const FiniteDifferenceSolver &amp;aFiniteDifferenceSolver, const ScaleFactorGenerator &amp;aScaleFactorGenerator)</argsstring>
+        <name>LeastSquaresSolver</name>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>aMaxIterationCount</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aRmsUpdateThreshold</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref> &amp;</type>
+          <declname>aFiniteDifferenceSolver</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" kindref="member">ScaleFactorGenerator</ref> &amp;</type>
+          <declname>aScaleFactorGenerator</declname>
+        </param>
+        <briefdescription>
+<para>Constructor with custom scale factor generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" kindref="member">LeastSquaresSolver</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>20,<sp/>1.0,<sp/>FiniteDifferenceSolver.default(),<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" kindref="member">LeastSquaresSolver</ref>.maximum_absolute_coordinate_scaling()</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMaxIterationCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of iterations </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRmsUpdateThreshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum RMS threshold </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFiniteDifferenceSolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Finite difference solver </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aScaleFactorGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to generate scale factors from a state. Normalizing the decision vector ensures that the jacobian is well-conditioned. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="151" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="142" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1adec65a8dbb5431b62ebac805e077d24d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Size</type>
@@ -115,7 +213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="118" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="141" bodyend="144"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="169" bodyend="172"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1aaf122bfcb45c503bc34943e3c4688e54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -132,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="123" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="146" bodyend="149"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="166" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="174" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7c54722433ac22b130541a461509881c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_finite_difference_solver" kindref="compound">FiniteDifferenceSolver</ref></type>
@@ -149,7 +247,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="128" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="151" bodyend="154"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="171" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="179" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a9c585abe9398f533f1c3d3cb4926ae8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" kindref="member">ScaleFactorGenerator</ref></type>
+        <definition>LeastSquaresSolver::ScaleFactorGenerator ostk::astrodynamics::solver::LeastSquaresSolver::getScaleFactorGenerator</definition>
+        <argsstring>() const</argsstring>
+        <name>getScaleFactorGenerator</name>
+        <briefdescription>
+<para>Get the scale factor generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>generator<sp/>=<sp/>solver.getScaleFactorGenerator();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Scale factor generator function </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="180" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="184" bodyend="187"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a821b8434cab09c15726177848803ac2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">Analysis</ref></type>
@@ -229,7 +346,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="141" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="156" bodyend="358"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="193" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="189" bodyend="454"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -261,7 +378,45 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="154" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="360" bodyend="377"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="206" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="456" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a67b163b8dfa763657a41ee7515c54953" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" kindref="member">ScaleFactorGenerator</ref></type>
+        <definition>LeastSquaresSolver::ScaleFactorGenerator ostk::astrodynamics::solver::LeastSquaresSolver::NoScaling</definition>
+        <argsstring>()</argsstring>
+        <name>NoScaling</name>
+        <briefdescription>
+<para>Create a scale factor generator that returns all ones (no scaling) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>generator<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a67b163b8dfa763657a41ee7515c54953" kindref="member">LeastSquaresSolver::NoScaling</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>ScaleFactorGenerator that performs no scaling </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="215" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="475" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a03ccccc9660470c5d4a24abf624d8254" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" kindref="member">ScaleFactorGenerator</ref></type>
+        <definition>LeastSquaresSolver::ScaleFactorGenerator ostk::astrodynamics::solver::LeastSquaresSolver::MaximumAbsoluteCoordinateScaling</definition>
+        <argsstring>()</argsstring>
+        <name>MaximumAbsoluteCoordinateScaling</name>
+        <briefdescription>
+<para>Create a scale factor generator that uses max absolute coordinate values. This is done by scaling the decision variables by max(|coord_i|, 1e-8). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>generator<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a03ccccc9660470c5d4a24abf624d8254" kindref="member">LeastSquaresSolver::MaximumAbsoluteCoordinateScaling</ref>();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>ScaleFactorGenerator that scales by max(|coord_i|, 1e-8) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="225" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="483" bodyend="495"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref></type>
@@ -272,13 +427,15 @@
 <para>Default constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" kindref="member">LeastSquaresSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" kindref="member">LeastSquaresSolver::Default</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><simplesect kind="return"><para>A default instance </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="159" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="379" bodyend="382"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="234" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="497" bodyend="500"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -322,15 +479,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="172" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="384" bodyend="421"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="248" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="502" bodyend="539"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Class to solve non-linear least squares problems. </para>
     </briefdescription>
     <detaileddescription>
+<para>Implements a batch weighted least squares algorithm for orbit determination and state estimation. Iteratively refines a state estimate by minimizing the weighted sum of squared residuals between observations and computed values. </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="53" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="52" bodyend="175"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="58" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="57" bodyend="251"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7154b50847f3a90e4763865ec4f02b37" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>calculateEmpiricalCovariance</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>Default</name></member>
@@ -339,9 +497,15 @@
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a7c54722433ac22b130541a461509881c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getFiniteDifferenceSolver</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1adec65a8dbb5431b62ebac805e077d24d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getMaxIterationCount</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1aaf122bfcb45c503bc34943e3c4688e54" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getRmsUpdateThreshold</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a9c585abe9398f533f1c3d3cb4926ae8d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>getScaleFactorGenerator</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a5f79184e042cc309c3f6fc01e6e4abd0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>LeastSquaresSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1ae897cd15c1c25ef9763f321fb149e229" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>LeastSquaresSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a03ccccc9660470c5d4a24abf624d8254" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>MaximumAbsoluteCoordinateScaling</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a583372e22d1bd3506c619948c633897b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>maxIterationCount_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a67b163b8dfa763657a41ee7515c54953" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>NoScaling</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a9acdc988c450357637d904e06fbf317b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>rmsUpdateThreshold_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a99180acbdb737ceb6b2cfcf10c68810c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>ScaleFactorGenerator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a195a4550a36b61cc9690ef839a7643db" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>scaleFactorGenerator_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a821b8434cab09c15726177848803ac2b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver</scope><name>solve</name></member>
     </listofallmembers>
   </compounddef>

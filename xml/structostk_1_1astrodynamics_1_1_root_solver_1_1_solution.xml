@@ -10,12 +10,13 @@
         <argsstring></argsstring>
         <name>root</name>
         <briefdescription>
+<para>The root of the function, computed as the midpoint of the bounds, lowerBound + (upperBound -. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="23" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="23" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="24" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="24" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aa7efd4aaf4db4efd4d0d0577e2415c5d" prot="public" static="no" mutable="no">
         <type>Real</type>
@@ -23,19 +24,7 @@
         <argsstring></argsstring>
         <name>lowerBound</name>
         <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="25" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="25" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a571ef3178fa0e1d8d26314427aba859d" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::RootSolver::Solution::upperBound</definition>
-        <argsstring></argsstring>
-        <name>upperBound</name>
-        <briefdescription>
+<para>The lower bound of the root, within the interval [root - tolerance, root]. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -43,12 +32,13 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="26" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="26" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" static="no" mutable="no">
-        <type>Size</type>
-        <definition>Size ostk::astrodynamics::RootSolver::Solution::iterationCount</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a571ef3178fa0e1d8d26314427aba859d" prot="public" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::RootSolver::Solution::upperBound</definition>
         <argsstring></argsstring>
-        <name>iterationCount</name>
+        <name>upperBound</name>
         <briefdescription>
+<para>The upper bound of the root, within the interval [root, root + tolerance]. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -56,12 +46,13 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="27" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="27" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" static="no" mutable="no">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::RootSolver::Solution::hasConverged</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::RootSolver::Solution::iterationCount</definition>
         <argsstring></argsstring>
-        <name>hasConverged</name>
+        <name>iterationCount</name>
         <briefdescription>
+<para>The number of iterations performed to find the root. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -69,8 +60,23 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="28" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="28" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::RootSolver::Solution::hasConverged</definition>
+        <argsstring></argsstring>
+        <name>hasConverged</name>
+        <briefdescription>
+<para>Whether the root solver has converged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="29" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
+<para>Root solver solution. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -94,7 +100,7 @@
         <label>Size</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="22" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="21" bodyend="29"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="22" bodyend="30"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>hasConverged</name></member>
       <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>iterationCount</name></member>

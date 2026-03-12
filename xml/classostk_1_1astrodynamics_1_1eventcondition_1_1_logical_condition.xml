@@ -11,6 +11,7 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6ac33315685a0cba3ce53be378b3c7874b" prot="public">
           <name>And</name>
           <briefdescription>
+<para>All sub-conditions must be satisfied. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -18,17 +19,19 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6a3a2d5fe857d8f9541136a124c2edec6c" prot="public">
           <name>Or</name>
           <briefdescription>
+<para>At least one sub-condition must be satisfied. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
         <briefdescription>
+<para>Logical connective type. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="31" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="32" bodyend="36"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-type">
@@ -43,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="96" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="96" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="106" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="106" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -58,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="98" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="98" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="108" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="108" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a12bed494de47084102b02dd76a7d7ec6" prot="private" static="no" mutable="no">
         <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> &gt; &gt;</type>
@@ -71,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="99" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="99" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="109" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a859cbe8e997aafcfe1a3bb608593dba8" prot="private" static="no" mutable="no">
         <type>evaluationSignature</type>
@@ -84,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="100" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="100" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="110" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="110" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -140,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="47" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="12" bodyend="20"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="48" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="12" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1ae805e620b0f8dc8d2558a3868d6b4879" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -154,7 +157,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="54" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="22" bodyend="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="55" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="22" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a743ef6216cf001085e6a220ff9431a2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6" kindref="member">LogicalCondition::Type</ref></type>
@@ -165,13 +168,16 @@
 <para>Get the type of the logical connective. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The type. </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2748ec48306746d0f2d2029d74c227ef" kindref="member">LogicalCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6" kindref="member">LogicalCondition::Type</ref><sp/>type<sp/>=<sp/>condition.getType()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The logical connective type. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="59" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="24" bodyend="27"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="65" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="24" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a0f94893311b22a00c4e699e4a650341e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -200,7 +206,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="65" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="34" bodyend="40"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="71" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="34" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a33f44a189d26aa36536475c24321467f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> &gt; &gt;</type>
@@ -211,13 +217,16 @@
 <para>Get the individual event conditions composing the Logical Connective Event Condition. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>An Array of shared pointers to <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> instances, representing the individual event conditions. </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2748ec48306746d0f2d2029d74c227ef" kindref="member">LogicalCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Array&lt;Shared&lt;EventCondition&gt;&gt;<sp/>conditions<sp/>=<sp/>condition.getEventConditions()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>An Array of shared pointers to <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> instances. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="71" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="29" bodyend="32"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="81" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="29" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2490e3096cdbb040475737e09822676a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -260,7 +269,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="79" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="42" bodyend="45"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="89" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="42" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1ac881121665f25980f45445daafcca4cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -302,7 +311,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="86" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="47" bodyend="60"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="96" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="47" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1afe7a919462239debba32773dc3152b71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition" kindref="compound">LogicalCondition</ref> *</type>
@@ -320,7 +329,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="91" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="62" bodyend="65"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="101" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="62" bodyend="65"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -339,7 +348,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="102" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="67" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="112" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="67" bodyend="104"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -392,7 +401,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="29" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="28" bodyend="103"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="29" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="28" bodyend="113"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1afe7a919462239debba32773dc3152b71" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1ad66416036aebd443c0f8627971750556" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>evaluationSignature</name></member>

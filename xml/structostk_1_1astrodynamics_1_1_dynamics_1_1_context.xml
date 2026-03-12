@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="59" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="59" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="65" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_dynamics_1_1_context_1aa63c80584c9d64ec0ced2e1e87395fb4" prot="public" static="no" mutable="no">
         <type>Array&lt; Pair&lt; Index, Size &gt; &gt;</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="60" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="60" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="66" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_dynamics_1_1_context_1a1807444de20431a98b65f486012aa09f" prot="public" static="no" mutable="no">
         <type>Array&lt; Pair&lt; Index, Size &gt; &gt;</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="61" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="61" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="67" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_dynamics_1_1_context_1a0ae7e364b43f04aa02ed013e082dc850" prot="public" static="no" mutable="no">
         <type>Size</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="62" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="62" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="68" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="68" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -76,15 +76,43 @@
           <declname>aWriteIndexes</declname>
         </param>
         <briefdescription>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aDynamicsSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A shared pointer to the dynamics </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aReadIndexes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read index mapping from coordinate subsets to state vector positions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aWriteIndexes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write index mapping from coordinate subsets to state vector positions </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="53" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="29" bodyend="43"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="59" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="29" bodyend="43"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para><ref refid="structostk_1_1astrodynamics_1_1_dynamics_1_1_context" kindref="compound">Context</ref> for dynamics evaluation, mapping coordinate subsets to state vector indices. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -113,7 +141,7 @@
         <label>Shared&lt; ostk::astrodynamics::Dynamics &gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="52" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="51" bodyend="63"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="53" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="52" bodyend="69"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1_dynamics_1_1_context_1ae344e41687698058010f132907f7f893" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics::Context</scope><name>Context</name></member>
       <member refid="structostk_1_1astrodynamics_1_1_dynamics_1_1_context_1acd5e35788f62a04ce64fd79419f9a82b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics::Context</scope><name>dynamics</name></member>

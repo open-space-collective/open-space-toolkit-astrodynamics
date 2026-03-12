@@ -10,12 +10,13 @@
         <argsstring></argsstring>
         <name>rmsError</name>
         <briefdescription>
+<para>RMS error of the solution. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="93" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="93" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="112" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="112" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a358c69d68f2ed2b3450619a1aa94d24c" prot="public" static="no" mutable="no">
         <type>Size</type>
@@ -23,12 +24,13 @@
         <argsstring></argsstring>
         <name>observationCount</name>
         <briefdescription>
+<para>Number of observations used. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="94" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="94" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="113" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="113" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a9f2477b1dbf9b1b403eb952303bcc43c" prot="public" static="no" mutable="no">
         <type>Size</type>
@@ -36,12 +38,13 @@
         <argsstring></argsstring>
         <name>iterationCount</name>
         <briefdescription>
+<para>Number of iterations performed. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="95" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="95" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="114" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="114" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a7e08fa4391197b672552ecd337d1304e" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -49,12 +52,13 @@
         <argsstring></argsstring>
         <name>terminationCriteria</name>
         <briefdescription>
+<para>Description of why the solver terminated. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="96" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="96" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="115" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="115" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a6a5e5f9cb3ddf133554dd54c36e911df" prot="public" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -62,12 +66,13 @@
         <argsstring></argsstring>
         <name>estimatedState</name>
         <briefdescription>
+<para>Estimated state at the solution. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="97" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="97" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="116" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1ae3d84b934d2a9ad3de64e6953600c0e0" prot="public" static="no" mutable="no">
         <type>MatrixXd</type>
@@ -75,12 +80,13 @@
         <argsstring></argsstring>
         <name>estimatedCovariance</name>
         <briefdescription>
+<para>Estimated covariance matrix of the solution. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="98" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="98" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="117" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="117" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a2b763b51d8bfd5e855ef4e39f0d4285a" prot="public" static="no" mutable="no">
         <type>MatrixXd</type>
@@ -88,12 +94,13 @@
         <argsstring></argsstring>
         <name>estimatedFrisbeeCovariance</name>
         <briefdescription>
+<para>Estimated Frisbee covariance matrix of the solution. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="99" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="99" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="118" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="118" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a2e59d40d088fb3e7fa5d09dde871a727" prot="public" static="no" mutable="no">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -101,12 +108,13 @@
         <argsstring></argsstring>
         <name>computedObservationStates</name>
         <briefdescription>
+<para>Array of computed observation states at the solution. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="100" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="100" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="119" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="119" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a664a04a241a2f1dd83e7fe261e2497c6" prot="public" static="no" mutable="no">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_step" kindref="compound">Step</ref> &gt;</type>
@@ -114,12 +122,13 @@
         <argsstring></argsstring>
         <name>steps</name>
         <briefdescription>
+<para>Array of solver iteration steps. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="101" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="101" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="120" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="120" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -156,10 +165,60 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTerminationCriteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Termination criteria description. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEstimatedState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimated state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEstimatedCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimated covariance matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEstimatedFrisbeeCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimated Frisbee covariance matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aComputedObservationsStateArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of computed observation states. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStepArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of solver iteration steps. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="75" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="44" bodyend="68"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="94" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="44" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1ab71429c9892c583eb7bd65f4c2a09001" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -182,7 +241,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="88" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="77" bodyend="97"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="107" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="77" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1ae71edfd9ab0d0692748af4f908bfec68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -200,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="91" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="99" bodyend="119"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="110" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="99" bodyend="119"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -224,10 +283,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="85" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="70" bodyend="75"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="104" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp" bodystart="70" bodyend="75"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis" kindref="compound">Analysis</ref> results from the least squares solver. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -282,7 +342,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="72" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="71" bodyend="102"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" line="84" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp" bodystart="83" bodyend="121"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a81f37eac00b2992ca06119013cf043f9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Analysis</scope><name>Analysis</name></member>
       <member refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1_1_analysis_1a2e59d40d088fb3e7fa5d09dde871a727" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::solver::LeastSquaresSolver::Analysis</scope><name>computedObservationStates</name></member>

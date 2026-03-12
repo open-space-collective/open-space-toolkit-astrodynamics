@@ -21,6 +21,9 @@ ostk.astrodynamics.solver.LeastSquaresSolver
       ~LeastSquaresSolver.get_finite_difference_solver
       ~LeastSquaresSolver.get_max_iteration_count
       ~LeastSquaresSolver.get_rms_update_threshold
+      ~LeastSquaresSolver.get_scale_factor_generator
+      ~LeastSquaresSolver.maximum_absolute_coordinate_scaling
+      ~LeastSquaresSolver.no_scaling
       ~LeastSquaresSolver.solve
    
    

@@ -101,7 +101,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="114" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" bodystart="114" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="127" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" bodystart="127" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -232,6 +232,11 @@
 <para>Construct a local orbital frame transform provider shared pointer for the provided type. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>LocalOrbitalFrameTransformProvider&gt;<sp/>providerSPtr<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1acaef96c21e8d20cc5196df00a365b3bd" kindref="member">LocalOrbitalFrameTransformProvider::Construct</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78ac6a33911cc53df9bdb84aac8d86a0565" kindref="member">LocalOrbitalFrameTransformProvider::Type::VNC</ref>,<sp/>aState</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aType</parametername>
@@ -255,7 +260,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="93" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="38" bodyend="45"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="100" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="38" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a0fa19b7305a194299476a60b01444aa4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; Transform(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -285,7 +290,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="102" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="72" bodyend="80"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="109" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="72" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa5ebee338d01e1dbf336be0d518ccc1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -300,6 +305,10 @@
 <para>Convert local orbital frame transform provider type to string. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">String<sp/>str<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa5ebee338d01e1dbf336be0d518ccc1b" kindref="member">LocalOrbitalFrameTransformProvider::StringFromType</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78ac6a33911cc53df9bdb84aac8d86a0565" kindref="member">LocalOrbitalFrameTransformProvider::Type::VNC</ref></highlight></codeline>
+<codeline><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aType</parametername>
@@ -315,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="111" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="82" bodyend="119"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="124" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="82" bodyend="119"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -359,7 +368,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="122" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="121" bodyend="272"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="135" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp" bodystart="121" bodyend="272"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -392,7 +401,7 @@
         <label>Provider</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="41" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" bodystart="40" bodyend="123"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" line="41" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp" bodystart="40" bodyend="136"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ae7fa1cad697a253c127de94d6fa33125" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1acaef96c21e8d20cc5196df00a365b3bd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider</scope><name>Construct</name></member>

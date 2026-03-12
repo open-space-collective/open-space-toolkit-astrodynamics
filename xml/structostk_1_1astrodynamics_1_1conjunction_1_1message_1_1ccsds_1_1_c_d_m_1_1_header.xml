@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="91" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="91" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="92" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1ad3bff8839b02f30a1028c47d1ed455c2" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="92" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="92" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="93" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1accd89e11af4c6bd2c296de813d174085" prot="public" static="no" mutable="no">
         <type>Instant</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="93" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="93" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="94" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1a734e24ce7dae70a8b500903dfcef5c5f" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="94" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="94" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="95" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="95" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1af3b71ce883952c7fa1cfd906d74611c7" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="95" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="95" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="96" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1a5ffea260b861fe539386f3ef7ad535c0" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -82,10 +82,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="96" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="96" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="97" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="97" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m" kindref="compound">CDM</ref> header section containing message identification and provenance fields. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -111,7 +112,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="90" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="89" bodyend="97"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="91" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="90" bodyend="98"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1ac256c0484faeae870317853988c79eb4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Header</scope><name>ccsdsCdmVersion</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_header_1ad3bff8839b02f30a1028c47d1ed455c2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::Header</scope><name>comment</name></member>

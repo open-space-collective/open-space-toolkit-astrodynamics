@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="99" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="99" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="106" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1a6c35938ee98c25e9ec9b8bdc970b7a00" prot="private" static="no" mutable="no">
         <type>Composite</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="100" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="100" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="107" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="107" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -318,12 +318,18 @@
         <argsstring>()</argsstring>
         <name>Undefined</name>
         <briefdescription>
+<para>Construct an undefined system. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System</ref><sp/>system<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a8e82409e5977713b4467ea691bbd1099" kindref="member">System::Undefined</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined system. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="96" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="88" bodyend="91"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="103" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="88" bodyend="91"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -343,7 +349,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="26" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="25" bodyend="101"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="26" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="25" bodyend="108"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a97d1398c4662ccae432afac9056352aa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a6c35938ee98c25e9ec9b8bdc970b7a00" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>geometry_</name></member>

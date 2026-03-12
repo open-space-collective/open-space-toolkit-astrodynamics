@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="88" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" bodystart="88" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="106" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1aeae1eb0c690361960d20338740f9cb5b" prot="private" static="no" mutable="no">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" kindref="compound">CartesianVelocity</ref> &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="89" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" bodystart="89" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="107" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" bodystart="107" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -51,15 +51,19 @@
           <declname>aName</declname>
         </param>
         <briefdescription>
-<para>Constructor for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kindref="compound">CartesianAcceleration</ref>. </para>
+<para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>CartesianPosition&gt;<sp/>positionSPtr<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>()<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Shared&lt;const<sp/>CartesianVelocity&gt;<sp/>velocitySPtr<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>()<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a93a4da3d0e6b6bb545a5085c608e1949" kindref="member">CartesianAcceleration</ref><sp/>acceleration<sp/>=<sp/>{<sp/>positionSPtr,<sp/>velocitySPtr,<sp/></highlight><highlight class="stringliteral">&quot;Acceleration&quot;</highlight><highlight class="normal"><sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aCartesianPositionSPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Shared pointer to a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" kindref="compound">CartesianPosition</ref> coordinate subset </para>
+<para>Shared pointer to a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" kindref="compound">CartesianPosition</ref> coordinate subset. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -67,7 +71,7 @@
 <parametername>aCartesianVelocitySPtr</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Shared pointer to a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" kindref="compound">CartesianVelocity</ref> coordinate subset </para>
+<para>Shared pointer to a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" kindref="compound">CartesianVelocity</ref> coordinate subset. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -75,7 +79,7 @@
 <parametername>aName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Name of the coordinate subset </para>
+<para>Name of the coordinate subset. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -83,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="51" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="24" bodyend="33"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="61" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="24" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ae2c7054638350746a33d1c749f300b61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -91,13 +95,13 @@
         <argsstring>()</argsstring>
         <name>~CartesianAcceleration</name>
         <briefdescription>
-<para>Destructor for <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kindref="compound">CartesianAcceleration</ref>. </para>
+<para>Destructor. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="58" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="35" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="68" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="35" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a84bb132d3b9e8f79fe3540c99bd3c418" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
@@ -176,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="69" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="37" bodyend="51"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="79" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="37" bodyend="51"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -186,16 +190,18 @@
         <argsstring>()</argsstring>
         <name>Default</name>
         <briefdescription>
-<para>Returns the default <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kindref="compound">CartesianAcceleration</ref> object. </para>
+<para>Return the default instance. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Shared pointer to the default <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kindref="compound">CartesianAcceleration</ref> object </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>CartesianAcceleration&gt;<sp/>accelerationSPtr<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1a40439f65efd2ee28a9b41c9ed227c4c7" kindref="member">CartesianAcceleration::Default</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Shared pointer to the default <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kindref="compound">CartesianAcceleration</ref> instance. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="80" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="53" bodyend="60"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="94" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="53" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ab3c0d5ab671ae733c4c82e153bfbc225" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration" kindref="compound">CartesianAcceleration</ref> &gt;</type>
@@ -203,21 +209,25 @@
         <argsstring>()</argsstring>
         <name>ThrustAcceleration</name>
         <briefdescription>
-<para>Returns the thrust acceleration. </para>
+<para>Return the thrust acceleration instance. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Shared pointer to the thrust acceleration </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>CartesianAcceleration&gt;<sp/>thrustAccelSPtr<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_acceleration_1ab3c0d5ab671ae733c4c82e153bfbc225" kindref="member">CartesianAcceleration::ThrustAcceleration</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Shared pointer to the thrust acceleration instance. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="85" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="62" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="103" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp" bodystart="62" bodyend="69"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para>Cartesian Acceleration coordinate subset. </para>
     </briefdescription>
     <detaileddescription>
+<para>Represents the acceleration vector in Cartesian coordinates (x, y, z). Depends on associated <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position" kindref="compound">CartesianPosition</ref> and <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity" kindref="compound">CartesianVelocity</ref> subsets for frame transformations. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -243,7 +253,7 @@
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" bodystart="43" bodyend="90"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp" bodystart="47" bodyend="108"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a5f7379a42f85f41254d7ec6193745316" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration</scope><name>add</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1ae25ec249d71fc676162124856af147ae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration</scope><name>BallisticCoefficient</name></member>

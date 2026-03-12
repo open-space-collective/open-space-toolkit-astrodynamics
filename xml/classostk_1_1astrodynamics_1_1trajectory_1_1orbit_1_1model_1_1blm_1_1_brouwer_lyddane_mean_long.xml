@@ -100,16 +100,19 @@
         <name>toCOE</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a45c78de30c2d9d89d0dca10ec88c6c41">toCOE</reimplements>
         <briefdescription>
-<para>Convert <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">BrouwerLyddaneMeanLong</ref> to COE. </para>
+<para>Convert to classical orbital elements (COE). </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>COE </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1ac605141df9aa5ddefd62298b912ed4e4" kindref="member">BrouwerLyddaneMeanLong</ref><sp/>blmLong<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1a9926db96024bf6f4545a640ebfccae8c" kindref="member">classicalOE</ref><sp/>coe<sp/>=<sp/>blmLong.toCOE()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Classical orbital elements. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="89" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="41" bodyend="391"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="99" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="41" bodyend="391"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -123,25 +126,28 @@
           <declname>aCOE</declname>
         </param>
         <briefdescription>
-<para>Construct from a COE. </para>
+<para>Construct from classical orbital elements (COE). </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1a9926db96024bf6f4545a640ebfccae8c" kindref="member">classicalOE</ref><sp/>coe<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1ac605141df9aa5ddefd62298b912ed4e4" kindref="member">BrouwerLyddaneMeanLong</ref><sp/>blmLong<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1a7b4d6362f7998fbff1953c17b90c370d" kindref="member">BrouwerLyddaneMeanLong::COE</ref>(coe)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aCOE</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A COE </para>
+<para>A COE. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Brouwer-Lyddane Mean Short </para>
+<simplesect kind="return"><para>Brouwer-Lyddane Mean Long elements. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="84" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="393" bodyend="404"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="89" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="393" bodyend="404"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1a57045230b77a8c563f3bf48519aa7c12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">BrouwerLyddaneMeanLong</ref></type>
@@ -157,15 +163,19 @@
           <declname>aGravitationalParameter</declname>
         </param>
         <briefdescription>
-<para>Constructor. </para>
+<para>Construct from a Cartesian state. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afe61bec3df3ed29002a9bc07f3f53311" kindref="member">COE::CartesianState</ref><sp/>cartesianState<sp/>=<sp/>{<sp/>position,<sp/>velocity<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Derived<sp/>mu<sp/>=<sp/>Derived(3.986004418e14,<sp/>Derived::Unit::GravitationalParameter())<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1ac605141df9aa5ddefd62298b912ed4e4" kindref="member">BrouwerLyddaneMeanLong</ref><sp/>blmLong<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1a57045230b77a8c563f3bf48519aa7c12" kindref="member">BrouwerLyddaneMeanLong::Cartesian</ref>(cartesianState,<sp/>mu)<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aCartesianState</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A cartesian state </para>
+<para>A cartesian state. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -173,15 +183,17 @@
 <parametername>aGravitationalParameter</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A gravitational parameter </para>
+<para>A gravitational parameter. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>Brouwer-Lyddane Mean Long elements. </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="95" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="406" bodyend="418"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="112" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="406" bodyend="418"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1af0b6c7d9b6203eba652c6004c656c99b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">BrouwerLyddaneMeanLong</ref></type>
@@ -192,13 +204,15 @@
 <para>Construct an undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">BrouwerLyddaneMeanLong</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">BrouwerLyddaneMeanLong</ref> </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1ac605141df9aa5ddefd62298b912ed4e4" kindref="member">BrouwerLyddaneMeanLong</ref><sp/>blmLong<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long_1af0b6c7d9b6203eba652c6004c656c99b" kindref="member">BrouwerLyddaneMeanLong::Undefined</ref>()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_long" kindref="compound">BrouwerLyddaneMeanLong</ref>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="102" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="420" bodyend="430"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="123" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="420" bodyend="430"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -228,7 +242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="108" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="432" bodyend="442"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="129" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp" bodystart="432" bodyend="442"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -294,7 +308,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="61" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" bodystart="60" bodyend="109"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" line="61" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp" bodystart="60" bodyend="130"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong</scope><name>anomaly_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong</scope><name>AnomalyType</name></member>

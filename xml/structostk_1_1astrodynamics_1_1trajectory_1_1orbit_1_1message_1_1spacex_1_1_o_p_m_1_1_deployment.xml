@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="94" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="94" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="96" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1aff0b544c7ff29eebbedc443839460a0f" prot="public" static="no" mutable="no">
         <type>Integer</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="95" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="95" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="97" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1ab5b95c0582554fb10bde6a7d98b7e884" prot="public" static="no" mutable="no">
         <type>Duration</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="96" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="96" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="98" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="98" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a79d9f864dfc72eec71898c1db8c85ecd" prot="public" static="no" mutable="no">
         <type>Instant</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="97" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="97" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="99" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="99" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a4ecbb086686f714711e94ba7ee204baf" prot="public" static="no" mutable="no">
         <type>Position</type>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="98" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="98" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="100" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="100" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a849e7dffd58367bc799a074fb194ccdc" prot="public" static="no" mutable="no">
         <type>Velocity</type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="99" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="99" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="101" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a85fffb6b9ca596e137a89ef103911207" prot="public" static="no" mutable="no">
         <type>Length</type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="100" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="100" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="102" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="102" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a7778182bd950667056e41a2a705113dc" prot="public" static="no" mutable="no">
         <type>Length</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="101" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="101" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="103" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="103" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a0b7a553d1fe0b96395d9ed31af970f0b" prot="public" static="no" mutable="no">
         <type>Angle</type>
@@ -119,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="102" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="102" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="104" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1af58eb71aa60d324061bcd4733181756e" prot="public" static="no" mutable="no">
         <type>Angle</type>
@@ -132,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="103" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="103" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="105" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="105" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a1080b1e04befb1191b5bfbbfb340f4b3" prot="public" static="no" mutable="no">
         <type>Angle</type>
@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="104" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="104" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="106" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a11945e94d163653c692418e3fe4a949d" prot="public" static="no" mutable="no">
         <type>Angle</type>
@@ -158,7 +158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="105" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="105" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="107" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a5d9661b19b0a3ba77af40392d07d6cd7" prot="public" static="no" mutable="no">
         <type>Real</type>
@@ -171,7 +171,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="106" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="106" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="108" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="108" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -181,15 +181,23 @@
         <argsstring>() const</argsstring>
         <name>toState</name>
         <briefdescription>
+<para>Convert deployment to a trajectory state. </para>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">OPM::Deployment<sp/>deployment<sp/>=<sp/>...<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">State<sp/>state<sp/>=<sp/>deployment.toState()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A trajectory state corresponding to this deployment. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="108" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.cpp" bodystart="186" bodyend="189"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="118" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.cpp" bodystart="186" bodyend="189"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m" kindref="compound">OPM</ref> deployment entry containing state and orbital element information for a single payload. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -257,7 +265,7 @@
         <label>Integer</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="93" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="92" bodyend="109"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="95" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" bodystart="94" bodyend="119"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a5d9661b19b0a3ba77af40392d07d6cd7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>ballisticCoefficient</name></member>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_deployment_1a79d9f864dfc72eec71898c1db8c85ecd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Deployment</scope><name>date</name></member>

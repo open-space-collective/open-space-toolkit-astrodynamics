@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="63" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" bodystart="63" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="71" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" bodystart="71" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="39" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="15" bodyend="33"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="42" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="15" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a963976ee34ef068ba567b0b92ced7f25" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="47" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="35" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="50" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="35" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1ad4ce6e9d92b564e79498db428fd7ada6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -111,13 +111,16 @@
 <para>Check if the condition is inversed. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Boolean value indicating whether the condition is inversed </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a3cf86ef0f6ee618099a25fed551580dc" kindref="member">BooleanCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversed<sp/>=<sp/>condition.isInversed()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the condition is inversed. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="52" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="37" bodyend="40"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="60" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="37" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a02407b9f943a94e829d1e04c52952096" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -159,13 +162,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="60" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="42" bodyend="50"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="68" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp" bodystart="42" bodyend="50"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>An Event Condition that can evaluate each state to a boolean. </para>
     </briefdescription>
     <detaileddescription>
+<para>Wraps a boolean evaluator as a <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref> by mapping true/false to 1.0/0.0. Supports an optional inverse flag that flips the boolean result before evaluation. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
@@ -223,7 +227,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="25" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" bodystart="24" bodyend="64"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="28" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" bodystart="27" bodyend="72"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a3cf86ef0f6ee618099a25fed551580dc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>BooleanCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>clone</name></member>

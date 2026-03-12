@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="44" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="44" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="52" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="52" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="33" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="14" bodyend="26"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="36" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="14" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ae85b6b1f9165b37c83440f5e3da2ef80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="36" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="28" bodyend="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="39" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="28" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1aebad3e4e871bdd3e3189fec984168cfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -82,22 +82,26 @@
         <argsstring>() const</argsstring>
         <name>getInstant</name>
         <briefdescription>
-<para>Get instant. </para>
+<para>Get the target instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Instant </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition_1ac5c268d99db7473ea38391c0ef8f3fb1" kindref="member">InstantCondition</ref><sp/>condition<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Instant<sp/>instant<sp/>=<sp/>condition.getInstant()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The target instant. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="41" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="30" bodyend="33"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="49" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>A duration based event condition. </para>
+<para>An instant-based event condition. </para>
     </briefdescription>
     <detaileddescription>
+<para>Triggers when the propagation reaches a specified instant, using a <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref> that compares elapsed seconds since the reference instant. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
@@ -155,7 +159,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="22" bodyend="45"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" line="26" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp" bodystart="25" bodyend="53"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::InstantCondition</scope><name>Criterion</name></member>

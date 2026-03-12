@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="84" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="84" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="89" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="89" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -70,16 +70,19 @@
         <argsstring>() const</argsstring>
         <name>getName</name>
         <briefdescription>
-<para>Get name. </para>
+<para>Get the guidance law name. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The name </para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" kindref="member">GuidanceLaw</ref><sp/>guidanceLaw<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">String<sp/>name<sp/>=<sp/>guidanceLaw.getName()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The name. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="57" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="24" bodyend="27"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="62" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="24" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -122,15 +125,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="63" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="29" bodyend="36"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="68" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="29" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Vector3d</type>
         <definition>virtual Vector3d ostk::astrodynamics::GuidanceLaw::calculateThrustAccelerationAt</definition>
         <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, const Real &amp;aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const =0</argsstring>
         <name>calculateThrustAccelerationAt</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81">calculateThrustAccelerationAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85">calculateThrustAccelerationAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81">calculateThrustAccelerationAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1add770ececad5c96ad2e6711d0c295121">calculateThrustAccelerationAt</reimplementedby>
         <param>
           <type>const Instant &amp;</type>
@@ -203,7 +206,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="75" column="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="80" column="22"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -293,7 +296,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="32" bodyend="85"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="32" bodyend="90"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>calculateThrustAccelerationAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>getName</name></member>

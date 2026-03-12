@@ -25,12 +25,15 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AtmosphericDrag<sp/>atmosphericDrag<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>atmosphericDrag<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An output stream </para>
+<para>An output stream. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -38,11 +41,11 @@
 <parametername>anAtmosphericDrag</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An atmospheric drag dynamics </para>
+<para>An atmospheric drag dynamics. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A reference to output stream </para>
+<simplesect kind="return"><para>A reference to the output stream. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -66,12 +69,15 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">CentralBodyGravity<sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>centralBodyGravity<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An output stream </para>
+<para>An output stream. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -79,11 +85,11 @@
 <parametername>aCentralBodyGravity</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A central body gravity dynamics </para>
+<para>A central body gravity dynamics. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A reference to output stream </para>
+<simplesect kind="return"><para>A reference to the output stream. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -107,12 +113,15 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">PositionDerivative<sp/>positionDerivative<sp/>=<sp/>{}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>positionDerivative<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An output stream </para>
+<para>An output stream. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -120,11 +129,11 @@
 <parametername>aPositionDerivative</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A position derivative dynamics </para>
+<para>A position derivative dynamics. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A reference to output stream </para>
+<simplesect kind="return"><para>A reference to the output stream. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -148,14 +157,15 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>Dynamics(...);</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Tabulated<sp/>tabulated<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>tabulated<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An output stream </para>
+<para>An output stream. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -163,11 +173,11 @@
 <parametername>aTabulated</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A <ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated" kindref="compound">Tabulated</ref> dynamics </para>
+<para>A tabulated dynamics. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A reference to output stream </para>
+<simplesect kind="return"><para>A reference to the output stream. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -191,12 +201,15 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">ThirdBodyGravity<sp/>thirdBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>thirdBodyGravity<sp/>;</highlight></codeline>
+</programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>anOutputStream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>An output stream </para>
+<para>An output stream. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -204,11 +217,11 @@
 <parametername>aThirdBodyGravity</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A third body gravity dynamics </para>
+<para>A third-body gravity dynamics. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A reference to output stream </para>
+<simplesect kind="return"><para>A reference to the output stream. </para>
 </simplesect>
 </para>
         </detaileddescription>
