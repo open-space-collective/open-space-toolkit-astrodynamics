@@ -75,62 +75,38 @@ bool Segment::ManeuverConstraints::intervalHasValidMaximumDuration(const Interva
     return aManeuverInterval.getDuration() <= maximumDuration;
 }
 
-Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
+bool Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
     const Interval& aManeuverInterval, const Array<Interval>& aPreviousManeuverIntervals
 ) const
 {
     // If there are no maximum duty cycle constraints, return valid
     if (!maximumDutyCycle.first.isDefined() || !maximumDutyCycle.second.isDefined())
     {
-        return Pair<bool, Instant>(true, Instant::Undefined());
+        return true;
     }
 
-    // If the candidate maneuver duration is greater than the maximum duty cycle numerator, return invalid
-    if (aManeuverInterval.getDuration() > maximumDutyCycle.first)
+    for (const auto& previousManeuverInterval : aPreviousManeuverIntervals)
     {
-        return Pair<bool, Instant>(false, aManeuverInterval.getEnd() - maximumDutyCycle.first);
+        if (previousManeuverInterval.getEnd() >= aManeuverInterval.getStart())
+        {
+            throw ostk::core::error::RuntimeError(
+                "Previous maneuver intervals must be before the candidate maneuver interval."
+            );
+        }
     }
 
-    // Check that previous maneuvers do not overlap with the candidate maneuver
-    if (!Interval::LogicalAnd(aPreviousManeuverIntervals, {aManeuverInterval}).isEmpty())
-    {
-        throw ostk::core::error::RuntimeError("Candidate maneuver overlaps with previous maneuvers.");
-    }
-
-    const Duration numerator = maximumDutyCycle.first;
-    const Duration denominator = maximumDutyCycle.second;
-
-    // Once we've performed the sanity checks, we can now assess the maximum duty cycle constraint.
-    //
-    // Consider the following:
-    // - Be "t_s" is the start of the candidate maneuver interval
-    // - Be "t_e" is the end of the candidate maneuver interval
-    // - Be "SUM(t_i, t_j)" is the sum of maneuver durations between t_j and t_j
-    // - Be "num" and "den" are the numerator and denominator of the maximum duty cycle respectively
-    //
-    // Then, in order to comply with the maximum duty cycle, the following inequality must be satisfied:
-    //
-    // SUM(t_e - den, t_e) <= num
-    //
-    // Which can be rewritten as:
-    //
-    // SUM(t_e - den, t_s) + (t_e - t_s) <= num
-    //
-    // Finally getting the earliest possible start time for the maneuver:
-    //
-    // t_s >= t_e + SUM(t_e - den, t_s) - num
-
-    // Create the "tail" interval (from the candidate maneuver start back to the maximum duty cycle denominator)
+    // Create the "tail" interval
     const Interval tailInterval =
-        Interval::Closed(aManeuverInterval.getEnd() - denominator, aManeuverInterval.getStart());
+        Interval::Closed(aManeuverInterval.getEnd() - maximumDutyCycle.second, aManeuverInterval.getEnd());
 
     // Compute the maneuver intervals during the tail
-    const Array<Interval> tailManeuverIntervals = Interval::LogicalAnd(aPreviousManeuverIntervals, {tailInterval});
+    const Array<Interval> previousManeuverIntervalsDuringTail =
+        Interval::LogicalAnd(aPreviousManeuverIntervals, {tailInterval});
 
     // Get the sum of the maneuver intervals during the tail
-    const Duration tailManeuverDuration = std::accumulate(
-        tailManeuverIntervals.begin(),
-        tailManeuverIntervals.end(),
+    Duration tailManeuverDuration = std::accumulate(
+        previousManeuverIntervalsDuringTail.begin(),
+        previousManeuverIntervalsDuringTail.end(),
         Duration::Zero(),
         [](const Duration& sum, const Interval& interval)
         {
@@ -138,73 +114,9 @@ Pair<bool, Instant> Segment::ManeuverConstraints::intervalHasValidMaximumDutyCyc
         }
     );
 
-    // Get the analytical earliest valid start instant
-    const Instant earliestValidStartInstant = aManeuverInterval.getEnd() + tailManeuverDuration - numerator;
+    tailManeuverDuration += aManeuverInterval.getDuration();
 
-    if (earliestValidStartInstant <= aManeuverInterval.getStart())
-    {
-        // The candidate maneuver starts at or after the earliest valid start instant,
-        // i.e. the candiate maneuver is valid.
-        return Pair<bool, Instant>(true, Instant::Undefined());
-    }
-
-    if (earliestValidStartInstant < aManeuverInterval.getEnd())
-    {
-        // The candidate maneuver is not valid, it needs so be truncated
-        // to the earliest valid start instant.
-        return Pair<bool, Instant>(false, earliestValidStartInstant);
-    }
-
-    // If we made it this far it's because the earliest valid start is at or after the candidate maneuver end,
-    // i.e. there is no "room" for the candidate maneuver. This is due to previous maneuvers during the tail
-    // interval already saturating (or even over-saturating) the duty cycle.
-    //
-    // Consider the following:
-    // - Be "t_*" an arbitraty instant
-    // - Be SUM(t_i, t_j) the sum of the previous maneuvers durations between t_j and t_j
-    //
-    // We need to find t_* such that:
-    //
-    // SUM(t_* - den, t_*) <= num
-    //
-    // With the earliest valid start instat being the first one that satisfies the inequality:
-    //
-    // SUM(t_* - den, t_*) = num
-    //
-    // Which can be rewritten as:
-    //
-    // SUM(t_* - den, t_*) - num = 0
-    //
-    // Unlike the previous cases, we need to solve this numerically, as we cannot really express the equation
-    // above as an analytical "t_* = ..."" function.
-    //
-    // We can use a root solver to find the zero of that equation, giving us the earliest valid start instant:
-    const Instant t0 = tailManeuverIntervals.accessFirst().getStart();
-    const auto function = [t0, numerator, denominator, aPreviousManeuverIntervals](const double& x) -> double
-    {
-        const Instant tStar = t0 + denominator + Duration::Seconds(x);
-        const Interval interval = Interval::Closed(tStar - denominator, tStar);
-        const Array<Interval> maneuverIntervals = Interval::LogicalAnd(aPreviousManeuverIntervals, {interval});
-
-        // Get the sum of the maneuver intervals during the tail
-        const Duration maneuverDuration = std::accumulate(
-            maneuverIntervals.begin(),
-            maneuverIntervals.end(),
-            Duration::Zero(),
-            [](const Duration& sum, const Interval& elem)
-            {
-                return sum + elem.getDuration();
-            }
-        );
-
-        return (maneuverDuration - numerator).inSeconds();
-    };
-
-    const RootSolver rootSolver = RootSolver::Default();
-    const RootSolver::Solution solution = rootSolver.bisection(function, 0.0, denominator.inSeconds());
-
-    // We return the upper bound to fall on the conservative side.
-    return Pair<bool, Instant>(false, t0 + denominator + Duration::Seconds(solution.upperBound));
+    return tailManeuverDuration <= maximumDutyCycle.first;
 }
 
 void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -937,17 +849,11 @@ Segment::Solution Segment::solve(
     }
 
     // We must solve maneuver by maneuver to get the exact maneuver start and stop times
-
     Array<State> segmentStates = {aState};
     Array<Interval> acceptedManeuverIntervals = Array<Interval>::Empty();
 
-    // Array of all historical maneuvers (those accepted during previous segment solve and those
-    // accepted during this current segment solve)
-    Array<Interval> historicalManeuverIntervals = Array<Interval>::Empty();
-    if (previousManeuverInterval.isDefined())
-    {
-        historicalManeuverIntervals.add(previousManeuverInterval);
-    }
+    // Store the initial previous maneuver interval, as this will be updated
+    const Interval initialPreviousManeuverInterval = previousManeuverInterval;
 
     // Helper lambda to build a thruster dynamics that only thrusts within the given interval
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
@@ -1067,7 +973,6 @@ Segment::Solution Segment::solve(
 
         // Track the accepted maneuver interval for explicit maneuver extraction
         acceptedManeuverIntervals.add(previousManeuverInterval);
-        historicalManeuverIntervals.add(previousManeuverInterval);
 
         // Reset the multiplier to 1, as we have accepted a maneuver
         multiplier = 1;
@@ -1077,12 +982,210 @@ Segment::Solution Segment::solve(
         );
     };
 
-    // Helper lambda to handle maximum duration violation strategies, returning true if the segment condition is
-    // satisfied. It also updates the segment states and the guidance law if the maneuver is accepted.
-    const auto handleMaximumDurationViolation = [&](const FlightManeuver& candidateManeuver) -> bool
+    // helper lambda to solve and accept a constant-lof maneuver
+    const auto solveAndAcceptConstantLofManeuver = [&](const Interval& validManeuverInterval) -> bool
     {
-        const Interval candidateManeuverInterval = candidateManeuver.getInterval();
+        const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
+        const Segment::Solution maneuverSolution =
+            solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
+        const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+        const Segment::Solution maneuverLOFCompliantSolution =
+            constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
+        acceptManeuver(maneuverLOFCompliantSolution, validManeuver);
+
+        return maneuverLOFCompliantSolution.conditionIsSatisfied;
+    };
+
+    // Helper lambda to handle maximum duty cycle violation strategies, returning true if the segment condition is
+    // satisfied. It also updates the segment states and the guidance law if the maneuver is accepted.
+    const auto handleMaximumDutyCycleViolation =
+        [&](const Interval& candidateManeuverInterval,
+            const Array<Interval>& previousManeuverIntervalsToConsiderForDutyCycle) -> bool
+    {
+        const Duration stepSize = Duration::Seconds(10.0);
+        switch (maneuverConstraints_.maximumDurationStrategy)
+        {
+            case MaximumManeuverDurationViolationStrategy::Fail:
+            {
+                throw ostk::core::error::RuntimeError(
+                    "Maneuver duty cycle exceeds maximum maneuver duty cycle constraint, change the maximum maneuver "
+                    "duration strategy to prevent the Sequence from failing."
+                );
+            }
+
+            case MaximumManeuverDurationViolationStrategy::Skip:
+            {
+                return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+            }
+
+            case MaximumManeuverDurationViolationStrategy::TruncateEnd:
+            {
+                // Start trying candidate maneuvers intervals [start, start + x]
+                Duration newDuration =
+                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration) - stepSize;
+                while (newDuration > Duration::Zero())
+                {
+                    {
+                        const Interval newCandidateManeuverInterval =
+                            Interval::Closed(candidateManeuverInterval.getStart(), newDuration);
+
+                        if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                        {
+                            break;
+                        }
+
+                        if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                                newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+                            ))
+                        {
+                            const bool conditionIsSatisfied =
+                                solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                            if (conditionIsSatisfied)
+                            {
+                                return true;
+                            }
+
+                            return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+                        }
+
+                        newDuration -= stepSize;
+                    }
+
+                    // Could not find a valid maneuver interval, skip
+                    return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+                }
+            }
+
+            case MaximumManeuverDurationViolationStrategy::TruncateStart:
+            {
+                // Start trying candidate maneuvers intervals [end - x, end]
+                Duration newDuration =
+                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration) - stepSize;
+                while (newDuration > Duration::Zero())
+                {
+                    const Interval newCandidateManeuverInterval = Interval::Closed(
+                        candidateManeuverInterval.getEnd() - newDuration, candidateManeuverInterval.getEnd()
+                    );
+
+                    if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                    {
+                        break;
+                    }
+
+                    if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                            newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+                        ))
+                    {
+                        return solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                    }
+
+                    newDuration -= stepSize;
+                }
+
+                // Could not find a valid maneuver interval, skip
+                return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+            }
+
+            case MaximumManeuverDurationViolationStrategy::Center:
+            {
+                // Start trying candidate maneuvers intervals [mid - x/2, mid + x/2]
+                Duration newDuration =
+                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration) - stepSize;
+                while (newDuration > Duration::Zero())
+                {
+                    const Interval newCandidateManeuverInterval =
+                        Interval::Centered(candidateManeuverInterval.getCenter(), newDuration, Interval::Type::Closed);
+
+                    if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                    {
+                        break;
+                    }
+
+                    if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                            newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+                        ))
+                    {
+                        const bool conditionIsSatisfied =
+                            solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                        if (conditionIsSatisfied)
+                        {
+                            return true;
+                        }
+
+                        return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+                    }
+
+                    newDuration -= stepSize;
+                }
+
+                // Could not find a valid maneuver interval, skip
+                return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+            }
+
+            case MaximumManeuverDurationViolationStrategy::Chunk:
+            {
+                // Start trying candidate maneuvers intervals [start, start + x]
+                Duration newDuration =
+                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration) - stepSize;
+                while (newDuration > Duration::Zero())
+                {
+                    const Interval newCandidateManeuverInterval =
+                        Interval::Closed(candidateManeuverInterval.getStart(), newDuration);
+
+                    if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                    {
+                        break;
+                    }
+
+                    if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                            newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+                        ))
+                    {
+                        const bool conditionIsSatisfied =
+                            solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                        if (conditionIsSatisfied)
+                        {
+                            return true;
+                        }
+
+                        return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+                    }
+
+                    newDuration -= stepSize;
+                }
+
+                // Could not find a valid maneuver interval, here we can't skip to the end of the maneuver,
+                // the fact that we could not allocate a chunk at the beginning of the maneuver interval does
+                // not mean that we can't allocate a chunk later.
+
+                // So what we do is, since the maximum maneuver duty cycle is saturated, we coast from the
+                // start of the first maneuver in the tail, for the maximum maneuver duty cycle duration denominator.
+                const Interval tailInterval = Interval::Closed(
+                    candidateManeuverInterval.getEnd() - maneuverConstraints_.maximumDutyCycle.second,
+                    candidateManeuverInterval.getEnd()
+                );
+                const Array<Interval> previousManeuverIntervalsDuringTail =
+                    Interval::LogicalAnd(previousManeuverIntervalsToConsiderForDutyCycle, {tailInterval});
+
+                return solveAndAcceptCoast(
+                    previousManeuverIntervalsDuringTail.first().getStart() +
+                    maneuverConstraints_.maximumDutyCycle.second
+                );
+            }
+
+            default:
+            {
+                throw ostk::core::error::runtime::ToBeImplemented("Maximum maneuver duration strategy");
+            }
+        }
+    };
+
+    // Helper lambda to handle maximum duration violation strategies, returning true if the segment
+    // condition is satisfied. It also updates the segment states and the guidance law if the
+    // maneuver is accepted.
+    const auto handleMaximumDurationViolation = [&](const Interval& candidateManeuverInterval) -> bool
+    {
         // helper lambda to solve and accept a constant-lof maneuver
         const auto solveAndAcceptConstantLofManeuver = [&](const Interval& validManeuverInterval) -> bool
         {
@@ -1103,7 +1206,8 @@ Segment::Solution Segment::solve(
             case MaximumManeuverDurationViolationStrategy::Fail:
             {
                 throw ostk::core::error::RuntimeError(
-                    "Maneuver duration exceeds maximum maneuver duration constraint, change the maximum maneuver "
+                    "Maneuver duration exceeds maximum maneuver duration constraint, change the "
+                    "maximum maneuver "
                     "duration strategy to prevent the Sequence from failing."
                 );
             }
@@ -1204,7 +1308,7 @@ Segment::Solution Segment::solve(
             continue;
         }
 
-        const Interval candidateManeuverInterval = subsegmentManeuver->getInterval();
+        Interval candidateManeuverInterval = subsegmentManeuver->getInterval();
 
         if (candidateManeuverInterval.getDuration() < shortManeuverThreshold)
         {
@@ -1217,33 +1321,25 @@ Segment::Solution Segment::solve(
             continue;
         }
 
-        // Check maximum duty cycle constraint
-        const Pair<bool, Instant> hasValidMaximumDutyCycle = maneuverConstraints_.intervalHasValidMaximumDutyCycle(
-            candidateManeuverInterval, historicalManeuverIntervals
-        );
-        if (!hasValidMaximumDutyCycle.first)
-        {
-            // If the candidate maneuver is invalid, we to coast until the earliest valid start instant.
-            segmentConditionIsSatisfied = solveAndAcceptCoast(hasValidMaximumDutyCycle.second);
-            continue;
-        }
-
         // Check minimum maneuver duration constraint
         if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
         {
-            // The extracted maneuver might be a single-point maneuver. This happens as the maneuver window
-            // might have been small enough (see note below) for the propagator to only step inside it once. Producing a
-            // single-point acceleration block and thus a zero duration Maneuver.
+            // The extracted maneuver might be a single-point maneuver. This happens as the maneuver
+            // window might have been small enough (see note below) for the propagator to only step
+            // inside it once. Producing a single-point acceleration block and thus a zero duration
+            // Maneuver.
             //
-            // In order for the segment to advance, and not get stuck at the single-point maneuver time,
-            // we add a small buffer to the end of the maneuver interval.
+            // In order for the segment to advance, and not get stuck at the single-point maneuver
+            // time, we add a small buffer to the end of the maneuver interval.
             //
-            // Note: maneuver windows might end up being very small, especially when using state-dependent guidance laws
-            // (e.g. Q-Law) in combination with maneuvering constraints (e.g. minimum maneuver duration). An originally
-            // short maneuver is filtered out as it doesn't meet the minimum duration constraint. The satellite will
-            // coast until the end of the original manevuer and then check for the next maneuver. The guidance law might
-            // still produce a yet smaller maneuver (since the satellite might still be at an optimum orbit location),
-            // which again gets filtered out. This process continues until the maneuver is finally skipped.
+            // Note: maneuver windows might end up being very small, especially when using
+            // state-dependent guidance laws (e.g. Q-Law) in combination with maneuvering
+            // constraints (e.g. minimum maneuver duration). An originally short maneuver is
+            // filtered out as it doesn't meet the minimum duration constraint. The satellite will
+            // coast until the end of the original manevuer and then check for the next maneuver.
+            // The guidance law might still produce a yet smaller maneuver (since the satellite
+            // might still be at an optimum orbit location), which again gets filtered out. This
+            // process continues until the maneuver is finally skipped.
             Instant instantToCoastTo = candidateManeuverInterval.getEnd();
 
             if (candidateManeuverInterval.getDuration().isZero())
@@ -1252,21 +1348,41 @@ Segment::Solution Segment::solve(
             }
 
             segmentConditionIsSatisfied = solveAndAcceptCoast(instantToCoastTo);
+
+            continue;
+        }
+
+        // Check maximum duty cycle constraint (which also considers the maximum maneuver duration constraint)
+        const Array<Interval> previousManeuverIntervalsToConsiderForDutyCycle = Array<Interval>::Empty();
+        if (initialPreviousManeuverInterval.isDefined())
+        {
+            previousManeuverIntervalsToConsiderForDutyCycle.add(initialPreviousManeuverInterval);
+        }
+        previousManeuverIntervalsToConsiderForDutyCycle.add(acceptedManeuverIntervals);
+
+        if (!maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+            ))
+        {
+            segmentConditionIsSatisfied = handleMaximumDutyCycleViolation(
+                candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+            );
+
+            continue;
         }
 
         // Check maximum maneuver duration constraint
-        else if (!maneuverConstraints_.intervalHasValidMaximumDuration(candidateManeuverInterval))
+        if (!maneuverConstraints_.intervalHasValidMaximumDuration(candidateManeuverInterval))
         {
-            segmentConditionIsSatisfied = handleMaximumDurationViolation(subsegmentManeuver.value());
+            segmentConditionIsSatisfied = handleMaximumDurationViolation(candidateManeuverInterval);
+
+            continue;
         }
 
-        else
-        {
-            // Candidate maneuver passed all constraints - accept it
-            const Segment::Solution maneuverLOFCompliantSolution =
-                constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
-            acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
-        }
+        // Candidate maneuver passed all constraints - accept it
+        const Segment::Solution maneuverLOFCompliantSolution =
+            constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
+        acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
     }
 
     // Build final solution
@@ -1488,8 +1604,8 @@ Shared<RealCondition> Segment::getThrusterToggleCondition_(const Shared<Thruster
         return thrustAcceleration.norm();
     };
 
-    // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm will either be 1.0
-    // if on, or 0.0 if off.
+    // Use a threshold of 0.5 to determine if the thrust is off, as the thrust acceleration norm
+    // will either be 1.0 if on, or 0.0 if off.
     return std::make_shared<RealCondition>(
         "Thrust Toggle Condition",
         isOn ? RealCondition::Criterion::StrictlyPositive : RealCondition::Criterion::StrictlyNegative,
@@ -1517,8 +1633,8 @@ Segment::Solution Segment::solveUntilThrusterOff_(
 
     Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, dynamicsArray, combinedCondition);
 
-    // As the event condition could have terminated due to the thruster off condition, we want to re-evaluate the
-    // segment event condition to see if it's satisfied.
+    // As the event condition could have terminated due to the thruster off condition, we want to
+    // re-evaluate the segment event condition to see if it's satisfied.
     solution.conditionIsSatisfied = reEvaluateEventCondition_(aState, solution.states);
     solution.segmentType = Segment::Type::Maneuver;
     solution.maneuverIntervals = {Interval::Closed(aState.getInstant(), solution.states.accessLast().getInstant())};
@@ -1541,8 +1657,8 @@ Segment::Solution Segment::solveUntilThrusterOn_(
 
     Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, combinedCondition);
 
-    // As the event condition could have terminated due to the thruster on condition, we want to re-evaluate the
-    // segment event condition to see if it's satisfied.
+    // As the event condition could have terminated due to the thruster on condition, we want to
+    // re-evaluate the segment event condition to see if it's satisfied.
     solution.conditionIsSatisfied = reEvaluateEventCondition_(aState, solution.states);
     solution.segmentType = Segment::Type::Coast;
 
@@ -1553,7 +1669,8 @@ Segment::Solution Segment::solveManeuverForInterval_(
     const State& aState, const Shared<Thruster>& thrusterDynamics, const Interval& validManeuverInterval
 ) const
 {
-    // Coast until the start of the maneuver to ensure we begin solving the maneuver at the exact start instant
+    // Coast until the start of the maneuver to ensure we begin solving the maneuver at the exact
+    // start instant
     Array<State> states = propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
 
     const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};

@@ -575,17 +575,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Mane
     }
 }
 
-// Parameter structure for intervalHasValidMaximumDutyCycle parametrized tests
-// Each previous maneuver and the candidate maneuver are (startOffset from reference, duration)
-// coastUntil: when invalid, expected returned instant = reference + coastUntil; when valid, unused (pass
-// Duration::Undefined())
 struct IntervalHasValidMaximumDutyCycleParams
 {
     String description;
     Array<Pair<Duration, Duration>> previousManeuvers;
     Pair<Duration, Duration> maneuver;
     bool isValid;
-    Duration coastUntil;
 };
 
 class
@@ -603,14 +598,12 @@ INSTANTIATE_TEST_SUITE_P(
             Array<Pair<Duration, Duration>>::Empty(),
             Pair<Duration, Duration> {Duration::Zero(), Duration::Minutes(10.0)},
             true,
-            Duration::Undefined()
         },
         IntervalHasValidMaximumDutyCycleParams {
-            "NoPreviousManeuvers_CandidateRequiresShift",
+            "NoPreviousManeuvers_CandidateExceedsLimit",
             Array<Pair<Duration, Duration>>::Empty(),
             Pair<Duration, Duration> {Duration::Zero(), Duration::Minutes(50.0)},
             false,
-            Duration::Minutes(10.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversWithNoInfluence_CandidateIsWithinLimit",
@@ -620,7 +613,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(150.0), Duration::Minutes(170.0)},
             true,
-            Duration::Undefined()
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversWithNoInfluence_CandidateIsWithinLimit_2",
@@ -630,7 +622,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(90.0), Duration::Minutes(110.0)},
             true,
-            Duration::Undefined()
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversWithNoInfluence_CandidateExceedsLimit",
@@ -640,7 +631,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(150.0), Duration::Minutes(200.0)},
             false,
-            Duration::Minutes(160.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuvers_CandidateIsWithinLimit",
@@ -650,7 +640,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(40.0), Duration::Minutes(55.0)},
             true,
-            Duration::Undefined()
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuvers_CandidateRequiresShift",
@@ -660,7 +649,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(40.0), Duration::Minutes(56.0)},
             false,
-            Duration::Minutes(41.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuvers_CandidateRequiresShift_2",
@@ -670,7 +658,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(90.0), Duration::Minutes(130.0)},
             false,
-            Duration::Minutes(100.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversSaturatedDutyCycle_NoRoomForCandidateManeuver",
@@ -680,7 +667,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
             false,
-            Duration::Minutes(100.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversSaturatedDutyCycle_NoRoomForCandidateManeuver_2",
@@ -691,7 +677,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(110.0), Duration::Minutes(130.0)},
             false,
-            Duration::Minutes(130.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversOverSaturatedDutyCycle_NoRoomForCandidateManeuver_1",
@@ -701,7 +686,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
             false,
-            Duration::Minutes(105.0)
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversOverSaturatedDutyCycle_NoRoomForCandidateManeuver_2",
@@ -712,7 +696,6 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Pair<Duration, Duration> {Duration::Minutes(110.0), Duration::Minutes(130.0)},
             false,
-            Duration::Minutes(135.0)
         }
     ),
     [](const ::testing::TestParamInfo<IntervalHasValidMaximumDutyCycleParams>& paramInfo)
@@ -748,24 +731,45 @@ TEST_P(
         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
     );
 
-    const Pair<bool, Instant> result =
-        constraints.intervalHasValidMaximumDutyCycle(maneuverInterval, previousManeuverIntervals);
+    EXPECT_EQ(constraints.intervalHasValidMaximumDutyCycle(maneuverInterval, previousManeuverIntervals), params.isValid)
+        << "isValid mismatch for scenario: " << params.description;
+}
 
-    EXPECT_EQ(result.first, params.isValid) << "isValid mismatch for scenario: " << params.description;
+TEST(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints,
+    IntervalHasValidMaximumDutyCycle_InvalidPreviousManeuverIntervals
+)
+{
+    {
+        const Segment::ManeuverConstraints constraints(
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
+        );
 
-    if (params.isValid)
-    {
-        EXPECT_FALSE(result.second.isDefined())
-            << "Expected undefined instant when valid for scenario: " << params.description
-            << ". result.second - reference = "
-            << (result.second.isDefined() ? (result.second - reference).toString() : "Undefined");
-    }
-    else
-    {
-        ASSERT_TRUE(params.coastUntil.isDefined())
-            << "coastUntil must be defined when isValid is false for scenario: " << params.description;
-        const Instant expectedCoastUntilInstant = reference + params.coastUntil;
-        ASSERT_INSTANTS_ALMOST_EQUAL(result.second, expectedCoastUntilInstant, Duration::Seconds(1.0e-3));
+        EXPECT_THROW(
+            {
+                try
+                {
+                    constraints.intervalHasValidMaximumDutyCycle(
+                        Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(10.0)),
+                        {Interval::Closed(
+                            Instant::J2000() - Duration::Minutes(1.0), Instant::J2000() + Duration::Minutes(1.0)
+                        )}
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Previous maneuver intervals must be before the candidate maneuver interval.", e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 }
 
@@ -3589,6 +3593,218 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
         EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
     }
 }
+
+// TEST_F(
+//     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumManeuverDutyCycle_WithinLimit_NoPreviousManeuvers
+// )
+// {
+//     const Segment::ManeuverConstraints constraints(
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Segment::MaximumManeuverDurationViolationStrategy::Fail,
+//         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
+//     );
+
+//     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+//         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+//     );
+
+//     const Segment maneuverSegment = Segment::Maneuver(
+//         defaultName_,
+//         durationCondition,
+//         defaultThrusterDynamicsSPtr_,
+//         defaultDynamics_,
+//         defaultHighPrecisionNumericalSolver_,
+//         constraints
+//     );
+
+//     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+//     EXPECT_TRUE(solution.conditionIsSatisfied);
+//     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
+//     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+//     EXPECT_EQ(maneuvers.getSize(), 1);
+
+//     // Candidate:   0-------------------------15----------------------------30
+//     // Maneuver 1   0-------------------------------------------------------30
+
+//     const Array<Interval> expectedManeuverIntervals = {
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+//         ),
+//     };
+
+//     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+//     {
+//         EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
+//     }
+// }
+
+// TEST_F(
+//     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+//     Solve_MaximumManeuverDutyCycle_WithinLimit_WithPreviousManeuvers
+// )
+// {
+//     const Segment::ManeuverConstraints constraints(
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Segment::MaximumManeuverDurationViolationStrategy::Fail,
+//         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
+//     );
+
+//     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+//         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+//     );
+
+//     const Segment maneuverSegment = Segment::Maneuver(
+//         defaultName_,
+//         durationCondition,
+//         defaultThrusterDynamicsSPtr_,
+//         defaultDynamics_,
+//         defaultHighPrecisionNumericalSolver_,
+//         constraints
+//     );
+
+//     const Segment::Solution solution = maneuverSegment.solve(
+//         initialStateWithMass_,
+//         Duration::Minutes(30.0),
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant() - Duration::Minutes(200.0),
+//             initialStateWithMass_.accessInstant() - Duration::Minutes(110.0)
+//         )
+//     );
+
+//     EXPECT_TRUE(solution.conditionIsSatisfied);
+//     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
+//     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+//     EXPECT_EQ(maneuvers.getSize(), 1);
+
+//     // Candidate:   0-------------------------15----------------------------30
+//     // Maneuver 1   0-------------------------------------------------------30
+
+//     const Array<Interval> expectedManeuverIntervals = {
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
+//         ),
+//     };
+
+//     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+//     {
+//         EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
+//     }
+// }
+
+// TEST_F(
+//     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+//     Solve_MaximumManeuverDutyCycle_ExceedsLimit_NoPreviousManeuvers
+// )
+// {
+//     const Segment::ManeuverConstraints constraints(
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Segment::MaximumManeuverDurationViolationStrategy::Fail,
+//         Pair<Duration, Duration>(Duration::Minutes(4.0), Duration::Minutes(12.0))
+//     );
+
+//     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+//         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+//     );
+
+//     const Segment maneuverSegment = Segment::Maneuver(
+//         defaultName_,
+//         durationCondition,
+//         defaultThrusterDynamicsSPtr_,
+//         defaultDynamics_,
+//         defaultHighPrecisionNumericalSolver_,
+//         constraints
+//     );
+
+//     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0));
+
+//     EXPECT_TRUE(solution.conditionIsSatisfied);
+//     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
+//     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+//     EXPECT_EQ(maneuvers.getSize(), 3);
+
+//     // Candidate:   0--------------------------------------------30
+//     // Maneuver 1   0----4
+//     // Maneuver 2                     12---16
+//     // Maneuver 3                                        24---28
+
+//     const Array<Interval> expectedManeuverIntervals = {
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant(), initialStateWithMass_.accessInstant() + Duration::Minutes(4.0)
+//         ),
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant() + Duration::Minutes(12.0),
+//             initialStateWithMass_.accessInstant() + Duration::Minutes(16.0)
+//         ),
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant() + Duration::Minutes(24.0),
+//             initialStateWithMass_.accessInstant() + Duration::Minutes(28.0)
+//         ),
+//     };
+
+//     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
+//     {
+//         EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
+//     }
+// }
+
+// TEST_F(
+//     OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+//     Solve_MaximumManeuverDutyCycle_ExceedsLimit_SkippedDueToPreviousManeuver
+// )
+// {
+//     const Segment::ManeuverConstraints constraints(
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Duration::Undefined(),
+//         Segment::MaximumManeuverDurationViolationStrategy::Fail,
+//         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
+//     );
+
+//     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+//         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+//     );
+
+//     const Segment maneuverSegment = Segment::Maneuver(
+//         defaultName_,
+//         durationCondition,
+//         defaultThrusterDynamicsSPtr_,
+//         defaultDynamics_,
+//         defaultHighPrecisionNumericalSolver_,
+//         constraints
+//     );
+
+//     const Segment::Solution solution = maneuverSegment.solve(
+//         initialStateWithMass_,
+//         Duration::Minutes(30.0),
+//         Interval::Closed(
+//             initialStateWithMass_.accessInstant() - Duration::Minutes(70.0),
+//             initialStateWithMass_.accessInstant() - Duration::Minutes(30.0)
+//         )
+//     );
+
+//     EXPECT_TRUE(solution.conditionIsSatisfied);
+//     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
+//     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+//     EXPECT_EQ(maneuvers.getSize(), 0);
+
+//     // Candidate:   0-------------------------15----------------------------30
+//     // Maneuver 1                     (entirely skipped)
+// }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMaximumInstant)
 {

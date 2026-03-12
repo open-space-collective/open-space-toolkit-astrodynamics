@@ -157,15 +157,10 @@ class Segment
         bool intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const;
 
         /// @brief Check if the maximum duty cycle constraint is valid
-        ///
-        /// This function checks the interval prior to the candidate maneuver end and assesses if it exceeds the maximum
-        /// duty cycle.
-        ///
         /// @param aManeuverInterval The maneuver interval
         /// @param aPreviousManeuverIntervals Array of previous maneuver intervals
-        /// @return A pair containing a boolean indicating if the constraint is valid and the earliest instant at which
-        /// a maneuver can be performed if it's invalid
-        Pair<bool, Instant> intervalHasValidMaximumDutyCycle(
+        /// @return True if the duty cycle is valid, false otherwise
+        bool intervalHasValidMaximumDutyCycle(
             const Interval& aManeuverInterval, const Array<Interval>& aPreviousManeuverIntervals
         ) const;
 
