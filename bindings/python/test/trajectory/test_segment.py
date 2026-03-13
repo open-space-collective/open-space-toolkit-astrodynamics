@@ -155,6 +155,17 @@ def maneuver_constraints() -> Segment.ManeuverConstraints:
 
 
 @pytest.fixture
+def maneuver_constraint_with_duty_Cycle() -> Segment.ManeuverConstraints:
+    return Segment.ManeuverConstraints(
+        minimum_duration=Duration.minutes(1.0),
+        maximum_duration=Duration.minutes(10.0),
+        minimum_separation=Duration.minutes(5.0),
+        maximum_duration_strategy=Segment.MaximumManeuverDurationViolationStrategy.Skip,
+        maximum_duty_cycle=(Duration.minutes(40.0), Duration.minutes(98.0)),
+    )
+
+
+@pytest.fixture
 def maneuver_segment(
     name: str,
     instant_condition: InstantCondition,
@@ -666,6 +677,7 @@ class TestManeuverConstraints:
     def test_constructors(
         self,
         maneuver_constraints: Segment.ManeuverConstraints,
+        maneuver_constraint_with_duty_Cycle: Segment.ManeuverConstraints,
     ):
         # Default constructor
         assert maneuver_constraints is not None
@@ -673,6 +685,15 @@ class TestManeuverConstraints:
         assert maneuver_constraints.maximum_duration is not None
         assert maneuver_constraints.minimum_separation is not None
         assert maneuver_constraints.maximum_duration_strategy is not None
+
+        # Constructor with duty cycle
+        assert maneuver_constraint_with_duty_Cycle is not None
+        assert maneuver_constraint_with_duty_Cycle.minimum_duration is not None
+        assert maneuver_constraint_with_duty_Cycle.maximum_duration is not None
+        assert maneuver_constraint_with_duty_Cycle.minimum_separation is not None
+        assert maneuver_constraint_with_duty_Cycle.maximum_duration_strategy is not None
+        assert maneuver_constraint_with_duty_Cycle.maximum_duty_cycle[0] is not None
+        assert maneuver_constraint_with_duty_Cycle.maximum_duty_cycle[1] is not None
 
     def test_is_defined(
         self,
@@ -696,6 +717,28 @@ class TestManeuverConstraints:
     ):
         assert (
             maneuver_constraints.interval_has_valid_maximum_duration(interval) is not None
+        )
+
+    def test_interval_has_valid_maximum_duty_cycle(
+        self,
+        maneuver_constraint_with_duty_Cycle: Segment.ManeuverConstraints,
+        interval: list[Interval],
+    ):
+        assert (
+            maneuver_constraint_with_duty_Cycle.interval_has_valid_maximum_duty_cycle(
+                interval=interval,
+                previous_maneuver_intervals=[
+                    Interval.closed(
+                        interval.get_start() - Duration.minutes(10.0),
+                        interval.get_start() - Duration.minutes(5.0),
+                    ),
+                    Interval.closed(
+                        interval.get_start() - Duration.minutes(3.0),
+                        interval.get_start() - Duration.minutes(2.0),
+                    ),
+                ],
+            )
+            is not None
         )
 
 

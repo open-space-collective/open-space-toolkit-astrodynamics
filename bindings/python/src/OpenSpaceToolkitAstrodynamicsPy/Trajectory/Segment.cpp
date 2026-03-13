@@ -7,6 +7,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using namespace pybind11;
 
     using ostk::core::container::Array;
+    using ostk::core::container::Pair;
     using ostk::core::type::Shared;
     using ostk::core::type::String;
 
@@ -442,6 +443,32 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
 
+        .def(
+            init<
+                const Duration&,
+                const Duration&,
+                const Duration&,
+                const Segment::MaximumManeuverDurationViolationStrategy&,
+                const Pair<Duration, Duration>&>(),
+            arg("minimum_duration"),
+            arg("maximum_duration"),
+            arg("minimum_separation"),
+            arg("maximum_duration_strategy"),
+            arg("maximum_duty_cycle"),
+            R"doc(
+                Construct ManeuverConstraints with all parameters including maximum duty cycle.
+
+                Args:
+                    minimum_duration (Duration): The minimum duration for a maneuver.
+                    maximum_duration (Duration): The maximum duration for a maneuver.
+                    minimum_separation (Duration): The minimum separation between maneuvers.
+                    maximum_duration_strategy (MaximumManeuverDurationViolationStrategy): The strategy when maximum duration is violated.
+                    maximum_duty_cycle (tuple[Duration, Duration]): The maximum duty cycle as (numerator, denominator). For example,
+                        (Duration.minutes(40.0), Duration.minutes(98.0)) represents a maximum maneuvering time of 40 minutes
+                        over any 98 minutes interval.
+            )doc"
+        )
+
         .def("__str__", &(shiftToString<Segment::ManeuverConstraints>))
         .def("__repr__", &(shiftToString<Segment::ManeuverConstraints>))
 
@@ -481,6 +508,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: MaximumManeuverDurationViolationStrategy
             )doc"
         )
+        .def_readwrite(
+            "maximum_duty_cycle",
+            &Segment::ManeuverConstraints::maximumDutyCycle,
+            R"doc(
+                The maximum duty cycle as (numerator, denominator): maximum maneuvering time over a time interval.
+
+                :type: tuple[Duration, Duration]
+            )doc"
+        )
 
         .def(
             "is_defined",
@@ -507,6 +543,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg("interval"),
             R"doc(
                 Check if the interval has a valid maximum duration.
+            )doc"
+        )
+        .def(
+            "interval_has_valid_maximum_duty_cycle",
+            &Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle,
+            arg("interval"),
+            arg("previous_maneuver_intervals"),
+            R"doc(
+                Check if the duty cycle constraint is valid for the given interval and previous maneuver intervals.
             )doc"
         )
 

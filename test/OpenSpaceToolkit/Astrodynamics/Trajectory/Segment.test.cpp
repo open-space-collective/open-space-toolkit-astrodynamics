@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -71,6 +72,7 @@
 using ostk::core::container::Array;
 using ostk::core::container::iterator::Zip;
 using ostk::core::container::Map;
+using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
 using ostk::core::type::Real;
@@ -476,6 +478,323 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Inte
     EXPECT_FALSE(constraints.intervalHasValidMaximumDuration(
         Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(11.0))
     ));
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, ManeuverDutyCycle)
+{
+    // Only maneuver duty cycle
+    {
+        const Segment::ManeuverConstraints constraints = Segment::ManeuverConstraints(
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0))
+        );
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // Only numerator is defined
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints(
+                        Duration::Undefined(),
+                        Duration::Undefined(),
+                        Duration::Minutes(5.0),
+                        Segment::MaximumManeuverDurationViolationStrategy::Fail,
+                        Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Undefined())
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Either both or neither of maximum duty cycle numerator and denominator must be defined.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Only denominator is defined
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints(
+                        Duration::Undefined(),
+                        Duration::Undefined(),
+                        Duration::Minutes(5.0),
+                        Segment::MaximumManeuverDurationViolationStrategy::Fail,
+                        Pair<Duration, Duration>(Duration::Undefined(), Duration::Minutes(98.0))
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Either both or neither of maximum duty cycle numerator and denominator must be defined.",
+                        e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maximum duration is greater than maximum duty cycle numerator
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints(
+                        Duration::Undefined(),
+                        Duration::Minutes(41.0),
+                        Duration::Minutes(5.0),
+                        Segment::MaximumManeuverDurationViolationStrategy::Fail,
+                        Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0))
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Maximum duration must be less or equal than maximum duty cycle numerator.", e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Minimum separation is not defined if maximum duty cycle is defined
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Segment::ManeuverConstraints(
+                        Duration::Undefined(),
+                        Duration::Undefined(),
+                        Duration::Undefined(),
+                        Segment::MaximumManeuverDurationViolationStrategy::Fail,
+                        Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0))
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ("Minimum separation must be defined if maximum duty cycle is defined.", e.getMessage());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+}
+
+struct IntervalHasValidMaximumDutyCycleParams
+{
+    String description;
+    Array<Pair<Duration, Duration>> previousManeuvers;
+    Pair<Duration, Duration> maneuver;
+    bool isValid;
+};
+
+class
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints_IntervalHasValidMaximumDutyCycle_Parameterized
+    : public ::testing::TestWithParam<IntervalHasValidMaximumDutyCycleParams>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    IntervalHasValidMaximumDutyCycle,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints_IntervalHasValidMaximumDutyCycle_Parameterized,
+    ::testing::Values(
+        IntervalHasValidMaximumDutyCycleParams {
+            "NoPreviousManeuvers_CandidateIsWithinLimit",
+            Array<Pair<Duration, Duration>>::Empty(),
+            Pair<Duration, Duration> {Duration::Zero(), Duration::Minutes(10.0)},
+            true,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "NoPreviousManeuvers_CandidateExceedsLimit",
+            Array<Pair<Duration, Duration>>::Empty(),
+            Pair<Duration, Duration> {Duration::Zero(), Duration::Minutes(50.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversWithNoInfluence_CandidateIsWithinLimit",
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(20.0)},
+                Pair<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(150.0), Duration::Minutes(170.0)},
+            true,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversWithNoInfluence_CandidateIsWithinLimit_2",
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(35.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(90.0), Duration::Minutes(110.0)},
+            true,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversWithNoInfluence_CandidateExceedsLimit",
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(20.0)},
+                Pair<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(150.0), Duration::Minutes(200.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuvers_CandidateIsWithinLimit",
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(35.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(40.0), Duration::Minutes(55.0)},
+            true,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuvers_CandidateRequiresShift",
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(35.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(40.0), Duration::Minutes(56.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuvers_CandidateRequiresShift_2",
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(40.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(90.0), Duration::Minutes(130.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversSaturatedDutyCycle_NoRoomForCandidateManeuver",
+            Array<Pair<Duration, Duration>> {// Previous maneuvers have saturated the duty cycle (40 min total)
+                                             Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                                             Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversSaturatedDutyCycle_NoRoomForCandidateManeuver_2",
+            Array<Pair<Duration, Duration>> {
+                // Previous maneuvers have saturated the duty cycle (40 min total from 30 to 130)
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(50.0)},
+                Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(80.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(110.0), Duration::Minutes(130.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversOverSaturatedDutyCycle_NoRoomForCandidateManeuver_1",
+            Array<Pair<Duration, Duration>> {// Previous maneuvers have over-saturated the duty cycle (45 min total)
+                                             Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(15.0)},
+                                             Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
+            false,
+        },
+        IntervalHasValidMaximumDutyCycleParams {
+            "PreviousManeuversOverSaturatedDutyCycle_NoRoomForCandidateManeuver_2",
+            Array<Pair<Duration, Duration>> {
+                // Previous maneuvers have over-saturated the duty cycle (45 min total from 30 to 130)
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(55.0)},
+                Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(80.0)}
+            },
+            Pair<Duration, Duration> {Duration::Minutes(110.0), Duration::Minutes(130.0)},
+            false,
+        }
+    ),
+    [](const ::testing::TestParamInfo<IntervalHasValidMaximumDutyCycleParams>& paramInfo)
+    {
+        return paramInfo.param.description;
+    }
+);
+
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints_IntervalHasValidMaximumDutyCycle_Parameterized,
+    IntervalHasValidMaximumDutyCycle
+)
+{
+    const auto params = GetParam();
+    const Instant reference = Instant::J2000();
+
+    // Build previous maneuver intervals: [reference + start, reference + end]
+    Array<Interval> previousManeuverIntervals;
+    for (const auto& startAndEnd : params.previousManeuvers)
+    {
+        previousManeuverIntervals.add(Interval::Closed(reference + startAndEnd.first, reference + startAndEnd.second));
+    }
+
+    // Build candidate maneuver interval
+    const Interval maneuverInterval =
+        Interval::Closed(reference + params.maneuver.first, reference + params.maneuver.second);
+
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Minutes(5.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail,
+        Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
+    );
+
+    EXPECT_EQ(constraints.intervalHasValidMaximumDutyCycle(maneuverInterval, previousManeuverIntervals), params.isValid)
+        << "isValid mismatch for scenario: " << params.description;
+}
+
+TEST(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints,
+    IntervalHasValidMaximumDutyCycle_InvalidPreviousManeuverIntervals
+)
+{
+    {
+        const Segment::ManeuverConstraints constraints(
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0))
+        );
+
+        EXPECT_THROW(
+            {
+                try
+                {
+                    constraints.intervalHasValidMaximumDutyCycle(
+                        Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Minutes(10.0)),
+                        {Interval::Closed(
+                            Instant::J2000() - Duration::Minutes(1.0), Instant::J2000() + Duration::Minutes(1.0)
+                        )}
+                    );
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(
+                        "Previous maneuver intervals must be before the candidate maneuver interval.", e.getMessage()
+                    );
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
 }
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
@@ -3299,6 +3618,503 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     }
 }
 
+struct SolveMaximumManeuverDutyCycleParams
+{
+    String title;
+    Duration maximumManeuverDuration;
+    Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationViolationStrategy;
+    Pair<Duration, Duration> maximumManeuverDutyCycle;
+    Pair<Duration, Duration> previousManeuverInterval;
+    Array<Pair<Duration, Duration>> expectedManeuverIntervals;
+};
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycle_Parameterized
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+      public ::testing::WithParamInterface<SolveMaximumManeuverDutyCycleParams>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    SolveMaximumManeuverDutyCycle,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycle_Parameterized,
+    ::testing::Values(
+        // Fail Strategy
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_FailStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_FailStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        // Skip Strategy
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_SkipStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_SkipStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_SkipStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_SkipStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-20.0)),
+            Array<Pair<Duration, Duration>> {},
+        },
+        // TruncateEnd Strategy
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_TruncateEndStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_TruncateEndStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_TruncateEndStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(10.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_TruncateEndStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_TruncateEndStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(5.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_TruncateEndStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(5.0)),
+            },
+        },
+        // TruncateStart Strategy
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_TruncateStartStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_TruncateStartStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_TruncateStartStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_TruncateStartStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(15.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_TruncateStartStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(25.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_TruncateStartStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(25.0), Duration::Minutes(30.0)),
+            },
+        },
+        // Center Strategy
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_CenterStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_CenterStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_CenterStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_CenterStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(7.5), Duration::Minutes(22.5)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_CenterStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(12.5), Duration::Minutes(17.5)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_CenterStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(12.5), Duration::Minutes(17.5)),
+            },
+        },
+        // Chunk Strategy
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_ChunkStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_ChunkStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_ChunkStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(3.0), Duration::Minutes(10.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(3.0)),
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(13.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(23.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_ChunkStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-55.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "NoPreviousManeuvers_ChunkStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(2.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(3.0), Duration::Minutes(10.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(2.0)),
+                Pair<Duration, Duration>(Duration::Minutes(3.0), Duration::Minutes(4.0)),
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(12.0)),
+                Pair<Duration, Duration>(Duration::Minutes(13.0), Duration::Minutes(14.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(22.0)),
+                Pair<Duration, Duration>(Duration::Minutes(23.0), Duration::Minutes(24.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithPreviousManeuvers_ChunkStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(8.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-55.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(8.0)),
+                Pair<Duration, Duration>(Duration::Minutes(9.0), Duration::Minutes(16.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(28.0)),
+                Pair<Duration, Duration>(Duration::Minutes(29.0), Duration::Minutes(30.0)),
+            },
+        }
+    ),
+    [](const ::testing::TestParamInfo<SolveMaximumManeuverDutyCycleParams>& paramInfo)
+    {
+        return paramInfo.param.title;
+    }
+);
+
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycle_Parameterized,
+    Solve_MaximumManeuverDutyCycle
+)
+{
+    const auto params = GetParam();
+
+    const Segment::ManeuverConstraints constraints(
+        Duration::Seconds(30.0),
+        params.maximumManeuverDuration,
+        Duration::Minutes(1.0),
+        params.maximumManeuverDurationViolationStrategy,
+        params.maximumManeuverDutyCycle
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Instant segmentStart = initialStateWithMass_.accessInstant();
+
+    Interval previousManeuverInterval = Interval::Undefined();
+    if (params.previousManeuverInterval.first.isDefined() && params.previousManeuverInterval.second.isDefined())
+    {
+        previousManeuverInterval = Interval::Closed(
+            segmentStart + params.previousManeuverInterval.first, segmentStart + params.previousManeuverInterval.second
+        );
+    }
+
+    const Segment::Solution solution =
+        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+
+    EXPECT_TRUE(solution.conditionIsSatisfied);
+    ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+
+    const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+    EXPECT_EQ(maneuvers.getSize(), params.expectedManeuverIntervals.getSize());
+
+    Array<Interval> expectedIntervals;
+    for (const auto& startAndEnd : params.expectedManeuverIntervals)
+    {
+        expectedIntervals.add(Interval::Closed(segmentStart + startAndEnd.first, segmentStart + startAndEnd.second));
+    }
+
+    for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedIntervals))
+    {
+        // Using a larger tolerance to cope with the discretization of the search space
+        EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Seconds(10.0));
+    }
+}
+
+struct SolveMaximumManeuverDutyCycleFailureParams
+{
+    String title;
+    Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationViolationStrategy;
+    Pair<Duration, Duration> maximumManeuverDutyCycle;
+    Pair<Duration, Duration> previousManeuverInterval;
+    String expectedErrorMessage;
+};
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycleFailure_Parameterized
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+      public ::testing::WithParamInterface<SolveMaximumManeuverDutyCycleFailureParams>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    SolveMaximumManeuverDutyCycleFailure,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycleFailure_Parameterized,
+    ::testing::Values(
+        SolveMaximumManeuverDutyCycleFailureParams {
+            "NoPreviousManeuvers_FailStrategy_ExceedsDutyCyle",
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            "Maneuver duty cycle exceeds maximum maneuver duty cycle constraint, change the maximum maneuver duration "
+            "strategy to prevent the Sequence from failing.",
+        },
+        SolveMaximumManeuverDutyCycleFailureParams {
+            "WithPreviousManeuvers_FailStrategy_ExceedsDutyCyle",
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-20.0)),
+            "Maneuver duty cycle exceeds maximum maneuver duty cycle constraint, change the maximum maneuver duration "
+            "strategy to prevent the Sequence from failing.",
+        }
+    ),
+    [](const ::testing::TestParamInfo<SolveMaximumManeuverDutyCycleFailureParams>& paramInfo)
+    {
+        return paramInfo.param.title;
+    }
+);
+
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycleFailure_Parameterized,
+    SolveMaximumManeuverDutyCycleFailure
+)
+{
+    const auto params = GetParam();
+
+    const Segment::ManeuverConstraints constraints(
+        Duration::Seconds(30.0),
+        Duration::Undefined(),
+        Duration::Minutes(1.0),
+        params.maximumManeuverDurationViolationStrategy,
+        params.maximumManeuverDutyCycle
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Instant segmentStart = initialStateWithMass_.accessInstant();
+
+    Interval previousManeuverInterval = Interval::Undefined();
+    if (params.previousManeuverInterval.first.isDefined() && params.previousManeuverInterval.second.isDefined())
+    {
+        previousManeuverInterval = Interval::Closed(
+            segmentStart + params.previousManeuverInterval.first, segmentStart + params.previousManeuverInterval.second
+        );
+    }
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_EQ(params.expectedErrorMessage, e.getMessage());
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMaximumInstant)
 {
     const Segment::ManeuverConstraints constraints(
@@ -3338,7 +4154,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
         Duration::Minutes(1.0),   // Minimum duration
         Duration::Minutes(20.0),  // Maximum duration
         Duration::Minutes(5.0),   // Minimum separation
-        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+        Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+        Pair<Duration, Duration>(Duration::Minutes(30.0), Duration::Minutes(50.0))  // Maximum duty cycle
     );
 
     const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
@@ -3359,21 +4176,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
 
     const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
-    if (maneuvers.getSize() > 1)
-    {
-        // Check minimum separation between maneuvers
-        for (Size i = 1; i < maneuvers.getSize(); i++)
-        {
-            const Duration separation = maneuvers[i].getInterval().getStart() - maneuvers[i - 1].getInterval().getEnd();
-            EXPECT_GE(separation, Duration::Minutes(5.0));
-        }
+    EXPECT_GT(maneuvers.getSize(), 1);
 
-        // Check duration constraints
-        for (const Maneuver& maneuver : maneuvers)
+    // Check minimum separation between maneuvers
+    for (Size i = 1; i < maneuvers.getSize(); i++)
+    {
+        const Duration separation = maneuvers[i].getInterval().getStart() - maneuvers[i - 1].getInterval().getEnd();
+        EXPECT_GE(separation, Duration::Minutes(5.0));
+    }
+
+    // Check duration constraints
+    for (const Maneuver& maneuver : maneuvers)
+    {
+        EXPECT_GE(maneuver.getInterval().getDuration(), Duration::Minutes(1.0));
+        EXPECT_LE(maneuver.getInterval().getDuration(), Duration::Minutes(20.0));
+    }
+
+    // For each maneuver, check maximumDutyCycle constraint is valid with all prior maneuvers
+    for (Size i = 0; i < maneuvers.getSize(); i++)
+    {
+        Array<Interval> previousManeuvers = Array<Interval>::Empty();
+        for (Size j = 0; j < i; j++)
         {
-            EXPECT_GE(maneuver.getInterval().getDuration(), Duration::Minutes(1.0));
-            EXPECT_LE(maneuver.getInterval().getDuration(), Duration::Minutes(20.0));
+            previousManeuvers.add(maneuvers[j].getInterval());
         }
+        EXPECT_TRUE(constraints.intervalHasValidMaximumDutyCycle(maneuvers[i].getInterval(), previousManeuvers));
     }
 }
 
