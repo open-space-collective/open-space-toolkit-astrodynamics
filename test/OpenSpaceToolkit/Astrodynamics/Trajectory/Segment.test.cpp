@@ -4019,6 +4019,102 @@ TEST_P(
     }
 }
 
+struct SolveMaximumManeuverDutyCycleFailureParams
+{
+    String title;
+    Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationViolationStrategy;
+    Pair<Duration, Duration> maximumManeuverDutyCycle;
+    Pair<Duration, Duration> previousManeuverInterval;
+    String expectedErrorMessage;
+};
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycleFailure_Parameterized
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+      public ::testing::WithParamInterface<SolveMaximumManeuverDutyCycleFailureParams>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    SolveMaximumManeuverDutyCycleFailure,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycleFailure_Parameterized,
+    ::testing::Values(
+        SolveMaximumManeuverDutyCycleFailureParams {
+            "NoPreviousManeuvers_FailStrategy_ExceedsDutyCyle",
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            "Maneuver duty cycle exceeds maximum maneuver duty cycle constraint, change the maximum maneuver duration "
+            "strategy to prevent the Sequence from failing.",
+        },
+        SolveMaximumManeuverDutyCycleFailureParams {
+            "WithPreviousManeuvers_FailStrategy_ExceedsDutyCyle",
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-20.0)),
+            "Maneuver duty cycle exceeds maximum maneuver duty cycle constraint, change the maximum maneuver duration "
+            "strategy to prevent the Sequence from failing.",
+        }
+    ),
+    [](const ::testing::TestParamInfo<SolveMaximumManeuverDutyCycleFailureParams>& paramInfo)
+    {
+        return paramInfo.param.title;
+    }
+);
+
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_MaximumManeuverDutyCycleFailure_Parameterized,
+    SolveMaximumManeuverDutyCycleFailure
+)
+{
+    const auto params = GetParam();
+
+    const Segment::ManeuverConstraints constraints(
+        Duration::Seconds(30.0),
+        Duration::Undefined(),
+        Duration::Minutes(1.0),
+        params.maximumManeuverDurationViolationStrategy,
+        params.maximumManeuverDutyCycle
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultHighPrecisionNumericalSolver_,
+        constraints
+    );
+
+    const Instant segmentStart = initialStateWithMass_.accessInstant();
+
+    Interval previousManeuverInterval = Interval::Undefined();
+    if (params.previousManeuverInterval.first.isDefined() && params.previousManeuverInterval.second.isDefined())
+    {
+        previousManeuverInterval = Interval::Closed(
+            segmentStart + params.previousManeuverInterval.first, segmentStart + params.previousManeuverInterval.second
+        );
+    }
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_EQ(params.expectedErrorMessage, e.getMessage());
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_LoopExitsDueToMaximumInstant)
 {
     const Segment::ManeuverConstraints constraints(
