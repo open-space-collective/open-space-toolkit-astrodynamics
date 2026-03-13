@@ -108,16 +108,7 @@ class Segment
             const Duration& aMinimumSeparation = Duration::Undefined(),
             const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy =
                 MaximumManeuverDurationViolationStrategy::Fail
-        )
-            : ManeuverConstraints(
-                  aMinimumDuration,
-                  aMaximumDuration,
-                  aMinimumSeparation,
-                  aMaximumDurationStrategy,
-                  Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined())
-              )
-        {
-        }
+        );
 
         /// @brief Constructor with all parameters (all with default undefined values, aMaximumDutyCycle last).
         ///
