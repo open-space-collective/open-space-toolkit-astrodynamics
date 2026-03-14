@@ -1,7 +1,8 @@
 /// Apache License 2.0
 
 #include <iostream>
-#include <regex>
+
+#include <boost/regex.hpp>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -607,7 +608,7 @@ TLE TLE::Construct(
         throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator);
     }
 
-    if (!std::regex_match(anInternationalDesignator, std::regex("^\\d{2}\\d{3}\\w{1,3}$")))
+    if (!boost::regex_match(anInternationalDesignator, boost::regex("^\\d{2}\\d{3}\\w{1,3}$")))
     {
         throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator);
     }
