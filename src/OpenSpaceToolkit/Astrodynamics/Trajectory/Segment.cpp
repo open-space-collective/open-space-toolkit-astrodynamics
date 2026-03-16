@@ -865,6 +865,31 @@ Segment::Solution Segment::solve(
     const State& aState, const Duration& maximumPropagationDuration, Interval previousManeuverInterval
 ) const
 {
+    Array<Interval> previousManeuverIntervals = Array<Interval>::Empty();
+    if (previousManeuverInterval.isDefined())
+    {
+        previousManeuverIntervals.add(previousManeuverInterval);
+    }
+    return solveWithPreviousManeuverIntervals(aState, maximumPropagationDuration, previousManeuverIntervals);
+}
+
+Segment::Solution Segment::solveWithPreviousManeuverIntervals(
+    const State& aState, const Duration& maximumPropagationDuration, const Array<Interval>& previousManeuverIntervals
+) const
+{
+    // Check that inputs are not ill-posed
+    for (const Interval& previousManeuverInterval : previousManeuverIntervals)
+    {
+        if (previousManeuverInterval.getEnd() > aState.accessInstant())
+        {
+            throw ostk::core::error::RuntimeError(String::Format(
+                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] is in the "
+                "future.",
+                previousManeuverInterval.toString()
+            ));
+        }
+    }
+
     if (type_ == Segment::Type::Coast)
     {
         return solveCoast_(aState, aState.accessInstant() + maximumPropagationDuration);
@@ -874,8 +899,9 @@ Segment::Solution Segment::solve(
     Array<State> segmentStates = {aState};
     Array<Interval> acceptedManeuverIntervals = Array<Interval>::Empty();
 
-    // Store the initial previous maneuver interval, as this will be updated
-    const Interval initialPreviousManeuverInterval = previousManeuverInterval;
+    // Running "last" maneuver interval for minimum separation: start from last of initial intervals if any
+    Interval previousManeuverInterval =
+        previousManeuverIntervals.isEmpty() ? Interval::Undefined() : previousManeuverIntervals.accessLast();
 
     // Helper lambda to build a thruster dynamics that only thrusts within the given interval
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
@@ -1454,22 +1480,40 @@ Segment::Solution Segment::solve(
         }
 
         // Check maximum duty cycle constraint (which also considers the maximum maneuver duration constraint)
-        Array<Interval> previousManeuverIntervalsToConsiderForDutyCycle = Array<Interval>::Empty();
-        if (initialPreviousManeuverInterval.isDefined())
+        if (maneuverConstraints_.maximumDutyCycle.second.isDefined())
         {
-            previousManeuverIntervalsToConsiderForDutyCycle.add(initialPreviousManeuverInterval);
-        }
-        previousManeuverIntervalsToConsiderForDutyCycle.add(acceptedManeuverIntervals);
+            // Create an arrya of maneuver intervals that might influence the maximum duty cycle constraint
+            const Instant dutyCycleInfluenceCutoff =
+                candidateManeuverInterval.getStart() - maneuverConstraints_.maximumDutyCycle.second;
+            Array<Interval> previousManeuverIntervalsToConsiderForDutyCycle = Array<Interval>::Empty();
 
-        if (!maneuverConstraints_.intervalHasValidMaximumDutyCycle(
-                candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
-            ))
-        {
-            segmentConditionIsSatisfied = handleMaximumDutyCycleViolation(
-                candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
-            );
+            for (const auto& initialPreviousManeuverInterval : previousManeuverIntervals)
+            {
+                if (initialPreviousManeuverInterval.getEnd() >= dutyCycleInfluenceCutoff)
+                {
+                    previousManeuverIntervalsToConsiderForDutyCycle.add(initialPreviousManeuverInterval);
+                }
+            }
 
-            continue;
+            for (const auto& acceptedManeuverInterval : acceptedManeuverIntervals)
+            {
+                if (acceptedManeuverInterval.getEnd() >= dutyCycleInfluenceCutoff)
+                {
+                    previousManeuverIntervalsToConsiderForDutyCycle.add(acceptedManeuverInterval);
+                }
+            }
+
+            // Now, handle the maximum duty cycle constraint
+            if (!maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                    candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+                ))
+            {
+                segmentConditionIsSatisfied = handleMaximumDutyCycleViolation(
+                    candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
+                );
+
+                continue;
+            }
         }
 
         // Check maximum maneuver duration constraint

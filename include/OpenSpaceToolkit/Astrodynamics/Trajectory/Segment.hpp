@@ -370,6 +370,20 @@ class Segment
         Interval previousManeuverInterval = Interval::Undefined()
     ) const;
 
+    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached
+    /// considering the previous maneuver intervals.
+    ///
+    /// @param aState Initial state for the segment
+    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
+    /// @param previousManeuverIntervals Maneuver intervals prior to this segment (e.g. from previous segments).
+    /// Defaults to empty.
+    /// @return A Solution representing the result of the solve
+    Solution solveWithPreviousManeuverIntervals(
+        const State& aState,
+        const Duration& maximumPropagationDuration = Duration::Days(30.0),
+        const Array<Interval>& previousManeuverIntervals = Array<Interval>::Empty()
+    ) const;
+
     /// @brief Print the segment
     ///
     /// @param anOutputStream An output stream

@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -27,6 +28,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::type::Index;
 using ostk::core::type::Real;
@@ -1270,6 +1272,116 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(73.0), Duration::Minutes(83.0)},
                 {Duration::Minutes(86.0), Duration::Minutes(96.0)}
             }
+        },
+        // With Maximum Maneuver Duty Cycle Constraint (Skip Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDutyCycleSkip",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(14.0)},  // Skipped
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Skipped
+                Tuple<Duration, Duration> {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            },
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Skip,
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)}, {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            }
+        },
+        // With Maximum Maneuver Duty Cycle Constraint (TruncateEnd Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDutyCycleTruncateEnd",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(14.0)},  // Truncated to [0, 10]
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Truncated to [30, 35]
+                Tuple<Duration, Duration> {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            },
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(0.0), Duration::Minutes(10.0)},
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(30.0), Duration::Minutes(35.0)},
+                {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            }
+        },
+        // With Maximum Maneuver Duty Cycle Constraint (TruncateStart Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDutyCycleTruncateStart",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(14.0)},  // Truncated to [4, 14]
+                Tuple<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(25.0)},  // Truncated to [24, 25]
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(50.0)},  // Truncated to [40, 50]
+                Tuple<Duration, Duration> {Duration::Minutes(55.0), Duration::Minutes(60.0)}   // Skipped
+            },
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(4.0), Duration::Minutes(14.0)},
+                {Duration::Minutes(24.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(40.0), Duration::Minutes(50.0)}
+            }
+        },
+        // With Maximum Maneuver Duty Cycle Constraint (Center Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDutyCycleCenter",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(-5.0), Duration::Minutes(30.0)},  // Centered around 15.0
+                Tuple<Duration, Duration> {Duration::Minutes(32.0), Duration::Minutes(38.0)},
+                Tuple<Duration, Duration> {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            },
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Center,
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(10.0), Duration::Minutes(20.0)},
+                {Duration::Minutes(32.0), Duration::Minutes(38.0)},
+                {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            }
+        },
+        // With Maximum Maneuver Duty Cycle Constraint (Chunk Strategy)
+        ManeuveringConstraintsTestParams {
+            "MaximumManeuverDutyCycleChunk",
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {
+                    Duration::Minutes(-5.0), Duration::Minutes(25.0)
+                },  // Chunked to [0, 10], [20, 25]
+                Tuple<Duration, Duration> {Duration::Minutes(30.0), Duration::Minutes(40.0)},  // Chunked to [30, 35]
+                Tuple<Duration, Duration> {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            },
+            Segment::ManeuverConstraints(
+                Duration::Seconds(30.0),
+                Duration::Undefined(),
+                Duration::Seconds(30.0),
+                Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+                Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
+            ),
+            Array<Tuple<Duration, Duration>> {
+                {Duration::Minutes(0.0), Duration::Minutes(10.0)},
+                {Duration::Minutes(20.0), Duration::Minutes(25.0)},
+                {Duration::Minutes(30.0), Duration::Minutes(35.0)},
+                {Duration::Minutes(55.0), Duration::Minutes(60.0)}
+            }
         }
     ),
     [](const ::testing::TestParamInfo<ManeuveringConstraintsTestParams>& paramInfo)
@@ -1304,7 +1416,13 @@ TEST_P(
         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(99.0));
 
     const Duration maximumPropagationDuration = Duration::Minutes(200.0);
-    const Duration tolerance = Duration::Milliseconds(10.0);
+    Duration tolerance = Duration::Milliseconds(10.0);
+    // If the maneuver constraints are a duty cycle constraint, we need to use a larger tolerance
+    // as the contraint involves discretizing the search space.
+    if (params.maneuverConstraints.maximumDutyCycle.second.isDefined())
+    {
+        tolerance = Duration::Seconds(11.0);
+    }
 
     Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.maneuverIntervals)

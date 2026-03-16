@@ -654,6 +654,28 @@ class TestSegment:
 
         assert solution is not None
 
+    def test_solve_with_previous_maneuver_intervals(
+        self,
+        state: State,
+        maneuver_segment: Segment,
+        instants: list[Instant],
+    ):
+        solution: Segment.Solution = (
+            maneuver_segment.solve_with_previous_maneuver_intervals(
+                state=state,
+                maximum_propagation_duration=Duration.minutes(15.0),
+                previous_maneuver_intervals=[
+                    Interval.closed(
+                        instants[0] - Duration.minutes(10.0),
+                        instants[0] - Duration.minutes(5.0),
+                    ),
+                    Interval.closed(instants[0], instants[1]),
+                ],
+            )
+        )
+
+        assert solution is not None
+
     def test_solve_constant_local_orbital_frame_direction_maneuver_segment(
         self,
         state: State,
