@@ -883,11 +883,11 @@ Segment::Solution Segment::solve(
     // Check that inputs are not ill-posed
     for (const Interval& previousManeuverInterval : sortedPreviousManeuverIntervals)
     {
-        if (previousManeuverInterval.getEnd() > aState.accessInstant())
+        if (previousManeuverInterval.getEnd() >= aState.accessInstant())
         {
             throw ostk::core::error::RuntimeError(String::Format(
-                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] is in the "
-                "future.",
+                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends at or "
+                "after the initial state instant.",
                 previousManeuverInterval.toString()
             ));
         }
