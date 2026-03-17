@@ -649,7 +649,33 @@ class TestSegment:
         solution: Segment.Solution = maneuver_segment.solve(
             state=state,
             maximum_propagation_duration=Duration.minutes(15.0),
-            previous_maneuver_interval=Interval.closed(instants[0], instants[1]),
+            previous_maneuver_interval=Interval.closed(
+                instants[0] - Duration.minutes(100.0),
+                instants[0] - Duration.minutes(90.0),
+            ),
+        )
+
+        assert solution is not None
+
+    def test_solve_with_previous_maneuver_intervals(
+        self,
+        state: State,
+        maneuver_segment: Segment,
+        instants: list[Instant],
+    ):
+        solution: Segment.Solution = maneuver_segment.solve(
+            state=state,
+            maximum_propagation_duration=Duration.minutes(15.0),
+            previous_maneuver_intervals=[
+                Interval.closed(
+                    instants[0] - Duration.minutes(200.0),
+                    instants[0] - Duration.minutes(150.0),
+                ),
+                Interval.closed(
+                    instants[0] - Duration.minutes(100.0),
+                    instants[0] - Duration.minutes(90.0),
+                ),
+            ],
         )
 
         assert solution is not None

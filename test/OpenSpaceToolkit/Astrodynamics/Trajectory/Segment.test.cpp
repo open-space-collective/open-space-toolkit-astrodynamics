@@ -1989,6 +1989,149 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
             EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).isEmpty());
         }
     }
+
+    // Maneuver interval not in the past
+    {
+        const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+        );
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_, durationCondition, defaultThrusterDynamicsSPtr_, defaultDynamics_, defaultNumericalSolver_
+        );
+
+        const Interval previousManeuverInterval = Interval::Closed(
+            defaultState_.getInstant() - Duration::Minutes(10.0), defaultState_.getInstant() + Duration::Minutes(10.0)
+        );
+
+        EXPECT_THROW(
+            try {
+                maneuverSegment.solve(defaultState_, Duration::Minutes(80.0), previousManeuverInterval);
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_NE(
+                    e.getMessage().find("All maneuver intervals must be before the initial state instant"),
+                    std::string::npos
+                );
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeuverIntervals)
+{
+    {
+        const Segment::Solution solution =
+            defaultCoastSegment_.solve(defaultState_, Duration::Days(30.0), Array<Interval>::Empty());
+
+        EXPECT_TRUE(solution.states.getSize() > 0);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+        EXPECT_LT(
+            (solution.states.accessLast().getInstant() - defaultInstantCondition_->getInstant()).inSeconds(), 1e-7
+        );
+    }
+
+    {
+        const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
+            RealCondition::Criterion::AnyCrossing,
+            defaultFrameSPtr_,
+            Real(0.5),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+
+        const Segment segment =
+            Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
+
+        const Segment::Solution solution =
+            segment.solve(defaultState_, Duration::Minutes(1.0), Array<Interval>::Empty());
+
+        EXPECT_TRUE(solution.states.getSize() > 0);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+        EXPECT_FALSE(solution.conditionIsSatisfied);
+    }
+
+    // No maneuvers should be produced
+    {
+        const NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaDopri5,
+            1.0,
+            1.0e-12,
+            1.0e-12,
+        };
+
+        VectorXd initialCoordinates(7);
+        initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+        const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
+
+        const Shared<InstantCondition> eventCondition = std::make_shared<InstantCondition>(
+            InstantCondition::Criterion::AnyCrossing, Instant::J2000() + Duration::Minutes(60.0)
+        );
+
+        const Duration tolerance = Duration::Milliseconds(1.0);
+
+        const Shared<Thruster> customThrusterDynamics = std::make_shared<Thruster>(
+            defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(Array<Interval>::Empty())
+        );
+
+        Segment segment = Segment::Maneuver(
+            "Maneuvering Segment with Custom Guidance Law",
+            eventCondition,
+            customThrusterDynamics,
+            defaultDynamics_,
+            numericalSolver
+        );
+
+        {
+            const Segment::Solution solution =
+                segment.solve(initialState, Duration::Minutes(80.0), Array<Interval>::Empty());
+
+            ASSERT_FALSE(solution.states.isEmpty());
+            ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+            EXPECT_TRUE(solution.states.accessFirst().getInstant().isNear(initialState.getInstant(), tolerance));
+            EXPECT_TRUE(solution.states.accessLast().getInstant().isNear(
+                initialState.getInstant() + Duration::Minutes(60.0), tolerance
+            ));
+            EXPECT_TRUE(solution.conditionIsSatisfied);
+            EXPECT_TRUE(solution.extractManeuvers(defaultFrameSPtr_).isEmpty());
+        }
+    }
+
+    // Maneuver interval not in the past
+    {
+        const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+            RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+        );
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_, durationCondition, defaultThrusterDynamicsSPtr_, defaultDynamics_, defaultNumericalSolver_
+        );
+
+        const Array<Interval> previousManeuverIntervals = {
+            Interval::Closed(
+                defaultState_.getInstant() - Duration::Minutes(100.0),
+                defaultState_.getInstant() - Duration::Minutes(50.0)
+            ),
+            Interval::Closed(
+                defaultState_.getInstant() - Duration::Minutes(10.0),
+                defaultState_.getInstant() + Duration::Minutes(10.0)
+            )
+        };
+
+        EXPECT_THROW(
+            try {
+                maneuverSegment.solve(defaultState_, Duration::Minutes(80.0), previousManeuverIntervals);
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_NE(
+                    e.getMessage().find("All maneuver intervals must be before the initial state instant"),
+                    std::string::npos
+                );
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAngularOffset)
@@ -3624,7 +3767,7 @@ struct SolveMaximumManeuverDutyCycleParams
     Duration maximumManeuverDuration;
     Segment::MaximumManeuverDurationViolationStrategy maximumManeuverDurationViolationStrategy;
     Pair<Duration, Duration> maximumManeuverDutyCycle;
-    Pair<Duration, Duration> previousManeuverInterval;
+    Array<Pair<Duration, Duration>> previousManeuverIntervals;
     Array<Pair<Duration, Duration>> expectedManeuverIntervals;
 };
 
@@ -3644,17 +3787,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Fail,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_FailStrategy_WithinDutyCyle",
+            "WithSinglePreviousManeuver_FailStrategy_WithinDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Fail,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_FailStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-70.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-59.0), Duration::Minutes(-50.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
@@ -3665,17 +3823,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Skip,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_SkipStrategy_WithinDutyCyle",
+            "WithSinglePreviousManeuver_SkipStrategy_WithinDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Skip,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_SkipStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-70.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-59.0), Duration::Minutes(-50.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
@@ -3685,15 +3858,39 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Skip,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {},
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_SkipStrategy_ExceedsDutyCyle",
+            "WithSinglePreviousManeuver_SkipStrategy_ExceedsDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Skip,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-20.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-20.0)),
+            },
+            Array<Pair<Duration, Duration>> {},
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_SkipStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-30.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-20.0), Duration::Minutes(-10.0)),
+            },
+            Array<Pair<Duration, Duration>> {},
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithUnsortedMultiplePreviousManeuver_SkipStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Skip,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-20.0), Duration::Minutes(-10.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-30.0)),
+            },
             Array<Pair<Duration, Duration>> {},
         },
         // TruncateEnd Strategy
@@ -3702,17 +3899,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_TruncateEndStrategy_WithinDutyCyle",
+            "WithSinglePreviousManeuver_TruncateEndStrategy_WithinDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_TruncateEndStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-70.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-59.0), Duration::Minutes(-50.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
@@ -3722,17 +3934,45 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(10.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_TruncateEndStrategy_ExceedsDutyCyle",
+            "WithSinglePreviousManeuver_TruncateEndStrategy_ExceedsDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_TruncateEndStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithUnsortedMultiplePreviousManeuver_TruncateEndStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
             },
@@ -3742,17 +3982,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(5.0),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(5.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_TruncateEndStrategy_ExceedsDutyCyleAndMaximumDuration",
+            "WithSinglePreviousManeuver_TruncateEndStrategy_ExceedsDutyCyleAndMaximumDuration",
             Duration::Minutes(5.0),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(5.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_TruncateEndStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(5.0)),
             },
@@ -3763,17 +4018,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_TruncateStartStrategy_WithinDutyCyle",
+            "WithSinglePreviousManeuver_TruncateStartStrategy_WithinDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_TruncateStartStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-70.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-59.0), Duration::Minutes(-50.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
@@ -3783,17 +4053,45 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_TruncateStartStrategy_ExceedsDutyCyle",
+            "WithSinglePreviousManeuver_TruncateStartStrategy_ExceedsDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(15.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_TruncateStartStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(15.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithUnsortedMultiplePreviousManeuver_TruncateStartStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(15.0), Duration::Minutes(30.0)),
             },
@@ -3803,17 +4101,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(5.0),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(25.0), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_TruncateStartStrategy_ExceedsDutyCyleAndMaximumDuration",
+            "WithSinglePreviousManeuver_TruncateStartStrategy_ExceedsDutyCyleAndMaximumDuration",
             Duration::Minutes(5.0),
             Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(25.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_TruncateStartStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(25.0), Duration::Minutes(30.0)),
             },
@@ -3824,17 +4137,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_CenterStrategy_WithinDutyCyle",
+            "WithSinglePreviousManeuver_CenterStrategy_WithinDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_CenterStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-70.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-59.0), Duration::Minutes(-50.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
@@ -3844,17 +4172,45 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_CenterStrategy_ExceedsDutyCyle",
+            "WithSinglePreviousManeuver_CenterStrategy_ExceedsDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(7.5), Duration::Minutes(22.5)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_CenterStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(7.5), Duration::Minutes(22.5)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithUnsortedMultiplePreviousManeuver_CenterStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(7.5), Duration::Minutes(22.5)),
             },
@@ -3864,17 +4220,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(5.0),
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(30.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(12.5), Duration::Minutes(17.5)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_CenterStrategy_ExceedsDutyCyleAndMaximumDuration",
+            "WithSinglePreviousManeuver_CenterStrategy_ExceedsDutyCyleAndMaximumDuration",
             Duration::Minutes(5.0),
             Segment::MaximumManeuverDurationViolationStrategy::Center,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-25.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(12.5), Duration::Minutes(17.5)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_CenterStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(5.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Center,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-35.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-25.0), Duration::Minutes(-15.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Minutes(12.5), Duration::Minutes(17.5)),
             },
@@ -3885,17 +4256,32 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Chunk,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_ChunkStrategy_WithinDutyCyle",
+            "WithSinglePreviousManeuver_ChunkStrategy_WithinDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Chunk,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-60.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_ChunkStrategy_WithinDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-100.0), Duration::Minutes(-70.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-59.0), Duration::Minutes(-50.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(30.0)),
             },
@@ -3905,7 +4291,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Chunk,
             Pair<Duration, Duration>(Duration::Minutes(3.0), Duration::Minutes(10.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(3.0)),
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(13.0)),
@@ -3913,11 +4299,41 @@ INSTANTIATE_TEST_SUITE_P(
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_ChunkStrategy_ExceedsDutyCyle",
+            "WithSinglePreviousManeuver_ChunkStrategy_ExceedsDutyCyle",
             Duration::Undefined(),
             Segment::MaximumManeuverDurationViolationStrategy::Chunk,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-55.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-55.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_ChunkStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-65.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-65.0), Duration::Minutes(-55.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithUnsortedMultiplePreviousManeuver_ChunkStrategy_ExceedsDutyCyle",
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-65.0), Duration::Minutes(-55.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-65.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(15.0)),
                 Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(30.0)),
@@ -3928,7 +4344,7 @@ INSTANTIATE_TEST_SUITE_P(
             Duration::Minutes(2.0),
             Segment::MaximumManeuverDurationViolationStrategy::Chunk,
             Pair<Duration, Duration>(Duration::Minutes(3.0), Duration::Minutes(10.0)),
-            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            Array<Pair<Duration, Duration>> {},
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(2.0)),
                 Pair<Duration, Duration>(Duration::Minutes(3.0), Duration::Minutes(4.0)),
@@ -3939,11 +4355,29 @@ INSTANTIATE_TEST_SUITE_P(
             },
         },
         SolveMaximumManeuverDutyCycleParams {
-            "WithPreviousManeuvers_ChunkStrategy_ExceedsDutyCyleAndMaximumDuration",
+            "WithSinglePreviousManeuver_ChunkStrategy_ExceedsDutyCyleAndMaximumDuration",
             Duration::Minutes(8.0),
             Segment::MaximumManeuverDurationViolationStrategy::Chunk,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
-            Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-55.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-55.0)),
+            },
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(8.0)),
+                Pair<Duration, Duration>(Duration::Minutes(9.0), Duration::Minutes(16.0)),
+                Pair<Duration, Duration>(Duration::Minutes(20.0), Duration::Minutes(28.0)),
+                Pair<Duration, Duration>(Duration::Minutes(29.0), Duration::Minutes(30.0)),
+            },
+        },
+        SolveMaximumManeuverDutyCycleParams {
+            "WithMultiplePreviousManeuver_ChunkStrategy_ExceedsDutyCyleAndMaximumDuration",
+            Duration::Minutes(8.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+            Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
+            Array<Pair<Duration, Duration>> {
+                Pair<Duration, Duration>(Duration::Minutes(-80.0), Duration::Minutes(-65.0)),
+                Pair<Duration, Duration>(Duration::Minutes(-65.0), Duration::Minutes(-55.0)),
+            },
             Array<Pair<Duration, Duration>> {
                 Pair<Duration, Duration>(Duration::Zero(), Duration::Minutes(8.0)),
                 Pair<Duration, Duration>(Duration::Minutes(9.0), Duration::Minutes(16.0)),
@@ -3988,16 +4422,16 @@ TEST_P(
 
     const Instant segmentStart = initialStateWithMass_.accessInstant();
 
-    Interval previousManeuverInterval = Interval::Undefined();
-    if (params.previousManeuverInterval.first.isDefined() && params.previousManeuverInterval.second.isDefined())
+    Array<Interval> previousManeuverIntervals;
+    for (const auto& startAndEnd : params.previousManeuverIntervals)
     {
-        previousManeuverInterval = Interval::Closed(
-            segmentStart + params.previousManeuverInterval.first, segmentStart + params.previousManeuverInterval.second
+        previousManeuverIntervals.add(
+            Interval::Closed(segmentStart + startAndEnd.first, segmentStart + startAndEnd.second)
         );
     }
 
-    const Segment::Solution solution =
-        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverInterval);
+    Segment::Solution solution =
+        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverIntervals);
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
@@ -4047,7 +4481,7 @@ INSTANTIATE_TEST_SUITE_P(
             "strategy to prevent the Sequence from failing.",
         },
         SolveMaximumManeuverDutyCycleFailureParams {
-            "WithPreviousManeuvers_FailStrategy_ExceedsDutyCyle",
+            "WithSinglePreviousManeuver_FailStrategy_ExceedsDutyCyle",
             Segment::MaximumManeuverDurationViolationStrategy::Fail,
             Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(100.0)),
             Pair<Duration, Duration>(Duration::Minutes(-50.0), Duration::Minutes(-20.0)),

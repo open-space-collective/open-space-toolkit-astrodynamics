@@ -650,10 +650,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
             )doc"
         )
-
         .def(
             "solve",
-            &Segment::solve,
+            overload_cast<const State&, const Duration&, Interval>(&Segment::solve, const_),
             arg("state"),
             arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
             arg_v("previous_maneuver_interval", Interval::Undefined(), "Interval.undefined()"),
@@ -668,6 +667,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 Returns:
                     SegmentSolution: The segment solution.
 
+            )doc"
+        )
+        .def(
+            "solve",
+            overload_cast<const State&, const Duration&, const Array<Interval>&>(&Segment::solve, const_),
+            arg("state"),
+            arg("maximum_propagation_duration"),
+            arg("previous_maneuver_intervals"),
+            R"doc(
+                Solve the segment until its event condition is satisfied or the maximum propagation duration is reached, considering the previous maneuver intervals.
+
+                Args:
+                    state (State): The state.
+                    maximum_propagation_duration (Duration): The maximum propagation duration.
+                    previous_maneuver_intervals (list[Interval]): The previous maneuver intervals prior to this segment.
+
+                Returns:
+                    SegmentSolution: The segment solution.
             )doc"
         )
 
