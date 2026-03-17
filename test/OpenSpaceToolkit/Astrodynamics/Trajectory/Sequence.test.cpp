@@ -1050,6 +1050,7 @@ struct ManeuveringConstraintsTestParams
     Array<Tuple<Duration, Duration>> maneuverIntervals;
     Segment::ManeuverConstraints maneuverConstraints;
     Array<Tuple<Duration, Duration>> expectedManeuverIntervals;
+    Duration tolerance;
 };
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence_ManeuveringConstraints_Parameterized
@@ -1086,7 +1087,8 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
             ),
-            Array<Tuple<Duration, Duration>>::Empty()
+            Array<Tuple<Duration, Duration>>::Empty(),
+            Duration::Milliseconds(10.0)
         },
         // With Minimum Maneuver Duration Constraint
         ManeuveringConstraintsTestParams {
@@ -1108,7 +1110,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(10.0), Duration::Minutes(21.0)},
                 {Duration::Minutes(50.0), Duration::Minutes(70.0)},
                 {Duration::Minutes(85.0), Duration::Minutes(100.0)}
-            }
+            },
+            Duration::Milliseconds(10.0)
         },
         // With Minimum Maneuver Separation Constraint
         ManeuveringConstraintsTestParams {
@@ -1131,7 +1134,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(25.0), Duration::Minutes(30.0)},
                 {Duration::Minutes(50.0), Duration::Minutes(70.0)},
                 {Duration::Minutes(80.0), Duration::Minutes(100.0)}
-            }
+            },
+            Duration::Milliseconds(10.0)
         },
         // With Maximum Maneuver Duration Constraint (Skip Strategy)
         ManeuveringConstraintsTestParams {
@@ -1148,7 +1152,8 @@ INSTANTIATE_TEST_SUITE_P(
                 Duration::Seconds(30.0),
                 Segment::MaximumManeuverDurationViolationStrategy::Skip
             ),
-            Array<Tuple<Duration, Duration>> {{Duration::Minutes(20.0), Duration::Minutes(25.0)}}
+            Array<Tuple<Duration, Duration>> {{Duration::Minutes(20.0), Duration::Minutes(25.0)}},
+            Duration::Milliseconds(10.0)
         },
         // With Maximum Maneuver Duration Constraint (TruncateEnd Strategy)
         ManeuveringConstraintsTestParams {
@@ -1178,7 +1183,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(20.0), Duration::Minutes(25.0)},
                 {Duration::Minutes(30.0), Duration::Minutes(40.0)},
                 {Duration::Minutes(60.0), Duration::Minutes(70.0)}
-            }
+            },
+            Duration::Milliseconds(10.0)
         },
         // With Maximum Maneuver Duration Constraint (TruncateStart Strategy)
         ManeuveringConstraintsTestParams {
@@ -1208,7 +1214,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(20.0), Duration::Minutes(25.0)},
                 {Duration::Minutes(40.0), Duration::Minutes(50.0)},
                 {Duration::Minutes(90.0), Duration::Minutes(100.0)}
-            }
+            },
+            Duration::Milliseconds(10.0)
         },
         // With Maximum Maneuver Duration Constraint (Center Strategy)
         ManeuveringConstraintsTestParams {
@@ -1238,7 +1245,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(20.0), Duration::Minutes(25.0)},
                 {Duration::Minutes(35.0), Duration::Minutes(45.0)},
                 {Duration::Minutes(75.0), Duration::Minutes(85.0)}
-            }
+            },
+            Duration::Milliseconds(10.0)
         },
         // With Maximum Maneuver Duration Constraint (Chunk Strategy)
         ManeuveringConstraintsTestParams {
@@ -1271,7 +1279,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(60.0), Duration::Minutes(70.0)},
                 {Duration::Minutes(73.0), Duration::Minutes(83.0)},
                 {Duration::Minutes(86.0), Duration::Minutes(96.0)}
-            }
+            },
+            Duration::Milliseconds(10.0)
         },
         // With Maximum Maneuver Duty Cycle Constraint (Skip Strategy)
         ManeuveringConstraintsTestParams {
@@ -1291,7 +1300,8 @@ INSTANTIATE_TEST_SUITE_P(
             ),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(20.0), Duration::Minutes(25.0)}, {Duration::Minutes(55.0), Duration::Minutes(60.0)}
-            }
+            },
+            Duration::Seconds(11.0)
         },
         // With Maximum Maneuver Duty Cycle Constraint (TruncateEnd Strategy)
         ManeuveringConstraintsTestParams {
@@ -1314,7 +1324,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(20.0), Duration::Minutes(25.0)},
                 {Duration::Minutes(30.0), Duration::Minutes(35.0)},
                 {Duration::Minutes(55.0), Duration::Minutes(60.0)}
-            }
+            },
+            Duration::Seconds(11.0)
         },
         // With Maximum Maneuver Duty Cycle Constraint (TruncateStart Strategy)
         ManeuveringConstraintsTestParams {
@@ -1336,7 +1347,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(4.0), Duration::Minutes(14.0)},
                 {Duration::Minutes(24.0), Duration::Minutes(25.0)},
                 {Duration::Minutes(40.0), Duration::Minutes(50.0)}
-            }
+            },
+            Duration::Seconds(11.0)
         },
         // With Maximum Maneuver Duty Cycle Constraint (Center Strategy)
         ManeuveringConstraintsTestParams {
@@ -1357,7 +1369,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(10.0), Duration::Minutes(20.0)},
                 {Duration::Minutes(32.0), Duration::Minutes(38.0)},
                 {Duration::Minutes(55.0), Duration::Minutes(60.0)}
-            }
+            },
+            Duration::Seconds(11.0)
         },
         // With Maximum Maneuver Duty Cycle Constraint (Chunk Strategy)
         ManeuveringConstraintsTestParams {
@@ -1381,7 +1394,8 @@ INSTANTIATE_TEST_SUITE_P(
                 {Duration::Minutes(20.0), Duration::Minutes(25.0)},
                 {Duration::Minutes(30.0), Duration::Minutes(35.0)},
                 {Duration::Minutes(55.0), Duration::Minutes(60.0)}
-            }
+            },
+            Duration::Seconds(11.0)
         }
     ),
     [](const ::testing::TestParamInfo<ManeuveringConstraintsTestParams>& paramInfo)
@@ -1416,13 +1430,7 @@ TEST_P(
         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(99.0));
 
     const Duration maximumPropagationDuration = Duration::Minutes(200.0);
-    Duration tolerance = Duration::Milliseconds(10.0);
-    // If the maneuver constraints are a duty cycle constraint, we need to use a larger tolerance
-    // as the contraint involves discretizing the search space.
-    if (params.maneuverConstraints.maximumDutyCycle.second.isDefined())
-    {
-        tolerance = Duration::Seconds(11.0);
-    }
+    const Duration tolerance = params.tolerance;
 
     Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.maneuverIntervals)

@@ -676,7 +676,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
             arg_v("previous_maneuver_intervals", Array<Interval>::Empty(), "[]"),
             R"doc(
-                Solve the segment until its event condition is satisfied or the maximum propagation duration is reached considering the previous maneuver intervals.
+                Solve the segment until its event condition is satisfied or the maximum propagation duration is reached, considering the previous maneuver intervals.
 
                 Args:
                     state (State): The state.

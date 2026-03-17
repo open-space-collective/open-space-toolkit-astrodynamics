@@ -370,7 +370,7 @@ class Segment
         Interval previousManeuverInterval = Interval::Undefined()
     ) const;
 
-    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached
+    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached,
     /// considering the previous maneuver intervals.
     ///
     /// @param aState Initial state for the segment

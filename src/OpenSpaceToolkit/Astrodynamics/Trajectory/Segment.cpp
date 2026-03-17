@@ -877,8 +877,11 @@ Segment::Solution Segment::solveWithPreviousManeuverIntervals(
     const State& aState, const Duration& maximumPropagationDuration, const Array<Interval>& previousManeuverIntervals
 ) const
 {
+    // Sort the previous maneuver intervals
+    const Array<Interval> sortedPreviousManeuverIntervals = Interval::Sort(previousManeuverIntervals);
+
     // Check that inputs are not ill-posed
-    for (const Interval& previousManeuverInterval : previousManeuverIntervals)
+    for (const Interval& previousManeuverInterval : sortedPreviousManeuverIntervals)
     {
         if (previousManeuverInterval.getEnd() > aState.accessInstant())
         {
@@ -900,8 +903,9 @@ Segment::Solution Segment::solveWithPreviousManeuverIntervals(
     Array<Interval> acceptedManeuverIntervals = Array<Interval>::Empty();
 
     // Running "last" maneuver interval for minimum separation: start from last of initial intervals if any
-    Interval previousManeuverInterval =
-        previousManeuverIntervals.isEmpty() ? Interval::Undefined() : previousManeuverIntervals.accessLast();
+    Interval previousManeuverInterval = sortedPreviousManeuverIntervals.isEmpty()
+                                          ? Interval::Undefined()
+                                          : sortedPreviousManeuverIntervals.accessLast();
 
     // Helper lambda to build a thruster dynamics that only thrusts within the given interval
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
@@ -1487,7 +1491,7 @@ Segment::Solution Segment::solveWithPreviousManeuverIntervals(
                 candidateManeuverInterval.getStart() - maneuverConstraints_.maximumDutyCycle.second;
             Array<Interval> previousManeuverIntervalsToConsiderForDutyCycle = Array<Interval>::Empty();
 
-            for (const auto& initialPreviousManeuverInterval : previousManeuverIntervals)
+            for (const auto& initialPreviousManeuverInterval : sortedPreviousManeuverIntervals)
             {
                 if (initialPreviousManeuverInterval.getEnd() >= dutyCycleInfluenceCutoff)
                 {
