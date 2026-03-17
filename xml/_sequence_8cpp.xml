@@ -526,6 +526,8 @@
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
         <childnode refid="58" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
@@ -955,7 +957,7 @@
 <codeline lineno="308"><highlight class="normal"></highlight></codeline>
 <codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>State<sp/>initialState<sp/>=<sp/>aState;</highlight></codeline>
 <codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>State<sp/>finalState<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a24ed7a7e725ad450707d572dff86b1ee" kindref="member">State::Undefined</ref>();</highlight></codeline>
-<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>Interval<sp/>previousManeuverInterval<sp/>=<sp/>Interval::Undefined();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>previousManeuverIntervals<sp/>=<sp/>Array&lt;Interval&gt;::Empty();</highlight></codeline>
 <codeline lineno="312"><highlight class="normal"></highlight></codeline>
 <codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Size<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>aRepetitionCount;<sp/>++i)</highlight></codeline>
 <codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -966,13 +968,13 @@
 <codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BOOST_LOG_TRIVIAL(debug)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Solving<sp/>Segment:\n&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>segment<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
 <codeline lineno="320"><highlight class="normal"></highlight></codeline>
 <codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Segment::Solution<sp/>segmentSolution<sp/>=</highlight></codeline>
-<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segment.solve(initialState,<sp/>segmentPropagationDurationLimit_,<sp/>previousManeuverInterval);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segment.solve(initialState,<sp/>segmentPropagationDurationLimit_,<sp/>previousManeuverIntervals);</highlight></codeline>
 <codeline lineno="323"><highlight class="normal"></highlight></codeline>
 <codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Maneuver&gt;<sp/>solutionManeuvers<sp/>=<sp/>segmentSolution.extractManeuvers(aState.accessFrame());</highlight></codeline>
 <codeline lineno="325"><highlight class="normal"></highlight></codeline>
-<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!solutionManeuvers.isEmpty())</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>maneuver<sp/>:<sp/>solutionManeuvers)</highlight></codeline>
 <codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousManeuverInterval<sp/>=<sp/>solutionManeuvers.accessLast().getInterval();</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousManeuverIntervals.add(maneuver.getInterval());</highlight></codeline>
 <codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="330"><highlight class="normal"></highlight></codeline>
 <codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segmentSolution.name<sp/>=</highlight></codeline>
@@ -1005,7 +1007,7 @@
 <codeline lineno="358"><highlight class="normal"></highlight></codeline>
 <codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>State<sp/>initialState<sp/>=<sp/>aState;</highlight></codeline>
 <codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>State<sp/>finalState<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a24ed7a7e725ad450707d572dff86b1ee" kindref="member">State::Undefined</ref>();</highlight></codeline>
-<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>Interval<sp/>previousManeuverInterval<sp/>=<sp/>Interval::Undefined();</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>previousManeuverIntervals<sp/>=<sp/>Array&lt;Interval&gt;::Empty();</highlight></codeline>
 <codeline lineno="362"><highlight class="normal"></highlight></codeline>
 <codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>Duration<sp/>propagationDuration<sp/>=<sp/>Duration::Zero();</highlight></codeline>
 <codeline lineno="364"><highlight class="normal"></highlight></codeline>
@@ -1025,13 +1027,13 @@
 <codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::min(segmentPropagationDurationLimit_,<sp/>aMaximumPropagationDuration<sp/>-<sp/>propagationDuration);</highlight></codeline>
 <codeline lineno="379"><highlight class="normal"></highlight></codeline>
 <codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Segment::Solution<sp/>segmentSolution<sp/>=</highlight></codeline>
-<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segment.solve(initialState,<sp/>segmentPropagationDurationLimit,<sp/>previousManeuverInterval);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segment.solve(initialState,<sp/>segmentPropagationDurationLimit,<sp/>previousManeuverIntervals);</highlight></codeline>
 <codeline lineno="382"><highlight class="normal"></highlight></codeline>
 <codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Maneuver&gt;<sp/>solutionManeuvers<sp/>=<sp/>segmentSolution.extractManeuvers(aState.accessFrame());</highlight></codeline>
 <codeline lineno="384"><highlight class="normal"></highlight></codeline>
-<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!solutionManeuvers.isEmpty())</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>maneuver<sp/>:<sp/>solutionManeuvers)</highlight></codeline>
 <codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousManeuverInterval<sp/>=<sp/>solutionManeuvers.accessLast().getInterval();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>previousManeuverIntervals.add(maneuver.getInterval());</highlight></codeline>
 <codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="389"><highlight class="normal"></highlight></codeline>
 <codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segmentSolution.name<sp/>=</highlight></codeline>
