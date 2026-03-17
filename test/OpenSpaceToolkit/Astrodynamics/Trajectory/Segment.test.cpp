@@ -2022,7 +2022,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeuverIntervals)
 {
     {
-        const Segment::Solution solution = defaultCoastSegment_.solveWithPreviousManeuverIntervals(defaultState_);
+        const Segment::Solution solution =
+            defaultCoastSegment_.solve(defaultState_, Duration::Days(30.0), Array<Interval>::Empty());
 
         EXPECT_TRUE(solution.states.getSize() > 0);
         ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
@@ -2043,7 +2044,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
             Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
 
         const Segment::Solution solution =
-            segment.solveWithPreviousManeuverIntervals(defaultState_, Duration::Minutes(1.0));
+            segment.solve(defaultState_, Duration::Minutes(1.0), Array<Interval>::Empty());
 
         EXPECT_TRUE(solution.states.getSize() > 0);
         ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
@@ -2084,7 +2085,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
 
         {
             const Segment::Solution solution =
-                segment.solveWithPreviousManeuverIntervals(initialState, Duration::Minutes(80.0));
+                segment.solve(initialState, Duration::Minutes(80.0), Array<Interval>::Empty());
 
             ASSERT_FALSE(solution.states.isEmpty());
             ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
@@ -2120,9 +2121,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
 
         EXPECT_THROW(
             try {
-                maneuverSegment.solveWithPreviousManeuverIntervals(
-                    defaultState_, Duration::Minutes(80.0), previousManeuverIntervals
-                );
+                maneuverSegment.solve(defaultState_, Duration::Minutes(80.0), previousManeuverIntervals);
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_NE(
                     e.getMessage().find("All maneuver intervals must be before the initial state instant"),
@@ -4431,9 +4430,8 @@ TEST_P(
         );
     }
 
-    Segment::Solution solution = maneuverSegment.solveWithPreviousManeuverIntervals(
-        initialStateWithMass_, Duration::Minutes(30.0), previousManeuverIntervals
-    );
+    Segment::Solution solution =
+        maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(30.0), previousManeuverIntervals);
 
     EXPECT_TRUE(solution.conditionIsSatisfied);
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);

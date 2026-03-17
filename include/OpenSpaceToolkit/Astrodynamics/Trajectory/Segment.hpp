@@ -374,14 +374,13 @@ class Segment
     /// considering the previous maneuver intervals.
     ///
     /// @param aState Initial state for the segment
-    /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
-    /// @param previousManeuverIntervals Maneuver intervals prior to this segment (e.g. from previous segments).
-    /// Defaults to empty.
+    /// @param maximumPropagationDuration Maximum duration for propagation
+    /// @param previousManeuverIntervals Maneuver intervals prior to this segment (e.g. from previous segments)
     /// @return A Solution representing the result of the solve
-    Solution solveWithPreviousManeuverIntervals(
+    Solution solve(
         const State& aState,
-        const Duration& maximumPropagationDuration = Duration::Days(30.0),
-        const Array<Interval>& previousManeuverIntervals = Array<Interval>::Empty()
+        const Duration& maximumPropagationDuration,
+        const Array<Interval>& previousManeuverIntervals
     ) const;
 
     /// @brief Print the segment

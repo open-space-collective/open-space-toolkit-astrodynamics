@@ -318,9 +318,8 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
 
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
-            Segment::Solution segmentSolution = segment.solveWithPreviousManeuverIntervals(
-                initialState, segmentPropagationDurationLimit_, previousManeuverIntervals
-            );
+            Segment::Solution segmentSolution =
+                segment.solve(initialState, segmentPropagationDurationLimit_, previousManeuverIntervals);
 
             const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
 
@@ -378,9 +377,8 @@ Sequence::Solution Sequence::solveToCondition(
             const Duration segmentPropagationDurationLimit =
                 std::min(segmentPropagationDurationLimit_, aMaximumPropagationDuration - propagationDuration);
 
-            Segment::Solution segmentSolution = segment.solveWithPreviousManeuverIntervals(
-                initialState, segmentPropagationDurationLimit, previousManeuverIntervals
-            );
+            Segment::Solution segmentSolution =
+                segment.solve(initialState, segmentPropagationDurationLimit, previousManeuverIntervals);
 
             const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
 

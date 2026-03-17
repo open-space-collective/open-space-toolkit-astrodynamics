@@ -870,10 +870,10 @@ Segment::Solution Segment::solve(
     {
         previousManeuverIntervals.add(previousManeuverInterval);
     }
-    return solveWithPreviousManeuverIntervals(aState, maximumPropagationDuration, previousManeuverIntervals);
+    return solve(aState, maximumPropagationDuration, previousManeuverIntervals);
 }
 
-Segment::Solution Segment::solveWithPreviousManeuverIntervals(
+Segment::Solution Segment::solve(
     const State& aState, const Duration& maximumPropagationDuration, const Array<Interval>& previousManeuverIntervals
 ) const
 {
