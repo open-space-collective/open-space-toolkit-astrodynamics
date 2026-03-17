@@ -3,9 +3,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4__
 
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
@@ -30,9 +32,11 @@ namespace orbit
 namespace model
 {
 
+using ostk::core::container::Array;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
 
@@ -75,6 +79,23 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aTle A Two-Line Element set.
     /// @param anOutputFrameSPtr An output frame.
     SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr);
+
+    /// @brief Construct an SGP4 model from an array of TLEs.
+    ///
+    /// @details When multiple TLEs are provided, the model will use the TLE whose epoch is closest
+    /// to the requested instant for state calculations.
+    ///
+    /// @param aTleArray An array of Two-Line Element sets.
+    SGP4(const Array<TLE>& aTleArray);
+
+    /// @brief Construct an SGP4 model from an array of TLEs and an output frame.
+    ///
+    /// @details When multiple TLEs are provided, the model will use the TLE whose epoch is closest
+    /// to the requested instant for state calculations.
+    ///
+    /// @param aTleArray An array of Two-Line Element sets.
+    /// @param anOutputFrameSPtr An output frame.
+    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr);
 
     /// @brief Copy constructor.
     ///
@@ -134,6 +155,16 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return The Two-Line Element set.
     TLE getTle() const;
 
+    /// @brief Get the array of TLEs associated with this model.
+    ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tleArray);
+    ///     Array<TLE> tles = sgp4.getTles();
+    /// @endcode
+    ///
+    /// @return The array of Two-Line Element sets.
+    Array<TLE> getTles() const;
+
     /// @brief Get the output frame of the SGP4 model.
     ///
     /// @code{.cpp}
@@ -175,6 +206,14 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return The orbital state at the given instant.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
+    /// @brief Calculate states at given instants.
+    ///
+    /// @details When multiple TLEs are provided, the TLE whose epoch is closest to each instant is used.
+    ///
+    /// @param anInstantArray An array of instants at which to calculate the states.
+    /// @return An array of orbital states at the given instants.
+    virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;
+
     /// @brief Print the SGP4 model to an output stream.
     ///
     /// @param anOutputStream An output stream.
@@ -190,9 +229,14 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     class Impl;
 
     TLE tle_;
+    Array<TLE> tleArray_;
     Shared<const Frame> outputFrameSPtr_;
 
-    Unique<SGP4::Impl> implUPtr_;
+    mutable Unique<SGP4::Impl> implUPtr_;
+    mutable Size cachedTleIndex_;
+
+    Size findClosestTleIndex(const Instant& anInstant) const;
+    void ensureImplForTleIndex(const Size& aTleIndex) const;
 };
 
 }  // namespace model

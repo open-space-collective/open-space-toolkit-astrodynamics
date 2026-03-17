@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 
 #include <sgp4/SGP4.h>
@@ -8,6 +10,7 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
@@ -36,8 +39,8 @@ class SGP4::Impl
     State calculateStateAt(const Instant& anInstant) const;
 
    private:
-    const TLE& tle_;
-    const Shared<const Frame>& outputFrameSPtr_;
+    TLE tle_;
+    Shared<const Frame> outputFrameSPtr_;
     libsgp4::SGP4 sgp4_;
 
     Shared<const Frame> temeFrameOfEpochSPtr_;
@@ -78,25 +81,91 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 SGP4::SGP4(const TLE& aTle)
     : Model(),
       tle_(aTle),
+      tleArray_(Array<TLE>::Empty()),
       outputFrameSPtr_(Frame::GCRF()),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_)),
+      cachedTleIndex_(0)
 {
 }
 
 SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
       tle_(aTle),
+      tleArray_(Array<TLE>::Empty()),
       outputFrameSPtr_(anOutputFrameSPtr),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_)),
+      cachedTleIndex_(0)
 {
+}
+
+SGP4::SGP4(const Array<TLE>& aTleArray)
+    : Model(),
+      tle_(TLE::Undefined()),
+      tleArray_(aTleArray),
+      outputFrameSPtr_(Frame::GCRF()),
+      implUPtr_(nullptr),
+      cachedTleIndex_(0)
+{
+    if (tleArray_.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("TLE array is empty.");
+    }
+
+    std::sort(
+        tleArray_.begin(),
+        tleArray_.end(),
+        [](const TLE& a, const TLE& b)
+        {
+            return a.getEpoch() < b.getEpoch();
+        }
+    );
+
+    tle_ = tleArray_.accessFirst();
+    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
+}
+
+SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr)
+    : Model(),
+      tle_(TLE::Undefined()),
+      tleArray_(aTleArray),
+      outputFrameSPtr_(anOutputFrameSPtr),
+      implUPtr_(nullptr),
+      cachedTleIndex_(0)
+{
+    if (tleArray_.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("TLE array is empty.");
+    }
+
+    std::sort(
+        tleArray_.begin(),
+        tleArray_.end(),
+        [](const TLE& a, const TLE& b)
+        {
+            return a.getEpoch() < b.getEpoch();
+        }
+    );
+
+    tle_ = tleArray_.accessFirst();
+    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
 }
 
 SGP4::SGP4(const SGP4& aSGP4Model)
     : Model(aSGP4Model),
       tle_(aSGP4Model.tle_),
+      tleArray_(aSGP4Model.tleArray_),
       outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+      implUPtr_(nullptr),
+      cachedTleIndex_(0)
 {
+    if (!tleArray_.isEmpty())
+    {
+        implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
+    }
+    else if (tle_.isDefined())
+    {
+        implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
+    }
 }
 
 SGP4::~SGP4() {}
@@ -108,9 +177,22 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
         Model::operator=(aSGP4Model);
 
         this->tle_ = aSGP4Model.tle_;
+        this->tleArray_ = aSGP4Model.tleArray_;
         this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
+        this->cachedTleIndex_ = 0;
 
-        this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
+        if (!tleArray_.isEmpty())
+        {
+            this->implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
+        }
+        else if (tle_.isDefined())
+        {
+            this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
+        }
+        else
+        {
+            this->implUPtr_ = nullptr;
+        }
     }
 
     return *this;
@@ -128,7 +210,8 @@ bool SGP4::operator==(const SGP4& aSGP4Model) const
         return false;
     }
 
-    return (this->tle_ == aSGP4Model.tle_) && (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
+    return (this->tle_ == aSGP4Model.tle_) && (this->tleArray_ == aSGP4Model.tleArray_) &&
+           (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
 }
 
 bool SGP4::operator!=(const SGP4& aSGP4Model) const
@@ -145,7 +228,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model)
 
 bool SGP4::isDefined() const
 {
-    return this->tle_.isDefined() && (this->implUPtr_ != nullptr);
+    return (this->tle_.isDefined() || !this->tleArray_.isEmpty()) && (this->implUPtr_ != nullptr);
 }
 
 TLE SGP4::getTle() const
@@ -156,6 +239,16 @@ TLE SGP4::getTle() const
     }
 
     return this->tle_;
+}
+
+Array<TLE> SGP4::getTles() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    return this->tleArray_;
 }
 
 Shared<const Frame> SGP4::getOutputFrame() const
@@ -200,7 +293,31 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
+    if (tleArray_.getSize() > 1)
+    {
+        const Size tleIndex = this->findClosestTleIndex(anInstant);
+        this->ensureImplForTleIndex(tleIndex);
+    }
+
     return this->implUPtr_->calculateStateAt(anInstant);
+}
+
+Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    Array<State> stateArray = Array<State>::Empty();
+    stateArray.reserve(anInstantArray.getSize());
+
+    for (const auto& instant : anInstantArray)
+    {
+        stateArray.add(this->calculateStateAt(instant));
+    }
+
+    return stateArray;
 }
 
 void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -208,13 +325,63 @@ void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Epoch:" << (this->getEpoch().isDefined() ? this->getEpoch().toString() : "Undefined");
+        << "Epoch:" << (this->isDefined() ? this->getEpoch().toString() : "Undefined");
+
+    if (!tleArray_.isEmpty())
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "TLE count:" << tleArray_.getSize();
+    }
 
     ostk::core::utils::Print::Separator(anOutputStream, "Two-Line Elements");
 
     // tle_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+Size SGP4::findClosestTleIndex(const Instant& anInstant) const
+{
+    using ostk::physics::time::Duration;
+
+    const auto it = std::lower_bound(
+        tleArray_.begin(),
+        tleArray_.end(),
+        anInstant,
+        [](const TLE& tle, const Instant& instant)
+        {
+            return tle.getEpoch() < instant;
+        }
+    );
+
+    if (it == tleArray_.begin())
+    {
+        return 0;
+    }
+
+    if (it == tleArray_.end())
+    {
+        return tleArray_.getSize() - 1;
+    }
+
+    const auto prevIt = std::prev(it);
+    const Duration durationToPrev = Duration::Between(prevIt->getEpoch(), anInstant).getAbsolute();
+    const Duration durationToNext = Duration::Between(anInstant, it->getEpoch()).getAbsolute();
+
+    if (durationToPrev <= durationToNext)
+    {
+        return static_cast<Size>(std::distance(tleArray_.begin(), prevIt));
+    }
+
+    return static_cast<Size>(std::distance(tleArray_.begin(), it));
+}
+
+void SGP4::ensureImplForTleIndex(const Size& aTleIndex) const
+{
+    if (aTleIndex != cachedTleIndex_ || implUPtr_ == nullptr)
+    {
+        cachedTleIndex_ = aTleIndex;
+        implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[aTleIndex], outputFrameSPtr_);
+    }
 }
 
 bool SGP4::operator==(const trajectory::Model& aModel) const

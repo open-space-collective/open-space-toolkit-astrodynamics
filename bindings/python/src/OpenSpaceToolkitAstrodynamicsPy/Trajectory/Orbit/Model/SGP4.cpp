@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
@@ -8,12 +10,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 {
     using namespace pybind11;
 
+    using ostk::core::container::Array;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
+    using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::State;
 
     {
         class_<SGP4, ostk::astrodynamics::trajectory::orbit::Model>(
@@ -55,6 +60,38 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             )
 
             .def(
+                init<Array<TLE>>(),
+                R"doc(
+                    Construct an SGP4 model from an array of TLEs.
+
+                    When multiple TLEs are provided, the model will use the TLE whose epoch is closest
+                    to the requested instant for state calculations.
+
+                    Args:
+                        tle_array (list[TLE]): An array of TLEs.
+
+                )doc",
+                arg("tle_array")
+            )
+
+            .def(
+                init<Array<TLE>, Shared<const Frame>>(),
+                R"doc(
+                    Construct an SGP4 model from an array of TLEs and an output frame.
+
+                    When multiple TLEs are provided, the model will use the TLE whose epoch is closest
+                    to the requested instant for state calculations.
+
+                    Args:
+                        tle_array (list[TLE]): An array of TLEs.
+                        output_frame (Frame): The output frame for state calculations.
+
+                )doc",
+                arg("tle_array"),
+                arg("output_frame")
+            )
+
+            .def(
                 "is_defined",
                 &SGP4::isDefined,
                 R"doc(
@@ -70,10 +107,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 "get_tle",
                 &SGP4::getTle,
                 R"doc(
-                    Get the TLE of the `SGP4` model.
+                    Get the TLE of the `SGP4` model. For multi-TLE models, returns the TLE with the earliest epoch.
 
                     Returns:
                         TLE: The TLE.
+
+                )doc"
+            )
+
+            .def(
+                "get_tles",
+                &SGP4::getTles,
+                R"doc(
+                    Get the array of TLEs of the `SGP4` model.
+
+                    Returns:
+                        list[TLE]: The array of TLEs. Empty if constructed with a single TLE.
 
                 )doc"
             )
@@ -121,11 +170,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 R"doc(
                     Calculate the state of the `SGP4` model at a given instant.
 
+                    When multiple TLEs are provided, uses the TLE whose epoch is closest to the instant.
+
                     Args:
                         instant (Instant): The instant.
 
                     Returns:
                         State: The state.
+
+                )doc"
+            )
+
+            .def(
+                "calculate_states_at",
+                &SGP4::calculateStatesAt,
+                arg("instant_array"),
+                R"doc(
+                    Calculate the states of the `SGP4` model at given instants.
+
+                    When multiple TLEs are provided, uses the TLE whose epoch is closest to each instant.
+
+                    Args:
+                        instant_array (list[Instant]): The instants.
+
+                    Returns:
+                        list[State]: The states.
 
                 )doc"
             )

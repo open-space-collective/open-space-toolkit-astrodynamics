@@ -32,6 +32,7 @@ using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationVector;
@@ -79,6 +80,202 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
 
         const State state = sgp4.calculateStateAt(tle.getEpoch());
         EXPECT_EQ(*Frame::TEME(), *state.accessFrame());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor_TLEArray)
+{
+    // Single TLE in array
+    {
+        const TLE tle = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+
+        const Array<TLE> tleArray = {tle};
+
+        const SGP4 sgp4(tleArray);
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(Frame::GCRF(), sgp4.getOutputFrame());
+        EXPECT_EQ(1u, sgp4.getTles().getSize());
+    }
+
+    // Multiple TLEs in array
+    {
+        const TLE tle1 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<TLE> tleArray = {tle2, tle1};  // Intentionally reversed order
+
+        const SGP4 sgp4(tleArray);
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(2u, sgp4.getTles().getSize());
+        // Should be sorted by epoch: tle1 first
+        EXPECT_EQ(tle1.getEpoch(), sgp4.getTles()[0].getEpoch());
+        EXPECT_EQ(tle2.getEpoch(), sgp4.getTles()[1].getEpoch());
+    }
+
+    // With output frame
+    {
+        const TLE tle = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+
+        const Array<TLE> tleArray = {tle};
+
+        const SGP4 sgp4(tleArray, Frame::TEME());
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
+    }
+
+    // Empty array throws
+    {
+        const Array<TLE> emptyTleArray = Array<TLE>::Empty();
+        EXPECT_THROW(SGP4 sgp4(emptyTleArray), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStateAt_MultiTLE)
+{
+    const TLE tle1 = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+    TLE tle2 = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+    tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+    const Array<TLE> tleArray = {tle1, tle2};
+    const SGP4 sgp4Multi(tleArray);
+
+    // State at tle1 epoch should match single-TLE SGP4 with tle1
+    {
+        const SGP4 sgp4Single(tle1);
+        const State stateMulti = sgp4Multi.calculateStateAt(tle1.getEpoch());
+        const State stateSingle = sgp4Single.calculateStateAt(tle1.getEpoch());
+
+        EXPECT_GT(
+            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        );
+        EXPECT_GT(
+            1e-9, (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm()
+        );
+    }
+
+    // State at tle2 epoch should match single-TLE SGP4 with tle2
+    {
+        const SGP4 sgp4Single(tle2);
+        const State stateMulti = sgp4Multi.calculateStateAt(tle2.getEpoch());
+        const State stateSingle = sgp4Single.calculateStateAt(tle2.getEpoch());
+
+        EXPECT_GT(
+            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        );
+        EXPECT_GT(
+            1e-9, (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm()
+        );
+    }
+
+    // State closer to tle1 should use tle1
+    {
+        const Instant instantNearTle1 =
+            tle1.getEpoch() + Duration::Hours(6.0);  // 6 hours after tle1, 18 hours before tle2
+        const SGP4 sgp4Single(tle1);
+        const State stateMulti = sgp4Multi.calculateStateAt(instantNearTle1);
+        const State stateSingle = sgp4Single.calculateStateAt(instantNearTle1);
+
+        EXPECT_GT(
+            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        );
+    }
+
+    // State closer to tle2 should use tle2
+    {
+        const Instant instantNearTle2 =
+            tle2.getEpoch() - Duration::Hours(6.0);  // 18 hours after tle1, 6 hours before tle2
+        const SGP4 sgp4Single(tle2);
+        const State stateMulti = sgp4Multi.calculateStateAt(instantNearTle2);
+        const State stateSingle = sgp4Single.calculateStateAt(instantNearTle2);
+
+        EXPECT_GT(
+            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        );
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStatesAt_MultiTLE)
+{
+    const TLE tle1 = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+    TLE tle2 = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+    tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+    const Array<TLE> tleArray = {tle1, tle2};
+    const SGP4 sgp4(tleArray);
+
+    const Array<Instant> instants = {
+        tle1.getEpoch(),
+        tle1.getEpoch() + Duration::Hours(6.0),
+        tle2.getEpoch() - Duration::Hours(6.0),
+        tle2.getEpoch(),
+    };
+
+    const Array<State> states = sgp4.calculateStatesAt(instants);
+
+    EXPECT_EQ(4u, states.getSize());
+
+    // Verify each state matches individual calculateStateAt
+    for (Size i = 0; i < instants.getSize(); ++i)
+    {
+        const State individualState = sgp4.calculateStateAt(instants[i]);
+        EXPECT_GT(
+            1e-6,
+            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm()
+        );
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStatesAt_SingleTLE)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    const SGP4 sgp4(tle);
+
+    const Array<Instant> instants = {
+        tle.getEpoch(),
+        tle.getEpoch() + Duration::Hours(1.0),
+        tle.getEpoch() + Duration::Hours(2.0),
+    };
+
+    const Array<State> states = sgp4.calculateStatesAt(instants);
+
+    EXPECT_EQ(3u, states.getSize());
+
+    for (Size i = 0; i < instants.getSize(); ++i)
+    {
+        const State individualState = sgp4.calculateStateAt(instants[i]);
+        EXPECT_GT(
+            1e-6,
+            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm()
+        );
     }
 }
 
