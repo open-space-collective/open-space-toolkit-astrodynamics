@@ -1486,7 +1486,7 @@ Segment::Solution Segment::solve(
         // Check maximum duty cycle constraint (which also considers the maximum maneuver duration constraint)
         if (maneuverConstraints_.maximumDutyCycle.second.isDefined())
         {
-            // Create an arrya of maneuver intervals that might influence the maximum duty cycle constraint
+            // Create an array of maneuver intervals that might influence the maximum duty cycle constraint
             const Instant dutyCycleInfluenceCutoff =
                 candidateManeuverInterval.getStart() - maneuverConstraints_.maximumDutyCycle.second;
             Array<Interval> previousManeuverIntervalsToConsiderForDutyCycle = Array<Interval>::Empty();
