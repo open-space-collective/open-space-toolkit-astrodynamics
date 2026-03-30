@@ -1,6 +1,6 @@
 # Apache License 2.0
 
-ARG BASE_IMAGE_VERSION="latest"
+ARG BASE_IMAGE_VERSION="0.10.2-24-g12db015"
 
 # General purpose development image (root user)
 
@@ -181,6 +181,23 @@ ARG VERSION
 ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
 
+# A layer that includes the codebase, and has the Python development environment set up.
+FROM root-user AS ci-base
+
+COPY bindings/python /app/bindings/python
+
+RUN cd /app/bindings/python \
+    && uv sync --all-extras --python ${OSTK_PYTHON_VERSION} --frozen
+
+COPY . /app
+
+WORKDIR /app/build
+
+# # A layer that includes the compiled C++ binaries and Python bindings, with code coverage.
+# FROM ci-base AS ci-test
+
+# RUN cd /app && make _build-test
+
 # Development image for humans (non-root user)
 
 FROM root-user AS non-root-user
@@ -219,6 +236,12 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 ## Configure environment
 
 ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"
+
+# Install Python dev dependencies (non-root)
+COPY --chown=${USER_UID}:${USER_GID} bindings/python/pyproject.toml /app/bindings/python/
+COPY --chown=${USER_UID}:${USER_GID} bindings/python/uv.lock /app/bindings/python/
+RUN cd /app/bindings/python \
+    && uv sync --all-extras --python ${OSTK_PYTHON_VERSION} --frozen
 
 # Entrypoint
 
