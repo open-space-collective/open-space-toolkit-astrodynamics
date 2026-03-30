@@ -192,7 +192,7 @@ LIST (APPEND CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/thirdparty")
 
 SET (EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/bin")
 SET (LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/lib")
-SET (DOCS_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/docs")
+SET (DOCS_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/docs/doxygen")
 
 IF (WIN32)
 
@@ -517,7 +517,7 @@ IF (BUILD_UNIT_TESTS)
 
         APPEND_COVERAGE_COMPILER_FLAGS ()
 
-        SET (COVERAGE_EXCLUDES '*.test.cpp' '/usr/*' '/app/bindings/*' '*.benchmark.cpp')
+        SET (COVERAGE_EXCLUDES '*.test.cpp' '/usr/*' '/app/bindings/*' '/opt/*' '/app/build/_deps/*' '*.benchmark.cpp')
 
         SETUP_TARGET_FOR_COVERAGE (
             NAME ${COVERAGE_TARGET}

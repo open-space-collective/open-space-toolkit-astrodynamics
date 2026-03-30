@@ -1,8 +1,26 @@
+
 # Apache License 2.0
 
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+# This file is for local development and CI only
+# For distribution builds, see bindings/python/tools/python/pyproject.toml.in
+
+[project]
+name = "open-space-toolkit-astrodynamics-dev"
+version = "0.0.0"
+description = "Development environment for Open Space Toolkit Astrodynamics"
+requires-python = ">=3.9"
+
+# No runtime dependencies - this is not for distribution
+
+[project.optional-dependencies]
+dev = [
+	"plotly",
+	"pandas",
+	"cesiumpy @ git+https://github.com/open-space-collective/cesiumpy",
+
+	"ipython",
+	"black[jupyter]",
+]
 
 [tool.black]
 line-length = 90
