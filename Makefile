@@ -14,7 +14,6 @@ docker_release_image_python_repository := $(docker_image_repository)-python
 docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 
 test_python_version := 3.11
-test_python_directory := /usr/local/lib/python${test_python_version}/dist-packages
 
 jupyter_notebook_port := 9005
 jupyter_python_version := 3.11
@@ -262,6 +261,58 @@ build-packages-python-standalone: ## Build Python packages (standalone)
 
 .PHONY: build-packages-python-standalone
 
+_build-test-cpp: ## Build C++ unit tests with coverage
+
+	cd /app/build \
+	&& cmake \
+		-DBUILD_UNIT_TESTS=ON \
+		-DBUILD_PYTHON_BINDINGS=OFF \
+		-DBUILD_CODE_COVERAGE=ON \
+		-DBUILD_DOCUMENTATION=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		.. \
+    && $(MAKE) -j $(shell nproc --ignore=2) \
+    && (rm -rf /app/build/coverage || true)
+
+.PHONY: _build-test-cpp
+
+_build-test-python: ## Build Python bindings for testing
+
+	cd /app/build \
+	&& cmake \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_PYTHON_BINDINGS=ON \
+		-DBUILD_CODE_COVERAGE=OFF \
+		-DBUILD_DOCUMENTATION=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		.. \
+    && $(MAKE) -j $(shell nproc --ignore=2)
+
+.PHONY: _build-test-python
+
+_build-release-packages:
+
+	cd /app/build \
+	&& cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCPACK_GENERATOR=DEB \
+		-DBUILD_WITH_DEBUG_SYMBOLS=OFF \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_PYTHON_BINDINGS=ON \
+		-DBUILD_DOCUMENTATION=ON \
+		.. \
+	&& $(MAKE) package \
+	&& mkdir -p /app/packages/cpp /app/packages/python \
+	&& mv /app/build/*.deb /app/packages/cpp \
+	&& mv /app/build/bindings/python/dist/*.whl /app/packages/python \
+	&& ostk-build-docs --notebooks Astrodynamics
+
+.PHONY: _build-release-packages
+
 start-development-no-link: build-development-image-non-root ## Start development environment
 
 	@ echo "Starting development environment..."
@@ -442,12 +493,6 @@ format-check: ## Run format checking
 
 format-check-cpp: build-development-image ## Run the clang-format tool to check the code against rules and formatting
 
-	@ $(MAKE) format-check-cpp-standalone
-
-.PHONY: format-check-cpp
-
-format-check-cpp-standalone:
-
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
@@ -455,15 +500,9 @@ format-check-cpp-standalone:
 		$(docker_development_image_repository):$(docker_image_version) \
 		ostk-check-format-cpp
 
-.PHONY: format-check-cpp-standalone
+.PHONY: format-check-cpp
 
 format-check-python: build-development-image ## Run the black format tool against python code
-
-	@ $(MAKE) format-check-python-standalone
-
-.PHONY: format-check-python
-
-format-check-python-standalone:
 
 	docker run \
 		--rm \
@@ -472,7 +511,7 @@ format-check-python-standalone:
 		$(docker_development_image_repository):$(docker_image_version) \
 		ostk-check-format-python
 
-.PHONY: format-check-python-standalone
+.PHONY: format-check-python
 
 test: ## Run tests
 
@@ -494,12 +533,6 @@ test-unit: ## Run unit tests
 
 test-unit-cpp: build-development-image ## Run C++ unit tests
 
-	@ $(MAKE) test-unit-cpp-standalone
-
-.PHONY: test-unit-cpp
-
-test-unit-cpp-standalone: ## Run C++ unit tests (standalone)
-
 	@ echo "Running C++ unit tests..."
 
 	docker run \
@@ -512,15 +545,9 @@ test-unit-cpp-standalone: ## Run C++ unit tests (standalone)
 		&& $(MAKE) -j 4 \
 		&& $(MAKE) test"
 
-.PHONY: test-unit-cpp-standalone
+.PHONY: test-unit-cpp
 
 test-unit-python: build-development-image ## Run Python unit tests
-
-	@ $(MAKE) test-unit-python-standalone
-
-.PHONY: test-unit-python
-
-test-unit-python-standalone: ## Run Python unit tests (standalone)
 
 	@ echo "Running Python unit tests..."
 
@@ -530,31 +557,11 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF .. \
+		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF -DPYTHON_SEARCH_VERSIONS=$(test_python_version) .. \
 		&& $(MAKE) -j 4 \
-		&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} bindings/python/OpenSpaceToolkit*Py-python-package-${test_python_version} \
-		&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} plotly pandas git+https://github.com/open-space-collective/cesiumpy.git#egg=cesiumpy \
-		&& cd ${test_python_directory}/ostk/$(project_name)/ \
-		&& python${test_python_version} -m pytest -sv ."
+		&& ostk-test-python"
 
-.PHONY: test-unit-python-standalone
-
-ci-test-python: ## Run Python unit tests. Assumes the dev image has already been built, AND that bindings have been built and are available at `packages/python`
-
-	@ echo "Running Python unit tests..."
-
-	docker run \
-	--rm \
-	--volume="$(CURDIR):/app:delegated" \
-	--volume="/app/build" \
-	--workdir=/app/build \
-	$(docker_development_image_repository):$(docker_image_version) \
-	/bin/bash -c "python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} --find-links /app/packages/python open_space_toolkit_${project_name} \
-	&& python${test_python_version} -m pip install --root-user-action=ignore --target=${test_python_directory} plotly pandas git+https://github.com/open-space-collective/cesiumpy.git#egg=cesiumpy \
-	&& cd ${test_python_directory}/ostk/$(project_name)/ \
-	&& python${test_python_version} -m pytest -sv ."
-
-.PHONY: ci-test-python
+.PHONY: test-unit-python
 
 test-coverage: ## Run test coverage cpp
 
@@ -566,13 +573,9 @@ test-coverage: ## Run test coverage cpp
 
 test-coverage-cpp: build-development-image ## Run C++ tests with coverage
 
-	@ $(MAKE) test-coverage-cpp-standalone
-
-.PHONY: test-coverage-cpp
-
-test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
-
 	@ echo "Running C++ coverage tests..."
+
+	@ mkdir -p $(CURDIR)/coverage
 
 	docker run \
 		--rm \
@@ -587,67 +590,93 @@ test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
 		&& mkdir /app/coverage \
 		&& mv /app/build/coverage* /app/coverage"
 
-.PHONY: test-coverage-cpp-standalone
+.PHONY: test-coverage-cpp
 
-benchmark: ## Run benchmarks
+# benchmark: ## Run benchmarks
 
-	@ echo "Running benchmarks..."
+# 	@ echo "Running benchmarks..."
 
-	@ $(MAKE) benchmark-cpp
+# 	@ $(MAKE) benchmark-cpp
 
-.PHONY: benchmark
+# .PHONY: benchmark
 
-benchmark-cpp: build-development-image ## Run C++ benchmarks
+# benchmark-cpp: build-development-image ## Run C++ benchmarks
 
-	@ $(MAKE) benchmark-cpp-standalone
+# 	@ $(MAKE) benchmark-cpp-standalone
 
-.PHONY: benchmark-cpp
+# .PHONY: benchmark-cpp
 
-benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
+# benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
 
-	@ echo "Running C++ benchmark..."
+# 	@ echo "Running C++ benchmark..."
 
-	docker run \
-		--rm \
-		--volume="$(CURDIR):/app:delegated" \
-		--volume="/app/build" \
-		--workdir=/app/build \
-		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
-		&& $(MAKE) -j 4 \
-		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=./../bin/benchmark_result.json"
+# 	docker run \
+# 		--rm \
+# 		--volume="$(CURDIR):/app:delegated" \
+# 		--volume="/app/build" \
+# 		--workdir=/app/build \
+# 		$(docker_development_image_repository):$(docker_image_version) \
+# 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
+# 		&& $(MAKE) -j 4 \
+# 		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=./../bin/benchmark_result.json"
 
-.PHONY: benchmark-cpp-standalone
+# .PHONY: benchmark-cpp-standalone
 
-validation: ## Run validation tests
+_build-benchmark-cpp: 
 
-	@ echo "Running validation tests..."
+	cd /app/build \
+	&& cmake \
+		-DBUILD_PYTHON_BINDINGS=OFF \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_BENCHMARK=ON \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		.. \
+	&& $(MAKE) -j $(shell nproc --ignore=2)
 
-	@ $(MAKE) validation-cpp
+.PHONY: _build-benchmark-cpp
 
-.PHONY: validation
+_build-validation-cpp: 
 
-validation-cpp: build-development-image ## Run C++ validation tests
+	cd /app/build \
+	&& cmake \
+		-DBUILD_PYTHON_BINDINGS=OFF \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_VALIDATION_TESTS=ON \
+		.. \
+	&& $(MAKE) -j $(shell nproc --ignore=2)
 
-	@ $(MAKE) validation-cpp-standalone
+.PHONY: _build-validation-cpp
 
-.PHONY: validation-cpp
+# validation: ## Run validation tests
 
-validation-cpp-standalone: ## Run C++ validation tests (standalone)
+# 	@ echo "Running validation tests..."
 
-	@ echo "Running C++ validation..."
+# 	@ $(MAKE) validation-cpp
 
-	docker run \
-		--rm \
-		--volume="$(CURDIR):/app:delegated" \
-		--volume="/app/build" \
-		--workdir=/app/build \
-		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=ON .. \
-		&& $(MAKE) -j 4 \
-		&& ./../bin/open-space-toolkit-$(project_name).validation"
+# .PHONY: validation
 
-.PHONY: validation-cpp-standalone
+# validation-cpp: build-development-image ## Run C++ validation tests
+
+# 	@ $(MAKE) validation-cpp-standalone
+
+# .PHONY: validation-cpp
+
+# validation-cpp-standalone: ## Run C++ validation tests (standalone)
+
+# 	@ echo "Running C++ validation..."
+
+# 	docker run \
+# 		--rm \
+# 		--volume="$(CURDIR):/app:delegated" \
+# 		--volume="/app/build" \
+# 		--workdir=/app/build \
+# 		$(docker_development_image_repository):$(docker_image_version) \
+# 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=ON .. \
+# 		&& $(MAKE) -j 4 \
+# 		&& ./../bin/open-space-toolkit-$(project_name).validation"
+
+# .PHONY: validation-cpp-standalone
 
 clean: ## Clean
 

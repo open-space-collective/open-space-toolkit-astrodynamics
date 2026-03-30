@@ -30,7 +30,6 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosit
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 
-
 POSITION_VELOCITY_STATE_BUILDER: StateBuilder = StateBuilder(
     frame=Frame.GCRF(),
     coordinate_subsets=[

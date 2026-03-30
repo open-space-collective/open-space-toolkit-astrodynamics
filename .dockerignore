@@ -1,0 +1,54 @@
+# Apache License 2.0
+
+# Build artifacts
+build/
+bin/
+lib/
+packages/
+coverage/
+*.so*
+*.a
+*.o
+*.exe*
+
+# Documentation build output
+docs/html/
+docs/latex/
+docs/xml/
+docs/_autosummary
+docs/_build
+docs/_notebooks
+docs/cpp_rst
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+*.whl
+.mypy_cache/
+.pytest_cache/
+.venv/
+bindings/python/.venv/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker (don't include docker context recursively)
+docker/**/Dockerfile
+!docker/
+
+# Misc
+*.log
+*.tmp
+.open-space-toolkit/

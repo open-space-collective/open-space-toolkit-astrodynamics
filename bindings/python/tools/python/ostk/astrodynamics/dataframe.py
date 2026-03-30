@@ -27,7 +27,6 @@ from ostk.astrodynamics.trajectory.orbit.model import Tabulated as TabulatedOrbi
 from ostk.astrodynamics.flight import Profile
 from ostk.astrodynamics.flight.profile.model import Tabulated as TabulatedProfile
 
-
 DEFAULT_REFERENCE_FRAME: Frame = Frame.GCRF()
 DEFAULT_TIME_COLUMN: str = "Timestamp"
 DEFAULT_POSITION_COLUMNS_FORMAT: list[str] = [

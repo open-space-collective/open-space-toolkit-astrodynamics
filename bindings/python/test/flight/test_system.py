@@ -39,7 +39,7 @@ class TestSatelliteSystem:
         assert (system != system) is False
 
     def test_getters(self, system_default_inputs, system: System):
-        (mass, geometry) = system_default_inputs
+        mass, geometry = system_default_inputs
 
         assert system.get_mass() == mass
         assert system.get_geometry() == geometry
