@@ -116,12 +116,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider, GetTransformAt)
 {
+    // Exact instant match
     {
         Transform transform = localOrbitalFrameTransformProvider_->getTransformAt(instant_);
 
         EXPECT_TRUE(transform.isDefined());
+        EXPECT_EQ(transform.getInstant(), instant_);
+    }
 
+    // Completely different instant should throw
+    {
         EXPECT_ANY_THROW(localOrbitalFrameTransformProvider_->getTransformAt(Instant::J2000()));
+    }
+
+    // Sub-microsecond offset should succeed (floating-point rounding tolerance)
+    {
+        const Instant nearInstant = instant_ + Duration::Nanoseconds(500.0);
+
+        Transform transform = localOrbitalFrameTransformProvider_->getTransformAt(nearInstant);
+
+        EXPECT_TRUE(transform.isDefined());
+        EXPECT_EQ(transform.getInstant(), nearInstant);
+    }
+
+    // Offset beyond 1 microsecond tolerance should throw
+    {
+        const Instant farInstant = instant_ + Duration::Microseconds(2.0);
+
+        EXPECT_ANY_THROW(localOrbitalFrameTransformProvider_->getTransformAt(farInstant));
     }
 }
 
