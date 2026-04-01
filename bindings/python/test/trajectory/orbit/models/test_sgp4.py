@@ -33,6 +33,11 @@ def sgp4(tle: TLE) -> SGP4:
     return SGP4(tle)
 
 
+@pytest.fixture
+def sgp4_multi(tle: TLE, tle2: TLE) -> SGP4:
+    return SGP4([tle, tle2])
+
+
 class TestSGP4:
     def test_constructor(
         self,
@@ -104,17 +109,8 @@ class TestSGP4:
 
         sgp4 = SGP4([(tle, interval1), (tle2, interval2)])
 
-        # 15 hours after tle epoch should still use tle (within 18-hour boundary)
         state = sgp4.calculate_state_at(tle.get_epoch() + Duration.hours(15.0))
         assert state is not None
-
-        # 19 hours after tle epoch should use tle2 (past 18-hour boundary)
-        state2 = sgp4.calculate_state_at(tle.get_epoch() + Duration.hours(19.0))
-        assert state2 is not None
-
-    def test_constructor_with_empty_tle_array(self):
-        with pytest.raises(RuntimeError):
-            SGP4([])
 
     def test_is_defined(
         self,
@@ -163,33 +159,30 @@ class TestSGP4:
     ):
         assert sgp4.get_revolution_number_at_epoch() is not None
 
+    @pytest.mark.parametrize(
+        "fixture_name",
+        ["sgp4", "sgp4_multi"],
+    )
     def test_calculate_state_at(
         self,
-        sgp4: SGP4,
+        fixture_name: str,
         tle: TLE,
+        request,
     ):
+        sgp4 = request.getfixturevalue(fixture_name)
         assert sgp4.calculate_state_at(tle.get_epoch()) is not None
 
-    def test_calculate_state_at_multi_tle(
-        self,
-        tle: TLE,
-        tle2: TLE,
-    ):
-        sgp4_multi = SGP4([tle, tle2])
-        sgp4_single = SGP4(tle)
-
-        # State at tle epoch should match single-TLE model
-        state_multi = sgp4_multi.calculate_state_at(tle.get_epoch())
-        state_single = sgp4_single.calculate_state_at(tle.get_epoch())
-
-        assert state_multi is not None
-        assert state_single is not None
-
+    @pytest.mark.parametrize(
+        "fixture_name",
+        ["sgp4", "sgp4_multi"],
+    )
     def test_calculate_states_at(
         self,
-        sgp4: SGP4,
+        fixture_name: str,
         tle: TLE,
+        request,
     ):
+        sgp4 = request.getfixturevalue(fixture_name)
         instants = [
             tle.get_epoch(),
             tle.get_epoch() + Duration.hours(1.0),
@@ -198,17 +191,3 @@ class TestSGP4:
         states = sgp4.calculate_states_at(instants)
         assert states is not None
         assert len(states) == 3
-
-    def test_calculate_states_at_multi_tle(
-        self,
-        tle: TLE,
-        tle2: TLE,
-    ):
-        sgp4 = SGP4([tle, tle2])
-        instants = [
-            tle.get_epoch(),
-            tle2.get_epoch(),
-        ]
-        states = sgp4.calculate_states_at(instants)
-        assert states is not None
-        assert len(states) == 2

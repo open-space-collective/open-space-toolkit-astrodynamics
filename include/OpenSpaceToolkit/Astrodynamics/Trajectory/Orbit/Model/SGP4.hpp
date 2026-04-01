@@ -10,7 +10,6 @@
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
-#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
@@ -41,7 +40,6 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
-using ostk::core::type::Unique;
 
 using ostk::physics::coordinate::Frame;
 
@@ -72,7 +70,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     SGP4(const TLE& aTle);
 
     /// @brief Construct an SGP4 model from a TLE and an output frame. If TEME, the runtime is faster as no frame
-    /// transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
+    /// transformations are needed.
     ///
     /// @code{.cpp}
     ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
@@ -99,8 +97,8 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @param aTleArray An array of Two-Line Element sets.
-    /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
-    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
+    /// @param anOutputFrameSPtr An output frame. Defaults to GCRF.
+    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = Frame::GCRF());
 
     /// @brief Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
     ///
@@ -116,10 +114,10 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @param aTleIntervalArray An array of TLE-Interval pairs.
-    /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
+    /// @param anOutputFrameSPtr An output frame. Defaults to GCRF.
     SGP4(
         const Array<Pair<TLE, Interval>>& aTleIntervalArray,
-        const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
+        const Shared<const Frame>& anOutputFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Copy constructor.
@@ -243,7 +241,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 
     /// @brief Calculate states at given instants.
     ///
-    /// @details When multiple TLEs are provided, the TLE whose epoch is closest to each instant is used.
+    /// @details When multiple TLEs are provided, the selected TLE is first one whose interval contains the instant.
     ///
     /// @param anInstantArray An array of instants at which to calculate the states.
     /// @return An array of orbital states at the given instants.
@@ -267,11 +265,9 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     Array<Interval> validityIntervals_;
     Shared<const Frame> outputFrameSPtr_;
 
-    mutable Unique<SGP4::Impl> implUPtr_;
-    mutable Size cachedTleIndex_;
+    Array<Shared<SGP4::Impl>> implArray_;
 
     Size findTleIndexForInstant(const Instant& anInstant) const;
-    void ensureImplForTleIndex(const Size& aTleIndex) const;
 
     static Array<Interval> GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray);
 };

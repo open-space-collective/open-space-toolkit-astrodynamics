@@ -52,8 +52,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             .def(
                 init<TLE, Shared<const Frame>>(),
                 R"doc(
-                    Constructor with output frame. If TEME, the runtime is faster as no frame
-                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
+                    If TEME, the runtime is faster as no frame transformations are needed.
 
                     Args:
                         tle (TLE): The TLE.
@@ -67,29 +66,34 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             .def(
                 init<Array<TLE>, Shared<const Frame>>(),
                 R"doc(
-                    Constructor with output frame. If TEME, the runtime is faster as no frame
-                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
+                    Construct an SGP4 model from an array of TLEs and an output frame.
+                    When multiple TLEs are provided, validity intervals are automatically generated
+                    using the midpoints between consecutive TLE epochs as boundaries. The first TLE's interval
+                    extends to the far past and the last TLE's interval extends to the far future.
+                    If TEME, the runtime is faster as no frame transformations are needed
 
                     Args:
-                        tles (list[TLE]): The array of TLEs.
-                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
+                        tles (list[TLE]): The list of TLEs.
+                        output_frame (Frame): The output frame for state calculations. Defaults to GCRF.
                 )doc",
                 arg("tles"),
-                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+                arg_v("output_frame", Frame::GCRF(), "Frame.GCRF()")
             )
 
             .def(
                 init<Array<Pair<TLE, Interval>>, Shared<const Frame>>(),
                 R"doc(
-                    Constructor with output frame. If TEME, the runtime is faster as no frame
-                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
+                    Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
+                    Each pair specifies a TLE and the time interval over which it is valid.
+                    When calculating states, the first TLE whose interval contains the requested instant is used.
+                    If TEME, the runtime is faster as no frame transformations are needed
 
                     Args:
                         tles_with_intervals (list[tuple[TLE, Interval]]): The array of TLE-Interval pairs.
-                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
+                        output_frame (Frame): The output frame for state calculations. Defaults to GCRF.
                 )doc",
                 arg("tles_with_intervals"),
-                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+                arg_v("output_frame", Frame::GCRF(), "Frame.GCRF()")
             )
 
             .def(
@@ -118,35 +122,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
             .def(
                 "get_tles",
-                [](const SGP4& self) -> list
-                {
-                    list result;
-                    for (const auto& tle : self.getTles())
-                    {
-                        result.append(tle);
-                    }
-                    return result;
-                },
+                &SGP4::getTles,
                 R"doc(
-                    Get the array of TLEs of the `SGP4` model.
+                    Get the list of TLEs of the `SGP4` model.
 
                     Returns:
-                        list[TLE]: The array of TLEs.
+                        list[TLE]: The list of TLEs.
 
                 )doc"
             )
 
             .def(
                 "get_validity_intervals",
-                [](const SGP4& self) -> list
-                {
-                    list result;
-                    for (const auto& interval : self.getValidityIntervals())
-                    {
-                        result.append(interval);
-                    }
-                    return result;
-                },
+                &SGP4::getValidityIntervals,
                 R"doc(
                     Get the validity intervals of the `SGP4` model.
 
@@ -212,29 +200,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
             .def(
                 "calculate_states_at",
-                [](const SGP4& self, const list& anInstantList) -> list
-                {
-                    Array<Instant> instantArray = Array<Instant>::Empty();
-                    for (auto item : anInstantList)
-                    {
-                        instantArray.add(item.cast<Instant>());
-                    }
-                    const Array<State> states = self.calculateStatesAt(instantArray);
-                    list result;
-                    for (const auto& state : states)
-                    {
-                        result.append(state);
-                    }
-                    return result;
-                },
-                arg("instant_array"),
+                &SGP4::calculateStatesAt,
+                arg("instants"),
                 R"doc(
                     Calculate the states of the `SGP4` model at given instants.
 
                     When multiple TLEs are provided, uses the TLE whose epoch is closest to each instant.
 
                     Args:
-                        instant_array (list[Instant]): The instants.
+                        instants (list[Instant]): The instants.
 
                     Returns:
                         list[State]: The states.

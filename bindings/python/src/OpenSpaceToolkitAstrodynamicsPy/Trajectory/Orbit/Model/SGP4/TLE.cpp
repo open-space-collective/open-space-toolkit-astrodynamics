@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <sstream>
-
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybind11::module& aModule)
@@ -310,16 +308,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
                     int: The checksum of the second line.
 
             )doc"
-        )
-
-        .def(
-            "__repr__",
-            +[](const TLE& aTle) -> String
-            {
-                std::ostringstream stream;
-                aTle.print(stream);
-                return stream.str();
-            }
         )
 
         .def(

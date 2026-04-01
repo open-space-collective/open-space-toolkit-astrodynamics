@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 #include <sgp4/SGP4.h>
 
@@ -86,9 +87,9 @@ SGP4::SGP4(const TLE& aTle)
       tleArray_({aTle}),
       validityIntervals_(),
       outputFrameSPtr_(Frame::GCRF()),
-      implUPtr_(std::make_unique<SGP4::Impl>(aTle, outputFrameSPtr_)),
-      cachedTleIndex_(0)
+      implArray_()
 {
+    implArray_.add(std::make_shared<SGP4::Impl>(aTle, outputFrameSPtr_));
 }
 
 SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
@@ -96,9 +97,9 @@ SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
       tleArray_({aTle}),
       validityIntervals_(),
       outputFrameSPtr_(anOutputFrameSPtr),
-      implUPtr_(std::make_unique<SGP4::Impl>(aTle, outputFrameSPtr_)),
-      cachedTleIndex_(0)
+      implArray_()
 {
+    implArray_.add(std::make_shared<SGP4::Impl>(aTle, outputFrameSPtr_));
 }
 
 SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr)
@@ -106,8 +107,7 @@ SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrame
       tleArray_(aTleArray),
       validityIntervals_(),
       outputFrameSPtr_(anOutputFrameSPtr),
-      implUPtr_(nullptr),
-      cachedTleIndex_(0)
+      implArray_()
 {
     if (tleArray_.isEmpty())
     {
@@ -125,7 +125,11 @@ SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrame
 
     validityIntervals_ = SGP4::GenerateIntervalsFromEpochs(tleArray_);
 
-    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
+    implArray_.reserve(tleArray_.getSize());
+    for (const auto& tle : tleArray_)
+    {
+        implArray_.add(std::make_shared<SGP4::Impl>(tle, outputFrameSPtr_));
+    }
 }
 
 SGP4::SGP4(const Array<Pair<TLE, Interval>>& aTleIntervalArray, const Shared<const Frame>& anOutputFrameSPtr)
@@ -133,8 +137,7 @@ SGP4::SGP4(const Array<Pair<TLE, Interval>>& aTleIntervalArray, const Shared<con
       tleArray_(),
       validityIntervals_(),
       outputFrameSPtr_(anOutputFrameSPtr),
-      implUPtr_(nullptr),
-      cachedTleIndex_(0)
+      implArray_()
 {
     if (aTleIntervalArray.isEmpty())
     {
@@ -158,7 +161,11 @@ SGP4::SGP4(const Array<Pair<TLE, Interval>>& aTleIntervalArray, const Shared<con
         validityIntervals_.add(pair.second);
     }
 
-    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
+    implArray_.reserve(tleArray_.getSize());
+    for (const auto& tle : tleArray_)
+    {
+        implArray_.add(std::make_shared<SGP4::Impl>(tle, outputFrameSPtr_));
+    }
 }
 
 SGP4::SGP4(const SGP4& aSGP4Model)
@@ -166,10 +173,8 @@ SGP4::SGP4(const SGP4& aSGP4Model)
       tleArray_(aSGP4Model.tleArray_),
       validityIntervals_(aSGP4Model.validityIntervals_),
       outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
-      implUPtr_(nullptr),
-      cachedTleIndex_(0)
+      implArray_(aSGP4Model.implArray_)
 {
-    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
 }
 
 SGP4::~SGP4() {}
@@ -183,16 +188,7 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
         this->tleArray_ = aSGP4Model.tleArray_;
         this->validityIntervals_ = aSGP4Model.validityIntervals_;
         this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
-        this->cachedTleIndex_ = 0;
-
-        if (!tleArray_.isEmpty())
-        {
-            this->implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
-        }
-        else
-        {
-            this->implUPtr_ = nullptr;
-        }
+        this->implArray_ = aSGP4Model.implArray_;
     }
 
     return *this;
@@ -228,7 +224,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model)
 
 bool SGP4::isDefined() const
 {
-    return (!this->tleArray_.isEmpty()) && (this->implUPtr_ != nullptr);
+    return (!this->tleArray_.isEmpty()) && (this->implArray_.getSize() == this->tleArray_.getSize());
 }
 
 TLE SGP4::getTle() const
@@ -319,13 +315,9 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    if (tleArray_.getSize() > 1)
-    {
-        const Size tleIndex = this->findTleIndexForInstant(anInstant);
-        this->ensureImplForTleIndex(tleIndex);
-    }
+    const Size tleIndex = (tleArray_.getSize() > 1) ? this->findTleIndexForInstant(anInstant) : 0;
 
-    return this->implUPtr_->calculateStateAt(anInstant);
+    return this->implArray_[tleIndex]->calculateStateAt(anInstant);
 }
 
 Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
@@ -447,15 +439,6 @@ Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
     }
 
     return intervals;
-}
-
-void SGP4::ensureImplForTleIndex(const Size& aTleIndex) const
-{
-    if (aTleIndex != cachedTleIndex_ || implUPtr_ == nullptr)
-    {
-        cachedTleIndex_ = aTleIndex;
-        implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[aTleIndex], outputFrameSPtr_);
-    }
 }
 
 bool SGP4::operator==(const trajectory::Model& aModel) const
