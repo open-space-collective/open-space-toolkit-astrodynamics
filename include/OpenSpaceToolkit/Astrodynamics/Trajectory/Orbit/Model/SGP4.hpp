@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -14,6 +15,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
@@ -33,6 +35,7 @@ namespace model
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -44,6 +47,7 @@ using ostk::physics::coordinate::Frame;
 
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
@@ -82,8 +86,9 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 
     /// @brief Construct an SGP4 model from an array of TLEs and an output frame.
     ///
-    /// @details When multiple TLEs are provided, the model will use the TLE whose epoch is closest
-    /// to the requested instant for state calculations.
+    /// @details When multiple TLEs are provided, validity intervals are automatically generated
+    /// using the midpoints between consecutive TLE epochs as boundaries. The first TLE's interval
+    /// extends to the far past and the last TLE's interval extends to the far future.
     ///
     /// @code{.cpp}
     ///     Array<TLE> tles = {TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
@@ -96,6 +101,26 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aTleArray An array of Two-Line Element sets.
     /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
     SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
+
+    /// @brief Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
+    ///
+    /// @details Each pair specifies a TLE and the time interval over which it is valid.
+    /// When calculating states, the first TLE whose interval contains the requested instant is used.
+    ///
+    /// @code{.cpp}
+    ///     Array<Pair<TLE, Interval>> tleIntervalPairs = {
+    ///         {tle1, Interval::Closed(startInstant1, endInstant1)},
+    ///         {tle2, Interval::Closed(startInstant2, endInstant2)}
+    ///     };
+    ///     SGP4 sgp4 = SGP4(tleIntervalPairs, Frame::TEME());
+    /// @endcode
+    ///
+    /// @param aTleIntervalArray An array of TLE-Interval pairs.
+    /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
+    SGP4(
+        const Array<Pair<TLE, Interval>>& aTleIntervalArray,
+        const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
+    );
 
     /// @brief Copy constructor.
     ///
@@ -165,6 +190,16 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return The array of Two-Line Element sets.
     Array<TLE> getTles() const;
 
+    /// @brief Get the validity intervals associated with the TLEs.
+    ///
+    /// @code{.cpp}
+    ///     SGP4 sgp4 = SGP4(tleIntervalPairs);
+    ///     Array<Interval> intervals = sgp4.getValidityIntervals();
+    /// @endcode
+    ///
+    /// @return The array of validity intervals.
+    Array<Interval> getValidityIntervals() const;
+
     /// @brief Get the output frame of the SGP4 model.
     ///
     /// @code{.cpp}
@@ -229,13 +264,16 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     class Impl;
 
     Array<TLE> tleArray_;
+    Array<Interval> validityIntervals_;
     Shared<const Frame> outputFrameSPtr_;
 
     mutable Unique<SGP4::Impl> implUPtr_;
     mutable Size cachedTleIndex_;
 
-    Size findClosestTleIndex(const Instant& anInstant) const;
+    Size findTleIndexForInstant(const Instant& anInstant) const;
     void ensureImplForTleIndex(const Size& aTleIndex) const;
+
+    static Array<Interval> GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray);
 };
 
 }  // namespace model

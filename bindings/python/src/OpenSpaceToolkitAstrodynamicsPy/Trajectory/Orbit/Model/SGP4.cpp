@@ -1,6 +1,9 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
@@ -11,10 +14,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
     using namespace pybind11;
 
     using ostk::core::container::Array;
+    using ostk::core::container::Pair;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
+    using ostk::physics::time::Interval;
 
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
@@ -60,55 +65,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             )
 
             .def(
-                init(
-                    [](const list& aTleList) -> SGP4
-                    {
-                        Array<TLE> tleArray = Array<TLE>::Empty();
-                        for (auto item : aTleList)
-                        {
-                            tleArray.add(item.cast<TLE>());
-                        }
-                        return SGP4(tleArray);
-                    }
-                ),
+                init<Array<TLE>, Shared<const Frame>>(),
                 R"doc(
-                    Construct an SGP4 model from an array of TLEs.
-
-                    When multiple TLEs are provided, the model will use the TLE whose epoch is closest
-                    to the requested instant for state calculations.
+                    Constructor with output frame. If TEME, the runtime is faster as no frame
+                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
 
                     Args:
-                        tle_array (list[TLE]): An array of TLEs.
-
+                        tles (list[TLE]): The array of TLEs.
+                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
                 )doc",
-                arg("tle_array")
+                arg("tles"),
+                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
             )
 
             .def(
-                init(
-                    [](const list& aTleList, const Shared<const Frame>& anOutputFrameSPtr) -> SGP4
-                    {
-                        Array<TLE> tleArray = Array<TLE>::Empty();
-                        for (auto item : aTleList)
-                        {
-                            tleArray.add(item.cast<TLE>());
-                        }
-                        return SGP4(tleArray, anOutputFrameSPtr);
-                    }
-                ),
+                init<Array<Pair<TLE, Interval>>, Shared<const Frame>>(),
                 R"doc(
-                    Construct an SGP4 model from an array of TLEs and an output frame.
-
-                    When multiple TLEs are provided, the model will use the TLE whose epoch is closest
-                    to the requested instant for state calculations.
+                    Constructor with output frame. If TEME, the runtime is faster as no frame
+                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
 
                     Args:
-                        tle_array (list[TLE]): An array of TLEs.
-                        output_frame (Frame): The output frame for state calculations.
-
+                        tles_with_intervals (list[tuple[TLE, Interval]]): The array of TLE-Interval pairs.
+                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
                 )doc",
-                arg("tle_array"),
-                arg("output_frame")
+                arg("tles_with_intervals"),
+                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
             )
 
             .def(
@@ -151,6 +132,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                     Returns:
                         list[TLE]: The array of TLEs.
+
+                )doc"
+            )
+
+            .def(
+                "get_validity_intervals",
+                [](const SGP4& self) -> list
+                {
+                    list result;
+                    for (const auto& interval : self.getValidityIntervals())
+                    {
+                        result.append(interval);
+                    }
+                    return result;
+                },
+                R"doc(
+                    Get the validity intervals of the `SGP4` model.
+
+                    Returns:
+                        list[Interval]: The validity intervals.
 
                 )doc"
             )

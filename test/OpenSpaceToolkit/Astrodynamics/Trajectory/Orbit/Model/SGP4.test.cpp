@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -75,12 +76,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyConstructor
     const State state = sgp4.calculateStateAt(tle.getEpoch());
     const State stateCopy = sgp4Copy.calculateStateAt(tle.getEpoch());
 
-    EXPECT_GT(
-        1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm()
-    );
-    EXPECT_GT(
-        1e-9, (state.getVelocity().accessCoordinates() - stateCopy.getVelocity().accessCoordinates()).norm()
-    );
+    EXPECT_GT(1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm());
+    EXPECT_GT(1e-9, (state.getVelocity().accessCoordinates() - stateCopy.getVelocity().accessCoordinates()).norm());
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmentOperator)
@@ -102,9 +99,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmentO
     const State state = sgp4.calculateStateAt(tle.getEpoch());
     const State stateCopy = sgp4Copy.calculateStateAt(tle.getEpoch());
 
-    EXPECT_GT(
-        1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm()
-    );
+    EXPECT_GT(1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm());
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
@@ -123,9 +118,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
     const State state = sgp4.calculateStateAt(tle.getEpoch());
     const State stateClone = sgp4ClonePtr->calculateStateAt(tle.getEpoch());
 
-    EXPECT_GT(
-        1e-6, (state.getPosition().accessCoordinates() - stateClone.getPosition().accessCoordinates()).norm()
-    );
+    EXPECT_GT(1e-6, (state.getPosition().accessCoordinates() - stateClone.getPosition().accessCoordinates()).norm());
 
     delete sgp4ClonePtr;
 }
@@ -410,6 +403,145 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor_TLE
     {
         const Array<TLE> emptyTleArray = Array<TLE>::Empty();
         EXPECT_THROW(SGP4 sgp4(emptyTleArray), ostk::core::error::RuntimeError);
+    }
+
+    // Validity intervals are auto-generated
+    {
+        const TLE tle1 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<TLE> tleArray = {tle1, tle2};
+        const SGP4 sgp4(tleArray);
+
+        const Array<Interval> intervals = sgp4.getValidityIntervals();
+        EXPECT_EQ(2u, intervals.getSize());
+
+        // Midpoint should be 12 hours after tle1 epoch
+        const Instant midpoint = tle1.getEpoch() + Duration::Hours(12.0);
+        EXPECT_TRUE(intervals[0].contains(tle1.getEpoch()));
+        EXPECT_TRUE(intervals[1].contains(tle2.getEpoch()));
+
+        // The boundary is at the midpoint
+        EXPECT_FALSE(intervals[0].contains(midpoint));
+        EXPECT_TRUE(intervals[1].contains(midpoint));
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor_TLEIntervalArray)
+{
+    using ostk::core::container::Pair;
+
+    // Basic construction with explicit intervals
+    {
+        const TLE tle1 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Instant boundary = tle1.getEpoch() + Duration::Hours(18.0);
+        const Interval interval1 = Interval::Closed(tle1.getEpoch() - Duration::Days(1.0), boundary);
+        const Interval interval2 = Interval::Closed(boundary, tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<Pair<TLE, Interval>> tleIntervalArray = {
+            {tle1, interval1},
+            {tle2, interval2},
+        };
+
+        const SGP4 sgp4(tleIntervalArray);
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(2u, sgp4.getTles().getSize());
+        EXPECT_EQ(2u, sgp4.getValidityIntervals().getSize());
+    }
+
+    // Custom intervals: 18 hours boundary instead of midpoint
+    {
+        const TLE tle1 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Instant boundary = tle1.getEpoch() + Duration::Hours(18.0);
+        const Interval interval1 = Interval::HalfOpenRight(tle1.getEpoch() - Duration::Days(100.0), boundary);
+        const Interval interval2 = Interval::Closed(boundary, tle2.getEpoch() + Duration::Days(100.0));
+
+        const Array<Pair<TLE, Interval>> tleIntervalArray = {
+            {tle1, interval1},
+            {tle2, interval2},
+        };
+
+        const SGP4 sgp4(tleIntervalArray, Frame::GCRF());
+
+        // 15 hours after tle1 should still use tle1 (within 18-hour boundary)
+        const Instant instantInTle1 = tle1.getEpoch() + Duration::Hours(15.0);
+        const SGP4 sgp4Single1(tle1);
+        const State stateMulti = sgp4.calculateStateAt(instantInTle1);
+        const State stateSingle = sgp4Single1.calculateStateAt(instantInTle1);
+
+        EXPECT_GT(
+            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        );
+
+        // 19 hours after tle1 should use tle2 (past 18-hour boundary)
+        const Instant instantInTle2 = tle1.getEpoch() + Duration::Hours(19.0);
+        const SGP4 sgp4Single2(tle2);
+        const State stateMulti2 = sgp4.calculateStateAt(instantInTle2);
+        const State stateSingle2 = sgp4Single2.calculateStateAt(instantInTle2);
+
+        EXPECT_GT(
+            1e-6,
+            (stateMulti2.getPosition().accessCoordinates() - stateSingle2.getPosition().accessCoordinates()).norm()
+        );
+    }
+
+    // Empty array throws
+    {
+        const Array<Pair<TLE, Interval>> emptyArray = Array<Pair<TLE, Interval>>::Empty();
+        EXPECT_THROW(SGP4 sgp4(emptyArray), ostk::core::error::RuntimeError);
+    }
+
+    // Sorted by epoch regardless of input order
+    {
+        const TLE tle1 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Interval interval1 =
+            Interval::Closed(tle1.getEpoch() - Duration::Days(1.0), tle1.getEpoch() + Duration::Days(0.5));
+        const Interval interval2 =
+            Interval::Closed(tle2.getEpoch() - Duration::Days(0.5), tle2.getEpoch() + Duration::Days(1.0));
+
+        // Input in reversed order
+        const Array<Pair<TLE, Interval>> tleIntervalArray = {
+            {tle2, interval2},
+            {tle1, interval1},
+        };
+
+        const SGP4 sgp4(tleIntervalArray);
+        EXPECT_EQ(tle1.getEpoch(), sgp4.getTles()[0].getEpoch());
+        EXPECT_EQ(tle2.getEpoch(), sgp4.getTles()[1].getEpoch());
     }
 }
 

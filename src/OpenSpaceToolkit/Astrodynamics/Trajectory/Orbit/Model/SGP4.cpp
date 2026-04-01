@@ -25,7 +25,10 @@ namespace orbit
 namespace model
 {
 
+using ostk::core::container::Pair;
+
 using ostk::physics::coordinate::Transform;
+using ostk::physics::time::Interval;
 
 class SGP4::Impl
 {
@@ -81,6 +84,7 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 SGP4::SGP4(const TLE& aTle)
     : Model(),
       tleArray_({aTle}),
+      validityIntervals_(),
       outputFrameSPtr_(Frame::GCRF()),
       implUPtr_(std::make_unique<SGP4::Impl>(aTle, outputFrameSPtr_)),
       cachedTleIndex_(0)
@@ -90,6 +94,7 @@ SGP4::SGP4(const TLE& aTle)
 SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
       tleArray_({aTle}),
+      validityIntervals_(),
       outputFrameSPtr_(anOutputFrameSPtr),
       implUPtr_(std::make_unique<SGP4::Impl>(aTle, outputFrameSPtr_)),
       cachedTleIndex_(0)
@@ -99,6 +104,7 @@ SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
 SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
       tleArray_(aTleArray),
+      validityIntervals_(),
       outputFrameSPtr_(anOutputFrameSPtr),
       implUPtr_(nullptr),
       cachedTleIndex_(0)
@@ -117,12 +123,48 @@ SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrame
         }
     );
 
+    validityIntervals_ = SGP4::GenerateIntervalsFromEpochs(tleArray_);
+
+    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
+}
+
+SGP4::SGP4(const Array<Pair<TLE, Interval>>& aTleIntervalArray, const Shared<const Frame>& anOutputFrameSPtr)
+    : Model(),
+      tleArray_(),
+      validityIntervals_(),
+      outputFrameSPtr_(anOutputFrameSPtr),
+      implUPtr_(nullptr),
+      cachedTleIndex_(0)
+{
+    if (aTleIntervalArray.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("TLE-Interval array is empty.");
+    }
+
+    // Build parallel arrays and sort by TLE epoch
+    Array<Pair<TLE, Interval>> sortedPairs = aTleIntervalArray;
+    std::sort(
+        sortedPairs.begin(),
+        sortedPairs.end(),
+        [](const Pair<TLE, Interval>& a, const Pair<TLE, Interval>& b)
+        {
+            return a.first.getEpoch() < b.first.getEpoch();
+        }
+    );
+
+    for (const auto& pair : sortedPairs)
+    {
+        tleArray_.add(pair.first);
+        validityIntervals_.add(pair.second);
+    }
+
     implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
 }
 
 SGP4::SGP4(const SGP4& aSGP4Model)
     : Model(aSGP4Model),
       tleArray_(aSGP4Model.tleArray_),
+      validityIntervals_(aSGP4Model.validityIntervals_),
       outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
       implUPtr_(nullptr),
       cachedTleIndex_(0)
@@ -139,6 +181,7 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
         Model::operator=(aSGP4Model);
 
         this->tleArray_ = aSGP4Model.tleArray_;
+        this->validityIntervals_ = aSGP4Model.validityIntervals_;
         this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
         this->cachedTleIndex_ = 0;
 
@@ -167,7 +210,8 @@ bool SGP4::operator==(const SGP4& aSGP4Model) const
         return false;
     }
 
-    return (this->tleArray_ == aSGP4Model.tleArray_) && (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
+    return (this->tleArray_ == aSGP4Model.tleArray_) && (this->validityIntervals_ == aSGP4Model.validityIntervals_) &&
+           (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
 }
 
 bool SGP4::operator!=(const SGP4& aSGP4Model) const
@@ -210,6 +254,16 @@ Array<TLE> SGP4::getTles() const
     }
 
     return this->tleArray_;
+}
+
+Array<Interval> SGP4::getValidityIntervals() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    return this->validityIntervals_;
 }
 
 Shared<const Frame> SGP4::getOutputFrame() const
@@ -267,7 +321,7 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
 
     if (tleArray_.getSize() > 1)
     {
-        const Size tleIndex = this->findClosestTleIndex(anInstant);
+        const Size tleIndex = this->findTleIndexForInstant(anInstant);
         this->ensureImplForTleIndex(tleIndex);
     }
 
@@ -321,40 +375,78 @@ void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Size SGP4::findClosestTleIndex(const Instant& anInstant) const
+Size SGP4::findTleIndexForInstant(const Instant& anInstant) const
+{
+    for (Size i = 0; i < validityIntervals_.getSize(); ++i)
+    {
+        if (validityIntervals_[i].contains(anInstant))
+        {
+            return i;
+        }
+    }
+
+    throw ostk::core::error::RuntimeError(
+        "No TLE validity interval contains the requested instant [{}].", anInstant.toString()
+    );
+}
+
+Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
 {
     using ostk::physics::time::Duration;
 
-    const auto it = std::lower_bound(
-        tleArray_.begin(),
-        tleArray_.end(),
-        anInstant,
-        [](const TLE& tle, const Instant& instant)
+    Array<Interval> intervals = Array<Interval>::Empty();
+    intervals.reserve(aTleArray.getSize());
+
+    if (aTleArray.getSize() == 1)
+    {
+        // Single TLE: interval spans far past to far future
+        const Instant farPast = aTleArray[0].getEpoch() - Duration::Days(36525.0);
+        const Instant farFuture = aTleArray[0].getEpoch() + Duration::Days(36525.0);
+        intervals.add(Interval::Closed(farPast, farFuture));
+        return intervals;
+    }
+
+    for (Size i = 0; i < aTleArray.getSize(); ++i)
+    {
+        Instant start = Instant::Undefined();
+        Instant end = Instant::Undefined();
+
+        if (i == 0)
         {
-            return tle.getEpoch() < instant;
+            // First TLE: start at far past
+            start = aTleArray[0].getEpoch() - Duration::Days(36525.0);
         }
-    );
+        else
+        {
+            // Midpoint between previous and current epoch
+            const Duration halfGap = Duration::Between(aTleArray[i - 1].getEpoch(), aTleArray[i].getEpoch()) / 2.0;
+            start = aTleArray[i - 1].getEpoch() + halfGap;
+        }
 
-    if (it == tleArray_.begin())
-    {
-        return 0;
+        if (i == aTleArray.getSize() - 1)
+        {
+            // Last TLE: end at far future
+            end = aTleArray[i].getEpoch() + Duration::Days(36525.0);
+        }
+        else
+        {
+            // Midpoint between current and next epoch
+            const Duration halfGap = Duration::Between(aTleArray[i].getEpoch(), aTleArray[i + 1].getEpoch()) / 2.0;
+            end = aTleArray[i].getEpoch() + halfGap;
+        }
+
+        // Use HalfOpenRight [start, end) for all except the last, which is Closed [start, end]
+        if (i < aTleArray.getSize() - 1)
+        {
+            intervals.add(Interval::HalfOpenRight(start, end));
+        }
+        else
+        {
+            intervals.add(Interval::Closed(start, end));
+        }
     }
 
-    if (it == tleArray_.end())
-    {
-        return tleArray_.getSize() - 1;
-    }
-
-    const auto prevIt = std::prev(it);
-    const Duration durationToPrev = Duration::Between(prevIt->getEpoch(), anInstant).getAbsolute();
-    const Duration durationToNext = Duration::Between(anInstant, it->getEpoch()).getAbsolute();
-
-    if (durationToPrev <= durationToNext)
-    {
-        return static_cast<Size>(std::distance(tleArray_.begin(), prevIt));
-    }
-
-    return static_cast<Size>(std::distance(tleArray_.begin(), it));
+    return intervals;
 }
 
 void SGP4::ensureImplForTleIndex(const Size& aTleIndex) const

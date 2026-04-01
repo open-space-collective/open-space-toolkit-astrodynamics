@@ -4,6 +4,7 @@ import pytest
 
 from ostk.physics.coordinate import Frame
 from ostk.physics.time import Duration
+from ostk.physics.time import Interval
 
 from ostk.astrodynamics.trajectory.orbit.model import SGP4
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
@@ -45,24 +46,71 @@ class TestSGP4:
     ):
         assert SGP4(tle, Frame.TEME()) is not None
 
-    def test_constructor_with_tle_array(
+    def test_constructor_tles(
         self,
         tle: TLE,
         tle2: TLE,
     ):
         sgp4 = SGP4([tle, tle2])
         assert sgp4 is not None
-        assert sgp4.is_defined()
 
-    def test_constructor_with_tle_array_and_output_frame(
+        assert SGP4([tle, tle2], Frame.GCRF()) is not None
+
+    def test_constructor_tles_with_intervals(
         self,
         tle: TLE,
         tle2: TLE,
     ):
-        sgp4 = SGP4([tle, tle2], Frame.TEME())
+        boundary = tle.get_epoch() + Duration.hours(18.0)
+        interval1 = Interval.half_open_right(
+            tle.get_epoch() - Duration.days(1.0), boundary
+        )
+        interval2 = Interval.closed(boundary, tle2.get_epoch() + Duration.days(1.0))
+
+        sgp4 = SGP4([(tle, interval1), (tle2, interval2)])
         assert sgp4 is not None
-        assert sgp4.is_defined()
-        assert sgp4.get_output_frame() == Frame.TEME()
+
+        assert SGP4([(tle, interval1), (tle2, interval2)], Frame.GCRF()) is not None
+
+    def test_get_validity_intervals(
+        self,
+        tle: TLE,
+        tle2: TLE,
+    ):
+        sgp4 = SGP4([tle, tle2])
+        intervals = sgp4.get_validity_intervals()
+        assert intervals is not None
+        assert len(intervals) == 2
+
+    def test_get_validity_intervals_single_tle(
+        self,
+        sgp4: SGP4,
+    ):
+        intervals = sgp4.get_validity_intervals()
+        # Single TLE constructor doesn't generate intervals
+        assert len(intervals) == 0
+
+    def test_calculate_state_at_multi_tle_custom_intervals(
+        self,
+        tle: TLE,
+        tle2: TLE,
+    ):
+        # Set boundary at 18 hours (not midpoint at 12 hours)
+        boundary = tle.get_epoch() + Duration.hours(18.0)
+        interval1 = Interval.half_open_right(
+            tle.get_epoch() - Duration.days(100.0), boundary
+        )
+        interval2 = Interval.closed(boundary, tle2.get_epoch() + Duration.days(100.0))
+
+        sgp4 = SGP4([(tle, interval1), (tle2, interval2)])
+
+        # 15 hours after tle epoch should still use tle (within 18-hour boundary)
+        state = sgp4.calculate_state_at(tle.get_epoch() + Duration.hours(15.0))
+        assert state is not None
+
+        # 19 hours after tle epoch should use tle2 (past 18-hour boundary)
+        state2 = sgp4.calculate_state_at(tle.get_epoch() + Duration.hours(19.0))
+        assert state2 is not None
 
     def test_constructor_with_empty_tle_array(self):
         with pytest.raises(RuntimeError):
