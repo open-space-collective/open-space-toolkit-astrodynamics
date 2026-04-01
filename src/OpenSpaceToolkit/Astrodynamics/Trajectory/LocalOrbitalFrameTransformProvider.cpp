@@ -10,7 +10,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utility.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
-
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
@@ -27,11 +26,11 @@ using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 
 using ostk::physics::coordinate::frame::Transform;
 using ostk::physics::coordinate::Position;
-using ostk::physics::time::Duration;
 using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Vector3d;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::time::Duration;
 
 LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const Transform& aTransform)
     : transform_(aTransform)
@@ -88,7 +87,7 @@ Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anIn
             transform_.accessVelocity(),
             transform_.accessOrientation(),
             transform_.accessAngularVelocity(),
-            Transform::Type::Passive,
+            Transform::Type::Passive,  // transforms are always stored as passive
         };
     }
 
