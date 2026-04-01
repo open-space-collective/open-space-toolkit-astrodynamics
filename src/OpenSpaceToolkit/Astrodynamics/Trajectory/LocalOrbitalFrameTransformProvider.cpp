@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utility.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
@@ -29,6 +30,7 @@ using ostk::physics::coordinate::spherical::LLA;
 using ostk::physics::coordinate::Vector3d;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::time::Duration;
 
 LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const Transform& aTransform)
     : transform_(aTransform)
@@ -58,12 +60,35 @@ bool LocalOrbitalFrameTransformProvider::isDefined() const
 
 Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant) const
 {
-    // This is only optional, we can allow it if we want to support "frozen lof concept".
     if (anInstant != transform_.getInstant())
     {
-        throw ostk::core::error::runtime::Wrong(
-            "Instant", String::Format("Expected: {}, Got: {}", transform_.getInstant().toString(), anInstant.toString())
-        );
+        // Allow sub-microsecond differences caused by floating-point arithmetic across different code paths
+        // (e.g., segment boundary computed via start + duration vs. grid interpolation).
+        if (!anInstant.isNear(transform_.getInstant(), Duration::Microseconds(1.0)))
+        {
+            const Duration difference = (anInstant - transform_.getInstant()).getAbsolute();
+
+            throw ostk::core::error::runtime::Wrong(
+                "Instant",
+                String::Format(
+                    "Expected: {}, Got: {} (diff: {})",
+                    transform_.getInstant().toString(),
+                    anInstant.toString(),
+                    difference.toString()
+                )
+            );
+        }
+
+        // Re-stamp the transform at the requested instant so downstream Transform composition doesn't fail
+        // on its own instant-equality check.
+        return {
+            anInstant,
+            transform_.accessTranslation(),
+            transform_.accessVelocity(),
+            transform_.accessOrientation(),
+            transform_.accessAngularVelocity(),
+            Transform::Type::Passive,  // transforms are always stored as passive
+        };
     }
 
     return transform_;
