@@ -33,7 +33,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                     interpolation_type (Interpolator.Type): The type of interpolation to use. Defaults to Linear.
              )doc",
             arg("states"),
-            arg("interpolation_type") = Interpolator::Type::Linear
+            arg_v("interpolation_type", Interpolator::Type::Linear, "Interpolator.Type.Linear")
         )
 
         .def(

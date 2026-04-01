@@ -39,7 +39,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                 arg("contribution_profile"),
                 arg("coordinate_subsets"),
                 arg("frame"),
-                arg("interpolation_type") = DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE,
+                arg_v(
+                    "interpolation_type",
+                    DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE,
+                    "Interpolator.Type.BarycentricRational"
+                ),
                 R"doc(
                     Constructor.
 
