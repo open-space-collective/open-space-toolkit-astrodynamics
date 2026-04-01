@@ -120,7 +120,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             "to_tabulated_dynamics",
             &Maneuver::toTabulatedDynamics,
             arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
-            arg("interpolation_type") = DEFAULT_MANEUVER_INTERPOLATION_TYPE,
+            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
             R"doc(
                 Convert the maneuver to tabulated dynamics.
 

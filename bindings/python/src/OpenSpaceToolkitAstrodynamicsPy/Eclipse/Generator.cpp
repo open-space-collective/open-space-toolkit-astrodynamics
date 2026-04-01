@@ -36,9 +36,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(pybind11::module& 
                     search_step_size (Duration): The step size to use during the search. Defaults to Duration.seconds(60.0).
                     search_tolerance (Duration): The tolerance to use during the search. Defaults to Duration.milliseconds(1.0).
             )doc",
-            arg("environment") = Environment::Default(),
-            arg("search_step_size") = Duration::Seconds(60.0),
-            arg("search_tolerance") = Duration::Milliseconds(1.0)
+            arg_v("environment", Environment::Default(), "Environment.default()"),
+            arg_v("search_step_size", Duration::Seconds(60.0), "Duration.seconds(60.0)"),
+            arg_v("search_tolerance", Duration::Milliseconds(1.0), "Duration.milliseconds(1.0)")
         )
 
         .def(

@@ -36,7 +36,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             )doc",
             arg("states"),
             arg("initial_revolution_number"),
-            arg("interpolation_type") = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
+            arg_v(
+                "interpolation_type",
+                DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
+                "Interpolator.Type.BarycentricRational"
+            )
         )
 
         .def(self == self)

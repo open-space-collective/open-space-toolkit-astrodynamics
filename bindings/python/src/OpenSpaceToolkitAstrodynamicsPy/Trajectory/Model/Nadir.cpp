@@ -38,7 +38,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::mod
                     Nadir: The `Nadir` object.
             )doc",
             arg("orbit"),
-            arg("step_size") = Duration::Seconds(1e-2)
+            arg_v("step_size", Duration::Seconds(1e-2), "Duration.seconds(1e-2)")
         )
 
         .def(self == self)
