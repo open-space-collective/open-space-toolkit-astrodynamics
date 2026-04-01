@@ -75,36 +75,7 @@ bool TLE::operator!=(const TLE& aTle) const
 
 std::ostream& operator<<(std::ostream& anOutputStream, const TLE& aTle)
 {
-    ostk::core::utils::Print::Header(anOutputStream, "Two-Line Elements");
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Line 1:" << aTle.getFirstLine();
-    ostk::core::utils::Print::Line(anOutputStream) << "Line 2:" << aTle.getSecondLine();
-
-    ostk::core::utils::Print::Separator(anOutputStream);
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Name:" << aTle.getSatelliteName();
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Number:" << aTle.getSatelliteNumber().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Classification:" << aTle.getClassification();
-    ostk::core::utils::Print::Line(anOutputStream) << "International Designator:" << aTle.getInternationalDesignator();
-    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << aTle.getEpoch().toString();
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Mean Motion First Time Der. / 2:" << aTle.getMeanMotionFirstTimeDerivativeDividedByTwo().toString();
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Mean Motion Second Time Der. / 6:" << aTle.getMeanMotionSecondTimeDerivativeDividedBySix().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "B* Drag Term:" << aTle.getBStarDragTerm().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:" << aTle.getEphemerisType().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Element Set Number:" << aTle.getElementSetNumber().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Inclination:" << aTle.getInclination().toString();
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Right Ascension of the Ascending Node :" << aTle.getRaan().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << aTle.getEccentricity().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:" << aTle.getAop().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:" << aTle.getMeanAnomaly().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Mean Motion:" << aTle.getMeanMotion().toString();
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Revolution Number at Epoch:" << aTle.getRevolutionNumberAtEpoch().toString();
-
-    ostk::core::utils::Print::Footer(anOutputStream);
+    aTle.print(anOutputStream);
 
     return anOutputStream;
 }
@@ -325,6 +296,40 @@ Integer TLE::getSecondLineChecksum() const
     }
 
     return Integer::Parse(secondLine_.getSubstring(68, 1));
+}
+
+void TLE::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Two-Line Elements") : void();
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Line 1:" << this->getFirstLine();
+    ostk::core::utils::Print::Line(anOutputStream) << "Line 2:" << this->getSecondLine();
+
+    ostk::core::utils::Print::Separator(anOutputStream);
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Name:" << this->getSatelliteName();
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Number:" << this->getSatelliteNumber().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Classification:" << this->getClassification();
+    ostk::core::utils::Print::Line(anOutputStream) << "International Designator:" << this->getInternationalDesignator();
+    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << this->getEpoch().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Mean Motion First Time Der. / 2:" << this->getMeanMotionFirstTimeDerivativeDividedByTwo().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Mean Motion Second Time Der. / 6:" << this->getMeanMotionSecondTimeDerivativeDividedBySix().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "B* Drag Term:" << this->getBStarDragTerm().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:" << this->getEphemerisType().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Element Set Number:" << this->getElementSetNumber().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Inclination:" << this->getInclination().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Right Ascension of the Ascending Node :" << this->getRaan().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << this->getEccentricity().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:" << this->getAop().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:" << this->getMeanAnomaly().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Mean Motion:" << this->getMeanMotion().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Revolution Number at Epoch:" << this->getRevolutionNumberAtEpoch().toString();
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 void TLE::setSatelliteNumber(const Integer& aSatelliteNumber)

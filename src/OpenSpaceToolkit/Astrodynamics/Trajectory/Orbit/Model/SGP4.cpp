@@ -80,53 +80,24 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 
 SGP4::SGP4(const TLE& aTle)
     : Model(),
-      tle_(aTle),
-      tleArray_(Array<TLE>::Empty()),
+      tleArray_({aTle}),
       outputFrameSPtr_(Frame::GCRF()),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_)),
+      implUPtr_(std::make_unique<SGP4::Impl>(aTle, outputFrameSPtr_)),
       cachedTleIndex_(0)
 {
 }
 
 SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
-      tle_(aTle),
-      tleArray_(Array<TLE>::Empty()),
+      tleArray_({aTle}),
       outputFrameSPtr_(anOutputFrameSPtr),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_)),
+      implUPtr_(std::make_unique<SGP4::Impl>(aTle, outputFrameSPtr_)),
       cachedTleIndex_(0)
 {
-}
-
-SGP4::SGP4(const Array<TLE>& aTleArray)
-    : Model(),
-      tle_(TLE::Undefined()),
-      tleArray_(aTleArray),
-      outputFrameSPtr_(Frame::GCRF()),
-      implUPtr_(nullptr),
-      cachedTleIndex_(0)
-{
-    if (tleArray_.isEmpty())
-    {
-        throw ostk::core::error::RuntimeError("TLE array is empty.");
-    }
-
-    std::sort(
-        tleArray_.begin(),
-        tleArray_.end(),
-        [](const TLE& a, const TLE& b)
-        {
-            return a.getEpoch() < b.getEpoch();
-        }
-    );
-
-    tle_ = tleArray_.accessFirst();
-    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
 }
 
 SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
-      tle_(TLE::Undefined()),
       tleArray_(aTleArray),
       outputFrameSPtr_(anOutputFrameSPtr),
       implUPtr_(nullptr),
@@ -146,26 +117,17 @@ SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrame
         }
     );
 
-    tle_ = tleArray_.accessFirst();
     implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
 }
 
 SGP4::SGP4(const SGP4& aSGP4Model)
     : Model(aSGP4Model),
-      tle_(aSGP4Model.tle_),
       tleArray_(aSGP4Model.tleArray_),
       outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
       implUPtr_(nullptr),
       cachedTleIndex_(0)
 {
-    if (!tleArray_.isEmpty())
-    {
-        implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
-    }
-    else if (tle_.isDefined())
-    {
-        implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
-    }
+    implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
 }
 
 SGP4::~SGP4() {}
@@ -176,7 +138,6 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
     {
         Model::operator=(aSGP4Model);
 
-        this->tle_ = aSGP4Model.tle_;
         this->tleArray_ = aSGP4Model.tleArray_;
         this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
         this->cachedTleIndex_ = 0;
@@ -184,10 +145,6 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
         if (!tleArray_.isEmpty())
         {
             this->implUPtr_ = std::make_unique<SGP4::Impl>(tleArray_[cachedTleIndex_], outputFrameSPtr_);
-        }
-        else if (tle_.isDefined())
-        {
-            this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
         }
         else
         {
@@ -210,8 +167,7 @@ bool SGP4::operator==(const SGP4& aSGP4Model) const
         return false;
     }
 
-    return (this->tle_ == aSGP4Model.tle_) && (this->tleArray_ == aSGP4Model.tleArray_) &&
-           (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
+    return (this->tleArray_ == aSGP4Model.tleArray_) && (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
 }
 
 bool SGP4::operator!=(const SGP4& aSGP4Model) const
@@ -228,7 +184,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model)
 
 bool SGP4::isDefined() const
 {
-    return (this->tle_.isDefined() || !this->tleArray_.isEmpty()) && (this->implUPtr_ != nullptr);
+    return (!this->tleArray_.isEmpty()) && (this->implUPtr_ != nullptr);
 }
 
 TLE SGP4::getTle() const
@@ -238,7 +194,12 @@ TLE SGP4::getTle() const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->tle_;
+    if (this->tleArray_.getSize() > 1)
+    {
+        throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Use getTles() instead.");
+    }
+
+    return this->tleArray_.accessFirst();
 }
 
 Array<TLE> SGP4::getTles() const
@@ -268,7 +229,12 @@ Instant SGP4::getEpoch() const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->tle_.getEpoch();
+    if (this->tleArray_.getSize() > 1)
+    {
+        throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get epoch.");
+    }
+
+    return this->tleArray_.accessFirst().getEpoch();
 }
 
 Integer SGP4::getRevolutionNumberAtEpoch() const
@@ -278,7 +244,13 @@ Integer SGP4::getRevolutionNumberAtEpoch() const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->tle_.getRevolutionNumberAtEpoch();
+    if (this->tleArray_.getSize() > 1)
+    {
+        throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get revolution number at epoch."
+        );
+    }
+
+    return this->tleArray_.accessFirst().getRevolutionNumberAtEpoch();
 }
 
 State SGP4::calculateStateAt(const Instant& anInstant) const
@@ -324,8 +296,15 @@ void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Epoch:" << (this->isDefined() ? this->getEpoch().toString() : "Undefined");
+    if (this->isDefined() && tleArray_.getSize() == 1)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << this->getEpoch().toString();
+    }
+    else
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"
+                                                       << "Undefined";
+    }
 
     if (!tleArray_.isEmpty())
     {
@@ -334,7 +313,10 @@ void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Separator(anOutputStream, "Two-Line Elements");
 
-    // tle_.print(anOutputStream, false);
+    for (const auto& tle : tleArray_)
+    {
+        tle.print(anOutputStream, false);
+    }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

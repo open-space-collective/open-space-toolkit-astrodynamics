@@ -240,6 +240,12 @@ class TLE
     /// @return Checksum of second line
     Integer getSecondLineChecksum() const;
 
+    /// @brief Print the TLE to an output stream.
+    ///
+    /// @param anOutputStream An output stream.
+    /// @param displayDecorator If true, display a decorator around the output.
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
     /// @brief Set new satellite catalogue number in the existing TLE
     ///
     /// @param aSatelliteNumber a Satellite Number

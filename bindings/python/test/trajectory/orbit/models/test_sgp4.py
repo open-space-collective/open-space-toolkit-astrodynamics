@@ -95,7 +95,7 @@ class TestSGP4:
         sgp4: SGP4,
     ):
         tles = sgp4.get_tles()
-        assert len(tles) == 0
+        assert len(tles) == 1
 
     def test_get_output_frame(
         self,

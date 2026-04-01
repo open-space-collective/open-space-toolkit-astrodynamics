@@ -60,7 +60,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             )
 
             .def(
-                init<Array<TLE>>(),
+                init(
+                    [](const list& aTleList) -> SGP4
+                    {
+                        Array<TLE> tleArray = Array<TLE>::Empty();
+                        for (auto item : aTleList)
+                        {
+                            tleArray.add(item.cast<TLE>());
+                        }
+                        return SGP4(tleArray);
+                    }
+                ),
                 R"doc(
                     Construct an SGP4 model from an array of TLEs.
 
@@ -75,7 +85,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             )
 
             .def(
-                init<Array<TLE>, Shared<const Frame>>(),
+                init(
+                    [](const list& aTleList, const Shared<const Frame>& anOutputFrameSPtr) -> SGP4
+                    {
+                        Array<TLE> tleArray = Array<TLE>::Empty();
+                        for (auto item : aTleList)
+                        {
+                            tleArray.add(item.cast<TLE>());
+                        }
+                        return SGP4(tleArray, anOutputFrameSPtr);
+                    }
+                ),
                 R"doc(
                     Construct an SGP4 model from an array of TLEs and an output frame.
 
@@ -117,12 +137,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
             .def(
                 "get_tles",
-                &SGP4::getTles,
+                [](const SGP4& self) -> list
+                {
+                    list result;
+                    for (const auto& tle : self.getTles())
+                    {
+                        result.append(tle);
+                    }
+                    return result;
+                },
                 R"doc(
                     Get the array of TLEs of the `SGP4` model.
 
                     Returns:
-                        list[TLE]: The array of TLEs. Empty if constructed with a single TLE.
+                        list[TLE]: The array of TLEs.
 
                 )doc"
             )
@@ -183,7 +211,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
             .def(
                 "calculate_states_at",
-                &SGP4::calculateStatesAt,
+                [](const SGP4& self, const list& anInstantList) -> list
+                {
+                    Array<Instant> instantArray = Array<Instant>::Empty();
+                    for (auto item : anInstantList)
+                    {
+                        instantArray.add(item.cast<Instant>());
+                    }
+                    const Array<State> states = self.calculateStatesAt(instantArray);
+                    list result;
+                    for (const auto& state : states)
+                    {
+                        result.append(state);
+                    }
+                    return result;
+                },
                 arg("instant_array"),
                 R"doc(
                     Calculate the states of the `SGP4` model at given instants.

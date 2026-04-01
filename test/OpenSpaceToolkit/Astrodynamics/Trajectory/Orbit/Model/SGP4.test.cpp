@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <sstream>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -57,6 +59,274 @@ using ostk::astrodynamics::trajectory::orbit::model::SGP4;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyConstructor)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    const SGP4 sgp4(tle);
+    const SGP4 sgp4Copy(sgp4);
+
+    EXPECT_TRUE(sgp4Copy.isDefined());
+    EXPECT_EQ(sgp4, sgp4Copy);
+
+    const State state = sgp4.calculateStateAt(tle.getEpoch());
+    const State stateCopy = sgp4Copy.calculateStateAt(tle.getEpoch());
+
+    EXPECT_GT(
+        1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm()
+    );
+    EXPECT_GT(
+        1e-9, (state.getVelocity().accessCoordinates() - stateCopy.getVelocity().accessCoordinates()).norm()
+    );
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmentOperator)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    const SGP4 sgp4(tle);
+    SGP4 sgp4Copy(tle, Frame::TEME());
+
+    EXPECT_NE(sgp4, sgp4Copy);
+
+    sgp4Copy = sgp4;
+
+    EXPECT_EQ(sgp4, sgp4Copy);
+
+    const State state = sgp4.calculateStateAt(tle.getEpoch());
+    const State stateCopy = sgp4Copy.calculateStateAt(tle.getEpoch());
+
+    EXPECT_GT(
+        1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm()
+    );
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    const SGP4 sgp4(tle);
+    const SGP4* sgp4ClonePtr = sgp4.clone();
+
+    EXPECT_TRUE(sgp4ClonePtr->isDefined());
+    EXPECT_EQ(sgp4, *sgp4ClonePtr);
+
+    const State state = sgp4.calculateStateAt(tle.getEpoch());
+    const State stateClone = sgp4ClonePtr->calculateStateAt(tle.getEpoch());
+
+    EXPECT_GT(
+        1e-6, (state.getPosition().accessCoordinates() - stateClone.getPosition().accessCoordinates()).norm()
+    );
+
+    delete sgp4ClonePtr;
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, EqualityOperator)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    // Same TLE, same frame
+    {
+        const SGP4 sgp4A(tle);
+        const SGP4 sgp4B(tle);
+
+        EXPECT_TRUE(sgp4A == sgp4B);
+        EXPECT_FALSE(sgp4A != sgp4B);
+    }
+
+    // Same TLE, different frame
+    {
+        const SGP4 sgp4A(tle);
+        const SGP4 sgp4B(tle, Frame::TEME());
+
+        EXPECT_FALSE(sgp4A == sgp4B);
+        EXPECT_TRUE(sgp4A != sgp4B);
+    }
+
+    // Different TLE
+    {
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const SGP4 sgp4A(tle);
+        const SGP4 sgp4B(tle2);
+
+        EXPECT_FALSE(sgp4A == sgp4B);
+        EXPECT_TRUE(sgp4A != sgp4B);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, StreamOperator)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    const SGP4 sgp4(tle);
+
+    std::ostringstream stream;
+    stream << sgp4;
+
+    EXPECT_FALSE(stream.str().empty());
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, IsDefined)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    const SGP4 sgp4(tle);
+    EXPECT_TRUE(sgp4.isDefined());
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetTle)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    // Single TLE
+    {
+        const SGP4 sgp4(tle);
+        EXPECT_EQ(tle, sgp4.getTle());
+    }
+
+    // Multiple TLEs should throw
+    {
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<TLE> tleArray = {tle, tle2};
+        const SGP4 sgp4(tleArray);
+
+        EXPECT_THROW(sgp4.getTle(), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetEpoch)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    // Single TLE
+    {
+        const SGP4 sgp4(tle);
+        EXPECT_EQ(tle.getEpoch(), sgp4.getEpoch());
+    }
+
+    // Multiple TLEs should throw
+    {
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<TLE> tleArray = {tle, tle2};
+        const SGP4 sgp4(tleArray);
+
+        EXPECT_THROW(sgp4.getEpoch(), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetRevolutionNumberAtEpoch)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    // Single TLE
+    {
+        const SGP4 sgp4(tle);
+        EXPECT_EQ(tle.getRevolutionNumberAtEpoch(), sgp4.getRevolutionNumberAtEpoch());
+    }
+
+    // Multiple TLEs should throw
+    {
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<TLE> tleArray = {tle, tle2};
+        const SGP4 sgp4(tleArray);
+
+        EXPECT_THROW(sgp4.getRevolutionNumberAtEpoch(), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Print)
+{
+    const TLE tle = {
+        "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    };
+
+    // Single TLE with decorator
+    {
+        const SGP4 sgp4(tle);
+
+        std::ostringstream stream;
+        sgp4.print(stream, true);
+
+        EXPECT_FALSE(stream.str().empty());
+        EXPECT_NE(std::string::npos, stream.str().find("SGP4"));
+    }
+
+    // Single TLE without decorator
+    {
+        const SGP4 sgp4(tle);
+
+        std::ostringstream stream;
+        sgp4.print(stream, false);
+
+        EXPECT_FALSE(stream.str().empty());
+    }
+
+    // Multiple TLEs
+    {
+        TLE tle2 = {
+            "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+            "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+        };
+        tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
+
+        const Array<TLE> tleArray = {tle, tle2};
+        const SGP4 sgp4(tleArray);
+
+        std::ostringstream stream;
+        sgp4.print(stream, true);
+
+        EXPECT_FALSE(stream.str().empty());
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
 {
     const TLE tle = {
@@ -96,7 +366,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor_TLE
 
         const SGP4 sgp4(tleArray);
         EXPECT_TRUE(sgp4.isDefined());
-        EXPECT_EQ(Frame::GCRF(), sgp4.getOutputFrame());
+        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
         EXPECT_EQ(1u, sgp4.getTles().getSize());
     }
 
@@ -156,7 +426,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStateA
     tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
 
     const Array<TLE> tleArray = {tle1, tle2};
-    const SGP4 sgp4Multi(tleArray);
+    const SGP4 sgp4Multi(tleArray, Frame::GCRF());
 
     // State at tle1 epoch should match single-TLE SGP4 with tle1
     {
@@ -226,7 +496,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStates
     tle2.setEpoch(tle2.getEpoch() + Duration::Days(1.0));
 
     const Array<TLE> tleArray = {tle1, tle2};
-    const SGP4 sgp4(tleArray);
+    const SGP4 sgp4(tleArray, Frame::GCRF());
 
     const Array<Instant> instants = {
         tle1.getEpoch(),
