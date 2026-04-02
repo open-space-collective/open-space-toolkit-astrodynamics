@@ -5,6 +5,7 @@ from __future__ import annotations
 import functools
 import operator
 from dataclasses import dataclass
+import warnings
 
 import numpy as np
 
@@ -197,6 +198,13 @@ class Viewer:
         Returns:
             Viewer: The Viewer.
         """
+
+        if cesium_asset_id is None:
+            warnings.warn(
+                "Cesium asset ID is required to render a profile. This will be a required argument in the future.",
+                FutureWarning,
+                stacklevel=2,
+            )
 
         instants: list[Instant] = self._interval.generate_grid(step)
         states: list[State] = profile.get_states_at(instants)
