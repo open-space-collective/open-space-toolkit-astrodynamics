@@ -1,6 +1,9 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
 #include <boost/numeric/odeint.hpp>
+#include <boost/numeric/odeint/algebra/vector_space_algebra.hpp>
 #include <boost/numeric/odeint/external/eigen/eigen.hpp>
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -13,6 +16,52 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+
+#include <Eigen/Core>
+
+namespace ostk
+{
+namespace astrodynamics
+{
+namespace trajectory
+{
+namespace state
+{
+
+using namespace boost::numeric::odeint;
+
+}  // namespace state
+}  // namespace trajectory
+}  // namespace astrodynamics
+}  // namespace ostk
+
+namespace boost
+{
+namespace numeric
+{
+namespace odeint
+{
+
+struct eigen_pid_algebra : public vector_space_algebra
+{
+    template <class S1, class S2, class Op>
+    static void for_each2(S1& s1, S2& s2, Op op)
+    {
+        for (int i = 0; i < s1.size(); ++i)
+            op(s1[i], s2[i]);
+    }
+
+    template <class S1, class S2, class S3, class S4, class Op>
+    static void for_each4(S1& s1, S2& s2, S3& s3, S4& s4, Op op)
+    {
+        for (int i = 0; i < s1.size(); ++i)
+            op(s1[i], s2[i], s3[i], s4[i]);
+    }
+};
+
+}  // namespace odeint
+}  // namespace numeric
+}  // namespace boost
 
 namespace ostk
 {
@@ -36,9 +85,24 @@ using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
-typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
-typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
-typedef runge_kutta_dopri5<NumericalSolver::StateVector> dense_stepper_type_5;
+
+template <size_t Order>
+auto make_controlled_adam_bashforth_moulton(double abs_tol, double rel_tol)
+{
+    // Define the underlying adaptive AdamsBashforthMoulton (using default template parameters)
+    typedef adaptive_adams_bashforth_moulton<Order, NumericalSolver::StateVector> adaptive_stepper_type;
+
+    // Define the Adjuster (where tolerances live)
+    typedef detail::
+        pid_step_adjuster<NumericalSolver::StateVector, double, NumericalSolver::StateVector, double, eigen_pid_algebra>
+            step_adjuster_type;
+
+    // Define the controlled stepper
+    typedef controlled_adams_bashforth_moulton<adaptive_stepper_type, step_adjuster_type> controlled_stepper_type;
+
+    // Return the fully constructed controlled stepper
+    return controlled_stepper_type(step_adjuster_type(abs_tol, rel_tol));
+}
 
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
@@ -477,10 +541,21 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     bool conditionSatisfied = false;
 
     // Main stepping loop
+    const double endTime = static_cast<double>(aDurationInSeconds);
     while (checkTimeLimit(currentTime) && !conditionSatisfied)
     {
         previousStateVector = currentStateVector;
         previousTime = currentTime;
+
+        // Limit the step size to prevent massive overshoots past the target end time.
+        // Controlled/adaptive steppers can grow dt far beyond the remaining integration interval,
+        // leading to false event condition detections at states well beyond the intended interval.
+        // We cap dt to at most the remaining time plus one initial step size. This prevents large
+        // overshoots while still allowing small overshoots near the boundary (needed for detecting
+        // conditions that fire right at the end time).
+        const double remaining = endTime - currentTime;
+        const double maxDt = std::abs(remaining) + std::abs(signedTimeStep);
+        dt = std::clamp(dt, -maxDt, maxDt);
 
         doStep(stepper, aSystemOfEquations, currentStateVector, currentTime, dt);
 
@@ -579,6 +654,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         {
             const Array<NumericalSolver::Solution> stateVectors =
                 integrateToTimes<Stepper>(stepper, previousStateVector, previousTime, currentTime, aSystemOfEquations);
+
             const Array<State> states = stateVectors.map<State>(
                 [&createState](const NumericalSolver::Solution& aSolution) -> State
                 {
@@ -604,8 +680,8 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     // Since previousState gets updated in the stepping loop, we need to reset it here
     previousState = createState(previousStateVector, previousTime);
 
-    const auto checkCondition = [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime
-                                ) -> double
+    const auto checkCondition =
+        [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime) -> double
     {
         const NumericalSolver::StateVector stateCoordinates = stateGenerator(aTime);
         const State interpolatedState = createState(stateCoordinates, aTime);
@@ -676,7 +752,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         }
         case StepperType::RungeKuttaCashKarp54:
         {
-            auto stepper = make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54());
+            auto stepper = make_controlled(
+                absoluteTolerance_, relativeTolerance_, runge_kutta_cash_karp54<NumericalSolver::StateVector>()
+            );
             return integrateTimeWithStepperImpl<decltype(stepper)>(
                 stepper,
                 aState,
@@ -692,7 +770,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         }
         case StepperType::RungeKuttaFehlberg78:
         {
-            auto stepper = make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78());
+            auto stepper = make_controlled(
+                absoluteTolerance_, relativeTolerance_, runge_kutta_fehlberg78<NumericalSolver::StateVector>()
+            );
             return integrateTimeWithStepperImpl<decltype(stepper)>(
                 stepper,
                 aState,
@@ -708,7 +788,60 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         }
         case StepperType::RungeKuttaDopri5:
         {
-            auto stepper = make_controlled(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5());
+            auto stepper = make_controlled(
+                absoluteTolerance_, relativeTolerance_, runge_kutta_dopri5<NumericalSolver::StateVector>()
+            );
+            return integrateTimeWithStepperImpl<decltype(stepper)>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        case StepperType::AdamsBashforthMoulton5:
+        {
+            auto stepper =
+                make_controlled_adam_bashforth_moulton<5>(absoluteTolerance_, relativeTolerance_);
+            return integrateTimeWithStepperImpl<decltype(stepper)>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        case StepperType::AdamsBashforthMoulton8:
+        {
+            auto stepper =
+                make_controlled_adam_bashforth_moulton<8>(absoluteTolerance_, relativeTolerance_);
+            return integrateTimeWithStepperImpl<decltype(stepper)>(
+                stepper,
+                aState,
+                anInstant,
+                aSystemOfEquations,
+                anEventCondition,
+                signedTimeStep,
+                rootSolver_,
+                rootFindingStrategy_,
+                observedStates_,
+                observer
+            );
+        }
+        case StepperType::BulirschStoer:
+        {
+            auto stepper =
+                bulirsch_stoer<NumericalSolver::StateVector>(absoluteTolerance_, relativeTolerance_);
             return integrateTimeWithStepperImpl<decltype(stepper)>(
                 stepper,
                 aState,
