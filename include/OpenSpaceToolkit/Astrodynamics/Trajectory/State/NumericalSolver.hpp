@@ -181,7 +181,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Construct an undefined numerical solver.
     ///
     /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::Undefined() ;
+    ///     NumericalSolver solver = NumericalSolver::Undefined();
     /// @endcode
     ///
     /// @return An undefined numerical solver.
@@ -190,7 +190,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Construct a default numerical solver.
     ///
     /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::Default() ;
+    ///     NumericalSolver solver = NumericalSolver::Default();
     /// @endcode
     ///
     /// @return A default numerical solver.
@@ -201,7 +201,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @code{.cpp}
     ///     NumericalSolver solver = NumericalSolver::FixedStepSize(
     ///         NumericalSolver::StepperType::RungeKutta4, 30.0
-    ///     ) ;
+    ///     );
     /// @endcode
     ///
     /// @param aTimeStep The time step (in seconds) to use for integration.
@@ -213,7 +213,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Default conditional
     ///
     /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::DefaultConditional() ;
+    ///     NumericalSolver solver = NumericalSolver::DefaultConditional();
     /// @endcode
     ///
     /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
@@ -336,9 +336,18 @@ class NumericalSolver : public MathNumericalSolver
         const RootFindingStrategy& aRootFindingStrategy
     );
 
+    /// @brief Observe a state, storing it's coordinates in the observedStates_ array
+    ///
+    /// @param aState The state to observe
     void observeState(const State& aState);
 
     /// @brief Integrate with controlled stepper using specified root solving strategy
+    ///
+    /// @param aState The initial state for integration
+    /// @param anInstant The instant to integrate to
+    /// @param aSystemOfEquations The system of equations to integrate
+    /// @param anEventCondition The event condition to check
+    /// @return The condition solution
     ConditionSolution integrateTimeWithControlledStepper(
         const State& aState,
         const Instant& anInstant,

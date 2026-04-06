@@ -686,9 +686,10 @@ INSTANTIATE_TEST_SUITE_P(
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversSaturatedDutyCycle_NoRoomForCandidateManeuver",
-            Array<Pair<Duration, Duration>> {// Previous maneuvers have saturated the duty cycle (40 min total)
-                                             Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
-                                             Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
+            Array<Pair<Duration, Duration>> {
+                // Previous maneuvers have saturated the duty cycle (40 min total)
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
             },
             Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
             false,
@@ -705,9 +706,10 @@ INSTANTIATE_TEST_SUITE_P(
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversOverSaturatedDutyCycle_NoRoomForCandidateManeuver_1",
-            Array<Pair<Duration, Duration>> {// Previous maneuvers have over-saturated the duty cycle (45 min total)
-                                             Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(15.0)},
-                                             Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
+            Array<Pair<Duration, Duration>> {
+                // Previous maneuvers have over-saturated the duty cycle (45 min total)
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(15.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
             },
             Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
             false,
@@ -1254,13 +1256,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             durationCondition,
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
-            {
-                NumericalSolver::LogType::NoLog,
-                NumericalSolver::StepperType::RungeKuttaDopri5,
-                5.0,
-                1.0e-12,
-                1.0e-12,
-            }
+            defaultNumericalSolver_
         );
 
         const Mass initialWetMass = Mass::Kilograms(200.0);
@@ -1290,7 +1286,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
         // Check that metrics from the maneuvering segment solution are the same as the ones from the extracted maneuver
         EXPECT_NEAR(
-            maneuveringSegmentSolution.computeDeltaV(defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()
+            maneuveringSegmentSolution.computeDeltaV(
+                defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()
             ),
             maneuvers[0].calculateDeltaV(),
             1e-10 * maneuveringSegmentSolution.computeDeltaV(
@@ -1822,14 +1819,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ConstantLocalOrbitalFrameDirectionManeuver)
 {
     {
-        EXPECT_NO_THROW(Segment::ConstantLocalOrbitalFrameDirectionManeuver(
-            defaultName_,
-            defaultInstantCondition_,
-            defaultThrusterDynamicsSPtr_,
-            defaultDynamics_,
-            defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_
-        ));
+        EXPECT_NO_THROW(
+            Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+                defaultName_,
+                defaultInstantCondition_,
+                defaultThrusterDynamicsSPtr_,
+                defaultDynamics_,
+                defaultNumericalSolver_,
+                defaultLocalOrbitalFrameFactorySPtr_
+            )
+        );
     }
 }
 
@@ -1951,14 +1950,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
 
     // No maneuvers should be produced
     {
-        const NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog,
-            NumericalSolver::StepperType::RungeKuttaDopri5,
-            1.0,
-            1.0e-12,
-            1.0e-12,
-        };
-
         VectorXd initialCoordinates(7);
         initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
         const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
@@ -1978,7 +1969,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
             eventCondition,
             customThrusterDynamics,
             defaultDynamics_,
-            numericalSolver
+            defaultNumericalSolver_
         );
 
         {
@@ -2058,14 +2049,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
 
     // No maneuvers should be produced
     {
-        const NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog,
-            NumericalSolver::StepperType::RungeKuttaDopri5,
-            1.0,
-            1.0e-12,
-            1.0e-12,
-        };
-
         VectorXd initialCoordinates(7);
         initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
         const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
@@ -2085,7 +2068,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
             eventCondition,
             customThrusterDynamics,
             defaultDynamics_,
-            numericalSolver
+            defaultNumericalSolver_
         );
 
         {
@@ -2649,25 +2632,30 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(1.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(1.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(1.0)}
             }
         },
         // Middle maneuver
         SolveTestParams {
             "Middle",
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
             }
         },
         // Trailing edge maneuver
         SolveTestParams {
             "TrailingEdge",
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(7.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(7.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
             }
         },
         // Maneuver spans entire interval
@@ -2677,16 +2665,19 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(7.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(6.0)}
             }
         },
         // Maneuver ends at condition time
         SolveTestParams {
             "EndsAtCondition",
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
             }
         },
         // Leading edge + middle maneuvers
@@ -2723,7 +2714,8 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(8.0), Duration::Minutes(9.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
             }
         }
     ),
@@ -2739,7 +2731,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
 
     const NumericalSolver numericalSolver = {
         NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
         1.0,
         1.0e-12,
         1.0e-12,
@@ -2759,9 +2751,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
     Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.maneuverIntervals)
     {
-        guidanceLawIntervals.add(Interval::Closed(
-            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
-        ));
+        guidanceLawIntervals.add(
+            Interval::Closed(
+                referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+            )
+        );
     }
 
     const Shared<Thruster> customThrusterDynamics =
@@ -2781,9 +2775,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
     Array<Interval> expectedManeuverIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.expectedManeuverIntervals)
     {
-        expectedManeuverIntervals.add(Interval::Closed(
-            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
-        ));
+        expectedManeuverIntervals.add(
+            Interval::Closed(
+                referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+            )
+        );
     }
 
     ASSERT_FALSE(solution.states.isEmpty());
@@ -2798,7 +2794,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
 
     for (Size idx = 0; idx < expectedManeuverIntervals.getSize(); ++idx)
     {
-        EXPECT_TRUE(expectedManeuverIntervals[idx].getStart().isNear(maneuvers[idx].getInterval().getStart(), tolerance)
+        EXPECT_TRUE(
+            expectedManeuverIntervals[idx].getStart().isNear(maneuvers[idx].getInterval().getStart(), tolerance)
         );
         EXPECT_TRUE(expectedManeuverIntervals[idx].getEnd().isNear(maneuvers[idx].getInterval().getEnd(), tolerance));
     }
@@ -4966,14 +4963,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     const Environment environment(initialInstant, {earthSPtr});
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
-        5.0,
-        1.0e-12,
-        1.0e-12,
-    };
-
     const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
         {initialState.getPosition(), initialState.getVelocity()},
         EarthGravitationalModel::EGM2008.gravitationalParameter_
@@ -5046,7 +5035,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
-        numericalSolver,
+        defaultNumericalSolver_,
         {Duration::Minutes(16.0),
          Duration::Minutes(16.0),
          Duration::Minutes(26.0),
@@ -5113,14 +5102,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
     const Environment environment(earthSPtr, {std::make_shared<Sun>(Sun::Default())}, initialInstant);
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
-        10.0,
-        1.0e-12,
-        1.0e-12,
-    };
-
     const COE targetCOE = {
         Length::Meters(10.0e10),
         0.0,                    // eccentricity
@@ -5170,7 +5151,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
-        numericalSolver,
+        defaultNumericalSolver_,
         tnwFactorySPtr,
         Angle::Undefined(),
         {Duration::Minutes(10.0),
