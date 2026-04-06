@@ -176,6 +176,16 @@ NumericalSolver::RootFindingStrategy NumericalSolver::getRootFindingStrategy() c
     return rootFindingStrategy_;
 }
 
+Real NumericalSolver::getMaxStepSize() const
+{
+    return maxStepSize_;
+}
+
+void NumericalSolver::setMaxStepSize(const Real& aMaxStepSize)
+{
+    maxStepSize_ = aMaxStepSize;
+}
+
 Array<State> NumericalSolver::integrateTime(
     const State& aState,
     const Array<Instant>& anInstantArray,
@@ -500,7 +510,8 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     const RootSolver& rootSolver,
     NumericalSolver::RootFindingStrategy rootFindingStrategy,
     Array<State>& observedStates,
-    const std::function<void(const State&)>& observeState
+    const std::function<void(const State&)>& observeState,
+    const Real& maxStepSize
 )
 {
     observedStates = {aState};
@@ -548,13 +559,15 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         previousTime = currentTime;
 
         // Limit the step size to prevent massive overshoots past the target end time.
-        // Controlled/adaptive steppers can grow dt far beyond the remaining integration interval,
-        // leading to false event condition detections at states well beyond the intended interval.
-        // We cap dt to at most the remaining time plus one initial step size. This prevents large
-        // overshoots while still allowing small overshoots near the boundary (needed for detecting
-        // conditions that fire right at the end time).
+        // When a maxStepSize is specified, also enforce that as an upper bound. This is critical
+        // for detecting discrete/step-function events (e.g., thrust toggles) that can be missed
+        // entirely when the adaptive stepper grows its step too large.
         const double remaining = endTime - currentTime;
-        const double maxDt = std::abs(remaining) + std::abs(signedTimeStep);
+        double maxDt = std::abs(remaining) + std::abs(signedTimeStep);
+        if (maxStepSize.isDefined())
+        {
+            maxDt = std::min(maxDt, static_cast<double>(maxStepSize));
+        }
         dt = std::clamp(dt, -maxDt, maxDt);
 
         doStep(stepper, aSystemOfEquations, currentStateVector, currentTime, dt);
@@ -680,8 +693,8 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     // Since previousState gets updated in the stepping loop, we need to reset it here
     previousState = createState(previousStateVector, previousTime);
 
-    const auto checkCondition =
-        [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime) -> double
+    const auto checkCondition = [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime
+                                ) -> double
     {
         const NumericalSolver::StateVector stateCoordinates = stateGenerator(aTime);
         const State interpolatedState = createState(stateCoordinates, aTime);
@@ -747,7 +760,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         case StepperType::RungeKuttaCashKarp54:
@@ -765,7 +779,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         case StepperType::RungeKuttaFehlberg78:
@@ -783,7 +798,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         case StepperType::RungeKuttaDopri5:
@@ -801,13 +817,13 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         case StepperType::AdamsBashforthMoulton5:
         {
-            auto stepper =
-                make_controlled_adam_bashforth_moulton<5>(absoluteTolerance_, relativeTolerance_);
+            auto stepper = make_controlled_adam_bashforth_moulton<5>(absoluteTolerance_, relativeTolerance_);
             return integrateTimeWithStepperImpl<decltype(stepper)>(
                 stepper,
                 aState,
@@ -818,13 +834,13 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         case StepperType::AdamsBashforthMoulton8:
         {
-            auto stepper =
-                make_controlled_adam_bashforth_moulton<8>(absoluteTolerance_, relativeTolerance_);
+            auto stepper = make_controlled_adam_bashforth_moulton<8>(absoluteTolerance_, relativeTolerance_);
             return integrateTimeWithStepperImpl<decltype(stepper)>(
                 stepper,
                 aState,
@@ -835,13 +851,13 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         case StepperType::BulirschStoer:
         {
-            auto stepper =
-                bulirsch_stoer<NumericalSolver::StateVector>(absoluteTolerance_, relativeTolerance_);
+            auto stepper = bulirsch_stoer<NumericalSolver::StateVector>(absoluteTolerance_, relativeTolerance_);
             return integrateTimeWithStepperImpl<decltype(stepper)>(
                 stepper,
                 aState,
@@ -852,7 +868,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
                 rootSolver_,
                 rootFindingStrategy_,
                 observedStates_,
-                observer
+                observer,
+                maxStepSize_
             );
         }
         default:
