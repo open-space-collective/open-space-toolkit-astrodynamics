@@ -131,8 +131,7 @@ Segment::ManeuverConstraints::ManeuverConstraints(
         // Minimum separation must be defined if maximum duty cycle is defined.
         if (!minimumSeparation.isDefined())
         {
-            throw ostk::core::error::RuntimeError(
-                "Minimum separation must be defined if maximum duty cycle is defined."
+            throw ostk::core::error::RuntimeError("Minimum separation must be defined if maximum duty cycle is defined."
             );
         }
     }
@@ -615,12 +614,10 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     {
         if (!dynamicsWriteCoordinateSubsets.contains(aCoordinateSubsetSPtr))
         {
-            throw ostk::core::error::RuntimeError(
-                String::Format(
-                    "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
-                    aCoordinateSubsetSPtr->getName()
-                )
-            );
+            throw ostk::core::error::RuntimeError(String::Format(
+                "Provided coordinate subset [{}] is not part of the dynamics write coordinate subsets.",
+                aCoordinateSubsetSPtr->getName()
+            ));
         }
     }
 
@@ -678,8 +675,7 @@ MatrixXd Segment::Solution::getDynamicsAccelerationContribution(
     return this->getDynamicsContribution(aDynamicsSPtr, aFrameSPtr, {CartesianVelocity::Default()});
 }
 
-Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(
-    const Shared<const Frame>& aFrameSPtr
+Map<Shared<Dynamics>, MatrixXd> Segment::Solution::getAllDynamicsContributions(const Shared<const Frame>& aFrameSPtr
 ) const
 {
     // Each MatrixXd contains the contribution of a single dynamics for all the segment states
@@ -890,14 +886,12 @@ Segment::Solution Segment::solve(
     {
         if (previousManeuverInterval.getEnd() > aState.accessInstant())
         {
-            throw ostk::core::error::RuntimeError(
-                String::Format(
-                    "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends "
-                    "after "
-                    "the initial state instant.",
-                    previousManeuverInterval.toString()
-                )
-            );
+            throw ostk::core::error::RuntimeError(String::Format(
+                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends "
+                "after "
+                "the initial state instant.",
+                previousManeuverInterval.toString()
+            ));
         }
     }
 
@@ -947,8 +941,8 @@ Segment::Solution Segment::solve(
     };
 
     // Helper lambda to solve a single maneuver and extract results
-    const auto solveSingleManeuver =
-        [&](const Shared<Thruster>& thrusterDynamics) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
+    const auto solveSingleManeuver = [&](const Shared<Thruster>& thrusterDynamics
+                                     ) -> std::pair<Segment::Solution, std::optional<FlightManeuver>>
     {
         const State& lastState = segmentStates.accessLast();
         const Segment::Solution coastSolution = solveUntilThrusterOn_(lastState, maximumInstant, thrusterDynamics);
@@ -1549,13 +1543,11 @@ Segment::Solution Segment::solve(
     // Build final solution
     Array<Shared<Dynamics>> segmentDynamics = freeDynamicsArray_;
 
-    segmentDynamics.add(
-        std::make_shared<Thruster>(
-            this->getThrusterDynamics()->getSatelliteSystem(),
-            segmentHeterogenousGuidanceLaw,
-            this->getThrusterDynamics()->getName() + " (Maneuvering Constraints)"
-        )
-    );
+    segmentDynamics.add(std::make_shared<Thruster>(
+        this->getThrusterDynamics()->getSatelliteSystem(),
+        segmentHeterogenousGuidanceLaw,
+        this->getThrusterDynamics()->getName() + " (Maneuvering Constraints)"
+    ));
 
     return Segment::Solution(
         name_,
@@ -1723,9 +1715,8 @@ Array<State> Segment::propagateWithDynamics_(
     return states;
 }
 
-Segment::Solution Segment::constructLOFCompliantManeuverSolution_(
-    const State& aState, const FlightManeuver& aManeuver
-) const
+Segment::Solution Segment::constructLOFCompliantManeuverSolution_(const State& aState, const FlightManeuver& aManeuver)
+    const
 {
     const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
         aManeuver,
@@ -1750,9 +1741,8 @@ Segment::Solution Segment::solveCoast_(const State& aState, const Instant& anEnd
     return solution;
 }
 
-Shared<RealCondition> Segment::getThrusterToggleCondition_(
-    const Shared<Thruster>& thrusterDynamics, const bool& isOn
-) const
+Shared<RealCondition> Segment::getThrusterToggleCondition_(const Shared<Thruster>& thrusterDynamics, const bool& isOn)
+    const
 {
     const Shared<const GuidanceLaw> guidanceLaw = thrusterDynamics->getGuidanceLaw();
 
@@ -1796,7 +1786,25 @@ Segment::Solution Segment::solveUntilThrusterOff_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, dynamicsArray, combinedCondition);
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-off
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the remaining thrust window.
+    NumericalSolver stepLimitedSolver = numericalSolver_;
+    stepLimitedSolver.setMaxStepSize((anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+
+    const Propagator propagator = {stepLimitedSolver, dynamicsArray};
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(aState, anEndInstant, *combinedCondition);
+
+    const StateBuilder stateBuilder = {aState};
+    Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    Segment::Solution solution = {name_, dynamicsArray, states, conditionSolution.conditionIsSatisfied, type_};
 
     // As the event condition could have terminated due to the thruster off condition, we want to
     // re-evaluate the segment event condition to see if it's satisfied.
@@ -1820,7 +1828,25 @@ Segment::Solution Segment::solveUntilThrusterOn_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, combinedCondition);
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-on
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the thrust window.
+    NumericalSolver stepLimitedSolver = numericalSolver_;
+    stepLimitedSolver.setMaxStepSize((anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+
+    const Propagator propagator = {stepLimitedSolver, freeDynamicsArray_};
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(aState, anEndInstant, *combinedCondition);
+
+    const StateBuilder stateBuilder = {aState};
+    Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    Segment::Solution solution = {name_, freeDynamicsArray_, states, conditionSolution.conditionIsSatisfied, type_};
 
     // As the event condition could have terminated due to the thruster on condition, we want to
     // re-evaluate the segment event condition to see if it's satisfied.

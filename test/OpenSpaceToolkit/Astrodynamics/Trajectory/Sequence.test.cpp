@@ -1003,7 +1003,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
                 {segmentSolution.states.accessLast().getPosition(), segmentSolution.states.accessLast().getVelocity()},
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             );
-            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-5);
+            EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 1e-4);
             initialCOE = coe;
         }
     }

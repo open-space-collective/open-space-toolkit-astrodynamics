@@ -143,6 +143,19 @@ class NumericalSolver : public MathNumericalSolver
     /// @return RootFindingStrategy
     RootFindingStrategy getRootFindingStrategy() const;
 
+    /// @brief Get the maximum step size
+    ///
+    /// @return Maximum step size in seconds, or Real::Undefined() if not set
+    Real getMaxStepSize() const;
+
+    /// @brief Set the maximum step size the integrator is allowed to take during conditional
+    ///        integration. Useful for detecting discrete/step-function events (e.g., thrust
+    ///        toggles) that can be missed when the adaptive stepper grows its step too large.
+    ///
+    /// @param aMaxStepSize Maximum step size in seconds. Use Real::Undefined() to remove the
+    ///                     limit.
+    void setMaxStepSize(const Real& aMaxStepSize);
+
     /// @brief Perform numerical integration for a given array of time instants.
     ///
     /// @param aState Initial state for integration.
@@ -289,6 +302,7 @@ class NumericalSolver : public MathNumericalSolver
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
     RootFindingStrategy rootFindingStrategy_;
+    Real maxStepSize_ = Real::Undefined();
 
     /// @brief Constructor
     ///
