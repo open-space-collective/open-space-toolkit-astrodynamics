@@ -132,6 +132,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
             )
 
             .def(
+                "evaluate",
+                &AngularCondition::evaluate,
+                R"doc(
+                    Evaluate the angular event function.
+
+                    Returns the signed angular distance from the current angle to the target,
+                    wrapped to [-pi, pi]. For WithinRange, returns the distance from the
+                    nearest boundary (positive inside, negative outside).
+
+                    Args:
+                        state (State): The state to evaluate.
+
+                    Returns:
+                        float: The angular event function value.
+
+                )doc",
+                arg("state")
+            )
+
+            .def(
                 "is_satisfied",
                 &AngularCondition::isSatisfied,
                 R"doc(

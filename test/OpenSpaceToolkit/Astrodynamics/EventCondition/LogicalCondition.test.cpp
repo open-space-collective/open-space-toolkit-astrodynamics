@@ -228,6 +228,107 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_And)
+{
+    // AND returns min of sub-condition evaluate() values
+    // alwaysTrueBooleanCondition_ evaluates to 1.0 (true -> 1.0, target 0.0, so 1.0 - 0.0 = 1.0)
+    // alwaysFalseBooleanCondition_ evaluates to -1.0 (false -> -1.0, target 0.0, so -1.0 - 0.0 = -1.0)
+
+    {
+        // AND(true, false) -> min(1.0, -1.0) = -1.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::And, {alwaysTrueBooleanCondition_, alwaysFalseBooleanCondition_}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), -1.0);
+    }
+
+    {
+        // AND(true, true) -> min(1.0, 1.0) = 1.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::And, {alwaysTrueBooleanCondition_, alwaysTrueBooleanCondition_}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), 1.0);
+    }
+
+    {
+        // AND(false, false) -> min(-1.0, -1.0) = -1.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::And, {alwaysFalseBooleanCondition_, alwaysFalseBooleanCondition_}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), -1.0);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_Or)
+{
+    // OR returns max of sub-condition evaluate() values
+
+    {
+        // OR(true, false) -> max(1.0, -1.0) = 1.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::Or, {alwaysTrueBooleanCondition_, alwaysFalseBooleanCondition_}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), 1.0);
+    }
+
+    {
+        // OR(true, true) -> max(1.0, 1.0) = 1.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::Or, {alwaysTrueBooleanCondition_, alwaysTrueBooleanCondition_}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), 1.0);
+    }
+
+    {
+        // OR(false, false) -> max(-1.0, -1.0) = -1.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::Or, {alwaysFalseBooleanCondition_, alwaysFalseBooleanCondition_}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), -1.0);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Evaluate_WithRealConditions)
+{
+    // Test with RealConditions that have specific numeric values
+    auto makeRealCondition = [](const Real& returnValue, const Real& target) -> Shared<RealCondition>
+    {
+        return std::make_shared<RealCondition>(RealCondition(
+            "test",
+            RealCondition::Criterion::AnyCrossing,
+            [returnValue]([[maybe_unused]] const State& aState) -> Real
+            {
+                return returnValue;
+            },
+            target
+        ));
+    };
+
+    {
+        // AND(5.0 - 3.0, 2.0 - 4.0) = AND(2.0, -2.0) = min(2.0, -2.0) = -2.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::And, {makeRealCondition(5.0, 3.0), makeRealCondition(2.0, 4.0)}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), -2.0);
+    }
+
+    {
+        // OR(5.0 - 3.0, 2.0 - 4.0) = OR(2.0, -2.0) = max(2.0, -2.0) = 2.0
+        const LogicalCondition logicalCondition = LogicalCondition(
+            defaultName_, LogicalCondition::Type::Or, {makeRealCondition(5.0, 3.0), makeRealCondition(2.0, 4.0)}
+        );
+
+        EXPECT_DOUBLE_EQ(logicalCondition.evaluate(defaultState_), 2.0);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Clone)
 {
     EXPECT_NO_THROW({ Unique<LogicalCondition> clonedCondition(defaultLogicalCondition_.clone()); });

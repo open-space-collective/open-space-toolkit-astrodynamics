@@ -157,6 +157,15 @@ class EventCondition
     /// @return Pointer to the cloned EventCondition
     virtual EventCondition* clone() const = 0;
 
+    /// @brief Evaluate the event function for this condition at a given state.
+    ///
+    /// Returns a continuous real value suitable for root-finding.
+    /// Zero crossings correspond to the condition boundary.
+    ///
+    /// @param aState The state to evaluate
+    /// @return Real number representing the event function value
+    virtual Real evaluate(const State& aState) const;
+
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
     ///

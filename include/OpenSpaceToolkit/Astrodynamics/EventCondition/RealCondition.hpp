@@ -105,7 +105,7 @@ class RealCondition : public EventCondition
     ///
     /// @param aState The current state.
     /// @return Real number representing the evaluation result of the Event Condition.
-    Real evaluate(const State& state) const;
+    virtual Real evaluate(const State& state) const override;
 
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time

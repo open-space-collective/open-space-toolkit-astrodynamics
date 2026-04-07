@@ -88,6 +88,47 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+Real AngularCondition::evaluate(const State& aState) const
+{
+    const Real currentAngle = evaluator_(aState);
+    const Real targetAngle = target_.value + target_.valueOffset;
+
+    if (criterion_ == Criterion::WithinRange)
+    {
+        const Real lower = targetRange_.first;
+        const Real upper = targetRange_.second;
+
+        if (lower <= upper)
+        {
+            // Normal range [lower, upper]
+            const Real distFromLower = currentAngle - lower;
+            const Real distFromUpper = upper - currentAngle;
+            return std::min(distFromLower, distFromUpper);
+        }
+        else
+        {
+            // Wrapped range: [lower, 2pi) U [0, upper]
+            if (currentAngle >= lower || currentAngle <= upper)
+            {
+                // Inside range: positive
+                const Real distFromLower = std::fmod(currentAngle - lower + Real::TwoPi(), Real::TwoPi());
+                const Real distFromUpper = std::fmod(upper - currentAngle + Real::TwoPi(), Real::TwoPi());
+                return std::min(distFromLower, distFromUpper);
+            }
+            else
+            {
+                // Outside range: negative
+                const Real distToLower = std::fmod(lower - currentAngle + Real::TwoPi(), Real::TwoPi());
+                const Real distToUpper = std::fmod(currentAngle - upper + Real::TwoPi(), Real::TwoPi());
+                return -std::min(distToLower, distToUpper);
+            }
+        }
+    }
+
+    // For crossing criteria: signed angular distance to target, wrapped to [-pi, pi]
+    return std::fmod(currentAngle - targetAngle + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+}
+
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
     return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value + target_.valueOffset));

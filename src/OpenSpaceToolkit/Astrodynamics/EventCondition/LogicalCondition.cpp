@@ -1,5 +1,9 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
+#include <OpenSpaceToolkit/Core/Error.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 
 namespace ostk
@@ -37,6 +41,43 @@ void LogicalCondition::updateTarget(const State& aState)
     {
         eventCondition->updateTarget(aState);
     }
+}
+
+Real LogicalCondition::evaluate(const State& aState) const
+{
+    if (eventConditions_.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("Event Conditions");
+    }
+
+    Real result = eventConditions_.accessFirst()->evaluate(aState);
+
+    for (auto it = eventConditions_.begin() + 1; it != eventConditions_.end(); ++it)
+    {
+        const Real value = (*it)->evaluate(aState);
+
+        switch (type_)
+        {
+            case Type::And:
+                if (value < result)
+                {
+                    result = value;
+                }
+                break;
+
+            case Type::Or:
+                if (value > result)
+                {
+                    result = value;
+                }
+                break;
+
+            default:
+                throw ostk::core::error::runtime::Wrong("Type");
+        }
+    }
+
+    return result;
 }
 
 bool LogicalCondition::isSatisfied(const State& currentState, const State& previousState) const

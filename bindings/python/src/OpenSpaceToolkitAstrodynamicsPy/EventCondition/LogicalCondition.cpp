@@ -71,6 +71,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
             )
 
             .def(
+                "evaluate",
+                &LogicalCondition::evaluate,
+                R"doc(
+                    Evaluate the combined event function using GMAT strategy.
+
+                    For AND: returns min of all sub-condition values.
+                    For OR: returns max of all sub-condition values.
+
+                    Args:
+                        state (State): The state to evaluate.
+
+                    Returns:
+                        float: The combined event function value.
+
+                )doc",
+                arg("state")
+            )
+
+            .def(
                 "get_event_conditions",
                 &LogicalCondition::getEventConditions,
                 R"doc(

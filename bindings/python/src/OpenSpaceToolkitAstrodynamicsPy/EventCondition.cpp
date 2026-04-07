@@ -33,6 +33,11 @@ class PyEventCondition : public EventCondition
 
     // Trampoline (need one for each virtual function)
 
+    Real evaluate(const State& aState) const override
+    {
+        PYBIND11_OVERRIDE_NAME(Real, EventCondition, "evaluate", evaluate, aState);
+    }
+
     bool isSatisfied(const State& currentState, const State& previousState) const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(bool, EventCondition, "is_satisfied", isSatisfied, currentState, previousState);
@@ -259,6 +264,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                         state (State): The state to calculate the relative target from.
                 )doc",
                 arg("state")
+            )
+
+            .def(
+                "evaluate",
+                &EventCondition::evaluate,
+                arg("state"),
+                R"doc(
+                    Evaluate the event function for this condition.
+
+                    Returns a continuous real value suitable for root-finding.
+                    Zero crossings correspond to the condition boundary.
+
+                    Args:
+                        state (State): The state to evaluate.
+
+                    Returns:
+                        float: The event function value.
+                )doc"
             )
 
             .def(

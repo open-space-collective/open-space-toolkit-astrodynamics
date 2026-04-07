@@ -367,6 +367,68 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, isSatisfi
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Evaluate_CrossingCriteria)
+{
+    // For crossing criteria, evaluate() returns signed angular distance to target wrapped to [-pi, pi]
+    {
+        const Angle targetAngle = Angle::Degrees(45.0);
+        const Real targetRad = targetAngle.inRadians(0.0, Real::TwoPi());
+
+        AngularCondition condition = {
+            "PositiveCrossing",
+            AngularCondition::Criterion::PositiveCrossing,
+            defaultEvaluator_,
+            targetAngle,
+        };
+
+        // At target: evaluate should be ~0
+        {
+            const State state = generateState(targetRad);
+            EXPECT_NEAR(condition.evaluate(state), 0.0, 1e-10);
+        }
+
+        // Slightly before target: negative value
+        {
+            const State state = generateState(targetRad - 0.1);
+            EXPECT_LT(condition.evaluate(state), 0.0);
+        }
+
+        // Slightly after target: positive value
+        {
+            const State state = generateState(targetRad + 0.1);
+            EXPECT_GT(condition.evaluate(state), 0.0);
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Evaluate_WithinRange)
+{
+    // For WithinRange, evaluate() returns positive inside, negative outside
+    {
+        const Pair<Angle, Angle> targetRange = {Angle::Degrees(30.0), Angle::Degrees(60.0)};
+
+        AngularCondition condition = AngularCondition::WithinRange("WithinRange", defaultEvaluator_, targetRange);
+
+        // Inside range (midpoint): positive
+        {
+            const State state = generateState(Angle::Degrees(45.0).inRadians());
+            EXPECT_GT(condition.evaluate(state), 0.0);
+        }
+
+        // Outside range: negative
+        {
+            const State state = generateState(Angle::Degrees(20.0).inRadians());
+            EXPECT_LT(condition.evaluate(state), 0.0);
+        }
+
+        // At boundary: should be ~0
+        {
+            const State state = generateState(Angle::Degrees(30.0).inRadians(0.0, Real::TwoPi()));
+            EXPECT_NEAR(condition.evaluate(state), 0.0, 1e-10);
+        }
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Clone)
 {
     EXPECT_NO_THROW({ Unique<AngularCondition> clonedCondition(defaultCondition_.clone()); });

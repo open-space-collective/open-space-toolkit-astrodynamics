@@ -115,6 +115,16 @@ class AngularCondition : public EventCondition
     /// printing
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief Evaluate the angular event function.
+    ///
+    /// Returns the signed angular distance from the current angle to the target,
+    /// wrapped to [-pi, pi]. For WithinRange criterion, returns the distance
+    /// from the nearest boundary (positive inside, negative outside).
+    ///
+    /// @param aState The state to evaluate
+    /// @return Real number representing the angular event function value
+    virtual Real evaluate(const State& aState) const override;
+
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
     ///

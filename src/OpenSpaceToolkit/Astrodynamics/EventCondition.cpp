@@ -103,6 +103,16 @@ EventCondition::Target EventCondition::getTarget() const
     return target_;
 }
 
+Real EventCondition::evaluate(const State& aState) const
+{
+    if (!evaluator_)
+    {
+        throw ostk::core::error::runtime::Undefined("Evaluator");
+    }
+
+    return evaluator_(aState) - (target_.value + target_.valueOffset);
+}
+
 void EventCondition::updateTarget(const State& aState)
 {
     if (!evaluator_)

@@ -80,6 +80,15 @@ class LogicalCondition : public EventCondition
     /// @return An Array of shared pointers to EventCondition instances.
     Array<Shared<EventCondition>> getEventConditions() const;
 
+    /// @brief Evaluate the combined event function using GMAT strategy.
+    ///
+    /// For AND (conjunctive): returns min of all sub-condition evaluate() values.
+    /// For OR (disjunctive): returns max of all sub-condition evaluate() values.
+    ///
+    /// @param aState The state to evaluate
+    /// @return Real number representing the combined event function value
+    virtual Real evaluate(const State& aState) const override;
+
     /// @brief Check if the Logical Connective Event Condition is satisfied.
     ///
     /// @param currentState A state.

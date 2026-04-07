@@ -602,13 +602,11 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     // Since previousState gets updated in the stepping loop, we need to reset it here
     previousState = createState(previousStateVector, previousTime);
 
-    const auto checkCondition = [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime
-                                ) -> double
+    const auto checkCondition = [&anEventCondition, &createState, &stateGenerator](const double& aTime) -> double
     {
         const NumericalSolver::StateVector stateCoordinates = stateGenerator(aTime);
         const State interpolatedState = createState(stateCoordinates, aTime);
-        const bool isSatisfied = anEventCondition.isSatisfied(interpolatedState, previousState);
-        return isSatisfied ? 1.0 : -1.0;
+        return anEventCondition.evaluate(interpolatedState);
     };
 
     // Condition at previousTime => False

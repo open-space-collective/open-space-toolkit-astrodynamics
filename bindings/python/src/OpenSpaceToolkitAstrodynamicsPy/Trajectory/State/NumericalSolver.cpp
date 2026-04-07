@@ -228,9 +228,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
-                        [&](const NumericalSolver::StateVector& x,
-                            NumericalSolver::StateVector& dxdt,
-                            const double t) -> void
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
                     {
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
@@ -265,9 +264,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
-                        [&](const NumericalSolver::StateVector& x,
-                            NumericalSolver::StateVector& dxdt,
-                            const double t) -> void
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
                     {
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
@@ -303,9 +301,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
-                        [&](const NumericalSolver::StateVector& x,
-                            NumericalSolver::StateVector& dxdt,
-                            const double t) -> void
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
                     {
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
