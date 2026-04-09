@@ -598,6 +598,96 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_StateGeneratorException_AfterIterations)
+{
+    // Test that if the state generator throws after some successful iterations,
+    // the solver catches the exception and returns the best state found so far.
+    //
+    // Each iteration makes 14 calls: 1 observation + 1 matrixResult + 2*6 central FD.
+    // Throw after 14 calls so iteration 0 completes but iteration 1 throws immediately.
+    Size callCount = 0;
+    const Size throwAfterCalls = 14;
+
+    const auto throwingGenerator = [&callCount, throwAfterCalls, this](
+                                       const State& state, const Array<Instant>& instants
+                                   ) -> Array<State>
+    {
+        callCount++;
+        if (callCount > throwAfterCalls)
+        {
+            throw ostk::core::error::RuntimeError("Simulated state generator failure.");
+        }
+        return generateStates_(state, instants);
+    };
+
+    const LeastSquaresSolver::Analysis analysis =
+        solver_.solve(initialGuessState_, observationStates_, throwingGenerator);
+
+    EXPECT_EQ(analysis.terminationCriteria, "State Generator Exception");
+    EXPECT_TRUE(analysis.rmsError.isDefined());
+    EXPECT_GT(analysis.rmsError, 0.0);
+    EXPECT_EQ(analysis.iterationCount, 1u);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_StateGeneratorException_FirstIteration)
+{
+    // Test that if the state generator throws on the very first call (no valid state yet),
+    // the exception is re-thrown to the caller.
+    const auto alwaysThrowingGenerator = [](const State& state, const Array<Instant>& instants) -> Array<State>
+    {
+        (void)state;
+        (void)instants;
+        throw ostk::core::error::RuntimeError("Always fails.");
+        return {};
+    };
+
+    EXPECT_THROW(
+        solver_.solve(initialGuessState_, observationStates_, alwaysThrowingGenerator),
+        ostk::core::error::RuntimeError
+    );
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Divergence)
+{
+    // Test that the solver detects divergence and returns the best state found.
+    // We corrupt the state generator after iteration 0 completes (14 calls for 6D central FD),
+    // causing the RMS to blow up at iteration 1 while still producing valid (but wrong) states.
+    Size callCount = 0;
+    const Size corruptAfterCalls = 14;
+
+    const auto corruptingGenerator = [&callCount, corruptAfterCalls, this](
+                                         const State& state, const Array<Instant>& instants
+                                     ) -> Array<State>
+    {
+        callCount++;
+        auto states = generateStates_(state, instants);
+
+        if (callCount > corruptAfterCalls)
+        {
+            // Add large offsets to corrupt predictions, making residuals huge
+            for (Size i = 0; i < states.getSize(); ++i)
+            {
+                const VectorXd coords = states[i].getCoordinates();
+                const VectorXd corrupted = coords.array() + 1e6;
+                states[i] = State(
+                    states[i].getInstant(), corrupted, states[i].accessFrame(), states[i].getCoordinateSubsets()
+                );
+            }
+        }
+
+        return states;
+    };
+
+    const LeastSquaresSolver::Analysis analysis =
+        solver_.solve(initialGuessState_, observationStates_, corruptingGenerator);
+
+    EXPECT_EQ(analysis.terminationCriteria, "RMS Divergence");
+    EXPECT_TRUE(analysis.rmsError.isDefined());
+    EXPECT_GT(analysis.rmsError, 0.0);
+    // Best state should be from iteration 0 (before corruption)
+    EXPECT_EQ(analysis.iterationCount, 2u);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Default)
 {
     {

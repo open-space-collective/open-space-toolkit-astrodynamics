@@ -345,72 +345,133 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     MatrixXd Lambda = MatrixXd::Zero(estimationStateDimension, estimationStateDimension);
     MatrixXd PHatFrisbee = MatrixXd::Zero(estimationStateDimension, estimationStateDimension);
 
+    // Best state tracking across iterations
+    Real bestRmsError = Real::Undefined();
+    VectorXd bestXNom;
+    MatrixXd bestLambda;
+    MatrixXd bestPHatFrisbee;
+    MatrixXd bestComputedObservationCoordinates;
+    bool restoredBestState = false;
+
     // Main iteration loop
     for (Size iteration = 0; iteration < maxIterationCount_; ++iteration)
     {
-        // Initialize matrices that will be accumulated in the loop
-        Lambda = PAprioriInverse;                 // Λ = P̄⁻¹ (shorthand for Hᵀ R⁻¹ H)
-        VectorXd N = PAprioriInverse * xApriori;  // N = P̄⁻¹ x̄ (shorthand for H^T R^-1 y)
-
-        // Initialize the Pₑ of equation 19 in https://ntrs.nasa.gov/citations/20140011726
-        PHatFrisbee = MatrixXd::Zero(estimationStateDimension, estimationStateDimension);
-
-        currentEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
-
-        // G(X∗ᵢ) (computed observations) for all observation instants
-        computedObservationCoordinates = computeObservationsCoordinates(currentEstimatedState, observationInstants);
-
-        // Compute residuals
-        // y = Y - G(X∗) (observed - computed)
-        residualCoordinates = observationCoordinates - computedObservationCoordinates;
-
-        // H(t,t₀) = ∂G(X∗)/∂X∗₀ (sensitivty matrix for all observations at tᵢ w.r.t. nominal trajectory at estimated
-        // state instant t₀)
-        const Array<MatrixXd> HFull = finiteDifferenceSolver_.computeStateTransitionMatrix(
-            currentEstimatedState, observationInstants, computeObservationsCoordinates
-        );
-
-        // Loop through each observation
-        for (Size i = 0; i < observationCount; ++i)
+        try
         {
-            // yᵢ = Yᵢ - G(X∗ᵢ)
-            const VectorXd& y = residualCoordinates.col(i);
+            // Initialize matrices that will be accumulated in the loop
+            Lambda = PAprioriInverse;                 // Λ = P̄⁻¹ (shorthand for Hᵀ R⁻¹ H)
+            VectorXd N = PAprioriInverse * xApriori;  // N = P̄⁻¹ x̄ (shorthand for H^T R^-1 y)
 
-            // Hᵢ = H(tᵢ,t₀) (observations sensitivity matrix for current observations)
-            const MatrixXd& H = HFull[i];
+            // Initialize the Pₑ of equation 19 in https://ntrs.nasa.gov/citations/20140011726
+            PHatFrisbee = MatrixXd::Zero(estimationStateDimension, estimationStateDimension);
 
-            // Λ = Λ + (Hᵢᵀ R⁻¹ Hᵢ)
-            Lambda += H.transpose() * RInv * H;
+            currentEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
 
-            // N = N + (Hᵢᵀ R⁻¹ yᵢ)
-            N += H.transpose() * RInv * y;
+            // G(X∗ᵢ) (computed observations) for all observation instants
+            computedObservationCoordinates =
+                computeObservationsCoordinates(currentEstimatedState, observationInstants);
 
-            // Pₑ = Pₑ + Hᵢᵀ R⁻¹ yᵢ yᵢᵀ R⁻¹ Hᵢ
-            PHatFrisbee += H.transpose() * RInv * y * y.transpose() * RInv * H;
+            // Compute residuals
+            // y = Y - G(X∗) (observed - computed)
+            residualCoordinates = observationCoordinates - computedObservationCoordinates;
+
+            // H(t,t₀) = ∂G(X∗)/∂X∗₀ (sensitivty matrix for all observations at tᵢ w.r.t. nominal trajectory at
+            // estimated state instant t₀)
+            const Array<MatrixXd> HFull = finiteDifferenceSolver_.computeStateTransitionMatrix(
+                currentEstimatedState, observationInstants, computeObservationsCoordinates
+            );
+
+            // Loop through each observation
+            for (Size i = 0; i < observationCount; ++i)
+            {
+                // yᵢ = Yᵢ - G(X∗ᵢ)
+                const VectorXd& y = residualCoordinates.col(i);
+
+                // Hᵢ = H(tᵢ,t₀) (observations sensitivity matrix for current observations)
+                const MatrixXd& H = HFull[i];
+
+                // Λ = Λ + (Hᵢᵀ R⁻¹ Hᵢ)
+                Lambda += H.transpose() * RInv * H;
+
+                // N = N + (Hᵢᵀ R⁻¹ yᵢ)
+                N += H.transpose() * RInv * y;
+
+                // Pₑ = Pₑ + Hᵢᵀ R⁻¹ yᵢ yᵢᵀ R⁻¹ Hᵢ
+                PHatFrisbee += H.transpose() * RInv * y * y.transpose() * RInv * H;
+            }
+
+            // Save pre-update state for best-state tracking
+            const VectorXd preUpdateXNom = XNom;
+
+            // Solve normal equations
+            // x̂ = Λ⁻¹ N
+            xHat = Lambda.ldlt().solve(N);
+
+            // Update state vector and a priori deviation
+            // X∗ = X∗ + x̂
+            XNom += xHat;
+
+            // x̄ = x̄ - x̂
+            xApriori -= xHat;
+
+            currentRmsError =
+                std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
+            steps.add(Step(currentRmsError, xHat));
+
+            // Track best state (the pre-update state that produced this RMS)
+            if (currentRmsError.isDefined() && (!bestRmsError.isDefined() || currentRmsError < bestRmsError))
+            {
+                bestRmsError = currentRmsError;
+                bestXNom = preUpdateXNom;
+                bestLambda = Lambda;
+                bestPHatFrisbee = PHatFrisbee;
+                bestComputedObservationCoordinates = computedObservationCoordinates;
+            }
+
+            // Check divergence (RMS more than doubled from best seen)
+            if (bestRmsError.isDefined() &&
+                (!currentRmsError.isDefined() || currentRmsError > 2.0 * bestRmsError))
+            {
+                terminationCriteria = "RMS Divergence";
+                break;
+            }
+
+            // Check convergence
+            if (std::abs(currentRmsError - previousRmsError) < rmsUpdateThreshold_)
+            {
+                terminationCriteria = "RMS Update Threshold";
+                break;
+            }
+
+            previousRmsError = currentRmsError;
         }
-
-        // Solve normal equations
-        // x̂ = Λ⁻¹ N
-        xHat = Lambda.ldlt().solve(N);
-
-        // Update state vector and a priori deviation
-        // X∗ = X∗ + x̂
-        XNom += xHat;
-
-        // x̄ = x̄ - x̂
-        xApriori -= xHat;
-
-        currentRmsError = std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
-        steps.add(Step(currentRmsError, xHat));
-
-        // Check convergence
-        if (std::abs(currentRmsError - previousRmsError) < rmsUpdateThreshold_)
+        catch (...)
         {
-            terminationCriteria = "RMS Update Threshold";
-            break;
+            if (bestRmsError.isDefined())
+            {
+                terminationCriteria = "State Generator Exception";
+                break;
+            }
+            throw;
         }
+    }
 
-        previousRmsError = currentRmsError;
+    // Restore best state if the solver diverged, encountered an exception, or ended with poor RMS
+    if (bestRmsError.isDefined() && terminationCriteria != "RMS Update Threshold")
+    {
+        const bool shouldRestore =
+            terminationCriteria == "RMS Divergence" || terminationCriteria == "State Generator Exception" ||
+            (terminationCriteria == "Maximum Iteration Threshold" &&
+             (!currentRmsError.isDefined() || currentRmsError > 2.0 * bestRmsError));
+
+        if (shouldRestore)
+        {
+            XNom = bestXNom;
+            Lambda = bestLambda;
+            PHatFrisbee = bestPHatFrisbee;
+            computedObservationCoordinates = bestComputedObservationCoordinates;
+            restoredBestState = true;
+        }
     }
 
     // Compute final covariance matrices
@@ -450,7 +511,14 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         }
     }
 
-    return Analysis(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
+    Analysis result(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
+
+    if (restoredBestState)
+    {
+        result.rmsError = bestRmsError;
+    }
+
+    return result;
 }
 
 MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aResidualStateArray)

@@ -511,6 +511,38 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
     }
 }
 
+// Regression test: Without normalization, this dataset produces divergence and crashes (RuntimeError,
+// DecayedException, or Wrong Eccentricity depending on initial state index). The solver should detect
+// divergence and return the best state found instead of crashing.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Divergence)
+{
+    const Array<State> observations = loadData("divergence_observations", Frame::GCRF());
+
+    // Use default solver (no scaling) - this is the configuration that previously crashed
+    const LeastSquaresSolver leastSquaresSolver = {20, 1.0};
+    const TLESolver solver = {leastSquaresSolver, 99421, "25052AY", 0, true};
+
+    // idx=0 previously crashed with "RuntimeError: Algorithm error" at iteration 13
+    const TLESolver::Analysis analysis =
+        solver.estimate(std::make_pair(observations[0], 0.00017532), observations);
+
+    // Should not crash - solver should detect divergence or exception and return best state
+    EXPECT_TRUE(
+        analysis.solverAnalysis.terminationCriteria == "RMS Divergence" ||
+        analysis.solverAnalysis.terminationCriteria == "State Generator Exception"
+    );
+    EXPECT_LT(analysis.solverAnalysis.rmsError, 1000.0);
+
+    // Verify the estimated TLE is valid by propagating
+    const TLE estimatedTLE = analysis.estimatedTLE;
+    const SGP4 sgp4(estimatedTLE);
+
+    for (Size i = 0; i < observations.getSize(); i += 100)
+    {
+        EXPECT_NO_THROW(sgp4.calculateStateAt(observations[i].getInstant()));
+    }
+}
+
 // Regression test: Without normalization, this dataset produces an eccentricity > 1 during iteration.
 // With normalization enabled, the solver converges correctly.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_EccentricityOver1)
