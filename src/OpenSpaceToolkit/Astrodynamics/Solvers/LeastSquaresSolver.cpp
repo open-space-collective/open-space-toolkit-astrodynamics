@@ -368,8 +368,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             currentEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
 
             // G(X∗ᵢ) (computed observations) for all observation instants
-            computedObservationCoordinates =
-                computeObservationsCoordinates(currentEstimatedState, observationInstants);
+            computedObservationCoordinates = computeObservationsCoordinates(currentEstimatedState, observationInstants);
 
             // Compute residuals
             // y = Y - G(X∗) (observed - computed)
@@ -414,8 +413,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             // x̄ = x̄ - x̂
             xApriori -= xHat;
 
-            currentRmsError =
-                std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
+            currentRmsError = std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
             steps.add(Step(currentRmsError, xHat));
 
             // Track best state (the pre-update state that produced this RMS)
@@ -429,8 +427,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
             }
 
             // Check divergence (RMS more than doubled from best seen)
-            if (bestRmsError.isDefined() &&
-                (!currentRmsError.isDefined() || currentRmsError > 2.0 * bestRmsError))
+            if (bestRmsError.isDefined() && (!currentRmsError.isDefined() || currentRmsError > 2.0 * bestRmsError))
             {
                 terminationCriteria = "RMS Divergence";
                 break;
@@ -459,10 +456,10 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     // Restore best state if the solver diverged, encountered an exception, or ended with poor RMS
     if (bestRmsError.isDefined() && terminationCriteria != "RMS Update Threshold")
     {
-        const bool shouldRestore =
-            terminationCriteria == "RMS Divergence" || terminationCriteria == "State Generator Exception" ||
-            (terminationCriteria == "Maximum Iteration Threshold" &&
-             (!currentRmsError.isDefined() || currentRmsError > 2.0 * bestRmsError));
+        const bool shouldRestore = terminationCriteria == "RMS Divergence" ||
+                                   terminationCriteria == "State Generator Exception" ||
+                                   (terminationCriteria == "Maximum Iteration Threshold" &&
+                                    (!currentRmsError.isDefined() || currentRmsError > 2.0 * bestRmsError));
 
         if (shouldRestore)
         {

@@ -608,9 +608,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_StateGene
     Size callCount = 0;
     const Size throwAfterCalls = 14;
 
-    const auto throwingGenerator = [&callCount, throwAfterCalls, this](
-                                       const State& state, const Array<Instant>& instants
-                                   ) -> Array<State>
+    const auto throwingGenerator =
+        [&callCount, throwAfterCalls, this](const State& state, const Array<Instant>& instants) -> Array<State>
     {
         callCount++;
         if (callCount > throwAfterCalls)
@@ -642,8 +641,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_StateGene
     };
 
     EXPECT_THROW(
-        solver_.solve(initialGuessState_, observationStates_, alwaysThrowingGenerator),
-        ostk::core::error::RuntimeError
+        solver_.solve(initialGuessState_, observationStates_, alwaysThrowingGenerator), ostk::core::error::RuntimeError
     );
 }
 
@@ -655,9 +653,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Divergenc
     Size callCount = 0;
     const Size corruptAfterCalls = 14;
 
-    const auto corruptingGenerator = [&callCount, corruptAfterCalls, this](
-                                         const State& state, const Array<Instant>& instants
-                                     ) -> Array<State>
+    const auto corruptingGenerator =
+        [&callCount, corruptAfterCalls, this](const State& state, const Array<Instant>& instants) -> Array<State>
     {
         callCount++;
         auto states = generateStates_(state, instants);
@@ -669,9 +666,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Divergenc
             {
                 const VectorXd coords = states[i].getCoordinates();
                 const VectorXd corrupted = coords.array() + 1e6;
-                states[i] = State(
-                    states[i].getInstant(), corrupted, states[i].accessFrame(), states[i].getCoordinateSubsets()
-                );
+                states[i] =
+                    State(states[i].getInstant(), corrupted, states[i].accessFrame(), states[i].getCoordinateSubsets());
             }
         }
 

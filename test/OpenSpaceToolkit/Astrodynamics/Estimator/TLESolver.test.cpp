@@ -511,35 +511,58 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
     }
 }
 
-// Regression test: Without normalization, this dataset produces divergence and crashes (RuntimeError,
-// DecayedException, or Wrong Eccentricity depending on initial state index). The solver should detect
-// divergence and return the best state found instead of crashing.
+// Regression test: Before the FiniteDifferenceSolver minimum step fix, this dataset crashed with
+// RuntimeError/DecayedException/Wrong Eccentricity for idx=0 due to vanishingly small FD
+// perturbations for near-zero eccentricity and B*. The minimum step fix ensures meaningful
+// perturbations, and the divergence detection provides a safety net.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Divergence)
 {
     const Array<State> observations = loadData("divergence_observations", Frame::GCRF());
 
-    // Use default solver (no scaling) - this is the configuration that previously crashed
-    const LeastSquaresSolver leastSquaresSolver = {20, 1.0};
-    const TLESolver solver = {leastSquaresSolver, 99421, "25052AY", 0, true};
-
-    // idx=0 previously crashed with "RuntimeError: Algorithm error" at iteration 13
-    const TLESolver::Analysis analysis =
-        solver.estimate(std::make_pair(observations[0], 0.00017532), observations);
-
-    // Should not crash - solver should detect divergence or exception and return best state
-    EXPECT_TRUE(
-        analysis.solverAnalysis.terminationCriteria == "RMS Divergence" ||
-        analysis.solverAnalysis.terminationCriteria == "State Generator Exception"
-    );
-    EXPECT_LT(analysis.solverAnalysis.rmsError, 1000.0);
-
-    // Verify the estimated TLE is valid by propagating
-    const TLE estimatedTLE = analysis.estimatedTLE;
-    const SGP4 sgp4(estimatedTLE);
-
-    for (Size i = 0; i < observations.getSize(); i += 100)
+    // Without normalization - previously crashed, now converges thanks to FD minimum step fix
     {
-        EXPECT_NO_THROW(sgp4.calculateStateAt(observations[i].getInstant()));
+        const LeastSquaresSolver leastSquaresSolver = {20, 1.0};
+        const TLESolver solver = {leastSquaresSolver, 99421, "25052AY", 0, true};
+
+        const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 0.00017532), observations);
+
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 700.0);
+
+        // Verify the estimated TLE is valid by propagating
+        const TLE estimatedTLE = analysis.estimatedTLE;
+        const SGP4 sgp4(estimatedTLE);
+
+        for (Size i = 0; i < observations.getSize(); i += 100)
+        {
+            EXPECT_NO_THROW(sgp4.calculateStateAt(observations[i].getInstant()));
+        }
+    }
+
+    // With normalization, the solver converges. The FiniteDifferenceSolver's minimum absolute step
+    // ensures meaningful perturbations for near-zero elements (eccentricity, B*), and the scaling
+    // ensures the normal equations are well-conditioned.
+    {
+        const LeastSquaresSolver leastSquaresSolver = {
+            20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
+        };
+
+        const TLESolver solver = {leastSquaresSolver, 99421, "25052AY", 0, true};
+
+        const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 0.00017532), observations);
+
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+        EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+        EXPECT_LT(analysis.solverAnalysis.rmsError, 700.0);
+
+        // Verify the estimated TLE is valid by propagating
+        const TLE estimatedTLE = analysis.estimatedTLE;
+        const SGP4 sgp4(estimatedTLE);
+
+        for (Size i = 0; i < observations.getSize(); i += 100)
+        {
+            EXPECT_NO_THROW(sgp4.calculateStateAt(observations[i].getInstant()));
+        }
     }
 }
 
