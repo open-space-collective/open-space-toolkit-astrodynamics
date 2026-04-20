@@ -112,11 +112,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 "get_tle",
                 &SGP4::getTle,
                 R"doc(
-                    Get the TLE of the `SGP4` model. For multi-TLE models, returns the TLE with the earliest epoch.
+                    Get the TLE of the `SGP4` model.
+                    
 
                     Returns:
                         TLE: The TLE.
 
+                    Raises:
+                        RuntimeError: If the model contains multiple TLEs. Use `get_tles()` instead.
                 )doc"
             )
 

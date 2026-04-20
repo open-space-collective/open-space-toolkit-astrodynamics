@@ -31,6 +31,8 @@ using ostk::core::container::Pair;
 using ostk::physics::coordinate::Transform;
 using ostk::physics::time::Interval;
 
+const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
+
 class SGP4::Impl
 {
    public:
@@ -145,20 +147,24 @@ SGP4::SGP4(const Array<Pair<TLE, Interval>>& aTleIntervalArray, const Shared<con
     }
 
     // Build parallel arrays and sort by TLE epoch
-    Array<Pair<TLE, Interval>> sortedPairs = aTleIntervalArray;
+    Array<Pair<TLE, Interval>> sortedTleIntervals = aTleIntervalArray;
     std::sort(
-        sortedPairs.begin(),
-        sortedPairs.end(),
+        sortedTleIntervals.begin(),
+        sortedTleIntervals.end(),
         [](const Pair<TLE, Interval>& a, const Pair<TLE, Interval>& b)
         {
             return a.first.getEpoch() < b.first.getEpoch();
         }
     );
 
-    for (const auto& pair : sortedPairs)
+    for (const auto& tleWithInterval : sortedTleIntervals)
     {
-        tleArray_.add(pair.first);
-        validityIntervals_.add(pair.second);
+        if (!tleWithInterval.second.contains(tleWithInterval.first.getEpoch()))
+        {
+            throw ostk::core::error::RuntimeError("TLE interval does not contain the TLE epoch.");
+        }
+        tleArray_.add(tleWithInterval.first);
+        validityIntervals_.add(tleWithInterval.second);
     }
 
     implArray_.reserve(tleArray_.getSize());
@@ -224,7 +230,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model)
 
 bool SGP4::isDefined() const
 {
-    return (!this->tleArray_.isEmpty()) && (this->implArray_.getSize() == this->tleArray_.getSize());
+    return !this->tleArray_.isEmpty();
 }
 
 TLE SGP4::getTle() const
@@ -315,9 +321,12 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    const Size tleIndex = (tleArray_.getSize() > 1) ? this->findTleIndexForInstant(anInstant) : 0;
+    if (tleArray_.getSize() > 1 && !validityIntervals_[this->tleIndex_].contains(anInstant))
+    {
+        this->tleIndex_ = this->findTleIndexForInstant(anInstant);
+    }
 
-    return this->implArray_[tleIndex]->calculateStateAt(anInstant);
+    return this->implArray_[tleIndex_]->calculateStateAt(anInstant);
 }
 
 Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
@@ -326,6 +335,8 @@ Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
     {
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
+
+    // TBI: Performance can be improved by pre-calculating intervals and TLEs in a single pass.
 
     Array<State> stateArray = Array<State>::Empty();
     stateArray.reserve(anInstantArray.getSize());
@@ -392,8 +403,8 @@ Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
     if (aTleArray.getSize() == 1)
     {
         // Single TLE: interval spans far past to far future
-        const Instant farPast = aTleArray[0].getEpoch() - Duration::Days(36525.0);
-        const Instant farFuture = aTleArray[0].getEpoch() + Duration::Days(36525.0);
+        const Instant farPast = aTleArray[0].getEpoch() - epochBuffer_;
+        const Instant farFuture = aTleArray[0].getEpoch() + epochBuffer_;
         intervals.add(Interval::Closed(farPast, farFuture));
         return intervals;
     }
@@ -406,7 +417,7 @@ Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
         if (i == 0)
         {
             // First TLE: start at far past
-            start = aTleArray[0].getEpoch() - Duration::Days(36525.0);
+            start = aTleArray[0].getEpoch() - epochBuffer_;
         }
         else
         {
@@ -418,7 +429,7 @@ Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
         if (i == aTleArray.getSize() - 1)
         {
             // Last TLE: end at far future
-            end = aTleArray[i].getEpoch() + Duration::Days(36525.0);
+            end = aTleArray[i].getEpoch() + epochBuffer_;
         }
         else
         {

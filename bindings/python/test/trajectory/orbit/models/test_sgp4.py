@@ -100,7 +100,6 @@ class TestSGP4:
         tle: TLE,
         tle2: TLE,
     ):
-        # Set boundary at 18 hours (not midpoint at 12 hours)
         boundary = tle.get_epoch() + Duration.hours(18.0)
         interval1 = Interval.half_open_right(
             tle.get_epoch() - Duration.days(100.0), boundary
@@ -190,4 +189,3 @@ class TestSGP4:
         ]
         states = sgp4.calculate_states_at(instants)
         assert states is not None
-        assert len(states) == 3

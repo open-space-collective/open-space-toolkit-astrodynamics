@@ -44,6 +44,7 @@ using ostk::core::type::String;
 using ostk::physics::coordinate::Frame;
 
 using ostk::physics::environment::object::Celestial;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::unit::Derived;
@@ -58,7 +59,7 @@ using ostk::astrodynamics::trajectory::State;
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
-    /// @brief Construct an SGP4 model from a TLE.
+    /// @brief Construct an SGP4 model from a TLE. Sets the output frame to GCRF by default.
     ///
     /// @code{.cpp}
     ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
@@ -97,13 +98,15 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @param aTleArray An array of Two-Line Element sets.
-    /// @param anOutputFrameSPtr An output frame. Defaults to GCRF.
-    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = Frame::GCRF());
+    /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
+    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
 
     /// @brief Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
     ///
     /// @details Each pair specifies a TLE and the time interval over which it is valid.
     /// When calculating states, the first TLE whose interval contains the requested instant is used.
+    /// Therefore in the case an instant is within multiple TLE intervals, the first TLE whose interval contains the
+    /// instant is used.
     ///
     /// @code{.cpp}
     ///     Array<Pair<TLE, Interval>> tleIntervalPairs = {
@@ -114,10 +117,10 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @param aTleIntervalArray An array of TLE-Interval pairs.
-    /// @param anOutputFrameSPtr An output frame. Defaults to GCRF.
+    /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
     SGP4(
         const Array<Pair<TLE, Interval>>& aTleIntervalArray,
-        const Shared<const Frame>& anOutputFrameSPtr = Frame::GCRF()
+        const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
     );
 
     /// @brief Copy constructor.
@@ -266,6 +269,10 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     Shared<const Frame> outputFrameSPtr_;
 
     Array<Shared<SGP4::Impl>> implArray_;
+
+    mutable Size tleIndex_ = 0;
+
+    static const Duration epochBuffer_;
 
     Size findTleIndexForInstant(const Instant& anInstant) const;
 

@@ -79,9 +79,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle_};
 
         const SGP4 sgp4(tleArray);
-        EXPECT_TRUE(sgp4_.isDefined());
-        EXPECT_EQ(Frame::GCRF(), sgp4_.getOutputFrame());
-        EXPECT_EQ(1u, sgp4_.getTles().getSize());
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
+        EXPECT_EQ(1u, sgp4.getTles().getSize());
     }
 
     // Multiple TLEs in array
@@ -93,11 +93,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle2, tle1};  // Intentionally reversed order
 
         const SGP4 sgp4(tleArray);
-        EXPECT_TRUE(sgp4_.isDefined());
-        EXPECT_EQ(2u, sgp4_.getTles().getSize());
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(2u, sgp4.getTles().getSize());
         // Should be sorted by epoch: tle1 first
-        EXPECT_EQ(tle1.getEpoch(), sgp4_.getTles()[0].getEpoch());
-        EXPECT_EQ(tle2.getEpoch(), sgp4_.getTles()[1].getEpoch());
+        EXPECT_EQ(tle1.getEpoch(), sgp4.getTles()[0].getEpoch());
+        EXPECT_EQ(tle2.getEpoch(), sgp4.getTles()[1].getEpoch());
     }
 
     // With output frame
@@ -105,8 +105,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle_};
 
         const SGP4 sgp4(tleArray, Frame::TEME());
-        EXPECT_TRUE(sgp4_.isDefined());
-        EXPECT_EQ(Frame::TEME(), sgp4_.getOutputFrame());
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
     }
 
     // Empty array throws
@@ -124,7 +124,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle1, tle2};
         const SGP4 sgp4(tleArray);
 
-        const Array<Interval> intervals = sgp4_.getValidityIntervals();
+        const Array<Interval> intervals = sgp4.getValidityIntervals();
         EXPECT_EQ(2u, intervals.getSize());
 
         // Midpoint should be 12 hours after tle1 epoch
@@ -153,9 +153,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         };
 
         const SGP4 sgp4(tleIntervalArray);
-        EXPECT_TRUE(sgp4_.isDefined());
-        EXPECT_EQ(2u, sgp4_.getTles().getSize());
-        EXPECT_EQ(2u, sgp4_.getValidityIntervals().getSize());
+        EXPECT_TRUE(sgp4.isDefined());
+        EXPECT_EQ(2u, sgp4.getTles().getSize());
+        EXPECT_EQ(2u, sgp4.getValidityIntervals().getSize());
     }
 
     // Custom intervals: 18 hours boundary instead of midpoint
@@ -178,22 +178,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         // 15 hours after tle1 should still use tle1 (within 18-hour boundary)
         const Instant instantInTle1 = tle1.getEpoch() + Duration::Hours(15.0);
         const SGP4 sgp4Single1(tle1);
-        const State stateMulti = sgp4_.calculateStateAt(instantInTle1);
+        const State stateMulti = sgp4.calculateStateAt(instantInTle1);
         const State stateSingle = sgp4Single1.calculateStateAt(instantInTle1);
 
-        EXPECT_GT(
-            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
         );
 
         // 19 hours after tle1 should use tle2 (past 18-hour boundary)
         const Instant instantInTle2 = tle1.getEpoch() + Duration::Hours(19.0);
         const SGP4 sgp4Single2(tle2);
-        const State stateMulti2 = sgp4_.calculateStateAt(instantInTle2);
+        const State stateMulti2 = sgp4.calculateStateAt(instantInTle2);
         const State stateSingle2 = sgp4Single2.calculateStateAt(instantInTle2);
 
-        EXPECT_GT(
-            1e-6,
-            (stateMulti2.getPosition().accessCoordinates() - stateSingle2.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti2.getPosition().accessCoordinates() - stateSingle2.getPosition().accessCoordinates()).norm(),
+            1e-6
         );
     }
 
@@ -221,8 +221,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         };
 
         const SGP4 sgp4(tleIntervalArray);
-        EXPECT_EQ(tle1.getEpoch(), sgp4_.getTles()[0].getEpoch());
-        EXPECT_EQ(tle2.getEpoch(), sgp4_.getTles()[1].getEpoch());
+        EXPECT_EQ(tle1.getEpoch(), sgp4.getTles()[0].getEpoch());
+        EXPECT_EQ(tle2.getEpoch(), sgp4.getTles()[1].getEpoch());
+    }
+
+    // TLE interval does not contain the TLE epoch
+    {
+        const Interval interval =
+            Interval::Closed(tle_.getEpoch() - Duration::Days(1.0), tle_.getEpoch() - Duration::Days(0.5));
+        const Array<Pair<TLE, Interval>> tleIntervalArray = {{tle_, interval}};
+
+        EXPECT_THROW(SGP4 sgp4(tleIntervalArray), ostk::core::error::RuntimeError);
     }
 }
 
@@ -237,8 +246,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyConstruct
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
     const State stateCopy = sgp4Copy.calculateStateAt(tle_.getEpoch());
 
-    EXPECT_GT(1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm());
-    EXPECT_GT(1e-9, (state.getVelocity().accessCoordinates() - stateCopy.getVelocity().accessCoordinates()).norm());
+    EXPECT_LT((state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm(), 1e-6);
+    EXPECT_LT((state.getVelocity().accessCoordinates() - stateCopy.getVelocity().accessCoordinates()).norm(), 1e-9);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmentOperator)
@@ -254,7 +263,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmen
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
     const State stateCopy = sgp4Copy.calculateStateAt(tle_.getEpoch());
 
-    EXPECT_GT(1e-6, (state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm());
+    EXPECT_LT((state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm(), 1e-6);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
@@ -267,7 +276,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
     const State stateClone = sgp4ClonePtr->calculateStateAt(tle_.getEpoch());
 
-    EXPECT_GT(1e-6, (state.getPosition().accessCoordinates() - stateClone.getPosition().accessCoordinates()).norm());
+    EXPECT_LT((state.getPosition().accessCoordinates() - stateClone.getPosition().accessCoordinates()).norm(), 1e-6);
 
     delete sgp4ClonePtr;
 }
@@ -333,7 +342,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetTle)
         const Array<TLE> tleArray = {tle_, tle2};
         const SGP4 sgp4(tleArray);
 
-        EXPECT_THROW(sgp4_.getTle(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(sgp4.getTle(), ostk::core::error::RuntimeError);
     }
 }
 
@@ -352,7 +361,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetEpoch)
         const Array<TLE> tleArray = {tle_, tle2};
         const SGP4 sgp4(tleArray);
 
-        EXPECT_THROW(sgp4_.getEpoch(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(sgp4.getEpoch(), ostk::core::error::RuntimeError);
     }
 }
 
@@ -371,7 +380,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetRevolution
         const Array<TLE> tleArray = {tle_, tle2};
         const SGP4 sgp4(tleArray);
 
-        EXPECT_THROW(sgp4_.getRevolutionNumberAtEpoch(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(sgp4.getRevolutionNumberAtEpoch(), ostk::core::error::RuntimeError);
     }
 }
 
@@ -403,7 +412,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Print)
         const SGP4 sgp4(tleArray);
 
         std::ostringstream stream;
-        sgp4_.print(stream, true);
+        sgp4.print(stream, true);
 
         EXPECT_FALSE(stream.str().empty());
     }
@@ -422,9 +431,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
     // Constructor with TEME output frame
     {
         const SGP4 sgp4(tle_, Frame::TEME());
-        EXPECT_EQ(Frame::TEME(), sgp4_.getOutputFrame());
+        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
 
-        const State state = sgp4_.calculateStateAt(tle_.getEpoch());
+        const State state = sgp4.calculateStateAt(tle_.getEpoch());
         EXPECT_EQ(*Frame::TEME(), *state.accessFrame());
     }
 }
@@ -444,11 +453,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateMulti = sgp4Multi.calculateStateAt(tle1.getEpoch());
         const State stateSingle = sgp4Single.calculateStateAt(tle1.getEpoch());
 
-        EXPECT_GT(
-            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
         );
-        EXPECT_GT(
-            1e-9, (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm(), 1e-9
         );
     }
 
@@ -458,11 +467,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateMulti = sgp4Multi.calculateStateAt(tle2.getEpoch());
         const State stateSingle = sgp4Single.calculateStateAt(tle2.getEpoch());
 
-        EXPECT_GT(
-            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
         );
-        EXPECT_GT(
-            1e-9, (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm(), 1e-9
         );
     }
 
@@ -474,8 +483,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateMulti = sgp4Multi.calculateStateAt(instantNearTle1);
         const State stateSingle = sgp4Single.calculateStateAt(instantNearTle1);
 
-        EXPECT_GT(
-            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
         );
     }
 
@@ -487,8 +496,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateMulti = sgp4Multi.calculateStateAt(instantNearTle2);
         const State stateSingle = sgp4Single.calculateStateAt(instantNearTle2);
 
-        EXPECT_GT(
-            1e-6, (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
         );
     }
 }
@@ -509,17 +518,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         tle2.getEpoch(),
     };
 
-    const Array<State> states = sgp4_.calculateStatesAt(instants);
+    const Array<State> states = sgp4.calculateStatesAt(instants);
 
     EXPECT_EQ(4u, states.getSize());
 
     // Verify each state matches individual calculateStateAt
     for (Size i = 0; i < instants.getSize(); ++i)
     {
-        const State individualState = sgp4_.calculateStateAt(instants[i]);
-        EXPECT_GT(
-            1e-6,
-            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm()
+        const State individualState = sgp4.calculateStateAt(instants[i]);
+        EXPECT_LT(
+            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm(),
+            1e-6
         );
     }
 }
@@ -539,9 +548,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
     for (Size i = 0; i < instants.getSize(); ++i)
     {
         const State individualState = sgp4_.calculateStateAt(instants[i]);
-        EXPECT_GT(
-            1e-6,
-            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm()
+        EXPECT_LT(
+            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm(),
+            1e-6
         );
     }
 }
@@ -555,11 +564,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
         // Orbital model setup
 
-        const TLE tle = TLE::Load(
-            File::Path(
-                Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
-            )
-        );
+        const TLE tle = TLE::Load(File::Path(
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
+        ));
 
         const SGP4 sgp4Model = {tle};
 
@@ -570,11 +577,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
         // Reference data setup
 
         const Table referenceData = Table::Load(
-            File::Path(
-                Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite Orbit.csv"
-                )
-            ),
+            File::Path(Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite Orbit.csv"
+            )),
             Table::Format::CSV,
             true
         );
@@ -616,8 +621,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
 
-            EXPECT_GT(10.0, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm());
-            EXPECT_GT(1e-2, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm());
+            EXPECT_LT((position_GCRF.accessCoordinates() - referencePosition_GCRF).norm(), 10.0);
+            EXPECT_LT((velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm(), 1e-2);
 
             const Shared<const Frame> teme = Frame::TEME();
 
@@ -667,8 +672,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             EXPECT_EQ(*Frame::TEME(), *position_TEME.accessFrame());
             EXPECT_EQ(*Frame::TEME(), *velocity_TEME.accessFrame());
 
-            EXPECT_GT(10.0, (position_TEME.accessCoordinates() - referencePosition_TEME).norm());
-            EXPECT_GT(1e-2, (velocity_TEME.accessCoordinates() - referenceVelocity_TEME).norm());
+            EXPECT_LT((position_TEME.accessCoordinates() - referencePosition_TEME).norm(), 10.0);
+            EXPECT_LT((velocity_TEME.accessCoordinates() - referenceVelocity_TEME).norm(), 1e-2);
 
             const Shared<const Frame> itrfFrame = Frame::ITRF();
 
@@ -680,8 +685,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
 
-            EXPECT_GT(10.0, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm());
-            EXPECT_GT(1e-2, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
+            EXPECT_LT((position_ITRF.accessCoordinates() - referencePosition_ITRF).norm(), 10.0);
+            EXPECT_LT((velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm(), 1e-2);
 
             // EXPECT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant));
 
