@@ -190,7 +190,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 R"doc(
                     Calculate the state of the `SGP4` model at a given instant.
 
-                    When multiple TLEs are provided, uses the TLE whose epoch is closest to the instant.
+                    When multiple TLEs are provided, uses the TLE whose validity interval contains the instant.
+                    For array-only construction, intervals are generated from midpoints between consecutive TLE epochs.
 
                     Args:
                         instant (Instant): The instant.
@@ -208,8 +209,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 R"doc(
                     Calculate the states of the `SGP4` model at given instants.
 
-                    When multiple TLEs are provided, uses the TLE whose epoch is closest to each instant.
-
+                    When multiple TLEs are provided, uses the TLE whose validity interval contains the instant.
+                    For array-only construction, intervals are generated from midpoints between consecutive TLE epochs.
                     Args:
                         instants (list[Instant]): The instants.
 
