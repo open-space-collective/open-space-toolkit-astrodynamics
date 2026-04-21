@@ -1,6 +1,9 @@
 /// Apache License 2.0
 
+#include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <memory>
 
 #include <sgp4/SGP4.h>
 
@@ -8,6 +11,7 @@
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
@@ -22,7 +26,12 @@ namespace orbit
 namespace model
 {
 
+using ostk::core::container::Pair;
+
 using ostk::physics::coordinate::Transform;
+using ostk::physics::time::Interval;
+
+const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 
 class SGP4::Impl
 {
@@ -36,8 +45,8 @@ class SGP4::Impl
     State calculateStateAt(const Instant& anInstant) const;
 
    private:
-    const TLE& tle_;
-    const Shared<const Frame>& outputFrameSPtr_;
+    TLE tle_;
+    Shared<const Frame> outputFrameSPtr_;
     libsgp4::SGP4 sgp4_;
 
     Shared<const Frame> temeFrameOfEpochSPtr_;
@@ -77,25 +86,100 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 
 SGP4::SGP4(const TLE& aTle)
     : Model(),
-      tle_(aTle),
+      tleArray_({aTle}),
+      validityIntervals_(),
       outputFrameSPtr_(Frame::GCRF()),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+      implArray_()
 {
+    implArray_.add(std::make_shared<SGP4::Impl>(aTle, outputFrameSPtr_));
 }
 
 SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
-      tle_(aTle),
+      tleArray_({aTle}),
+      validityIntervals_(),
       outputFrameSPtr_(anOutputFrameSPtr),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+      implArray_()
 {
+    implArray_.add(std::make_shared<SGP4::Impl>(aTle, outputFrameSPtr_));
+}
+
+SGP4::SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr)
+    : Model(),
+      tleArray_(aTleArray),
+      validityIntervals_(),
+      outputFrameSPtr_(anOutputFrameSPtr),
+      implArray_()
+{
+    if (tleArray_.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("TLE array is empty.");
+    }
+
+    std::sort(
+        tleArray_.begin(),
+        tleArray_.end(),
+        [](const TLE& a, const TLE& b)
+        {
+            return a.getEpoch() < b.getEpoch();
+        }
+    );
+
+    validityIntervals_ = SGP4::GenerateIntervalsFromEpochs(tleArray_);
+
+    implArray_.reserve(tleArray_.getSize());
+    for (const auto& tle : tleArray_)
+    {
+        implArray_.add(std::make_shared<SGP4::Impl>(tle, outputFrameSPtr_));
+    }
+}
+
+SGP4::SGP4(const Array<Pair<TLE, Interval>>& aTleIntervalArray, const Shared<const Frame>& anOutputFrameSPtr)
+    : Model(),
+      tleArray_(),
+      validityIntervals_(),
+      outputFrameSPtr_(anOutputFrameSPtr),
+      implArray_()
+{
+    if (aTleIntervalArray.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("TLE-Interval array is empty.");
+    }
+
+    // Build parallel arrays and sort by TLE epoch
+    Array<Pair<TLE, Interval>> sortedTleIntervals = aTleIntervalArray;
+    std::sort(
+        sortedTleIntervals.begin(),
+        sortedTleIntervals.end(),
+        [](const Pair<TLE, Interval>& a, const Pair<TLE, Interval>& b)
+        {
+            return a.first.getEpoch() < b.first.getEpoch();
+        }
+    );
+
+    for (const auto& tleWithInterval : sortedTleIntervals)
+    {
+        if (!tleWithInterval.second.contains(tleWithInterval.first.getEpoch()))
+        {
+            throw ostk::core::error::RuntimeError("TLE interval does not contain the TLE epoch.");
+        }
+        tleArray_.add(tleWithInterval.first);
+        validityIntervals_.add(tleWithInterval.second);
+    }
+
+    implArray_.reserve(tleArray_.getSize());
+    for (const auto& tle : tleArray_)
+    {
+        implArray_.add(std::make_shared<SGP4::Impl>(tle, outputFrameSPtr_));
+    }
 }
 
 SGP4::SGP4(const SGP4& aSGP4Model)
     : Model(aSGP4Model),
-      tle_(aSGP4Model.tle_),
+      tleArray_(aSGP4Model.tleArray_),
+      validityIntervals_(aSGP4Model.validityIntervals_),
       outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
-      implUPtr_(std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_))
+      implArray_(aSGP4Model.implArray_)
 {
 }
 
@@ -107,10 +191,10 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
     {
         Model::operator=(aSGP4Model);
 
-        this->tle_ = aSGP4Model.tle_;
+        this->tleArray_ = aSGP4Model.tleArray_;
+        this->validityIntervals_ = aSGP4Model.validityIntervals_;
         this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
-
-        this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_, outputFrameSPtr_);
+        this->implArray_ = aSGP4Model.implArray_;
     }
 
     return *this;
@@ -128,7 +212,8 @@ bool SGP4::operator==(const SGP4& aSGP4Model) const
         return false;
     }
 
-    return (this->tle_ == aSGP4Model.tle_) && (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
+    return (this->tleArray_ == aSGP4Model.tleArray_) && (this->validityIntervals_ == aSGP4Model.validityIntervals_) &&
+           (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
 }
 
 bool SGP4::operator!=(const SGP4& aSGP4Model) const
@@ -145,7 +230,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model)
 
 bool SGP4::isDefined() const
 {
-    return this->tle_.isDefined() && (this->implUPtr_ != nullptr);
+    return !this->tleArray_.isEmpty();
 }
 
 TLE SGP4::getTle() const
@@ -155,7 +240,32 @@ TLE SGP4::getTle() const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->tle_;
+    if (this->tleArray_.getSize() > 1)
+    {
+        throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Use getTles() instead.");
+    }
+
+    return this->tleArray_.accessFirst();
+}
+
+Array<TLE> SGP4::getTles() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    return this->tleArray_;
+}
+
+Array<Interval> SGP4::getValidityIntervals() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    return this->validityIntervals_;
 }
 
 Shared<const Frame> SGP4::getOutputFrame() const
@@ -175,7 +285,12 @@ Instant SGP4::getEpoch() const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->tle_.getEpoch();
+    if (this->tleArray_.getSize() > 1)
+    {
+        throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get epoch.");
+    }
+
+    return this->tleArray_.accessFirst().getEpoch();
 }
 
 Integer SGP4::getRevolutionNumberAtEpoch() const
@@ -185,7 +300,13 @@ Integer SGP4::getRevolutionNumberAtEpoch() const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->tle_.getRevolutionNumberAtEpoch();
+    if (this->tleArray_.getSize() > 1)
+    {
+        throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get revolution number at epoch."
+        );
+    }
+
+    return this->tleArray_.accessFirst().getRevolutionNumberAtEpoch();
 }
 
 State SGP4::calculateStateAt(const Instant& anInstant) const
@@ -200,21 +321,135 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("SGP4");
     }
 
-    return this->implUPtr_->calculateStateAt(anInstant);
+    if (tleArray_.getSize() > 1 && !validityIntervals_[this->tleIndex_].contains(anInstant))
+    {
+        this->tleIndex_ = this->findTleIndexForInstant(anInstant);
+    }
+
+    return this->implArray_[tleIndex_]->calculateStateAt(anInstant);
+}
+
+Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SGP4");
+    }
+
+    // TBI: Performance can be improved by pre-calculating intervals and TLEs in a single pass.
+
+    Array<State> stateArray = Array<State>::Empty();
+    stateArray.reserve(anInstantArray.getSize());
+
+    for (const auto& instant : anInstantArray)
+    {
+        stateArray.add(this->calculateStateAt(instant));
+    }
+
+    return stateArray;
 }
 
 void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Epoch:" << (this->getEpoch().isDefined() ? this->getEpoch().toString() : "Undefined");
+    if (this->isDefined() && tleArray_.getSize() == 1)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << this->getEpoch().toString();
+    }
+    else
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"
+                                                       << "Undefined";
+    }
+
+    if (!tleArray_.isEmpty())
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "TLE count:" << tleArray_.getSize();
+    }
 
     ostk::core::utils::Print::Separator(anOutputStream, "Two-Line Elements");
 
-    // tle_.print(anOutputStream, false);
+    for (const auto& tle : tleArray_)
+    {
+        tle.print(anOutputStream, false);
+    }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+Size SGP4::findTleIndexForInstant(const Instant& anInstant) const
+{
+    for (Size i = 0; i < validityIntervals_.getSize(); ++i)
+    {
+        if (validityIntervals_[i].contains(anInstant))
+        {
+            return i;
+        }
+    }
+
+    throw ostk::core::error::RuntimeError(
+        "No TLE validity interval contains the requested instant [{}].", anInstant.toString()
+    );
+}
+
+Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
+{
+    using ostk::physics::time::Duration;
+
+    Array<Interval> intervals = Array<Interval>::Empty();
+    intervals.reserve(aTleArray.getSize());
+
+    if (aTleArray.getSize() == 1)
+    {
+        // Single TLE: interval spans far past to far future
+        const Instant farPast = aTleArray[0].getEpoch() - epochBuffer_;
+        const Instant farFuture = aTleArray[0].getEpoch() + epochBuffer_;
+        intervals.add(Interval::Closed(farPast, farFuture));
+        return intervals;
+    }
+
+    for (Size i = 0; i < aTleArray.getSize(); ++i)
+    {
+        Instant start = Instant::Undefined();
+        Instant end = Instant::Undefined();
+
+        if (i == 0)
+        {
+            // First TLE: start at far past
+            start = aTleArray[0].getEpoch() - epochBuffer_;
+        }
+        else
+        {
+            // Midpoint between previous and current epoch
+            const Duration halfGap = Duration::Between(aTleArray[i - 1].getEpoch(), aTleArray[i].getEpoch()) / 2.0;
+            start = aTleArray[i - 1].getEpoch() + halfGap;
+        }
+
+        if (i == aTleArray.getSize() - 1)
+        {
+            // Last TLE: end at far future
+            end = aTleArray[i].getEpoch() + epochBuffer_;
+        }
+        else
+        {
+            // Midpoint between current and next epoch
+            const Duration halfGap = Duration::Between(aTleArray[i].getEpoch(), aTleArray[i + 1].getEpoch()) / 2.0;
+            end = aTleArray[i].getEpoch() + halfGap;
+        }
+
+        // Use HalfOpenRight [start, end) for all except the last, which is Closed [start, end]
+        if (i < aTleArray.getSize() - 1)
+        {
+            intervals.add(Interval::HalfOpenRight(start, end));
+        }
+        else
+        {
+            intervals.add(Interval::Closed(start, end));
+        }
+    }
+
+    return intervals;
 }
 
 bool SGP4::operator==(const trajectory::Model& aModel) const

@@ -1,5 +1,10 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
+
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
@@ -8,12 +13,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 {
     using namespace pybind11;
 
+    using ostk::core::container::Array;
+    using ostk::core::container::Pair;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
+    using ostk::physics::time::Instant;
+    using ostk::physics::time::Interval;
 
     using ostk::astrodynamics::trajectory::orbit::model::SGP4;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::State;
 
     {
         class_<SGP4, ostk::astrodynamics::trajectory::orbit::Model>(
@@ -42,8 +52,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             .def(
                 init<TLE, Shared<const Frame>>(),
                 R"doc(
-                    Constructor with output frame. If TEME, the runtime is faster as no frame
-                    transformations are needed. In other frames, the runtime will be slower as frame transformations are needed.
+                    If TEME, the runtime is faster as no frame transformations are needed.
 
                     Args:
                         tle (TLE): The TLE.
@@ -52,6 +61,39 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 )doc",
                 arg("tle"),
                 arg("output_frame")
+            )
+
+            .def(
+                init<Array<TLE>, Shared<const Frame>>(),
+                R"doc(
+                    Construct an SGP4 model from an array of TLEs and an output frame.
+                    When multiple TLEs are provided, validity intervals are automatically generated
+                    using the midpoints between consecutive TLE epochs as boundaries. The first TLE's interval
+                    extends to the far past and the last TLE's interval extends to the far future.
+                    If TEME, the runtime is faster as no frame transformations are needed
+
+                    Args:
+                        tles (list[TLE]): The list of TLEs.
+                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
+                )doc",
+                arg("tles"),
+                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+            )
+
+            .def(
+                init<Array<Pair<TLE, Interval>>, Shared<const Frame>>(),
+                R"doc(
+                    Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
+                    Each pair specifies a TLE and the time interval over which it is valid.
+                    When calculating states, the first TLE whose interval contains the requested instant is used.
+                    If TEME, the runtime is faster as no frame transformations are needed
+
+                    Args:
+                        tles_with_intervals (list[tuple[TLE, Interval]]): The array of TLE-Interval pairs.
+                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
+                )doc",
+                arg("tles_with_intervals"),
+                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
             )
 
             .def(
@@ -71,9 +113,36 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 &SGP4::getTle,
                 R"doc(
                     Get the TLE of the `SGP4` model.
+                    
 
                     Returns:
                         TLE: The TLE.
+
+                    Raises:
+                        RuntimeError: If the model contains multiple TLEs. Use `get_tles()` instead.
+                )doc"
+            )
+
+            .def(
+                "get_tles",
+                &SGP4::getTles,
+                R"doc(
+                    Get the list of TLEs of the `SGP4` model.
+
+                    Returns:
+                        list[TLE]: The list of TLEs.
+
+                )doc"
+            )
+
+            .def(
+                "get_validity_intervals",
+                &SGP4::getValidityIntervals,
+                R"doc(
+                    Get the validity intervals of the `SGP4` model.
+
+                    Returns:
+                        list[Interval]: The validity intervals.
 
                 )doc"
             )
@@ -121,11 +190,32 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 R"doc(
                     Calculate the state of the `SGP4` model at a given instant.
 
+                    When multiple TLEs are provided, uses the TLE whose validity interval contains the instant.
+                    For array-only construction, intervals are generated from midpoints between consecutive TLE epochs.
+
                     Args:
                         instant (Instant): The instant.
 
                     Returns:
                         State: The state.
+
+                )doc"
+            )
+
+            .def(
+                "calculate_states_at",
+                &SGP4::calculateStatesAt,
+                arg("instants"),
+                R"doc(
+                    Calculate the states of the `SGP4` model at given instants.
+
+                    When multiple TLEs are provided, uses the TLE whose validity interval contains the instant.
+                    For array-only construction, intervals are generated from midpoints between consecutive TLE epochs.
+                    Args:
+                        instants (list[Instant]): The instants.
+
+                    Returns:
+                        list[State]: The states.
 
                 )doc"
             )
