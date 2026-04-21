@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775689366651,
+  "lastUpdate": 1776737565458,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 7983346826.599996,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 7982334782.100009 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6ede93cd7bc250c50b2568482bba5600938b059c",
+          "message": "feat: expand SGP4 to support propagating across multiple TLEs (#663)\n\n* feat: add multiple TLE support to SGP4\n\n* feat: add more tests\n\n* feat: add interval based constructor\n\n* feat: cleanup\n\n* feat: address feedback\n\n* fix: update bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4.cpp\n\nCo-authored-by: coderabbitai[bot] <136622811+coderabbitai[bot]@users.noreply.github.com>\n\n---------\n\nCo-authored-by: coderabbitai[bot] <136622811+coderabbitai[bot]@users.noreply.github.com>",
+          "timestamp": "2026-04-21T01:35:28Z",
+          "tree_id": "52af0ff86b6efb1d8ab3af5f466744fb5542c15b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/6ede93cd7bc250c50b2568482bba5600938b059c"
+        },
+        "date": 1776737563211,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4576312287.100012,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4553205388.1 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4048297020.7999983,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4047891647.9000025 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7195453075.299986,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7194821794.099996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7245449790.599986,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7244742705.199997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7246338362.800009,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7245578250 ns\nthreads: 1"
           }
         ]
       }
