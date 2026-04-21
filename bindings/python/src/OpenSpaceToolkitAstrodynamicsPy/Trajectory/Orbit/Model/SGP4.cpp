@@ -74,10 +74,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                     Args:
                         tles (list[TLE]): The list of TLEs.
-                        output_frame (Frame): The output frame for state calculations. Defaults to GCRF.
+                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
                 )doc",
                 arg("tles"),
-                arg_v("output_frame", Frame::GCRF(), "Frame.GCRF()")
+                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
             )
 
             .def(
@@ -90,10 +90,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                     Args:
                         tles_with_intervals (list[tuple[TLE, Interval]]): The array of TLE-Interval pairs.
-                        output_frame (Frame): The output frame for state calculations. Defaults to GCRF.
+                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
                 )doc",
                 arg("tles_with_intervals"),
-                arg_v("output_frame", Frame::GCRF(), "Frame.GCRF()")
+                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
             )
 
             .def(
