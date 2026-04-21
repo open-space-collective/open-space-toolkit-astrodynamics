@@ -346,5 +346,107 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("discretization_step_count") = 50
         )
 
+        .def(
+            "compute_orbital_elements_maximal_change",
+            &QLaw::computeOrbitalElementsMaximalChange,
+            R"doc(
+                Compute the maximal change in orbital elements.
+
+                Args:
+                    coe_vector (np.array): A 5-dimensional vector of classical orbital elements (excluding true anomaly).
+                    thrust_acceleration (float): The thrust acceleration.
+
+                Returns:
+                    np.array: The maximal change in orbital elements.
+            )doc",
+            arg("coe_vector"),
+            arg("thrust_acceleration")
+        )
+
+        .def(
+            "compute_q",
+            &QLaw::computeQ,
+            R"doc(
+                Compute the Proximity Quotient value.
+
+                Args:
+                    coe_vector (np.array): A 5-dimensional vector of classical orbital elements (excluding true anomaly).
+                    thrust_acceleration (float): The thrust acceleration.
+
+                Returns:
+                    float: The Q value.
+            )doc",
+            arg("coe_vector"),
+            arg("thrust_acceleration")
+        )
+
+        .def(
+            "compute_d_q_d_oe",
+            &QLaw::compute_dQ_dOE,
+            R"doc(
+                Compute the derivative of Q with respect to the orbital elements.
+
+                Args:
+                    coe_vector (np.array): A 5-dimensional vector of classical orbital elements (excluding true anomaly).
+                    thrust_acceleration (float): The thrust acceleration.
+
+                Returns:
+                    np.array: The derivative of Q with respect to the orbital elements.
+            )doc",
+            arg("coe_vector"),
+            arg("thrust_acceleration")
+        )
+
+        .def(
+            "compute_thrust_direction",
+            &QLaw::computeThrustDirection,
+            R"doc(
+                Compute the thrust direction.
+
+                Args:
+                    coe_vector (np.array): A 6-dimensional vector of classical orbital elements.
+                    thrust_acceleration (float): The thrust acceleration.
+
+                Returns:
+                    np.array: The thrust direction.
+            )doc",
+            arg("coe_vector"),
+            arg("thrust_acceleration")
+        )
+
+        .def_static(
+            "compute_d_oe_d_f",
+            &QLaw::Compute_dOE_dF,
+            R"doc(
+                Compute the derivative of the orbital elements with respect to the thrust vectors.
+
+                Args:
+                    coe_vector (np.array): A 6-dimensional vector of classical orbital elements.
+                    gravitational_parameter (Derived): The gravitational parameter.
+
+                Returns:
+                    np.array: The derivative of the orbital elements with respect to the thrust vectors.
+            )doc",
+            arg("coe_vector"),
+            arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "theta_rh_to_gcrf",
+            &QLaw::ThetaRHToGCRF,
+            R"doc(
+                Get the rotation matrix to convert from the theta-R-H frame to the GCRF frame.
+
+                Args:
+                    position_coordinates (np.array): The position coordinates.
+                    velocity_coordinates (np.array): The velocity coordinates.
+
+                Returns:
+                    np.array: The rotation matrix from the theta-R-H frame to the GCRF frame.
+            )doc",
+            arg("position_coordinates"),
+            arg("velocity_coordinates")
+        )
+
         ;
 }

@@ -51,7 +51,7 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
-/// @brief    The Q-law is a Lyapunov feedback control law developed by Petropoulos,
+/// @brief The Q-law is a Lyapunov feedback control law developed by Petropoulos,
 ///    based on analytic expressions for maximum rates of change of the orbit elements and
 ///    the desired changes in the elements. Q, the proximity quotient, serves as a candidate Lyapunov
 ///    function. As the spacecraft approaches the target orbit, Q decreases monotonically (becoming zero at the target
@@ -257,7 +257,7 @@ class QLaw : public GuidanceLaw
     /// @return The derivative of the orbital elements with respect to the thrust vectors
     static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter);
 
-    /// @brief Convert from the theta-R-H frame to the GCRF frame
+    /// @brief Get the rotation matrix to convert from the theta-R-H frame to the GCRF frame
     ///
     /// @param aPositionCoordinates The position coordinates
     /// @param aVelocityCoordinates The velocity coordinates

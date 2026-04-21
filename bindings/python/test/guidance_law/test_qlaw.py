@@ -207,3 +207,79 @@ class TestQLaw:
             )
             is not None
         )
+
+    def test_compute_orbital_elements_maximal_change(
+        self,
+        q_law: QLaw,
+        thrust_acceleration: float,
+    ):
+        coe_vector = np.array([42000.0e3, 0.01, 0.001, 0.0, 0.0])
+        result = q_law.compute_orbital_elements_maximal_change(
+            coe_vector=coe_vector,
+            thrust_acceleration=thrust_acceleration,
+        )
+        assert result is not None
+        assert result.shape == (5,)
+
+    def test_compute_q(
+        self,
+        q_law: QLaw,
+        thrust_acceleration: float,
+    ):
+        coe_vector = np.array([42000.0e3, 0.01, 0.001, 0.0, 0.0])
+        result = q_law.compute_q(
+            coe_vector=coe_vector,
+            thrust_acceleration=thrust_acceleration,
+        )
+        assert result is not None
+        assert isinstance(result, float)
+
+    def test_compute_d_q_d_oe(
+        self,
+        q_law: QLaw,
+        thrust_acceleration: float,
+    ):
+        coe_vector = np.array([42000.0e3, 0.01, 0.001, 0.0, 0.0])
+        result = q_law.compute_d_q_d_oe(
+            coe_vector=coe_vector,
+            thrust_acceleration=thrust_acceleration,
+        )
+        assert result is not None
+        assert result.shape == (5,)
+
+    def test_compute_thrust_direction(
+        self,
+        q_law: QLaw,
+        thrust_acceleration: float,
+    ):
+        coe_vector = np.array([42000.0e3, 0.01, 0.001, 0.0, 0.0, 0.0])
+        result = q_law.compute_thrust_direction(
+            coe_vector=coe_vector,
+            thrust_acceleration=thrust_acceleration,
+        )
+        assert result is not None
+        assert result.shape == (3,)
+
+    def test_compute_d_oe_d_f(
+        self,
+        gravitational_parameter: Derived,
+    ):
+        coe_vector = np.array([42000.0e3, 0.01, 0.001, 0.0, 0.0, 0.0])
+        result = QLaw.compute_d_oe_d_f(
+            coe_vector=coe_vector,
+            gravitational_parameter=gravitational_parameter,
+        )
+        assert result is not None
+        assert result.shape == (5, 3)
+
+    def test_theta_rh_to_gcrf(
+        self,
+        position_coordinates: list[float],
+        velocity_coordinates: list[float],
+    ):
+        result = QLaw.theta_rh_to_gcrf(
+            position_coordinates=np.array(position_coordinates),
+            velocity_coordinates=np.array(velocity_coordinates),
+        )
+        assert result is not None
+        assert result.shape == (3, 3)
