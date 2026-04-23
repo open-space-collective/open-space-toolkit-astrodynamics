@@ -1,14 +1,10 @@
 # Apache License 2.0
 
-import pytest
-
 import numpy as np
-
-import ostk.mathematics as mathematics
-
-import ostk.physics as physics
-
 import ostk.astrodynamics as astrodynamics
+import ostk.mathematics as mathematics
+import ostk.physics as physics
+import pytest
 
 RealInterval = mathematics.object.RealInterval
 Quaternion = mathematics.geometry.d3.transformation.rotation.Quaternion
