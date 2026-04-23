@@ -30,6 +30,7 @@ dist/
 *.whl
 .mypy_cache/
 .pytest_cache/
+venv/
 .venv/
 bindings/python/.venv/
 
@@ -47,6 +48,13 @@ Thumbs.db
 # Docker (don't include docker context recursively)
 docker/**/Dockerfile
 !docker/
+
+# CI / tooling
+.github/
+.devcontainer/
+
+# Tutorials
+tutorials/
 
 # Misc
 *.log
