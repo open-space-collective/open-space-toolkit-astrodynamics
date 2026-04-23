@@ -6,6 +6,7 @@ using namespace pybind11;
 
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -19,6 +20,7 @@ using ostk::physics::unit::Derived;
 using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::State;
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 {
@@ -328,7 +330,9 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
         .def(
             "compute_effectivity",
-            &QLaw::computeEffectivity,
+            static_cast<Tuple<double, double> (QLaw::*)(const State&, const Real&, const Size&) const>(
+                &QLaw::computeEffectivity
+            ),
             R"doc(
                 Compute the relative and absolute effectivity of the guidance law.
 
@@ -342,6 +346,36 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
             )doc",
             arg("state"),
+            arg("thrust_acceleration"),
+            arg("discretization_step_count") = 50
+        )
+
+        .def(
+            "compute_effectivity",
+            static_cast<
+                Tuple<double, double> (QLaw::*)(const State&, const Vector3d&, const Real&, const Size&) const>(
+                &QLaw::computeEffectivity
+            ),
+            R"doc(
+                Compute the relative and absolute effectivity for a thrust direction held fixed in
+                the theta-R-H (along-track, radial, normal) frame.
+
+                dQ/dt is evaluated as D * thrust_direction_theta_r_h at the current true anomaly and
+                at each sampled true anomaly, making this a direction-aware counterpart to the
+                direction-agnostic overload.
+
+                Args:
+                    state (State): The state from which to extract orbital elements.
+                    thrust_direction_theta_r_h (np.array): Thrust direction in theta-R-H [theta, R, H]. Normalized internally.
+                    thrust_acceleration (float): The thrust acceleration.
+                    discretization_step_count (int): The number of discretization steps for the true anomaly. Default to 50.
+
+                Returns:
+                    tuple[float, float]: A tuple containing the relative and absolute effectivity.
+
+            )doc",
+            arg("state"),
+            arg("thrust_direction_theta_r_h"),
             arg("thrust_acceleration"),
             arg("discretization_step_count") = 50
         )
