@@ -767,3 +767,66 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effecti
         EXPECT_TRUE(std::isfinite(etaAbsolute));
     }
 }
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectivity, ComputeEffectivityDirectionAware)
+{
+    const QLaw::COEDomain coeDomain = std::get<1>(GetParam());
+    const QLaw::GradientStrategy gradientStrategy = std::get<0>(GetParam());
+
+    const QLaw qlaw = {
+        targetCOE_,
+        gravitationalParameter_,
+        parameters_,
+        coeDomain,
+        gradientStrategy,
+    };
+
+    // Zero-norm direction throws.
+    EXPECT_THROW(
+        qlaw.computeEffectivity(initialState_, Vector3d::Zero(), thrustAcceleration_),
+        ostk::core::error::RuntimeError
+    );
+
+    const Vector3d tangential = {1.0, 0.0, 0.0};
+
+    // Basic sanity: finite results for a tangential direction in theta-R-H.
+    {
+        const Tuple<double, double> effectivity =
+            qlaw.computeEffectivity(initialState_, tangential, thrustAcceleration_);
+
+        EXPECT_TRUE(std::isfinite(std::get<0>(effectivity)));
+        EXPECT_TRUE(std::isfinite(std::get<1>(effectivity)));
+    }
+
+    // η_relative(T) + η_relative(-T) == 1 exactly, because flipping the direction negates
+    // both numerator (dQdt_current) and denominator-components (dQdt_best, dQdt_worst swap sign
+    // and role). This is a direction-aware invariant independent of COE domain.
+    {
+        const Tuple<double, double> effectivityPos =
+            qlaw.computeEffectivity(initialState_, tangential, thrustAcceleration_);
+        const Tuple<double, double> effectivityNeg =
+            qlaw.computeEffectivity(initialState_, -tangential, thrustAcceleration_);
+
+        EXPECT_NEAR(std::get<0>(effectivityPos) + std::get<0>(effectivityNeg), 1.0, 1e-10);
+    }
+
+    // Non-unit input is normalized internally; result must match the unit-direction case.
+    {
+        const Tuple<double, double> effectivityUnit =
+            qlaw.computeEffectivity(initialState_, tangential, thrustAcceleration_);
+        const Tuple<double, double> effectivityScaled =
+            qlaw.computeEffectivity(initialState_, tangential * 42.0, thrustAcceleration_);
+
+        EXPECT_NEAR(std::get<0>(effectivityUnit), std::get<0>(effectivityScaled), 1e-12);
+        EXPECT_NEAR(std::get<1>(effectivityUnit), std::get<1>(effectivityScaled), 1e-12);
+    }
+
+    // Custom discretization count still produces finite results.
+    {
+        const Tuple<double, double> effectivity =
+            qlaw.computeEffectivity(initialState_, tangential, thrustAcceleration_, 20);
+
+        EXPECT_TRUE(std::isfinite(std::get<0>(effectivity)));
+        EXPECT_TRUE(std::isfinite(std::get<1>(effectivity)));
+    }
+}
