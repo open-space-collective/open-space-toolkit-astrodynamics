@@ -182,27 +182,18 @@ build-release-image-jupyter: pull-release-image-jupyter ## Build release image j
 
 build-documentation: build-development-image ## Build documentation
 
-	@ $(MAKE) build-documentation-standalone
+	@ echo "Building documentation..."
+
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--env="CESIUM_TOKEN=${CESIUM_TOKEN}" \
+		--volume="/app/build" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "$(MAKE) _build-documentation"
 
 .PHONY: build-documentation
-
-# build-documentation-standalone: ## Build documentation (standalone)
-#
-# 	@ echo "Building documentation..."
-#
-# 	docker run \
-# 		--rm \
-# 		--volume="$(CURDIR):/app:delegated" \
-# 		--env="CESIUM_TOKEN=${CESIUM_TOKEN}" \
-# 		--volume="/app/build" \
-# 		--workdir=/app/build \
-# 		$(docker_development_image_repository):$(docker_image_version) \
-# 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_SHARED_LIBRARY=ON -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .. \
-# 		&& ostk-build \
-# 		&& ostk-install-python \
-# 		&& ostk-build-docs --notebooks Astrodynamics"
-#
-# .PHONY: build-documentation-standalone
 
 _build-documentation: ## Build documentation (runs inside container)
 
@@ -231,27 +222,18 @@ build-packages: ## Build packages
 
 build-packages-cpp: build-development-image ## Build C++ packages
 
-	@ $(MAKE) build-packages-cpp-standalone
+	@ echo "Building C++ packages..."
+
+	docker run \
+		--platform $(TARGETPLATFORM) \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/build" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "$(MAKE) _build-package-cpp"
 
 .PHONY: build-packages-cpp
-
-# build-packages-cpp-standalone: ## Build C++ packages (standalone)
-#
-# 	@ echo "Building C++ packages..."
-#
-# 	docker run \
-# 		--platform $(TARGETPLATFORM) \
-# 		--rm \
-# 		--volume="$(CURDIR):/app:delegated" \
-# 		--volume="/app/build" \
-# 		--workdir=/app/build \
-# 		$(docker_development_image_repository):$(docker_image_version) \
-# 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DCPACK_GENERATOR=DEB -DBUILD_WITH_DEBUG_SYMBOLS=OFF .. \
-# 		&& $(MAKE) package \
-# 		&& mkdir -p /app/packages/cpp \
-# 		&& mv /app/build/*.deb /app/packages/cpp"
-#
-# .PHONY: build-packages-cpp-standalone
 
 _build-package-cpp: ## Build C++ package (runs inside container)
 
@@ -274,27 +256,18 @@ _build-package-cpp: ## Build C++ package (runs inside container)
 
 build-packages-python: build-development-image ## Build Python packages
 
-	@ $(MAKE) build-packages-python-standalone
+	@ echo "Building Python packages..."
+
+	docker run \
+		--platform $(TARGETPLATFORM) \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/build" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "$(MAKE) _build-package-python"
 
 .PHONY: build-packages-python
-
-# build-packages-python-standalone: ## Build Python packages (standalone)
-#
-# 	@ echo "Building Python packages..."
-#
-# 	docker run \
-# 		--platform $(TARGETPLATFORM) \
-# 		--rm \
-# 		--volume="$(CURDIR):/app:delegated" \
-# 		--volume="/app/build" \
-# 		--workdir=/app/build \
-# 		$(docker_development_image_repository):$(docker_image_version) \
-# 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_WITH_DEBUG_SYMBOLS=OFF .. \
-# 		&& $(MAKE) -j 4 \
-# 		&& mkdir -p /app/packages/python \
-# 		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
-#
-# .PHONY: build-packages-python-standalone
 
 _build-package-python: ## Build Python package (runs inside container)
 
@@ -314,7 +287,7 @@ _build-package-python: ## Build Python package (runs inside container)
 
 .PHONY: _build-package-python
 
-_build-test-cpp: ## Build C++ unit tests with coverage
+_build-test-cpp: ## Build C++ unit tests with coverage (runs inside container)
 
 	cd /app/build \
 	&& cmake \
@@ -330,7 +303,7 @@ _build-test-cpp: ## Build C++ unit tests with coverage
 
 .PHONY: _build-test-cpp
 
-_build-test-python: ## Build Python bindings for testing
+_build-test-python: ## Build Python bindings for testing (runs inside container)
 
 	cd /app/build \
 	&& cmake \
@@ -624,37 +597,21 @@ test-coverage-cpp: build-development-image ## Run C++ tests with coverage
 
 .PHONY: test-coverage-cpp
 
-# benchmark: ## Run benchmarks
+benchmark: build-development-image ## Run C++ benchmarks
 
-# 	@ echo "Running benchmarks..."
+	@ echo "Running C++ benchmarks..."
 
-# 	@ $(MAKE) benchmark-cpp
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/build" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "$(MAKE) _build-benchmark-cpp"
 
-# .PHONY: benchmark
+.PHONY: benchmark
 
-# benchmark-cpp: build-development-image ## Run C++ benchmarks
-
-# 	@ $(MAKE) benchmark-cpp-standalone
-
-# .PHONY: benchmark-cpp
-
-# benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
-
-# 	@ echo "Running C++ benchmark..."
-
-# 	docker run \
-# 		--rm \
-# 		--volume="$(CURDIR):/app:delegated" \
-# 		--volume="/app/build" \
-# 		--workdir=/app/build \
-# 		$(docker_development_image_repository):$(docker_image_version) \
-# 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
-# 		&& $(MAKE) -j 4 \
-# 		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=./../bin/benchmark_result.json"
-
-# .PHONY: benchmark-cpp-standalone
-
-_build-benchmark-cpp: 
+_build-benchmark-cpp: ## Build C++ benchmarks (runs inside container)
 
 	cd /app/build \
 	&& cmake \
@@ -667,7 +624,21 @@ _build-benchmark-cpp:
 
 .PHONY: _build-benchmark-cpp
 
-_build-validation-cpp: 
+validation: build-development-image ## Run C++ validation tests
+
+	@ echo "Running C++ validation tests..."
+
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/build" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "$(MAKE) _build-validation-cpp"
+
+.PHONY: validation
+
+_build-validation-cpp: ## Build C++ validation tests (runs inside container)
 
 	cd /app/build \
 	&& cmake \
@@ -679,36 +650,6 @@ _build-validation-cpp:
 	&& $(MAKE) -j $(shell nproc --ignore=2)
 
 .PHONY: _build-validation-cpp
-
-# validation: ## Run validation tests
-
-# 	@ echo "Running validation tests..."
-
-# 	@ $(MAKE) validation-cpp
-
-# .PHONY: validation
-
-# validation-cpp: build-development-image ## Run C++ validation tests
-
-# 	@ $(MAKE) validation-cpp-standalone
-
-# .PHONY: validation-cpp
-
-# validation-cpp-standalone: ## Run C++ validation tests (standalone)
-
-# 	@ echo "Running C++ validation..."
-
-# 	docker run \
-# 		--rm \
-# 		--volume="$(CURDIR):/app:delegated" \
-# 		--volume="/app/build" \
-# 		--workdir=/app/build \
-# 		$(docker_development_image_repository):$(docker_image_version) \
-# 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=ON .. \
-# 		&& $(MAKE) -j 4 \
-# 		&& ./../bin/open-space-toolkit-$(project_name).validation"
-
-# .PHONY: validation-cpp-standalone
 
 clean: ## Clean
 
