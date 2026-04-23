@@ -405,6 +405,34 @@ Tuple<double, double> QLaw::computeEffectivity(
     return computeEffectivity_(coeVector, thrustVector, aThrustAcceleration, trueAnomalyAnglesVector);
 }
 
+Tuple<double, double> QLaw::computeEffectivity(
+    const State& aState,
+    const Vector3d& aThrustDirectionThetaRH,
+    const Real& aThrustAcceleration,
+    const Size& discretizationStepCount
+) const
+{
+    const double norm = aThrustDirectionThetaRH.norm();
+    if (norm < 1e-12)
+    {
+        throw ostk::core::error::runtime::Undefined("Thrust direction");
+    }
+
+    const State stateGCRF = aState.inFrame(Frame::GCRF());
+    const Position position = stateGCRF.getPosition();
+    const Velocity velocity = stateGCRF.getVelocity();
+
+    const COE::CartesianState cartesianState = {position, velocity};
+
+    const Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
+
+    const VectorXd trueAnomalyAnglesVector = VectorXd::LinSpaced(discretizationStepCount, 0.0, 2.0 * M_PI);
+
+    return computeDirectionAwareEffectivity_(
+        coeVector, aThrustDirectionThetaRH / norm, aThrustAcceleration, trueAnomalyAnglesVector
+    );
+}
+
 Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter)
 {
     const double& semiMajorAxis = aCOEVector[0];
@@ -803,6 +831,50 @@ Tuple<double, double> QLaw::computeEffectivity_(
     const double etaAbsolute = (dQn_dt / dQnn_dt);
     // η = (Q̇n - Q̇nx) / (Q̇nn - Q̇nx) -> (current Q̇ - maximum Q̇) / (minimum Q̇ - maximum Q̇)
     const double etaRelative = (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt);
+
+    return {etaRelative, etaAbsolute};
+}
+
+Tuple<double, double> QLaw::computeDirectionAwareEffectivity_(
+    const Vector6d& aCOEVector,
+    const Vector3d& aThrustDirectionThetaRH,
+    const double& aThrustAcceleration,
+    const VectorXd& trueAnomalyAngles
+) const
+{
+    // dQ/dt achievable by the constant theta-R-H direction at the current true anomaly and at each
+    // sampled true anomaly. Since the direction is fixed in theta-R-H, no per-sample rotation is
+    // needed: the same components dot every sampled D_j.
+    Vector6d coeVector = aCOEVector;
+    VectorXd dQdt(trueAnomalyAngles.size());
+
+    for (Index j = 0; j < (Index)trueAnomalyAngles.size(); ++j)
+    {
+        coeVector[5] = trueAnomalyAngles(j);
+        const Vector3d D_j = computeThrustVector(coeVector, aThrustAcceleration);
+        dQdt[j] = D_j.dot(aThrustDirectionThetaRH);
+    }
+
+    const Vector3d D_current = computeThrustVector(aCOEVector, aThrustAcceleration);
+    const double dQdt_current = D_current.dot(aThrustDirectionThetaRH);
+
+    const double dQdt_best = dQdt.minCoeff();   // most negative — best Q reduction for this direction
+    const double dQdt_worst = dQdt.maxCoeff();  // least negative / positive — worst
+
+    const double epsilon = 1e-30;
+
+    // Degenerate: flat response across the orbit.
+    if (std::abs(dQdt_best - dQdt_worst) < epsilon)
+    {
+        return {1.0, 1.0};
+    }
+
+    // Pathological: direction never reduces Q at any sampled anomaly. eta_abs is not meaningful
+    // (normalizer is non-negative, making the ratio unbounded). Report 0 so the absolute gate
+    // rejects. eta_rel remains well-defined and keeps its normal meaning.
+    const double etaAbsolute = (dQdt_best >= 0.0) ? 0.0 : (dQdt_current / dQdt_best);
+
+    const double etaRelative = (dQdt_current - dQdt_worst) / (dQdt_best - dQdt_worst);
 
     return {etaRelative, etaAbsolute};
 }

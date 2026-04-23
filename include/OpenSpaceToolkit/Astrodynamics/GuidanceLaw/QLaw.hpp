@@ -278,6 +278,27 @@ class QLaw : public GuidanceLaw
         const State& aState, const Real& aThrustAcceleration, const Size& discretizationStepCount = 50
     ) const;
 
+    /// @brief Compute the relative and absolute effectivity for a thrust direction held
+    ///    fixed in the theta-R-H (along-track, radial, normal) frame.
+    ///
+    /// dQ/dt is evaluated as D · aThrustDirectionThetaRH (where D is the dQ/dF coefficients in
+    /// theta-R-H) at the current true anomaly and at each sampled true anomaly. Effectivity is
+    /// normalized by the min/max of the sample range, making it a direction-aware counterpart to
+    /// the direction-agnostic overload above.
+    ///
+    /// @param aState The state from which to extract orbital elements
+    /// @param aThrustDirectionThetaRH Thrust direction in theta-R-H [θ, R, H]. Normalized internally.
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param discretizationStepCount The number of discretization steps for the true anomaly
+    ///
+    /// @return A tuple containing the relative and absolute effectivity
+    Tuple<double, double> computeEffectivity(
+        const State& aState,
+        const Vector3d& aThrustDirectionThetaRH,
+        const Real& aThrustAcceleration,
+        const Size& discretizationStepCount = 50
+    ) const;
+
    private:
     const Parameters parameters_;
     const double mu_;
@@ -341,6 +362,21 @@ class QLaw : public GuidanceLaw
     Tuple<double, double> computeEffectivity_(
         const Vector6d& aCOEVector,
         const Vector3d& currentThrustVector,
+        const double& aThrustAcceleration,
+        const VectorXd& trueAnomalyAngles
+    ) const;
+
+    /// @brief Direction-aware effectivity helper.
+    ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements
+    /// @param aThrustDirectionThetaRH Unit thrust direction in theta-R-H
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param trueAnomalyAngles The true anomaly angles
+    ///
+    /// @return A tuple containing the relative and absolute effectivity
+    Tuple<double, double> computeDirectionAwareEffectivity_(
+        const Vector6d& aCOEVector,
+        const Vector3d& aThrustDirectionThetaRH,
         const double& aThrustAcceleration,
         const VectorXd& trueAnomalyAngles
     ) const;
