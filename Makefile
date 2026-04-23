@@ -186,23 +186,39 @@ build-documentation: build-development-image ## Build documentation
 
 .PHONY: build-documentation
 
-build-documentation-standalone: ## Build documentation (standalone)
+# build-documentation-standalone: ## Build documentation (standalone)
+#
+# 	@ echo "Building documentation..."
+#
+# 	docker run \
+# 		--rm \
+# 		--volume="$(CURDIR):/app:delegated" \
+# 		--env="CESIUM_TOKEN=${CESIUM_TOKEN}" \
+# 		--volume="/app/build" \
+# 		--workdir=/app/build \
+# 		$(docker_development_image_repository):$(docker_image_version) \
+# 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_SHARED_LIBRARY=ON -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .. \
+# 		&& ostk-build \
+# 		&& ostk-install-python \
+# 		&& ostk-build-docs --notebooks Astrodynamics"
+#
+# .PHONY: build-documentation-standalone
 
-	@ echo "Building documentation..."
+_build-documentation: ## Build documentation (runs inside container)
 
-	docker run \
-		--rm \
-		--volume="$(CURDIR):/app:delegated" \
-		--env="CESIUM_TOKEN=${CESIUM_TOKEN}" \
-		--volume="/app/build" \
-		--workdir=/app/build \
-		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_SHARED_LIBRARY=ON -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_DOCUMENTATION=ON .. \
-		&& ostk-build \
-		&& ostk-install-python \
-		&& ostk-build-docs --notebooks Astrodynamics"
+	cd /app/build \
+	&& cmake \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		-DBUILD_PYTHON_BINDINGS=ON \
+		-DBUILD_DOCUMENTATION=ON \
+		.. \
+	&& ostk-build \
+	&& ostk-install-python \
+	&& ostk-build-docs --notebooks Astrodynamics
 
-.PHONY: build-documentation-standalone
+.PHONY: _build-documentation
 
 build-packages: ## Build packages
 
@@ -219,23 +235,42 @@ build-packages-cpp: build-development-image ## Build C++ packages
 
 .PHONY: build-packages-cpp
 
-build-packages-cpp-standalone: ## Build C++ packages (standalone)
+# build-packages-cpp-standalone: ## Build C++ packages (standalone)
+#
+# 	@ echo "Building C++ packages..."
+#
+# 	docker run \
+# 		--platform $(TARGETPLATFORM) \
+# 		--rm \
+# 		--volume="$(CURDIR):/app:delegated" \
+# 		--volume="/app/build" \
+# 		--workdir=/app/build \
+# 		$(docker_development_image_repository):$(docker_image_version) \
+# 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DCPACK_GENERATOR=DEB -DBUILD_WITH_DEBUG_SYMBOLS=OFF .. \
+# 		&& $(MAKE) package \
+# 		&& mkdir -p /app/packages/cpp \
+# 		&& mv /app/build/*.deb /app/packages/cpp"
+#
+# .PHONY: build-packages-cpp-standalone
 
-	@ echo "Building C++ packages..."
+_build-package-cpp: ## Build C++ package (runs inside container)
 
-	docker run \
-		--platform $(TARGETPLATFORM) \
-		--rm \
-		--volume="$(CURDIR):/app:delegated" \
-		--volume="/app/build" \
-		--workdir=/app/build \
-		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DCPACK_GENERATOR=DEB -DBUILD_WITH_DEBUG_SYMBOLS=OFF .. \
-		&& $(MAKE) package \
-		&& mkdir -p /app/packages/cpp \
-		&& mv /app/build/*.deb /app/packages/cpp"
+	cd /app/build \
+	&& cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCPACK_GENERATOR=DEB \
+		-DBUILD_WITH_DEBUG_SYMBOLS=OFF \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		-DBUILD_PYTHON_BINDINGS=OFF \
+		-DBUILD_DOCUMENTATION=OFF \
+		.. \
+	&& $(MAKE) package \
+	&& mkdir -p /app/packages/cpp \
+	&& mv /app/build/*.deb /app/packages/cpp
 
-.PHONY: build-packages-cpp-standalone
+.PHONY: _build-package-cpp
 
 build-packages-python: build-development-image ## Build Python packages
 
@@ -243,23 +278,41 @@ build-packages-python: build-development-image ## Build Python packages
 
 .PHONY: build-packages-python
 
-build-packages-python-standalone: ## Build Python packages (standalone)
+# build-packages-python-standalone: ## Build Python packages (standalone)
+#
+# 	@ echo "Building Python packages..."
+#
+# 	docker run \
+# 		--platform $(TARGETPLATFORM) \
+# 		--rm \
+# 		--volume="$(CURDIR):/app:delegated" \
+# 		--volume="/app/build" \
+# 		--workdir=/app/build \
+# 		$(docker_development_image_repository):$(docker_image_version) \
+# 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_WITH_DEBUG_SYMBOLS=OFF .. \
+# 		&& $(MAKE) -j 4 \
+# 		&& mkdir -p /app/packages/python \
+# 		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
+#
+# .PHONY: build-packages-python-standalone
 
-	@ echo "Building Python packages..."
+_build-package-python: ## Build Python package (runs inside container)
 
-	docker run \
-		--platform $(TARGETPLATFORM) \
-		--rm \
-		--volume="$(CURDIR):/app:delegated" \
-		--volume="/app/build" \
-		--workdir=/app/build \
-		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_VALIDATION_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_PYTHON_BINDINGS=ON -DBUILD_WITH_DEBUG_SYMBOLS=OFF .. \
-		&& $(MAKE) -j 4 \
-		&& mkdir -p /app/packages/python \
-		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
+	cd /app/build \
+	&& cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DBUILD_WITH_DEBUG_SYMBOLS=OFF \
+		-DBUILD_UNIT_TESTS=OFF \
+		-DBUILD_VALIDATION_TESTS=OFF \
+		-DBUILD_BENCHMARK=OFF \
+		-DBUILD_PYTHON_BINDINGS=ON \
+		-DBUILD_DOCUMENTATION=OFF \
+		.. \
+	&& $(MAKE) -j $(shell nproc --ignore=2) \
+	&& mkdir -p /app/packages/python \
+	&& mv /app/build/bindings/python/dist/*.whl /app/packages/python
 
-.PHONY: build-packages-python-standalone
+.PHONY: _build-package-python
 
 _build-test-cpp: ## Build C++ unit tests with coverage
 
@@ -291,27 +344,6 @@ _build-test-python: ## Build Python bindings for testing
     && $(MAKE) -j $(shell nproc --ignore=2)
 
 .PHONY: _build-test-python
-
-_build-release-packages:
-
-	cd /app/build \
-	&& cmake \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCPACK_GENERATOR=DEB \
-		-DBUILD_WITH_DEBUG_SYMBOLS=OFF \
-		-DBUILD_UNIT_TESTS=OFF \
-		-DBUILD_VALIDATION_TESTS=OFF \
-		-DBUILD_BENCHMARK=OFF \
-		-DBUILD_PYTHON_BINDINGS=ON \
-		-DBUILD_DOCUMENTATION=ON \
-		.. \
-	&& $(MAKE) package \
-	&& mkdir -p /app/packages/cpp /app/packages/python \
-	&& mv /app/build/*.deb /app/packages/cpp \
-	&& mv /app/build/bindings/python/dist/*.whl /app/packages/python \
-	&& ostk-build-docs --notebooks Astrodynamics
-
-.PHONY: _build-release-packages
 
 start-development-no-link: build-development-image-non-root ## Start development environment
 
