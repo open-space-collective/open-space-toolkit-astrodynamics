@@ -4,5 +4,58 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "open-space-toolkit-astrodynamics"
+version = "${PROJECT_VERSION_STRING}"
+description = "Orbit, attitude, access, mission analysis."
+authors = [
+	{name = "Open Space Collective", email = "contact@open-space-collective.org"}
+]
+readme = "README.md"
+license = "Apache-2.0"
+keywords = ["open-space-collective", "open-space-toolkit", "astrodynamics"]
+classifiers = [
+	"Development Status :: 3 - Alpha",
+	"Programming Language :: Python :: 3",
+	"Operating System :: POSIX :: Linux",
+]
+requires-python = "~=${PYTHON_VERSION}.0"
+
+dependencies = [
+    "open-space-toolkit-core~=5.0",
+    "open-space-toolkit-io~=4.0",
+    "open-space-toolkit-mathematics~=4.3",
+    "open-space-toolkit-physics~=13.0",
+
+	"pandas~=2.0",
+    "numpy~=2.0",
+	"plotly~=6.0",
+	"cesiumpy @ git+https://github.com/open-space-collective/cesiumpy@0.4.0",
+]
+
+[project.optional-dependencies]
+prebuild = [
+	"pybind11-stubgen"
+]
+test = [
+	"pytest"
+]
+
+[tool.setuptools]
+zip-safe = true
+include-package-data = true
+# Declare a dummy extension module to force platform-specific wheel tags.
+# The actual .so files are pre-compiled and included via package-data.
+ext-modules = [
+	{name = "ostk.astrodynamics._platform", sources = []}
+]
+
+[tool.setuptools.packages.find]
+include = ["ostk.astrodynamics"]
+
+[tool.setuptools.package-data]
+"ostk.astrodynamics" = ["${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}", "${LIBRARY_TARGET}.*${EXTENSION}*.so"]
+"*" = ["*/data/*"]
+
 [tool.black]
 line-length = 90
