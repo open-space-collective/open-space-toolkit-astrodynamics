@@ -534,7 +534,9 @@ Vector5d QLaw::computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double
     const double x53 = x52 / std::pow(eccentricity, 3.0);
     const double x54 = std::sqrt(0.14814814814814814 + std::pow(x52, 2.0) / std::pow(eccentricity, 6.0));
     const double x55 = x53 + x54;
-    const double x56 = std::max(0.0, -x53 + x54);
+    // Use the identity x54² - x53² = 4/27 to avoid catastrophic cancellation in x54 - x53
+    // at low eccentricity (where x53 ≈ x54 ≈ (1-e²)/e³ → ∞)
+    const double x56 = (4.0 / 27.0) / x55;
     const double x57 =
         x51 - 0.79370052598409979 * std::pow(x55, (1.0 / 3.0)) + 0.79370052598409979 * std::pow(x56, (1.0 / 3.0));
     const double x58 = -x57;
@@ -597,10 +599,19 @@ Vector5d QLaw::computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double
     const double x112 = 1.0 / x6;
     const double x113 = 2.0 * x61 * x62 * x92;
     const double x114 = x112 * x52;
-    const double x115 = (1.0 / 3.0) * x53 * (3.0 * x114 + 2.0) / x54;
+    // x115 = (1/3) * (x53/x54) * (3*x114 + 2). Since (3*x114+2) = 3*x116, we have x115 = (x53/x54)*x116,
+    // and (-x115 + x116) = x116 * (1 - x53/x54).
+    //
+    // At low eccentricity x53 ≈ x54, so (1 - x53/x54) cancels catastrophically.
+    // Stable form: δ = (4/27)/x53², x54/x53 = sqrt(1+δ), and
+    // 1 - x53/x54 = 1 - 1/sqrt(1+δ) = δ / (sqrt(1+δ) * (1 + sqrt(1+δ)))
     const double x116 = x112 * (1.0 - 1.0 * x6) + (2.0 / 3.0);
+    const double aop_delta = (4.0 / 27.0) / (x53 * x53);
+    const double aop_sqrt1pd = x54 / x53;                                                // = sqrt(1 + δ)
+    const double aop_one_minus_ratio = aop_delta / (aop_sqrt1pd * (1.0 + aop_sqrt1pd));  // = 1 - x53/x54
+    const double x115 = x116 / aop_sqrt1pd;                                              // = x116 * (x53/x54)
     const double x117 = std::pow(x55, -(2.0 / 3.0)) * (x115 + x116);
-    const double x118 = std::pow(std::max(x56, 1e-15), -(2.0 / 3.0)) * (-x115 + x116);
+    const double x118 = std::pow(x56, -(2.0 / 3.0)) * (x116 * aop_one_minus_ratio);
     const double x119 = -1.5874010519681996 * x117 - 1.5874010519681996 * x118 + 2.0;
     const double x120 = rightAscensionOfAscendingNodeWeight * x100 * x36;
     const double x121 = argumentOfPeriapsisWeight * x102 * x111 * x46 * x69 * x75;
