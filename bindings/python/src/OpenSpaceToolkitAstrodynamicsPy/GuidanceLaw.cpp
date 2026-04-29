@@ -3,8 +3,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ConstantThrust.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/EffectivityGatedConstantThrust.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/EffectivityGatedGuidanceLaw.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/EffectivityProvider.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/HeterogeneousGuidanceLaw.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/InTrack.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/QLaw.cpp>
 
 using namespace pybind11;
@@ -122,6 +124,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
     // Add objects to "guidance_law" submodule
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(guidance_law);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(guidance_law);
-    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_EffectivityGatedConstantThrust(guidance_law);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_EffectivityProvider(guidance_law);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_EffectivityGatedGuidanceLaw(guidance_law);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_InTrack(guidance_law);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw(guidance_law);
 }

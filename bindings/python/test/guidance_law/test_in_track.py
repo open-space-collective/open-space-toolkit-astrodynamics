@@ -11,7 +11,7 @@ from ostk.physics.time import Instant
 from ostk.physics.unit import Angle, Derived, Length
 
 from ostk.astrodynamics import GuidanceLaw
-from ostk.astrodynamics.guidance_law import EffectivityGatedConstantThrust, QLaw
+from ostk.astrodynamics.guidance_law import InTrack, QLaw
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
 
 
@@ -66,37 +66,22 @@ def q_law(target_coe: COE, gravitational_parameter: Derived) -> QLaw:
 
 
 @pytest.fixture
-def thrust_direction_theta_r_h() -> np.ndarray:
-    return np.array([1.0, 0.0, 0.0])
+def guidance_law(q_law: QLaw) -> InTrack:
+    return InTrack(q_law)
 
 
-@pytest.fixture
-def guidance_law(
-    thrust_direction_theta_r_h: np.ndarray, q_law: QLaw
-) -> EffectivityGatedConstantThrust:
-    return EffectivityGatedConstantThrust(thrust_direction_theta_r_h, q_law)
-
-
-class TestEffectivityGatedConstantThrust:
-    def test_constructor(self, guidance_law: EffectivityGatedConstantThrust):
+class TestInTrack:
+    def test_constructor(self, guidance_law: InTrack):
         assert guidance_law is not None
-        assert isinstance(guidance_law, EffectivityGatedConstantThrust)
+        assert isinstance(guidance_law, InTrack)
         assert isinstance(guidance_law, GuidanceLaw)
 
-    def test_getters(
-        self,
-        guidance_law: EffectivityGatedConstantThrust,
-        q_law: QLaw,
-    ):
-        direction = guidance_law.get_thrust_direction_theta_r_h()
-        assert len(direction) == 3
-        assert np.isclose(np.linalg.norm(direction), 1.0)
-
+    def test_getters(self, guidance_law: InTrack):
         assert guidance_law.access_q_law() is not None
 
     def test_calculate_thrust_acceleration_at(
         self,
-        guidance_law: EffectivityGatedConstantThrust,
+        guidance_law: InTrack,
         current_coe: COE,
         gravitational_parameter: Derived,
     ):

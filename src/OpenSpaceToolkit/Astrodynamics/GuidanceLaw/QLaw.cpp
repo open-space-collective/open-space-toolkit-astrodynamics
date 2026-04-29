@@ -93,6 +93,15 @@ QLaw::Parameters::Parameters(
             throw ostk::core::error::RuntimeError("Absolute effectivity threshold must be within range [0.0, 1.0].");
         }
     }
+
+    if (anAbsoluteEffectivityThreshold.isDefined() || aRelativeEffectivityThreshold.isDefined())
+    {
+        std::cerr << "[QLaw::Parameters] Warning: 'absoluteEffectivityThreshold' and "
+                  << "'relativeEffectivityThreshold' parameters are deprecated and will be removed "
+                  << "in a future release. Pass them to "
+                  << "guidancelaw::effectivityprovider::QLaw and use it with "
+                  << "EffectivityGatedGuidanceLaw or InTrack instead." << std::endl;
+    }
 }
 
 Vector5d QLaw::Parameters::getControlWeights() const
@@ -433,6 +442,48 @@ Tuple<double, double> QLaw::computeEffectivity(
     return computeDirectionAwareEffectivity_(
         coeVector, aThrustDirectionThetaRH / norm, aThrustAcceleration, trueAnomalyAnglesVector
     );
+}
+
+Array<Tuple<double, double>> QLaw::computeEffectivities(
+    const State& aState,
+    const Array<Vector3d>& aThrustDirectionsThetaRH,
+    const Real& aThrustAcceleration,
+    const Size& discretizationStepCount
+) const
+{
+    Array<Tuple<double, double>> results;
+    results.reserve(aThrustDirectionsThetaRH.getSize());
+
+    if (aThrustDirectionsThetaRH.isEmpty())
+    {
+        return results;
+    }
+
+    const State stateGCRF = aState.inFrame(Frame::GCRF());
+    const Position position = stateGCRF.getPosition();
+    const Velocity velocity = stateGCRF.getVelocity();
+
+    const COE::CartesianState cartesianState = {position, velocity};
+    const Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
+
+    const VectorXd trueAnomalyAnglesVector = VectorXd::LinSpaced(discretizationStepCount, 0.0, 2.0 * M_PI);
+
+    Eigen::Matrix<double, 3, Eigen::Dynamic> grid;
+    Vector3d current;
+    computeDirectionAwareGrid_(coeVector, aThrustAcceleration, trueAnomalyAnglesVector, grid, current);
+
+    for (const Vector3d& direction : aThrustDirectionsThetaRH)
+    {
+        const double norm = direction.norm();
+        if (norm < 1e-12)
+        {
+            throw ostk::core::error::runtime::Undefined("Thrust direction");
+        }
+
+        results.add(computeDirectionAwareEffectivityFromGrid_(grid, current, direction / norm));
+    }
+
+    return results;
 }
 
 Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter)
@@ -855,21 +906,45 @@ Tuple<double, double> QLaw::computeDirectionAwareEffectivity_(
     const VectorXd& trueAnomalyAngles
 ) const
 {
-    // dQ/dt achievable by the constant theta-R-H direction at the current true anomaly and at each
-    // sampled true anomaly. Since the direction is fixed in theta-R-H, no per-sample rotation is
-    // needed: the same components dot every sampled D_j.
-    Vector6d coeVector = aCOEVector;
-    VectorXd dQdt(trueAnomalyAngles.size());
+    Eigen::Matrix<double, 3, Eigen::Dynamic> grid;
+    Vector3d current;
+    computeDirectionAwareGrid_(aCOEVector, aThrustAcceleration, trueAnomalyAngles, grid, current);
 
-    for (Index j = 0; j < (Index)trueAnomalyAngles.size(); ++j)
+    return computeDirectionAwareEffectivityFromGrid_(grid, current, aThrustDirectionThetaRH);
+}
+
+void QLaw::computeDirectionAwareGrid_(
+    const Vector6d& aCOEVector,
+    const double& aThrustAcceleration,
+    const VectorXd& trueAnomalyAngles,
+    Eigen::Matrix<double, 3, Eigen::Dynamic>& aGridOut,
+    Vector3d& aCurrentOut
+) const
+{
+    const Index sampleCount = trueAnomalyAngles.size();
+    aGridOut.resize(3, sampleCount);
+
+    Vector6d coeVector = aCOEVector;
+    for (Index j = 0; j < sampleCount; ++j)
     {
         coeVector[5] = trueAnomalyAngles(j);
-        const Vector3d D_j = computeThrustVector(coeVector, aThrustAcceleration);
-        dQdt[j] = D_j.dot(aThrustDirectionThetaRH);
+        aGridOut.col(j) = computeThrustVector(coeVector, aThrustAcceleration);
     }
 
-    const Vector3d D_current = computeThrustVector(aCOEVector, aThrustAcceleration);
-    const double dQdt_current = D_current.dot(aThrustDirectionThetaRH);
+    aCurrentOut = computeThrustVector(aCOEVector, aThrustAcceleration);
+}
+
+Tuple<double, double> QLaw::computeDirectionAwareEffectivityFromGrid_(
+    const Eigen::Matrix<double, 3, Eigen::Dynamic>& aGrid,
+    const Vector3d& aCurrent,
+    const Vector3d& aThrustDirectionThetaRH
+)
+{
+    // dQ/dt achievable by the constant theta-R-H direction at each sampled true anomaly and at
+    // the current true anomaly. Direction-independent grid sampling has already been done; this
+    // step is a per-direction contraction.
+    const VectorXd dQdt = aGrid.transpose() * aThrustDirectionThetaRH;
+    const double dQdt_current = aCurrent.dot(aThrustDirectionThetaRH);
 
     const double dQdt_best = dQdt.minCoeff();   // most negative — best Q reduction for this direction
     const double dQdt_worst = dQdt.maxCoeff();  // least negative / positive — worst

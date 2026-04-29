@@ -783,8 +783,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effecti
 
     // Zero-norm direction throws.
     EXPECT_THROW(
-        qlaw.computeEffectivity(initialState_, Vector3d::Zero(), thrustAcceleration_),
-        ostk::core::error::RuntimeError
+        qlaw.computeEffectivity(initialState_, Vector3d::Zero(), thrustAcceleration_), ostk::core::error::RuntimeError
     );
 
     const Vector3d tangential = {1.0, 0.0, 0.0};
