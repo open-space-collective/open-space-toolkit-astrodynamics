@@ -10,7 +10,7 @@
         <enumvalue id="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031aec0fc0100c4fc1ce4eea230c3dc10360" prot="public">
           <name>Undefined</name>
           <briefdescription>
-<para>Undefined type. </para>
+<para>Undefined type (Deprecated) Accesses can only be Complete or Partial. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -191,7 +191,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="64" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="10" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="64" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="10" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a46cdec32d8ffcf11d01d4a23f837bc35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -225,7 +225,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="82" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="41" bodyend="51"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="82" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="61" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a6781963b41affdc1f3996ea410817ebe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -259,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="94" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="53" bodyend="56"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="94" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="73" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a036fac75c0e6d3f1ba2ce2268b511f39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -279,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="116" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="90" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="116" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="110" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a0fefb0da3547f297abb851b8f2950149" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -299,7 +299,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="126" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="96" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="126" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="126" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a81df00f6871aa4b0394064de86fea5dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031" kindref="member">Access::Type</ref></type>
@@ -319,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="136" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="106" bodyend="114"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="136" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="136" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a95f4b307e8823a75a9919513b3b40d73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -339,7 +339,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="146" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="116" bodyend="124"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="146" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="146" bodyend="154"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1af8979d1e97b79255f6325aba11e7682b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -359,7 +359,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="156" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="126" bodyend="134"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="156" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="156" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1af03a8f07ef2f7093d07025b4f12d61d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -379,7 +379,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="166" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="136" bodyend="144"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="166" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="166" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a719d3452ffde081bbd56db4cc7f8c2ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interval</type>
@@ -399,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="176" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="146" bodyend="154"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="176" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="176" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1ae59ae730d83ac1b3e8e1de5b9af0626d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -419,7 +419,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="186" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="156" bodyend="164"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="186" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="186" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a34dd11cccfd5940367f43cd43c7f042c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -439,7 +439,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="196" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="166" bodyend="174"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="196" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="196" bodyend="204"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -486,7 +486,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="106" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="58" bodyend="88"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="106" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="78" bodyend="108"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -507,7 +507,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="205" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="176" bodyend="181"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="205" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="206" bodyend="211"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a85fd2b7f1ec58fc6662e0eb51b7b8604" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -539,7 +539,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="215" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="183" bodyend="203"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="215" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="213" bodyend="236"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

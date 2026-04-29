@@ -21,10 +21,13 @@ ostk.astrodynamics.trajectory.orbit.model.SGP4
       ~SGP4.as_sgp4
       ~SGP4.calculate_revolution_number_at
       ~SGP4.calculate_state_at
+      ~SGP4.calculate_states_at
       ~SGP4.get_epoch
       ~SGP4.get_output_frame
       ~SGP4.get_revolution_number_at_epoch
       ~SGP4.get_tle
+      ~SGP4.get_tles
+      ~SGP4.get_validity_intervals
       ~SGP4.is_defined
       ~SGP4.is_kepler
       ~SGP4.is_propagated

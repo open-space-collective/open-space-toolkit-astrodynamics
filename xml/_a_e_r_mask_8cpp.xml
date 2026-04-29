@@ -173,38 +173,48 @@
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anAzimuth_Radians,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anElevation_Radians,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aRange_Meters</highlight></codeline>
 <codeline lineno="89"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="90"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>itLow<sp/>=<sp/>this-&gt;azimuthElevationMask.lower_bound(anAzimuth_Radians);</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>itLow--;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>itUp<sp/>=<sp/>this-&gt;azimuthElevationMask.upper_bound(anAzimuth_Radians);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>anAzimuthReduced_Radians<sp/>=<sp/>Angle(anAzimuth_Radians,<sp/>Angle::Unit::Radian).inRadians(0.0,<sp/>Real::TwoPi());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>Real<sp/>anElevationReduced_Radians<sp/>=</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Angle(anElevation_Radians,<sp/>Angle::Unit::Radian).inRadians(-Real::Pi(),<sp/>Real::Pi());</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>between<sp/>the<sp/>two<sp/>successive<sp/>mask<sp/>data<sp/>points<sp/>with<sp/>bounding<sp/>azimuth<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>itLow<sp/>=<sp/>this-&gt;azimuthElevationMask.lower_bound(anAzimuthReduced_Radians);</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector2d<sp/>lowToUpVector<sp/>=<sp/>{itUp-&gt;first<sp/>-<sp/>itLow-&gt;first,<sp/>itUp-&gt;second<sp/>-<sp/>itLow-&gt;second};</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>from<sp/>data<sp/>point<sp/>with<sp/>azimuth<sp/>lower<sp/>bound<sp/>to<sp/>tested<sp/>point</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector2d<sp/>lowToPointVector<sp/>=<sp/>{anAzimuth_Radians<sp/>-<sp/>itLow-&gt;first,<sp/>anElevation_Radians<sp/>-<sp/>itLow-&gt;second};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(itLow-&gt;first<sp/>!=<sp/>anAzimuthReduced_Radians)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>itLow--;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>itUp<sp/>=<sp/>this-&gt;azimuthElevationMask.upper_bound(anAzimuthReduced_Radians);</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>determinant<sp/>of<sp/>these<sp/>two<sp/>vectors<sp/>is<sp/>positive,<sp/>the<sp/>tested<sp/>point<sp/>lies<sp/>above<sp/>the<sp/>function<sp/>defined<sp/>by<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mask</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((lowToUpVector[0]<sp/>*<sp/>lowToPointVector[1]<sp/>-<sp/>lowToUpVector[1]<sp/>*<sp/>lowToPointVector[0])<sp/>&gt;=<sp/>0.0)<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>range.contains(aRange_Meters);</highlight></codeline>
-<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>VisibilityCriterion::AERMask::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AERMask&amp;<sp/>anAerMask)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="111"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;azimuthElevationMask<sp/>==<sp/>anAerMask.azimuthElevationMask<sp/>&amp;&amp;<sp/>this-&gt;range<sp/>==<sp/>anAerMask.range;</highlight></codeline>
-<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>VisibilityCriterion::AERMask::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AERMask&amp;<sp/>anAerMask)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="116"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>anAerMask);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>between<sp/>the<sp/>two<sp/>successive<sp/>mask<sp/>data<sp/>points<sp/>with<sp/>bounding<sp/>azimuth<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector2d<sp/>lowToUpVector<sp/>=<sp/>{itUp-&gt;first<sp/>-<sp/>itLow-&gt;first,<sp/>itUp-&gt;second<sp/>-<sp/>itLow-&gt;second};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>from<sp/>data<sp/>point<sp/>with<sp/>azimuth<sp/>lower<sp/>bound<sp/>to<sp/>tested<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector2d<sp/>lowToPointVector<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anAzimuthReduced_Radians<sp/>-<sp/>itLow-&gt;first,<sp/>anElevationReduced_Radians<sp/>-<sp/>itLow-&gt;second</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>determinant<sp/>of<sp/>these<sp/>two<sp/>vectors<sp/>is<sp/>positive,<sp/>the<sp/>tested<sp/>point<sp/>lies<sp/>above<sp/>the<sp/>function<sp/>defined<sp/>by<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mask</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((lowToUpVector[0]<sp/>*<sp/>lowToPointVector[1]<sp/>-<sp/>lowToUpVector[1]<sp/>*<sp/>lowToPointVector[0])<sp/>&gt;=<sp/>0.0)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>range.contains(aRange_Meters);</highlight></codeline>
 <codeline lineno="118"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>access</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>VisibilityCriterion::AERMask::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AERMask&amp;<sp/>anAerMask)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="121"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;azimuthElevationMask<sp/>==<sp/>anAerMask.azimuthElevationMask<sp/>&amp;&amp;<sp/>this-&gt;range<sp/>==<sp/>anAerMask.range;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>VisibilityCriterion::AERMask::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AERMask&amp;<sp/>anAerMask)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="126"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>anAerMask);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/AERMask.cpp"/>
   </compounddef>
