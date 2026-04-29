@@ -11,6 +11,8 @@
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access, Constructor)
 {
+    using ostk::core::type::String;
+
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Scale;
@@ -18,6 +20,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, Constructor)
 
     using ostk::astrodynamics::Access;
 
+    // Complete access is valid if the TCA is after the AOS and the LOS is after the TCA
     {
         const Access::Type type = Access::Type::Complete;
         const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
@@ -28,6 +31,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, Constructor)
         EXPECT_NO_THROW(Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation););
     }
 
+    // Complete access is not valid if the TCA is before the AOS
     {
         const Access::Type type = Access::Type::Complete;
         const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC);
@@ -35,9 +39,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, Constructor)
         const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
         const Angle maxElevation = Angle::Degrees(54.3);
 
-        EXPECT_ANY_THROW(Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation););
+        EXPECT_THROW(
+            try {
+                Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation);
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ(
+                    String::Format(
+                        "TCA [{}] < AOS [{}]", timeOfClosestApproach.toString(), acquisitionOfSignal.toString()
+                    ),
+                    e.getMessage()
+                );
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 
+    // Complete access is not valid if the LOS is before the TCA
     {
         const Access::Type type = Access::Type::Complete;
         const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
@@ -45,7 +63,51 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, Constructor)
         const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC);
         const Angle maxElevation = Angle::Degrees(54.3);
 
-        EXPECT_ANY_THROW(Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation););
+        EXPECT_THROW(
+            try {
+                Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation);
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ(
+                    String::Format("LOS [{}] < TCA [{}]", lossOfSignal.toString(), timeOfClosestApproach.toString()),
+                    e.getMessage()
+                );
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Partial access is valid if even if only the acquisition of signal and loss of signal are defined
+    {
+        const Access::Type type = Access::Type::Partial;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::Undefined();
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Undefined();
+
+        EXPECT_NO_THROW(Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation););
+    }
+
+    // Partial access is not valid if the loss of signal is before the acquisition of signal
+    {
+        const Access::Type type = Access::Type::Partial;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::Undefined();
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Undefined();
+
+        EXPECT_THROW(
+            try {
+                Access access(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation);
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ(
+                    String::Format("LOS [{}] < AOS [{}]", lossOfSignal.toString(), acquisitionOfSignal.toString()),
+                    e.getMessage()
+                );
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 }
 
@@ -260,6 +322,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, IsDefined)
 
     using ostk::astrodynamics::Access;
 
+    // Complete access is defined if the acquisition of signal, time of closest approach, loss of signal and max
+    // elevation are all defined
     {
         const Access::Type type = Access::Type::Complete;
         const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
@@ -270,6 +334,97 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, IsDefined)
         const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
 
         EXPECT_TRUE(access.isDefined());
+    }
+
+    // Complete access is not defined if the time of closest approach is undefined
+    {
+        const Access::Type type = Access::Type::Complete;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::Undefined();
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Degrees(54.3);
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_FALSE(access.isDefined());
+    }
+
+    // Complete access is not defined if the loss of signal is undefined
+    {
+        const Access::Type type = Access::Type::Complete;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC);
+        const Instant lossOfSignal = Instant::Undefined();
+        const Angle maxElevation = Angle::Degrees(54.3);
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_FALSE(access.isDefined());
+    }
+
+    // Complete access is not defined if the acquisition of signal is undefined
+    {
+        const Access::Type type = Access::Type::Complete;
+        const Instant acquisitionOfSignal = Instant::Undefined();
+        const Instant timeOfClosestApproach = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC);
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Degrees(54.3);
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_FALSE(access.isDefined());
+    }
+
+    // Complete access is not defined if the max elevation is undefined
+    {
+        const Access::Type type = Access::Type::Complete;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC);
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Undefined();
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_FALSE(access.isDefined());
+    }
+
+    // Partial access is defined even if only the acquisition of signal and loss of signal are defined
+    {
+        const Access::Type type = Access::Type::Partial;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::Undefined();
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Undefined();
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_TRUE(access.isDefined());
+    }
+
+    // Partial access is not defined if the acquisition of signal is undefined
+    {
+        const Access::Type type = Access::Type::Partial;
+        const Instant acquisitionOfSignal = Instant::Undefined();
+        const Instant timeOfClosestApproach = Instant::Undefined();
+        const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC);
+        const Angle maxElevation = Angle::Undefined();
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_FALSE(access.isDefined());
+    }
+
+    // Partial access is not defined if the loss of signal is undefined
+    {
+        const Access::Type type = Access::Type::Partial;
+        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant timeOfClosestApproach = Instant::Undefined();
+        const Instant lossOfSignal = Instant::Undefined();
+        const Angle maxElevation = Angle::Undefined();
+
+        const Access access = {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+
+        EXPECT_FALSE(access.isDefined());
     }
 
     {

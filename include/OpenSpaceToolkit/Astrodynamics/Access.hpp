@@ -38,7 +38,7 @@ class Access
     enum class Type
     {
 
-        Undefined,  ///< Undefined type.
+        Undefined,  ///< Undefined type (Deprecated) Accesses can only be Complete or Partial.
         Complete,   ///< The access window is fully contained within the analysis interval.
         Partial     ///< The access window is truncated by the analysis interval boundaries.
 

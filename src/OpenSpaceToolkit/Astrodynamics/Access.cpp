@@ -20,20 +20,40 @@ Access::Access(
       lossOfSignal_(aLossOfSignal),
       maxElevation_(aMaxElevation)
 {
+    if (aType == Access::Type::Undefined)
+    {
+        std::cerr
+            << "[Access] Warning: Access Type [Undefined] is deprecated. Accesses can only be Complete or Partial."
+            << std::endl;
+    }
+
     if (this->isDefined())
     {
-        if (timeOfClosestApproach_ < acquisitionOfSignal_)
+        if (type_ == Access::Type::Complete)
         {
-            throw ostk::core::error::RuntimeError(
-                "TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()
-            );
+            if (timeOfClosestApproach_ < acquisitionOfSignal_)
+            {
+                throw ostk::core::error::RuntimeError(
+                    "TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()
+                );
+            }
+
+            if (lossOfSignal_ < timeOfClosestApproach_)
+            {
+                throw ostk::core::error::RuntimeError(
+                    "LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()
+                );
+            }
         }
 
-        if (lossOfSignal_ < timeOfClosestApproach_)
+        else if (type_ == Access::Type::Partial)
         {
-            throw ostk::core::error::RuntimeError(
-                "LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()
-            );
+            if (lossOfSignal_ < acquisitionOfSignal_)
+            {
+                throw ostk::core::error::RuntimeError(
+                    "LOS [{}] < AOS [{}]", lossOfSignal_.toString(), acquisitionOfSignal_.toString()
+                );
+            }
         }
     }
 }
@@ -89,8 +109,18 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Access& anAccess)
 
 bool Access::isDefined() const
 {
-    return (type_ != Access::Type::Undefined) && acquisitionOfSignal_.isDefined() &&
-           timeOfClosestApproach_.isDefined() && lossOfSignal_.isDefined() && maxElevation_.isDefined();
+    if (type_ == Access::Type::Complete)
+    {
+        return acquisitionOfSignal_.isDefined() && timeOfClosestApproach_.isDefined() && lossOfSignal_.isDefined() &&
+               maxElevation_.isDefined();
+    }
+
+    if (type_ == Access::Type::Partial)
+    {
+        return acquisitionOfSignal_.isDefined() && lossOfSignal_.isDefined();
+    }
+
+    return false;  // TBM: Throw an error after the deprecation of Undefined type
 }
 
 bool Access::isComplete() const
@@ -176,7 +206,7 @@ Angle Access::getMaxElevation() const
 Access Access::Undefined()
 {
     return Access(
-        Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), Angle::Undefined()
+        Access::Type::Partial, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), Angle::Undefined()
     );
 }
 
@@ -185,6 +215,9 @@ String Access::StringFromType(const Access::Type& aType)
     switch (aType)
     {
         case Access::Type::Undefined:
+            std::cerr
+                << "[Access] Warning: Access Type [Undefined] is deprecated. Accesses can only be Complete or Partial."
+                << std::endl;
             return "Undefined";
 
         case Access::Type::Complete:

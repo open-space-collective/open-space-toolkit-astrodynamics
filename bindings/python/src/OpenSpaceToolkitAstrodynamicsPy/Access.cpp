@@ -20,9 +20,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             "Access",
             R"doc(
                 Object-to-object visibility
-                
+
                 This class encapsulates the concept of visibility access between two trajectories.
-                
+
             )doc"
         );
 
@@ -34,7 +34,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             )doc"
         )
 
-            .value("Undefined", Access::Type::Undefined, "Undefined")
+            .value(
+                "Undefined",
+                Access::Type::Undefined,
+                "Undefined (Deprecated, Accesses can only be Complete or Partial.)"
+            )
             .value("Complete", Access::Type::Complete, "Complete")
             .value("Partial", Access::Type::Partial, "Partial")
 
@@ -46,9 +50,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
                 R"doc(
                     Constructs an Access object.
-                    
+
                     Args:
-                        type (Access.Type): Type of the access (Complete, Partial, Undefined)
+                        type (Access.Type): Type of the access (Complete, Partial)
                         acquisition_of_signal (Instant): The instant when the signal is first acquired
                         time_of_closest_approach (Instant): The time of closest approach between objects
                         loss_of_signal (Instant): The instant when the signal is lost
@@ -72,7 +76,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 &Access::isDefined,
                 R"doc(
                     Check if the Access object is defined.
-                    
+
                     Returns:
                        bool: True if defined, False otherwise.
                  )doc"
@@ -83,7 +87,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 &Access::isComplete,
                 R"doc(
                     Check if the access is complete.
-                    
+
                     Returns:
                         bool: True if complete, False otherwise.
                  )doc"
@@ -171,7 +175,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 &Access::Undefined,
                 R"doc(
                     Creates an undefined Access object.
-                    
+
                     Returns:
                         Access: An undefined Access object.
                 )doc"
@@ -182,10 +186,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 &Access::StringFromType,
                 R"doc(
                     Returns a string representation of the Access type.
-    
+
                     Args:
                         type (Access.Type): The type of the access.
-                    
+
                     Returns:
                         str: A string representation of the type.
                 )doc",
