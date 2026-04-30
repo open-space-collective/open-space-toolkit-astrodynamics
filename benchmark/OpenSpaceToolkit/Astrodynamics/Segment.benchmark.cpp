@@ -2,12 +2,14 @@
 ///
 /// Segment Performance Benchmark
 ///
-/// Benchmarks four maneuver-segment scenarios under a 20x20 EGM96 gravity model,
+/// Benchmarks maneuver-segment scenarios under a 20x20 EGM96 gravity model,
 /// starting from an SSO satellite at 550 km altitude, and reports:
 ///   - elapsed wall-clock runtime (per iteration)
 ///   - number of propagated states
 ///   - number of maneuvers generated
 ///   - minimum / maximum step size between consecutive states
+///   - propagation duration
+///   - convergence status
 ///
 /// Each scenario runs with a single iteration.
 
@@ -368,6 +370,73 @@ static void BM_Segment_QLaw_Analytical_SMA_550_to_580(benchmark::State& state)
 }
 
 // ---------------------------------------------------------------------------
+// Scenario 2b: QLaw (finite difference), SMA targeting, 550 -> 580 km
+// ---------------------------------------------------------------------------
+
+static void BM_Segment_QLaw_FiniteDifference_SMA_550_to_580(benchmark::State& state)
+{
+    const Shared<const Frame> gcrfSPtr = Frame::GCRF();
+    const Derived mu = EarthGravitationalModel::EGM96.gravitationalParameter_;
+
+    const Array<Shared<Dynamics>> dynamics = BuildDynamics();
+    const NumericalSolver solver = BuildSolver();
+    const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
+    const Segment::ManeuverConstraints constraints = BuildQLawConstraints();
+
+    const Shared<RealCondition> condition =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::AnyCrossing, gcrfSPtr, Length::Meters(TARGET_SMA_580_M), mu
+        ));
+
+    const COE targetCOE = {
+        Length::Meters(TARGET_SMA_580_M),
+        0.001,
+        Angle::Degrees(97.6),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters qlawParameters = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+        },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        0.0,
+        Length::Kilometers(6578.0),
+        0.7,
+        0.7,
+    };
+
+    const Shared<const QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE, mu, qlawParameters, QLaw::COEDomain::BrouwerLyddaneMeanLong, QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thruster = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const Segment segment =
+        Segment::Maneuver("QLaw (finite difference) SMA 550->580", condition, thruster, dynamics, solver, constraints);
+
+    const State initialState = BuildInitialState(gcrfSPtr, mu);
+
+    for (auto _ : state)
+    {
+        const Segment::Solution solution = SolveAndRecord(state, segment, initialState);
+
+        const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
+            {solution.states.accessLast().getPosition(), solution.states.accessLast().getVelocity()}, mu
+        );
+
+        state.counters["final_sma_difference"] =
+            static_cast<double>(finalCOE.getSemiMajorAxis().inMeters() - targetCOE.getSemiMajorAxis().inMeters());
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Scenario 3: QLaw (analytical), SMA + Eccentricity + AoP (frozen orbit target)
 // ---------------------------------------------------------------------------
 
@@ -499,5 +568,7 @@ static void BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580(benchmark::St
 
 BENCHMARK(BM_Segment_ConstantThrust_Intrack_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
 BENCHMARK(BM_Segment_QLaw_Analytical_SMA_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
+BENCHMARK(BM_Segment_QLaw_FiniteDifference_SMA_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
 BENCHMARK(BM_Segment_QLaw_Analytical_Frozen_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
+BENCHMARK(BM_Segment_QLaw_FiniteDifference_Frozen_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
 BENCHMARK(BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
