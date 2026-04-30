@@ -347,8 +347,10 @@ Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, c
     const double alpha = (1.0 - eccentricitySquared) / (2.0 * std::pow(eccentricity, 3));
     const double beta = std::sqrt(alpha * alpha + 1.0 / 27.0);
 
-    const double cosTheta_xx =
-        std::pow((alpha + beta), 1.0 / 3.0) - std::pow((beta - alpha), 1.0 / 3.0) - 1.0 / eccentricity;
+    // Use the identity beta² - alpha² = 1/27 to avoid catastrophic cancellation in beta - alpha
+    // at low eccentricity (where alpha ≈ beta ≈ (1-e²)/(2e³) → ∞)
+    const double betaMinusAlpha = (1.0 / 27.0) / (alpha + beta);
+    const double cosTheta_xx = std::pow((alpha + beta), 1.0 / 3.0) - std::cbrt(betaMinusAlpha) - 1.0 / eccentricity;
     const double r_xx = semiLatusRectum / (1.0 + (eccentricity * cosTheta_xx));
 
     const double cosTheta_xxSquared = cosTheta_xx * cosTheta_xx;
