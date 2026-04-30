@@ -511,6 +511,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
     };
 
     Array<FlightManeuver> extractedManeuvers = Array<FlightManeuver>::Empty();
+
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
@@ -886,7 +887,8 @@ Segment::Solution Segment::solve(
         if (previousManeuverInterval.getEnd() > aState.accessInstant())
         {
             throw ostk::core::error::RuntimeError(String::Format(
-                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends after "
+                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends "
+                "after "
                 "the initial state instant.",
                 previousManeuverInterval.toString()
             ));
@@ -1528,10 +1530,14 @@ Segment::Solution Segment::solve(
             continue;
         }
 
-        // Candidate maneuver passed all constraints - accept it
-        const Segment::Solution maneuverLOFCompliantSolution =
-            constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
-        acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
+        else
+        {
+            // Candidate maneuver passed all constraints - accept it
+            const Segment::Solution maneuverLOFCompliantSolution =
+                constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
+
+            acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
+        }
     }
 
     // Build final solution
@@ -1780,7 +1786,25 @@ Segment::Solution Segment::solveUntilThrusterOff_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, dynamicsArray, combinedCondition);
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-off
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the remaining thrust window.
+    NumericalSolver stepLimitedSolver = numericalSolver_;
+    stepLimitedSolver.setMaxStepSize((anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+
+    const Propagator propagator = {stepLimitedSolver, dynamicsArray};
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(aState, anEndInstant, *combinedCondition);
+
+    const StateBuilder stateBuilder = {aState};
+    Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    Segment::Solution solution = {name_, dynamicsArray, states, conditionSolution.conditionIsSatisfied, type_};
 
     // As the event condition could have terminated due to the thruster off condition, we want to
     // re-evaluate the segment event condition to see if it's satisfied.
@@ -1804,7 +1828,25 @@ Segment::Solution Segment::solveUntilThrusterOn_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, combinedCondition);
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-on
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the thrust window.
+    NumericalSolver stepLimitedSolver = numericalSolver_;
+    stepLimitedSolver.setMaxStepSize((anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+
+    const Propagator propagator = {stepLimitedSolver, freeDynamicsArray_};
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(aState, anEndInstant, *combinedCondition);
+
+    const StateBuilder stateBuilder = {aState};
+    Array<State> states = Array<State>::Empty();
+    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    {
+        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+    }
+
+    Segment::Solution solution = {name_, freeDynamicsArray_, states, conditionSolution.conditionIsSatisfied, type_};
 
     // As the event condition could have terminated due to the thruster on condition, we want to
     // re-evaluate the segment event condition to see if it's satisfied.
