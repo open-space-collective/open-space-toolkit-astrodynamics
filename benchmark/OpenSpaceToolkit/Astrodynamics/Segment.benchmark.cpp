@@ -544,7 +544,7 @@ static void BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580(benchmark::St
     const Shared<Thruster> thruster = std::make_shared<Thruster>(satelliteSystem, constantThrustSPtr);
 
     const Segment segment = Segment::Maneuver(
-        "ConstantThrust Intrack 40min/day 550->560", condition, thruster, dynamics, solver, constraints
+        "ConstantThrust Intrack 40min/day 550->580", condition, thruster, dynamics, solver, constraints
     );
 
     const State initialState = BuildInitialState(gcrfSPtr, mu);
