@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
@@ -28,6 +29,7 @@ using ostk::core::container::Array;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
+using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
@@ -800,5 +802,101 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
             // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevolutionNumberAt)
+{
+    const Shared<const Frame> gcrfSPtr = Frame::GCRF();
+
+    const Environment environment = Environment::Default();
+
+    const Instant defaultEpoch = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
+
+    // Kepler's revolution number at epoch is hardcoded to 1
+    const Integer defaultRevolutionNumber = 1;
+
+    const Derived gravitationalParameter = Earth::Spherical.gravitationalParameter_;
+    const Length equatorialRadius = Earth::Spherical.equatorialRadius_;
+    const Real J2 = Earth::Spherical.J2_;
+    const Real J4 = Earth::Spherical.J4_;
+
+    // Test simple positive and negative revolution numbers for non-edge case initial state (far away from the ascending
+    // node)
+    {
+        const Position initialPosition = Position::Meters({0.0, 0.0, 7000000.0}, gcrfSPtr);
+        const Velocity initialVelocity =
+            Velocity::MetersPerSecond({5335.865450622126, 5335.865450622126, 0.0}, gcrfSPtr);
+
+        const COE coe = COE::Cartesian({initialPosition, initialVelocity}, gravitationalParameter);
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(gravitationalParameter);
+
+        // Setup Kepler model and orbit
+        const Kepler keplerianModel = {
+            coe, defaultEpoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        // Check revolution numbers for Kepler model
+        EXPECT_EQ(defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch));
+        EXPECT_EQ(
+            defaultRevolutionNumber + 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber + 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod)
+        );
+
+        // Check revolution numbers for orbit
+        EXPECT_EQ(defaultRevolutionNumber, orbit.getRevolutionNumberAt(defaultEpoch));
+        EXPECT_EQ(defaultRevolutionNumber - 1, orbit.getRevolutionNumberAt(defaultEpoch - orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber + 1, orbit.getRevolutionNumberAt(defaultEpoch + orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber + 2, orbit.getRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber - 2, orbit.getRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod));
+    }
+
+    // Test simple positive and negative revolution numbers for edge case initial state (at the ascending node)
+    {
+        const Position initialPosition = Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr);
+        const Velocity initialVelocity =
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr);
+
+        const COE coe = COE::Cartesian({initialPosition, initialVelocity}, gravitationalParameter);
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(gravitationalParameter);
+
+        // Setup Kepler model and orbit
+        const Kepler keplerianModel = {
+            coe, defaultEpoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        // Check revolution numbers for Kepler model
+        EXPECT_EQ(defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch));
+        EXPECT_EQ(
+            defaultRevolutionNumber + 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber + 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod)
+        );
+
+        // Check revolution numbers for orbit
+        EXPECT_EQ(defaultRevolutionNumber, orbit.getRevolutionNumberAt(defaultEpoch));
+        EXPECT_EQ(defaultRevolutionNumber - 1, orbit.getRevolutionNumberAt(defaultEpoch - orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber + 1, orbit.getRevolutionNumberAt(defaultEpoch + orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber + 2, orbit.getRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber - 2, orbit.getRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod));
     }
 }
