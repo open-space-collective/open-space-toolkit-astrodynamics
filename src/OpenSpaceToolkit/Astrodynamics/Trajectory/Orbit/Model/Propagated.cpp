@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
@@ -37,6 +38,7 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
+using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
@@ -280,6 +282,19 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
         return this->getRevolutionNumberAtEpoch();
     }
 
+    // Find the central body gravity dynamics to use its gravitational parameter for orbital period computation
+    Derived gravitationalParameter = Derived::Undefined();
+    for (const Shared<Dynamics>& dynamicsSPtr :
+         propagator_.getDynamics())  // Propagator has exactly one Central Body Gravity Dynamics, so
+                                     // graviationalParameter will be defined after the loop
+    {
+        if (const auto centralBodyGravitySPtr = std::dynamic_pointer_cast<CentralBodyGravity>(dynamicsSPtr))
+        {
+            gravitationalParameter = centralBodyGravitySPtr->getCelestial()->getGravitationalParameter();
+            break;
+        }
+    }
+
     // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
     const State stateAtEpoch = this->calculateStateAt(this->getEpoch());
     const Integer durationSign = (anInstant > this->getEpoch()) ? 1 : -1;
@@ -293,10 +308,9 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     while (true)
     {
         // Calculate orbital period at current state
-        const COE coe = COE::Cartesian(
-            {currentState.getPosition(), currentState.getVelocity()}, Earth::Spherical.gravitationalParameter_
-        );  // (Spherical earth has the most modern value which is the correct one)
-        const Duration orbitalPeriod = coe.getOrbitalPeriod(Earth::Spherical.gravitationalParameter_);
+        const COE coe =
+            COE::Cartesian({currentState.getPosition(), currentState.getVelocity()}, gravitationalParameter);
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(gravitationalParameter);
 
         // Propagate for duration of this orbital period
         currentState = propagator_.calculateStateAt(currentState, currentInstant + (durationSign * orbitalPeriod));

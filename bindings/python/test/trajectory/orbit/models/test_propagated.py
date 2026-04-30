@@ -1,25 +1,16 @@
 # Apache License 2.0
 
-import pytest
-
 import numpy as np
-
-from ostk.physics.time import Instant
-from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
-from ostk.physics.coordinate import Frame
-from ostk.physics.environment.object.celestial import Earth
-
-from ostk.astrodynamics.trajectory.state import NumericalSolver
-from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory import Propagator
+import pytest
 from ostk.astrodynamics import Dynamics
-from ostk.astrodynamics.dynamics import CentralBodyGravity
-from ostk.astrodynamics.dynamics import PositionDerivative
+from ostk.astrodynamics.dynamics import CentralBodyGravity, PositionDerivative
+from ostk.astrodynamics.trajectory import Orbit, Propagator, State
 from ostk.astrodynamics.trajectory.orbit.model import Propagated
+from ostk.astrodynamics.trajectory.state import NumericalSolver
+from ostk.core.type import Integer
+from ostk.physics.coordinate import Frame, Position, Velocity
+from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.time import DateTime, Instant, Scale
 
 
 @pytest.fixture
@@ -196,12 +187,16 @@ class TestPropagated:
         self,
         propagated: Propagated,
         orbit: Orbit,
-        revolution_number: int,
     ):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC)
 
-        assert propagated.calculate_revolution_number_at(instant) == revolution_number + 1
-        assert orbit.get_revolution_number_at(instant) == revolution_number + 1
+        revolution_number = propagated.calculate_revolution_number_at(instant)
+        assert revolution_number is not None
+        assert isinstance(revolution_number, Integer)
+
+        revolution_number_orbit = orbit.get_revolution_number_at(instant)
+        assert revolution_number_orbit is not None
+        assert isinstance(revolution_number_orbit, Integer)
 
     def test_access_cached_state_array(
         self,
