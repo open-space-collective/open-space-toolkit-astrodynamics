@@ -8,6 +8,7 @@
     <includes refid="_dynamics_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Dynamics.hpp</includes>
     <includedby refid="_central_body_gravity_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp</includedby>
     <includedby refid="_dynamics_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp</includedby>
+    <includedby refid="_propagated_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</includedby>
     <includedby refid="_propagator_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</includedby>
     <incdepgraph>
       <node id="22">
@@ -249,10 +250,16 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
         <link refid="_propagator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</label>
+        <link refid="_propagated_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity" prot="public">ostk::astrodynamics::dynamics::CentralBodyGravity</innerclass>
