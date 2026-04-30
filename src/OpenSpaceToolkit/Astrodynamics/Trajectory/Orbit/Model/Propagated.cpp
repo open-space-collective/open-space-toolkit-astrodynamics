@@ -5,15 +5,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
-#include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
-
-#include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -30,22 +22,10 @@ namespace model
 
 using ostk::core::type::Size;
 
-using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
-using ostk::physics::environment::gravitational::Earth;
-using ostk::physics::time::Duration;
-using ostk::physics::unit::Derived;
-using ostk::physics::unit::Length;
-using ostk::physics::unit::Time;
-
-using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::eventcondition::RealCondition;
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::StateBuilder;
-
-static const Derived::Unit GravitationalParameterSIUnit =
-    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 Propagated::Propagated(const Propagator& aPropagator, const State& aState, const Integer& aRevolutionNumber)
     : Model(),
@@ -287,7 +267,8 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
     const State stateAtEpoch = this->calculateStateAt(this->getEpoch());
     const bool isForwardPropagated = anInstant > this->getEpoch();
-    const RealCondition::Criterion criterion = isForwardPropagated ? RealCondition::Criterion::PositiveCrossing : RealCondition::Criterion::NegativeCrossing;
+    const RealCondition::Criterion criterion =
+        isForwardPropagated ? RealCondition::Criterion::PositiveCrossing : RealCondition::Criterion::NegativeCrossing;
     const auto ascendingNodeEvaluator = [](const State& aState) -> Real
     {
         return aState.getPosition().accessCoordinates().z();
@@ -297,17 +278,17 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     State currentState = stateAtEpoch;
     Integer revolutionNumber = this->getRevolutionNumberAtEpoch();
 
-    // TBM: Remove and simply use propagator_ once https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/628 is merged
-    const Propagator conditionCompatiblePropagator = Propagator(
-        NumericalSolver::DefaultConditional(),
-        propagator_.getDynamics()
-    );
+    // TBM: Remove and simply use propagator_ once
+    // https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/628 is merged
+    const Propagator conditionCompatiblePropagator =
+        Propagator(NumericalSolver::DefaultConditional(), propagator_.getDynamics());
 
     // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired
     // instant
     while (true)
     {
-        const NumericalSolver::ConditionSolution solution = conditionCompatiblePropagator.calculateStateToCondition(currentState, anInstant, ascendingNodeCondition);
+        const NumericalSolver::ConditionSolution solution =
+            conditionCompatiblePropagator.calculateStateToCondition(currentState, anInstant, ascendingNodeCondition);
 
         // anInstant has been reached before the next ascending node was found, return the current revolution number
         if (!solution.conditionIsSatisfied)
@@ -318,9 +299,9 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
         // Given that the condition is satisfied, the root solver should have converged
         if (!solution.rootSolverHasConverged)
         {
-            throw ostk::core::error::RuntimeError(
-                String::Format("Failed to find ascending node: rootSolverHasConverged: {}", solution.rootSolverHasConverged)
-            );
+            throw ostk::core::error::RuntimeError(String::Format(
+                "Failed to find ascending node: rootSolverHasConverged: {}", solution.rootSolverHasConverged
+            ));
         }
 
         revolutionNumber += isForwardPropagated ? 1 : -1;

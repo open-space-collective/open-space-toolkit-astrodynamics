@@ -498,10 +498,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
 
         const Orbit orbit = {propagatedModel, earthSpherical_};
 
-        // Orbit with epoch state 1/4 of a revolution after ascending node, and 3/4 of a revolution before next ascending node
-        // epoch:                                               x
-        // passes:                      |------------------|------------------|------------------|
-        // expected revolution numbers:   0  0  0  0  0  0   1  1  1  1  1  1   2  2  2  2  2  2
+        // Orbit with epoch state 1/4 of a revolution after ascending node, and 3/4 of a revolution before next
+        // ascending node epoch:                                               x passes:
+        // |------------------|------------------|------------------| expected revolution numbers:   0  0  0  0  0  0 1
+        // 1  1  1  1  1   2  2  2  2  2  2
 
         // Check revolution numbers for propagated model
         EXPECT_EQ(
@@ -509,17 +509,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
             propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 1.5 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber_ - 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 1.0 * orbitalPeriod)
+            defaultRevolutionNumber_ - 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 1.0 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber_ - 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.5 * orbitalPeriod)
+            defaultRevolutionNumber_ - 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.5 * orbitalPeriod)
         );
         EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_));
         EXPECT_EQ(
             defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 0.5 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber_ + 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 1.0 * orbitalPeriod)
+            defaultRevolutionNumber_ + 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 1.0 * orbitalPeriod)
         );
         EXPECT_EQ(
             defaultRevolutionNumber_ + 1,
@@ -528,7 +531,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
 
         // Check revolution number for orbit
         EXPECT_EQ(defaultRevolutionNumber_, orbit.getRevolutionNumberAt(defaultInstant_));
-
     }
 
     // Test simple positive and negative revolution numbers for edge case initial state (just past the ascending node)
@@ -565,10 +567,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
             propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 1.1 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber_ - 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.9 * orbitalPeriod)
+            defaultRevolutionNumber_ - 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.9 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber_ - 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.1 * orbitalPeriod)
+            defaultRevolutionNumber_ - 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.1 * orbitalPeriod)
         );
         EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_));
         EXPECT_EQ(
@@ -578,7 +582,65 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
             defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 0.9 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber_ + 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 1.1 * orbitalPeriod)
+            defaultRevolutionNumber_ + 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 1.1 * orbitalPeriod)
+        );
+
+        // Check revolution number for orbit
+        EXPECT_EQ(defaultRevolutionNumber_, orbit.getRevolutionNumberAt(defaultInstant_));
+    }
+
+    // Test simple positive and negative revolution numbers for edge case initial state (just before the ascending node)
+    {
+        const State initialStateAtAscendingNode = {
+            defaultInstant_,
+            Position::Meters({7000000.0, 0.0, -1.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)
+        };
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {
+            propagator_,
+            initialStateAtAscendingNode,
+            defaultRevolutionNumber_,
+        };
+
+        const COE coe = COE::Cartesian(
+            {initialStateAtAscendingNode.getPosition(), initialStateAtAscendingNode.getVelocity()},
+            EarthGravitationalModel::Spherical.gravitationalParameter_
+        );  // (Spherical earth has the most modern value which is the correct one)
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(EarthGravitationalModel::Spherical.gravitationalParameter_);
+
+        const Orbit orbit = {propagatedModel, earthSpherical_};
+
+        // Orbit with epoch state just before the ascending node
+        // epoch:                                         x
+        // passes:                      |------------------|------------------|------------------|
+        // expected revolution numbers:   0  0  0  0  0  0   1  1  1  1  1  1   2  2  2  2  2  2
+
+        // Check revolution numbers for propagated model
+        EXPECT_EQ(
+            defaultRevolutionNumber_ - 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 1.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.9 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 0.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_));
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 0.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 1,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 0.9 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 2,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 1.1 * orbitalPeriod)
         );
 
         // Check revolution number for orbit
