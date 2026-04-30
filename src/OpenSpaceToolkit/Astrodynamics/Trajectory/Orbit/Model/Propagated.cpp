@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
@@ -30,11 +31,13 @@ using ostk::core::type::Size;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::Duration;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 static const Derived::Unit GravitationalParameterSIUnit =
@@ -272,44 +275,32 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    if (anInstant == cachedStateArray_[0].accessInstant())
+    if (anInstant == this->getEpoch())
     {
         return this->getRevolutionNumberAtEpoch();
     }
 
-    // Calculate gravitational parameter (Spherical earth has the most modern value which is the correct one)
-    using ostk::physics::environment::gravitational::Earth;
-
-    const Derived gravitationalParameter = Earth::Spherical.gravitationalParameter_;
-    const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);
-
-    Position currentPosition = cachedStateArray_[0].getPosition();
-    Velocity currentVelocity = cachedStateArray_[0].getVelocity();
-
-    Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-    Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
-
     // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
-    Instant currentInstant = cachedStateArray_[0].getInstant();
-    const double durationInSecs = (anInstant - currentInstant).inSeconds();
-    if (durationInSecs == 0.0)
-    {
-        return 1;
-    }
-    Integer durationSign = (durationInSecs > 0) - (durationInSecs < 0);
+    const State stateAtEpoch = this->calculateStateAt(this->getEpoch());
+    const Integer durationSign = (anInstant > this->getEpoch()) ? 1 : -1;
+
+    State currentState = stateAtEpoch;
+    Instant currentInstant = stateAtEpoch.accessInstant();
+    Integer revolutionNumber = this->getRevolutionNumberAtEpoch();
 
     // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired
     // instant
-    Integer revolutionNumber = this->getRevolutionNumberAtEpoch();
     while (true)
     {
-        // Calculate orbital period
-        const double semiMajorAxis =
-            -gravitationalParameter_SI * currentPositionCoordinates.norm() /
-            (currentPositionCoordinates.norm() * std::pow(currentVelocityCoordinates.norm(), 2) -
-             2.0 * gravitationalParameter_SI);
-        const Duration orbitalPeriod =
-            Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI));
+        // Calculate orbital period at current state
+        const COE coe = COE::Cartesian(
+            {currentState.getPosition(), currentState.getVelocity()}, Earth::Spherical.gravitationalParameter_
+        );  // (Spherical earth has the most modern value which is the correct one)
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(Earth::Spherical.gravitationalParameter_);
+
+        // Propagate for duration of this orbital period
+        currentState = propagator_.calculateStateAt(currentState, currentInstant + (durationSign * orbitalPeriod));
+        currentInstant = currentState.accessInstant();
 
         // If we have passed the desired instant during our progration, break from the loop
         if (durationSign.isPositive() && currentInstant > anInstant)
@@ -319,16 +310,6 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
         // Increase or decrease revolution number by 1
         revolutionNumber += durationSign;
-
-        // Propagate for duration of this orbital period
-        const State currentState = propagator_.calculateStateAt(
-            cachedStateArray_[0], cachedStateArray_[0].accessInstant() + (durationSign * orbitalPeriod)
-        );
-
-        // Update the current instant position and velocity coordinates
-        currentPositionCoordinates = currentState.getPosition().getCoordinates();
-        currentVelocityCoordinates = currentState.getVelocity().getCoordinates();
-        currentInstant += durationSign * orbitalPeriod;
     }
 
     return revolutionNumber;

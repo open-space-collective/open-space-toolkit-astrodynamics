@@ -25,6 +25,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -64,6 +65,7 @@ using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
@@ -472,34 +474,101 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         );
     }
 
-    // Test basic positive and negative revolution numbers
+    // Test simple positive and negative revolution numbers for non-edge case initial state (far away from the ascending
+    // node)
     {
+        const State initialStateAtPole = {
+            defaultInstant_,
+            Position::Meters({0.0, 0.0, 7000000.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({5335.865450622126, 5335.865450622126, 0.0}, gcrfSPtr_)
+        };
+
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {
             propagator_,
-            defaultState_,
+            initialStateAtPole,
             defaultRevolutionNumber_,
         };
 
+        const COE coe = COE::Cartesian(
+            {initialStateAtPole.getPosition(), initialStateAtPole.getVelocity()},
+            EarthGravitationalModel::Spherical.gravitationalParameter_
+        );  // (Spherical earth has the most modern value which is the correct one)
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(EarthGravitationalModel::Spherical.gravitationalParameter_);
+
         const Orbit orbit = {propagatedModel, earthSpherical_};
 
-        // Calculate revolution number at instant
-        const Instant instant = defaultInstant_;
-        const Instant instant_before1 = Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC);
-        const Instant instant_after1 = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
-        const Instant instant_after2 = Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC);
-
         // Check revolution numbers for propagated model
-        EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(instant));
-        EXPECT_EQ(defaultRevolutionNumber_ - 2, propagatedModel.calculateRevolutionNumberAt(instant_before1));
-        EXPECT_EQ(defaultRevolutionNumber_ + 1, propagatedModel.calculateRevolutionNumberAt(instant_after1));
-        EXPECT_EQ(defaultRevolutionNumber_ + 2, propagatedModel.calculateRevolutionNumberAt(instant_after2));
+        EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_));
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ - 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 2,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 2 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ - 2,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 2 * orbitalPeriod)
+        );
 
         // Check revolution numbers for orbit
-        EXPECT_EQ(defaultRevolutionNumber_, orbit.getRevolutionNumberAt(instant));
-        EXPECT_EQ(defaultRevolutionNumber_ - 2, orbit.getRevolutionNumberAt(instant_before1));
-        EXPECT_EQ(defaultRevolutionNumber_ + 1, orbit.getRevolutionNumberAt(instant_after1));
-        EXPECT_EQ(defaultRevolutionNumber_ + 2, orbit.getRevolutionNumberAt(instant_after2));
+        EXPECT_EQ(defaultRevolutionNumber_, orbit.getRevolutionNumberAt(defaultInstant_));
+        EXPECT_EQ(defaultRevolutionNumber_ - 1, orbit.getRevolutionNumberAt(defaultInstant_ - orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber_ + 1, orbit.getRevolutionNumberAt(defaultInstant_ + orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber_ + 2, orbit.getRevolutionNumberAt(defaultInstant_ + 2 * orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber_ - 2, orbit.getRevolutionNumberAt(defaultInstant_ - 2 * orbitalPeriod));
+    }
+
+    // Test simple positive and negative revolution numbers for edge case initial state (at the ascending node)
+    {
+        const State initialStateAtAscendingNode = {
+            defaultInstant_,
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)
+        };
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {
+            propagator_,
+            initialStateAtAscendingNode,
+            defaultRevolutionNumber_,
+        };
+
+        const COE coe = COE::Cartesian(
+            {initialStateAtAscendingNode.getPosition(), initialStateAtAscendingNode.getVelocity()},
+            EarthGravitationalModel::Spherical.gravitationalParameter_
+        );  // (Spherical earth has the most modern value which is the correct one)
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(EarthGravitationalModel::Spherical.gravitationalParameter_);
+
+        const Orbit orbit = {propagatedModel, earthSpherical_};
+
+        // Check revolution numbers for propagated model
+        EXPECT_EQ(defaultRevolutionNumber_, propagatedModel.calculateRevolutionNumberAt(defaultInstant_));
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ - 1, propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ + 2,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + 2 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber_ - 2,
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ - 2 * orbitalPeriod)
+        );
+
+        // Check revolution numbers for orbit
+        EXPECT_EQ(defaultRevolutionNumber_, orbit.getRevolutionNumberAt(defaultInstant_));
+        EXPECT_EQ(defaultRevolutionNumber_ - 1, orbit.getRevolutionNumberAt(defaultInstant_ - orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber_ + 1, orbit.getRevolutionNumberAt(defaultInstant_ + orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber_ + 2, orbit.getRevolutionNumberAt(defaultInstant_ + 2 * orbitalPeriod));
+        EXPECT_EQ(defaultRevolutionNumber_ - 2, orbit.getRevolutionNumberAt(defaultInstant_ - 2 * orbitalPeriod));
     }
 
     // Test accuracy of calculateRevolutionNumber at by checking that it returns results accurate to the force model
@@ -518,8 +587,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         const State state = {startInstant, defaultPosition_, defaultVelocity_};
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_twobody = {propagator_, state, 0};
-        const Propagated propagatedModel_fullgrav = {{defaultNumericalSolver_, dynamics}, state, 0};
+        const Integer initialRevolutionNumber = 0;
+        const Propagated propagatedModel_twobody = {propagator_, state, initialRevolutionNumber};
+        const Propagated propagatedModel_fullgrav = {
+            {defaultNumericalSolver_, dynamics}, state, initialRevolutionNumber
+        };
 
         // Calculate gravitational parameter
         const Derived gravitationalParameter = EarthGravitationalModel::Spherical.gravitationalParameter_;
@@ -549,12 +621,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         const Integer revolutionNumber_twobody = propagatedModel_twobody.calculateRevolutionNumberAt(endInstant);
         const Integer revolutionNumber_fullgrav = propagatedModel_fullgrav.calculateRevolutionNumberAt(endInstant);
 
-        // Check that revolution numbers for two body are exact, for full grav are 1 higher due to losses (which are
-        // gains in negative time), and that they are not equal
-        EXPECT_EQ(-propagationRevolutions - 1, revolutionNumber_twobody);
-        EXPECT_EQ(-propagationRevolutions, revolutionNumber_fullgrav);
-
-        EXPECT_FALSE(revolutionNumber_twobody == revolutionNumber_fullgrav);
+        EXPECT_EQ(initialRevolutionNumber - propagationRevolutions, revolutionNumber_twobody);
+        EXPECT_EQ(initialRevolutionNumber - propagationRevolutions, revolutionNumber_fullgrav);
+        EXPECT_EQ(revolutionNumber_twobody, revolutionNumber_fullgrav);
     }
 }
 

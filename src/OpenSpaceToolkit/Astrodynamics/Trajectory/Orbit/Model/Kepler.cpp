@@ -128,7 +128,7 @@ Integer Kepler::getRevolutionNumberAtEpoch() const
         throw ostk::core::error::runtime::Undefined("Kepler");
     }
 
-    return 1;  // [TBI] With param
+    return 1;
 }
 
 Derived Kepler::getGravitationalParameter() const
@@ -233,17 +233,20 @@ Integer Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
     switch (perturbationType_)
     {
         case Kepler::PerturbationType::None:
-            return Kepler::CalculateNoneRevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant);
+            return Kepler::CalculateNoneRevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant) +
+                   this->getRevolutionNumberAtEpoch();
 
         case Kepler::PerturbationType::J2:
             return Kepler::CalculateJ2RevolutionNumberAt(
-                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_
-            );
+                       coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_
+                   ) +
+                   this->getRevolutionNumberAtEpoch();
 
         case Kepler::PerturbationType::J4:
             return Kepler::CalculateJ4RevolutionNumberAt(
-                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_
-            );
+                       coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_
+                   ) +
+                   this->getRevolutionNumberAtEpoch();
 
         default:
             throw ostk::core::error::runtime::Wrong("Perturbation type", StringFromPerturbationType(perturbationType_));
@@ -421,7 +424,7 @@ Integer Kepler::CalculateNoneRevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1;
+    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
 }
 
 State Kepler::CalculateJ2StateAt(
@@ -663,7 +666,7 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1;
+    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
 }
 
 State Kepler::CalculateJ4StateAt(
@@ -846,7 +849,7 @@ Integer Kepler::CalculateJ4RevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1;
+    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
 }
 
 }  // namespace model
