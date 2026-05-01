@@ -838,32 +838,44 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevo
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        // Check revolution numbers for Kepler model
+        // Orbit with epoch state 1/4 of a revolution after ascending node, and 3/4 of a revolution before next
+        // ascending node epoch:                                               x passes:
+        // |------------------|------------------|------------------| expected revolution numbers:   0  0  0  0  0  0 1
+        // 1  1  1  1  1   2  2  2  2  2  2
+
+        // Check revolution numbers for keplerian model
+        EXPECT_EQ(
+            defaultRevolutionNumber - 2,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 1.5 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 1.0 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 0.5 * orbitalPeriod)
+        );
         EXPECT_EQ(defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch));
         EXPECT_EQ(
-            defaultRevolutionNumber + 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + orbitalPeriod)
+            defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 0.5 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber - 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - orbitalPeriod)
+            defaultRevolutionNumber + 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 1.0 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber + 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod)
-        );
-        EXPECT_EQ(
-            defaultRevolutionNumber - 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod)
+            defaultRevolutionNumber + 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 1.5 * orbitalPeriod)
         );
 
-        // Check revolution numbers for orbit
+        // Check revolution number for orbit
         EXPECT_EQ(defaultRevolutionNumber, orbit.getRevolutionNumberAt(defaultEpoch));
-        EXPECT_EQ(defaultRevolutionNumber - 1, orbit.getRevolutionNumberAt(defaultEpoch - orbitalPeriod));
-        EXPECT_EQ(defaultRevolutionNumber + 1, orbit.getRevolutionNumberAt(defaultEpoch + orbitalPeriod));
-        EXPECT_EQ(defaultRevolutionNumber + 2, orbit.getRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod));
-        EXPECT_EQ(defaultRevolutionNumber - 2, orbit.getRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod));
     }
 
-    // Test simple positive and negative revolution numbers for edge case initial state (at the ascending node)
+    // Test simple positive and negative revolution numbers for edge case initial state (just past the ascending node)
     {
-        const Position initialPosition = Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr);
+        const Position initialPosition = Position::Meters({7000000.0, 0.0, 1.0}, gcrfSPtr);
         const Velocity initialVelocity =
             Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr);
 
@@ -877,26 +889,87 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevo
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        // Check revolution numbers for Kepler model
+        // Orbit with epoch state just after the ascending node
+        // epoch:                                           x
+        // passes:                      |------------------|------------------|------------------|
+        // expected revolution numbers:   0  0  0  0  0  0   1  1  1  1  1  1   2  2  2  2  2  2
+
+        // Check revolution numbers for keplerian model
+        EXPECT_EQ(
+            defaultRevolutionNumber - 2,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 1.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 0.9 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 0.1 * orbitalPeriod)
+        );
         EXPECT_EQ(defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch));
         EXPECT_EQ(
-            defaultRevolutionNumber + 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + orbitalPeriod)
+            defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 0.1 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber - 1, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - orbitalPeriod)
+            defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 0.9 * orbitalPeriod)
         );
         EXPECT_EQ(
-            defaultRevolutionNumber + 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod)
-        );
-        EXPECT_EQ(
-            defaultRevolutionNumber - 2, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod)
+            defaultRevolutionNumber + 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 1.1 * orbitalPeriod)
         );
 
-        // Check revolution numbers for orbit
+        // Check revolution number for orbit
         EXPECT_EQ(defaultRevolutionNumber, orbit.getRevolutionNumberAt(defaultEpoch));
-        EXPECT_EQ(defaultRevolutionNumber - 1, orbit.getRevolutionNumberAt(defaultEpoch - orbitalPeriod));
-        EXPECT_EQ(defaultRevolutionNumber + 1, orbit.getRevolutionNumberAt(defaultEpoch + orbitalPeriod));
-        EXPECT_EQ(defaultRevolutionNumber + 2, orbit.getRevolutionNumberAt(defaultEpoch + 2 * orbitalPeriod));
-        EXPECT_EQ(defaultRevolutionNumber - 2, orbit.getRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod));
+    }
+
+    // Test simple positive and negative revolution numbers for edge case initial state (just before the ascending node)
+    {
+        const Position initialPosition = Position::Meters({7000000.0, 0.0, -1.0}, gcrfSPtr);
+        const Velocity initialVelocity =
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr);
+
+        const COE coe = COE::Cartesian({initialPosition, initialVelocity}, gravitationalParameter);
+        const Duration orbitalPeriod = coe.getOrbitalPeriod(gravitationalParameter);
+
+        // Setup Kepler model and orbit
+        const Kepler keplerianModel = {
+            coe, defaultEpoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        // Orbit with epoch state just before the ascending node
+        // epoch:                                         x
+        // passes:                      |------------------|------------------|------------------|
+        // expected revolution numbers:   0  0  0  0  0  0   1  1  1  1  1  1   2  2  2  2  2  2
+
+        // Check revolution numbers for keplerian model
+        EXPECT_EQ(
+            defaultRevolutionNumber - 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 1.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 0.9 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch - 0.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(defaultRevolutionNumber, keplerianModel.calculateRevolutionNumberAt(defaultEpoch));
+        EXPECT_EQ(
+            defaultRevolutionNumber + 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 0.1 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber + 1,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 0.9 * orbitalPeriod)
+        );
+        EXPECT_EQ(
+            defaultRevolutionNumber + 2,
+            keplerianModel.calculateRevolutionNumberAt(defaultEpoch + 1.1 * orbitalPeriod)
+        );
+
+        // Check revolution number for orbit
+        EXPECT_EQ(defaultRevolutionNumber, orbit.getRevolutionNumberAt(defaultEpoch));
     }
 }

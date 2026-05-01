@@ -26,6 +26,37 @@ static const Real Tolerance = 1e-8;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
+// Count the number of ascending-node crossings between epoch and a given instant for an analytical
+// Kepler / J2 / J4 model with a constant secular rate of the mean argument of latitude.
+//
+// The ascending node is the point where the true argument of latitude u = omega + nu = 0 (mod 2pi),
+// equivalently nu = -omega. The mean anomaly M_AN at that point fixes the satellite's phase within
+// the current revolution at epoch. The phase then advances at the rate of the mean argument of
+// latitude, which for the analytical models considered here corresponds exactly to one full
+// revolution per `orbitalPeriod` (Keplerian period for None, nodal period for J2/J4). Using
+// floor() of the phase difference gives the signed crossing count and works for both forward and
+// backward propagation from epoch.
+static Integer CalculateAscendingNodeCrossingCount(
+    const Real& aMeanAnomalyAtEpoch_rad,
+    const Real& anAop_rad,
+    const Real& anEccentricity,
+    const Real& anOrbitalPeriod_s,
+    const Real& aDurationFromEpoch_s
+)
+{
+    using ostk::physics::unit::Angle;
+
+    const Angle trueAnomalyAtNode = Angle::Radians(std::remainder(-anAop_rad, Real::TwoPi()));
+    const Angle eccentricAnomalyAtNode = COE::EccentricAnomalyFromTrueAnomaly(trueAnomalyAtNode, anEccentricity);
+    const Real meanAnomalyAtNode_rad =
+        COE::MeanAnomalyFromEccentricAnomaly(eccentricAnomalyAtNode, anEccentricity).inRadians();
+
+    const Real phaseAtEpoch_rev = (aMeanAnomalyAtEpoch_rad - meanAnomalyAtNode_rad) / Real::TwoPi();
+    const Real phaseAtInstant_rev = phaseAtEpoch_rev + aDurationFromEpoch_s / anOrbitalPeriod_s;
+
+    return phaseAtInstant_rev.floor() - phaseAtEpoch_rev.floor();
+}
+
 Kepler::Kepler(
     const COE& aClassicalOrbitalElementSet,
     const Instant& anEpoch,
@@ -424,7 +455,13 @@ Integer Kepler::CalculateNoneRevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
+    return CalculateAscendingNodeCrossingCount(
+        aClassicalOrbitalElementSet.getMeanAnomaly().inRadians(),
+        aClassicalOrbitalElementSet.getAop().inRadians(),
+        aClassicalOrbitalElementSet.getEccentricity(),
+        orbitalPeriod.inSeconds(),
+        durationFromEpoch.inSeconds()
+    );
 }
 
 State Kepler::CalculateJ2StateAt(
@@ -666,7 +703,13 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
+    return CalculateAscendingNodeCrossingCount(
+        aClassicalOrbitalElementSet.getMeanAnomaly().inRadians(),
+        aClassicalOrbitalElementSet.getAop().inRadians(),
+        e,
+        orbitalPeriod.inSeconds(),
+        durationFromEpoch.inSeconds()
+    );
 }
 
 State Kepler::CalculateJ4StateAt(
@@ -849,7 +892,13 @@ Integer Kepler::CalculateJ4RevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
+    return CalculateAscendingNodeCrossingCount(
+        aClassicalOrbitalElementSet.getMeanAnomaly().inRadians(),
+        aClassicalOrbitalElementSet.getAop().inRadians(),
+        e,
+        orbitalPeriod.inSeconds(),
+        durationFromEpoch.inSeconds()
+    );
 }
 
 }  // namespace model
