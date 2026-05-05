@@ -119,7 +119,7 @@ NumericalSolver::NumericalSolver(
           aRelativeTolerance,
           anAbsoluteTolerance,
           aRootSolver,
-          RootFindingStrategy::Propagated
+          RootFindingStrategy::Integration
       )
 {
 }
@@ -285,7 +285,7 @@ NumericalSolver NumericalSolver::Undefined()
         Real::Undefined(),
         RootSolver::Default(),
         nullptr,
-        RootFindingStrategy::Propagated,
+        RootFindingStrategy::Integration,
     };
 }
 
@@ -299,7 +299,7 @@ NumericalSolver NumericalSolver::Default()
         1.0e-12,
         RootSolver::Default(),
         nullptr,
-        RootFindingStrategy::Propagated,
+        RootFindingStrategy::Integration,
     };
 }
 
@@ -318,7 +318,7 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
         1.0,
         RootSolver::Default(),
         nullptr,
-        RootFindingStrategy::Propagated,
+        RootFindingStrategy::Integration,
     };
 }
 
@@ -332,7 +332,7 @@ NumericalSolver NumericalSolver::DefaultConditional(const std::function<void(con
         1.0e-12,
         RootSolver::Default(),
         stateLogger,
-        RootFindingStrategy::Propagated,
+        RootFindingStrategy::Integration,
     };
 }
 
@@ -354,7 +354,7 @@ NumericalSolver NumericalSolver::Conditional(
         anAbsoluteTolerance,
         RootSolver::Default(),
         stateLogger,
-        RootFindingStrategy::Propagated,
+        RootFindingStrategy::Integration,
     };
 }
 
@@ -362,12 +362,12 @@ String NumericalSolver::StringFromRootFindingStrategy(const RootFindingStrategy&
 {
     switch (aStrategy)
     {
-        case RootFindingStrategy::Propagated:
-            return "Propagated";
+        case RootFindingStrategy::Integration:
+            return "Integration";
         case RootFindingStrategy::LinearInterpolation:
             return "LinearInterpolation";
-        case RootFindingStrategy::Skip:
-            return "Skip";
+        case RootFindingStrategy::First:
+            return "First";
         case RootFindingStrategy::CubicInterpolation:
             return "CubicInterpolation";
         default:
@@ -392,7 +392,7 @@ NumericalSolver::NumericalSolver(
           anAbsoluteTolerance,
           aRootSolver,
           stateLogger,
-          RootFindingStrategy::Propagated
+          RootFindingStrategy::Integration
       )
 {
 }
@@ -463,7 +463,7 @@ inline typename std::enable_if<!IsFixedStepStepper<Stepper>::value>::type doStep
 
 /// @brief Integrate to a target time with a stepper
 template <typename Stepper, typename System>
-inline void integrateToTime(
+inline void integrateToTime_(
     Stepper& stepper,
     NumericalSolver::StateVector& stateVector,
     double startTime,
@@ -477,7 +477,7 @@ inline void integrateToTime(
 
 /// @brief Integrate to a target times with a stepper
 template <typename Stepper, typename System>
-inline Array<NumericalSolver::Solution> integrateToTimes(
+inline Array<NumericalSolver::Solution> integrateToTimes_(
     Stepper& stepper, NumericalSolver::StateVector stateVector, double startTime, double endTime, const System& system
 )
 {
@@ -500,7 +500,7 @@ inline Array<NumericalSolver::Solution> integrateToTimes(
 
 /// @brief Templated implementation of conditional integration
 template <typename Stepper>
-NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
+NumericalSolver::ConditionSolution integrateTimeWithStepperImpl_(
     Stepper& stepper,
     const State& aState,
     const Instant& anInstant,
@@ -593,7 +593,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
             // Compute step size with correct sign for the direction from currentTime to finalTime.
             // This handles the case where we overshot finalTime and need to integrate backwards.
             const double adjustmentStepSize = (finalTime - currentTime) / 10.0;
-            integrateToTime<Stepper>(
+            integrateToTime_<Stepper>(
                 stepper, currentStateVector, currentTime, finalTime, adjustmentStepSize, aSystemOfEquations
             );
         }
@@ -615,7 +615,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     // Handle root finding based on strategy
     switch (rootFindingStrategy)
     {
-        case NumericalSolver::RootFindingStrategy::Skip:
+        case NumericalSolver::RootFindingStrategy::First:
         {
             const State solutionState = createState(currentStateVector, currentTime);
             observeState(solutionState);
@@ -640,7 +640,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
             break;
         }
 
-        case NumericalSolver::RootFindingStrategy::Propagated:
+        case NumericalSolver::RootFindingStrategy::Integration:
         {
             stateGenerator = [&stepper,
                               &aSystemOfEquations,
@@ -653,7 +653,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
                 NumericalSolver::StateVector stateVectorAtTargetTime = previousStateVector;
                 const double subStepSize = (targetTime - previousTime) / 10.0;
 
-                integrateToTime<Stepper>(
+                integrateToTime_<Stepper>(
                     stepper, stateVectorAtTargetTime, previousTime, targetTime, subStepSize, aSystemOfEquations
                 );
 
@@ -666,7 +666,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
         case NumericalSolver::RootFindingStrategy::CubicInterpolation:
         {
             const Array<NumericalSolver::Solution> stateVectors =
-                integrateToTimes<Stepper>(stepper, previousStateVector, previousTime, currentTime, aSystemOfEquations);
+                integrateToTimes_<Stepper>(stepper, previousStateVector, previousTime, currentTime, aSystemOfEquations);
 
             const Array<State> states = stateVectors.map<State>(
                 [&createState](const NumericalSolver::Solution& aSolution) -> State
@@ -738,7 +738,9 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
     const double subStepSize = (solutionTime - previousTime) / 10.0;
     NumericalSolver::StateVector solutionStateVector = previousStateVector;
 
-    integrateToTime<Stepper>(stepper, solutionStateVector, previousTime, solutionTime, subStepSize, aSystemOfEquations);
+    integrateToTime_<Stepper>(
+        stepper, solutionStateVector, previousTime, solutionTime, subStepSize, aSystemOfEquations
+    );
 
     const State solutionState = createState(solutionStateVector, solutionTime);
 
@@ -776,7 +778,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         case StepperType::RungeKutta4:
         {
             stepper_type_4 stepper;
-            return integrateTimeWithStepperImpl<stepper_type_4>(
+            return integrateTimeWithStepperImpl_<stepper_type_4>(
                 stepper,
                 aState,
                 anInstant,
@@ -795,7 +797,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
             auto stepper = make_controlled(
                 absoluteTolerance_, relativeTolerance_, runge_kutta_cash_karp54<NumericalSolver::StateVector>()
             );
-            return integrateTimeWithStepperImpl<decltype(stepper)>(
+            return integrateTimeWithStepperImpl_<decltype(stepper)>(
                 stepper,
                 aState,
                 anInstant,
@@ -814,7 +816,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
             auto stepper = make_controlled(
                 absoluteTolerance_, relativeTolerance_, runge_kutta_fehlberg78<NumericalSolver::StateVector>()
             );
-            return integrateTimeWithStepperImpl<decltype(stepper)>(
+            return integrateTimeWithStepperImpl_<decltype(stepper)>(
                 stepper,
                 aState,
                 anInstant,
@@ -833,7 +835,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
             auto stepper = make_controlled(
                 absoluteTolerance_, relativeTolerance_, runge_kutta_dopri5<NumericalSolver::StateVector>()
             );
-            return integrateTimeWithStepperImpl<decltype(stepper)>(
+            return integrateTimeWithStepperImpl_<decltype(stepper)>(
                 stepper,
                 aState,
                 anInstant,
@@ -850,7 +852,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         case StepperType::AdamsBashforthMoulton5:
         {
             auto stepper = make_controlled_adam_bashforth_moulton<5>(absoluteTolerance_, relativeTolerance_);
-            return integrateTimeWithStepperImpl<decltype(stepper)>(
+            return integrateTimeWithStepperImpl_<decltype(stepper)>(
                 stepper,
                 aState,
                 anInstant,
@@ -867,7 +869,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         case StepperType::AdamsBashforthMoulton8:
         {
             auto stepper = make_controlled_adam_bashforth_moulton<8>(absoluteTolerance_, relativeTolerance_);
-            return integrateTimeWithStepperImpl<decltype(stepper)>(
+            return integrateTimeWithStepperImpl_<decltype(stepper)>(
                 stepper,
                 aState,
                 anInstant,
@@ -884,7 +886,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
         case StepperType::BulirschStoer:
         {
             auto stepper = bulirsch_stoer<NumericalSolver::StateVector>(absoluteTolerance_, relativeTolerance_);
-            return integrateTimeWithStepperImpl<decltype(stepper)>(
+            return integrateTimeWithStepperImpl_<decltype(stepper)>(
                 stepper,
                 aState,
                 anInstant,

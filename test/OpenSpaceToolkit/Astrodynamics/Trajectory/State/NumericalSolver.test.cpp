@@ -141,7 +141,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
     {
         EXPECT_NO_THROW(defaultRKD5_.getRootFindingStrategy());
         EXPECT_THROW(NumericalSolver::Undefined().getRootFindingStrategy(), ostk::core::error::runtime::Undefined);
-        EXPECT_EQ(defaultRKD5_.getRootFindingStrategy(), NumericalSolver::RootFindingStrategy::Propagated);
+        EXPECT_EQ(defaultRKD5_.getRootFindingStrategy(), NumericalSolver::RootFindingStrategy::Integration);
     }
 }
 
@@ -539,10 +539,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, StringFr
             NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::LinearInterpolation)
         );
         EXPECT_EQ(
-            "Propagated",
-            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Propagated)
+            "Integration",
+            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Integration)
         );
-        EXPECT_EQ("Skip", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Skip));
+        EXPECT_EQ("First", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::First));
     }
 }
 
@@ -585,7 +585,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         1.0e-12,
         1.0e-12,
         RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::Propagated,
+        NumericalSolver::RootFindingStrategy::Integration,
     };
 
     const State state = getStateVector(defaultStartInstant_);
@@ -613,7 +613,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         1.0,
         1.0,
         RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::Skip,
+        NumericalSolver::RootFindingStrategy::First,
     };
 
     const State state = getStateVector(defaultStartInstant_);

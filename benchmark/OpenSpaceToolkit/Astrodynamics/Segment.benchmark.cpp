@@ -96,6 +96,7 @@ using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::guidancelaw::QLaw;
+using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::Segment;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
@@ -170,7 +171,13 @@ static Array<Shared<Dynamics>> BuildDynamics()
 static NumericalSolver BuildSolver()
 {
     return NumericalSolver(
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+        NumericalSolver::RootFindingStrategy::Integration
     );
 }
 

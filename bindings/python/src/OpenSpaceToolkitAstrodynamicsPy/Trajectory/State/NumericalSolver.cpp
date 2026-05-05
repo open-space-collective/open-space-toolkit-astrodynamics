@@ -46,8 +46,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             "Linear interpolation between step endpoints"
         )
         .value(
-            "Propagated",
-            NumericalSolver::RootFindingStrategy::Propagated,
+            "Integration",
+            NumericalSolver::RootFindingStrategy::Integration,
             "Re-integrate with smaller steps during root finding"
         )
         .value(
@@ -57,7 +57,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
         )
         .value(
             "Skip",
-            NumericalSolver::RootFindingStrategy::Skip,
+            NumericalSolver::RootFindingStrategy::First,
             "Skip the root finding and return the first step boundary where condition is satisfied"
         );
 

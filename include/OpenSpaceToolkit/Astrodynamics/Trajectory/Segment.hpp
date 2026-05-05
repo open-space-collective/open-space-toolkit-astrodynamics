@@ -512,12 +512,15 @@ class Segment
     /// @param anEndInstant The end instant
     /// @param aDynamicsArray The dynamics array
     /// @param anEventCondition The event condition
+    /// @param limitMaxStepSize If true, the maximum step size will be limited to 5 seconds or 1/10th of the segment
+    /// duration, whichever is smaller. Defaults to false.
     /// @return The segment solution
     Segment::Solution solveWithDynamics_(
         const State& aState,
         const Instant& anEndInstant,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const Shared<EventCondition>& anEventCondition
+        const Shared<EventCondition>& anEventCondition,
+        const bool& limitMaxStepSize = false
     ) const;
 
     /// @brief For a given maneuver, construct a solution that is Local Orbital Frame (LOF) compliant.
