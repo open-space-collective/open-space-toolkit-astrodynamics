@@ -704,7 +704,33 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl(
 
     // Condition at previousTime => False
     // Condition at currentTime => True
-    // Search for the exact time of the condition change
+    // Search for the exact time of the condition change.
+    //
+    // When the adaptive stepper accepts an extremely small step that triggers the crossing,
+    // re-evaluating the condition through `stateGenerator` (which re-integrates or re-interpolates
+    // the same interval) may not reproduce the same crossing due to roundoff in the cartesian
+    // state and the non-linear conversion to whatever quantity the event condition measures
+    // (e.g. Brouwer-Lyddane mean SMA). In that case `f(previousTime)` and `f(currentTime)` end up
+    // with the same sign and `boost::math::tools::bisect` throws `evaluation_error`. The forward
+    // integration already detected the crossing, so accept `currentState` as the solution rather
+    // than aborting.
+    if (checkCondition(previousTime) * checkCondition(currentTime) > 0.0)
+    {
+        const State solutionState = createState(currentStateVector, currentTime);
+
+        if (solutionState.accessInstant() != aState.accessInstant())
+        {
+            observeState(solutionState);
+        }
+
+        return {
+            solutionState,
+            true,
+            0,
+            false,
+        };
+    }
+
     const RootSolver::Solution solution = rootSolver.bisection(checkCondition, previousTime, currentTime);
 
     // Ensure that the solution time has crossed the condition

@@ -170,7 +170,7 @@ static Array<Shared<Dynamics>> BuildDynamics()
 static NumericalSolver BuildSolver()
 {
     return NumericalSolver(
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 5.0, 1.0e-12, 1.0e-12
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
     );
 }
 
@@ -570,5 +570,4 @@ BENCHMARK(BM_Segment_ConstantThrust_Intrack_550_to_580)->Iterations(1)->Unit(ben
 BENCHMARK(BM_Segment_QLaw_Analytical_SMA_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
 BENCHMARK(BM_Segment_QLaw_FiniteDifference_SMA_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
 BENCHMARK(BM_Segment_QLaw_Analytical_Frozen_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
-BENCHMARK(BM_Segment_QLaw_FiniteDifference_Frozen_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
 BENCHMARK(BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580)->Iterations(1)->Unit(benchmark::kSecond);
