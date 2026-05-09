@@ -481,7 +481,8 @@ inline Array<NumericalSolver::Solution> integrateToTimes_(
     Stepper& stepper, NumericalSolver::StateVector stateVector, double startTime, double endTime, const System& system
 )
 {
-    const int numberOfSteps = 20;
+    // Ensure at least 5 steps are taken, and no more than 20 second steps
+    const int numberOfSteps = std::max(5, static_cast<int>(std::floor((endTime - startTime) / 20.0)));
     const double stepSize = endTime / numberOfSteps;
     const VectorXd durations = VectorXd::LinSpaced(numberOfSteps, startTime, endTime);
 
@@ -675,7 +676,7 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl_(
                 }
             );
 
-            const Tabulated tabulated = Tabulated(states, Interpolator::Type::BarycentricRational);
+            const Tabulated tabulated = Tabulated(states, Interpolator::Type::CubicSpline);
 
             stateGenerator = [tabulated, &aState](const double& targetTime) -> NumericalSolver::StateVector
             {
@@ -693,8 +694,8 @@ NumericalSolver::ConditionSolution integrateTimeWithStepperImpl_(
     // Since previousState gets updated in the stepping loop, we need to reset it here
     previousState = createState(previousStateVector, previousTime);
 
-    const auto checkCondition = [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime
-                                ) -> double
+    const auto checkCondition =
+        [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime) -> double
     {
         const NumericalSolver::StateVector stateCoordinates = stateGenerator(aTime);
         const State interpolatedState = createState(stateCoordinates, aTime);
