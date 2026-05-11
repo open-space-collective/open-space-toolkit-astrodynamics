@@ -33,6 +33,9 @@ using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 
 /// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics
 /// Numerical Solver.
+///
+/// Event-crossing refinement uses a forced Dormand-Prince 5 dense-output step, regardless of the
+/// main stepper type.
 class NumericalSolver : public MathNumericalSolver
 {
    public:
@@ -43,16 +46,6 @@ class NumericalSolver : public MathNumericalSolver
         bool conditionIsSatisfied;    ///< Whether the condition is met.
         Size iterationCount;          ///< Number of iterations performed.
         bool rootSolverHasConverged;  ///< Whether the root solver has converged.
-    };
-
-    /// @brief Strategy for finding the exact event crossing time during conditional integration.
-    enum class RootFindingStrategy
-    {
-        LinearInterpolation,  ///< Linear interpolation between step endpoints. Fast but less accurate for nonlinear
-                              ///< dynamics.
-        Integration,          ///< Re-integrate with smaller steps during root finding. Accurate but slower.
-        First,                ///< Return the first step boundary where condition is satisfied. Simplest, no refinement.
-        CubicInterpolation,   ///< Cubic interpolation between step endpoints. Fast and accurate.
     };
 
     /// @brief Constructor
@@ -78,33 +71,6 @@ class NumericalSolver : public MathNumericalSolver
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
         const RootSolver& aRootSolver = RootSolver::Default()
-    );
-
-    /// @brief Constructor
-    ///
-    /// @code{.cpp}
-    ///                  NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep,
-    ///                  aRelativeTolerance, anAbsoluteTolerance, aRootSolver, aRootFindingStrategy };
-    /// @endcode
-    ///
-    /// @param aLogType An enum indicating the amount of verbosity wanted to be logged during
-    ///                  numerical integration
-    /// @param aStepperType An enum indicating the type of numerical stepper used to perform
-    ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step the numerical solver will
-    ///                  take
-    /// @param aRelativeTolerance A number indicating the relative integration tolerance
-    /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
-    /// @param aRootSolver A root solver to be used to solve the event condition
-    /// @param aRootFindingStrategy Strategy for finding exact event crossing time
-    NumericalSolver(
-        const NumericalSolver::LogType& aLogType,
-        const NumericalSolver::StepperType& aStepperType,
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver,
-        const RootFindingStrategy& aRootFindingStrategy
     );
 
     /// @brief Access observed states
@@ -133,15 +99,6 @@ class NumericalSolver : public MathNumericalSolver
     ///
     /// @return Observed states
     Array<State> getObservedStates() const;
-
-    /// @brief Get root finding strategy
-    ///
-    /// @code{.cpp}
-    ///                  numericalSolver.getRootFindingStrategy();
-    /// @endcode
-    ///
-    /// @return RootFindingStrategy
-    RootFindingStrategy getRootFindingStrategy() const;
 
     /// @brief Get the maximum step size
     ///
@@ -256,16 +213,6 @@ class NumericalSolver : public MathNumericalSolver
         const std::function<void(const State&)>& stateLogger = nullptr
     );
 
-    /// @brief Convert RootFindingStrategy to string
-    ///
-    /// @code{.cpp}
-    ///                  NumericalSolver::StringFromRootFindingStrategy(aStrategy);
-    /// @endcode
-    ///
-    /// @param aStrategy A root finding strategy enum
-    /// @return String representation
-    static String StringFromRootFindingStrategy(const RootFindingStrategy& aStrategy);
-
     /// Delete undesired methods from parent
     Array<MathNumericalSolver::Solution> integrateTime(
         const MathNumericalSolver::StateVector& anInitialStateVector,
@@ -301,7 +248,6 @@ class NumericalSolver : public MathNumericalSolver
     RootSolver rootSolver_;
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
-    RootFindingStrategy rootFindingStrategy_;
     Real maxStepSize_ = Real::Undefined();
 
     /// @brief Constructor
@@ -310,7 +256,7 @@ class NumericalSolver : public MathNumericalSolver
     ///                  numerical integration
     /// @param aStepperType An enum indicating the type of numerical stepper used to perform
     ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step the numerical solver will
+    /// @param aTimeStep A number indicating the initial guess time step (in seconds) the numerical solver will
     ///                  take
     /// @param aRelativeTolerance A number indicating the relative integration tolerance
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
@@ -326,36 +272,12 @@ class NumericalSolver : public MathNumericalSolver
         const std::function<void(const State&)>& stateLogger
     );
 
-    /// @brief Constructor
-    ///
-    /// @param aLogType An enum indicating the amount of verbosity wanted to be logged during
-    ///                  numerical integration
-    /// @param aStepperType An enum indicating the type of numerical stepper used to perform
-    ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step (in seconds) the numerical solver will
-    ///                  take
-    /// @param aRelativeTolerance A number indicating the relative integration tolerance
-    /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
-    /// @param aRootSolver A root solver to be used to solve the event condition
-    /// @param stateLogger A function that takes a `State` object and logs
-    /// @param aRootFindingStrategy Strategy for finding exact event crossing time
-    NumericalSolver(
-        const NumericalSolver::LogType& aLogType,
-        const NumericalSolver::StepperType& aStepperType,
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver,
-        const std::function<void(const State&)>& stateLogger,
-        const RootFindingStrategy& aRootFindingStrategy
-    );
-
     /// @brief Observe a state, storing it's coordinates in the observedStates_ array
     ///
     /// @param aState The state to observe
     void observeState(const State& aState);
 
-    /// @brief Integrate with controlled stepper using specified root solving strategy
+    /// @brief Integrate with controlled stepper using the unified dense-output refinement.
     ///
     /// @param aState The initial state for integration
     /// @param anInstant The instant to integrate to
@@ -367,6 +289,25 @@ class NumericalSolver : public MathNumericalSolver
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
         const EventCondition& anEventCondition
+    );
+
+    /// @brief Templated implementation of conditional integration. Defined out-of-line in
+    ///        the .cpp so the boost odeint stepper types do not leak into this header.
+    ///
+    /// @param aStepper The stepper instance used for the main integration loop.
+    /// @param aState Initial state.
+    /// @param anInstant Maximum time to integrate to.
+    /// @param aSystemOfEquations System of equations to integrate.
+    /// @param anEventCondition Condition to detect.
+    /// @param aSignedTimeStep Signed initial step size (negative for backward integration).
+    template <typename Stepper>
+    ConditionSolution integrateTimeWithStepperImpl_(
+        Stepper& aStepper,
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const EventCondition& anEventCondition,
+        double aSignedTimeStep
     );
 };
 

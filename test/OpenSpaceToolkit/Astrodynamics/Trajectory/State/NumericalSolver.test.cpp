@@ -139,9 +139,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
     }
 
     {
-        EXPECT_NO_THROW(defaultRKD5_.getRootFindingStrategy());
-        EXPECT_THROW(NumericalSolver::Undefined().getRootFindingStrategy(), ostk::core::error::runtime::Undefined);
-        EXPECT_EQ(defaultRKD5_.getRootFindingStrategy(), NumericalSolver::RootFindingStrategy::Integration);
+        // Defined solver: no throw, returns the configured (initially Undefined) max step size
+        EXPECT_NO_THROW(defaultRKD5_.getMaxStepSize());
+        EXPECT_FALSE(defaultRKD5_.getMaxStepSize().isDefined());
+
+        // Undefined solver: throws like the other getters
+        EXPECT_THROW(NumericalSolver::Undefined().getMaxStepSize(), ostk::core::error::runtime::Undefined);
+
+        // Round-trip via setter
+        NumericalSolver solver = defaultRKD5_;
+        solver.setMaxStepSize(10.0);
+        EXPECT_EQ(solver.getMaxStepSize(), 10.0);
     }
 }
 
@@ -375,43 +383,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     {
         const Array<Tuple<Real, Real, RealCondition::Criterion, Real, bool>> testCases = {
-            {Real::TwoPi(),
-             1.0,
-             RealCondition::Criterion::AnyCrossing,
-             Real::TwoPi(),
-             false},  // Almost meets the condition, but never does (forwards)
-            {
-                -Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, -Real::TwoPi(), false
+            {Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, Real::TwoPi(), false
+            },  // Almost meets the condition, but never does (forwards)
+            {-Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, -Real::TwoPi(), false
             },  // Almost meets the condition, but never does (backwards)
-            {
-                Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, std::asin(0.5), true
+            {Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, std::asin(0.5), true
             },  // Any crossing (forwards)
-            {
-                -Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, -Real::Pi() - std::asin(0.5), true
+            {-Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, -Real::Pi() - std::asin(0.5), true
             },  // Any crossing (backwards)
-            {
-                Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, Real::Pi() - std::asin(0.5), true
+            {Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, Real::Pi() - std::asin(0.5), true
             },  // Negative crossing (forwards)
-            {
-                -Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, -Real::TwoPi() + std::asin(0.5), true
+            {-Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, -Real::TwoPi() + std::asin(0.5), true
             },  // Negative crossing (backwards)
-            {
-                Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, Real::TwoPi() - std::asin(0.5), true
+            {Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, Real::TwoPi() - std::asin(0.5), true
             },  // Positive crossing (forwards)
-            {
-                -Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, -Real::Pi() + std::asin(0.5), true
+            {-Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, -Real::Pi() + std::asin(0.5), true
             },  // Positive crossing (backwards)
-            {
-                Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, Real::Pi() + std::asin(0.5), true
+            {Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, Real::Pi() + std::asin(0.5), true
             },  // Strictly negative (forwards)
-            {
-                -Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, -std::asin(0.5), true
+            {-Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, -std::asin(0.5), true
             },  // Strictly negative (backwards)
-            {
-                Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, std::asin(0.5), true
+            {Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, std::asin(0.5), true
             },  // Strictly positive (forwards)
-            {
-                -Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, -Real::Pi() - std::asin(0.5), true
+            {-Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, -Real::Pi() - std::asin(0.5), true
             },  // Strictly positive (backwards)
         };
 
@@ -545,57 +539,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, StringFromRootFindingStrategy)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_Refinement)
 {
-    {
-        EXPECT_EQ(
-            "LinearInterpolation",
-            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::LinearInterpolation)
-        );
-        EXPECT_EQ(
-            "Integration",
-            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::Integration)
-        );
-        EXPECT_EQ("First", NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::First));
-        EXPECT_EQ(
-            "CubicInterpolation",
-            NumericalSolver::StringFromRootFindingStrategy(NumericalSolver::RootFindingStrategy::CubicInterpolation)
-        );
-    }
-}
-
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver,
-    IntegrateTime_Conditions_LinearInterpolationStrategy
-)
-{
-    // Test Linear strategy with CashKarp54 stepper
-    NumericalSolver solver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaCashKarp54,
-        1e-3,
-        1.0e-12,
-        1.0e-12,
-        RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::LinearInterpolation,
-    };
-
-    const State state = getStateVector(defaultStartInstant_);
-    const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
-
-    const NumericalSolver::ConditionSolution conditionSolution =
-        solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
-
-    // Linear interpolation should find the crossing, but with less precision
-    EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-    EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-    EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-3);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_IntegrationStrategy)
-{
-    // Test Integration strategy with Fehlberg78 stepper
+    // Test the unified dense-output refinement with Fehlberg78 stepper.
     NumericalSolver solver = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaFehlberg78,
@@ -603,7 +549,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         1.0e-12,
         1.0e-12,
         RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::Integration,
     };
 
     const State state = getStateVector(defaultStartInstant_);
@@ -613,64 +558,178 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     const NumericalSolver::ConditionSolution conditionSolution =
         solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
 
-    // Integration should be very accurate
+    // Dense-output refinement should be very accurate.
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
     EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
     EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_FirstStrategy)
+class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperConditional
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver,
+      public ::testing::WithParamInterface<NumericalSolver::StepperType>
 {
-    // Test First strategy with RK4 stepper
-    // Use 1.1e-3 step size to avoid landing exactly on target (which would make evaluate=0.0
-    // and fail the AnyCrossing comparator that uses strict inequalities)
-    NumericalSolver solver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKutta4,
-        1.1e-3,
-        1.0,
-        1.0,
-        RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::First,
-    };
+};
 
-    const State state = getStateVector(defaultStartInstant_);
-    const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
-    const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
-
-    const NumericalSolver::ConditionSolution conditionSolution =
-        solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
-
-    // First returns step boundary, so precision depends on step size
-    EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-    EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-    EXPECT_EQ(conditionSolution.iterationCount, 0);  // No root finding iterations for First
-}
-
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_CubicInterpolationStrategy
-)
-{
-    // Test CubicInterpolation strategy with CashKarp54 stepper
-    NumericalSolver solver = {
-        NumericalSolver::LogType::NoLog,
+INSTANTIATE_TEST_SUITE_P(
+    AllSteppers,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperConditional,
+    ::testing::Values(
+        // Adams-Bashforth-Moulton steppers are excluded — conditional integration is not
+        // supported with multistep methods. See `IntegrateTime_Conditions_ABM_Rejected`.
         NumericalSolver::StepperType::RungeKuttaCashKarp54,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        NumericalSolver::StepperType::BulirschStoer
+    )
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperConditional, ForwardAndBackwardCrossing)
+{
+    // Exercise every stepper with the unified dense-output refinement, in both directions. The
+    // forward case is the canonical conditional integration; the backward case is critical
+    // regression coverage for the multistep (ABM) fallback path and for the sign-handling in the
+    // root refinement helpers, which historically had bugs masked by tolerance-friendly forward
+    // runs.
+    const NumericalSolver::StepperType stepperType = GetParam();
+
+    NumericalSolver solver = {
+        NumericalSolver::LogType::NoLog,
+        stepperType,
         1e-3,
         1.0e-12,
         1.0e-12,
         RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::CubicInterpolation,
     };
 
     const State state = getStateVector(defaultStartInstant_);
-    const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
+
+    for (const Real durationSeconds : {Real(1.0), Real(-1.0)})
+    {
+        const Duration duration = Duration::Seconds(durationSeconds);
+        const Instant endInstant = defaultStartInstant_ + duration;
+        const Instant targetInstant = defaultStartInstant_ + duration / 2.0;
+        const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
+
+        const NumericalSolver::ConditionSolution conditionSolution =
+            solver.integrateTime(state, endInstant, systemOfEquations_, condition);
+
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+        EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
+        EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-3);
+
+        // Sanity: observed states are non-empty and last entry matches the solution state.
+        EXPECT_FALSE(solver.getObservedStates().isEmpty());
+        EXPECT_EQ(conditionSolution.state, solver.getObservedStates().accessLast());
+    }
+}
+
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperConditional, ConditionNeverSatisfiedMonotonic
+)
+{
+    // when the condition is never satisfied, the trim back to endTime
+    // must keep observedStates_ monotonic in time. Run forward and backward to exercise both
+    // sign branches of the trim integration.
+    const NumericalSolver::StepperType stepperType = GetParam();
+
+    NumericalSolver solver = {
+        NumericalSolver::LogType::NoLog,
+        stepperType,
+        1e-3,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+    };
+
+    const State state = getStateVector(defaultStartInstant_);
+
+    for (const Real durationSeconds : {Real(1.0), Real(-1.0)})
+    {
+        const Duration duration = Duration::Seconds(durationSeconds);
+        const Instant endInstant = defaultStartInstant_ + duration;
+
+        // Place the condition target *outside* [start, end] so it is never reached.
+        const Instant outsideTarget = defaultStartInstant_ + duration * Real(2.0);
+        const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, outsideTarget);
+
+        const NumericalSolver::ConditionSolution conditionSolution =
+            solver.integrateTime(state, endInstant, systemOfEquations_, condition);
+
+        EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+        EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - endInstant).inSeconds()), 1e-9);
+
+        const Array<State> observed = solver.getObservedStates();
+        ASSERT_GE(observed.getSize(), 2u);
+
+        // Strict monotonicity in the integration direction.
+        for (size_t i = 1; i < observed.getSize(); ++i)
+        {
+            const double dt = (observed[i].accessInstant() - observed[i - 1].accessInstant()).inSeconds();
+            if (durationSeconds > 0.0)
+            {
+                EXPECT_GT(dt, 0.0) << "Forward integration produced non-monotonic observed states at index " << i;
+            }
+            else
+            {
+                EXPECT_LT(dt, 0.0) << "Backward integration produced non-monotonic observed states at index " << i;
+            }
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_BackwardIntegration)
+{
+    // Regression coverage for signedTimeStep < 0 (backward integration) to a known event.
+    // Confirms the dense-output refinement and the bisection lower-bound selection produce the
+    // correct crossing time when integrating in reverse.
+    NumericalSolver solver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        1e-3,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+    };
+
+    const State state = getStateVector(defaultStartInstant_);
+    const Duration duration = -defaultDuration_;
+    const Instant endInstant = defaultStartInstant_ + duration;
+    const Instant targetInstant = defaultStartInstant_ + duration / 2.0;
     const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
 
     const NumericalSolver::ConditionSolution conditionSolution =
-        solver.integrateTime(state, defaultStartInstant_ + defaultDuration_, systemOfEquations_, condition);
+        solver.integrateTime(state, endInstant, systemOfEquations_, condition);
 
-    // Cubic interpolation should be very accurate
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
     EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
     EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_ABM_Rejected)
+{
+    // Multistep Adams-Bashforth-Moulton steppers are not supported for conditional integration.
+    // Both AdamsBashforthMoulton5 and AdamsBashforthMoulton8 must raise a RuntimeError up-front
+    // rather than silently falling through to a path that would warm-up multistep history on
+    // every bracket and stall under tight tolerances.
+    const State state = getStateVector(defaultStartInstant_);
+    const Instant endInstant = defaultStartInstant_ + defaultDuration_;
+    const Instant targetInstant = defaultStartInstant_ + defaultDuration_ / 2.0;
+    const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant);
+
+    for (const NumericalSolver::StepperType stepperType :
+         {NumericalSolver::StepperType::AdamsBashforthMoulton5, NumericalSolver::StepperType::AdamsBashforthMoulton8})
+    {
+        NumericalSolver solver = {
+            NumericalSolver::LogType::NoLog,
+            stepperType,
+            1e-3,
+            1.0e-12,
+            1.0e-12,
+            RootSolver::Default(),
+        };
+
+        EXPECT_THROW(
+            solver.integrateTime(state, endInstant, systemOfEquations_, condition), ostk::core::error::RuntimeError
+        );
+    }
 }

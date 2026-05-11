@@ -33,34 +33,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             )doc"
     );
 
-    enum_<NumericalSolver::RootFindingStrategy>(
-        numericalSolver,
-        "RootFindingStrategy",
-        R"doc(
-            The strategy for finding the exact event crossing time during conditional integration.
-        )doc"
-    )
-        .value(
-            "LinearInterpolation",
-            NumericalSolver::RootFindingStrategy::LinearInterpolation,
-            "Linear interpolation between step endpoints"
-        )
-        .value(
-            "Integration",
-            NumericalSolver::RootFindingStrategy::Integration,
-            "Re-integrate with smaller steps during root finding"
-        )
-        .value(
-            "CubicInterpolation",
-            NumericalSolver::RootFindingStrategy::CubicInterpolation,
-            "Cubic interpolation between step endpoints"
-        )
-        .value(
-            "Skip",
-            NumericalSolver::RootFindingStrategy::First,
-            "Skip the root finding and return the first step boundary where condition is satisfied"
-        );
-
     class_<NumericalSolver::ConditionSolution>(
         numericalSolver,
         "ConditionSolution",
@@ -143,37 +115,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg_v("root_solver", RootSolver::Default(), "RootSolver.default()")
             )
 
-            .def(
-                init<
-                    const NumericalSolver::LogType&,
-                    const NumericalSolver::StepperType&,
-                    const Real&,
-                    const Real&,
-                    const Real&,
-                    const RootSolver&,
-                    const NumericalSolver::RootFindingStrategy&>(),
-                R"doc(
-                    Constructor.
-
-                    Args:
-                        log_type (NumericalSolver.LogType): The type of logging.
-                        stepper_type (NumericalSolver.StepperType): The type of stepper.
-                        time_step (float): The time step.
-                        relative_tolerance (float): The relative tolerance.
-                        absolute_tolerance (float): The absolute tolerance.
-                        root_solver (RootSolver): The root solver.
-                        root_finding_strategy (RootFindingStrategy): The root finding strategy.
-
-                )doc",
-                arg("log_type"),
-                arg("stepper_type"),
-                arg("time_step"),
-                arg("relative_tolerance"),
-                arg("absolute_tolerance"),
-                arg("root_solver"),
-                arg("root_finding_strategy")
-            )
-
             .def(self == self)
             .def(self != self)
 
@@ -209,16 +150,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         RootSolver: The root solver.
-                )doc"
-            )
-            .def(
-                "get_root_finding_strategy",
-                &NumericalSolver::getRootFindingStrategy,
-                R"doc(
-                    Get the root finding strategy.
-
-                    Returns:
-                        RootFindingStrategy: The root finding strategy.
                 )doc"
             )
 
@@ -411,7 +342,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Return a conditional numerical solver.
 
                     Args:
-                        time_step (float): The time step.
+                        time_step (float): The time step (in seconds).
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         state_logger (StateLogger, optional): The state logger. Defaults to None.
@@ -423,20 +354,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
                 arg_v("state_logger", nullptr, "None")
-            )
-            .def_static(
-                "string_from_root_finding_strategy",
-                &NumericalSolver::StringFromRootFindingStrategy,
-                R"doc(
-                    Return the string representation of a root finding strategy.
-
-                    Args:
-                        strategy (RootFindingStrategy): The root finding strategy.
-
-                    Returns:
-                        str: The string representation.
-                )doc",
-                arg("strategy")
             );
     }
 }

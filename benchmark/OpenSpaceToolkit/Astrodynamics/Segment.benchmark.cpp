@@ -176,8 +176,7 @@ static NumericalSolver BuildSolver()
         5.0,
         1.0e-12,
         1.0e-12,
-        RootSolver::Default(),
-        NumericalSolver::RootFindingStrategy::CubicInterpolation
+        RootSolver::Default()
     );
 }
 
