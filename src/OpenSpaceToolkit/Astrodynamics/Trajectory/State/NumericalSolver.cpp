@@ -6,7 +6,6 @@
 #include <boost/numeric/odeint/algebra/vector_space_algebra.hpp>
 #include <boost/numeric/odeint/external/eigen/eigen.hpp>
 
-#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -78,9 +77,6 @@ namespace state
 {
 
 using namespace boost::numeric::odeint;
-
-using ostk::core::container::Pair;
-using ostk::core::type::Shared;
 
 using ostk::physics::time::Duration;
 
@@ -410,14 +406,11 @@ inline typename std::enable_if<!IsFixedStepStepper<Stepper>::value>::type doStep
 ///        the multistep history (if any) remains valid.
 template <typename Stepper, typename System>
 inline void integrateToTime_(
-    Stepper& stepper,
-    NumericalSolver::StateVector& stateVector,
-    double startTime,
-    double endTime,
-    double stepSize,
-    const System& system
+    Stepper& stepper, NumericalSolver::StateVector& stateVector, double startTime, double endTime, const System& system
 )
 {
+    // Handles the sign of the step size
+    const double stepSize = (endTime - startTime) / 10.0;
     integrate_adaptive(stepper, system, stateVector, startTime, endTime, stepSize);
 }
 
@@ -459,7 +452,11 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     State previousState = aState;
     bool conditionSatisfied = false;
 
-    while (checkTimeLimit(currentTime) && !conditionSatisfied)
+    const double maxStepSizeDouble =
+        maxStepSize_.isDefined() ? static_cast<double>(maxStepSize_) : std::numeric_limits<double>::infinity();
+    const double stepSignAbs = std::abs(aSignedTimeStep);
+
+    while (true)
     {
         previousStateVector = currentStateVector;
         previousTime = currentTime;
@@ -468,32 +465,25 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         // When a maxStepSize is specified, also enforce that as an upper bound. This is critical
         // for detecting discrete/step-function events (e.g., thrust toggles) that can be missed
         // entirely when the adaptive stepper grows its step too large.
-        const double remaining = endTime - currentTime;
-        double maxDt = std::abs(remaining) + std::abs(aSignedTimeStep);
-        if (maxStepSize_.isDefined())
-        {
-            maxDt = std::min(maxDt, static_cast<double>(maxStepSize_));
-        }
+        const double remainingAbs = std::abs(endTime - currentTime);
+        const double maxDt = std::min(remainingAbs + stepSignAbs, maxStepSizeDouble);
         dt = std::clamp(dt, -maxDt, maxDt);
 
         doStep(aStepper, aSystemOfEquations, currentStateVector, currentTime, dt);
 
         currentState = createState(currentStateVector, currentTime);
 
-        observeState(currentState);
-
         conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
 
-        if (conditionSatisfied)
+        if (conditionSatisfied || !checkTimeLimit(currentTime))
         {
             break;
         }
 
+        observeState(currentState);
+
         previousState = currentState;
     }
-
-    // Remove the state that triggered the condition (we'll find the exact crossing).
-    observedStates_.pop_back();
 
     if (!conditionSatisfied)
     {
@@ -502,12 +492,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         // integrate_adaptive with a zero-length window and have boost odeint reject the request.
         if (std::abs(endTime - currentTime) > 1e-12)
         {
-            // Compute step size with correct sign for the direction from currentTime to endTime.
-            // This handles the case where we overshot endTime and need to integrate backwards.
-            const double adjustmentStepSize = (endTime - currentTime) / 10.0;
-            integrateToTime_<Stepper>(
-                aStepper, currentStateVector, currentTime, endTime, adjustmentStepSize, aSystemOfEquations
-            );
+            integrateToTime_<Stepper>(aStepper, currentStateVector, currentTime, endTime, aSystemOfEquations);
         }
 
         const State finalState = createState(currentStateVector, endTime);
@@ -536,19 +521,14 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     const bool isBackward = stepSpan < 0.0;
 
     // Cubic Spline requires a atleast 5 samples.
-    const Size minIntervals = 5;
-    const double maxDt = 20.0;
-    const Size numIntervals =
-        static_cast<Size>(std::max(static_cast<double>(minIntervals), std::ceil(absStepSpan / maxDt)));
+    const Size numIntervals = std::max(5, static_cast<int>(std::ceil(absStepSpan / 20.0)));
     const Size numSamples = numIntervals + 1;
     const double signedSampleDt = stepSpan / static_cast<double>(numIntervals);
     const double absSampleDt = absStepSpan / static_cast<double>(numIntervals);
-
     VectorXd sampleTimes = VectorXd::LinSpaced(numSamples, previousTime, currentTime);
 
     const Size stateDim = previousStateVector.size();
     Eigen::MatrixXd sampleMatrix(numSamples, stateDim);
-
     Size sampleIdx = 0;
     const auto sampleObserver =
         [&sampleMatrix, &sampleIdx](const NumericalSolver::StateVector& aSampledState, const double& /*aTime*/)
@@ -584,7 +564,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         splines.add(CubicSpline(yColumn, splineX0, absSampleDt));
     }
 
-    NumericalSolver::StateVector interpolatedStateVector(previousStateVector.size());
     const auto stateGenerator = [&splines, stateDim](const double& aTime) -> NumericalSolver::StateVector
     {
         NumericalSolver::StateVector stateVectorAtTargetTime(stateDim);
@@ -595,12 +574,11 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         return stateVectorAtTargetTime;
     };
 
-    const auto checkCondition =
-        [&anEventCondition, &createState, &previousState, &stateGenerator, &interpolatedStateVector](const double& aTime
-        ) -> double
+    const auto checkCondition = [&anEventCondition, &createState, &previousState, &stateGenerator](const double& aTime
+                                ) -> double
     {
-        interpolatedStateVector = stateGenerator(aTime);
-        const State interpolatedState = createState(interpolatedStateVector, aTime);
+        const NumericalSolver::StateVector stateVectorAtTargetTime = stateGenerator(aTime);
+        const State interpolatedState = createState(stateVectorAtTargetTime, aTime);
         const bool isSatisfied = anEventCondition.isSatisfied(interpolatedState, previousState);
         return isSatisfied ? 1.0 : -1.0;
     };
@@ -639,7 +617,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     // Ensure that the solution time has crossed the condition
     const double solutionTime = (aSignedTimeStep > 0.0) ? solution.upperBound : solution.lowerBound;
 
-    const State solutionState = createState(interpolatedStateVector, solutionTime);
+    const NumericalSolver::StateVector stateVectorAtSolutionTime = stateGenerator(solutionTime);
+    const State solutionState = createState(stateVectorAtSolutionTime, solutionTime);
 
     // If the solution state is not the same as the initial state, add it to the observed states
     if (solutionState.accessInstant() != aState.accessInstant())

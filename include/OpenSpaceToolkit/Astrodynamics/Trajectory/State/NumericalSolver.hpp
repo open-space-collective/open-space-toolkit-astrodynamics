@@ -33,9 +33,6 @@ using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 
 /// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics
 /// Numerical Solver.
-///
-/// Event-crossing refinement uses a forced Dormand-Prince 5 dense-output step, regardless of the
-/// main stepper type.
 class NumericalSolver : public MathNumericalSolver
 {
    public:
