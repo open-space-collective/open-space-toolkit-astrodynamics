@@ -97,6 +97,19 @@ class NumericalSolver : public MathNumericalSolver
     /// @return Observed states
     Array<State> getObservedStates() const;
 
+    /// @brief Get the maximum step size
+    ///
+    /// @return Maximum step size in seconds, or Real::Undefined() if not set
+    Real getMaxStepSize() const;
+
+    /// @brief Set the maximum step size the integrator is allowed to take during conditional
+    ///        integration. Useful for detecting discrete/step-function events (e.g., thrust
+    ///        toggles) that can be missed when the adaptive stepper grows its step too large.
+    ///
+    /// @param aMaxStepSize Maximum step size in seconds. Use Real::Undefined() to remove the
+    ///                     limit.
+    void setMaxStepSize(const Real& aMaxStepSize);
+
     /// @brief Perform numerical integration for a given array of time instants.
     ///
     /// @param aState Initial state for integration.
@@ -135,7 +148,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Construct an undefined numerical solver.
     ///
     /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::Undefined() ;
+    ///     NumericalSolver solver = NumericalSolver::Undefined();
     /// @endcode
     ///
     /// @return An undefined numerical solver.
@@ -144,7 +157,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Construct a default numerical solver.
     ///
     /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::Default() ;
+    ///     NumericalSolver solver = NumericalSolver::Default();
     /// @endcode
     ///
     /// @return A default numerical solver.
@@ -155,7 +168,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @code{.cpp}
     ///     NumericalSolver solver = NumericalSolver::FixedStepSize(
     ///         NumericalSolver::StepperType::RungeKutta4, 30.0
-    ///     ) ;
+    ///     );
     /// @endcode
     ///
     /// @param aTimeStep The time step (in seconds) to use for integration.
@@ -167,11 +180,15 @@ class NumericalSolver : public MathNumericalSolver
     /// @brief Default conditional
     ///
     /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::DefaultConditional() ;
+    ///     NumericalSolver solver = NumericalSolver::DefaultConditional();
     /// @endcode
     ///
     /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
     /// @return A default conditional numerical solver.
+    [[deprecated(
+        "Use NumericalSolver::Default() instead. All solvers now support conditional solving. This method will be "
+        "removed in a future version."
+    )]]
     static NumericalSolver DefaultConditional(const std::function<void(const State&)>& stateLogger = nullptr);
 
     /// @brief Create a conditional numerical solver.
@@ -179,14 +196,18 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aTimeStep The initial time step (in seconds) to use.
     /// @param aRelativeTolerance The relative tolerance to use.
     /// @param anAbsoluteTolerance The absolute tolerance to use.
-    /// @param stateLogger A function that takes a `State` object and logs.
+    /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
     ///
     /// @return A conditional numerical solver.
+    [[deprecated(
+        "Use NumericalSolver constructor instead. All solvers now support conditional solving. This method will be "
+        "removed in a future version."
+    )]]
     static NumericalSolver Conditional(
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
-        const std::function<void(const State&)>& stateLogger
+        const std::function<void(const State&)>& stateLogger = nullptr
     );
 
     /// Delete undesired methods from parent
@@ -224,13 +245,9 @@ class NumericalSolver : public MathNumericalSolver
     RootSolver rootSolver_;
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
+    Real maxStepSize_ = Real::Undefined();
 
     /// @brief Constructor
-    ///
-    /// @code{.cpp}
-    ///                  NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep,
-    ///                  aRelativeTolerance, anAbsoluteTolerance };
-    /// @endcode
     ///
     /// @param aLogType An enum indicating the amount of verbosity wanted to be logged during
     ///                  numerical integration
@@ -252,7 +269,43 @@ class NumericalSolver : public MathNumericalSolver
         const std::function<void(const State&)>& stateLogger
     );
 
+    /// @brief Observe a state, storing it's coordinates in the observedStates_ array
+    ///
+    /// @param aState The state to observe
     void observeState(const State& aState);
+
+    /// @brief Integrate with controlled stepper using the unified dense-output refinement.
+    ///
+    /// @param aState The initial state for integration
+    /// @param anInstant The instant to integrate to
+    /// @param aSystemOfEquations The system of equations to integrate
+    /// @param anEventCondition The event condition to check
+    /// @return The condition solution
+    ConditionSolution integrateTimeWithControlledStepper(
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const EventCondition& anEventCondition
+    );
+
+    /// @brief Templated implementation of conditional integration. Defined out-of-line in
+    ///        the .cpp so the boost odeint stepper types do not leak into this header.
+    ///
+    /// @param aStepper The stepper instance used for the main integration loop.
+    /// @param aState Initial state.
+    /// @param anInstant Maximum time to integrate to.
+    /// @param aSystemOfEquations System of equations to integrate.
+    /// @param anEventCondition Condition to detect.
+    /// @param aSignedTimeStep Signed initial step size (negative for backward integration).
+    template <typename Stepper>
+    ConditionSolution integrateTimeWithStepperImpl_(
+        Stepper& aStepper,
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const EventCondition& anEventCondition,
+        double aSignedTimeStep
+    );
 };
 
 }  // namespace state

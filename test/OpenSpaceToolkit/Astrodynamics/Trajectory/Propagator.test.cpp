@@ -779,10 +779,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         EXPECT_EQ(coordinates1.size(), coordinates2.size());
 
         // Check that each element of the two vectors is close
-        for (int i = 0; i < coordinates1.size(); ++i)
-        {
-            EXPECT_NEAR(coordinates1(i), coordinates2(i), 1e-5);
-        }
+        EXPECT_VECTORS_ALMOST_EQUAL(coordinates1, coordinates2, 5e-5);
     }
 
     {

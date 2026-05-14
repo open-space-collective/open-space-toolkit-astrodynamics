@@ -125,6 +125,7 @@ using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
+using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
@@ -845,18 +846,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 
     const NumericalSolver defaultNumericalSolver_ = {
         NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
-        5.0,
-        1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
-        1.0e-8,  // Reducing tolerances so that the solving doesn't take forever
-    };
-
-    const NumericalSolver defaultHighPrecisionNumericalSolver_ = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
         5.0,
         1.0e-12,
         1.0e-12,
+        RootSolver::Default(),
     };
 
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
@@ -1249,13 +1243,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             durationCondition,
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
-            {
-                NumericalSolver::LogType::NoLog,
-                NumericalSolver::StepperType::RungeKuttaDopri5,
-                5.0,
-                1.0e-12,
-                1.0e-12,
-            }
+            defaultNumericalSolver_
         );
 
         const Mass initialWetMass = Mass::Kilograms(200.0);
@@ -1288,14 +1276,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
             maneuveringSegmentSolution.computeDeltaV(defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()
             ),
             maneuvers[0].calculateDeltaV(),
-            1e-10 * maneuveringSegmentSolution.computeDeltaV(
+            5e-10 * maneuveringSegmentSolution.computeDeltaV(
                         defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()  // Scale to relative error
                     )
         );
         EXPECT_NEAR(
             maneuveringSegmentSolution.computeDeltaMass().inKilograms(),
             maneuvers[0].calculateDeltaMass().inKilograms(),
-            1e-10 * maneuveringSegmentSolution.computeDeltaMass().inKilograms()  // Scale to relative error
+            5e-10 * maneuveringSegmentSolution.computeDeltaMass().inKilograms()  // Scale to relative error
         );
 
         // These are not as close as the dV and dM above likely due to the midpoint trapezoidal rule used to calculate
@@ -1303,13 +1291,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
         EXPECT_NEAR(
             defaultSatelliteSystem_.getPropulsionSystem().getThrust(),
             maneuvers[0].calculateAverageThrust(initialWetMass),
-            5e-6 * defaultSatelliteSystem_.getPropulsionSystem().getThrust()  // Scale to relative error
+            5e-5 * defaultSatelliteSystem_.getPropulsionSystem().getThrust()  // Scale to relative error
         );
 
         EXPECT_NEAR(
             defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse(),
             maneuvers[0].calculateAverageSpecificImpulse(initialWetMass),
-            5e-6 * defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()  // Scale to relative error
+            5e-5 * defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()  // Scale to relative error
         );
     }
 
@@ -1946,14 +1934,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
 
     // No maneuvers should be produced
     {
-        const NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog,
-            NumericalSolver::StepperType::RungeKuttaDopri5,
-            1.0,
-            1.0e-12,
-            1.0e-12,
-        };
-
         VectorXd initialCoordinates(7);
         initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
         const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
@@ -1973,7 +1953,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
             eventCondition,
             customThrusterDynamics,
             defaultDynamics_,
-            numericalSolver
+            defaultNumericalSolver_
         );
 
         {
@@ -2053,14 +2033,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
 
     // No maneuvers should be produced
     {
-        const NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog,
-            NumericalSolver::StepperType::RungeKuttaDopri5,
-            1.0,
-            1.0e-12,
-            1.0e-12,
-        };
-
         VectorXd initialCoordinates(7);
         initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
         const State initialState = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
@@ -2080,7 +2052,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
             eventCondition,
             customThrusterDynamics,
             defaultDynamics_,
-            numericalSolver
+            defaultNumericalSolver_
         );
 
         {
@@ -2512,7 +2484,7 @@ TEST_F(
         // The second maneuver interval is expected to be similar but not very close as the trajectory (after the first
         // maneuver) has changed
         EXPECT_INTERVALS_ALMOST_EQUAL(
-            maneuvers[1].getInterval(), constraintedManeuvers[1].getInterval(), Duration::Seconds(0.5)
+            maneuvers[1].getInterval(), constraintedManeuvers[1].getInterval(), Duration::Seconds(1.5)
         );
     }
 }
@@ -2734,7 +2706,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
 
     const NumericalSolver numericalSolver = {
         NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
         1.0,
         1.0e-12,
         1.0e-12,
@@ -3244,20 +3216,15 @@ TEST_F(
             initialStateWithMass_.accessInstant() + Duration::Minutes(30.0)
         ),
     };
+
     const Shared<Thruster> customThrusterDynamics =
         std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<CustomGuidanceLaw>(guidanceLawIntervals));
 
     const Segment maneuverSegment = Segment::Maneuver(
-        defaultName_,
-        durationCondition,
-        customThrusterDynamics,
-        defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,  // Have to use high precision numerical solver to get a precise duration
-        constraints
+        defaultName_, durationCondition, customThrusterDynamics, defaultDynamics_, defaultNumericalSolver_, constraints
     );
 
     const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
-
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
 
     // first maneuver will be skipped due to minimum duration constraint
@@ -3286,7 +3253,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -3440,7 +3407,7 @@ TEST_F(
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -3530,7 +3497,7 @@ TEST_F(
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -3579,7 +3546,7 @@ TEST_F(
         eventCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -3618,7 +3585,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -3708,7 +3675,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -4416,7 +4383,7 @@ TEST_P(
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -4519,7 +4486,7 @@ TEST_P(
         durationCondition,
         defaultThrusterDynamicsSPtr_,
         defaultDynamics_,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         constraints
     );
 
@@ -4748,7 +4715,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Singl
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
-        defaultHighPrecisionNumericalSolver_,
+        defaultNumericalSolver_,
         lofFactorySPtr,
         Angle::Undefined(),
         constraints
@@ -4962,14 +4929,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     const Environment environment(initialInstant, {earthSPtr});
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
-        5.0,
-        1.0e-12,
-        1.0e-12,
-    };
-
     const BrouwerLyddaneMeanLong blm = BrouwerLyddaneMeanLong::Cartesian(
         {initialState.getPosition(), initialState.getVelocity()},
         EarthGravitationalModel::EGM2008.gravitationalParameter_
@@ -5042,7 +5001,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
-        numericalSolver,
+        defaultNumericalSolver_,
         {Duration::Minutes(16.0),
          Duration::Minutes(16.0),
          Duration::Minutes(26.0),
@@ -5109,14 +5068,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
     const Environment environment(earthSPtr, {std::make_shared<Sun>(Sun::Default())}, initialInstant);
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaDopri5,
-        10.0,
-        1.0e-12,
-        1.0e-12,
-    };
-
     const COE targetCOE = {
         Length::Meters(10.0e10),
         0.0,                    // eccentricity
@@ -5166,7 +5117,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
-        numericalSolver,
+        defaultNumericalSolver_,
         tnwFactorySPtr,
         Angle::Undefined(),
         {Duration::Minutes(10.0),

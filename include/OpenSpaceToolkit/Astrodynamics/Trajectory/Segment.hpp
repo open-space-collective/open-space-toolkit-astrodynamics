@@ -194,7 +194,7 @@ class Segment
         /// @param aStateArray Array of states for the segment
         /// @param aConditionIsSatisfied True if the event condition is satisfied
         /// @param aSegmentType Type of segment
-        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments). Defaults to empty.
+        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments).
         /// @return An instance of Solution
         Solution(
             const String& aName,
@@ -512,12 +512,15 @@ class Segment
     /// @param anEndInstant The end instant
     /// @param aDynamicsArray The dynamics array
     /// @param anEventCondition The event condition
+    /// @param limitMaxStepSize If true, the maximum step size will be limited to 2 minutes, or the duration of the
+    /// subsegment, whichever is smaller. Defaults to false.
     /// @return The segment solution
     Segment::Solution solveWithDynamics_(
         const State& aState,
         const Instant& anEndInstant,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const Shared<EventCondition>& anEventCondition
+        const Shared<EventCondition>& anEventCondition,
+        const bool& limitMaxStepSize = false
     ) const;
 
     /// @brief For a given maneuver, construct a solution that is Local Orbital Frame (LOF) compliant.

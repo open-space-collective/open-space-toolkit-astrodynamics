@@ -511,6 +511,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
     };
 
     Array<FlightManeuver> extractedManeuvers = Array<FlightManeuver>::Empty();
+
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
@@ -886,7 +887,8 @@ Segment::Solution Segment::solve(
         if (previousManeuverInterval.getEnd() > aState.accessInstant())
         {
             throw ostk::core::error::RuntimeError(String::Format(
-                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends after "
+                "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends "
+                "after "
                 "the initial state instant.",
                 previousManeuverInterval.toString()
             ));
@@ -1531,6 +1533,7 @@ Segment::Solution Segment::solve(
         // Candidate maneuver passed all constraints - accept it
         const Segment::Solution maneuverLOFCompliantSolution =
             constructLOFCompliantManeuverSolution(maneuverSubSegmentSolution, subsegmentManeuver.value());
+
         acceptManeuver(maneuverLOFCompliantSolution, subsegmentManeuver.value());
     }
 
@@ -1653,11 +1656,22 @@ Segment::Solution Segment::solveWithDynamics_(
     const State& aState,
     const Instant& anEndInstant,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Shared<EventCondition>& anEventCondition
+    const Shared<EventCondition>& anEventCondition,
+    const bool& limitMaxStepSize
 ) const
 {
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-on
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the thrust window.
+    NumericalSolver numericalSolver = numericalSolver_;
+    if (limitMaxStepSize)
+    {
+        const Real maxStepSize = std::min(Real(120.0), (anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+        numericalSolver.setMaxStepSize(maxStepSize);
+    }
+
     const Propagator propagator = {
-        numericalSolver_,
+        numericalSolver,
         aDynamicsArray,
     };
 
@@ -1780,7 +1794,10 @@ Segment::Solution Segment::solveUntilThrusterOff_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, dynamicsArray, combinedCondition);
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-off
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the remaining thrust window.
+    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, dynamicsArray, combinedCondition, true);
 
     // As the event condition could have terminated due to the thruster off condition, we want to
     // re-evaluate the segment event condition to see if it's satisfied.
@@ -1804,7 +1821,10 @@ Segment::Solution Segment::solveUntilThrusterOn_(
         Array<Shared<EventCondition>> {eventCondition_, thrusterToggleCondition}
     );
 
-    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, combinedCondition);
+    // Use a solver with a max step size to ensure the integrator doesn't overshoot the thrust-on
+    // boundary. The thrust toggle condition is a step function that can be missed entirely if the
+    // adaptive stepper takes a step larger than the thrust window.
+    Segment::Solution solution = solveWithDynamics_(aState, anEndInstant, freeDynamicsArray_, combinedCondition, true);
 
     // As the event condition could have terminated due to the thruster on condition, we want to
     // re-evaluate the segment event condition to see if it's satisfied.
