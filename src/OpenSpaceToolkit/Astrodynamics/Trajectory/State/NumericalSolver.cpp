@@ -522,8 +522,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
 
     // Cubic Spline requires a atleast 5 samples. Use a fine target spacing (~5 s) to balance performance and accuracy.
     // cubic-spline interpolation error at the bracketing interval endpoint stays small (O(h^4));
-    // the dominant cost in this block is the underlying integrate_times call, which is roughly
-    // independent of the number of requested sample points.
     const Size numIntervals = std::max(5, static_cast<int>(std::ceil(absStepSpan / 5.0)));
     const Size numSamples = numIntervals + 1;
     const double signedSampleDt = stepSpan / static_cast<double>(numIntervals);
