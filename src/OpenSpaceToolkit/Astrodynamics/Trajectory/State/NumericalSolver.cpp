@@ -426,7 +426,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     double aSignedTimeStep
 )
 {
-    observedStates_ = {aState};
+    observedStates_ = {};
 
     const StateBuilder stateBuilder = {aState};
 
@@ -461,6 +461,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         previousStateVector = currentStateVector;
         previousTime = currentTime;
 
+        observeState(previousState);
+
         // Limit the step size to prevent massive overshoots past the target end time.
         // When a maxStepSize is specified, also enforce that as an upper bound. This is critical
         // for detecting discrete/step-function events (e.g., thrust toggles) that can be missed
@@ -479,8 +481,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         {
             break;
         }
-
-        observeState(currentState);
 
         previousState = currentState;
     }
@@ -520,8 +520,11 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     const double absStepSpan = std::abs(stepSpan);
     const bool isBackward = stepSpan < 0.0;
 
-    // Cubic Spline requires a atleast 5 samples.
-    const Size numIntervals = std::max(5, static_cast<int>(std::ceil(absStepSpan / 20.0)));
+    // Cubic Spline requires a atleast 5 samples. Use a fine target spacing (~5 s) to balance performance and accuracy.
+    // cubic-spline interpolation error at the bracketing interval endpoint stays small (O(h^4));
+    // the dominant cost in this block is the underlying integrate_times call, which is roughly
+    // independent of the number of requested sample points.
+    const Size numIntervals = std::max(5, static_cast<int>(std::ceil(absStepSpan / 5.0)));
     const Size numSamples = numIntervals + 1;
     const double signedSampleDt = stepSpan / static_cast<double>(numIntervals);
     const double absSampleDt = absStepSpan / static_cast<double>(numIntervals);
@@ -578,8 +581,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
                                 ) -> double
     {
         const NumericalSolver::StateVector stateVectorAtTargetTime = stateGenerator(aTime);
-        const State interpolatedState = createState(stateVectorAtTargetTime, aTime);
-        const bool isSatisfied = anEventCondition.isSatisfied(interpolatedState, previousState);
+        const State stateAtTargetTime = createState(stateVectorAtTargetTime, aTime);
+        const bool isSatisfied = anEventCondition.isSatisfied(stateAtTargetTime, previousState);
         return isSatisfied ? 1.0 : -1.0;
     };
 
