@@ -284,7 +284,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
     const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
 
     const NumericalSolver defaultNumericalSolverVariable = {
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaDopri5, 45.0, 1.0e-10, 1.0e-10
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 45.0, 1.0e-10, 1.0e-10
     };
 
     const RealCondition defaultDurationCondition =

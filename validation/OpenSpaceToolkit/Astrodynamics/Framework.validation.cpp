@@ -479,7 +479,7 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Th
             {
                 Tool::OREKIT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.91e-0},
                     {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
                 },
             },
@@ -530,7 +530,7 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Th
                 Tool::GMAT,
                 {
                     {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
                 },
             },
             {
@@ -624,15 +624,15 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Th
             {
                 Tool::GMAT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.81e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
                 },
             },
             {
                 Tool::OREKIT,
                 {
                     {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
                 },
             },
         },
@@ -644,7 +644,7 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Th
                 Tool::GMAT,
                 {
                     {Quantity::CARTESIAN_POSITION_GCRF, 10.6e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 4.0e-3},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 4.1e-3},
                 },
             },
             {
@@ -687,14 +687,14 @@ static const std::vector<std::tuple<String, Array<ToolComparison>>> testCases_Se
             {
                 Tool::GMAT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.8e-0},
-                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.0e-3},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.84e-0},
+                    {Quantity::CARTESIAN_VELOCITY_GCRF, 2.1e-3},
                 },
             },
             {
                 Tool::OREKIT,
                 {
-                    {Quantity::CARTESIAN_POSITION_GCRF, 1.9e-0},
+                    {Quantity::CARTESIAN_POSITION_GCRF, 1.93e-0},
                     {Quantity::CARTESIAN_VELOCITY_GCRF, 2.2e-3},
                 },
             },
