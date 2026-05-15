@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceboost_1_1numeric" kind="namespace" language="C++">
+    <compoundname>boost::numeric</compoundname>
+    <innernamespace refid="namespaceboost_1_1numeric_1_1odeint">boost::numeric::odeint</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="39" column="1"/>
+  </compounddef>
+</doxygen>

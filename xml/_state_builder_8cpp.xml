@@ -179,7 +179,7 @@
 <codeline lineno="22"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="23"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a8c576e2d264c1dc02e2b8c7fe84349db" kindref="member">StateBuilder::StateBuilder</ref>(</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">StateBuilder::StateBuilder(</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>aFrameSPtr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateBroker&gt;&amp;<sp/>aCoordinateBrokerSPtr</highlight></codeline>
 <codeline lineno="27"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>frameSPtr_(aFrameSPtr),</highlight></codeline>
@@ -187,15 +187,15 @@
 <codeline lineno="30"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="31"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a8c576e2d264c1dc02e2b8c7fe84349db" kindref="member">StateBuilder::StateBuilder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">StateBuilder::StateBuilder(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>frameSPtr_(aState.accessFrame()),</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>coordinatesBrokerSPtr_(aState.accessCoordinateBroker())</highlight></codeline>
 <codeline lineno="36"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="37"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a9629d067058648c72625a1d4bf6e120a" kindref="member">StateBuilder::operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder&amp;<sp/>aStateBuilder)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>StateBuilder::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder&amp;<sp/>aStateBuilder)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="40"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())<sp/>||<sp/>(!aStateBuilder.isDefined()))</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!this-&gt;isDefined())<sp/>||<sp/>(!aStateBuilder.isDefined()))</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -213,14 +213,14 @@
 <codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="57"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af847028d562d2286f5b5c6524fbb168f" kindref="member">StateBuilder::operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder&amp;<sp/>aStateBuilder)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>StateBuilder::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder&amp;<sp/>aStateBuilder)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="60"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!((*this)<sp/>==<sp/>aStateBuilder);</highlight></codeline>
 <codeline lineno="62"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1afcd299cd50f977e224ba77d814248da8" kindref="member">StateBuilder::operator+</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>StateBuilder::operator+(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="65"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -233,12 +233,12 @@
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/>expandedSubsets<sp/>=<sp/>coordinatesBrokerSPtr_-&gt;getSubsets();</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>expandedSubsets.add(aCoordinateSubsetSPtr);</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a8c576e2d264c1dc02e2b8c7fe84349db" kindref="member">StateBuilder</ref>(this-&gt;frameSPtr_,<sp/>expandedSubsets);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>StateBuilder(this-&gt;frameSPtr_,<sp/>expandedSubsets);</highlight></codeline>
 <codeline lineno="80"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a656353360bd44030ddf6b511fd94b035" kindref="member">StateBuilder::operator-</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>StateBuilder::operator-(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateSubset&gt;&amp;<sp/>aCoordinateSubsetSPtr)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="83"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -257,24 +257,24 @@
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a8c576e2d264c1dc02e2b8c7fe84349db" kindref="member">StateBuilder</ref>(this-&gt;frameSPtr_,<sp/>contractedSubsets);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>StateBuilder(this-&gt;frameSPtr_,<sp/>contractedSubsets);</highlight></codeline>
 <codeline lineno="104"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder&amp;<sp/>aStateBuilder)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a054d8e0659580566d18d1b58946cd23f" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder&amp;<sp/>aStateBuilder)</highlight></codeline>
 <codeline lineno="107"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>aStateBuilder.print(anOutputStream);</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
 <codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
 <codeline lineno="111"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">StateBuilder::isDefined</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>StateBuilder::isDefined()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="114"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(this-&gt;frameSPtr_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>this-&gt;frameSPtr_-&gt;isDefined()<sp/>&amp;&amp;<sp/>(this-&gt;coordinatesBrokerSPtr_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="116"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a52d810581518f6a53e4d1fb575be8e26" kindref="member">StateBuilder::build</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aCoordinates)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>StateBuilder::build(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aCoordinates)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="119"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -282,9 +282,9 @@
 <codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{anInstant,<sp/>aCoordinates,<sp/>this-&gt;frameSPtr_,<sp/>this-&gt;coordinatesBrokerSPtr_};</highlight></codeline>
 <codeline lineno="126"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a17392398ef66e4468f4b48e279027680" kindref="member">StateBuilder::reduce</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>StateBuilder::reduce(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="129"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -313,9 +313,9 @@
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.inFrame(this-&gt;frameSPtr_);</highlight></codeline>
 <codeline lineno="157"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a862752ff50a800ad97f2181463a75ea8" kindref="member">StateBuilder::expand</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>defaultState)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>StateBuilder::expand(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>defaultState)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="160"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -369,12 +369,12 @@
 <codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(</highlight><highlight class="stringliteral">&quot;The<sp/>operation<sp/>is<sp/>not<sp/>an<sp/>expansion&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
-<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a52d810581518f6a53e4d1fb575be8e26" kindref="member">build</ref>(aState.accessInstant(),<sp/>coordinates);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;build(aState.accessInstant(),<sp/>coordinates);</highlight></codeline>
 <codeline lineno="216"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="217"><highlight class="normal"></highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a54417dfbe1f8add47a4a5d4876913067" kindref="member">StateBuilder::accessFrame</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;<sp/>StateBuilder::accessFrame()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="219"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -382,9 +382,9 @@
 <codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;frameSPtr_;</highlight></codeline>
 <codeline lineno="226"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="227"><highlight class="normal"></highlight></codeline>
-<codeline lineno="228"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateBroker&gt;&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af821ba6a4551b6bea8ef9ee79c08897a" kindref="member">StateBuilder::accessCoordinateBroker</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>CoordinateBroker&gt;&amp;<sp/>StateBuilder::accessCoordinateBroker()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="229"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -392,14 +392,14 @@
 <codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;coordinatesBrokerSPtr_;</highlight></codeline>
 <codeline lineno="236"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="237"><highlight class="normal"></highlight></codeline>
-<codeline lineno="238"><highlight class="normal">Shared&lt;const<sp/>Frame&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a3e288fd3fe4a9a7be02570d9c3e2e98f" kindref="member">StateBuilder::getFrame</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">Shared&lt;const<sp/>Frame&gt;<sp/>StateBuilder::getFrame()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="239"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a54417dfbe1f8add47a4a5d4876913067" kindref="member">accessFrame</ref>();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;accessFrame();</highlight></codeline>
 <codeline lineno="241"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="242"><highlight class="normal"></highlight></codeline>
-<codeline lineno="243"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1aafda4916416d8361f7419289566f6aaa" kindref="member">StateBuilder::getCoordinateSubsets</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/>StateBuilder::getCoordinateSubsets()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="244"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -407,9 +407,9 @@
 <codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;coordinatesBrokerSPtr_-&gt;getSubsets();</highlight></codeline>
 <codeline lineno="251"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="252"><highlight class="normal"></highlight></codeline>
-<codeline lineno="253"><highlight class="normal">Size<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a65f5f86d7749da7199203509cb361ecd" kindref="member">StateBuilder::getSize</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">Size<sp/>StateBuilder::getSize()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="254"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;StateBuilder&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -417,7 +417,7 @@
 <codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;coordinatesBrokerSPtr_-&gt;getNumberOfCoordinates();</highlight></codeline>
 <codeline lineno="261"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="262"><highlight class="normal"></highlight></codeline>
-<codeline lineno="263"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1a50bf51472cd381ea0163599950c15347" kindref="member">StateBuilder::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>StateBuilder::print(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="264"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::String;</highlight></codeline>
 <codeline lineno="266"><highlight class="normal"></highlight></codeline>
@@ -426,7 +426,7 @@
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)</highlight></codeline>
 <codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Frame:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(this-&gt;frameSPtr_-&gt;isDefined()<sp/>?<sp/>this-&gt;frameSPtr_-&gt;getName()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;Undefined&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"></highlight></codeline>
-<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1af3c3b621bfc87f35f82ecc978c7b0b47" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!this-&gt;isDefined())</highlight></codeline>
 <codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Line(anOutputStream)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Coordinates<sp/>Subsets:<sp/>Undefined&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -442,7 +442,7 @@
 <codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
 <codeline lineno="286"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="287"><highlight class="normal"></highlight></codeline>
-<codeline lineno="288"><highlight class="normal">StateBuilder<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder_1ad24ce294f662d5e2c7c91b63b12a6a80" kindref="member">StateBuilder::Undefined</ref>()</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">StateBuilder<sp/>StateBuilder::Undefined()</highlight></codeline>
 <codeline lineno="289"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{Frame::Undefined(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="291"><highlight class="normal">}</highlight></codeline>

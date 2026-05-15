@@ -2,10 +2,11 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceboost_1_1numeric_1_1odeint" kind="namespace" language="C++">
     <compoundname>boost::numeric::odeint</compoundname>
+    <innerclass refid="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra" prot="public">boost::numeric::odeint::eigen_pid_algebra</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="22" column="1"/>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="41" column="1"/>
   </compounddef>
 </doxygen>

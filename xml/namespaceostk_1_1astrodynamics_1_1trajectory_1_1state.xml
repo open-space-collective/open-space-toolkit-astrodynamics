@@ -20,18 +20,48 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="32" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1state_1a067cc17e1635ef6fa7e1d826bc981ebd" prot="public" static="no">
-        <type>runge_kutta_dopri5&lt; NumericalSolver::StateVector &gt;</type>
-        <definition>typedef runge_kutta_dopri5&lt;NumericalSolver::StateVector&gt; ostk::astrodynamics::trajectory::state::dense_stepper_type_5</definition>
+      <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1state_1a9b2c459b2747b319b35431aa01f6c360" prot="public" static="no">
+        <type>runge_kutta4&lt; NumericalSolver::StateVector &gt;</type>
+        <definition>using ostk::astrodynamics::trajectory::state::stepper_type_4 = typedef runge_kutta4&lt;NumericalSolver::StateVector&gt;</definition>
         <argsstring></argsstring>
-        <name>dense_stepper_type_5</name>
+        <name>stepper_type_4</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="29" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="29" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="86" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1state_1a7df810f339e87fbbc5455d2c47b95b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Order</declname>
+            <defname>Order</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto ostk::astrodynamics::trajectory::state::make_controlled_adam_bashforth_moulton</definition>
+        <argsstring>(double abs_tol, double rel_tol)</argsstring>
+        <name>make_controlled_adam_bashforth_moulton</name>
+        <param>
+          <type>double</type>
+          <declname>abs_tol</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rel_tol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="89" column="6" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="89" bodyend="103"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

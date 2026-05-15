@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra" kind="struct" language="C++" prot="public">
+    <compoundname>boost::numeric::odeint::eigen_pid_algebra</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">vector_space_algebra</basecompoundref>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1acd86592f1effd2dd392032b9b701b93c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class S1</type>
+          </param>
+          <param>
+            <type>class S2</type>
+          </param>
+          <param>
+            <type>class Op</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void boost::numeric::odeint::eigen_pid_algebra::for_each2</definition>
+        <argsstring>(S1 &amp;s1, S2 &amp;s2, Op op)</argsstring>
+        <name>for_each2</name>
+        <param>
+          <type>S1 &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>S2 &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>Op</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="46" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1a1bf259f56214cec1be40be03008660a5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class S1</type>
+          </param>
+          <param>
+            <type>class S2</type>
+          </param>
+          <param>
+            <type>class S3</type>
+          </param>
+          <param>
+            <type>class S4</type>
+          </param>
+          <param>
+            <type>class Op</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void boost::numeric::odeint::eigen_pid_algebra::for_each4</definition>
+        <argsstring>(S1 &amp;s1, S2 &amp;s2, S3 &amp;s3, S4 &amp;s4, Op op)</argsstring>
+        <name>for_each4</name>
+        <param>
+          <type>S1 &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>S2 &amp;</type>
+          <declname>s2</declname>
+        </param>
+        <param>
+          <type>S3 &amp;</type>
+          <declname>s3</declname>
+        </param>
+        <param>
+          <type>S4 &amp;</type>
+          <declname>s4</declname>
+        </param>
+        <param>
+          <type>Op</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="55" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>boost::numeric::odeint::eigen_pid_algebra</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>vector_space_algebra</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>boost::numeric::odeint::eigen_pid_algebra</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>vector_space_algebra</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="44" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="43" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1acd86592f1effd2dd392032b9b701b93c" prot="public" virt="non-virtual"><scope>boost::numeric::odeint::eigen_pid_algebra</scope><name>for_each2</name></member>
+      <member refid="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1a1bf259f56214cec1be40be03008660a5" prot="public" virt="non-virtual"><scope>boost::numeric::odeint::eigen_pid_algebra</scope><name>for_each4</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -59,10 +59,10 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ac254b245541a075d0a71e0d241887428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a777bc2fe0e3fa165ff2febf89d11fe0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::Sequence::Sequence</definition>
-        <argsstring>(const Array&lt; Segment &gt; &amp;aSegmentArray=Array&lt; Segment &gt;::Empty(), const NumericalSolver &amp;aNumericalSolver=NumericalSolver::DefaultConditional(), const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray=Array&lt; Shared&lt; Dynamics &gt;&gt;::Empty(), const Duration &amp;aSegmentPropagationDurationLimit=Duration::Days(30.0), const Size &amp;aVerbosityLevel=0)</argsstring>
+        <argsstring>(const Array&lt; Segment &gt; &amp;aSegmentArray=Array&lt; Segment &gt;::Empty(), const NumericalSolver &amp;aNumericalSolver=NumericalSolver::Default(), const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray=Array&lt; Shared&lt; Dynamics &gt;&gt;::Empty(), const Duration &amp;aSegmentPropagationDurationLimit=Duration::Days(30.0), const Size &amp;aVerbosityLevel=0)</argsstring>
         <name>Sequence</name>
         <param>
           <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment" kindref="compound">Segment</ref> &gt; &amp;</type>
@@ -72,7 +72,7 @@
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref> &amp;</type>
           <declname>aNumericalSolver</declname>
-          <defval><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" kindref="member">NumericalSolver::DefaultConditional</ref>()</defval>
+          <defval><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" kindref="member">NumericalSolver::Default</ref>()</defval>
         </param>
         <param>
           <type>const Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> &gt;&gt; &amp;</type>
@@ -100,7 +100,7 @@
 <codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Duration<sp/>maximumPropagationDuration<sp/>=<sp/>Duration::Days(7.0);</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Size<sp/>verbosity<sp/>=<sp/>0;</highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ac254b245541a075d0a71e0d241887428" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{segmentArray,<sp/>numericalSolver,<sp/>dynamicsArray,</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a777bc2fe0e3fa165ff2febf89d11fe0d" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{segmentArray,<sp/>numericalSolver,<sp/>dynamicsArray,</highlight></codeline>
 <codeline><highlight class="normal">maximumPropagationDuration,<sp/>verbosity};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -116,7 +116,7 @@
 <parametername>aNumericalSolver</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A Numerical Solver. Defaults to <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" kindref="member">NumericalSolver::DefaultConditional()</ref>. </para>
+<para>A Numerical Solver. Defaults to <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" kindref="member">NumericalSolver::Default()</ref>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -231,7 +231,7 @@
 <para>Add a trajectory segment. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ac254b245541a075d0a71e0d241887428" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a777bc2fe0e3fa165ff2febf89d11fe0d" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">sequence.addSegment(aCoastSegment)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -363,7 +363,7 @@
 <para>Solve the sequence given an initial state, for a number of reptitions. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ac254b245541a075d0a71e0d241887428" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a777bc2fe0e3fa165ff2febf89d11fe0d" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Sequence::Solution<sp/>solution<sp/>=<sp/>sequence.solve(anInitialState)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -413,7 +413,7 @@
 <para>Solve the sequence given an initial state. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ac254b245541a075d0a71e0d241887428" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a777bc2fe0e3fa165ff2febf89d11fe0d" kindref="member">Sequence</ref><sp/>sequence<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Sequence::Solution<sp/>solution<sp/>=<sp/>sequence.solveToCondition(anInitialState,<sp/>anEventCondition)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -557,7 +557,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a0c5d38529a477789293e8aad613c015c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a93663fbdc82233f9bdc829d9c7871ed0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>segmentPropagationDurationLimit_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1aec9f3144ba0e368e902875d47e24a8e6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>segments_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ac254b245541a075d0a71e0d241887428" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>Sequence</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1a777bc2fe0e3fa165ff2febf89d11fe0d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>Sequence</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1af692fc12b4f0376bc9e596f105303a53" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>solve</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence_1ab6c051dc9b58afae6efff0dccc3b376c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Sequence</scope><name>solveToCondition</name></member>
     </listofallmembers>
