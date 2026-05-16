@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <iomanip>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -686,9 +688,10 @@ INSTANTIATE_TEST_SUITE_P(
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversSaturatedDutyCycle_NoRoomForCandidateManeuver",
-            Array<Pair<Duration, Duration>> {// Previous maneuvers have saturated the duty cycle (40 min total)
-                                             Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
-                                             Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
+            Array<Pair<Duration, Duration>> {
+                // Previous maneuvers have saturated the duty cycle (40 min total)
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(10.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
             },
             Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
             false,
@@ -705,9 +708,10 @@ INSTANTIATE_TEST_SUITE_P(
         },
         IntervalHasValidMaximumDutyCycleParams {
             "PreviousManeuversOverSaturatedDutyCycle_NoRoomForCandidateManeuver_1",
-            Array<Pair<Duration, Duration>> {// Previous maneuvers have over-saturated the duty cycle (45 min total)
-                                             Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(15.0)},
-                                             Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
+            Array<Pair<Duration, Duration>> {
+                // Previous maneuvers have over-saturated the duty cycle (45 min total)
+                Pair<Duration, Duration> {Duration::Minutes(0), Duration::Minutes(15.0)},
+                Pair<Duration, Duration> {Duration::Minutes(20.0), Duration::Minutes(50.0)}
             },
             Pair<Duration, Duration> {Duration::Minutes(60.0), Duration::Minutes(70.0)},
             false,
@@ -1273,7 +1277,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
 
         // Check that metrics from the maneuvering segment solution are the same as the ones from the extracted maneuver
         EXPECT_NEAR(
-            maneuveringSegmentSolution.computeDeltaV(defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()
+            maneuveringSegmentSolution.computeDeltaV(
+                defaultSatelliteSystem_.getPropulsionSystem().getSpecificImpulse()
             ),
             maneuvers[0].calculateDeltaV(),
             5e-10 * maneuveringSegmentSolution.computeDeltaV(
@@ -1805,14 +1810,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ConstantLocalOrbitalFrameDirectionManeuver)
 {
     {
-        EXPECT_NO_THROW(Segment::ConstantLocalOrbitalFrameDirectionManeuver(
-            defaultName_,
-            defaultInstantCondition_,
-            defaultThrusterDynamicsSPtr_,
-            defaultDynamics_,
-            defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_
-        ));
+        EXPECT_NO_THROW(
+            Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+                defaultName_,
+                defaultInstantCondition_,
+                defaultThrusterDynamicsSPtr_,
+                defaultDynamics_,
+                defaultNumericalSolver_,
+                defaultLocalOrbitalFrameFactorySPtr_
+            )
+        );
     }
 }
 
@@ -2616,25 +2623,30 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(1.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(1.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(1.0)}
             }
         },
         // Middle maneuver
         SolveTestParams {
             "Middle",
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(1.0), Duration::Minutes(2.0)}
             }
         },
         // Trailing edge maneuver
         SolveTestParams {
             "TrailingEdge",
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(7.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(7.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
             }
         },
         // Maneuver spans entire interval
@@ -2644,16 +2656,19 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(-1.0), Duration::Minutes(7.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(0.0), Duration::Minutes(6.0)}
             }
         },
         // Maneuver ends at condition time
         SolveTestParams {
             "EndsAtCondition",
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(3.0), Duration::Minutes(6.0)}
             }
         },
         // Leading edge + middle maneuvers
@@ -2690,7 +2705,8 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(8.0), Duration::Minutes(9.0)}
             },
             Duration::Minutes(6.0),
-            Array<Tuple<Duration, Duration>> {Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
+            Array<Tuple<Duration, Duration>> {
+                Tuple<Duration, Duration> {Duration::Minutes(5.0), Duration::Minutes(6.0)}
             }
         }
     ),
@@ -2726,9 +2742,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
     Array<Interval> guidanceLawIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.maneuverIntervals)
     {
-        guidanceLawIntervals.add(Interval::Closed(
-            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
-        ));
+        guidanceLawIntervals.add(
+            Interval::Closed(
+                referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+            )
+        );
     }
 
     const Shared<Thruster> customThrusterDynamics =
@@ -2748,9 +2766,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
     Array<Interval> expectedManeuverIntervals = Array<Interval>::Empty();
     for (const auto& durationTuple : params.expectedManeuverIntervals)
     {
-        expectedManeuverIntervals.add(Interval::Closed(
-            referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
-        ));
+        expectedManeuverIntervals.add(
+            Interval::Closed(
+                referenceInstant + std::get<0>(durationTuple), referenceInstant + std::get<1>(durationTuple)
+            )
+        );
     }
 
     ASSERT_FALSE(solution.states.isEmpty());
@@ -2765,7 +2785,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_Solve_Parameterized, Ma
 
     for (Size idx = 0; idx < expectedManeuverIntervals.getSize(); ++idx)
     {
-        EXPECT_TRUE(expectedManeuverIntervals[idx].getStart().isNear(maneuvers[idx].getInterval().getStart(), tolerance)
+        EXPECT_TRUE(
+            expectedManeuverIntervals[idx].getStart().isNear(maneuvers[idx].getInterval().getStart(), tolerance)
         );
         EXPECT_TRUE(expectedManeuverIntervals[idx].getEnd().isNear(maneuvers[idx].getInterval().getEnd(), tolerance));
     }
@@ -5127,6 +5148,209 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
     );
 
     EXPECT_NO_THROW(maneuverSegment.solve(initialState, maximumSimulationDuration));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Regression_Solve_NoStatesAfterSanitizationInConstantLofCenteredManeuver
+)
+{
+    // Reproduces a "No states left after sanitization" RuntimeError thrown from
+    // `Maneuver::Maneuver` when `Segment::solve` triggers the
+    // `MaximumManeuverDurationViolationStrategy::Center` path inside
+    // `solveAndAcceptConstantLofManeuver`.
+    //
+    // Triggered by the phasing-solver scenario in the cockpit guidance service after the bump to
+    // ostk-astrodynamics 17.7.1. The candidate maneuver returned by `solveSingleManeuver` exceeds
+    // the 40-min maximum-duration constraint, so the Center strategy reshapes it to a centered
+    // 40-min window. Propagating through that window with the sliced thruster
+    // (`HeterogeneousGuidanceLaw` wrapping QLaw) produces zero mass flow rate at every sampled
+    // state contained in the window -- so `extractManeuvers` constructs `Maneuver` with an array
+    // of all-zero-thrust states and `Maneuver::Maneuver` sanitization throws.
+    //
+    // Captured failing state corresponds to satellite 1's "Lower" leg start at
+    // 2023-01-01 18:00:00 UTC, after the previous 3 raise-leg maneuvers.
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2023, 1, 1, 18, 0, 0, 0, 0, 1), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 2.0;
+    const double dragCoefficient = 2.2;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 4141052.135164462, -638420.8286888569, 5579826.913978569,  // position (m)
+        -6087.65700892022, -615.1066986905043, 4437.17365569159,                     // velocity (m/s)
+        219.9896334604908,                                                           // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(180.0),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        crossSectionalArea,
+        dragCoefficient,
+        PropulsionSystem(16.1e-3, 1140.26)  // thrust (N), specific impulse (s)
+    );
+
+    const Environment environment(
+        initialInstant, {earthSPtr, std::make_shared<Sun>(Sun::Default()), std::make_shared<Moon>(Moon::Default())}
+    );
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    // QLaw targeting only SMA, lowering it from ~6_981_000 m to 6_979_500 m.
+    // Element weights and tolerances mirror the FDTk strategy (weight 1.0, tolerance 0.0;
+    // hysteresis is managed externally so QLaw itself uses tolerance 0.0).
+    const COE targetCOE = {
+        Length::Meters(6979500.0),
+        0.0,
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 0.0}},
+        },
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.4,                         // relativeEffectivityThreshold
+        0.4,                         // absoluteEffectivityThreshold
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        earthSPtr->getGravitationalParameter(),
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::FiniteDifference
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+    };
+
+    // Mirror the cockpit guidance solving span (2023-01-01 00:00 UTC to 2023-01-03 00:00 UTC).
+    const Instant maximumInstant = Instant::DateTime(DateTime(2023, 1, 3, 0, 0, 0), Scale::UTC);
+    const Duration maximumPropagationDuration = maximumInstant - initialInstant;
+
+    // Segment event condition (Logical OR of three conditions) mirrors FDTk's combined condition:
+    //   - max-instant condition (StrictlyPositive at the solving-span upper bound)
+    //   - sequence-segment terminator (PositiveCrossing at solving_start + 42h = 2023-01-02 18:00 UTC)
+    //   - target-stop condition (StrictlyPositive when SMA reaches target)
+    const Shared<InstantCondition> maxInstantCondition =
+        std::make_shared<InstantCondition>(InstantCondition::Criterion::StrictlyPositive, maximumInstant);
+    const Shared<InstantCondition> segmentEndCondition = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::PositiveCrossing, Instant::DateTime(DateTime(2023, 1, 2, 18, 0, 0), Scale::UTC)
+    );
+    const Shared<RealCondition> targetStopCondition =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::StrictlyNegative,
+            Frame::GCRF(),
+            Length::Meters(6979500.0 + 250.0),
+            earthSPtr->getGravitationalParameter()
+        ));
+
+    // NOTE: the failing run actually uses a LogicalCondition combining
+    //   { max-instant (StrictlyPositive), segment-end (PositiveCrossing), target-stop (StrictlyNegative on BLM SMA) }
+    // Reproducing it with only the segment-end + target-stop is sufficient to trigger the failure.
+    const Shared<LogicalCondition> eventCondition = std::make_shared<LogicalCondition>(
+        "Targeting Stop",
+        LogicalCondition::Type::Or,
+        Array<Shared<EventCondition>> {maxInstantCondition, segmentEndCondition, targetStopCondition}
+    );
+
+    {
+        const VectorXd coords = initialState.getCoordinates();
+        std::cerr << "[Test-debug] About to solve. State coords: ";
+        for (Eigen::Index i = 0; i < coords.size(); ++i)
+        {
+            std::cerr << std::setprecision(17) << coords(i) << " ";
+        }
+        std::cerr << std::endl;
+    }
+
+    const Shared<const LocalOrbitalFrameFactory> vncFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
+
+    const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+        "Maneuver (Enforced Fixed LOF Attitude)",
+        eventCondition,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        vncFactorySPtr,
+        Angle::Undefined(),
+        {Duration::Minutes(5.0),   // minimum maneuver duration
+         Duration::Minutes(40.0),  // maximum maneuver duration
+         Duration::Minutes(27.0),  // minimum separation
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    // Previous maneuver intervals from the raise leg.
+    const Array<Interval> previousManeuverIntervals = {
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 5, 41, 353, 465), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 0, 40, 5, 41, 353, 465), Scale::UTC)
+        ),
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 1, 29, 3, 414, 462, 5), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 2, 9, 3, 414, 462, 5), Scale::UTC)
+        ),
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 2, 57, 59, 0, 864, 446), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 3, 37, 59, 0, 864, 446), Scale::UTC)
+        ),
+    };
+
+    // EXPECT_NO_THROW once the underlying bug is fixed.
+    EXPECT_THROW(
+        {
+            try
+            {
+                maneuverSegment.solve(initialState, maximumPropagationDuration, previousManeuverIntervals);
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_NE(e.getMessage().find("No states left after sanitization"), std::string::npos);
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)

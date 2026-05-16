@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <boost/numeric/odeint.hpp>
+#include <boost/numeric/odeint/external/eigen/eigen.hpp>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
@@ -703,6 +706,152 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
     EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
     EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
+}
+
+// Test that mimics the QLaw "thrust toggles when threshold crossed" scenario.
+// Uses a custom system where the dynamics has a smooth oscillating component combined with a
+// thresholded "thrust-like" term that turns on/off based on the state. The event condition
+// fires when the thresholded term turns off. We compare the spline-evaluated stop state vs.
+// the result of re-integrating with `integrate_adaptive` to the same time.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, SplineVsReintegration_ThresholdedDynamics)
+{
+    // Dynamics: y'' + y = thrust where thrust is non-zero only when y' > 0.3 (a thresholded term).
+    // Initial: y(0) = 0, y'(0) = 1. The "thrust" introduces a kink each time y'(t) crosses 0.3.
+    const auto systemWithThresholdedThrust =
+        [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+    {
+        dxdt[0] = x[1];
+        // Thrust-like contribution: 1.0 when x[1] > 0.3, 0.0 otherwise. Combined with -x[0].
+        const double thrust = (x[1] > 0.3) ? 1.0 : 0.0;
+        dxdt[1] = -x[0] + thrust;
+    };
+
+    // Event condition: detects the moment thrust turns off (x[1] crosses below 0.3).
+    const auto thrustOffEvaluator = [](const State &state) -> Real
+    {
+        return state.accessCoordinates()[1] - 0.3;  // value > 0 means thrust on, < 0 means thrust off
+    };
+
+    RealCondition thrustOffCondition("Thrust Off", RealCondition::Criterion::StrictlyNegative, thrustOffEvaluator, 0.0);
+
+    NumericalSolver solver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+    };
+    solver.setMaxStepSize(2.0);  // limit step so we don't fly past the event
+
+    VectorXd init(2);
+    init << 0.0, 1.0;
+    const State initial(defaultStartInstant_, init, gcrfSPtr_, defaultCoordinateBroker_);
+
+    const Duration totalDuration = Duration::Seconds(20.0);
+    const Instant endInstant = defaultStartInstant_ + totalDuration;
+
+    const NumericalSolver::ConditionSolution conditionSolution =
+        solver.integrateTime(initial, endInstant, systemWithThresholdedThrust, thrustOffCondition);
+
+    ASSERT_TRUE(conditionSolution.conditionIsSatisfied);
+
+    const double solvedTimeSeconds = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+    const double splineY0 = conditionSolution.state.accessCoordinates()[0];
+    const double splineY1 = conditionSolution.state.accessCoordinates()[1];
+
+    // Reintegrate from initial state to solvedTimeSeconds with adaptive stepper for ground truth.
+    using stepper_t = boost::numeric::odeint::runge_kutta_fehlberg78<NumericalSolver::StateVector>;
+    auto controlled = boost::numeric::odeint::make_controlled<stepper_t>(1.0e-15, 1.0e-15);
+    NumericalSolver::StateVector reintState = init;
+    if (solvedTimeSeconds > 0.0)
+    {
+        boost::numeric::odeint::integrate_adaptive(
+            controlled, systemWithThresholdedThrust, reintState, 0.0, solvedTimeSeconds, 1e-6
+        );
+    }
+
+    const double reY0 = reintState[0];
+    const double reY1 = reintState[1];
+
+    std::cout << "[SplineVsReint] solvedTime=" << solvedTimeSeconds
+              << " spline y=[" << splineY0 << ", " << splineY1 << "]"
+              << " reint y=[" << reY0 << ", " << reY1 << "]"
+              << " dY0=" << (splineY0 - reY0)
+              << " dY1=" << (splineY1 - reY1)
+              << std::endl;
+
+    // Spline should be close to reintegration, but the discontinuous derivative means there's
+    // some interpolation error. Print so we can see the magnitude.
+    EXPECT_LT(std::abs(splineY1 - reY1), 1e-3);
+}
+
+// Minimal test characterising the cubic-spline state-evaluation accuracy used by the
+// post-crossing refinement path in `integrateTimeWithStepperImpl_`.
+//
+// The harmonic oscillator y'' + y = 0 with y(0)=0, y'(0)=1 has the closed form y(t)=sin(t),
+// y'(t)=cos(t). An InstantCondition fires at a known instant t*. The conditional integrator:
+//   1. steps forward with the adaptive stepper and detects the crossing in
+//      [previousTime, currentTime];
+//   2. samples that bracket with `integrate_times` and fits a per-dimension cubic spline;
+//   3. bisects on the spline-evaluated state to locate the exact crossing time;
+//   4. evaluates the *final state* via the spline (NOT via re-integration to that exact time).
+//
+// We compare the spline-evaluated state at the solution time against the analytic state at the
+// same time. The delta is the spline-interpolation error introduced by step (4) — the path the
+// guidance/Segment logic downstream consumes. Larger step spans amplify this error.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, SplineRefinement_AccuracyVsStepSpan)
+{
+    // We push the stepper into taking large steps by setting a large initial time step and
+    // loose-ish absolute tolerance on a slowly-varying state span. This widens the bracket and
+    // exercises the spline-fit branch.
+    for (const double initialStep : {1.0, 5.0, 30.0, 60.0})
+    {
+        NumericalSolver solver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            initialStep,
+            1.0e-12,
+            1.0e-12,
+            RootSolver::Default(),
+        };
+
+        const State state = getStateVector(defaultStartInstant_);
+        const Duration totalDuration = Duration::Seconds(120.0);
+        const Instant endInstant = defaultStartInstant_ + totalDuration;
+        // Target somewhere where sin and cos are both ~O(1); avoids zero-crossing degeneracy.
+        const Instant targetInstant = defaultStartInstant_ + Duration::Seconds(0.7);
+        const InstantCondition condition(RealCondition::Criterion::AnyCrossing, targetInstant);
+
+        const NumericalSolver::ConditionSolution conditionSolution =
+            solver.integrateTime(state, endInstant, systemOfEquations_, condition);
+
+        ASSERT_TRUE(conditionSolution.conditionIsSatisfied) << "Condition not satisfied at initialStep=" << initialStep;
+        ASSERT_TRUE(conditionSolution.rootSolverHasConverged) << "Bisection did not converge at initialStep=" << initialStep;
+
+        const double solvedTimeSeconds = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+        const double splineY0 = conditionSolution.state.accessCoordinates()[0];
+        const double splineY1 = conditionSolution.state.accessCoordinates()[1];
+
+        const double analyticY0 = std::sin(solvedTimeSeconds);
+        const double analyticY1 = std::cos(solvedTimeSeconds);
+
+        std::cout << "[Spline test] initialStep=" << initialStep
+                  << " solvedTime=" << solvedTimeSeconds
+                  << " splineY0=" << splineY0
+                  << " analyticY0=" << analyticY0
+                  << " err0=" << (splineY0 - analyticY0)
+                  << " splineY1=" << splineY1
+                  << " analyticY1=" << analyticY1
+                  << " err1=" << (splineY1 - analyticY1)
+                  << std::endl;
+
+        // For the harmonic oscillator the cubic-spline interpolation over a step ≤60 s should be
+        // very accurate (O(h^4)) so the residual is tiny. We just print it for visibility — we
+        // don't assert tight bounds (the values are state-/stepper-dependent).
+        EXPECT_LT(std::abs(splineY0 - analyticY0), 1.0e-6);
+        EXPECT_LT(std::abs(splineY1 - analyticY1), 1.0e-6);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_ABM_Rejected)
