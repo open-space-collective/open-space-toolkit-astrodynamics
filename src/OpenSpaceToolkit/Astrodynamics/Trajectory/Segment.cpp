@@ -519,6 +519,26 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         const MatrixXd maneuverContributionBlock =
             fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
 
+        // Skip the block if no state in it has a negative (thrusting) mass-flow rate. This can
+        // happen when the maneuverInterval was reshaped (e.g. by the Center maximum-duration
+        // strategy) into a window where the state-dependent guidance law produces zero thrust
+        // along the post-reshape coasted trajectory. Constructing a FlightManeuver from such a
+        // block would throw "No states left after sanitization"; instead we report no maneuver
+        // for this interval so callers can fall back to a coast.
+        bool hasThrustingState = false;
+        for (Size i = 0; i < blockLength; ++i)
+        {
+            if (fullSegmentContributions(startStopPair.first + i, 3) < 0.0)
+            {
+                hasThrustingState = true;
+                break;
+            }
+        }
+        if (!hasThrustingState)
+        {
+            continue;
+        }
+
         Array<State> maneuverStatesBlock = Array<State>::Empty();
         maneuverStatesBlock.reserve(blockLength);
 
@@ -1052,13 +1072,39 @@ Segment::Solution Segment::solve(
         );
     };
 
-    // helper lambda to solve and accept a constant-lof maneuver
-    const auto solveAndAcceptConstantLofManeuver = [&](const Interval& validManeuverInterval) -> bool
+    // helper lambda to solve and accept a constant-lof maneuver.
+    //
+    // Edge case: the reshape strategies (Center / TruncateStart / TruncateEnd / Chunk) clip the
+    // candidate maneuver detected by `solveSingleManeuver` down to fit the maximum-duration
+    // constraint, then re-propagate the reshaped window with a sliced version of the guidance
+    // law. The re-propagation coasts (no thrust) from `segmentStates.accessLast()` to the
+    // reshaped window's start, then propagates with thrust from there. For state-dependent
+    // guidance laws with effectivity gates (e.g. QLaw with relative+absolute effectivity
+    // thresholds), the post-coast state can land at an orbital phase where the law evaluates to
+    // zero thrust across the entire reshaped window — producing a re-propagated trajectory with
+    // no thrusting states.
+    //
+    // When `extractManeuvers` reports no maneuver for the reshaped window (i.e. the sliced
+    // maneuver has no thrust), we coast through the entire candidate maneuver interval and let
+    // the main loop find the next maneuvering opportunity surfaced by the guidance law on the
+    // next orbital cycle. Coasting only past the reshaped window would risk re-detecting the
+    // same candidate on the next iteration (the original candidate may still be partially
+    // ahead) and infinite-looping; coasting past the candidate's end guarantees forward
+    // progress past the brittle window.
+    const auto solveAndAcceptConstantLofManeuver = [&](const Interval& validManeuverInterval,
+                                                       const Interval& candidateManeuverInterval) -> bool
     {
         const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
         const Segment::Solution maneuverSolution =
             solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
-        const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+
+        const Array<FlightManeuver> validManeuvers = maneuverSolution.extractManeuvers(aState.accessFrame());
+        if (validManeuvers.isEmpty())
+        {
+            return solveAndAcceptCoast(candidateManeuverInterval.getEnd());
+        }
+
+        const FlightManeuver validManeuver = validManeuvers.accessFirst();
         const Segment::Solution maneuverLOFCompliantSolution =
             constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
@@ -1130,7 +1176,7 @@ Segment::Solution Segment::solve(
                         ))
                     {
                         const bool conditionIsSatisfied =
-                            solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                            solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval, candidateManeuverInterval);
 
                         if (conditionIsSatisfied)
                         {
@@ -1186,7 +1232,9 @@ Segment::Solution Segment::solve(
                             newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                         ))
                     {
-                        return solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                        return solveAndAcceptConstantLofManeuver(
+                            newCandidateManeuverInterval, candidateManeuverInterval
+                        );
                     }
 
                     newDuration -= stepSize;
@@ -1235,7 +1283,7 @@ Segment::Solution Segment::solve(
                         ))
                     {
                         const bool conditionIsSatisfied =
-                            solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                            solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval, candidateManeuverInterval);
 
                         if (conditionIsSatisfied)
                         {
@@ -1309,7 +1357,9 @@ Segment::Solution Segment::solve(
                                 newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                             ))
                         {
-                            return solveAndAcceptConstantLofManeuver(newCandidateManeuverInterval);
+                            return solveAndAcceptConstantLofManeuver(
+                                newCandidateManeuverInterval, candidateManeuverInterval
+                            );
                         }
 
                         newDuration -= stepSize;
@@ -1357,7 +1407,8 @@ Segment::Solution Segment::solve(
                     candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
                 );
 
-                const bool conditionIsSatisfied = solveAndAcceptConstantLofManeuver(validManeuverInterval);
+                const bool conditionIsSatisfied =
+                    solveAndAcceptConstantLofManeuver(validManeuverInterval, candidateManeuverInterval);
 
                 if (conditionIsSatisfied)
                 {
@@ -1374,7 +1425,7 @@ Segment::Solution Segment::solve(
                     candidateManeuverInterval.getEnd()
                 );
 
-                return solveAndAcceptConstantLofManeuver(validManeuverInterval);
+                return solveAndAcceptConstantLofManeuver(validManeuverInterval, candidateManeuverInterval);
             }
 
             case MaximumManeuverDurationViolationStrategy::Center:
@@ -1383,7 +1434,8 @@ Segment::Solution Segment::solve(
                     candidateManeuverInterval.getCenter(), maneuverConstraints_.maximumDuration, Interval::Type::Closed
                 );
 
-                const bool conditionIsSatisfied = solveAndAcceptConstantLofManeuver(validManeuverInterval);
+                const bool conditionIsSatisfied =
+                    solveAndAcceptConstantLofManeuver(validManeuverInterval, candidateManeuverInterval);
 
                 if (conditionIsSatisfied)
                 {
@@ -1400,7 +1452,7 @@ Segment::Solution Segment::solve(
                     candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
                 );
 
-                return solveAndAcceptConstantLofManeuver(validManeuverInterval);
+                return solveAndAcceptConstantLofManeuver(validManeuverInterval, candidateManeuverInterval);
             }
 
             default:

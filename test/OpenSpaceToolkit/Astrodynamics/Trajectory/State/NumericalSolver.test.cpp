@@ -774,12 +774,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, SplineVs
     const double reY0 = reintState[0];
     const double reY1 = reintState[1];
 
-    std::cout << "[SplineVsReint] solvedTime=" << solvedTimeSeconds
-              << " spline y=[" << splineY0 << ", " << splineY1 << "]"
+    std::cout << "[SplineVsReint] solvedTime=" << solvedTimeSeconds << " spline y=[" << splineY0 << ", " << splineY1
+              << "]"
               << " reint y=[" << reY0 << ", " << reY1 << "]"
-              << " dY0=" << (splineY0 - reY0)
-              << " dY1=" << (splineY1 - reY1)
-              << std::endl;
+              << " dY0=" << (splineY0 - reY0) << " dY1=" << (splineY1 - reY1) << std::endl;
 
     // Spline should be close to reintegration, but the discontinuous derivative means there's
     // some interpolation error. Print so we can see the magnitude.
@@ -827,7 +825,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, SplineRe
             solver.integrateTime(state, endInstant, systemOfEquations_, condition);
 
         ASSERT_TRUE(conditionSolution.conditionIsSatisfied) << "Condition not satisfied at initialStep=" << initialStep;
-        ASSERT_TRUE(conditionSolution.rootSolverHasConverged) << "Bisection did not converge at initialStep=" << initialStep;
+        ASSERT_TRUE(conditionSolution.rootSolverHasConverged)
+            << "Bisection did not converge at initialStep=" << initialStep;
 
         const double solvedTimeSeconds = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
         const double splineY0 = conditionSolution.state.accessCoordinates()[0];
@@ -836,14 +835,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, SplineRe
         const double analyticY0 = std::sin(solvedTimeSeconds);
         const double analyticY1 = std::cos(solvedTimeSeconds);
 
-        std::cout << "[Spline test] initialStep=" << initialStep
-                  << " solvedTime=" << solvedTimeSeconds
-                  << " splineY0=" << splineY0
-                  << " analyticY0=" << analyticY0
-                  << " err0=" << (splineY0 - analyticY0)
-                  << " splineY1=" << splineY1
-                  << " analyticY1=" << analyticY1
-                  << " err1=" << (splineY1 - analyticY1)
+        std::cout << "[Spline test] initialStep=" << initialStep << " solvedTime=" << solvedTimeSeconds
+                  << " splineY0=" << splineY0 << " analyticY0=" << analyticY0 << " err0=" << (splineY0 - analyticY0)
+                  << " splineY1=" << splineY1 << " analyticY1=" << analyticY1 << " err1=" << (splineY1 - analyticY1)
                   << std::endl;
 
         // For the harmonic oscillator the cubic-spline interpolation over a step ≤60 s should be
