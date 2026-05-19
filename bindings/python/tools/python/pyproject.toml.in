@@ -30,7 +30,6 @@ dependencies = [
 	"pandas~=2.0",
     "numpy~=2.0",
 	"plotly~=6.0",
-	"cesiumpy @ git+https://github.com/open-space-collective/cesiumpy@0.4.0",
 ]
 
 [project.optional-dependencies]
