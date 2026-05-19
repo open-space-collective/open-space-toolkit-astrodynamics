@@ -13,10 +13,6 @@ requires-python = ">=3.9"
 
 [project.optional-dependencies]
 dev = [
-	"plotly",
-	"pandas",
-	"cesiumpy @ git+https://github.com/open-space-collective/cesiumpy",
-
 	"ipython",
 	"black[jupyter]",
 ]
