@@ -404,6 +404,7 @@
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ad74133941ea11a15480e48fe86b4128d" kind="function"><name>~ConstantThrust</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ab70359e36aee88fd810acd524afc2d69" kind="function"><name>getLocalThrustDirection</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85" kind="function"><name>calculateThrustAccelerationAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a44b8a89e8c81b1b5f487bca7c4efae2b" kind="function"><name>createInstanceForManeuverExtraction</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a651a2c66e831e8bfdbac2c6f6c39b725" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a1a30dcef3ba9ec25eccf8ef5a72657be" kind="friend"><name>operator&lt;&lt;</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1aa596608b9b6be8ffe444b36ca67f7799" kind="function"><name>Intrack</name></member>
@@ -628,6 +629,7 @@
     <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" kind="function"><name>getName</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346" kind="function"><name>calculateThrustAccelerationAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2228e58d7c8c1eed60825e09e2d4e992" kind="function"><name>createInstanceForManeuverExtraction</name></member>
     <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ae4a58ea6d1ff7c6c6b4eb47701c9be38" kind="friend"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="structostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1message_1_1spacex_1_1_o_p_m_1_1_header" kind="struct"><name>ostk::astrodynamics::trajectory::orbit::message::spacex::OPM::Header</name>
@@ -649,6 +651,7 @@
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a85e32538904de66a28c52d38fc84133a" kind="function"><name>getGuidanceLawsWithIntervals</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a3da4dc70cf3d9b9d0b7af11a04e04bc4" kind="function"><name>addGuidanceLaw</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a543d4ca25a0194888af630bf6db48d81" kind="function"><name>calculateThrustAccelerationAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ade5bd368cde4f60ac086b09eddb785e7" kind="function"><name>createInstanceForManeuverExtraction</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl" kind="class"><name>ostk::astrodynamics::trajectory::orbit::model::SGP4::Impl</name>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1a678217a2bda62b0c8d956b5bf06a924f" kind="variable"><name>tle_</name></member>
@@ -1286,6 +1289,7 @@
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a5466a2c3eca7c68a4d79a2677606b4ab" kind="function"><name>getCOEDomain</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1af6e00ee6b34a99c866d14ff2e2000f7d" kind="function"><name>print</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1add770ececad5c96ad2e6711d0c295121" kind="function"><name>calculateThrustAccelerationAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a41c16d1f7727179c1aa4362e2b8b9c77" kind="function"><name>createInstanceForManeuverExtraction</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1acb6c98f18d6a47442b6a943b2549ab5d" kind="function"><name>computeOrbitalElementsMaximalChange</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a830bc22b51c63d2fb248780ca12db7c2" kind="function"><name>computeQ</name></member>
     <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1af2f3f951c169748b9cb3779c68dffc7c" kind="function"><name>compute_dQ_dOE</name></member>

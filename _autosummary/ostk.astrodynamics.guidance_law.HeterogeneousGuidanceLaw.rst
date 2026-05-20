@@ -18,6 +18,7 @@ ostk.astrodynamics.guidance\_law.HeterogeneousGuidanceLaw
    
       ~HeterogeneousGuidanceLaw.add_guidance_law
       ~HeterogeneousGuidanceLaw.calculate_thrust_acceleration_at
+      ~HeterogeneousGuidanceLaw.create_instance_for_maneuver_extraction
       ~HeterogeneousGuidanceLaw.get_guidance_laws_with_intervals
       ~HeterogeneousGuidanceLaw.get_name
    

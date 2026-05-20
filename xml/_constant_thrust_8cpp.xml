@@ -480,120 +480,126 @@
 <codeline lineno="16"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Real;</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Position;</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Velocity;</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::unit::Angle;</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">ostk::astrodynamics::GuidanceLaw</ref>;</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction" kindref="compound">ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</ref>;</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory</ref>;</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a572c63513c9359ecb25b803a350032e3" kindref="member">ConstantThrust::ConstantThrust</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LocalOrbitalFrameDirection&amp;<sp/>aThrustDirection)</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>GuidanceLaw(</highlight><highlight class="stringliteral">&quot;Constant<sp/>Thrust&quot;</highlight><highlight class="normal">),</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>localOrbitalFrameDirection_(aThrustDirection)</highlight></codeline>
-<codeline lineno="33"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ad74133941ea11a15480e48fe86b4128d" kindref="member">ConstantThrust::~ConstantThrust</ref>()<sp/>{}</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1a7c0bd7a49884ad928ec7146402b3ad4a" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ConstantThrust&amp;<sp/>aConstantThrust)</highlight></codeline>
-<codeline lineno="39"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>aConstantThrust.print(anOutputStream);</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
-<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal">LocalOrbitalFrameDirection<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ab70359e36aee88fd810acd524afc2d69" kindref="member">ConstantThrust::getLocalThrustDirection</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="46"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a5182251bf70ba613e116006d55f949a3" kindref="member">isDefined</ref>())</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Local<sp/>Thrust<sp/>Direction&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>localOrbitalFrameDirection_;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal">Vector3d<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85" kindref="member">ConstantThrust::calculateThrustAccelerationAt</ref>(</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aPositionCoordinates,</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aVelocityCoordinates,</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustAcceleration,</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>outputFrameSPtr</highlight></codeline>
-<codeline lineno="61"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="62"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;<sp/>parentFrameSPtr<sp/>=</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" kindref="member">accessLocalOrbitalFrameFactory</ref>()-&gt;accessParentFrame();</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>state<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInstant,</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position::Meters(aPositionCoordinates,<sp/>parentFrameSPtr),</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity::MetersPerSecond(aVelocityCoordinates,<sp/>parentFrameSPtr),</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Shared;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Position;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::Velocity;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::unit::Angle;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">ostk::astrodynamics::GuidanceLaw</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction" kindref="compound">ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a572c63513c9359ecb25b803a350032e3" kindref="member">ConstantThrust::ConstantThrust</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LocalOrbitalFrameDirection&amp;<sp/>aThrustDirection)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>GuidanceLaw(</highlight><highlight class="stringliteral">&quot;Constant<sp/>Thrust&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>localOrbitalFrameDirection_(aThrustDirection)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ad74133941ea11a15480e48fe86b4128d" kindref="member">ConstantThrust::~ConstantThrust</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1guidancelaw_1a7c0bd7a49884ad928ec7146402b3ad4a" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ConstantThrust&amp;<sp/>aConstantThrust)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>aConstantThrust.print(anOutputStream);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">Shared&lt;GuidanceLaw&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a44b8a89e8c81b1b5f487bca7c4efae2b" kindref="member">ConstantThrust::createInstanceForManeuverExtraction</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="47"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;ConstantThrust&gt;(localOrbitalFrameDirection_);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">LocalOrbitalFrameDirection<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ab70359e36aee88fd810acd524afc2d69" kindref="member">ConstantThrust::getLocalThrustDirection</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="52"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a5182251bf70ba613e116006d55f949a3" kindref="member">isDefined</ref>())</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::runtime::Undefined(</highlight><highlight class="stringliteral">&quot;Local<sp/>Thrust<sp/>Direction&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>localOrbitalFrameDirection_;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">Vector3d<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85" kindref="member">ConstantThrust::calculateThrustAccelerationAt</ref>(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aPositionCoordinates,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d&amp;<sp/>aVelocityCoordinates,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aThrustAcceleration,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>outputFrameSPtr</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="68"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;<sp/>parentFrameSPtr<sp/>=</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" kindref="member">accessLocalOrbitalFrameFactory</ref>()-&gt;accessParentFrame();</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;<sp/>localOrbitalFrameSPtr<sp/>=</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" kindref="member">accessLocalOrbitalFrameFactory</ref>()-&gt;generateFrame(state);</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Quaternion<sp/>q_requestedFrame_LOF<sp/>=</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>localOrbitalFrameSPtr-&gt;getTransformTo(outputFrameSPtr,<sp/>anInstant).getOrientation().normalize();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>state<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anInstant,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position::Meters(aPositionCoordinates,<sp/>parentFrameSPtr),</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Velocity::MetersPerSecond(aVelocityCoordinates,<sp/>parentFrameSPtr),</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>acceleration_LOF<sp/>=<sp/>aThrustAcceleration<sp/>*<sp/>this-&gt;localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3f81553b3d3bf23b009f3b15617e7990" kindref="member">getValue</ref>();</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>q_requestedFrame_LOF.rotateVector(acceleration_LOF);</highlight></codeline>
-<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a651a2c66e831e8bfdbac2c6f6c39b725" kindref="member">ConstantThrust::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="84"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Constant<sp/>Thrust<sp/>Guidance<sp/>Law&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" kindref="member">GuidanceLaw::print</ref>(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;<sp/>localOrbitalFrameSPtr<sp/>=</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" kindref="member">accessLocalOrbitalFrameFactory</ref>()-&gt;generateFrame(state);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Quaternion<sp/>q_requestedFrame_LOF<sp/>=</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>localOrbitalFrameSPtr-&gt;getTransformTo(outputFrameSPtr,<sp/>anInstant).getOrientation().normalize();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>acceleration_LOF<sp/>=<sp/>aThrustAcceleration<sp/>*<sp/>this-&gt;localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3f81553b3d3bf23b009f3b15617e7990" kindref="member">getValue</ref>();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>q_requestedFrame_LOF.rotateVector(acceleration_LOF);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Thrust<sp/>Direction&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a7334192b3dd415458bcf05258d78d8d4" kindref="member">print</ref>(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
-<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a651a2c66e831e8bfdbac2c6f6c39b725" kindref="member">ConstantThrust::print</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>displayDecorator)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="90"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Header(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Constant<sp/>Thrust<sp/>Guidance<sp/>Law&quot;</highlight><highlight class="normal">)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" kindref="member">GuidanceLaw::print</ref>(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal">ConstantThrust<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1aa596608b9b6be8ffe444b36ca67f7799" kindref="member">ConstantThrust::Intrack</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>velocityDirection)</highlight></codeline>
-<codeline lineno="96"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>direction<sp/>=<sp/>(velocityDirection<sp/>?<sp/>Vector3d<sp/>{1.0,<sp/>0.0,<sp/>0.0}<sp/>:<sp/>Vector3d<sp/>{-1.0,<sp/>0.0,<sp/>0.0});</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LocalOrbitalFrameDirection<sp/>localOrbitalFrameDirection<sp/>=</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LocalOrbitalFrameDirection(direction,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ad140a837a399c5b8e4146da96f982723" kindref="member">LocalOrbitalFrameFactory::VNC</ref>(Frame::GCRF()));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ostk::core::utils::Print::Separator(anOutputStream,<sp/></highlight><highlight class="stringliteral">&quot;Thrust<sp/>Direction&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>localOrbitalFrameDirection_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a7334192b3dd415458bcf05258d78d8d4" kindref="member">print</ref>(anOutputStream,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>displayDecorator<sp/>?<sp/>ostk::core::utils::Print::Footer(anOutputStream)<sp/>:<sp/>void();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{localOrbitalFrameDirection};</highlight></codeline>
-<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal">ConstantThrust<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" kindref="member">ConstantThrust::FromManeuver</ref>(</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Maneuver&amp;<sp/>aManeuver,</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>LocalOrbitalFrameFactory&gt;&amp;<sp/>aLocalOrbitalFrameFactorySPtr,</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>aMaximumAllowedAngularOffset</highlight></codeline>
-<codeline lineno="108"><highlight class="normal">)</highlight></codeline>
-<codeline lineno="109"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1af7dfb03b601a98ae63455863f2fa6cc4" kindref="member">Maneuver::MeanDirectionAndMaximumAngularOffset</ref><sp/>meanDirectionAndMaximumAngularOffset<sp/>=</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aMaximumAllowedAngularOffset.isDefined())</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maximumAllowedAngularOffsetDegrees<sp/>=<sp/>aMaximumAllowedAngularOffset.inDegrees(0.0,<sp/>360.0);</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maximumAngularOffsetDegrees<sp/>=<sp/>meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0,<sp/>360.0);</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(maximumAngularOffsetDegrees<sp/>&gt;<sp/>maximumAllowedAngularOffsetDegrees)</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(String::Format(</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Maximum<sp/>angular<sp/>offset<sp/>({:.6f}<sp/>deg)<sp/>is<sp/>greater<sp/>than<sp/>the<sp/>maximum<sp/>allowed<sp/>({:.6f}<sp/>deg).&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximumAngularOffsetDegrees,</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximumAllowedAngularOffsetDegrees</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{meanDirectionAndMaximumAngularOffset.first};</highlight></codeline>
-<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>guidancelaw</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="132"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">ConstantThrust<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1aa596608b9b6be8ffe444b36ca67f7799" kindref="member">ConstantThrust::Intrack</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>velocityDirection)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>direction<sp/>=<sp/>(velocityDirection<sp/>?<sp/>Vector3d<sp/>{1.0,<sp/>0.0,<sp/>0.0}<sp/>:<sp/>Vector3d<sp/>{-1.0,<sp/>0.0,<sp/>0.0});</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LocalOrbitalFrameDirection<sp/>localOrbitalFrameDirection<sp/>=</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LocalOrbitalFrameDirection(direction,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ad140a837a399c5b8e4146da96f982723" kindref="member">LocalOrbitalFrameFactory::VNC</ref>(Frame::GCRF()));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{localOrbitalFrameDirection};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">ConstantThrust<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" kindref="member">ConstantThrust::FromManeuver</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Maneuver&amp;<sp/>aManeuver,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>LocalOrbitalFrameFactory&gt;&amp;<sp/>aLocalOrbitalFrameFactorySPtr,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>aMaximumAllowedAngularOffset</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver_1af7dfb03b601a98ae63455863f2fa6cc4" kindref="member">Maneuver::MeanDirectionAndMaximumAngularOffset</ref><sp/>meanDirectionAndMaximumAngularOffset<sp/>=</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aMaximumAllowedAngularOffset.isDefined())</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maximumAllowedAngularOffsetDegrees<sp/>=<sp/>aMaximumAllowedAngularOffset.inDegrees(0.0,<sp/>360.0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maximumAngularOffsetDegrees<sp/>=<sp/>meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0,<sp/>360.0);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(maximumAngularOffsetDegrees<sp/>&gt;<sp/>maximumAllowedAngularOffsetDegrees)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>ostk::core::error::RuntimeError(String::Format(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Maximum<sp/>angular<sp/>offset<sp/>({:.6f}<sp/>deg)<sp/>is<sp/>greater<sp/>than<sp/>the<sp/>maximum<sp/>allowed<sp/>({:.6f}<sp/>deg).&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximumAngularOffsetDegrees,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximumAllowedAngularOffsetDegrees</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{meanDirectionAndMaximumAngularOffset.first};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>guidancelaw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp"/>
   </compounddef>

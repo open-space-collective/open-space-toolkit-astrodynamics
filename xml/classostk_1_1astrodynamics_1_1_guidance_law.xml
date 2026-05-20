@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="89" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="89" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="94" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="94" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -208,6 +208,26 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="80" column="22"/>
       </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1a2228e58d7c8c1eed60825e09e2d4e992" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;</type>
+        <definition>virtual Shared&lt;GuidanceLaw&gt; ostk::astrodynamics::GuidanceLaw::createInstanceForManeuverExtraction</definition>
+        <argsstring>() const =0</argsstring>
+        <name>createInstanceForManeuverExtraction</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a44b8a89e8c81b1b5f487bca7c4efae2b">createInstanceForManeuverExtraction</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ade5bd368cde4f60ac086b09eddb785e7">createInstanceForManeuverExtraction</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a41c16d1f7727179c1aa4362e2b8b9c77">createInstanceForManeuverExtraction</reimplementedby>
+        <briefdescription>
+<para>Create a new guidance law instance configured for maneuver extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A new guidance law instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="91" column="20"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1_guidance_law_1ae4a58ea6d1ff7c6c6b4eb47701c9be38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -296,9 +316,10 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="32" bodyend="90"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="32" bodyend="95"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>calculateThrustAccelerationAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2228e58d7c8c1eed60825e09e2d4e992" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>createInstanceForManeuverExtraction</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>GuidanceLaw</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9ccb9065feabe9baff67daba6759106e" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>name_</name></member>

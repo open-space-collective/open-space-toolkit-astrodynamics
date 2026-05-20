@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" line="38" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="38" bodyend="43"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" line="39" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="39" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1ae9af1f9a09af20284e4f895169fcf19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -129,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" line="136" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="136" bodyend="140"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" line="139" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="139" bodyend="143"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

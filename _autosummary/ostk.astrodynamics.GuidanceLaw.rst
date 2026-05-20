@@ -17,6 +17,7 @@ ostk.astrodynamics.GuidanceLaw
       :nosignatures:
    
       ~GuidanceLaw.calculate_thrust_acceleration_at
+      ~GuidanceLaw.create_instance_for_maneuver_extraction
       ~GuidanceLaw.get_name
    
    
