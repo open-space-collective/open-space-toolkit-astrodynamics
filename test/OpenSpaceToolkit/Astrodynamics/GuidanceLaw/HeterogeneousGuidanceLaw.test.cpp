@@ -295,8 +295,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Cons
 
     EXPECT_EQ(lawsWithIntervals[0].second, interval1_);
     EXPECT_EQ(lawsWithIntervals[1].second, interval2_);
-    EXPECT_EQ(lawsWithIntervals[0].first->getName(), guidanceLaw1_->getName());
-    EXPECT_EQ(lawsWithIntervals[1].first->getName(), guidanceLaw2_->getName());
-    EXPECT_NE(lawsWithIntervals[0].first, guidanceLaw1_);
-    EXPECT_NE(lawsWithIntervals[1].first, guidanceLaw2_);
+    EXPECT_EQ(lawsWithIntervals[0].first, guidanceLaw1_->constructUngatedGuidanceLaw());
+    EXPECT_EQ(lawsWithIntervals[1].first, guidanceLaw2_->constructUngatedGuidanceLaw());
 }
