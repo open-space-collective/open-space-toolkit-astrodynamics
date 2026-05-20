@@ -10,21 +10,23 @@
       <node id="8">
         <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
       </node>
-      <node id="15">
+      <node id="16">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
       <node id="13">
         <label>OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</label>
         <link refid="_guidance_law_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
@@ -62,7 +64,7 @@
       <node id="2">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
       </node>
-      <node id="14">
+      <node id="15">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
       <node id="5">
@@ -90,6 +92,9 @@
       </node>
       <node id="6">
         <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespaceostk">ostk</innernamespace>
@@ -180,14 +185,14 @@
 <codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>guidanceLaws_.add(aGuidanceLawSPtr);</highlight></codeline>
 <codeline lineno="80"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal">Shared&lt;GuidanceLaw&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ade5bd368cde4f60ac086b09eddb785e7" kindref="member">HeterogeneousGuidanceLaw::createInstanceForManeuverExtraction</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">Shared&lt;GuidanceLaw&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a4c1e6e588674190b7116ddfa2e08a64e" kindref="member">HeterogeneousGuidanceLaw::constructUngatedGuidanceLaw</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="83"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;HeterogeneousGuidanceLaw&gt;<sp/>heterogeneousGuidanceLaw<sp/>=<sp/>std::make_shared&lt;HeterogeneousGuidanceLaw&gt;();</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"></highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Size<sp/>index<sp/>=<sp/>0;<sp/>index<sp/>&lt;<sp/>guidanceLaws_.getSize();<sp/>++index)</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>heterogeneousGuidanceLaw-&gt;addGuidanceLaw(</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLaws_[index]-&gt;<ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ade5bd368cde4f60ac086b09eddb785e7" kindref="member">createInstanceForManeuverExtraction</ref>(),<sp/>intervals_[index]</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guidanceLaws_[index]-&gt;<ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a4c1e6e588674190b7116ddfa2e08a64e" kindref="member">constructUngatedGuidanceLaw</ref>(),<sp/>intervals_[index]</highlight></codeline>
 <codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>

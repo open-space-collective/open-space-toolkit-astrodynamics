@@ -63,6 +63,8 @@
       <node id="38">
         <label>OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</label>
         <link refid="_guidance_law_8hpp"/>
+        <childnode refid="39" relation="include">
+        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
@@ -299,6 +301,9 @@
       </node>
       <node id="21">
         <label>OpenSpaceToolkit/Mathematics/Solver/NumericalSolver.hpp</label>
+      </node>
+      <node id="39">
+        <label>memory</label>
       </node>
     </incdepgraph>
     <invincdepgraph>

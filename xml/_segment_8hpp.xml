@@ -26,12 +26,12 @@
     <includedby refid="_sequence_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</includedby>
     <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
     <incdepgraph>
-      <node id="47">
+      <node id="48">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp</label>
         <link refid="_local_orbital_frame_direction_8hpp"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="49" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -83,6 +83,8 @@
       <node id="42">
         <label>OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</label>
         <link refid="_guidance_law_8hpp"/>
+        <childnode refid="43" relation="include">
+        </childnode>
         <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
@@ -141,10 +143,10 @@
         <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="45">
+      <node id="46">
         <label>OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp</label>
       </node>
-      <node id="43">
+      <node id="44">
         <label>OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp</label>
         <link refid="_real_condition_8hpp"/>
         <childnode refid="25" relation="include">
@@ -164,7 +166,7 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="44">
+      <node id="45">
         <label>OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp</label>
         <link refid="_maneuver_8hpp"/>
         <childnode refid="2" relation="include">
@@ -179,7 +181,7 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -195,11 +197,11 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
         <childnode refid="47" relation="include">
         </childnode>
         <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -207,10 +209,10 @@
       <node id="10">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
-      <node id="48">
+      <node id="49">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp</label>
         <link refid="_local_orbital_frame_factory_8hpp"/>
-        <childnode refid="49" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -366,7 +368,7 @@
       <node id="37">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp</label>
       </node>
-      <node id="46">
+      <node id="47">
         <label>OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp</label>
         <link refid="_dynamics_2_tabulated_8hpp"/>
         <childnode refid="2" relation="include">
@@ -375,7 +377,7 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -435,13 +437,13 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
         <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="42" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="49" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
@@ -496,7 +498,7 @@
       <node id="26">
         <label>OpenSpaceToolkit/Mathematics/Solver/NumericalSolver.hpp</label>
       </node>
-      <node id="49">
+      <node id="43">
         <label>memory</label>
       </node>
     </incdepgraph>

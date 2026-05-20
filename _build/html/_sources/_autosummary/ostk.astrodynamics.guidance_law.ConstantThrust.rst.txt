@@ -17,7 +17,7 @@ ostk.astrodynamics.guidance\_law.ConstantThrust
       :nosignatures:
    
       ~ConstantThrust.calculate_thrust_acceleration_at
-      ~ConstantThrust.create_instance_for_maneuver_extraction
+      ~ConstantThrust.construct_ungated_guidance_law
       ~ConstantThrust.from_maneuver
       ~ConstantThrust.get_local_thrust_direction
       ~ConstantThrust.get_name

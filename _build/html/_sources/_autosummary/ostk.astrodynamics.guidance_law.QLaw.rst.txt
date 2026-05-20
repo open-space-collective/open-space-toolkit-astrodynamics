@@ -23,7 +23,7 @@ ostk.astrodynamics.guidance\_law.QLaw
       ~QLaw.compute_orbital_elements_maximal_change
       ~QLaw.compute_q
       ~QLaw.compute_thrust_direction
-      ~QLaw.create_instance_for_maneuver_extraction
+      ~QLaw.construct_ungated_guidance_law
       ~QLaw.get_coe_domain
       ~QLaw.get_gradient_strategy
       ~QLaw.get_name

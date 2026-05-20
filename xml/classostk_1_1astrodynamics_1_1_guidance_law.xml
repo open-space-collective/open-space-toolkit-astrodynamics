@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="classostk_1_1astrodynamics_1_1_guidance_law" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>ostk::astrodynamics::GuidanceLaw</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; GuidanceLaw &gt;</basecompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust" prot="public" virt="non-virtual">ostk::astrodynamics::guidancelaw::ConstantThrust</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" prot="public" virt="non-virtual">ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law" prot="public" virt="non-virtual">ostk::astrodynamics::guidancelaw::QLaw</derivedcompoundref>
@@ -18,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="94" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="94" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="100" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="100" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -48,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="38" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="11" bodyend="14"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="11" bodyend="14"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1a6efc5c9384e96c01924c73e72ff7a33b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -62,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="41" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="16" bodyend="16"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="43" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="16" bodyend="16"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -82,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="62" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="24" bodyend="27"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="64" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="24" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -125,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="68" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="29" bodyend="36"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="70" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="29" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Vector3d</type>
@@ -206,27 +207,28 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="80" column="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="82" column="22"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1a2228e58d7c8c1eed60825e09e2d4e992" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_guidance_law_1afa769d0ef0b5b7d3bad2ea57a8b2b0f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;</type>
-        <definition>virtual Shared&lt;GuidanceLaw&gt; ostk::astrodynamics::GuidanceLaw::createInstanceForManeuverExtraction</definition>
-        <argsstring>() const =0</argsstring>
-        <name>createInstanceForManeuverExtraction</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a44b8a89e8c81b1b5f487bca7c4efae2b">createInstanceForManeuverExtraction</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1ade5bd368cde4f60ac086b09eddb785e7">createInstanceForManeuverExtraction</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a41c16d1f7727179c1aa4362e2b8b9c77">createInstanceForManeuverExtraction</reimplementedby>
+        <definition>Shared&lt; GuidanceLaw &gt; ostk::astrodynamics::GuidanceLaw::constructUngatedGuidanceLaw</definition>
+        <argsstring>() const</argsstring>
+        <name>constructUngatedGuidanceLaw</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law_1a4c1e6e588674190b7116ddfa2e08a64e">constructUngatedGuidanceLaw</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law_1a942e0c5fc1693a209cb18bdd9502b52a">constructUngatedGuidanceLaw</reimplementedby>
         <briefdescription>
-<para>Create a new guidance law instance configured for maneuver extraction. </para>
+<para>Construct an ungated version of the instance. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>A new guidance law instance. </para>
+<para>An &apos;ungated&apos; guidance law is one that always returns a non-zero acceleration vector.</para>
+<para>The default implementation returns the original instance.</para>
+<para><simplesect kind="return"><para>The ungated guidance law instance. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="91" column="20"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="97" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="38" bodyend="41"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -272,7 +274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="52" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="18" bodyend="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="54" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.cpp" bodystart="18" bodyend="22"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -281,23 +283,28 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="4">
+      <node id="5">
         <label>ostk::astrodynamics::guidancelaw::QLaw</label>
         <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; GuidanceLaw &gt;</label>
+      </node>
       <node id="1">
         <label>ostk::astrodynamics::GuidanceLaw</label>
         <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</label>
         <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="2">
+      <node id="3">
         <label>ostk::astrodynamics::guidancelaw::ConstantThrust</label>
         <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust"/>
         <childnode refid="1" relation="public-inheritance">
@@ -305,21 +312,26 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="2">
+      <node id="3">
         <label>String</label>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; GuidanceLaw &gt;</label>
       </node>
       <node id="1">
         <label>ostk::astrodynamics::GuidanceLaw</label>
         <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
-        <childnode refid="2" relation="usage">
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
           <edgelabel>name_</edgelabel>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="32" bodyend="95"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp" bodystart="34" bodyend="101"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>calculateThrustAccelerationAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2228e58d7c8c1eed60825e09e2d4e992" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>createInstanceForManeuverExtraction</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1afa769d0ef0b5b7d3bad2ea57a8b2b0f7" prot="public" virt="virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>constructUngatedGuidanceLaw</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>GuidanceLaw</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9ccb9065feabe9baff67daba6759106e" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::GuidanceLaw</scope><name>name_</name></member>
