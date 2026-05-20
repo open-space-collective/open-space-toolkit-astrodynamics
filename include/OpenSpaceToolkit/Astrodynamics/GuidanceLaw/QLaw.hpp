@@ -217,6 +217,15 @@ class QLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
+    /// @brief Construct an ungated Q-law from this instance.
+    ///
+    /// The new instance contains the same parameters as the original one, with the exception of the
+    /// convergence thresholds (which are set to zero), and the relative and absolute effectivities (which are also
+    /// set to zero).
+    ///
+    /// @return The ungated guidance law instance.
+    virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override;
+
     /// @brief Compute the maximal change in orbital elements
     ///
     /// @param aCOEVector A vector of classical orbital elements

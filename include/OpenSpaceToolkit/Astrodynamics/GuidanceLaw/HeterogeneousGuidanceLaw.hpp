@@ -93,6 +93,13 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
+    /// @brief Construct an ungated heterogeneous guidance law from this instance.
+    ///
+    /// The new instance contains the same intervals paired with the ungated versions of the underlying guidance laws.
+    ///
+    /// @return The ungated guidance law instance.
+    virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override;
+
    private:
     Array<Interval> intervals_;
     Array<Shared<const GuidanceLaw>> guidanceLaws_;

@@ -40,6 +40,9 @@ def guidance_law_1() -> GuidanceLaw:
         ) -> np.array:
             return np.array([1.0, 2.0, 3.0])
 
+        def construct_ungated_guidance_law(self) -> GuidanceLaw:
+            return GuidanceLaw1(self.get_name())
+
     return GuidanceLaw1("My Guidance Law 1")
 
 
@@ -70,6 +73,9 @@ def guidance_law_2() -> GuidanceLaw:
             output_frame: Frame,
         ) -> np.array:
             return np.array([4.0, 5.0, 6.0])
+
+        def construct_ungated_guidance_law(self) -> GuidanceLaw:
+            return GuidanceLaw2(self.get_name())
 
     return GuidanceLaw2("My Guidance Law 2")
 
@@ -162,3 +168,13 @@ class TestHeterogeneousGuidanceLaw:
             ),
             expected_thrust_acceleration,
         )
+
+    def test_construct_ungated_guidance_law(
+        self,
+        heterogeneous_guidance_law: HeterogeneousGuidanceLaw,
+    ):
+        ungated_guidance_law: GuidanceLaw = (
+            heterogeneous_guidance_law.construct_ungated_guidance_law()
+        )
+
+        assert type(ungated_guidance_law) is type(heterogeneous_guidance_law)

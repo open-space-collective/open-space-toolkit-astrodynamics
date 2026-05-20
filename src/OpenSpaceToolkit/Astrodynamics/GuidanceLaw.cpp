@@ -35,5 +35,10 @@ void GuidanceLaw::print(std::ostream& anOutputStream, bool displayDecorator) con
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+Shared<GuidanceLaw> GuidanceLaw::constructUngatedGuidanceLaw() const
+{
+    return std::const_pointer_cast<GuidanceLaw>(shared_from_this());
+}
+
 }  // namespace astrodynamics
 }  // namespace ostk

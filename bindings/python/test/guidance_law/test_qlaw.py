@@ -166,6 +166,11 @@ class TestQLaw:
         assert q_law.get_gradient_strategy() is not None
         assert q_law.get_coe_domain() is not None
 
+    def test_construct_ungated_guidance_law(self, q_law: QLaw):
+        ungated_guidance_law: GuidanceLaw = q_law.construct_ungated_guidance_law()
+
+        assert type(ungated_guidance_law) is type(q_law)
+
     def test_calculate_thrust_acceleration_at(
         self,
         q_law: QLaw,

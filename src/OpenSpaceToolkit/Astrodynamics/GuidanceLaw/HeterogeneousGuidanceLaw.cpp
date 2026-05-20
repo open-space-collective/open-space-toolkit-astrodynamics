@@ -79,6 +79,20 @@ void HeterogeneousGuidanceLaw::addGuidanceLaw(
     guidanceLaws_.add(aGuidanceLawSPtr);
 }
 
+Shared<GuidanceLaw> HeterogeneousGuidanceLaw::constructUngatedGuidanceLaw() const
+{
+    const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw = std::make_shared<HeterogeneousGuidanceLaw>();
+
+    for (Size index = 0; index < guidanceLaws_.getSize(); ++index)
+    {
+        heterogeneousGuidanceLaw->addGuidanceLaw(
+            guidanceLaws_[index]->constructUngatedGuidanceLaw(), intervals_[index]
+        );
+    }
+
+    return heterogeneousGuidanceLaw;
+}
+
 Vector3d HeterogeneousGuidanceLaw::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,

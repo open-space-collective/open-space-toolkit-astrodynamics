@@ -459,10 +459,17 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         return {};
     }
 
-    const Shared<Thruster> thrusterDynamics = this->getThrusterDynamics();
+    const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
+
+    // Use the ungated guidance law to ensure thrust acceleration contributions and maneuver intervals consistency.
+    const Shared<Thruster> ungatedThrusterDynamics = std::make_shared<Thruster>(
+        segmentThrusterDynamics->getSatelliteSystem(),
+        segmentThrusterDynamics->getGuidanceLaw()->constructUngatedGuidanceLaw(),
+        segmentThrusterDynamics->getName() + " (Ungated)"
+    );
 
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
-        thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        ungatedThrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
 
     const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
@@ -599,10 +606,12 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray
 ) const
 {
-    // Check dynamics is part of the segment dynamics
-    if (!this->dynamics.contains(aDynamicsSPtr))
+    // Check dynamics is part of the segment dynamics (Thruster dynamics may be created with an ungated guidance law)
+    const bool isThrusterDynamics = std::dynamic_pointer_cast<Thruster>(aDynamicsSPtr) != nullptr;
+
+    if (!isThrusterDynamics && !this->dynamics.contains(aDynamicsSPtr))
     {
-        throw ostk::core::error::RuntimeError("Provided dynamics is not part of the segment dynamics.");
+        throw ostk::core::error::RuntimeError("Non-Thruster provided dynamics is not part of the segment dynamics.");
     }
 
     // Extract write coordinate subsets from dynamics
@@ -1842,7 +1851,15 @@ Segment::Solution Segment::solveManeuverForInterval_(
     // start instant
     Array<State> states = propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
 
-    const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
+    // Since the maneuver interval is given, use the ungated guidance law to ensure maneuver interval consistency.
+    const Shared<Thruster> ungatedThrusterDynamics = std::make_shared<Thruster>(
+        thrusterDynamics->getSatelliteSystem(),
+        thrusterDynamics->getGuidanceLaw()->constructUngatedGuidanceLaw(),
+        thrusterDynamics->getName() + " (Ungated)"
+    );
+
+    const Array<Shared<Dynamics>> dynamicsArray =
+        freeDynamicsArray_ + Array<Shared<Dynamics>> {ungatedThrusterDynamics};
 
     // Solve the maneuver for just the defined interval
     const State lastState = states.isEmpty() ? aState : states.accessLast();

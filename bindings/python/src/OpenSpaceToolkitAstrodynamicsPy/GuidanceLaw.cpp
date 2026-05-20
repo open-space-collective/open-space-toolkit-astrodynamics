@@ -52,6 +52,13 @@ class PyGuidanceLaw : public GuidanceLaw
             outputFrameSPtr
         );
     }
+
+    Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
+    {
+        PYBIND11_OVERRIDE_NAME(
+            Shared<GuidanceLaw>, GuidanceLaw, "construct_ungated_guidance_law", constructUngatedGuidanceLaw,
+        );
+    }
 };
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
@@ -111,6 +118,19 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             arg("velocity_coordinates"),
             arg("thrust_acceleration"),
             arg("output_frame")
+        )
+
+        .def(
+            "construct_ungated_guidance_law",
+            &GuidanceLaw::constructUngatedGuidanceLaw,
+            R"doc(
+                Construct an ungated version of the instance.
+
+                An 'ungated' guidance law is one that always returns a non-zero acceleration vector.
+
+                Returns:
+                    GuidanceLaw: The ungated guidance law instance.
+            )doc"
         )
 
         ;

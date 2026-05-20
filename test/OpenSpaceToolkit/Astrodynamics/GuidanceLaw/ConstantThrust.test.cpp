@@ -31,6 +31,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -79,6 +80,7 @@ using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
@@ -160,6 +162,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Getters)
         ConstantThrust constantThrust(LocalOrbitalFrameDirection::Undefined());
         EXPECT_THROW(constantThrust.getLocalThrustDirection(), ostk::core::error::runtime::Undefined);
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, ConstructUngatedGuidanceLaw)
+{
+    const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(localOrbitalFrameDirection_);
+
+    const Shared<GuidanceLaw> ungatedGuidanceLawSPtr = constantThrustSPtr->constructUngatedGuidanceLaw();
+
+    EXPECT_EQ(ungatedGuidanceLawSPtr, constantThrustSPtr);
 }
 
 /* Include Thruster Dynamics computeContribution validation test */

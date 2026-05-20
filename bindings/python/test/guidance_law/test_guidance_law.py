@@ -29,6 +29,9 @@ def guidance_law() -> GuidanceLaw:
         ) -> np.array:
             return np.array([0.0, 0.0, 0.0])
 
+        def construct_ungated_guidance_law(self) -> GuidanceLaw:
+            return self
+
     return MyGuidanceLaw("My Guidance Law")
 
 
@@ -58,3 +61,11 @@ class TestGuidanceLaw:
         )
 
         assert np.array_equal(thrust_acceleration, np.array([0.0, 0.0, 0.0]))
+
+    def test_construct_ungated_guidance_law(
+        self,
+        guidance_law: GuidanceLaw,
+    ):
+        ungated_guidance_law: GuidanceLaw = guidance_law.construct_ungated_guidance_law()
+
+        assert type(ungated_guidance_law) is type(guidance_law)

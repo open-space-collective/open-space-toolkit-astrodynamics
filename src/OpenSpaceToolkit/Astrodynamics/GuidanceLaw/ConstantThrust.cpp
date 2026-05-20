@@ -16,6 +16,7 @@ namespace guidancelaw
 {
 
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
