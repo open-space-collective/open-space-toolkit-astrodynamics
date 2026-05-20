@@ -1675,7 +1675,12 @@ Segment::Solution Segment::solveWithDynamics_(
     NumericalSolver numericalSolver = numericalSolver_;
     if (limitMaxStepSize)
     {
-        const Real maxStepSize = std::min(Real(120.0), (anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+        Real maxStepSize = std::min(Real(120.0), (anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
+        const Real originalMaxStepSize = numericalSolver_.getMaxStepSize();
+        if (originalMaxStepSize.isDefined())
+        {
+            maxStepSize = std::min(maxStepSize, originalMaxStepSize);
+        }
         numericalSolver.setMaxStepSize(maxStepSize);
     }
 

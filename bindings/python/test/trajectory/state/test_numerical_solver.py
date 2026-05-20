@@ -7,6 +7,7 @@ import pytest
 import numpy as np
 import math
 
+from ostk.core.type import Real
 from ostk.physics.time import Instant, Duration
 from ostk.physics.coordinate import Frame
 
@@ -156,6 +157,16 @@ class TestNumericalSolver:
         assert numerical_solver.get_absolute_tolerance() == absolute_tolerance
         assert numerical_solver.get_root_solver() is not None
         assert numerical_solver.get_observed_states() is not None
+        assert numerical_solver.get_maximum_step_size().is_defined() is False
+
+    def test_set_and_get_maximum_step_size_success(
+        self, numerical_solver: NumericalSolver
+    ):
+        numerical_solver.set_maximum_step_size(10.0)
+        assert numerical_solver.get_maximum_step_size() == 10.0
+
+        numerical_solver.set_maximum_step_size(Real.undefined())
+        assert numerical_solver.get_maximum_step_size().is_defined() is False
 
     def test_get_string_from_types(self):
         assert (
