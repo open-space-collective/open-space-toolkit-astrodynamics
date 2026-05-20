@@ -169,8 +169,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Set the maximum step size.
 
                     Args:
-                        maximum_step_size (Real): The maximum step size in seconds. Use
-                            Real.undefined() to remove the limit.
+                        maximum_step_size (Real): The maximum step size in seconds. Use Real.undefined() to remove the limit.
                 )doc",
                 arg("maximum_step_size")
             )
