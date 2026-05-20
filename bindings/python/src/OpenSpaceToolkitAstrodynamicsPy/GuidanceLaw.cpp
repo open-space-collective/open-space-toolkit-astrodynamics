@@ -53,13 +53,10 @@ class PyGuidanceLaw : public GuidanceLaw
         );
     }
 
-    Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override
+    Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Shared<GuidanceLaw>,
-            GuidanceLaw,
-            "create_instance_for_maneuver_extraction",
-            createInstanceForManeuverExtraction
+            Shared<GuidanceLaw>, GuidanceLaw, "create_always_accelerating_instance", createAlwaysAcceleratingInstance
         );
     }
 };
@@ -124,10 +121,10 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
         )
 
         .def(
-            "create_instance_for_maneuver_extraction",
-            &GuidanceLaw::createInstanceForManeuverExtraction,
+            "create_always_accelerating_instance",
+            &GuidanceLaw::createAlwaysAcceleratingInstance,
             R"doc(
-                Create a guidance law instance configured for maneuver extraction.
+                Create a guidance law instance that always accelerates when commanded.
 
                 Returns:
                     GuidanceLaw: A new guidance law instance.

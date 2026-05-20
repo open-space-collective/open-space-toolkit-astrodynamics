@@ -85,10 +85,10 @@ class ConstantThrust : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief Create a new guidance law instance configured for maneuver extraction.
+    /// @brief Create a guidance law instance that always accelerates when commanded.
     ///
     /// @return A new guidance law instance.
-    virtual Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override;
+    virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override;
 
     /// @brief Print constant thrust guidance law
     ///

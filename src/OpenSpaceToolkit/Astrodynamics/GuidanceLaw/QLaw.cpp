@@ -169,7 +169,7 @@ QLaw::COEDomain QLaw::getCOEDomain() const
     return coeDomain_;
 }
 
-Shared<GuidanceLaw> QLaw::createInstanceForManeuverExtraction() const
+Shared<GuidanceLaw> QLaw::createAlwaysAcceleratingInstance() const
 {
     const Vector5d controlWeights = parameters_.getControlWeights();
 
@@ -192,7 +192,7 @@ Shared<GuidanceLaw> QLaw::createInstanceForManeuverExtraction() const
         }
     }
 
-    const Parameters maneuverExtractionParameters = {
+    const Parameters alwaysAcceleratingParameters = {
         elementWeightsMap,
         static_cast<Size>(parameters_.m),
         static_cast<Size>(parameters_.n),
@@ -206,7 +206,7 @@ Shared<GuidanceLaw> QLaw::createInstanceForManeuverExtraction() const
     };
 
     return std::make_shared<QLaw>(
-        getTargetCOE(), gravitationalParameter_, maneuverExtractionParameters, coeDomain_, gradientStrategy_
+        getTargetCOE(), gravitationalParameter_, alwaysAcceleratingParameters, coeDomain_, gradientStrategy_
     );
 }
 

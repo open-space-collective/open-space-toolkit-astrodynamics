@@ -43,7 +43,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
     return anOutputStream;
 }
 
-Shared<GuidanceLaw> ConstantThrust::createInstanceForManeuverExtraction() const
+Shared<GuidanceLaw> ConstantThrust::createAlwaysAcceleratingInstance() const
 {
     return std::make_shared<ConstantThrust>(localOrbitalFrameDirection_);
 }

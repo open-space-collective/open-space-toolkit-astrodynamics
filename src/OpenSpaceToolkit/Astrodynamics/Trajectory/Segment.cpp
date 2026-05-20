@@ -461,14 +461,16 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
 
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
 
-    const Shared<Thruster> maneuverExtractionThrusterDynamics = std::make_shared<Thruster>(
+    // Use the "always accelerating" guidance law to ensure thrust acceleration contributions
+    // and maneuver intervals consistency.
+    const Shared<Thruster> alwaysAcceleratingThrusterDynamics = std::make_shared<Thruster>(
         segmentThrusterDynamics->getSatelliteSystem(),
-        segmentThrusterDynamics->getGuidanceLaw()->createInstanceForManeuverExtraction(),
-        segmentThrusterDynamics->getName() + " Maneuver Extraction"
+        segmentThrusterDynamics->getGuidanceLaw()->createAlwaysAcceleratingInstance(),
+        segmentThrusterDynamics->getName() + " (Maneuver extraction)"
     );
 
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
-        maneuverExtractionThrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        alwaysAcceleratingThrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
 
     const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
@@ -605,7 +607,8 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray
 ) const
 {
-    // Check dynamics is part of the segment dynamics (Thruster dynamics may be created for maneuver extraction)
+    // Check dynamics is part of the segment dynamics (Thruster dynamics may be created for always-accelerating
+    // extraction)
     const bool isThrusterDynamics = std::dynamic_pointer_cast<Thruster>(aDynamicsSPtr) != nullptr;
 
     if (!isThrusterDynamics && !this->dynamics.contains(aDynamicsSPtr))
@@ -1850,7 +1853,16 @@ Segment::Solution Segment::solveManeuverForInterval_(
     // start instant
     Array<State> states = propagateWithDynamics_(aState, validManeuverInterval.getStart(), freeDynamicsArray_);
 
-    const Array<Shared<Dynamics>> dynamicsArray = freeDynamicsArray_ + Array<Shared<Dynamics>> {thrusterDynamics};
+    // Since the maneuver interval is given, we use the "always accelerating" guidance law to ensure
+    // maneuver interval consistency.
+    const Shared<Thruster> alwaysAcceleratingThrusterDynamics = std::make_shared<Thruster>(
+        thrusterDynamics->getSatelliteSystem(),
+        thrusterDynamics->getGuidanceLaw()->createAlwaysAcceleratingInstance(),
+        thrusterDynamics->getName() + " (Solving for interval)"
+    );
+
+    const Array<Shared<Dynamics>> dynamicsArray =
+        freeDynamicsArray_ + Array<Shared<Dynamics>> {alwaysAcceleratingThrusterDynamics};
 
     // Solve the maneuver for just the defined interval
     const State lastState = states.isEmpty() ? aState : states.accessLast();

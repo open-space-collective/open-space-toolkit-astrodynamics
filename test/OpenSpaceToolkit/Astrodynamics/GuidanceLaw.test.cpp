@@ -39,7 +39,7 @@ class MockGuidanceLaw : public GuidanceLaw
         (const, override)
     );
 
-    Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override
+    Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override
     {
         return std::make_shared<MockGuidanceLaw>(getName());
     }
