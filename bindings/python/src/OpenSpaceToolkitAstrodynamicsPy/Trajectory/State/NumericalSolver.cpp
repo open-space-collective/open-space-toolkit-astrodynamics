@@ -152,6 +152,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         RootSolver: The root solver.
                 )doc"
             )
+            .def(
+                "get_maximum_step_size",
+                &NumericalSolver::getMaxStepSize,
+                R"doc(
+                    Get the maximum step size.
+
+                    Returns:
+                        Real: The maximum step size in seconds, or Real.undefined() if not set.
+                )doc"
+            )
+            .def(
+                "set_maximum_step_size",
+                &NumericalSolver::setMaxStepSize,
+                R"doc(
+                    Set the maximum step size.
+
+                    Args:
+                        maximum_step_size (Real): The maximum step size in seconds. Use
+                            Real.undefined() to remove the limit.
+                )doc",
+                arg("maximum_step_size")
+            )
 
             .def(
                 "integrate_time",
