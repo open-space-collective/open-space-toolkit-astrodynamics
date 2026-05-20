@@ -512,8 +512,9 @@ class Segment
     /// @param anEndInstant The end instant
     /// @param aDynamicsArray The dynamics array
     /// @param anEventCondition The event condition
-    /// @param limitMaxStepSize If true, the maximum step size will be limited to 2 minutes, or the duration of the
-    /// subsegment, whichever is smaller. Defaults to false.
+    /// @param limitMaxStepSize If true, the maximum step size will be limited to 2 minutes, the duration of the
+    /// subsegment divided by 10, or the segment numerical solver's configured maximum step size, whichever is smallest.
+    /// Defaults to false.
     /// @return The segment solution
     Segment::Solution solveWithDynamics_(
         const State& aState,
