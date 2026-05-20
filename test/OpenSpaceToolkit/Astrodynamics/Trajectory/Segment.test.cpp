@@ -5019,6 +5019,346 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     EXPECT_NO_THROW(solution.extractManeuvers(Frame::GCRF()));
 }
 
+/// @brief A guidance law that fires for some on-intervals and is off otherwise.
+/// Used to reproduce the on-off-on pattern within a single maneuver block.
+class IntermittentGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
+{
+   public:
+    IntermittentGuidanceLaw(const Array<Interval>& onIntervals)
+        : GuidanceLaw("Intermittent Guidance Law"),
+          onIntervals_(onIntervals)
+    {
+    }
+
+    ostk::mathematics::object::Vector3d calculateThrustAccelerationAt(
+        const Instant& anInstant,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
+        const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
+        const Real& aThrustAcceleration,
+        [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
+    ) const override
+    {
+        for (const Interval& interval : onIntervals_)
+        {
+            if (interval.contains(anInstant))
+            {
+                // Tangential thrust
+                return aThrustAcceleration * aVelocityCoordinates.normalized();
+            }
+        }
+        return {0.0, 0.0, 0.0};
+    }
+
+   private:
+    Array<Interval> onIntervals_;
+};
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_ExtractManeuvers_NegativeMassFlowRateAfterZeroInBlock
+)
+{
+    // Demonstrate that `Segment::Solution::extractManeuvers` -> `Maneuver::Maneuver`
+    // throws "Negative mass flow rate at index N after a zero mass flow rate."
+    // when a maneuverInterval spans an on-off-on guidance pattern.
+    //
+    // We construct a Segment::Solution by hand:
+    //   - states span [t0, t0 + 30 min]
+    //   - one maneuverInterval covering the full span
+    //   - a guidance law that thrusts on [t0+1min, t0+8min] and on [t0+15min, t0+22min],
+    //     and is off otherwise.
+    //
+    // When extractManeuvers groups all states in the maneuverInterval into one
+    // block and recomputes contributions via the (intermittent) guidance law,
+    // the resulting mass-flow-rate column is:
+    //
+    //     0 (leading)
+    //     <0 <0 <0 ... <0   (first on-window: kept as maneuver start)
+    //     0  0  0  ...  0   (gap: first 0 becomes the trailing zero;
+    //                        subsequent zeros are silently skipped)
+    //     <0 <0 ...         (second on-window: triggers the throw because
+    //                        maneuverEndFound is already set)
+    //
+
+    const Instant t0 = Instant::DateTime(DateTime(2026, 5, 17, 20, 58, 9), Scale::UTC);
+
+    const Array<Interval> onIntervals = {
+        Interval::Closed(t0 + Duration::Minutes(1.0), t0 + Duration::Minutes(8.0)),
+        Interval::Closed(t0 + Duration::Minutes(15.0), t0 + Duration::Minutes(22.0)),
+    };
+
+    const Shared<IntermittentGuidanceLaw> guidanceLaw = std::make_shared<IntermittentGuidanceLaw>(onIntervals);
+
+    // Use a propulsion system with a meaningful mass flow rate so the contribution is non-zero
+    const PropulsionSystem propulsion(0.0161, 1140.26);
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(187.7),
+        Composite(Cuboid(
+            {0.0, 0.0, 0.0},
+            {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+             ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+             ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 0.0, 0.0}
+        )),
+        Matrix3d::Identity(),
+        2.2325,
+        1.5876593406498276,
+        propulsion
+    );
+
+    const Shared<Thruster> thruster = std::make_shared<Thruster>(satelliteSystem, guidanceLaw);
+
+    // Free dynamics: position derivative + spherical Earth gravity
+    const Array<Shared<Dynamics>> dynamicsArray = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSpherical_),
+        thruster,
+    };
+
+    // Construct an initial state with the same coordinate broker as Maneuver requires
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    }));
+
+    VectorXd initialCoordinates(7);
+    initialCoordinates << 7000000.0, 0.0, 0.0,  // position (m)
+        0.0, 7546.05329, 0.0,                   // velocity (m/s)
+        199.7;                                  // mass (kg)
+
+    const State initialState(t0, initialCoordinates, defaultFrameSPtr_, coordinateBrokerSPtr);
+
+    // Propagate manually with the intermittent thrust to obtain a states array
+    // whose contribution -- when evaluated by the same guidance law -- shows the
+    // negative-zero-negative MFR pattern across the maneuver block.
+    const Propagator propagator = {defaultNumericalSolver_, dynamicsArray};
+
+    const Instant tEnd = t0 + Duration::Minutes(30.0);
+    propagator.calculateStateAt(initialState, tEnd);
+
+    const Array<State> observedStates = propagator.accessNumericalSolver().accessObservedStates();
+
+    // Build a Segment::Solution covering the whole window as one maneuverInterval
+    const Segment::Solution solution(
+        "Intermittent maneuver",
+        dynamicsArray,
+        observedStates,
+        true,  // condition is satisfied
+        Segment::Type::Maneuver,
+        Array<Interval> {Interval::Closed(t0, tEnd)}
+    );
+
+    EXPECT_NO_THROW(solution.extractManeuvers(defaultFrameSPtr_));
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Segment,
+    Regression_Solve_NegativeMassFlowRateAfterZeroInCenteredQLawWindow
+)
+{
+    //   RuntimeError: Negative mass flow rate at index N after a zero mass flow rate.
+    //
+    // (thrown from Maneuver.cpp:105-113 via Segment::Solution::extractManeuvers
+    // -> Maneuver::Maneuver during Segment::solve).
+    //
+    // Same satellite state, propulsion, and constraints as
+    // `Regression_Solve_NoStatesAfterSanitizationInConstantLofCenteredManeuver`
+    // (PHASING_FAILURE_REPORT.md): satellite 1's "Lower" leg start at
+    // 2023-01-01 18:00:00 UTC, after three raise-leg maneuvers. The ONLY change
+    // is the Q-Law effectivity threshold (0.30 instead of 0.40).
+    //
+    // Why this matters:
+    //   At threshold 0.40 the candidate-reshape's coasted entry state lands at
+    //   etaRel ~ 0.397 (just below) and Q-Law gates OFF across the ENTIRE
+    //   reshaped 40-min window -> "No states left after sanitization".
+    //   At threshold 0.30 the same coasted entry state's etaRel (~ 0.4) is
+    //   ABOVE threshold, so Q-Law fires at the start; then mid-window the
+    //   orbital phase drifts to etaRel < 0.30 (Q-Law turns OFF); then it
+    //   recovers near the end (Q-Law turns ON again). The observed-states
+    //   list across that one maneuver block reads:
+    //
+    //       <0 ... <0   (start: thrusting)
+    //        0 ...  0   (middle: gated off)
+    //       <0 ... <0   (end: thrusting again)
+    //
+    //   `Maneuver::Maneuver`'s sanitization accepts the first run, accepts the
+    //   first 0 as the trailing zero (maneuverEndFound), then throws when it
+    //   hits the next <0 entry. Same failure family as the PHASING case; the
+    //   reshape window simply lands in the "partial gating dip" regime instead
+    //   of the "full gating off" regime.
+    //
+    //   effectivity=0.30..0.38  -> THROW "Negative mass flow rate at index N after a zero..."
+    //   effectivity=0.39, 0.395 -> ok (6 maneuvers)
+    //   effectivity=0.40        -> THROW "No states left after sanitization." (PHASING bug)
+    //   effectivity=0.41..0.50  -> ok (5..6 maneuvers)
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2023, 1, 1, 18, 0, 0, 0, 0, 1), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 2.0;
+    const double dragCoefficient = 2.2;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 4141052.135164462, -638420.8286888569, 5579826.913978569,  // position (m)
+        -6087.65700892022, -615.1066986905043, 4437.17365569159,                     // velocity (m/s)
+        219.9896334604908,                                                           // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(180.0),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        crossSectionalArea,
+        dragCoefficient,
+        PropulsionSystem(16.1e-3, 1140.26)  // thrust (N), specific impulse (s)
+    );
+
+    const Environment environment(
+        initialInstant, {earthSPtr, std::make_shared<Sun>(Sun::Default()), std::make_shared<Moon>(Moon::Default())}
+    );
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    // Q-Law targeting only SMA, lowering it from ~6_981_000 m to 6_979_500 m.
+    // Weight 1.0 / tolerance 0.0 mirrors the FDTk Strategy convention.
+    const COE targetCOE = {
+        Length::Meters(6979500.0),
+        0.0,
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 0.0}},
+        },
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.30,                        // absoluteEffectivityThreshold
+        0.30,                        // relativeEffectivityThreshold
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        earthSPtr->getGravitationalParameter(),
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::Analytical
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+    };
+
+    const Instant maximumInstant = Instant::DateTime(DateTime(2023, 1, 3, 0, 0, 0), Scale::UTC);
+    const Duration maximumPropagationDuration = maximumInstant - initialInstant;
+
+    const Shared<InstantCondition> maxInstantCondition =
+        std::make_shared<InstantCondition>(InstantCondition::Criterion::StrictlyPositive, maximumInstant);
+    const Shared<InstantCondition> segmentEndCondition = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::PositiveCrossing, Instant::DateTime(DateTime(2023, 1, 2, 18, 0, 0), Scale::UTC)
+    );
+    const Shared<RealCondition> targetStopCondition =
+        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+            RealCondition::Criterion::StrictlyNegative,
+            Frame::GCRF(),
+            Length::Meters(6979500.0 + 250.0),
+            earthSPtr->getGravitationalParameter()
+        ));
+
+    const Shared<LogicalCondition> eventCondition = std::make_shared<LogicalCondition>(
+        "Targeting Stop",
+        LogicalCondition::Type::Or,
+        Array<Shared<EventCondition>> {maxInstantCondition, segmentEndCondition, targetStopCondition}
+    );
+
+    const Shared<const LocalOrbitalFrameFactory> vncFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
+
+    const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+        "Maneuver (Enforced Fixed LOF Attitude)",
+        eventCondition,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        vncFactorySPtr,
+        Angle::Undefined(),
+        {Duration::Minutes(5.0),   // minimum maneuver duration
+         Duration::Minutes(40.0),  // maximum maneuver duration
+         Duration::Minutes(27.0),  // minimum separation
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    const Array<Interval> previousManeuverIntervals = {
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 5, 41, 353, 465), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 0, 40, 5, 41, 353, 465), Scale::UTC)
+        ),
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 1, 29, 3, 414, 462, 5), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 2, 9, 3, 414, 462, 5), Scale::UTC)
+        ),
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 2, 57, 59, 0, 864, 446), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 3, 37, 59, 0, 864, 446), Scale::UTC)
+        ),
+    };
+
+    // The test demonstrates the bug: solve() throws with the characteristic
+    // message. When the bug is fixed, flip to EXPECT_NO_THROW and assert
+    // on the expected maneuver count.
+    EXPECT_THROW(
+        {
+            try
+            {
+                maneuverSegment.solve(initialState, maximumPropagationDuration, previousManeuverIntervals);
+            }
+            catch (const ostk::core::error::RuntimeError& e)
+            {
+                EXPECT_NE(e.getMessage().find("Negative mass flow rate at index"), std::string::npos)
+                    << "Unexpected error message: " << e.getMessage();
+                EXPECT_NE(e.getMessage().find("after a zero mass flow rate"), std::string::npos)
+                    << "Unexpected error message: " << e.getMessage();
+                throw;
+            }
+        },
+        ostk::core::error::RuntimeError
+    );
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_ManeuverWithALeadingZeroMassFlowRateState)
 {
     // This test reproduces an issue where a maneuver with a leading zero mass flow rate state was produced.
@@ -5141,16 +5481,13 @@ TEST_F(
     // `MaximumManeuverDurationViolationStrategy::Center` path inside
     // `solveAndAcceptConstantLofManeuver`.
     //
-    // Triggered by the phasing-solver scenario in the cockpit guidance service after the bump to
-    // ostk-astrodynamics 17.7.1. The candidate maneuver returned by `solveSingleManeuver` exceeds
+    // The candidate maneuver returned by `solveSingleManeuver` exceeds
     // the 40-min maximum-duration constraint, so the Center strategy reshapes it to a centered
     // 40-min window. Propagating through that window with the sliced thruster
     // (`HeterogeneousGuidanceLaw` wrapping QLaw) produces zero mass flow rate at every sampled
     // state contained in the window -- so `extractManeuvers` constructs `Maneuver` with an array
     // of all-zero-thrust states and `Maneuver::Maneuver` sanitization throws.
     //
-    // Captured failing state corresponds to satellite 1's "Lower" leg start at
-    // 2023-01-01 18:00:00 UTC, after the previous 3 raise-leg maneuvers.
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70),
         std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
@@ -5200,8 +5537,6 @@ TEST_F(
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
 
     // QLaw targeting only SMA, lowering it from ~6_981_000 m to 6_979_500 m.
-    // Element weights and tolerances mirror the FDTk strategy (weight 1.0, tolerance 0.0;
-    // hysteresis is managed externally so QLaw itself uses tolerance 0.0).
     const COE targetCOE = {
         Length::Meters(6979500.0),
         0.0,
@@ -5245,11 +5580,10 @@ TEST_F(
         RootSolver::Default(),
     };
 
-    // Mirror the cockpit guidance solving span (2023-01-01 00:00 UTC to 2023-01-03 00:00 UTC).
     const Instant maximumInstant = Instant::DateTime(DateTime(2023, 1, 3, 0, 0, 0), Scale::UTC);
     const Duration maximumPropagationDuration = maximumInstant - initialInstant;
 
-    // Segment event condition (Logical OR of three conditions) mirrors FDTk's combined condition:
+    // Segment event condition (Logical OR of three conditions):
     //   - max-instant condition (StrictlyPositive at the solving-span upper bound)
     //   - sequence-segment terminator (PositiveCrossing at solving_start + 42h = 2023-01-02 18:00 UTC)
     //   - target-stop condition (StrictlyPositive when SMA reaches target)
@@ -5266,24 +5600,11 @@ TEST_F(
             earthSPtr->getGravitationalParameter()
         ));
 
-    // NOTE: the failing run actually uses a LogicalCondition combining
-    //   { max-instant (StrictlyPositive), segment-end (PositiveCrossing), target-stop (StrictlyNegative on BLM SMA) }
-    // Reproducing it with only the segment-end + target-stop is sufficient to trigger the failure.
     const Shared<LogicalCondition> eventCondition = std::make_shared<LogicalCondition>(
         "Targeting Stop",
         LogicalCondition::Type::Or,
         Array<Shared<EventCondition>> {maxInstantCondition, segmentEndCondition, targetStopCondition}
     );
-
-    {
-        const VectorXd coords = initialState.getCoordinates();
-        std::cerr << "[Test-debug] About to solve. State coords: ";
-        for (Eigen::Index i = 0; i < coords.size(); ++i)
-        {
-            std::cerr << std::setprecision(17) << coords(i) << " ";
-        }
-        std::cerr << std::endl;
-    }
 
     const Shared<const LocalOrbitalFrameFactory> vncFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
 

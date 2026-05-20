@@ -519,22 +519,31 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         const MatrixXd maneuverContributionBlock =
             fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
 
+        // TBI:
+        // The below two checks are a temporary fix to the issue of intermittent thrusting.
+        // Ideally, we apply ungated guidance law to the post-reshaped trajectory.
+
         // Skip the block if no state in it has a negative (thrusting) mass-flow rate. This can
         // happen when the maneuverInterval was reshaped (e.g. by the Center maximum-duration
         // strategy) into a window where the state-dependent guidance law produces zero thrust
         // along the post-reshape coasted trajectory. Constructing a FlightManeuver from such a
         // block would throw "No states left after sanitization"; instead we report no maneuver
         // for this interval so callers can fall back to a coast.
-        bool hasThrustingState = false;
-        for (Size i = 0; i < blockLength; ++i)
+        if (maneuverContributionBlock.col(3).minCoeff() >= 0.0)
         {
-            if (fullSegmentContributions(startStopPair.first + i, 3) < 0.0)
-            {
-                hasThrustingState = true;
-                break;
-            }
+            continue;
         }
-        if (!hasThrustingState)
+
+        // Skip this block if it contains intermittent thrusting
+        // This can happen when the maneuverInterval was reshaped (e.g. by the Center maximum-duration
+        // strategy) into a window where the state-dependent guidance law produces zero thrust intermittently
+        // along the post-reshape coasted trajectory. Constructing a FlightManeuver from such a
+        // block would throw "Negative mass flow rate at index {} after a zero mass flow rate"; instead we report no
+        // maneuver for this interval so callers can fall back to a coast.
+        const Eigen::VectorXd signVector = maneuverContributionBlock.col(3).array().sign();
+        const Eigen::VectorXd diffSignVector =
+            signVector.tail(signVector.size() - 1) - signVector.head(signVector.size() - 1);
+        if ((diffSignVector.array() > 0).count() > 1)
         {
             continue;
         }
