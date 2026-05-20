@@ -1,8 +1,5 @@
 /// Apache License 2.0
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/numeric/odeint/external/eigen/eigen.hpp>
-
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>

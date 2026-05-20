@@ -5143,12 +5143,12 @@ TEST_F(
         "Intermittent maneuver",
         dynamicsArray,
         observedStates,
-        true,  // condition is satisfied
+        true,
         Segment::Type::Maneuver,
         Array<Interval> {Interval::Closed(t0, tEnd)}
     );
 
-    EXPECT_NO_THROW(solution.extractManeuvers(defaultFrameSPtr_));
+    EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
 }
 
 TEST_F(
@@ -5340,23 +5340,10 @@ TEST_F(
     // The test demonstrates the bug: solve() throws with the characteristic
     // message. When the bug is fixed, flip to EXPECT_NO_THROW and assert
     // on the expected maneuver count.
-    EXPECT_THROW(
-        {
-            try
-            {
-                maneuverSegment.solve(initialState, maximumPropagationDuration, previousManeuverIntervals);
-            }
-            catch (const ostk::core::error::RuntimeError& e)
-            {
-                EXPECT_NE(e.getMessage().find("Negative mass flow rate at index"), std::string::npos)
-                    << "Unexpected error message: " << e.getMessage();
-                EXPECT_NE(e.getMessage().find("after a zero mass flow rate"), std::string::npos)
-                    << "Unexpected error message: " << e.getMessage();
-                throw;
-            }
-        },
-        ostk::core::error::RuntimeError
-    );
+    const Segment::Solution solution =
+        maneuverSegment.solve(initialState, maximumPropagationDuration, previousManeuverIntervals);
+
+    EXPECT_EQ(solution.extractManeuvers(defaultFrameSPtr_).getSize(), 0);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_ManeuverWithALeadingZeroMassFlowRateState)

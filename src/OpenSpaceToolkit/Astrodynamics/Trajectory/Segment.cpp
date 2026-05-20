@@ -540,10 +540,29 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         // along the post-reshape coasted trajectory. Constructing a FlightManeuver from such a
         // block would throw "Negative mass flow rate at index {} after a zero mass flow rate"; instead we report no
         // maneuver for this interval so callers can fall back to a coast.
-        const Eigen::VectorXd signVector = maneuverContributionBlock.col(3).array().sign();
-        const Eigen::VectorXd diffSignVector =
-            signVector.tail(signVector.size() - 1) - signVector.head(signVector.size() - 1);
-        if ((diffSignVector.array() > 0).count() > 1)
+        Eigen::Index firstThrust = -1, lastThrust = -1;
+        for (Eigen::Index i = 0; i < maneuverContributionBlock.size(); ++i)
+        {
+            if (maneuverContributionBlock(i) < 0.0)
+            {
+                if (firstThrust < 0)
+                {
+                    firstThrust = i;
+                }
+                lastThrust = i;
+            }
+        }
+        // Check the [firstThrust, lastThrust] span is all thrusting (no zero gaps).
+        bool intermittent = false;
+        for (Eigen::Index i = firstThrust; i <= lastThrust; ++i)
+        {
+            if (maneuverContributionBlock(i) >= 0.0)
+            {
+                intermittent = true;
+                break;
+            }
+        }
+        if (intermittent)
         {
             continue;
         }
