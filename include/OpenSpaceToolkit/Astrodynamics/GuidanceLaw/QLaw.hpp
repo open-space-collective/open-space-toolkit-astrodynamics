@@ -217,7 +217,11 @@ class QLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief Create a guidance law instance that always accelerates when commanded.
+    /// @brief Create a guidance law instance that always returns a non-zero acceleration vector.
+    ///
+    /// The new instance contains the same parameters as the original one, with the exception of the
+    /// convergence thresholds (which are set to zero), and the relative and absolute effectivities (which are also
+    /// set to zero). This ensures that the new instance always returns a non-zero acceleration vector.
     ///
     /// @return A new guidance law instance.
     virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override;

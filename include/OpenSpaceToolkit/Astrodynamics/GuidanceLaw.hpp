@@ -85,7 +85,7 @@ class GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
 
-    /// @brief Create a guidance law instance that always accelerates when commanded.
+    /// @brief Create a version of the instance that always returns a non-zero acceleration vector.
     ///
     /// @return A new guidance law instance.
     virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const = 0;

@@ -29,6 +29,9 @@ def guidance_law() -> GuidanceLaw:
         ) -> np.array:
             return np.array([0.0, 0.0, 0.0])
 
+        def create_always_accelerating_instance(self) -> GuidanceLaw:
+            return self
+
     return MyGuidanceLaw("My Guidance Law")
 
 
@@ -58,3 +61,13 @@ class TestGuidanceLaw:
         )
 
         assert np.array_equal(thrust_acceleration, np.array([0.0, 0.0, 0.0]))
+
+    def test_create_always_accelerating_instance(
+        self,
+        guidance_law: GuidanceLaw,
+    ):
+        always_accelerating_instance: GuidanceLaw = (
+            guidance_law.create_always_accelerating_instance()
+        )
+
+        assert type(always_accelerating_instance) is type(guidance_law)

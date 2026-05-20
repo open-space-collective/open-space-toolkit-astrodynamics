@@ -124,10 +124,10 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             "create_always_accelerating_instance",
             &GuidanceLaw::createAlwaysAcceleratingInstance,
             R"doc(
-                Create a guidance law instance that always accelerates when commanded.
+                Create a version of the instance that always returns a non-zero acceleration vector.
 
                 Returns:
-                    GuidanceLaw: A new guidance law instance.
+                    GuidanceLaw: The new guidance law instance.
             )doc"
         )
 

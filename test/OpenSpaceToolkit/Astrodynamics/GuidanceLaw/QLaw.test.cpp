@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -54,6 +55,7 @@ using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::Propagator;
@@ -236,6 +238,43 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetCOE
 {
     // Default should be Osculating
     EXPECT_EQ(qlaw_.getCOEDomain(), QLaw::COEDomain::Osculating);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, CreateAlwaysAcceleratingInstance)
+{
+    const Shared<GuidanceLaw> alwaysAcceleratingSPtr = qlaw_.createAlwaysAcceleratingInstance();
+    const Shared<QLaw> alwaysAcceleratingQLawSPtr = std::dynamic_pointer_cast<QLaw>(alwaysAcceleratingSPtr);
+
+    ASSERT_NE(alwaysAcceleratingQLawSPtr, nullptr);
+
+    EXPECT_EQ(alwaysAcceleratingQLawSPtr->getTargetCOE(), qlaw_.getTargetCOE());
+    EXPECT_EQ(alwaysAcceleratingQLawSPtr->getGradientStrategy(), qlaw_.getGradientStrategy());
+    EXPECT_EQ(alwaysAcceleratingQLawSPtr->getCOEDomain(), qlaw_.getCOEDomain());
+
+    const QLaw::Parameters originalParameters = qlaw_.getParameters();
+    const QLaw::Parameters alwaysAcceleratingParameters = alwaysAcceleratingQLawSPtr->getParameters();
+
+    EXPECT_TRUE(alwaysAcceleratingParameters.getControlWeights().isApprox(originalParameters.getControlWeights()));
+    EXPECT_EQ(alwaysAcceleratingParameters.m, originalParameters.m);
+    EXPECT_EQ(alwaysAcceleratingParameters.n, originalParameters.n);
+    EXPECT_EQ(alwaysAcceleratingParameters.r, originalParameters.r);
+    EXPECT_EQ(alwaysAcceleratingParameters.b, originalParameters.b);
+    EXPECT_EQ(alwaysAcceleratingParameters.k, originalParameters.k);
+    EXPECT_EQ(alwaysAcceleratingParameters.periapsisWeight, originalParameters.periapsisWeight);
+    EXPECT_EQ(alwaysAcceleratingParameters.getMinimumPeriapsisRadius(), originalParameters.getMinimumPeriapsisRadius());
+    EXPECT_EQ(alwaysAcceleratingParameters.absoluteEffectivityThreshold, Real(0.0));
+    EXPECT_EQ(alwaysAcceleratingParameters.relativeEffectivityThreshold, Real(0.0));
+
+    const Vector5d controlWeights = alwaysAcceleratingParameters.getControlWeights();
+    const Vector5d convergenceThresholds = alwaysAcceleratingParameters.getConvergenceThresholds();
+
+    for (Size index = 0; index < 5; ++index)
+    {
+        if (controlWeights(index) != 0.0)
+        {
+            EXPECT_EQ(convergenceThresholds(index), 0.0);
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeOrbitalElementsMaximalChange)
