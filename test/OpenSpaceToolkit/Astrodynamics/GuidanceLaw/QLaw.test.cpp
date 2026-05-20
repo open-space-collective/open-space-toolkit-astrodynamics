@@ -240,33 +240,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetCOE
     EXPECT_EQ(qlaw_.getCOEDomain(), QLaw::COEDomain::Osculating);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, CreateAlwaysAcceleratingInstance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ConstructUngatedGuidanceLaw)
 {
-    const Shared<GuidanceLaw> alwaysAcceleratingSPtr = qlaw_.createAlwaysAcceleratingInstance();
-    const Shared<QLaw> alwaysAcceleratingQLawSPtr = std::dynamic_pointer_cast<QLaw>(alwaysAcceleratingSPtr);
+    const Shared<GuidanceLaw> ungatedGuidanceLawSPtr = qlaw_.constructUngatedGuidanceLaw();
+    const Shared<QLaw> ungatedQLawSPtr = std::dynamic_pointer_cast<QLaw>(ungatedGuidanceLawSPtr);
 
-    ASSERT_NE(alwaysAcceleratingQLawSPtr, nullptr);
+    ASSERT_NE(ungatedQLawSPtr, nullptr);
 
-    EXPECT_EQ(alwaysAcceleratingQLawSPtr->getTargetCOE(), qlaw_.getTargetCOE());
-    EXPECT_EQ(alwaysAcceleratingQLawSPtr->getGradientStrategy(), qlaw_.getGradientStrategy());
-    EXPECT_EQ(alwaysAcceleratingQLawSPtr->getCOEDomain(), qlaw_.getCOEDomain());
+    EXPECT_EQ(ungatedQLawSPtr->getTargetCOE(), qlaw_.getTargetCOE());
+    EXPECT_EQ(ungatedQLawSPtr->getGradientStrategy(), qlaw_.getGradientStrategy());
+    EXPECT_EQ(ungatedQLawSPtr->getCOEDomain(), qlaw_.getCOEDomain());
 
     const QLaw::Parameters originalParameters = qlaw_.getParameters();
-    const QLaw::Parameters alwaysAcceleratingParameters = alwaysAcceleratingQLawSPtr->getParameters();
+    const QLaw::Parameters ungatedParameters = ungatedQLawSPtr->getParameters();
 
-    EXPECT_TRUE(alwaysAcceleratingParameters.getControlWeights().isApprox(originalParameters.getControlWeights()));
-    EXPECT_EQ(alwaysAcceleratingParameters.m, originalParameters.m);
-    EXPECT_EQ(alwaysAcceleratingParameters.n, originalParameters.n);
-    EXPECT_EQ(alwaysAcceleratingParameters.r, originalParameters.r);
-    EXPECT_EQ(alwaysAcceleratingParameters.b, originalParameters.b);
-    EXPECT_EQ(alwaysAcceleratingParameters.k, originalParameters.k);
-    EXPECT_EQ(alwaysAcceleratingParameters.periapsisWeight, originalParameters.periapsisWeight);
-    EXPECT_EQ(alwaysAcceleratingParameters.getMinimumPeriapsisRadius(), originalParameters.getMinimumPeriapsisRadius());
-    EXPECT_EQ(alwaysAcceleratingParameters.absoluteEffectivityThreshold, Real(0.0));
-    EXPECT_EQ(alwaysAcceleratingParameters.relativeEffectivityThreshold, Real(0.0));
+    EXPECT_TRUE(ungatedParameters.getControlWeights().isApprox(originalParameters.getControlWeights()));
+    EXPECT_EQ(ungatedParameters.m, originalParameters.m);
+    EXPECT_EQ(ungatedParameters.n, originalParameters.n);
+    EXPECT_EQ(ungatedParameters.r, originalParameters.r);
+    EXPECT_EQ(ungatedParameters.b, originalParameters.b);
+    EXPECT_EQ(ungatedParameters.k, originalParameters.k);
+    EXPECT_EQ(ungatedParameters.periapsisWeight, originalParameters.periapsisWeight);
+    EXPECT_EQ(ungatedParameters.getMinimumPeriapsisRadius(), originalParameters.getMinimumPeriapsisRadius());
+    EXPECT_EQ(ungatedParameters.absoluteEffectivityThreshold, Real(0.0));
+    EXPECT_EQ(ungatedParameters.relativeEffectivityThreshold, Real(0.0));
 
-    const Vector5d controlWeights = alwaysAcceleratingParameters.getControlWeights();
-    const Vector5d convergenceThresholds = alwaysAcceleratingParameters.getConvergenceThresholds();
+    const Vector5d controlWeights = ungatedParameters.getControlWeights();
+    const Vector5d convergenceThresholds = ungatedParameters.getConvergenceThresholds();
 
     for (Size index = 0; index < 5; ++index)
     {

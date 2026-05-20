@@ -53,10 +53,10 @@ class PyGuidanceLaw : public GuidanceLaw
         );
     }
 
-    Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override
+    Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            Shared<GuidanceLaw>, GuidanceLaw, "create_always_accelerating_instance", createAlwaysAcceleratingInstance
+        PYBIND11_OVERRIDE_NAME(
+            Shared<GuidanceLaw>, GuidanceLaw, "construct_ungated_guidance_law", constructUngatedGuidanceLaw,
         );
     }
 };
@@ -121,10 +121,10 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
         )
 
         .def(
-            "create_always_accelerating_instance",
-            &GuidanceLaw::createAlwaysAcceleratingInstance,
+            "construct_ungated_guidance_law",
+            &GuidanceLaw::constructUngatedGuidanceLaw,
             R"doc(
-                Create a version of the instance that always returns a non-zero acceleration vector.
+                Construct an ungated guidance law from this instance.
 
                 Returns:
                     GuidanceLaw: The new guidance law instance.

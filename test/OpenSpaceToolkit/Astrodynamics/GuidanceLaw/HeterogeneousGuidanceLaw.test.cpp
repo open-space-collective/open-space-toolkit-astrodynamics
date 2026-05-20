@@ -47,7 +47,7 @@ class MockGuidanceLaw1 : public GuidanceLaw
         return Vector3d(1.0, 2.0, 3.0);
     }
 
-    Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override
+    Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
     {
         return std::make_shared<MockGuidanceLaw1>(getName());
     }
@@ -72,7 +72,7 @@ class MockGuidanceLaw2 : public GuidanceLaw
         return Vector3d(4.0, 5.0, 6.0);
     }
 
-    Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override
+    Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
     {
         return std::make_shared<MockGuidanceLaw2>(getName());
     }
@@ -290,16 +290,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Calc
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, CreateAlwaysAcceleratingInstance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, ConstructUngatedGuidanceLaw)
 {
-    const Shared<GuidanceLaw> alwaysAcceleratingSPtr = heterogeneousGuidanceLaw_.createAlwaysAcceleratingInstance();
-    const Shared<HeterogeneousGuidanceLaw> alwaysAcceleratingHeterogeneousSPtr =
-        std::dynamic_pointer_cast<HeterogeneousGuidanceLaw>(alwaysAcceleratingSPtr);
+    const Shared<GuidanceLaw> ungatedGuidanceLawSPtr = heterogeneousGuidanceLaw_.constructUngatedGuidanceLaw();
+    const Shared<HeterogeneousGuidanceLaw> ungatedHeterogeneousGuidanceLawSPtr =
+        std::dynamic_pointer_cast<HeterogeneousGuidanceLaw>(ungatedGuidanceLawSPtr);
 
-    ASSERT_NE(alwaysAcceleratingHeterogeneousSPtr, nullptr);
+    ASSERT_NE(ungatedHeterogeneousGuidanceLawSPtr, nullptr);
 
     const Array<Pair<Shared<const GuidanceLaw>, Interval>> lawsWithIntervals =
-        alwaysAcceleratingHeterogeneousSPtr->getGuidanceLawsWithIntervals();
+        ungatedHeterogeneousGuidanceLawSPtr->getGuidanceLawsWithIntervals();
 
     EXPECT_EQ(lawsWithIntervals.getSize(), 2);
 

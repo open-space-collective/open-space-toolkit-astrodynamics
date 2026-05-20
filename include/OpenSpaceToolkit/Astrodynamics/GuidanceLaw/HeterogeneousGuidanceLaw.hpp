@@ -93,13 +93,12 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief Create a version of the instance that always returns a non-zero acceleration vector.
+    /// @brief Construct an ungated heterogeneous guidance law from this instance.
     ///
-    /// The new instance contains the same intervals paired with the always-accelerating versions
-    /// of the underlying guidance laws.
+    /// The new instance contains the same intervals paired with the ungated versions of the underlying guidance laws.
     ///
     /// @return A new guidance law instance.
-    virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override;
+    virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override;
 
    private:
     Array<Interval> intervals_;

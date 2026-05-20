@@ -85,14 +85,6 @@ class ConstantThrust : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief Create a version of the instance that always returns a non-zero acceleration vector.
-    ///
-    /// The new instance is identical to the original one, as this guidance law always returns a
-    /// non-zero acceleration vector.
-    ///
-    /// @return A new guidance law instance.
-    virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override;
-
     /// @brief Print constant thrust guidance law
     ///
     /// @param anOutputStream An output stream

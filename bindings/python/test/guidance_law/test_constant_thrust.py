@@ -131,12 +131,10 @@ class TestConstantThrust:
     def test_getters(self, guidance_law: ConstantThrust):
         assert guidance_law.get_local_thrust_direction() is not None
 
-    def test_create_always_accelerating_instance(self, guidance_law: ConstantThrust):
-        always_accelerating_instance: GuidanceLaw = (
-            guidance_law.create_always_accelerating_instance()
-        )
+    def test_construct_ungated_guidance_law(self, guidance_law: ConstantThrust):
+        ungated_guidance_law: GuidanceLaw = guidance_law.construct_ungated_guidance_law()
 
-        assert type(always_accelerating_instance) is type(guidance_law)
+        assert type(ungated_guidance_law) is type(guidance_law)
 
     def test_static_constructors(self):
         assert ConstantThrust.intrack() is not None

@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
 
+#include <memory>
+
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -29,7 +31,7 @@ using ostk::physics::time::Instant;
 
 /// @brief An interface for a Guidance Law that can compute an acceleration contribution. To be
 /// used in conjunction with a Thruster class to propagate a satellite to a target orbit.
-class GuidanceLaw
+class GuidanceLaw : public std::enable_shared_from_this<GuidanceLaw>
 {
    public:
     /// @brief Constructor
@@ -85,10 +87,14 @@ class GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
 
-    /// @brief Create a version of the instance that always returns a non-zero acceleration vector.
+    /// @brief Construct an ungated guidance law from the instance.
     ///
-    /// @return A new guidance law instance.
-    virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const = 0;
+    /// An 'ungated' guidance law is one that always returns a non-zero acceleration vector.
+    ///
+    /// The default implementation returns the original instance.
+    ///
+    /// @return The ungated guidance law instance.
+    virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const;
 
    protected:
     const String name_;

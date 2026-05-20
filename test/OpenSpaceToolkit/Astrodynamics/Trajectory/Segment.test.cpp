@@ -168,7 +168,7 @@ class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
         return {0.0, 0.0, 0.0};
     }
 
-    Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override
+    Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
     {
         return std::make_shared<CustomGuidanceLaw>(intervals_);
     }
@@ -5141,7 +5141,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Negat
     // flow rate error.
     //
     // Solved in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/issues/679 after
-    // the logic was switched to use an always-accelerating thruster instance instead of the original guidance law.
+    // the logic was switched to use an ungated thruster instance instead of the original guidance law.
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70),
         std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),

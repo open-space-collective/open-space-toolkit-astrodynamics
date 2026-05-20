@@ -217,14 +217,14 @@ class QLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief Create a guidance law instance that always returns a non-zero acceleration vector.
+    /// @brief Construct an ungated Q-law from this instance.
     ///
     /// The new instance contains the same parameters as the original one, with the exception of the
     /// convergence thresholds (which are set to zero), and the relative and absolute effectivities (which are also
-    /// set to zero). This ensures that the new instance always returns a non-zero acceleration vector.
+    /// set to zero).
     ///
     /// @return A new guidance law instance.
-    virtual Shared<GuidanceLaw> createAlwaysAcceleratingInstance() const override;
+    virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override;
 
     /// @brief Compute the maximal change in orbital elements
     ///

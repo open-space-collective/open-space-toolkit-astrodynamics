@@ -43,11 +43,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
     return anOutputStream;
 }
 
-Shared<GuidanceLaw> ConstantThrust::createAlwaysAcceleratingInstance() const
-{
-    return std::make_shared<ConstantThrust>(localOrbitalFrameDirection_);
-}
-
 LocalOrbitalFrameDirection ConstantThrust::getLocalThrustDirection() const
 {
     if (!localOrbitalFrameDirection_.isDefined())

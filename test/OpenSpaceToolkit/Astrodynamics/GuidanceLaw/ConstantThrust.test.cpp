@@ -164,18 +164,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Getters)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, CreateAlwaysAcceleratingInstance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, ConstructUngatedGuidanceLaw)
 {
-    const Shared<GuidanceLaw> alwaysAcceleratingSPtr = defaultConstantThrust_.createAlwaysAcceleratingInstance();
-    const Shared<ConstantThrust> alwaysAcceleratingConstantThrustSPtr =
-        std::dynamic_pointer_cast<ConstantThrust>(alwaysAcceleratingSPtr);
+    const Shared<ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(localOrbitalFrameDirection_);
 
-    ASSERT_NE(alwaysAcceleratingConstantThrustSPtr, nullptr);
+    const Shared<GuidanceLaw> ungatedGuidanceLawSPtr = constantThrustSPtr->constructUngatedGuidanceLaw();
 
-    EXPECT_EQ(
-        alwaysAcceleratingConstantThrustSPtr->getLocalThrustDirection(),
-        defaultConstantThrust_.getLocalThrustDirection()
-    );
+    EXPECT_EQ(ungatedGuidanceLawSPtr, constantThrustSPtr);
 }
 
 /* Include Thruster Dynamics computeContribution validation test */
