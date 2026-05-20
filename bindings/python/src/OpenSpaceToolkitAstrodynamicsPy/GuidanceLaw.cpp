@@ -52,6 +52,16 @@ class PyGuidanceLaw : public GuidanceLaw
             outputFrameSPtr
         );
     }
+
+    Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override
+    {
+        PYBIND11_OVERRIDE_PURE_NAME(
+            Shared<GuidanceLaw>,
+            GuidanceLaw,
+            "create_instance_for_maneuver_extraction",
+            createInstanceForManeuverExtraction
+        );
+    }
 };
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
@@ -111,6 +121,17 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             arg("velocity_coordinates"),
             arg("thrust_acceleration"),
             arg("output_frame")
+        )
+
+        .def(
+            "create_instance_for_maneuver_extraction",
+            &GuidanceLaw::createInstanceForManeuverExtraction,
+            R"doc(
+                Create a guidance law instance configured for maneuver extraction.
+
+                Returns:
+                    GuidanceLaw: A new guidance law instance.
+            )doc"
         )
 
         ;

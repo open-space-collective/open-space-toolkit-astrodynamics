@@ -168,6 +168,11 @@ class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
         return {0.0, 0.0, 0.0};
     }
 
+    Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override
+    {
+        return std::make_shared<CustomGuidanceLaw>(intervals_);
+    }
+
    private:
     Array<Interval> intervals_;
 };
@@ -1572,7 +1577,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
 
         const Shared<const Frame> stateFrame = defaultState_.accessFrame();
 
-        const String expectedString = "Provided dynamics is not part of the segment dynamics.";
+        const String expectedString = "Non-Thruster provided dynamics is not part of the segment dynamics.";
 
         // Test the throw and the message that is thrown
         EXPECT_THROW(
@@ -5127,6 +5132,143 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
     );
 
     EXPECT_NO_THROW(maneuverSegment.solve(initialState, maximumSimulationDuration));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_NegativeMassFlowRateAfterZeroMassFlowRate)
+{
+    // This test reproduces an issue where segment the guidance law was not producing intermittent thrusting
+    // when extracting the maneuvers over the valid intervals. Leading to a negative mass flow rate after a zero mass
+    // flow rate error.
+    //
+    // Solved in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/issues/679 after
+    // the logic was switched to use thruster instance for maneuver extraction instead of the original guidance law.
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, Directory::Undefined(), 70, 70),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    ));
+
+    const Instant initialInstant = Instant::DateTime(DateTime(2023, 1, 1, 18, 0, 0, 0, 0, 1), Scale::UTC);
+    const Shared<const CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+        CoordinateSubset::SurfaceArea(),
+        CoordinateSubset::DragCoefficient(),
+    }));
+
+    const double crossSectionalArea = 2.0;
+    const double dragCoefficient = 2.2;
+
+    VectorXd initialCoordinates(9);
+    initialCoordinates << 4141052.135164462, -638420.8286888569, 5579826.913978569,  // position (m)
+        -6087.65700892022, -615.1066986905043, 4437.17365569159,                     // velocity (m/s)
+        219.9896334604908,                                                           // mass (kg)
+        crossSectionalArea, dragCoefficient;
+
+    const State initialState(initialInstant, initialCoordinates, Frame::GCRF(), coordinateBrokerSPtr);
+
+    const Composite satelliteGeometry = Composite(Cuboid(
+        {0.0, 0.0, 0.0},
+        {ostk::mathematics::object::Vector3d {1.0, 0.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 1.0, 0.0},
+         ostk::mathematics::object::Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 0.0, 0.0}
+    ));
+
+    const SatelliteSystem satelliteSystem(
+        Mass::Kilograms(180.0),  // dry mass
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        crossSectionalArea,
+        dragCoefficient,
+        PropulsionSystem(16.1e-3, 1140.26)  // thrust (N), specific impulse (s)
+    );
+
+    const Environment environment(
+        initialInstant, {earthSPtr, std::make_shared<Sun>(Sun::Default()), std::make_shared<Moon>(Moon::Default())}
+    );
+    const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
+
+    // Q-Law targeting only SMA, lowering it from ~6_981_000 m to 6_979_500 m.
+    // Weight 1.0 / tolerance 0.0 mirrors the FDTk Strategy convention.
+    const COE targetCOE = {
+        Length::Meters(6979500.0),
+        0.0,
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters qlawParams = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 0.0}},
+        },
+        3,                           // m
+        4,                           // n
+        2,                           // r
+        0.01,                        // b
+        100,                         // k
+        0.0,                         // periapsisWeight
+        Length::Kilometers(6578.0),  // minimumPeriapsisRadius
+        0.30,                        // absoluteEffectivityThreshold
+        0.30,                        // relativeEffectivityThreshold
+    };
+
+    const Shared<QLaw> qlawSPtr = std::make_shared<QLaw>(
+        targetCOE,
+        earthSPtr->getGravitationalParameter(),
+        qlawParams,
+        QLaw::COEDomain::BrouwerLyddaneMeanLong,
+        QLaw::GradientStrategy::Analytical
+    );
+
+    const Shared<Thruster> thrusterSPtr = std::make_shared<Thruster>(satelliteSystem, qlawSPtr);
+
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+        RootSolver::Default(),
+    };
+
+    const Shared<InstantCondition> segmentEndCondition = std::make_shared<InstantCondition>(
+        InstantCondition::Criterion::PositiveCrossing, initialInstant + Duration::Hours(4.0)
+    );
+
+    const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
+        "Maneuver (Enforced Fixed LOF Attitude)",
+        segmentEndCondition,
+        thrusterSPtr,
+        dynamics,
+        numericalSolver,
+        LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
+        Angle::Undefined(),
+        {Duration::Minutes(5.0),   // minimum maneuver duration
+         Duration::Minutes(40.0),  // maximum maneuver duration
+         Duration::Minutes(27.0),  // minimum separation
+         Segment::MaximumManeuverDurationViolationStrategy::Center}
+    );
+
+    const Array<Interval> previousManeuverIntervals = {
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 5, 41, 353, 465), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 0, 40, 5, 41, 353, 465), Scale::UTC)
+        ),
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 1, 29, 3, 414, 462, 5), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 2, 9, 3, 414, 462, 5), Scale::UTC)
+        ),
+        Interval::Closed(
+            Instant::DateTime(DateTime(2023, 1, 1, 2, 57, 59, 0, 864, 446), Scale::UTC),
+            Instant::DateTime(DateTime(2023, 1, 1, 3, 37, 59, 0, 864, 446), Scale::UTC)
+        ),
+    };
+
+    EXPECT_NO_THROW(maneuverSegment.solve(initialState, Duration::Days(30.0), previousManeuverIntervals));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StringFromMaximumManeuverDurationViolationStrategy)

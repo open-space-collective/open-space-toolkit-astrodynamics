@@ -17,6 +17,9 @@ namespace guidancelaw
 {
 
 using ostk::core::type::Index;
+using ostk::core::type::Shared;
+
+using ostk::astrodynamics::GuidanceLaw;
 
 using ostk::mathematics::object::Vector6d;
 using ostk::mathematics::object::VectorXd;
@@ -164,6 +167,47 @@ QLaw::GradientStrategy QLaw::getGradientStrategy() const
 QLaw::COEDomain QLaw::getCOEDomain() const
 {
     return coeDomain_;
+}
+
+Shared<GuidanceLaw> QLaw::createInstanceForManeuverExtraction() const
+{
+    const Vector5d controlWeights = parameters_.getControlWeights();
+
+    Map<COE::Element, Tuple<double, double>> elementWeightsMap;
+
+    const Array<COE::Element> validElements = {
+        COE::Element::SemiMajorAxis,
+        COE::Element::Eccentricity,
+        COE::Element::Inclination,
+        COE::Element::Raan,
+        COE::Element::Aop,
+    };
+
+    // Set tolerances of all controlled elements to zero
+    for (Index index = 0; index < validElements.getSize(); ++index)
+    {
+        if (controlWeights(index) != 0.0)
+        {
+            elementWeightsMap[validElements[index]] = {controlWeights(index), 0.0};
+        }
+    }
+
+    const Parameters maneuverExtractionParameters = {
+        elementWeightsMap,
+        static_cast<Size>(parameters_.m),
+        static_cast<Size>(parameters_.n),
+        static_cast<Size>(parameters_.r),
+        parameters_.b,
+        static_cast<Size>(parameters_.k),
+        parameters_.periapsisWeight,
+        parameters_.getMinimumPeriapsisRadius(),
+        Real(0.0),  // absoluteEffectivityThreshold
+        Real(0.0),  // relativeEffectivityThreshold
+    };
+
+    return std::make_shared<QLaw>(
+        getTargetCOE(), gravitationalParameter_, maneuverExtractionParameters, coeDomain_, gradientStrategy_
+    );
 }
 
 Vector3d QLaw::calculateThrustAccelerationAt(

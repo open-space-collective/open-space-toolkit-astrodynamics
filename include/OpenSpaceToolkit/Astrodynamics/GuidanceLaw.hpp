@@ -85,6 +85,11 @@ class GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
 
+    /// @brief Create a new guidance law instance configured for maneuver extraction.
+    ///
+    /// @return A new guidance law instance.
+    virtual Shared<GuidanceLaw> createInstanceForManeuverExtraction() const = 0;
+
    protected:
     const String name_;
 };

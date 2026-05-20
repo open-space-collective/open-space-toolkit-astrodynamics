@@ -93,6 +93,11 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
+    /// @brief Create a new guidance law instance configured for maneuver extraction.
+    ///
+    /// @return A new guidance law instance.
+    virtual Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override;
+
    private:
     Array<Interval> intervals_;
     Array<Shared<const GuidanceLaw>> guidanceLaws_;

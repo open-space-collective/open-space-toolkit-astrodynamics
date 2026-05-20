@@ -52,6 +52,11 @@ class MockGuidanceLaw : public GuidanceLaw
     {
         return {1.0, 2.0, 3.0};
     }
+
+    Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override
+    {
+        return std::make_shared<MockGuidanceLaw>(getName());
+    }
 };
 
 class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster : public ::testing::Test

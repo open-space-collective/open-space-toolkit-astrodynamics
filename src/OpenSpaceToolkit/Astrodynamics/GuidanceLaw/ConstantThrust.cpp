@@ -16,6 +16,7 @@ namespace guidancelaw
 {
 
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 
@@ -40,6 +41,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
     aConstantThrust.print(anOutputStream);
 
     return anOutputStream;
+}
+
+Shared<GuidanceLaw> ConstantThrust::createInstanceForManeuverExtraction() const
+{
+    return std::make_shared<ConstantThrust>(localOrbitalFrameDirection_);
 }
 
 LocalOrbitalFrameDirection ConstantThrust::getLocalThrustDirection() const

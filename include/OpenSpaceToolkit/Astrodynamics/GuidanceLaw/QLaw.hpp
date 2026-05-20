@@ -217,6 +217,11 @@ class QLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
+    /// @brief Create a new guidance law instance configured for maneuver extraction.
+    ///
+    /// @return A new guidance law instance.
+    virtual Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override;
+
     /// @brief Compute the maximal change in orbital elements
     ///
     /// @param aCOEVector A vector of classical orbital elements

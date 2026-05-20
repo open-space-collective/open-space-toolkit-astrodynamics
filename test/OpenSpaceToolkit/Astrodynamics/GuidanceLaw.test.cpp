@@ -38,6 +38,11 @@ class MockGuidanceLaw : public GuidanceLaw
         (const Instant&, const Vector3d&, const Vector3d&, const Real&, const Shared<const Frame>&),
         (const, override)
     );
+
+    Shared<GuidanceLaw> createInstanceForManeuverExtraction() const override
+    {
+        return std::make_shared<MockGuidanceLaw>(getName());
+    }
 };
 
 class OpenSpaceToolkit_Astrodynamics_GuidanceLaw : public ::testing::Test

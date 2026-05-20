@@ -459,10 +459,16 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         return {};
     }
 
-    const Shared<Thruster> thrusterDynamics = this->getThrusterDynamics();
+    const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
+
+    const Shared<Thruster> maneuverExtractionThrusterDynamics = std::make_shared<Thruster>(
+        segmentThrusterDynamics->getSatelliteSystem(),
+        segmentThrusterDynamics->getGuidanceLaw()->createInstanceForManeuverExtraction(),
+        segmentThrusterDynamics->getName() + " Maneuver Extraction"
+    );
 
     const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
-        thrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        maneuverExtractionThrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
     );
 
     const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
@@ -599,10 +605,12 @@ MatrixXd Segment::Solution::getDynamicsContribution(
     const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetSPtrArray
 ) const
 {
-    // Check dynamics is part of the segment dynamics
-    if (!this->dynamics.contains(aDynamicsSPtr))
+    // Check dynamics is part of the segment dynamics (Thruster dynamics may be created for maneuver extraction)
+    const bool isThrusterDynamics = std::dynamic_pointer_cast<Thruster>(aDynamicsSPtr) != nullptr;
+
+    if (!isThrusterDynamics && !this->dynamics.contains(aDynamicsSPtr))
     {
-        throw ostk::core::error::RuntimeError("Provided dynamics is not part of the segment dynamics.");
+        throw ostk::core::error::RuntimeError("Non-Thruster provided dynamics is not part of the segment dynamics.");
     }
 
     // Extract write coordinate subsets from dynamics
