@@ -97,7 +97,7 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
     ///
     /// The new instance contains the same intervals paired with the ungated versions of the underlying guidance laws.
     ///
-    /// @return A new guidance law instance.
+    /// @return The ungated guidance law instance.
     virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override;
 
    private:

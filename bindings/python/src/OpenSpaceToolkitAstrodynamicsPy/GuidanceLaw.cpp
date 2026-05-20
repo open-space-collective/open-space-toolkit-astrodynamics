@@ -124,10 +124,12 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             "construct_ungated_guidance_law",
             &GuidanceLaw::constructUngatedGuidanceLaw,
             R"doc(
-                Construct an ungated guidance law from this instance.
+                Construct an ungated version of the instance.
+
+                An 'ungated' guidance law is one that always returns a non-zero acceleration vector.
 
                 Returns:
-                    GuidanceLaw: The new guidance law instance.
+                    GuidanceLaw: The ungated guidance law instance.
             )doc"
         )
 

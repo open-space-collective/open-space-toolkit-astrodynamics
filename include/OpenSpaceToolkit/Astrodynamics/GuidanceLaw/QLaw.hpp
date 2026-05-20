@@ -223,7 +223,7 @@ class QLaw : public GuidanceLaw
     /// convergence thresholds (which are set to zero), and the relative and absolute effectivities (which are also
     /// set to zero).
     ///
-    /// @return A new guidance law instance.
+    /// @return The ungated guidance law instance.
     virtual Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override;
 
     /// @brief Compute the maximal change in orbital elements

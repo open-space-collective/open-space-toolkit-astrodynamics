@@ -113,11 +113,6 @@ class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
         return {0.0, 0.0, 0.0};
     }
 
-    Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
-    {
-        return std::make_shared<CustomGuidanceLaw>(intervals_);
-    }
-
    private:
     Array<Interval> intervals_;
 };

@@ -87,7 +87,7 @@ class GuidanceLaw : public std::enable_shared_from_this<GuidanceLaw>
         const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
 
-    /// @brief Construct an ungated guidance law from the instance.
+    /// @brief Construct an ungated version of the instance.
     ///
     /// An 'ungated' guidance law is one that always returns a non-zero acceleration vector.
     ///
