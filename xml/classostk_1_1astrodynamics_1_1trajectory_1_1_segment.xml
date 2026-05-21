@@ -1094,7 +1094,7 @@
 <parametername>limitMaxStepSize</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>If true, the maximum step size will be limited to 2 minutes, or the duration of the subsegment, whichever is smaller. Defaults to false. </para>
+<para>If true, the maximum step size will be limited to 2 minutes, the duration of the subsegment divided by 10, or the segment numerical solver&apos;s configured maximum step size, whichever is smallest. Defaults to false. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -1104,7 +1104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="518" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1664" bodyend="1708"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="519" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1664" bodyend="1713"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1abfee4d9eac32dae3dcec7e23809eb5f3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution" kindref="compound">Segment::Solution</ref></type>
@@ -1146,7 +1146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="531" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1735" bodyend="1751"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="532" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1740" bodyend="1756"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a8af5e8bd032faea58bb8a84b33d241a4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution" kindref="compound">Segment::Solution</ref></type>
@@ -1188,7 +1188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="539" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1753" bodyend="1759"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="540" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1758" bodyend="1764"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ae516d0ac8d41095983c2a83cff29d1b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref> &gt;</type>
@@ -1230,7 +1230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="546" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1761" bodyend="1787"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="547" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1766" bodyend="1792"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ae31c12b7845d8f12ac985f8cd3fb6f1f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution" kindref="compound">Segment::Solution</ref></type>
@@ -1284,7 +1284,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="555" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1789" bodyend="1818"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="556" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1794" bodyend="1823"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a21c4e70e4fa0a7ffc001d967d1bc14af" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution" kindref="compound">Segment::Solution</ref></type>
@@ -1338,7 +1338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="565" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1820" bodyend="1844"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="566" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1825" bodyend="1849"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a8bbb5b8ddfbe1a765a5afe2fd2082a17" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -1392,7 +1392,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="576" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1710" bodyend="1733"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="577" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1715" bodyend="1738"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1aec19bb4d0abd48c8519183c8f97699c5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1_segment_1_1_solution" kindref="compound">Segment::Solution</ref></type>
@@ -1446,7 +1446,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="588" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1846" bodyend="1881"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="589" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1851" bodyend="1886"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a2514c7282d79f38092bd0d29fc4e626d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1488,7 +1488,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="598" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1883" bodyend="1899"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="599" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp" bodystart="1888" bodyend="1904"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1497,7 +1497,7 @@
     <detaileddescription>
 <para>A <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment" kindref="compound">Segment</ref> represents a phase of a trajectory, either a coast arc (no thrust) or a maneuver arc (with thrust). Segments are composed together into a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_sequence" kindref="compound">Sequence</ref> to define a complete trajectory. Each segment has an event condition that determines when it terminates. </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="68" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="67" bodyend="599"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" line="68" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp" bodystart="67" bodyend="600"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1a802dc484792651826f0ee20132254e95" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment</scope><name>accessEventCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1aa7b3be577402804433f36a501f075466" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Segment</scope><name>accessNumericalSolver</name></member>

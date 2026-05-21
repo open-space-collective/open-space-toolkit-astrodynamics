@@ -2424,232 +2424,237 @@
 <codeline lineno="1675"><highlight class="normal"><sp/><sp/><sp/><sp/>NumericalSolver<sp/>numericalSolver<sp/>=<sp/>numericalSolver_;</highlight></codeline>
 <codeline lineno="1676"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(limitMaxStepSize)</highlight></codeline>
 <codeline lineno="1677"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1678"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>maxStepSize<sp/>=<sp/>std::min(Real(120.0),<sp/>(anEndInstant<sp/>-<sp/>aState.accessInstant()).inSeconds()<sp/>/<sp/>10.0);</highlight></codeline>
-<codeline lineno="1679"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numericalSolver.setMaxStepSize(maxStepSize);</highlight></codeline>
-<codeline lineno="1680"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1681"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1682"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Propagator<sp/>propagator<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="1683"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numericalSolver,</highlight></codeline>
-<codeline lineno="1684"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="1685"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1678"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Real<sp/>maxStepSize<sp/>=<sp/>std::min(Real(120.0),<sp/>(anEndInstant<sp/>-<sp/>aState.accessInstant()).inSeconds()<sp/>/<sp/>10.0);</highlight></codeline>
+<codeline lineno="1679"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real<sp/>originalMaxStepSize<sp/>=<sp/>numericalSolver_.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab032a2e219cd1ac99398a8f9fd3c33c6" kindref="member">getMaxStepSize</ref>();</highlight></codeline>
+<codeline lineno="1680"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(originalMaxStepSize.isDefined())</highlight></codeline>
+<codeline lineno="1681"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1682"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maxStepSize<sp/>=<sp/>std::min(maxStepSize,<sp/>originalMaxStepSize);</highlight></codeline>
+<codeline lineno="1683"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1684"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numericalSolver.setMaxStepSize(maxStepSize);</highlight></codeline>
+<codeline lineno="1685"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1686"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1687"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NumericalSolver::ConditionSolution<sp/>conditionSolution<sp/>=</highlight></codeline>
-<codeline lineno="1688"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagator.calculateStateToCondition(aState,<sp/>anEndInstant,<sp/>*anEventCondition);</highlight></codeline>
-<codeline lineno="1689"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1690"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expand<sp/>states<sp/>based<sp/>on<sp/>input<sp/>state</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1691"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>stateBuilder<sp/>=<sp/>{aState};</highlight></codeline>
-<codeline lineno="1692"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1693"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>Array&lt;State&gt;::Empty();</highlight></codeline>
-<codeline lineno="1694"><highlight class="normal"><sp/><sp/><sp/><sp/>states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());</highlight></codeline>
-<codeline lineno="1695"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1696"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state<sp/>:<sp/>propagator.accessNumericalSolver().accessObservedStates())</highlight></codeline>
-<codeline lineno="1697"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1698"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()),<sp/>aState));</highlight></codeline>
-<codeline lineno="1699"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1687"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Propagator<sp/>propagator<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="1688"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numericalSolver,</highlight></codeline>
+<codeline lineno="1689"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
+<codeline lineno="1690"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1691"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1692"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>NumericalSolver::ConditionSolution<sp/>conditionSolution<sp/>=</highlight></codeline>
+<codeline lineno="1693"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagator.calculateStateToCondition(aState,<sp/>anEndInstant,<sp/>*anEventCondition);</highlight></codeline>
+<codeline lineno="1694"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1695"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expand<sp/>states<sp/>based<sp/>on<sp/>input<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1696"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>stateBuilder<sp/>=<sp/>{aState};</highlight></codeline>
+<codeline lineno="1697"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1698"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>Array&lt;State&gt;::Empty();</highlight></codeline>
+<codeline lineno="1699"><highlight class="normal"><sp/><sp/><sp/><sp/>states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());</highlight></codeline>
 <codeline lineno="1700"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1701"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="1702"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
-<codeline lineno="1703"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="1704"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
-<codeline lineno="1705"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conditionSolution.conditionIsSatisfied,</highlight></codeline>
-<codeline lineno="1706"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type_,</highlight></codeline>
-<codeline lineno="1707"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1708"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1709"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1710"><highlight class="normal">Array&lt;State&gt;<sp/>Segment::propagateWithDynamics_(</highlight></codeline>
-<codeline lineno="1711"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray</highlight></codeline>
-<codeline lineno="1712"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1713"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1714"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Propagator<sp/>propagator<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="1715"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numericalSolver_,</highlight></codeline>
-<codeline lineno="1716"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
-<codeline lineno="1717"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1718"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1719"><highlight class="normal"><sp/><sp/><sp/><sp/>propagator.calculateStateAt(aState,<sp/>anEndInstant);</highlight></codeline>
-<codeline lineno="1720"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1721"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expand<sp/>states<sp/>based<sp/>on<sp/>input<sp/>state</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1722"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>stateBuilder<sp/>=<sp/>{aState};</highlight></codeline>
+<codeline lineno="1701"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state<sp/>:<sp/>propagator.accessNumericalSolver().accessObservedStates())</highlight></codeline>
+<codeline lineno="1702"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1703"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()),<sp/>aState));</highlight></codeline>
+<codeline lineno="1704"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1705"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1706"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="1707"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
+<codeline lineno="1708"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
+<codeline lineno="1709"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
+<codeline lineno="1710"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conditionSolution.conditionIsSatisfied,</highlight></codeline>
+<codeline lineno="1711"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type_,</highlight></codeline>
+<codeline lineno="1712"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1713"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1714"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1715"><highlight class="normal">Array&lt;State&gt;<sp/>Segment::propagateWithDynamics_(</highlight></codeline>
+<codeline lineno="1716"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;&amp;<sp/>aDynamicsArray</highlight></codeline>
+<codeline lineno="1717"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1718"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1719"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Propagator<sp/>propagator<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="1720"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numericalSolver_,</highlight></codeline>
+<codeline lineno="1721"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aDynamicsArray,</highlight></codeline>
+<codeline lineno="1722"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="1723"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1724"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>Array&lt;State&gt;::Empty();</highlight></codeline>
-<codeline lineno="1725"><highlight class="normal"><sp/><sp/><sp/><sp/>states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());</highlight></codeline>
-<codeline lineno="1726"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1727"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state<sp/>:<sp/>propagator.accessNumericalSolver().accessObservedStates())</highlight></codeline>
-<codeline lineno="1728"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1729"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()),<sp/>aState));</highlight></codeline>
-<codeline lineno="1730"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1724"><highlight class="normal"><sp/><sp/><sp/><sp/>propagator.calculateStateAt(aState,<sp/>anEndInstant);</highlight></codeline>
+<codeline lineno="1725"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1726"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expand<sp/>states<sp/>based<sp/>on<sp/>input<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1727"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StateBuilder<sp/>stateBuilder<sp/>=<sp/>{aState};</highlight></codeline>
+<codeline lineno="1728"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1729"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>Array&lt;State&gt;::Empty();</highlight></codeline>
+<codeline lineno="1730"><highlight class="normal"><sp/><sp/><sp/><sp/>states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());</highlight></codeline>
 <codeline lineno="1731"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1732"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>states;</highlight></codeline>
-<codeline lineno="1733"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1734"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1735"><highlight class="normal">Segment::Solution<sp/>Segment::constructLOFCompliantManeuverSolution_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a44a470c653b7f75a3f11d3527ec63ad2" kindref="member">FlightManeuver</ref>&amp;<sp/>aManeuver)</highlight><highlight class="keyword"></highlight></codeline>
-<codeline lineno="1736"><highlight class="keyword"><sp/><sp/><sp/><sp/>const</highlight></codeline>
-<codeline lineno="1737"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1738"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;ConstantThrust&gt;<sp/>constantThrust<sp/>=<sp/>std::make_shared&lt;ConstantThrust&gt;(<ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" kindref="member">ConstantThrust::FromManeuver</ref>(</highlight></codeline>
-<codeline lineno="1739"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aManeuver,</highlight></codeline>
-<codeline lineno="1740"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;constantManeuverDirectionLocalOrbitalFrameFactory_,</highlight></codeline>
-<codeline lineno="1741"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;constantManeuverDirectionMaximumAllowedAngularOffset_</highlight></codeline>
-<codeline lineno="1742"><highlight class="normal"><sp/><sp/><sp/><sp/>));</highlight></codeline>
-<codeline lineno="1743"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1744"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;<sp/>constantThrustDynamics<sp/>=<sp/>std::make_shared&lt;Thruster&gt;(</highlight></codeline>
-<codeline lineno="1745"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamicsSPtr_-&gt;getSatelliteSystem(),</highlight></codeline>
-<codeline lineno="1746"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constantThrust,</highlight></codeline>
-<codeline lineno="1747"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamicsSPtr_-&gt;getName()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(Constant<sp/>Thrust)&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1748"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1749"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1750"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solveManeuverForInterval_(aState,<sp/>constantThrustDynamics,<sp/>aManeuver.getInterval());</highlight></codeline>
-<codeline lineno="1751"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1752"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1753"><highlight class="normal">Segment::Solution<sp/>Segment::solveCoast_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1754"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1755"><highlight class="normal"><sp/><sp/><sp/><sp/>Segment::Solution<sp/>solution<sp/>=<sp/>solveWithDynamics_(aState,<sp/>anEndInstant,<sp/>freeDynamicsArray_,<sp/>eventCondition_);</highlight></codeline>
-<codeline lineno="1756"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.segmentType<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref>;</highlight></codeline>
+<codeline lineno="1732"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state<sp/>:<sp/>propagator.accessNumericalSolver().accessObservedStates())</highlight></codeline>
+<codeline lineno="1733"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1734"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()),<sp/>aState));</highlight></codeline>
+<codeline lineno="1735"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1736"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1737"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>states;</highlight></codeline>
+<codeline lineno="1738"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1739"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1740"><highlight class="normal">Segment::Solution<sp/>Segment::constructLOFCompliantManeuverSolution_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a44a470c653b7f75a3f11d3527ec63ad2" kindref="member">FlightManeuver</ref>&amp;<sp/>aManeuver)</highlight><highlight class="keyword"></highlight></codeline>
+<codeline lineno="1741"><highlight class="keyword"><sp/><sp/><sp/><sp/>const</highlight></codeline>
+<codeline lineno="1742"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1743"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;ConstantThrust&gt;<sp/>constantThrust<sp/>=<sp/>std::make_shared&lt;ConstantThrust&gt;(<ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" kindref="member">ConstantThrust::FromManeuver</ref>(</highlight></codeline>
+<codeline lineno="1744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aManeuver,</highlight></codeline>
+<codeline lineno="1745"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;constantManeuverDirectionLocalOrbitalFrameFactory_,</highlight></codeline>
+<codeline lineno="1746"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;constantManeuverDirectionMaximumAllowedAngularOffset_</highlight></codeline>
+<codeline lineno="1747"><highlight class="normal"><sp/><sp/><sp/><sp/>));</highlight></codeline>
+<codeline lineno="1748"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1749"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;<sp/>constantThrustDynamics<sp/>=<sp/>std::make_shared&lt;Thruster&gt;(</highlight></codeline>
+<codeline lineno="1750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamicsSPtr_-&gt;getSatelliteSystem(),</highlight></codeline>
+<codeline lineno="1751"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constantThrust,</highlight></codeline>
+<codeline lineno="1752"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamicsSPtr_-&gt;getName()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(Constant<sp/>Thrust)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1753"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1754"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1755"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solveManeuverForInterval_(aState,<sp/>constantThrustDynamics,<sp/>aManeuver.getInterval());</highlight></codeline>
+<codeline lineno="1756"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1757"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1758"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solution;</highlight></codeline>
-<codeline lineno="1759"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1760"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1761"><highlight class="normal">Shared&lt;RealCondition&gt;<sp/>Segment::getThrusterToggleCondition_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>isOn)</highlight><highlight class="keyword"></highlight></codeline>
-<codeline lineno="1762"><highlight class="keyword"><sp/><sp/><sp/><sp/>const</highlight></codeline>
-<codeline lineno="1763"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1764"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>GuidanceLaw&gt;<sp/>guidanceLaw<sp/>=<sp/>thrusterDynamics-&gt;getGuidanceLaw();</highlight></codeline>
+<codeline lineno="1758"><highlight class="normal">Segment::Solution<sp/>Segment::solveCoast_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1759"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1760"><highlight class="normal"><sp/><sp/><sp/><sp/>Segment::Solution<sp/>solution<sp/>=<sp/>solveWithDynamics_(aState,<sp/>anEndInstant,<sp/>freeDynamicsArray_,<sp/>eventCondition_);</highlight></codeline>
+<codeline lineno="1761"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.segmentType<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref>;</highlight></codeline>
+<codeline lineno="1762"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1763"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solution;</highlight></codeline>
+<codeline lineno="1764"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1765"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1766"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;Real(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;)&gt;<sp/>thrustAccelerationNormEvaluator<sp/>=<sp/>[guidanceLaw](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state)<sp/>-&gt;<sp/>Real</highlight></codeline>
-<codeline lineno="1767"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1768"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>positionCoordinates<sp/>=<sp/>state.getPosition().inMeters().accessCoordinates();</highlight></codeline>
-<codeline lineno="1769"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>velocityCoordinates<sp/>=</highlight></codeline>
-<codeline lineno="1770"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();</highlight></codeline>
-<codeline lineno="1771"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1772"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>thrustAcceleration<sp/>=<sp/>guidanceLaw-&gt;calculateThrustAccelerationAt(</highlight></codeline>
-<codeline lineno="1773"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.accessInstant(),<sp/>positionCoordinates,<sp/>velocityCoordinates,<sp/>1.0,<sp/>state.accessFrame()</highlight></codeline>
-<codeline lineno="1774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1775"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1776"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thrustAcceleration.norm();</highlight></codeline>
-<codeline lineno="1777"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1778"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1779"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>threshold<sp/>of<sp/>0.5<sp/>to<sp/>determine<sp/>if<sp/>the<sp/>thrust<sp/>is<sp/>off,<sp/>as<sp/>the<sp/>thrust<sp/>acceleration<sp/>norm</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1780"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>will<sp/>either<sp/>be<sp/>1.0<sp/>if<sp/>on,<sp/>or<sp/>0.0<sp/>if<sp/>off.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1781"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;RealCondition&gt;(</highlight></codeline>
-<codeline lineno="1782"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Thrust<sp/>Toggle<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="1783"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isOn<sp/>?<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8aac22bb2097157729ad509b291eac0ad26" kindref="member">RealCondition::Criterion::StrictlyPositive</ref><sp/>:<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8aa75008dd95d534f22e007967f1fcd067e" kindref="member">RealCondition::Criterion::StrictlyNegative</ref>,</highlight></codeline>
-<codeline lineno="1784"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrustAccelerationNormEvaluator,</highlight></codeline>
-<codeline lineno="1785"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.5</highlight></codeline>
-<codeline lineno="1786"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1787"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1788"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1789"><highlight class="normal">Segment::Solution<sp/>Segment::solveUntilThrusterOff_(</highlight></codeline>
-<codeline lineno="1790"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics</highlight></codeline>
-<codeline lineno="1791"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1792"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1793"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;RealCondition&gt;<sp/>thrusterToggleCondition<sp/>=<sp/>getThrusterToggleCondition_(thrusterDynamics,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1794"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1795"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combine<sp/>free<sp/>dynamics<sp/>and<sp/>thruster<sp/>dynamics<sp/>into<sp/>a<sp/>single<sp/>array</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1796"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>dynamicsArray<sp/>=<sp/>freeDynamicsArray_;</highlight></codeline>
-<codeline lineno="1797"><highlight class="normal"><sp/><sp/><sp/><sp/>dynamicsArray.add(thrusterDynamics);</highlight></codeline>
-<codeline lineno="1798"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1799"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>segment<sp/>until<sp/>the<sp/>thrust<sp/>is<sp/>off</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1800"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;<sp/>combinedCondition<sp/>=<sp/>std::make_shared&lt;LogicalCondition&gt;(</highlight></codeline>
-<codeline lineno="1801"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Combined<sp/>Event<sp/>or<sp/>Thrust<sp/>Off<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="1802"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6a3a2d5fe857d8f9541136a124c2edec6c" kindref="member">LogicalCondition::Type::Or</ref>,</highlight></codeline>
-<codeline lineno="1803"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;EventCondition&gt;&gt;<sp/>{eventCondition_,<sp/>thrusterToggleCondition}</highlight></codeline>
-<codeline lineno="1804"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1805"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1806"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>solver<sp/>with<sp/>a<sp/>max<sp/>step<sp/>size<sp/>to<sp/>ensure<sp/>the<sp/>integrator<sp/>doesn&apos;t<sp/>overshoot<sp/>the<sp/>thrust-off</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1807"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>boundary.<sp/>The<sp/>thrust<sp/>toggle<sp/>condition<sp/>is<sp/>a<sp/>step<sp/>function<sp/>that<sp/>can<sp/>be<sp/>missed<sp/>entirely<sp/>if<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1808"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>adaptive<sp/>stepper<sp/>takes<sp/>a<sp/>step<sp/>larger<sp/>than<sp/>the<sp/>remaining<sp/>thrust<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1809"><highlight class="normal"><sp/><sp/><sp/><sp/>Segment::Solution<sp/>solution<sp/>=<sp/>solveWithDynamics_(aState,<sp/>anEndInstant,<sp/>dynamicsArray,<sp/>combinedCondition,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1766"><highlight class="normal">Shared&lt;RealCondition&gt;<sp/>Segment::getThrusterToggleCondition_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>isOn)</highlight><highlight class="keyword"></highlight></codeline>
+<codeline lineno="1767"><highlight class="keyword"><sp/><sp/><sp/><sp/>const</highlight></codeline>
+<codeline lineno="1768"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1769"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>GuidanceLaw&gt;<sp/>guidanceLaw<sp/>=<sp/>thrusterDynamics-&gt;getGuidanceLaw();</highlight></codeline>
+<codeline lineno="1770"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1771"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;Real(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;)&gt;<sp/>thrustAccelerationNormEvaluator<sp/>=<sp/>[guidanceLaw](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>state)<sp/>-&gt;<sp/>Real</highlight></codeline>
+<codeline lineno="1772"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1773"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>positionCoordinates<sp/>=<sp/>state.getPosition().inMeters().accessCoordinates();</highlight></codeline>
+<codeline lineno="1774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>velocityCoordinates<sp/>=</highlight></codeline>
+<codeline lineno="1775"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();</highlight></codeline>
+<codeline lineno="1776"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1777"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>thrustAcceleration<sp/>=<sp/>guidanceLaw-&gt;calculateThrustAccelerationAt(</highlight></codeline>
+<codeline lineno="1778"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.accessInstant(),<sp/>positionCoordinates,<sp/>velocityCoordinates,<sp/>1.0,<sp/>state.accessFrame()</highlight></codeline>
+<codeline lineno="1779"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1780"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1781"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thrustAcceleration.norm();</highlight></codeline>
+<codeline lineno="1782"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1783"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1784"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>threshold<sp/>of<sp/>0.5<sp/>to<sp/>determine<sp/>if<sp/>the<sp/>thrust<sp/>is<sp/>off,<sp/>as<sp/>the<sp/>thrust<sp/>acceleration<sp/>norm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1785"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>will<sp/>either<sp/>be<sp/>1.0<sp/>if<sp/>on,<sp/>or<sp/>0.0<sp/>if<sp/>off.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1786"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;RealCondition&gt;(</highlight></codeline>
+<codeline lineno="1787"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Thrust<sp/>Toggle<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1788"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isOn<sp/>?<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8aac22bb2097157729ad509b291eac0ad26" kindref="member">RealCondition::Criterion::StrictlyPositive</ref><sp/>:<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8aa75008dd95d534f22e007967f1fcd067e" kindref="member">RealCondition::Criterion::StrictlyNegative</ref>,</highlight></codeline>
+<codeline lineno="1789"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrustAccelerationNormEvaluator,</highlight></codeline>
+<codeline lineno="1790"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.5</highlight></codeline>
+<codeline lineno="1791"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1792"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1793"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1794"><highlight class="normal">Segment::Solution<sp/>Segment::solveUntilThrusterOff_(</highlight></codeline>
+<codeline lineno="1795"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics</highlight></codeline>
+<codeline lineno="1796"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1797"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1798"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;RealCondition&gt;<sp/>thrusterToggleCondition<sp/>=<sp/>getThrusterToggleCondition_(thrusterDynamics,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1799"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1800"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combine<sp/>free<sp/>dynamics<sp/>and<sp/>thruster<sp/>dynamics<sp/>into<sp/>a<sp/>single<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1801"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>dynamicsArray<sp/>=<sp/>freeDynamicsArray_;</highlight></codeline>
+<codeline lineno="1802"><highlight class="normal"><sp/><sp/><sp/><sp/>dynamicsArray.add(thrusterDynamics);</highlight></codeline>
+<codeline lineno="1803"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1804"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>segment<sp/>until<sp/>the<sp/>thrust<sp/>is<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1805"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;<sp/>combinedCondition<sp/>=<sp/>std::make_shared&lt;LogicalCondition&gt;(</highlight></codeline>
+<codeline lineno="1806"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Combined<sp/>Event<sp/>or<sp/>Thrust<sp/>Off<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1807"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6a3a2d5fe857d8f9541136a124c2edec6c" kindref="member">LogicalCondition::Type::Or</ref>,</highlight></codeline>
+<codeline lineno="1808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;EventCondition&gt;&gt;<sp/>{eventCondition_,<sp/>thrusterToggleCondition}</highlight></codeline>
+<codeline lineno="1809"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="1810"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1811"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>the<sp/>event<sp/>condition<sp/>could<sp/>have<sp/>terminated<sp/>due<sp/>to<sp/>the<sp/>thruster<sp/>off<sp/>condition,<sp/>we<sp/>want<sp/>to</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1812"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>re-evaluate<sp/>the<sp/>segment<sp/>event<sp/>condition<sp/>to<sp/>see<sp/>if<sp/>it&apos;s<sp/>satisfied.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1813"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.conditionIsSatisfied<sp/>=<sp/>reEvaluateEventCondition_(aState,<sp/>solution.states);</highlight></codeline>
-<codeline lineno="1814"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.segmentType<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>;</highlight></codeline>
-<codeline lineno="1815"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.maneuverIntervals<sp/>=<sp/>{Interval::Closed(aState.getInstant(),<sp/>solution.states.accessLast().getInstant())};</highlight></codeline>
-<codeline lineno="1816"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1817"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solution;</highlight></codeline>
-<codeline lineno="1818"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1819"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1820"><highlight class="normal">Segment::Solution<sp/>Segment::solveUntilThrusterOn_(</highlight></codeline>
-<codeline lineno="1821"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics</highlight></codeline>
-<codeline lineno="1822"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1823"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1824"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;RealCondition&gt;<sp/>thrusterToggleCondition<sp/>=<sp/>getThrusterToggleCondition_(thrusterDynamics,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="1825"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1826"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>segment<sp/>until<sp/>the<sp/>thrust<sp/>is<sp/>on</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1827"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;<sp/>combinedCondition<sp/>=<sp/>std::make_shared&lt;LogicalCondition&gt;(</highlight></codeline>
-<codeline lineno="1828"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Combined<sp/>Event<sp/>or<sp/>Thrust<sp/>On<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="1829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6a3a2d5fe857d8f9541136a124c2edec6c" kindref="member">LogicalCondition::Type::Or</ref>,</highlight></codeline>
-<codeline lineno="1830"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;EventCondition&gt;&gt;<sp/>{eventCondition_,<sp/>thrusterToggleCondition}</highlight></codeline>
-<codeline lineno="1831"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1832"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1833"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>solver<sp/>with<sp/>a<sp/>max<sp/>step<sp/>size<sp/>to<sp/>ensure<sp/>the<sp/>integrator<sp/>doesn&apos;t<sp/>overshoot<sp/>the<sp/>thrust-on</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1834"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>boundary.<sp/>The<sp/>thrust<sp/>toggle<sp/>condition<sp/>is<sp/>a<sp/>step<sp/>function<sp/>that<sp/>can<sp/>be<sp/>missed<sp/>entirely<sp/>if<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1835"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>adaptive<sp/>stepper<sp/>takes<sp/>a<sp/>step<sp/>larger<sp/>than<sp/>the<sp/>thrust<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1836"><highlight class="normal"><sp/><sp/><sp/><sp/>Segment::Solution<sp/>solution<sp/>=<sp/>solveWithDynamics_(aState,<sp/>anEndInstant,<sp/>freeDynamicsArray_,<sp/>combinedCondition,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1811"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>solver<sp/>with<sp/>a<sp/>max<sp/>step<sp/>size<sp/>to<sp/>ensure<sp/>the<sp/>integrator<sp/>doesn&apos;t<sp/>overshoot<sp/>the<sp/>thrust-off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1812"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>boundary.<sp/>The<sp/>thrust<sp/>toggle<sp/>condition<sp/>is<sp/>a<sp/>step<sp/>function<sp/>that<sp/>can<sp/>be<sp/>missed<sp/>entirely<sp/>if<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1813"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>adaptive<sp/>stepper<sp/>takes<sp/>a<sp/>step<sp/>larger<sp/>than<sp/>the<sp/>remaining<sp/>thrust<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1814"><highlight class="normal"><sp/><sp/><sp/><sp/>Segment::Solution<sp/>solution<sp/>=<sp/>solveWithDynamics_(aState,<sp/>anEndInstant,<sp/>dynamicsArray,<sp/>combinedCondition,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1815"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1816"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>the<sp/>event<sp/>condition<sp/>could<sp/>have<sp/>terminated<sp/>due<sp/>to<sp/>the<sp/>thruster<sp/>off<sp/>condition,<sp/>we<sp/>want<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1817"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>re-evaluate<sp/>the<sp/>segment<sp/>event<sp/>condition<sp/>to<sp/>see<sp/>if<sp/>it&apos;s<sp/>satisfied.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1818"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.conditionIsSatisfied<sp/>=<sp/>reEvaluateEventCondition_(aState,<sp/>solution.states);</highlight></codeline>
+<codeline lineno="1819"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.segmentType<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>;</highlight></codeline>
+<codeline lineno="1820"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.maneuverIntervals<sp/>=<sp/>{Interval::Closed(aState.getInstant(),<sp/>solution.states.accessLast().getInstant())};</highlight></codeline>
+<codeline lineno="1821"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1822"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solution;</highlight></codeline>
+<codeline lineno="1823"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1824"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1825"><highlight class="normal">Segment::Solution<sp/>Segment::solveUntilThrusterOn_(</highlight></codeline>
+<codeline lineno="1826"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anEndInstant,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics</highlight></codeline>
+<codeline lineno="1827"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1828"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1829"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;RealCondition&gt;<sp/>thrusterToggleCondition<sp/>=<sp/>getThrusterToggleCondition_(thrusterDynamics,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="1830"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1831"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>segment<sp/>until<sp/>the<sp/>thrust<sp/>is<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1832"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;EventCondition&gt;<sp/>combinedCondition<sp/>=<sp/>std::make_shared&lt;LogicalCondition&gt;(</highlight></codeline>
+<codeline lineno="1833"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Combined<sp/>Event<sp/>or<sp/>Thrust<sp/>On<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1834"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6a3a2d5fe857d8f9541136a124c2edec6c" kindref="member">LogicalCondition::Type::Or</ref>,</highlight></codeline>
+<codeline lineno="1835"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Shared&lt;EventCondition&gt;&gt;<sp/>{eventCondition_,<sp/>thrusterToggleCondition}</highlight></codeline>
+<codeline lineno="1836"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="1837"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1838"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>the<sp/>event<sp/>condition<sp/>could<sp/>have<sp/>terminated<sp/>due<sp/>to<sp/>the<sp/>thruster<sp/>on<sp/>condition,<sp/>we<sp/>want<sp/>to</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1839"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>re-evaluate<sp/>the<sp/>segment<sp/>event<sp/>condition<sp/>to<sp/>see<sp/>if<sp/>it&apos;s<sp/>satisfied.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1840"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.conditionIsSatisfied<sp/>=<sp/>reEvaluateEventCondition_(aState,<sp/>solution.states);</highlight></codeline>
-<codeline lineno="1841"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.segmentType<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref>;</highlight></codeline>
+<codeline lineno="1838"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>solver<sp/>with<sp/>a<sp/>max<sp/>step<sp/>size<sp/>to<sp/>ensure<sp/>the<sp/>integrator<sp/>doesn&apos;t<sp/>overshoot<sp/>the<sp/>thrust-on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1839"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>boundary.<sp/>The<sp/>thrust<sp/>toggle<sp/>condition<sp/>is<sp/>a<sp/>step<sp/>function<sp/>that<sp/>can<sp/>be<sp/>missed<sp/>entirely<sp/>if<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1840"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>adaptive<sp/>stepper<sp/>takes<sp/>a<sp/>step<sp/>larger<sp/>than<sp/>the<sp/>thrust<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1841"><highlight class="normal"><sp/><sp/><sp/><sp/>Segment::Solution<sp/>solution<sp/>=<sp/>solveWithDynamics_(aState,<sp/>anEndInstant,<sp/>freeDynamicsArray_,<sp/>combinedCondition,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="1842"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1843"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solution;</highlight></codeline>
-<codeline lineno="1844"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1845"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1846"><highlight class="normal">Segment::Solution<sp/>Segment::solveManeuverForInterval_(</highlight></codeline>
-<codeline lineno="1847"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>validManeuverInterval</highlight></codeline>
-<codeline lineno="1848"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1849"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1850"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coast<sp/>until<sp/>the<sp/>start<sp/>of<sp/>the<sp/>maneuver<sp/>to<sp/>ensure<sp/>we<sp/>begin<sp/>solving<sp/>the<sp/>maneuver<sp/>at<sp/>the<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1851"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start<sp/>instant</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1852"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>propagateWithDynamics_(aState,<sp/>validManeuverInterval.getStart(),<sp/>freeDynamicsArray_);</highlight></codeline>
-<codeline lineno="1853"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1854"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Since<sp/>the<sp/>maneuver<sp/>interval<sp/>is<sp/>given,<sp/>use<sp/>the<sp/>ungated<sp/>guidance<sp/>law<sp/>to<sp/>ensure<sp/>maneuver<sp/>interval<sp/>consistency.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1855"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;<sp/>ungatedThrusterDynamics<sp/>=<sp/>std::make_shared&lt;Thruster&gt;(</highlight></codeline>
-<codeline lineno="1856"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamics-&gt;getSatelliteSystem(),</highlight></codeline>
-<codeline lineno="1857"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamics-&gt;getGuidanceLaw()-&gt;constructUngatedGuidanceLaw(),</highlight></codeline>
-<codeline lineno="1858"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamics-&gt;getName()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(Ungated)&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1859"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="1860"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1861"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>dynamicsArray<sp/>=</highlight></codeline>
-<codeline lineno="1862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>freeDynamicsArray_<sp/>+<sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>{ungatedThrusterDynamics};</highlight></codeline>
-<codeline lineno="1863"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1864"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>maneuver<sp/>for<sp/>just<sp/>the<sp/>defined<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1865"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>lastState<sp/>=<sp/>states.isEmpty()<sp/>?<sp/>aState<sp/>:<sp/>states.accessLast();</highlight></codeline>
-<codeline lineno="1866"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>maneuverStates<sp/>=</highlight></codeline>
-<codeline lineno="1867"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagateWithDynamics_(lastState,<sp/>validManeuverInterval.getEnd(),<sp/>dynamicsArray);</highlight></codeline>
+<codeline lineno="1843"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>the<sp/>event<sp/>condition<sp/>could<sp/>have<sp/>terminated<sp/>due<sp/>to<sp/>the<sp/>thruster<sp/>on<sp/>condition,<sp/>we<sp/>want<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1844"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>re-evaluate<sp/>the<sp/>segment<sp/>event<sp/>condition<sp/>to<sp/>see<sp/>if<sp/>it&apos;s<sp/>satisfied.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1845"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.conditionIsSatisfied<sp/>=<sp/>reEvaluateEventCondition_(aState,<sp/>solution.states);</highlight></codeline>
+<codeline lineno="1846"><highlight class="normal"><sp/><sp/><sp/><sp/>solution.segmentType<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a44f027304a424f444963d27ad46da394" kindref="member">Segment::Type::Coast</ref>;</highlight></codeline>
+<codeline lineno="1847"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1848"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>solution;</highlight></codeline>
+<codeline lineno="1849"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1850"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1851"><highlight class="normal">Segment::Solution<sp/>Segment::solveManeuverForInterval_(</highlight></codeline>
+<codeline lineno="1852"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;&amp;<sp/>thrusterDynamics,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&amp;<sp/>validManeuverInterval</highlight></codeline>
+<codeline lineno="1853"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1854"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1855"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coast<sp/>until<sp/>the<sp/>start<sp/>of<sp/>the<sp/>maneuver<sp/>to<sp/>ensure<sp/>we<sp/>begin<sp/>solving<sp/>the<sp/>maneuver<sp/>at<sp/>the<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1856"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start<sp/>instant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1857"><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>propagateWithDynamics_(aState,<sp/>validManeuverInterval.getStart(),<sp/>freeDynamicsArray_);</highlight></codeline>
+<codeline lineno="1858"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1859"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Since<sp/>the<sp/>maneuver<sp/>interval<sp/>is<sp/>given,<sp/>use<sp/>the<sp/>ungated<sp/>guidance<sp/>law<sp/>to<sp/>ensure<sp/>maneuver<sp/>interval<sp/>consistency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1860"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;Thruster&gt;<sp/>ungatedThrusterDynamics<sp/>=<sp/>std::make_shared&lt;Thruster&gt;(</highlight></codeline>
+<codeline lineno="1861"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamics-&gt;getSatelliteSystem(),</highlight></codeline>
+<codeline lineno="1862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamics-&gt;getGuidanceLaw()-&gt;constructUngatedGuidanceLaw(),</highlight></codeline>
+<codeline lineno="1863"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thrusterDynamics-&gt;getName()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(Ungated)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1864"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="1865"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1866"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>dynamicsArray<sp/>=</highlight></codeline>
+<codeline lineno="1867"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>freeDynamicsArray_<sp/>+<sp/>Array&lt;Shared&lt;Dynamics&gt;&gt;<sp/>{ungatedThrusterDynamics};</highlight></codeline>
 <codeline lineno="1868"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1869"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>the<sp/>first<sp/>maneuver<sp/>state<sp/>if<sp/>we<sp/>have<sp/>coast<sp/>states<sp/>(it<sp/>duplicates<sp/>the<sp/>last<sp/>coast<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1870"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>maneuverStartIter<sp/>=<sp/>states.isEmpty()<sp/>?<sp/>maneuverStates.begin()<sp/>:<sp/>maneuverStates.begin()<sp/>+<sp/>1;</highlight></codeline>
-<codeline lineno="1871"><highlight class="normal"><sp/><sp/><sp/><sp/>states.add(Array&lt;State&gt;(maneuverStartIter,<sp/>maneuverStates.end()));</highlight></codeline>
-<codeline lineno="1872"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1873"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="1874"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
-<codeline lineno="1875"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsArray,</highlight></codeline>
-<codeline lineno="1876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
-<codeline lineno="1877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reEvaluateEventCondition_(aState,<sp/>states),</highlight></codeline>
-<codeline lineno="1878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>,</highlight></codeline>
-<codeline lineno="1879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>{validManeuverInterval}</highlight></codeline>
-<codeline lineno="1880"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1881"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1882"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1883"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Segment::reEvaluateEventCondition_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="1884"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1885"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>&gt;<sp/>1)</highlight></codeline>
-<codeline lineno="1886"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1887"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
-<codeline lineno="1888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>secondToLastState<sp/>=<sp/>aStateArray[aStateArray.getSize()<sp/>-<sp/>2];</highlight></codeline>
-<codeline lineno="1889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>secondToLastState);</highlight></codeline>
-<codeline lineno="1890"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1891"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1892"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>==<sp/>1)</highlight></codeline>
-<codeline lineno="1893"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="1894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
-<codeline lineno="1895"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>aState);</highlight></codeline>
-<codeline lineno="1896"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1897"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1898"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(aState,<sp/>aState);</highlight></codeline>
-<codeline lineno="1899"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1900"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1901"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1902"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1903"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1869"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Solve<sp/>the<sp/>maneuver<sp/>for<sp/>just<sp/>the<sp/>defined<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1870"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>lastState<sp/>=<sp/>states.isEmpty()<sp/>?<sp/>aState<sp/>:<sp/>states.accessLast();</highlight></codeline>
+<codeline lineno="1871"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>maneuverStates<sp/>=</highlight></codeline>
+<codeline lineno="1872"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>propagateWithDynamics_(lastState,<sp/>validManeuverInterval.getEnd(),<sp/>dynamicsArray);</highlight></codeline>
+<codeline lineno="1873"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1874"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>the<sp/>first<sp/>maneuver<sp/>state<sp/>if<sp/>we<sp/>have<sp/>coast<sp/>states<sp/>(it<sp/>duplicates<sp/>the<sp/>last<sp/>coast<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1875"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>maneuverStartIter<sp/>=<sp/>states.isEmpty()<sp/>?<sp/>maneuverStates.begin()<sp/>:<sp/>maneuverStates.begin()<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="1876"><highlight class="normal"><sp/><sp/><sp/><sp/>states.add(Array&lt;State&gt;(maneuverStartIter,<sp/>maneuverStates.end()));</highlight></codeline>
+<codeline lineno="1877"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1878"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="1879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,</highlight></codeline>
+<codeline lineno="1880"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsArray,</highlight></codeline>
+<codeline lineno="1881"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>states,</highlight></codeline>
+<codeline lineno="1882"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reEvaluateEventCondition_(aState,<sp/>states),</highlight></codeline>
+<codeline lineno="1883"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_segment_1ada1502c1ee2befcef72b4c671645e008a20d20ade23c1dd5bcb299a8f90d9b265" kindref="member">Segment::Type::Maneuver</ref>,</highlight></codeline>
+<codeline lineno="1884"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Array&lt;Interval&gt;<sp/>{validManeuverInterval}</highlight></codeline>
+<codeline lineno="1885"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1886"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1887"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1888"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Segment::reEvaluateEventCondition_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;&amp;<sp/>aStateArray)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="1889"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="1890"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>&gt;<sp/>1)</highlight></codeline>
+<codeline lineno="1891"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
+<codeline lineno="1893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>secondToLastState<sp/>=<sp/>aStateArray[aStateArray.getSize()<sp/>-<sp/>2];</highlight></codeline>
+<codeline lineno="1894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>secondToLastState);</highlight></codeline>
+<codeline lineno="1895"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1896"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1897"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aStateArray.getSize()<sp/>==<sp/>1)</highlight></codeline>
+<codeline lineno="1898"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="1899"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>lastState<sp/>=<sp/>aStateArray.accessLast();</highlight></codeline>
+<codeline lineno="1900"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(lastState,<sp/>aState);</highlight></codeline>
+<codeline lineno="1901"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1902"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1903"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>eventCondition_-&gt;isSatisfied(aState,<sp/>aState);</highlight></codeline>
+<codeline lineno="1904"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1905"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1906"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1907"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1908"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp"/>
   </compounddef>
