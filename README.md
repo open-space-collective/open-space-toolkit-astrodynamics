@@ -368,10 +368,13 @@ The validation tests can be run with `ostk-validate` from within the dev contain
 | SGP4        | `6a448b4` | Apache License 2.0 | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
 | NLopt       | `2.5.0`   | LGPL               | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
 | benchmark   | `1.8.2`   | Apache License 2.0 | [github.com/google/benchmark](https://github.com/google/benchmark)                                                                         |
+| cesiumpy    | `0.4.0`   | Apache License 2.0 | [github.com/open-space-collective/cesiumpy](https://github.com/open-space-collective/cesiumpy)                                     |
 | Core        | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
 | I/O         | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
 | Mathematics | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
 | Physics     | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
+
+⚠️ Until [OSTk#183](https://github.com/open-space-collective/open-space-toolkit/issues/183) is implemented, the fork of `cesiumpy` must be installed separately in order to use the `viewer` module. It is not specified as a dependency of `ostk-astrodynamics`.
 
 ## Contribution
 
