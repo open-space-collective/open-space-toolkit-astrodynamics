@@ -254,7 +254,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
 // Regression: retrograde inputs (mean inc > 175 deg) trigger the GMAT "pseudo-state"
 // remap (inc -> pi - inc, raan -> -raan) at the top of toCOE(); the reverse must be
 // applied at the end. Without it the output is reflected to a prograde frame.
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, ToCOE_RetrogradePseudoStateReverse)
+TEST(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort,
+    ToCOE_RetrogradePseudoStateReverse
+)
 {
     const BrouwerLyddaneMeanShort retrograde({
         Length::Kilometers(7192.16),
@@ -278,7 +281,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
 // and angle-dependent formulas must use the *shifted* values, and angles must be
 // re-wrapped to [0, 2*pi) afterwards. Feeding the algebraically-equivalent positive
 // form should yield the same osculating state.
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort, ToCOE_NegativeEccentricityRecovery)
+TEST(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort,
+    ToCOE_NegativeEccentricityRecovery
+)
 {
     const BrouwerLyddaneMeanShort negEcc({
         Length::Kilometers(7192.16),
