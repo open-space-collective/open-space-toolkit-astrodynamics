@@ -45,7 +45,7 @@ DEFAULT_INERTIAL_FRAME: Frame = Frame.GCRF()
 @dataclass
 class Residual:
     timestamp: datetime
-    frame: Frame
+    frame: str
     dr: float
     dr_x: float
     dr_y: float
@@ -97,7 +97,7 @@ def compute_residuals(
         residuals.append(
             Residual(
                 timestamp=coerce_to_datetime(reference_state.get_instant()),
-                frame=frame,
+                frame=str(frame.get_name()),
                 dr=float(np.linalg.norm(dr)),
                 dr_x=float(dr[0]),
                 dr_y=float(dr[1]),
@@ -113,58 +113,66 @@ def compute_residuals(
 
 
 def compute_residuals_for_orbit(
-    candidate_orbit: Orbit,
+    candidate_orbit: Orbit | list[Orbit],
     reference_states: list[State],
     local_orbital_frame_factory_or_frame: (
         LocalOrbitalFrameFactory | Frame
     ) = DEFAULT_INERTIAL_FRAME,
-) -> list[Residual]:
+) -> list[Residual] | list[list[Residual]]:
     """
-    Compute position and velocity residuals for an orbit against a list of reference states.
+    Compute position and velocity residuals for one or more candidate orbits against a list of reference states.
 
     Args:
-        candidate_orbit (Orbit): Candidate Orbit used to generate states at the instants of the reference states.
+        candidate_orbit (Orbit | list[Orbit]): Candidate Orbit, or list of candidate Orbits, used to generate states at the instants of the reference states.
         reference_states (list[State]): List of reference States to compare against.
         local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
     Returns:
-        list[Residual]: List of Residuals.
+        list[Residual] | list[list[Residual]]: List of Residuals if a single candidate Orbit is provided, or a list of lists of Residuals (one per candidate Orbit) if multiple candidate Orbits are provided.
     """
-    instants: list[Instant] = [state.get_instant() for state in reference_states]
-    candidate_states: list[State] = candidate_orbit.get_states_at(instants)
-
-    return compute_residuals(
-        candidate_states=candidate_states,
-        reference_states=reference_states,
-        local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
+    is_single_orbit: bool = isinstance(candidate_orbit, Orbit)
+    candidate_orbits: list[Orbit] = (
+        [candidate_orbit] if is_single_orbit else list(candidate_orbit)
     )
+
+    instants: list[Instant] = [state.get_instant() for state in reference_states]
+
+    residuals_per_orbit: list[list[Residual]] = [
+        compute_residuals(
+            candidate_states=orbit.get_states_at(instants),
+            reference_states=reference_states,
+            local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
+        )
+        for orbit in candidate_orbits
+    ]
+
+    return residuals_per_orbit[0] if is_single_orbit else residuals_per_orbit
 
 
 def compute_residuals_for_orbits(
-    candidate_orbit: Orbit,
+    candidate_orbit: Orbit | list[Orbit],
     reference_orbit: Orbit,
     instants: list[Instant],
     local_orbital_frame_factory_or_frame: (
         LocalOrbitalFrameFactory | Frame
     ) = DEFAULT_INERTIAL_FRAME,
-) -> list[Residual]:
+) -> list[Residual] | list[list[Residual]]:
     """
-    Compare two orbits at the provided instants and compute position and velocity residuals.
+    Compare one or more candidate orbits against a reference orbit at the provided instants and compute position and velocity residuals.
 
     Args:
-        candidate_orbit (Orbit): Candidate Orbit.
+        candidate_orbit (Orbit | list[Orbit]): Candidate Orbit, or list of candidate Orbits.
         reference_orbit (Orbit): Reference Orbit.
         instants (list[Instant]): List of instants to generate states at.
         local_orbital_frame_factory_or_frame (LocalOrbitalFrameFactory | Frame, optional): The local orbital frame factory to use. Defaults to Frame.GCRF().
 
     Returns:
-        list[Residual]: List of Residuals.
+        list[Residual] | list[list[Residual]]: List of Residuals if a single candidate Orbit is provided, or a list of lists of Residuals (one per candidate Orbit) if multiple candidate Orbits are provided.
     """
-    candidate_states: list[State] = candidate_orbit.get_states_at(instants)
     reference_states: list[State] = reference_orbit.get_states_at(instants)
 
-    return compute_residuals(
-        candidate_states=candidate_states,
+    return compute_residuals_for_orbit(
+        candidate_orbit=candidate_orbit,
         reference_states=reference_states,
         local_orbital_frame_factory_or_frame=local_orbital_frame_factory_or_frame,
     )
