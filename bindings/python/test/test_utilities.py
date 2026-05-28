@@ -2,6 +2,7 @@
 
 from datetime import datetime
 
+import pandas as pd
 import pytest
 
 from ostk.mathematics.curve_fitting import Interpolator
@@ -189,6 +190,36 @@ class TestUtility:
         for i in range(1, 11):
             assert isinstance(output[i], float)
 
+    def test_residual_as_dataframe(
+        self,
+        candidate_states: list[State],
+        reference_states: list[State],
+    ) -> None:
+        residuals = utilities.compute_residuals(
+            candidate_states=candidate_states,
+            reference_states=reference_states,
+        )
+
+        dataframe = pd.DataFrame(residuals)
+
+        assert isinstance(dataframe, pd.DataFrame)
+        assert len(dataframe) == len(residuals)
+        assert list(dataframe.columns) == [
+            "timestamp",
+            "frame",
+            "dr",
+            "dr_x",
+            "dr_y",
+            "dr_z",
+            "dv",
+            "dv_x",
+            "dv_y",
+            "dv_z",
+        ]
+        assert dataframe["dr_z"].iloc[0] == pytest.approx(residuals[0].dr_z)
+        assert isinstance(residuals[0].frame, str)
+        assert dataframe["frame"].iloc[0] == residuals[0].frame
+
     def test_compute_residuals_identical_states(
         self,
         candidate_states: list[State],
@@ -336,3 +367,84 @@ class TestUtility:
             assert isinstance(entry.timestamp, datetime)
             assert isinstance(entry.dr, float)
             assert isinstance(entry.dv, float)
+
+    def test_compute_residuals_for_orbit_multiple_candidate_orbits(
+        self,
+        orbit: Orbit,
+        reference_states: list[State],
+    ) -> None:
+        result = utilities.compute_residuals_for_orbit(
+            candidate_orbit=[orbit, orbit],
+            reference_states=reference_states,
+        )
+
+        assert isinstance(result, list)
+        assert len(result) == 2
+        for residuals in result:
+            assert isinstance(residuals, list)
+            assert len(residuals) == len(reference_states)
+            for entry in residuals:
+                assert isinstance(entry, utilities.Residual)
+                assert isinstance(entry.timestamp, datetime)
+
+    def test_compute_residuals_for_orbit_single_candidate_orbit_backwards_compatible(
+        self,
+        orbit: Orbit,
+        reference_states: list[State],
+    ) -> None:
+        single_result = utilities.compute_residuals_for_orbit(
+            candidate_orbit=orbit,
+            reference_states=reference_states,
+        )
+        list_result = utilities.compute_residuals_for_orbit(
+            candidate_orbit=[orbit],
+            reference_states=reference_states,
+        )
+
+        assert isinstance(single_result, list)
+        assert isinstance(single_result[0], utilities.Residual)
+        assert len(list_result) == 1
+        assert single_result == list_result[0]
+
+    def test_compute_residuals_for_orbits_multiple_candidate_orbits(
+        self,
+        orbit: Orbit,
+        reference_states: list[State],
+    ) -> None:
+        result = utilities.compute_residuals_for_orbits(
+            candidate_orbit=[orbit, orbit],
+            reference_orbit=orbit,
+            instants=[state.get_instant() for state in reference_states],
+        )
+
+        assert isinstance(result, list)
+        assert len(result) == 2
+        for residuals in result:
+            assert isinstance(residuals, list)
+            assert len(residuals) == len(reference_states)
+            for entry in residuals:
+                assert isinstance(entry, utilities.Residual)
+                assert isinstance(entry.timestamp, datetime)
+
+    def test_compute_residuals_for_orbits_single_candidate_orbit_backwards_compatible(
+        self,
+        orbit: Orbit,
+        reference_states: list[State],
+    ) -> None:
+        instants = [state.get_instant() for state in reference_states]
+
+        single_result = utilities.compute_residuals_for_orbits(
+            candidate_orbit=orbit,
+            reference_orbit=orbit,
+            instants=instants,
+        )
+        list_result = utilities.compute_residuals_for_orbits(
+            candidate_orbit=[orbit],
+            reference_orbit=orbit,
+            instants=instants,
+        )
+
+        assert isinstance(single_result, list)
+        assert isinstance(single_result[0], utilities.Residual)
+        assert len(list_result) == 1
+        assert single_result == list_result[0]
