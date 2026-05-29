@@ -250,3 +250,71 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
         EXPECT_NO_THROW(BrouwerLyddaneMeanShort::Undefined());
     }
 }
+
+// Regression: retrograde inputs (mean inc > 175 deg) trigger the GMAT "pseudo-state"
+// remap (inc -> pi - inc, raan -> -raan) at the top of toCOE(); the reverse must be
+// applied at the end. Without it the output is reflected to a prograde frame.
+TEST(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort,
+    ToCOE_RetrogradePseudoStateReverse
+)
+{
+    const BrouwerLyddaneMeanShort retrograde({
+        Length::Kilometers(7192.16),
+        0.025,
+        Angle::Degrees(177.0),
+        Angle::Degrees(120.0),
+        Angle::Degrees(80.0),
+        Angle::Degrees(40.0),
+    });
+
+    const COE coe = retrograde.toCOE();
+
+    // The osculating inclination differs from the mean only by small J2/J3 corrections.
+    // It must remain retrograde (close to 177 deg), NOT be flipped to ~3 deg.
+    EXPECT_NEAR(177.0, coe.getInclination().inDegrees(), 0.1);
+    EXPECT_NEAR(120.0, coe.getRaan().inDegrees(), 0.5);
+}
+
+// Regression: when the input mean eccentricity is negative, OSTk's recovery branch
+// applies (e -> -e, M -> M - pi, AOP -> AOP + pi). The downstream true-anomaly solver
+// and angle-dependent formulas must use the *shifted* values, and angles must be
+// re-wrapped to [0, 2*pi) afterwards. Feeding the algebraically-equivalent positive
+// form should yield the same osculating state.
+TEST(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanShort,
+    ToCOE_NegativeEccentricityRecovery
+)
+{
+    const BrouwerLyddaneMeanShort negEcc({
+        Length::Kilometers(7192.16),
+        -0.025,
+        Angle::Degrees(30.0),
+        Angle::Degrees(120.0),
+        Angle::Degrees(80.0),
+        Angle::Degrees(40.0),
+    });
+
+    // Equivalent state with positive eccentricity: e -> -e, AOP += pi, MA -= pi.
+    const BrouwerLyddaneMeanShort posEcc({
+        Length::Kilometers(7192.16),
+        0.025,
+        Angle::Degrees(30.0),
+        Angle::Degrees(120.0),
+        Angle::Degrees(80.0 + 180.0),
+        Angle::Degrees(40.0 - 180.0 + 360.0),
+    });
+
+    testing::internal::CaptureStdout();
+    const COE coeNeg = negEcc.toCOE();
+    testing::internal::GetCapturedStdout();  // discard the "apoapsis as periapsis" warning
+
+    const COE coePos = posEcc.toCOE();
+
+    EXPECT_NEAR(coePos.getSemiMajorAxis().inMeters(), coeNeg.getSemiMajorAxis().inMeters(), 1e-3);
+    EXPECT_NEAR(coePos.getEccentricity(), coeNeg.getEccentricity(), 1e-9);
+    EXPECT_NEAR(coePos.getInclination().inDegrees(), coeNeg.getInclination().inDegrees(), 1e-7);
+    EXPECT_NEAR(coePos.getRaan().inDegrees(), coeNeg.getRaan().inDegrees(), 1e-6);
+    EXPECT_NEAR(coePos.getAop().inDegrees(), coeNeg.getAop().inDegrees(), 1e-6);
+    EXPECT_NEAR(coePos.getMeanAnomaly().inDegrees(), coeNeg.getMeanAnomaly().inDegrees(), 1e-6);
+}

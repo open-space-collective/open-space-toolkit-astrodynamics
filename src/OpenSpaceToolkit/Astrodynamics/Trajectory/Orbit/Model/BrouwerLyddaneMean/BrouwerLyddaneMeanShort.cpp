@@ -95,6 +95,23 @@ COE BrouwerLyddaneMeanShort::toCOE() const
         }
     }
 
+    // Re-wrap angles to [0, 2*pi) after the pseudo-state and negative-eccentricity shifts (matches GMAT).
+    raanp = mod(raanp, Real::TwoPi());
+    if (raanp < 0.0)
+    {
+        raanp += Real::TwoPi();
+    }
+    aopp = mod(aopp, Real::TwoPi());
+    if (aopp < 0.0)
+    {
+        aopp += Real::TwoPi();
+    }
+    meanAnomalyp = mod(meanAnomalyp, Real::TwoPi());
+    if (meanAnomalyp < 0.0)
+    {
+        meanAnomalyp += Real::TwoPi();
+    }
+
     if (eccp > 0.99)
     {
         throw ostk::core::error::RuntimeError(
@@ -130,7 +147,10 @@ COE BrouwerLyddaneMeanShort::toCOE() const
     //-------------------------------------I
     // COMPUTE TRUE ANOMALY(DOUBLE PRIMED) I
     //-------------------------------------I
-    const Real tap = COE::TrueAnomalyFromMeanAnomaly(anomaly_, eccentricity_, 1e-15).inRadians(0.0, Real::TwoPi());
+    // Use the locally-shifted mean anomaly and eccentricity (after the negative-ecc
+    // recovery branch), not the unmodified class members. Matches GMAT.
+    const Real tap =
+        COE::TrueAnomalyFromMeanAnomaly(Angle::Radians(meanAnomalyp), eccp, 1e-15).inRadians(0.0, Real::TwoPi());
 
     const Real rp = p / (1.0 + eccp * std::cos(tap));
     const Real adr = smap / rp;
@@ -264,6 +284,15 @@ COE BrouwerLyddaneMeanShort::toCOE() const
     if (aop < 0.0)
     {
         aop += Real::TwoPi();
+    }
+
+    // Reverse the pseudo-state remap applied to retrograde inputs (matches GMAT
+    // BrouwerMeanShortToOsculatingElements). Without this the output for inputs
+    // with mean inclination > 175 deg is reflected to a prograde frame.
+    if (pseudoState != 0)
+    {
+        inc = Real::Pi() - inc;
+        raan = Real::TwoPi() - raan;
     }
 
     return COE::FromSIVector(
