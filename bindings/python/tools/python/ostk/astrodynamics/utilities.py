@@ -45,7 +45,7 @@ DEFAULT_INERTIAL_FRAME: Frame = Frame.GCRF()
 @dataclass
 class Residual:
     timestamp: datetime
-    frame: str
+    frame_name: str
     dr: float
     dr_x: float
     dr_y: float
@@ -54,6 +54,10 @@ class Residual:
     dv_x: float
     dv_y: float
     dv_z: float
+
+    @property
+    def frame(self) -> Frame:
+        return Frame.with_name(self.frame_name)
 
 
 def compute_residuals(
@@ -97,7 +101,7 @@ def compute_residuals(
         residuals.append(
             Residual(
                 timestamp=coerce_to_datetime(reference_state.get_instant()),
-                frame=str(frame.get_name()),
+                frame_name=str(frame.get_name()),
                 dr=float(np.linalg.norm(dr)),
                 dr_x=float(dr[0]),
                 dr_y=float(dr[1]),
