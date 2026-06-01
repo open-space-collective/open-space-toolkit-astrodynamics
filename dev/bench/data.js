@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780013867487,
+  "lastUpdate": 1780338814744,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -84,6 +84,90 @@ window.BENCHMARK_DATA = {
             "value": 11.611194201999979,
             "unit": "s/iter",
             "extra": "iterations: 1\ncpu: 11.609472947000029 s\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4bce26b7d9d4f9592f23d94c64931169686eee9f",
+          "message": "fix: add frame property to residual to keep it backwards compatible (#682)",
+          "timestamp": "2026-06-01T18:03:29Z",
+          "tree_id": "af4db3b34ff5d665ea0ba347aa09c80dc5bcb352",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/4bce26b7d9d4f9592f23d94c64931169686eee9f"
+        },
+        "date": 1780338812623,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4704088876.600002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4568472720.600001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4059370896.100006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4059010632.1 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7179365618.200018,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7178706693.600004 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7178063618.300018,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7177406695.299998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7183670645.199992,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7183154320.600001 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 1.19188932499992,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 1.191754336000031 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 5.400817613999948,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 5.40022746599999 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 10.969223022000051,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 10.968043292000004 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 7.828721814000005,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 7.828057194000053 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 11.224640569999906,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 11.223760818000017 s\nthreads: 1"
           }
         ]
       }
