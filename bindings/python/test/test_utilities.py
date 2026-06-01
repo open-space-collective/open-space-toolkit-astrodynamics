@@ -206,7 +206,7 @@ class TestUtility:
         assert len(dataframe) == len(residuals)
         assert list(dataframe.columns) == [
             "timestamp",
-            "frame",
+            "frame_name",
             "dr",
             "dr_x",
             "dr_y",
@@ -217,8 +217,8 @@ class TestUtility:
             "dv_z",
         ]
         assert dataframe["dr_z"].iloc[0] == pytest.approx(residuals[0].dr_z)
-        assert isinstance(residuals[0].frame, str)
-        assert dataframe["frame"].iloc[0] == residuals[0].frame
+        assert isinstance(residuals[0].frame, Frame)
+        assert dataframe["frame_name"].iloc[0] == residuals[0].frame_name
 
     def test_compute_residuals_identical_states(
         self,
@@ -240,6 +240,7 @@ class TestUtility:
             assert residual.dv_x == pytest.approx(0.0, abs=1e-10)
             assert residual.dv_y == pytest.approx(0.0, abs=1e-10)
             assert residual.dv_z == pytest.approx(0.0, abs=1e-10)
+            assert isinstance(residual.frame, Frame)
 
     def test_compute_residuals_with_local_orbital_frame_factory(
         self,
