@@ -143,14 +143,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, ConstructorWithInterpolationTypeMap_Failure)
 {
-    // Referencing a coordinate subset that is not present in the states must raise.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> missingSubsetInStates = {
+    // Coordinate subsets in the map that are not present in the states are ignored (no error).
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type> unknownSubsetInStates = {
         {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
         {CartesianVelocity::Default(), Interpolator::Type::Linear},
         {CoordinateSubset::Mass(), Interpolator::Type::Linear},
     };
 
-    EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingSubsetInStates); }, ostk::core::error::RuntimeError);
+    EXPECT_NO_THROW({ const Tabulated tabulated(states_, 0, unknownSubsetInStates); });
 
     // Omitting the interpolation type for a coordinate subset present in the states must raise.
     const Map<Shared<const CoordinateSubset>, Interpolator::Type> missingTypeForSubset = {
@@ -158,6 +158,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
     };
 
     EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingTypeForSubset); }, ostk::core::error::RuntimeError);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
+{
+    const Tabulated tabulated = Tabulated::Default(states_, 0);
+
+    EXPECT_TRUE(tabulated.isDefined());
+    EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
+    EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
+
+    // The initial revolution number defaults to 1.
+    EXPECT_TRUE(Tabulated::Default(states_).getRevolutionNumberAtEpoch() == 1);
+
+    Environment environment = Environment::Default();
+
+    const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
+
+    EXPECT_TRUE(orbit.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInterval)

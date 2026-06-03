@@ -79,20 +79,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWit
 }
 
 TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_MissingSubsetInStates
-)
-{
-    // The states only contain CartesianPosition and CartesianVelocity, so referencing Mass must raise.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
-        {CartesianVelocity::Default(), Interpolator::Type::Linear},
-        {CoordinateSubset::Mass(), Interpolator::Type::Linear},
-    };
-
-    EXPECT_THROW({ const Tabulated tabulated(states_, interpolationTypes); }, ostk::core::error::RuntimeError);
-}
-
-TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_MissingTypeForSubset
 )
 {
@@ -149,4 +135,45 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWit
 
     EXPECT_TRUE(state.isDefined());
     EXPECT_TRUE(state.getCoordinates().allFinite());
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_IgnoresUnknownSubsets
+)
+{
+    // Coordinate subsets in the map that are not present in the states are ignored (no error).
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+        {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        {CoordinateSubset::Mass(), Interpolator::Type::BarycentricRational},
+        {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
+    };
+
+    const Tabulated tabulated(states_, interpolationTypes);
+
+    EXPECT_TRUE(tabulated.isDefined());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
+{
+    const Tabulated tabulated = Tabulated::Default(states_);
+
+    EXPECT_TRUE(tabulated.isDefined());
+    // Position is interpolated using barycentric rational by default.
+    EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpolationTypes)
+{
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultTypes = Tabulated::DefaultInterpolationTypes();
+
+    EXPECT_EQ(defaultTypes.size(), Size(10));
+
+    EXPECT_EQ(defaultTypes.at(CartesianPosition::Default()), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(defaultTypes.at(CartesianVelocity::Default()), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(defaultTypes.at(CoordinateSubset::Mass()), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(defaultTypes.at(CoordinateSubset::DragCoefficient()), Interpolator::Type::ZeroOrder);
+    EXPECT_EQ(defaultTypes.at(CoordinateSubset::SurfaceArea()), Interpolator::Type::ZeroOrder);
+    EXPECT_EQ(defaultTypes.at(CoordinateSubset::MassFlowRate()), Interpolator::Type::ZeroOrder);
+    EXPECT_EQ(defaultTypes.at(CoordinateSubset::BallisticCoefficient()), Interpolator::Type::ZeroOrder);
 }

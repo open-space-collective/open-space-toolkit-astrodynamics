@@ -94,6 +94,11 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     trajectory::model::Tabulated::print(anOutputStream, displayDecorator);
 }
 
+Tabulated Tabulated::Default(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
+{
+    return Tabulated(aStateArray, anInitialRevolutionNumber, trajectory::model::Tabulated::DefaultInterpolationTypes());
+}
+
 bool Tabulated::operator==(const trajectory::Model& aModel) const
 {
     const Tabulated* tabulatedModelPtr = dynamic_cast<const Tabulated*>(&aModel);

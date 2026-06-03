@@ -90,8 +90,8 @@ class Tabulated : public virtual Model
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
     /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
-    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map, and every
-    /// coordinate subset in the map must be present in the states (an error is raised otherwise).
+    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
+    /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
     Tabulated(
         const Array<State>& aStateArray,
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
@@ -224,6 +224,29 @@ class Tabulated : public virtual Model
     /// @param aFile A file containing tabulated state data.
     /// @return A Tabulated trajectory model loaded from the file.
     static Tabulated Load(const File& aFile);
+
+    /// @brief Construct a tabulated model using the default per-coordinate-subset interpolation types.
+    ///
+    ///                      Each coordinate subset present in the states is interpolated using the type given by
+    ///                      DefaultInterpolationTypes(). The states may contain any subset of those coordinate subsets.
+    ///
+    /// @code{.cpp}
+    ///     Array<State> states = { ... };
+    ///     Tabulated tabulated = Tabulated::Default(states);
+    /// @endcode
+    ///
+    /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @return A Tabulated trajectory model using the default interpolation types.
+    static Tabulated Default(const Array<State>& aStateArray);
+
+    /// @brief Get the default interpolation type to use for each well-known coordinate subset.
+    ///
+    /// @details Position, velocity, acceleration, attitude, angular velocity and mass use barycentric rational
+    /// interpolation; drag coefficient, surface area, mass flow rate and ballistic coefficient use zero-order
+    /// interpolation.
+    ///
+    /// @return A mapping from coordinate subset to its default interpolation type.
+    static Map<Shared<const CoordinateSubset>, Interpolator::Type> DefaultInterpolationTypes();
 
    protected:
     virtual bool operator==(const Model& aModel) const override;

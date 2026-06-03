@@ -276,21 +276,26 @@ class TestTabulatedTrajectory:
         assert tabulated is not None
         assert tabulated.is_defined()
 
+    def test_constructor_with_interpolation_types_ignores_unknown_subsets(
+        self,
+        test_states: list[State],
+    ):
+        # Coordinate subsets in the map that are not present in the states are ignored (no error).
+        tabulated: Tabulated = Tabulated(
+            states=test_states,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                CartesianVelocity.default(): Interpolator.Type.Linear,
+                CoordinateSubset.mass(): Interpolator.Type.Linear,
+            },
+        )
+
+        assert tabulated.is_defined()
+
     def test_constructor_with_interpolation_types_failure(
         self,
         test_states: list[State],
     ):
-        # A coordinate subset referenced in the map but absent from the states must raise.
-        with pytest.raises(Exception):
-            Tabulated(
-                states=test_states,
-                interpolation_types={
-                    CartesianPosition.default(): Interpolator.Type.CubicSpline,
-                    CartesianVelocity.default(): Interpolator.Type.Linear,
-                    CoordinateSubset.mass(): Interpolator.Type.Linear,
-                },
-            )
-
         # A coordinate subset present in the states but missing from the map must raise.
         with pytest.raises(Exception):
             Tabulated(
@@ -299,6 +304,15 @@ class TestTabulatedTrajectory:
                     CartesianPosition.default(): Interpolator.Type.CubicSpline,
                 },
             )
+
+    def test_default(
+        self,
+        test_states: list[State],
+    ):
+        tabulated: Tabulated = Tabulated.default(test_states)
+
+        assert tabulated.is_defined()
+        assert tabulated.get_interpolation_type() == Interpolator.Type.BarycentricRational
 
     def test_get_interpolation_type(
         self,

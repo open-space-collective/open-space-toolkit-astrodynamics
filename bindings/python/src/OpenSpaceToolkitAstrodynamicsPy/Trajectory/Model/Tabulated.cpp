@@ -162,5 +162,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
             arg("instants")
         )
 
+        .def_static(
+            "default",
+            &Tabulated::Default,
+            R"doc(
+                Construct a tabulated model using the default per-coordinate-subset interpolation types.
+
+                Each coordinate subset present in the states is interpolated using its default interpolation type
+                (barycentric rational for position, velocity, acceleration, attitude, angular velocity and mass;
+                zero-order for drag coefficient, surface area, mass flow rate and ballistic coefficient).
+
+                Args:
+                    states (Array[State]): The states of the model.
+
+                Returns:
+                    Tabulated: A tabulated model using the default interpolation types.
+             )doc",
+            arg("states")
+        )
+
         ;
 }

@@ -165,5 +165,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             arg("instants")
         )
 
+        .def_static(
+            "default",
+            &Tabulated::Default,
+            R"doc(
+                Construct a tabulated orbit model using the default per-coordinate-subset interpolation types.
+
+                Each coordinate subset present in the states is interpolated using its default interpolation type
+                (barycentric rational for position, velocity, acceleration, attitude, angular velocity and mass;
+                zero-order for drag coefficient, surface area, mass flow rate and ballistic coefficient).
+
+                Args:
+                    states (list[State]): The states.
+                    initial_revolution_number (int, optional): The initial revolution number. Defaults to 1.
+
+                Returns:
+                    Tabulated: A tabulated orbit model using the default interpolation types.
+
+            )doc",
+            arg("states"),
+            arg_v("initial_revolution_number", Integer(1), "1")
+        )
+
         ;
 }

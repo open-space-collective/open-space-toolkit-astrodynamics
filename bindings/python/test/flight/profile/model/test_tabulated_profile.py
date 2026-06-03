@@ -14,6 +14,10 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import AngularVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.flight.profile.model import Tabulated as TabulatedModel
 
 
@@ -40,6 +44,24 @@ def states() -> list[State]:
 
 
 @pytest.fixture
+def dense_states() -> list[State]:
+    # Barycentric rational interpolation (the default) requires more than two points.
+    return [
+        State(
+            instant=Instant.date_time(datetime(2020, 1, 1, 0, i, 0), Scale.UTC),
+            position=Position.meters((float(i), 2.0 * i, 3.0 * i), Frame.GCRF()),
+            velocity=Velocity.meters_per_second(
+                (4.0 * i, 5.0 * i, 6.0 * i), Frame.GCRF()
+            ),
+            attitude=Quaternion.unit(),
+            angular_velocity=(0.0, 0.0, 0.0),
+            attitude_frame=Frame.GCRF(),
+        )
+        for i in range(5)
+    ]
+
+
+@pytest.fixture
 def interpolator_type() -> Interpolator.Type:
     return Interpolator.Type.Linear
 
@@ -62,6 +84,47 @@ class TestTabulatedProfile:
     ):
         assert tabulated_model is not None
         assert isinstance(tabulated_model, TabulatedModel)
+
+    def test_constructor_with_interpolation_types(
+        self,
+        dense_states: list[State],
+    ):
+        tabulated_model: TabulatedModel = TabulatedModel(
+            states=dense_states,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.BarycentricRational,
+                CartesianVelocity.default(): Interpolator.Type.BarycentricRational,
+                AngularVelocity.default(): Interpolator.Type.BarycentricRational,
+            },
+        )
+
+        assert tabulated_model.is_defined()
+
+    def test_constructor_with_interpolation_types_failure(
+        self,
+        states: list[State],
+    ):
+        # A coordinate subset present in the (reduced) states but missing from the map must raise.
+        with pytest.raises(Exception):
+            TabulatedModel(
+                states=states,
+                interpolation_types={
+                    CartesianPosition.default(): Interpolator.Type.BarycentricRational,
+                    CartesianVelocity.default(): Interpolator.Type.BarycentricRational,
+                },
+            )
+
+    def test_default(
+        self,
+        dense_states: list[State],
+    ):
+        tabulated_model: TabulatedModel = TabulatedModel.default(dense_states)
+
+        assert tabulated_model.is_defined()
+        assert (
+            tabulated_model.get_interpolator_type()
+            == Interpolator.Type.BarycentricRational
+        )
 
     def test_is_defined(
         self,

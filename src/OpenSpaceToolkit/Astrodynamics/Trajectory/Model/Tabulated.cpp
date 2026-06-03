@@ -5,6 +5,11 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -54,19 +59,12 @@ Tabulated::Tabulated(
 
     const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
 
-    // Index the requested interpolation types by coordinate subset id, ensuring each requested subset is present in
-    // the provided states.
+    // Index the requested interpolation types by coordinate subset id. Entries for coordinate subsets that are not
+    // present in the states are ignored.
     Map<String, Interpolator::Type> interpolationTypeBySubsetId;
 
     for (const auto& [coordinateSubsetSPtr, interpolationType] : anInterpolationTypeMap)
     {
-        if (!coordinatesBroker->hasSubset(coordinateSubsetSPtr))
-        {
-            throw ostk::core::error::RuntimeError(String::Format(
-                "The provided states do not contain the coordinate subset [{}].", coordinateSubsetSPtr->getName()
-            ));
-        }
-
         interpolationTypeBySubsetId[coordinateSubsetSPtr->getId()] = interpolationType;
     }
 
@@ -288,6 +286,36 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+Tabulated Tabulated::Default(const Array<State>& aStateArray)
+{
+    return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes());
+}
+
+Map<Shared<const CoordinateSubset>, Interpolator::Type> Tabulated::DefaultInterpolationTypes()
+{
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+    using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+    using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
+    using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
+    using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+    using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+
+    static const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultInterpolationTypes = {
+        {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+        {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+        {CartesianAcceleration::Default(), Interpolator::Type::BarycentricRational},
+        {AttitudeQuaternion::Default(), Interpolator::Type::BarycentricRational},
+        {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
+        {CoordinateSubset::Mass(), Interpolator::Type::BarycentricRational},
+        {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::SurfaceArea(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::MassFlowRate(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::BallisticCoefficient(), Interpolator::Type::ZeroOrder},
+    };
+
+    return defaultInterpolationTypes;
 }
 
 bool Tabulated::operator==(const Model& aModel) const

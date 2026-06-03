@@ -7,12 +7,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
     using namespace pybind11;
 
     using ostk::core::container::Array;
+    using ostk::core::container::Map;
+    using ostk::core::type::Shared;
 
     using ostk::mathematics::curvefitting::Interpolator;
 
     using ostk::astrodynamics::flight::profile::Model;
     using ostk::astrodynamics::flight::profile::model::Tabulated;
     using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     class_<Tabulated, Model>(
         aModule,
@@ -34,6 +37,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
              )doc",
             arg("states"),
             arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
+        )
+
+        .def(
+            init<const Array<State>&, const Map<Shared<const CoordinateSubset>, Interpolator::Type>&>(),
+            R"doc(
+                Constructor with per-coordinate-subset interpolation types.
+
+                Each coordinate subset is interpolated using the interpolation type associated with it, except the
+                attitude quaternion, which is always interpolated using spherical linear interpolation (SLERP).
+
+                Args:
+                    states (Array[State]): The states of the model.
+                    interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states (other than the attitude quaternion) must have an entry. Entries for coordinate subsets not present in the states (including the attitude quaternion) are ignored.
+             )doc",
+            arg("states"),
+            arg("interpolation_types")
         )
 
         .def(
@@ -133,6 +152,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
                     Frame: The body frame of the model with the specified name.
              )doc",
             arg("frame_name")
+        )
+
+        .def_static(
+            "default",
+            &Tabulated::Default,
+            R"doc(
+                Construct a tabulated profile model using the default per-coordinate-subset interpolation types.
+
+                Each coordinate subset present in the states (other than the attitude quaternion, which is always
+                interpolated using SLERP) is interpolated using its default interpolation type (barycentric rational
+                for position, velocity, acceleration, angular velocity and mass; zero-order for drag coefficient,
+                surface area, mass flow rate and ballistic coefficient).
+
+                Args:
+                    states (Array[State]): The states of the model.
+
+                Returns:
+                    Tabulated: A tabulated profile model using the default interpolation types.
+             )doc",
+            arg("states")
         )
 
         ;
