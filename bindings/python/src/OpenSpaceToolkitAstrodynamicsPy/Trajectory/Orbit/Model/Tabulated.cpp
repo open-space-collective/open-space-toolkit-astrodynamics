@@ -5,12 +5,15 @@
 using namespace pybind11;
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::type::Integer;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pybind11::module& aModule)
 {
@@ -41,6 +44,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
                 DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
                 "Interpolator.Type.BarycentricRational"
             )
+        )
+
+        .def(
+            init<const Array<State>&, const Integer&, const Map<Shared<const CoordinateSubset>, Interpolator::Type>&>(),
+            R"doc(
+                Constructor with per-coordinate-subset interpolation types.
+
+                Each coordinate is interpolated using the interpolation type associated with the coordinate subset
+                it belongs to.
+
+                Args:
+                    states (list[State]): The states.
+                    initial_revolution_number (int): The initial revolution number.
+                    interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
+
+            )doc",
+            arg("states"),
+            arg("initial_revolution_number"),
+            arg("interpolation_types")
         )
 
         .def(self == self)

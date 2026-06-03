@@ -27,6 +27,17 @@ Tabulated::Tabulated(
 {
 }
 
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Integer& anInitialRevolutionNumber,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+)
+    : trajectory::orbit::Model(),
+      trajectory::model::Tabulated(aStateArray, anInterpolationTypeMap),
+      initialRevolutionNumber_(anInitialRevolutionNumber)
+{
+}
+
 Tabulated* Tabulated::clone() const
 {
     return new Tabulated(*this);

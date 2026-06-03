@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
@@ -18,6 +19,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
@@ -29,6 +31,7 @@ namespace model
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::filesystem::File;
 using ostk::core::type::Index;
@@ -45,6 +48,7 @@ using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 #define DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE Interpolator::Type::Linear
 
@@ -68,6 +72,29 @@ class Tabulated : public virtual Model
     Tabulated(
         const Array<State>& aStateArray,
         const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
+    );
+
+    /// @brief Constructor with per-coordinate-subset interpolation types.
+    ///
+    ///                      Each coordinate is interpolated using the interpolation type associated with the
+    ///                      coordinate subset it belongs to.
+    ///
+    /// @code{.cpp}
+    ///     Array<State> states = { ... };
+    ///     Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+    ///         {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+    ///         {CartesianVelocity::Default(), Interpolator::Type::Linear},
+    ///     };
+    ///     Tabulated tabulated(states, interpolationTypes);
+    /// @endcode
+    ///
+    /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
+    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map, and every
+    /// coordinate subset in the map must be present in the states (an error is raised otherwise).
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
     );
 
     /// @brief Clone the tabulated model.
@@ -133,6 +160,9 @@ class Tabulated : public virtual Model
     /// @code{.cpp}
     ///     Interpolator::Type type = tabulated.getInterpolationType();
     /// @endcode
+    ///
+    /// @note When the model was constructed with per-coordinate-subset interpolation types, this returns the
+    /// interpolation type of the first coordinate.
     ///
     /// @return The interpolation type.
     Interpolator::Type getInterpolationType() const;
@@ -204,6 +234,18 @@ class Tabulated : public virtual Model
     State firstState_ = State::Undefined();
     State lastState_ = State::Undefined();
     Array<Shared<const Interpolator>> interpolators_;
+
+    /// @brief Sort the provided states by instant, cache the first and last states, and compute the interpolation
+    /// timestamps and coordinate matrix shared by all constructors.
+    ///
+    /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @param aTimestampVector [out] The timestamps (in seconds, relative to the first state) of the sorted states.
+    /// @param aCoordinateMatrix [out] The coordinates of the sorted states (one row per state, one column per
+    /// coordinate).
+    /// @return True if the model could be defined (i.e. at least two states were provided), false otherwise.
+    bool computeInterpolationData(
+        const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aCoordinateMatrix
+    );
 };
 
 }  // namespace model

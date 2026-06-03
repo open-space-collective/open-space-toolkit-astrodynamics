@@ -4,7 +4,9 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 
@@ -14,6 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
 {
@@ -27,13 +30,16 @@ namespace model
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::type::Integer;
+using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Tabulated orbit model.
 ///
@@ -56,6 +62,31 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
         const Array<State>& aStateArray,
         const Integer& anInitialRevolutionNumber,
         const Interpolator::Type& aType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
+    );
+
+    /// @brief Construct a tabulated orbit model with per-coordinate-subset interpolation types.
+    ///
+    /// @details Each coordinate is interpolated using the interpolation type associated with the coordinate subset
+    /// it belongs to.
+    ///
+    /// @code{.cpp}
+    ///     Array<State> states = { ... };
+    ///     Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+    ///         {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+    ///         {CartesianVelocity::Default(), Interpolator::Type::Linear},
+    ///     };
+    ///     Tabulated tabulated = Tabulated(states, 1, interpolationTypes);
+    /// @endcode
+    ///
+    /// @param aStateArray An array of states to tabulate.
+    /// @param anInitialRevolutionNumber The revolution number at the first state epoch.
+    /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
+    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map, and every
+    /// coordinate subset in the map must be present in the states (an error is raised otherwise).
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Integer& anInitialRevolutionNumber,
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
     );
 
     /// @brief Clone this tabulated orbit model.

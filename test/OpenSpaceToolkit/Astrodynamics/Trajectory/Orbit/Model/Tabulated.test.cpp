@@ -1,7 +1,9 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -11,10 +13,14 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::Table;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
@@ -22,6 +28,7 @@ using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
@@ -41,6 +48,9 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::Model;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public ::testing::Test
 {
@@ -110,6 +120,44 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
     Environment environment = Environment::Default();
 
     const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, ConstructorWithInterpolationTypeMap)
+{
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+        {CartesianVelocity::Default(), Interpolator::Type::Linear},
+    };
+
+    const Tabulated tabulated(states_, 0, interpolationTypes);
+
+    EXPECT_TRUE(tabulated.isDefined());
+    EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
+
+    Environment environment = Environment::Default();
+
+    const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
+
+    EXPECT_TRUE(orbit.isDefined());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, ConstructorWithInterpolationTypeMap_Failure)
+{
+    // Referencing a coordinate subset that is not present in the states must raise.
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type> missingSubsetInStates = {
+        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+        {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        {CoordinateSubset::Mass(), Interpolator::Type::Linear},
+    };
+
+    EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingSubsetInStates); }, ostk::core::error::RuntimeError);
+
+    // Omitting the interpolation type for a coordinate subset present in the states must raise.
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type> missingTypeForSubset = {
+        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+    };
+
+    EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingTypeForSubset); }, ostk::core::error::RuntimeError);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInterval)
