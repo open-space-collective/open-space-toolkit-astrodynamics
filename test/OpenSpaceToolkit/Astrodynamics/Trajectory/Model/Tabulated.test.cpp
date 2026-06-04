@@ -65,93 +65,85 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated : public ::testi
     Array<State> states_ = Array<State>::Empty();
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
 {
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
-        {CartesianVelocity::Default(), Interpolator::Type::Linear},
-    };
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
 
-    const Tabulated tabulated(states_, interpolationTypes);
+        const Tabulated tabulated(states_, interpolationTypes);
 
-    EXPECT_TRUE(tabulated.isDefined());
-    EXPECT_TRUE(tabulated.getInterval().isDefined());
-}
+        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_TRUE(tabulated.getInterval().isDefined());
+    }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_MissingTypeForSubset
-)
-{
-    // The states contain CartesianVelocity but no interpolation type is provided for it.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
-    };
+    // Coordinate subsets in the map that are not present in the states are ignored (no error).
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+            {CoordinateSubset::Mass(), Interpolator::Type::BarycentricRational},
+            {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
+        };
 
-    EXPECT_THROW({ const Tabulated tabulated(states_, interpolationTypes); }, ostk::core::error::RuntimeError);
-}
+        const Tabulated tabulated(states_, interpolationTypes);
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_MatchesUniformType
-)
-{
+        EXPECT_TRUE(tabulated.isDefined());
+    }
+
     // A per-subset map assigning the same type to every subset must behave identically to the single-type
     // constructor.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
-        {CartesianVelocity::Default(), Interpolator::Type::CubicSpline},
-    };
-
-    const Tabulated tabulatedFromMap(states_, interpolationTypes);
-    const Tabulated tabulatedFromType(states_, Interpolator::Type::CubicSpline);
-
-    EXPECT_TRUE(tabulatedFromMap == tabulatedFromType);
-
-    for (Size i = 0; i < states_.getSize() - 1; ++i)
     {
-        const Instant instant = states_[i].accessInstant() + Duration::Seconds(13.0);
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::CubicSpline},
+        };
 
-        const VectorXd fromMapCoordinates = tabulatedFromMap.calculateStateAt(instant).getCoordinates();
-        const VectorXd fromTypeCoordinates = tabulatedFromType.calculateStateAt(instant).getCoordinates();
+        const Tabulated tabulatedFromMap(states_, interpolationTypes);
+        const Tabulated tabulatedFromType(states_, Interpolator::Type::CubicSpline);
 
-        EXPECT_TRUE(fromMapCoordinates.isApprox(fromTypeCoordinates, 1e-12));
+        EXPECT_TRUE(tabulatedFromMap == tabulatedFromType);
+
+        for (Size i = 0; i < states_.getSize() - 1; ++i)
+        {
+            const Instant instant = states_[i].accessInstant() + Duration::Seconds(13.0);
+
+            const VectorXd fromMapCoordinates = tabulatedFromMap.calculateStateAt(instant).getCoordinates();
+            const VectorXd fromTypeCoordinates = tabulatedFromType.calculateStateAt(instant).getCoordinates();
+
+            EXPECT_TRUE(fromMapCoordinates.isApprox(fromTypeCoordinates, 1e-12));
+        }
     }
-}
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_DistinctTypes)
-{
+    // The states contain CartesianVelocity but no interpolation type is provided for it.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+        };
+
+        EXPECT_THROW({ const Tabulated tabulated(states_, interpolationTypes); }, ostk::core::error::RuntimeError);
+    }
+
     // Distinct per-subset types must produce a model distinct from any single-type model.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
-        {CartesianVelocity::Default(), Interpolator::Type::Linear},
-    };
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
 
-    const Tabulated tabulatedFromMap(states_, interpolationTypes);
+        const Tabulated tabulatedFromMap(states_, interpolationTypes);
 
-    EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::CubicSpline));
-    EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::Linear));
+        EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::CubicSpline));
+        EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::Linear));
 
-    const State state =
-        tabulatedFromMap.calculateStateAt(states_.accessFirst().accessInstant() + Duration::Seconds(30.0));
+        const State state =
+            tabulatedFromMap.calculateStateAt(states_.accessFirst().accessInstant() + Duration::Seconds(30.0));
 
-    EXPECT_TRUE(state.isDefined());
-    EXPECT_TRUE(state.getCoordinates().allFinite());
-}
-
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, ConstructorWithInterpolationTypeMap_IgnoresUnknownSubsets
-)
-{
-    // Coordinate subsets in the map that are not present in the states are ignored (no error).
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
-        {CartesianVelocity::Default(), Interpolator::Type::Linear},
-        {CoordinateSubset::Mass(), Interpolator::Type::BarycentricRational},
-        {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
-    };
-
-    const Tabulated tabulated(states_, interpolationTypes);
-
-    EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_TRUE(state.isDefined());
+        EXPECT_TRUE(state.getCoordinates().allFinite());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)

@@ -97,45 +97,40 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
     {
         EXPECT_NO_THROW(Tabulated tabulated(states_););
     }
-}
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, ConstructorWithInterpolationTypeMap)
-{
-    // The attitude quaternion entry is ignored (attitude is always interpolated using SLERP); all other reduced
-    // coordinate subsets use the type given for them.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
-        {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
-        {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
-        {AttitudeQuaternion::Default(), Interpolator::Type::Linear},
-    };
+    {
+        // The attitude quaternion entry is ignored (attitude is always interpolated using SLERP); all other reduced
+        // coordinate subsets use the type given for them.
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+            {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+            {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
+            {AttitudeQuaternion::Default(), Interpolator::Type::Linear},
+        };
 
-    const Tabulated tabulatedFromMap = Tabulated(states_, interpolationTypes);
-    const Tabulated tabulatedFromType = Tabulated(states_, Interpolator::Type::BarycentricRational);
+        const Tabulated tabulatedFromMap = Tabulated(states_, interpolationTypes);
+        const Tabulated tabulatedFromType = Tabulated(states_, Interpolator::Type::BarycentricRational);
 
-    EXPECT_TRUE(tabulatedFromMap.isDefined());
+        EXPECT_TRUE(tabulatedFromMap.isDefined());
 
-    const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
 
-    EXPECT_VECTORS_ALMOST_EQUAL(
-        tabulatedFromMap.calculateStateAt(instant).getCoordinates(),
-        tabulatedFromType.calculateStateAt(instant).getCoordinates(),
-        1e-12
-    );
-}
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            tabulatedFromMap.calculateStateAt(instant).getCoordinates(),
+            tabulatedFromType.calculateStateAt(instant).getCoordinates(),
+            1e-12
+        );
+    }
 
-TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated,
-    ConstructorWithInterpolationTypeMap_MissingTypeForSubset
-)
-{
     // The (reduced) states contain AngularVelocity but no interpolation type is provided for it.
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
-        {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
-        {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
-    };
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+            {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+        };
 
-    EXPECT_THROW(Tabulated(states_, interpolationTypes), ostk::core::error::RuntimeError);
+        EXPECT_THROW(Tabulated(states_, interpolationTypes), ostk::core::error::RuntimeError);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Default)
