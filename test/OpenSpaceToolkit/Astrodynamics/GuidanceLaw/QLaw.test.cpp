@@ -182,14 +182,66 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constr
 {
     EXPECT_NO_THROW(QLaw qlaw(targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::Osculating));
 
-    EXPECT_NO_THROW(QLaw qlaw(
-        targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::BrouwerLyddaneMeanLong, gradientStrategy_
-    ));
+    EXPECT_NO_THROW(
+        QLaw qlaw(
+            targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::BrouwerLyddaneMeanLong, gradientStrategy_
+        )
+    );
 
     EXPECT_THROW(
         QLaw qlaw(targetCOE_, gravitationalParameter_, {{}}, QLaw::COEDomain::Osculating, gradientStrategy_),
         ostk::core::error::RuntimeError
     );
+
+    {
+        // When the semi-major axis IS targeted (non-zero control weight), a non-positive target SMA would
+        // make the S_a scaling factor diverge.
+        const QLaw::Parameters parametersTargetingSMA = {
+            {
+                {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+                {COE::Element::Eccentricity, {1.0, 1e-4}},
+            },
+        };
+
+        // SMA targeted + zero target SMA -> throws.
+        {
+            const COE targetCOEZeroSMA = {
+                Length::Meters(0.0),
+                0.01,
+                Angle::Degrees(0.05),
+                Angle::Degrees(0.0),
+                Angle::Degrees(0.0),
+                Angle::Degrees(0.0)
+            };
+
+            EXPECT_THROW(
+                QLaw(targetCOEZeroSMA, gravitationalParameter_, parametersTargetingSMA, QLaw::COEDomain::Osculating),
+                ostk::core::error::RuntimeError
+            );
+        }
+
+        // SMA NOT targeted + zero target SMA -> allowed (the SMA term is neutralized).
+        {
+            const COE targetCOEZeroSMA = {
+                Length::Meters(0.0),
+                0.01,
+                Angle::Degrees(0.05),
+                Angle::Degrees(0.0),
+                Angle::Degrees(0.0),
+                Angle::Degrees(0.0)
+            };
+            const QLaw::Parameters parametersWithoutSMA = {
+                {
+                    {COE::Element::Eccentricity, {1.0, 1e-4}},
+                    {COE::Element::Aop, {1.0, 1e-4}},
+                },
+            };
+
+            EXPECT_NO_THROW(
+                QLaw(targetCOEZeroSMA, gravitationalParameter_, parametersWithoutSMA, QLaw::COEDomain::Osculating)
+            );
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetParameters)
@@ -664,6 +716,74 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
         {
             EXPECT_NEAR(acceleration(i), accelerationExpected(i), 1e-12);
         }
+    }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, TargetingWithoutSemiMajorAxisYieldsFiniteGradient
+)
+{
+    // Regression test for the "NaN encountered in dQ_dOE calculation" failure
+    //
+    // When the Q-Law targets orbital elements *without* the semi-major axis (SMA), the target COE is
+    // typically built with the SMA defaulting to 0 m, while the SMA control weight is 0 because
+    // SMA is absent from the element-weights map.
+
+    // This is a ~6920 km SMA, near-circular, ~97.6 deg inclination orbit.
+    const Vector3d position = {1364745.6311035044, 6081608.288764103, -3009739.0476152804};
+    const Vector3d velocity = {368.80982226000657, -3421.284241386021, -6759.820581456799};
+
+    const Real thrustAcceleration = 0.0161 / 193.3655889361863;
+
+    // Benign, representative current COE 5-vector (excludes true anomaly). Moderate inclination /
+    // eccentricity, so the only previously-singular term was the SMA scaling.
+    const Vector5d currentCOEVector = {6.92e6, 0.01, 1.0, 0.0, 0.0};
+
+    // Eccentricity + AoP targeted, SMA NOT targeted (SMA target defaults to 0, SMA weight implicitly 0).
+    const COE targetCOEWithoutSMA = {
+        Length::Meters(0.0),   // <-- SMA defaults to 0 when not targeted
+        1.5e-4,                // eccentricity target
+        Angle::Degrees(0.0),   // inclination (not targeted)
+        Angle::Degrees(0.0),   // RAAN (not targeted)
+        Angle::Degrees(70.0),  // AoP target
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters parametersWithoutSMA = {
+        {
+            {COE::Element::Eccentricity, {1.0, 0.0}},
+            {COE::Element::Aop, {1.0, 0.0}},
+        },
+    };
+
+    // The fix must hold for both gradient strategies: the analytical partials no longer produce NaN in
+    // dQ/da and dQ/de, and the finite-difference path no longer inherits a NaN Q.
+    for (const QLaw::GradientStrategy gradientStrategy :
+         {QLaw::GradientStrategy::Analytical, QLaw::GradientStrategy::FiniteDifference})
+    {
+        const QLaw qlawWithoutSMA = {
+            targetCOEWithoutSMA,
+            gravitationalParameter_,
+            parametersWithoutSMA,
+            QLaw::COEDomain::BrouwerLyddaneMeanLong,
+            gradientStrategy,
+        };
+
+        // Q is finite (no 0 * inf in the weighted sum).
+        EXPECT_TRUE(std::isfinite(qlawWithoutSMA.computeQ(currentCOEVector, thrustAcceleration)));
+
+        // The gradient is fully finite.
+        const Vector5d dQ_dOE = qlawWithoutSMA.compute_dQ_dOE(currentCOEVector, thrustAcceleration);
+        EXPECT_TRUE(dQ_dOE.array().isFinite().all());
+
+        // End-to-end: the runtime entry point that used to throw now returns a finite acceleration.
+        Vector3d acceleration = Vector3d::Zero();
+        EXPECT_NO_THROW(
+            acceleration = qlawWithoutSMA.calculateThrustAccelerationAt(
+                Instant::J2000(), position, velocity, thrustAcceleration, Frame::GCRF()
+            )
+        );
+        EXPECT_TRUE(acceleration.array().isFinite().all());
     }
 }
 

@@ -132,6 +132,18 @@ QLaw::QLaw(
       stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
       coeDomain_(aCOEDomain)
 {
+    // The semi-major axis term of the proximity quotient Q is scaled by
+    //     S_a = (1 + (Δa / (m * a_target))^n)^(1/r),
+    // which divides by the target semi-major axis. Targeting the semi-major axis (a non-zero control
+    // weight) therefore requires a strictly positive target; otherwise S_a diverges. A zero weight is
+    // allowed: in that case the semi-major axis term and its scaling factor are neutralized in
+    // computeQ() and computeAnalytical_dQ_dOE().
+    if ((parameters_.controlWeights_(0) != 0.0) && !(targetCOEVector_(0) > 0.0))
+    {
+        throw ostk::core::error::RuntimeError(
+            "Q-Law target semi-major axis must be strictly positive when the semi-major axis is targeted."
+        );
+    }
 }
 
 QLaw::~QLaw() {}
@@ -305,10 +317,21 @@ double QLaw::computeQ(const Vector5d& aCOEVector, const double& aThrustAccelerat
     const Vector5d deltaCOE = computeDeltaCOE(aCOEVector);
 
     // S_oe
+    // The semi-major axis scaling factor S_a divides by the target semi-major axis. It is only
+    // meaningful when the semi-major axis is targeted; when it is not (control weight 0), the target may
+    // be a degenerate default (e.g. 0), which would make S_a diverge and yield 0 * inf = NaN in the
+    // weighted sum below. Neutralize it to 1.0 in that case so the (zero-weighted) semi-major axis term
+    // vanishes identically.
+    const double semiMajorAxisScaling =
+        (parameters_.controlWeights_(0) == 0.0)
+            ? 1.0
+            : std::pow(
+                  1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n),
+                  1.0 / parameters_.r
+              );
+
     const Vector5d scalingCOE = {
-        std::pow(
-            (1.0 + std::pow(deltaCOE[0] / (parameters_.m * targetCOEVector_[0]), parameters_.n)), 1.0 / parameters_.r
-        ),
+        semiMajorAxisScaling,
         1.0,
         1.0,
         1.0,
@@ -539,10 +562,17 @@ Vector5d QLaw::computeAnalytical_dQ_dOE(const Vector5d& aCOEVector, const double
     const double x12 = std::pow(semiMajorAxis, -3.0);
     const double x13 = eccentricity + 1.0;
     const double x14 = 1.0 / x13;
-    const double x15 = std::pow(x10 / (parameters_.m * semiMajorAxisTarget), parameters_.n);
-    const double x16 = x15 + 1.0;
+    // x15/x16/x18 build the semi-major axis scaling factor S_a (= x18), which divides by the target
+    // semi-major axis. They are only meaningful when the semi-major axis is targeted; when it is not
+    // (semiMajorAxisWeight == 0), the target may be a degenerate default (e.g. 0), making them diverge
+    // and producing 0 * inf = NaN in x19/x82 (and downstream in x72/x79). Neutralize them so the
+    // (zero-weighted) semi-major axis term and all of its partial derivatives vanish identically.
     const double x17 = 1.0 / parameters_.r;
-    const double x18 = std::pow(x16, x17);
+    const bool semiMajorAxisTargeted = (semiMajorAxisWeight != 0.0);
+    const double x15 =
+        semiMajorAxisTargeted ? std::pow(x10 / (parameters_.m * semiMajorAxisTarget), parameters_.n) : 0.0;
+    const double x16 = x15 + 1.0;
+    const double x18 = semiMajorAxisTargeted ? std::pow(x16, x17) : 1.0;
     const double x19 = semiMajorAxisWeight * x12 * x14 * x18;
     const double x20 = x11 * x19;
     const double x21 = 4.0 * x9;
