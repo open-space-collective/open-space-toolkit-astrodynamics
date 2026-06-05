@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780338814744,
+  "lastUpdate": 1780648882110,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -168,6 +168,90 @@ window.BENCHMARK_DATA = {
             "value": 11.224640569999906,
             "unit": "s/iter",
             "extra": "iterations: 1\ncpu: 11.223760818000017 s\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5537491ad2813d425cd76af04c8ad9f210f2a398",
+          "message": "fix: qlaw targeting without sma (#684)\n\n* fix: qlaw targeting without sma should pass\n\n* style: apply linter\n\n---------\n\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2026-06-05T08:13:10Z",
+          "tree_id": "ebfde8f979ec94e8d3db87d8f9421e0099a65186",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/5537491ad2813d425cd76af04c8ad9f210f2a398"
+        },
+        "date": 1780648880295,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 3556747402.799994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3407926007.9 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 3238816341.7000213,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3238584066.499999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 6037450086.000007,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6037001879.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 6037476627.199999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6037066927.699998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 6033366738.499984,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6032782682.999996 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.971395068999982,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.9713103029999672 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 4.755488268000136,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 4.755179104000007 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 10.185298325000076,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 10.184498861000037 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 7.05271737299995,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 7.0521679440000185 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 10.05016247900005,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 10.049206314999992 s\nthreads: 1"
           }
         ]
       }
