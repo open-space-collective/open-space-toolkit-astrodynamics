@@ -25,8 +25,9 @@ ostk.astrodynamics.utilities.Residual
 
    .. autosummary::
    
-      ~Residual.timestamp
       ~Residual.frame
+      ~Residual.timestamp
+      ~Residual.frame_name
       ~Residual.dr
       ~Residual.dr_x
       ~Residual.dr_y
