@@ -162,7 +162,7 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @note When the model was constructed with per-coordinate-subset interpolation types, this returns the
-    /// interpolation type of the first coordinate.
+    /// interpolation type of the first coordinate subset.
     ///
     /// @return The interpolation type.
     Interpolator::Type getInterpolationType() const;

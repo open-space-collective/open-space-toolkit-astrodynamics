@@ -49,7 +49,6 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::flight::profile::Model;
-using TabulatedTrajectory = ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;

@@ -6,7 +6,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
@@ -19,6 +18,12 @@ namespace trajectory
 {
 namespace model
 {
+
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
     : Model()
@@ -79,9 +84,12 @@ Tabulated::Tabulated(
 
         if (interpolationTypeIt == interpolationTypeBySubsetId.end())
         {
-            throw ostk::core::error::RuntimeError(String::Format(
-                "No interpolation type was provided for the coordinate subset [{}].", coordinateSubsetSPtr->getName()
-            ));
+            throw ostk::core::error::RuntimeError(
+                String::Format(
+                    "No interpolation type was provided for the coordinate subset [{}].",
+                    coordinateSubsetSPtr->getName()
+                )
+            );
         }
 
         for (Size i = 0; i < coordinateSubsetSPtr->getSize(); ++i)
@@ -197,12 +205,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
     {
-        throw ostk::core::error::RuntimeError(String::Format(
-            "Provided instant [{}] is outside of interpolation range [{}, {}].",
-            anInstant.toString(),
-            firstState_.accessInstant().toString(),
-            lastState_.accessInstant().toString()
-        ));
+        throw ostk::core::error::RuntimeError(
+            String::Format(
+                "Provided instant [{}] is outside of interpolation range [{}, {}].",
+                anInstant.toString(),
+                firstState_.accessInstant().toString(),
+                lastState_.accessInstant().toString()
+            )
+        );
     }
 
     VectorXd interpolatedCoordinates(interpolators_.getSize());
@@ -295,20 +305,12 @@ Tabulated Tabulated::Default(const Array<State>& aStateArray)
 
 Map<Shared<const CoordinateSubset>, Interpolator::Type> Tabulated::DefaultInterpolationTypes()
 {
-    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
-    using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
-    using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
-    using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
-    using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
-    using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
-
     static const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultInterpolationTypes = {
         {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
         {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
         {CartesianAcceleration::Default(), Interpolator::Type::BarycentricRational},
-        {AttitudeQuaternion::Default(), Interpolator::Type::BarycentricRational},
         {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
-        {CoordinateSubset::Mass(), Interpolator::Type::BarycentricRational},
+        {CoordinateSubset::Mass(), Interpolator::Type::ZeroOrder},
         {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
         {CoordinateSubset::SurfaceArea(), Interpolator::Type::ZeroOrder},
         {CoordinateSubset::MassFlowRate(), Interpolator::Type::ZeroOrder},

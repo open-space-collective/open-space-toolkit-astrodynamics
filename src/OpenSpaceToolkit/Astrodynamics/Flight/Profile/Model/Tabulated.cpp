@@ -10,7 +10,10 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -35,7 +38,10 @@ using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 using ostk::physics::coordinate::Transform;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
@@ -129,12 +135,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     if (anInstant < interval.accessStart() || anInstant > interval.accessEnd())
     {
-        throw ostk::core::error::RuntimeError(String::Format(
-            "Provided instant [{}] is outside of interpolation range [{}, {}].",
-            anInstant.toString(),
-            interval.accessStart().toString(),
-            interval.accessEnd().toString()
-        ));
+        throw ostk::core::error::RuntimeError(
+            String::Format(
+                "Provided instant [{}] is outside of interpolation range [{}, {}].",
+                anInstant.toString(),
+                interval.accessStart().toString(),
+                interval.accessEnd().toString()
+            )
+        );
     }
 
     VectorXd reducedCoordinates(reducedStateBuilder_.getSize());
@@ -297,7 +305,15 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 Tabulated Tabulated::Default(const Array<State>& aStateArray)
 {
-    return Tabulated(aStateArray, TabulatedTrajectory::DefaultInterpolationTypes());
+    return Tabulated(
+        aStateArray,
+        {
+            {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+            {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+            {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
+            // AttitudeQuaternion is always interpolated using SLERP
+        }
+    );
 }
 
 bool Tabulated::operator==(const Model& aModel) const
@@ -357,9 +373,12 @@ void Tabulated::setMembers(
 
         if (interpolationTypeIt == interpolationTypeBySubsetId.end())
         {
-            throw ostk::core::error::RuntimeError(String::Format(
-                "No interpolation type was provided for the coordinate subset [{}].", coordinateSubsetSPtr->getName()
-            ));
+            throw ostk::core::error::RuntimeError(
+                String::Format(
+                    "No interpolation type was provided for the coordinate subset [{}].",
+                    coordinateSubsetSPtr->getName()
+                )
+            );
         }
 
         for (Size i = 0; i < coordinateSubsetSPtr->getSize(); ++i)
