@@ -42,6 +42,8 @@ using ostk::physics::time::Scale;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
@@ -159,11 +161,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpo
 {
     const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultTypes = Tabulated::DefaultInterpolationTypes();
 
-    EXPECT_EQ(defaultTypes.size(), Size(10));
+    EXPECT_EQ(defaultTypes.size(), Size(9));
 
     EXPECT_EQ(defaultTypes.at(CartesianPosition::Default()), Interpolator::Type::BarycentricRational);
     EXPECT_EQ(defaultTypes.at(CartesianVelocity::Default()), Interpolator::Type::BarycentricRational);
-    EXPECT_EQ(defaultTypes.at(CoordinateSubset::Mass()), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(defaultTypes.at(CartesianAcceleration::Default()), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(defaultTypes.at(AngularVelocity::Default()), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(defaultTypes.at(CoordinateSubset::Mass()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::DragCoefficient()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::SurfaceArea()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::MassFlowRate()), Interpolator::Type::ZeroOrder);

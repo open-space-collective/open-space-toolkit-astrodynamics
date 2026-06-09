@@ -135,14 +135,12 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     if (anInstant < interval.accessStart() || anInstant > interval.accessEnd())
     {
-        throw ostk::core::error::RuntimeError(
-            String::Format(
-                "Provided instant [{}] is outside of interpolation range [{}, {}].",
-                anInstant.toString(),
-                interval.accessStart().toString(),
-                interval.accessEnd().toString()
-            )
-        );
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Provided instant [{}] is outside of interpolation range [{}, {}].",
+            anInstant.toString(),
+            interval.accessStart().toString(),
+            interval.accessEnd().toString()
+        ));
     }
 
     VectorXd reducedCoordinates(reducedStateBuilder_.getSize());
@@ -373,12 +371,9 @@ void Tabulated::setMembers(
 
         if (interpolationTypeIt == interpolationTypeBySubsetId.end())
         {
-            throw ostk::core::error::RuntimeError(
-                String::Format(
-                    "No interpolation type was provided for the coordinate subset [{}].",
-                    coordinateSubsetSPtr->getName()
-                )
-            );
+            throw ostk::core::error::RuntimeError(String::Format(
+                "No interpolation type was provided for the coordinate subset [{}].", coordinateSubsetSPtr->getName()
+            ));
         }
 
         for (Size i = 0; i < coordinateSubsetSPtr->getSize(); ++i)
