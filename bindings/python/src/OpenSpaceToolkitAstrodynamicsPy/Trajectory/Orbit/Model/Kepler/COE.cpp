@@ -326,6 +326,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
         )
 
         .def(
+            "get_argument_of_latitude_angular_rate",
+            &COE::getArgumentOfLatitudeAngularRate,
+            R"doc(
+               Get the along-track angular rate (argument of latitude angular rate) of the COE, including J2 perturbations.
+
+               Args:
+                  gravitational_parameter (Derived): The gravitational parameter of the central body.
+                  equatorial_radius (Length): The equatorial radius of the central body.
+                  j2 (float): The second zonal harmonic coefficient of the central body.
+
+               Returns:
+                  Derived: The argument of latitude angular rate of the COE.
+            )doc",
+            arg("gravitational_parameter"),
+            arg("equatorial_radius"),
+            arg("j2")
+        )
+
+        .def(
             "get_orbital_period",
             &COE::getOrbitalPeriod,
             R"doc(
@@ -660,19 +679,137 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             "compute_radial_distance",
             &COE::ComputeRadialDistance,
             R"doc(
-                Compute the radial distance from the semi-latus rectum and the eccentricity.
+                Compute the radial distance from the semi-major axis, the eccentricity and the true anomaly.
 
                 Args:
-                    semi_latus_rectum (float): The semi-latus rectum. In meters.
+                    semi_major_axis (float): The semi-major axis. In meters.
                     eccentricity (float): The eccentricity.
-                    true_anomaly (float): The true anomly. In degrees.
+                    true_anomaly (float): The true anomaly. In radians.
 
                 Returns:
-                    Length: The radial distance.
+                    float: The radial distance. In meters.
             )doc",
-            arg("semi_latus_rectum"),
+            arg("semi_major_axis"),
             arg("eccentricity"),
             arg("true_anomaly")
+        )
+
+        .def_static(
+            "compute_periapsis_radius",
+            &COE::ComputePeriapsisRadius,
+            R"doc(
+                Compute the periapsis radius from the semi-major axis and the eccentricity.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    eccentricity (float): The eccentricity.
+
+                Returns:
+                    float: The periapsis radius. In meters.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity")
+        )
+
+        .def_static(
+            "compute_apoapsis_radius",
+            &COE::ComputeApoapsisRadius,
+            R"doc(
+                Compute the apoapsis radius from the semi-major axis and the eccentricity.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    eccentricity (float): The eccentricity.
+
+                Returns:
+                    float: The apoapsis radius. In meters.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity")
+        )
+
+        .def_static(
+            "compute_mean_motion",
+            &COE::ComputeMeanMotion,
+            R"doc(
+                Compute the mean motion from the semi-major axis.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+
+                Returns:
+                    float: The mean motion. In radians per second.
+            )doc",
+            arg("semi_major_axis"),
+            arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "compute_orbital_period",
+            &COE::ComputeOrbitalPeriod,
+            R"doc(
+                Compute the orbital period from the semi-major axis.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+
+                Returns:
+                    float: The orbital period. In seconds.
+            )doc",
+            arg("semi_major_axis"),
+            arg("gravitational_parameter")
+        )
+
+        .def_static(
+            "compute_nodal_precession_rate",
+            &COE::ComputeNodalPrecessionRate,
+            R"doc(
+                Compute the nodal precession rate from the orbital elements.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    eccentricity (float): The eccentricity.
+                    inclination (float): The inclination. In radians.
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+                    equatorial_radius (float): The equatorial radius of the central body. In meters.
+                    j2 (float): The second zonal harmonic coefficient of the central body.
+
+                Returns:
+                    float: The nodal precession rate. In radians per second.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity"),
+            arg("inclination"),
+            arg("gravitational_parameter"),
+            arg("equatorial_radius"),
+            arg("j2")
+        )
+
+        .def_static(
+            "compute_argument_of_latitude_angular_rate",
+            &COE::ComputeArgumentOfLatitudeAngularRate,
+            R"doc(
+                Compute the along-track angular rate (argument of latitude angular rate) including J2 perturbations.
+
+                Args:
+                    semi_major_axis (float): The semi-major axis. In meters.
+                    eccentricity (float): The eccentricity.
+                    inclination (float): The inclination. In radians.
+                    gravitational_parameter (Derived): The gravitational parameter of the central body.
+                    equatorial_radius (float): The equatorial radius of the central body. In meters.
+                    j2 (float): The second zonal harmonic coefficient of the central body.
+
+                Returns:
+                    float: The argument of latitude angular rate. In radians per second.
+            )doc",
+            arg("semi_major_axis"),
+            arg("eccentricity"),
+            arg("inclination"),
+            arg("gravitational_parameter"),
+            arg("equatorial_radius"),
+            arg("j2")
         )
 
         .def_static(

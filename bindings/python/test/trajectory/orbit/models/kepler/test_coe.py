@@ -105,6 +105,7 @@ class TestCOE:
         raan: Angle,
         aop: Angle,
         true_anomaly: Angle,
+        earth: Celestial,
     ):
         assert coe.get_semi_major_axis() == semi_major_axis
         assert coe.get_eccentricity() == eccentricity
@@ -116,6 +117,14 @@ class TestCOE:
         assert coe.get_mean_anomaly() is not None
         assert coe.get_eccentric_anomaly() is not None
         assert coe.get_mean_motion(Earth.EGM2008.gravitational_parameter) is not None
+        assert (
+            coe.get_argument_of_latitude_angular_rate(
+                earth.get_gravitational_parameter(),
+                earth.get_equatorial_radius(),
+                earth.get_j2(),
+            )
+            is not None
+        )
         assert coe.get_orbital_period(Earth.EGM2008.gravitational_parameter) is not None
         assert coe.get_periapsis_radius() is not None
         assert coe.get_apoapsis_radius() is not None
@@ -157,6 +166,35 @@ class TestCOE:
             is not None
         )
         assert COE.compute_radial_distance(7000.0e3, 0.0, 0.0) is not None
+        assert COE.compute_periapsis_radius(7000.0e3, 0.1) is not None
+        assert COE.compute_apoapsis_radius(7000.0e3, 0.1) is not None
+        assert (
+            COE.compute_mean_motion(7000.0e3, Earth.EGM2008.gravitational_parameter)
+            is not None
+        )
+        assert (
+            COE.compute_orbital_period(7000.0e3, Earth.EGM2008.gravitational_parameter)
+            is not None
+        )
+        assert (
+            COE.compute_nodal_precession_rate(
+                7000.0e3,
+                0.1,
+                Angle.degrees(56.0).in_radians(),
+                Earth.EGM2008.gravitational_parameter,
+                6.378137e6,
+                1.08262668e-3,
+            )
+            is not None
+        )
+        assert COE.compute_argument_of_latitude_angular_rate(
+            (590.0 + 6378.137) * 1e3,
+            0.001,
+            Angle.degrees(97.0).in_radians(),
+            earth.get_gravitational_parameter(),
+            float(earth.get_equatorial_radius().in_meters()),
+            float(earth.get_j2()),
+        ) == pytest.approx(0.0010840210523878169, rel=1e-6)
 
         assert COE.compute_ltan(Angle.degrees(270.0), Instant.J2000()) is not None
         assert (
