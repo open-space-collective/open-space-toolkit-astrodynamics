@@ -77,7 +77,7 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
         throw ostk::core::error::runtime::Undefined("Velocity");
     }
 
-    if (aPosition.accessFrame() != aVelocity.accessFrame())
+    if ((*aPosition.accessFrame()) != (*aVelocity.accessFrame()))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity Frames");
     }
@@ -131,7 +131,8 @@ State::State(
         throw ostk::core::error::runtime::Undefined("Angular Velocity");
     }
 
-    if ((aPosition.accessFrame() != aVelocity.accessFrame()) || (aPosition.accessFrame() != anAttitudeReferenceFrame))
+    if (((*aPosition.accessFrame()) != (*aVelocity.accessFrame())) ||
+        ((*aPosition.accessFrame()) != (*anAttitudeReferenceFrame)))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity-Attitude Frames");
     }
@@ -186,7 +187,7 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    if (this->frameSPtr_ != aState.frameSPtr_)
+    if ((*this->frameSPtr_) != (*aState.frameSPtr_))
     {
         return false;
     }
@@ -229,12 +230,12 @@ State State::operator+(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Instant");
     }
 
-    if (this->frameSPtr_ != aState.frameSPtr_)
+    if ((*this->frameSPtr_) != (*aState.frameSPtr_))
     {
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    if (this->coordinatesBrokerSPtr_ != aState.coordinatesBrokerSPtr_)
+    if (*this->coordinatesBrokerSPtr_ != *aState.coordinatesBrokerSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Coordinate Subsets");
     }
@@ -274,7 +275,7 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Instant");
     }
 
-    if (this->frameSPtr_ != aState.frameSPtr_)
+    if ((*this->frameSPtr_) != (*aState.frameSPtr_))
     {
         throw ostk::core::error::runtime::Wrong("Frame");
     }

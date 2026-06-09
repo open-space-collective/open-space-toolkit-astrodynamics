@@ -43,7 +43,7 @@ bool StateBuilder::operator==(const StateBuilder& aStateBuilder) const
         return false;
     }
 
-    if (this->frameSPtr_ != aStateBuilder.frameSPtr_)
+    if ((*this->frameSPtr_) != (*aStateBuilder.frameSPtr_))
     {
         return false;
     }

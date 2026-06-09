@@ -213,7 +213,7 @@ bool SGP4::operator==(const SGP4& aSGP4Model) const
     }
 
     return (this->tleArray_ == aSGP4Model.tleArray_) && (this->validityIntervals_ == aSGP4Model.validityIntervals_) &&
-           (this->outputFrameSPtr_ == aSGP4Model.outputFrameSPtr_);
+           ((*this->outputFrameSPtr_) == (*aSGP4Model.outputFrameSPtr_));
 }
 
 bool SGP4::operator!=(const SGP4& aSGP4Model) const

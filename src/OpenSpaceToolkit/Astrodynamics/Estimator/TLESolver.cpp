@@ -95,7 +95,7 @@ TLESolver::TLESolver(
       elementSetNumber_(0),
       tleStateBuilder_(StateBuilder::Undefined())
 {
-    if (anEstimationFrameSPtr != Frame::TEME())
+    if ((*anEstimationFrameSPtr) != (*Frame::TEME()))
     {
         std::cerr
             << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. Solving is done natively in TEME."

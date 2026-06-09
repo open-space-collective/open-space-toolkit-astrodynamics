@@ -245,7 +245,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     const Array<Shared<const CoordinateSubset>> observationStateSubsets =
         observationStateBuilder.getCoordinateSubsets();
 
-    if (estimationStateFrame != observationStateBuilder.getFrame())
+    if ((*estimationStateFrame) != (*observationStateBuilder.getFrame()))
     {
         throw ostk::core::error::RuntimeError("Initial guess state and observation state must have the same frame.");
     }
@@ -256,7 +256,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         {
             throw ostk::core::error::RuntimeError("All observations must have the same coordinate subsets.");
         }
-        if (observation.getFrame() != observationStateBuilder.getFrame())
+        if ((*observation.getFrame()) != (*observationStateBuilder.getFrame()))
         {
             throw ostk::core::error::RuntimeError("All observations must have the same frame.");
         }
