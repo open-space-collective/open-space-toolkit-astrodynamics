@@ -10,7 +10,10 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -35,7 +38,10 @@ using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 using ostk::physics::coordinate::Transform;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
@@ -44,6 +50,18 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
       reducedStateBuilder_(StateBuilder::Undefined())
 {
     setMembers(aStateArray);
+}
+
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+)
+    : Model(),
+      interpolatorType_(Interpolator::Type::BarycentricRational),
+      stateBuilder_(StateBuilder::Undefined()),
+      reducedStateBuilder_(StateBuilder::Undefined())
+{
+    setMembers(aStateArray, anInterpolationTypeMap);
 }
 
 Tabulated* Tabulated::clone() const
@@ -283,6 +301,19 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+Tabulated Tabulated::Default(const Array<State>& aStateArray)
+{
+    return Tabulated(
+        aStateArray,
+        {
+            {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+            {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+            {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
+            // AttitudeQuaternion is always interpolated using SLERP
+        }
+    );
+}
+
 bool Tabulated::operator==(const Model& aModel) const
 {
     const Tabulated* tabulatedModelPtr = dynamic_cast<const Tabulated*>(&aModel);
@@ -297,6 +328,80 @@ bool Tabulated::operator!=(const Model& aModel) const
 
 void Tabulated::setMembers(const Array<State>& aStateArray)
 {
+    VectorXd timestamps;
+    MatrixXd coordinates;
+
+    this->computeReducedInterpolationData(aStateArray, timestamps, coordinates);
+
+    interpolators_.reserve(coordinates.cols());
+
+    for (Index i = 0; i < Size(coordinates.cols()); ++i)
+    {
+        interpolators_.add(Interpolator::GenerateInterpolator(interpolatorType_, timestamps, coordinates.col(i)));
+    }
+}
+
+void Tabulated::setMembers(
+    const Array<State>& aStateArray,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+)
+{
+    VectorXd timestamps;
+    MatrixXd coordinates;
+
+    this->computeReducedInterpolationData(aStateArray, timestamps, coordinates);
+
+    // Index the requested interpolation types by coordinate subset id. Entries for coordinate subsets that are not
+    // present in the (reduced) states are ignored.
+    Map<String, Interpolator::Type> interpolationTypeBySubsetId;
+
+    for (const auto& [coordinateSubsetSPtr, interpolationType] : anInterpolationTypeMap)
+    {
+        interpolationTypeBySubsetId[coordinateSubsetSPtr->getId()] = interpolationType;
+    }
+
+    // Resolve the interpolation type for each reduced coordinate. The attitude quaternion is excluded from the
+    // reduced state and is always interpolated using SLERP, so any entry for it in the map is ignored.
+    Array<Interpolator::Type> interpolationTypePerCoordinate = Array<Interpolator::Type>::Empty();
+    interpolationTypePerCoordinate.reserve(coordinates.cols());
+
+    for (const auto& coordinateSubsetSPtr : reducedStateBuilder_.getCoordinateSubsets())
+    {
+        const auto interpolationTypeIt = interpolationTypeBySubsetId.find(coordinateSubsetSPtr->getId());
+
+        if (interpolationTypeIt == interpolationTypeBySubsetId.end())
+        {
+            throw ostk::core::error::RuntimeError(String::Format(
+                "No interpolation type was provided for the coordinate subset [{}].", coordinateSubsetSPtr->getName()
+            ));
+        }
+
+        for (Size i = 0; i < coordinateSubsetSPtr->getSize(); ++i)
+        {
+            interpolationTypePerCoordinate.add(interpolationTypeIt->second);
+        }
+    }
+
+    // Report the interpolator type of the first reduced coordinate via getInterpolatorType().
+    if (!interpolationTypePerCoordinate.isEmpty())
+    {
+        interpolatorType_ = interpolationTypePerCoordinate.accessFirst();
+    }
+
+    interpolators_.reserve(coordinates.cols());
+
+    for (Index i = 0; i < Size(coordinates.cols()); ++i)
+    {
+        interpolators_.add(
+            Interpolator::GenerateInterpolator(interpolationTypePerCoordinate[i], timestamps, coordinates.col(i))
+        );
+    }
+}
+
+void Tabulated::computeReducedInterpolationData(
+    const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aReducedCoordinateMatrix
+)
+{
     if (aStateArray.getSize() < 2)
     {
         throw ostk::core::error::RuntimeError("State array must have at least length 2.");
@@ -305,9 +410,9 @@ void Tabulated::setMembers(const Array<State>& aStateArray)
     const State& firstState = aStateArray.accessFirst();
     stateBuilder_ = StateBuilder(firstState);
 
-    Array<Shared<const CoordinateSubset>> reucedCoordinateSubsets = firstState.getCoordinateSubsets();
-    reucedCoordinateSubsets.remove(AttitudeQuaternion::Default());
-    reducedStateBuilder_ = StateBuilder(firstState.accessFrame(), reucedCoordinateSubsets);
+    Array<Shared<const CoordinateSubset>> reducedCoordinateSubsets = firstState.getCoordinateSubsets();
+    reducedCoordinateSubsets.remove(AttitudeQuaternion::Default());
+    reducedStateBuilder_ = StateBuilder(firstState.accessFrame(), reducedCoordinateSubsets);
 
     // Ensure the states are sorted by instant
     stateArray_ = aStateArray;
@@ -321,21 +426,14 @@ void Tabulated::setMembers(const Array<State>& aStateArray)
         }
     );
 
-    VectorXd timestamps(stateArray_.getSize());
-    MatrixXd coordinates(stateArray_.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
+    aTimestampVector.resize(stateArray_.getSize());
+    aReducedCoordinateMatrix.resize(stateArray_.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
 
     for (Index i = 0; i < stateArray_.getSize(); ++i)
     {
-        timestamps(i) = (stateArray_[i].accessInstant() - firstState.accessInstant()).inSeconds();
+        aTimestampVector(i) = (stateArray_[i].accessInstant() - firstState.accessInstant()).inSeconds();
 
-        coordinates.row(i) = reducedStateBuilder_.reduce(stateArray_[i]).accessCoordinates();
-    }
-
-    interpolators_.reserve(coordinates.cols());
-
-    for (Index i = 0; i < Size(coordinates.cols()); ++i)
-    {
-        interpolators_.add(Interpolator::GenerateInterpolator(interpolatorType_, timestamps, coordinates.col(i)));
+        aReducedCoordinateMatrix.row(i) = reducedStateBuilder_.reduce(stateArray_[i]).accessCoordinates();
     }
 }
 

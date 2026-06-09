@@ -4,11 +4,13 @@
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Model_Tabulated__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
@@ -16,6 +18,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
@@ -30,12 +33,15 @@ namespace model
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::filesystem::File;
 using ostk::core::type::Index;
 using ostk::core::type::String;
 
 using ostk::mathematics::curvefitting::Interpolator;
+using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
@@ -43,8 +49,8 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::flight::profile::Model;
-using TabulatedTrajectory = ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 /// @brief Tabulated profile model.
@@ -67,6 +73,26 @@ class Tabulated : public virtual Model
     Tabulated(
         const Array<State>& aStateArray,
         const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
+    );
+
+    /// @brief Constructor with per-coordinate-subset interpolation types.
+    ///
+    /// @details Each coordinate subset is interpolated using the interpolation type associated with it, except the
+    /// attitude quaternion, which is always interpolated using spherical linear interpolation (SLERP).
+    ///
+    /// @code{.cpp}
+    ///     flight::profile::model::Tabulated tabulated = { aStateArray, interpolationTypes } ;
+    /// @endcode
+    ///
+    /// @param aStateArray An array of states
+    /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
+    /// subset's coordinates. Every coordinate subset present in the states (other than the attitude quaternion) must
+    /// have an entry in the map (an error is raised otherwise). Entries for coordinate subsets that are not present in
+    /// the states are ignored; in particular, any entry for the attitude quaternion subset is ignored as attitude is
+    /// always interpolated using SLERP.
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
     );
 
     /// @brief Clone the tabulated model
@@ -143,6 +169,20 @@ class Tabulated : public virtual Model
     /// @return Tabulated model
     static Tabulated Load(const File& aFile);
 
+    /// @brief Construct a tabulated profile model using the default per-coordinate-subset interpolation types.
+    ///
+    /// @details Each coordinate subset present in the states (other than the attitude quaternion, which is always
+    /// interpolated using SLERP) is interpolated using the type given by
+    /// trajectory::model::Tabulated::DefaultInterpolationTypes().
+    ///
+    /// @code{.cpp}
+    ///     flight::profile::model::Tabulated tabulated = flight::profile::model::Tabulated::Default(aStateArray) ;
+    /// @endcode
+    ///
+    /// @param aStateArray An array of states
+    /// @return A tabulated profile model using the default interpolation types.
+    static Tabulated Default(const Array<State>& aStateArray);
+
    protected:
     /// @brief Equal to operator for the base model
     ///
@@ -165,6 +205,17 @@ class Tabulated : public virtual Model
     StateBuilder reducedStateBuilder_;
 
     void setMembers(const Array<State>& aStateArray);
+
+    void setMembers(
+        const Array<State>& aStateArray,
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+    );
+
+    /// @brief Sort the provided states, build the (reduced) state builders, and compute the interpolation timestamps
+    /// and reduced coordinate matrix (excluding the attitude quaternion) shared by all constructors.
+    void computeReducedInterpolationData(
+        const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aReducedCoordinateMatrix
+    );
 };
 
 }  // namespace model

@@ -27,6 +27,17 @@ Tabulated::Tabulated(
 {
 }
 
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Integer& anInitialRevolutionNumber,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+)
+    : trajectory::orbit::Model(),
+      trajectory::model::Tabulated(aStateArray, anInterpolationTypeMap),
+      initialRevolutionNumber_(anInitialRevolutionNumber)
+{
+}
+
 Tabulated* Tabulated::clone() const
 {
     return new Tabulated(*this);
@@ -81,6 +92,11 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     trajectory::model::Tabulated::print(anOutputStream, displayDecorator);
+}
+
+Tabulated Tabulated::Default(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
+{
+    return Tabulated(aStateArray, anInitialRevolutionNumber, trajectory::model::Tabulated::DefaultInterpolationTypes());
 }
 
 bool Tabulated::operator==(const trajectory::Model& aModel) const

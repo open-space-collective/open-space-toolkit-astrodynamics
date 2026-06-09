@@ -5,6 +5,10 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -15,36 +19,21 @@ namespace trajectory
 namespace model
 {
 
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceleration;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
     : Model()
 {
-    if (aStateArray.getSize() < 2)
+    VectorXd timestamps;
+    MatrixXd coordinates;
+
+    if (!this->computeInterpolationData(aStateArray, timestamps, coordinates))
     {
         return;
-    }
-
-    Array<State> stateArray = aStateArray;
-
-    std::sort(
-        stateArray.begin(),
-        stateArray.end(),
-        [](const auto& lhs, const auto& rhs)
-        {
-            return lhs.getInstant() < rhs.getInstant();
-        }
-    );
-
-    firstState_ = aStateArray.accessFirst();
-    lastState_ = aStateArray.accessLast();
-
-    VectorXd timestamps(stateArray.getSize());
-    MatrixXd coordinates(stateArray.getSize(), firstState_.getSize());
-
-    for (Index i = 0; i < stateArray.getSize(); ++i)
-    {
-        timestamps(i) = (stateArray[i].accessInstant() - firstState_.accessInstant()).inSeconds();
-
-        coordinates.row(i) = stateArray[i].accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -52,6 +41,67 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
         interpolators_.add(Interpolator::GenerateInterpolator(anInterpolationType, timestamps, coordinates.col(i)));
+    }
+}
+
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+)
+    : Model()
+{
+    using ostk::core::type::String;
+
+    using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+
+    VectorXd timestamps;
+    MatrixXd coordinates;
+
+    if (!this->computeInterpolationData(aStateArray, timestamps, coordinates))
+    {
+        return;
+    }
+
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
+
+    // Index the requested interpolation types by coordinate subset id. Entries for coordinate subsets that are not
+    // present in the states are ignored.
+    Map<String, Interpolator::Type> interpolationTypeBySubsetId;
+
+    for (const auto& [coordinateSubsetSPtr, interpolationType] : anInterpolationTypeMap)
+    {
+        interpolationTypeBySubsetId[coordinateSubsetSPtr->getId()] = interpolationType;
+    }
+
+    // Resolve the interpolation type for every coordinate, requiring each coordinate subset present in the states to
+    // be specified in the provided map.
+    Array<Interpolator::Type> interpolationTypePerCoordinate = Array<Interpolator::Type>::Empty();
+    interpolationTypePerCoordinate.reserve(coordinates.cols());
+
+    for (const auto& coordinateSubsetSPtr : coordinatesBroker->accessSubsets())
+    {
+        const auto interpolationTypeIt = interpolationTypeBySubsetId.find(coordinateSubsetSPtr->getId());
+
+        if (interpolationTypeIt == interpolationTypeBySubsetId.end())
+        {
+            throw ostk::core::error::RuntimeError(String::Format(
+                "No interpolation type was provided for the coordinate subset [{}].", coordinateSubsetSPtr->getName()
+            ));
+        }
+
+        for (Size i = 0; i < coordinateSubsetSPtr->getSize(); ++i)
+        {
+            interpolationTypePerCoordinate.add(interpolationTypeIt->second);
+        }
+    }
+
+    interpolators_.reserve(coordinates.cols());
+
+    for (Index i = 0; i < Size(coordinates.cols()); ++i)
+    {
+        interpolators_.add(
+            Interpolator::GenerateInterpolator(interpolationTypePerCoordinate[i], timestamps, coordinates.col(i))
+        );
     }
 }
 
@@ -67,8 +117,22 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         return false;
     }
 
-    return this->getInterpolationType() == aTabulatedModel.getInterpolationType() &&
-           firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState();
+    if (interpolators_.getSize() != aTabulatedModel.interpolators_.getSize())
+    {
+        return false;
+    }
+
+    // Compare the interpolation type of each coordinate, so that models with per-coordinate-subset interpolation
+    // types are correctly distinguished.
+    for (Index i = 0; i < interpolators_.getSize(); ++i)
+    {
+        if (interpolators_[i]->getInterpolationType() != aTabulatedModel.interpolators_[i]->getInterpolationType())
+        {
+            return false;
+        }
+    }
+
+    return firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState();
 }
 
 bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
@@ -229,6 +293,28 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+Tabulated Tabulated::Default(const Array<State>& aStateArray)
+{
+    return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes());
+}
+
+Map<Shared<const CoordinateSubset>, Interpolator::Type> Tabulated::DefaultInterpolationTypes()
+{
+    static const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultInterpolationTypes = {
+        {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+        {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+        {CartesianAcceleration::Default(), Interpolator::Type::BarycentricRational},
+        {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
+        {CoordinateSubset::Mass(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::SurfaceArea(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::MassFlowRate(), Interpolator::Type::ZeroOrder},
+        {CoordinateSubset::BallisticCoefficient(), Interpolator::Type::ZeroOrder},
+    };
+
+    return defaultInterpolationTypes;
+}
+
 bool Tabulated::operator==(const Model& aModel) const
 {
     const Tabulated* tabulatedModelPtr = dynamic_cast<const Tabulated*>(&aModel);
@@ -239,6 +325,42 @@ bool Tabulated::operator==(const Model& aModel) const
 bool Tabulated::operator!=(const Model& aModel) const
 {
     return !((*this) == aModel);
+}
+
+bool Tabulated::computeInterpolationData(
+    const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aCoordinateMatrix
+)
+{
+    if (aStateArray.getSize() < 2)
+    {
+        return false;
+    }
+
+    Array<State> stateArray = aStateArray;
+
+    std::sort(
+        stateArray.begin(),
+        stateArray.end(),
+        [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.getInstant() < rhs.getInstant();
+        }
+    );
+
+    firstState_ = stateArray.accessFirst();
+    lastState_ = stateArray.accessLast();
+
+    aTimestampVector.resize(stateArray.getSize());
+    aCoordinateMatrix.resize(stateArray.getSize(), firstState_.getSize());
+
+    for (Index i = 0; i < stateArray.getSize(); ++i)
+    {
+        aTimestampVector(i) = (stateArray[i].accessInstant() - firstState_.accessInstant()).inSeconds();
+
+        aCoordinateMatrix.row(i) = stateArray[i].accessCoordinates();
+    }
+
+    return true;
 }
 
 }  // namespace model

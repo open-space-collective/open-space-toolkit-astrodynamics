@@ -18,6 +18,9 @@ from ostk.physics import Environment
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.model import Tabulated
+from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 
 
 @pytest.fixture
@@ -264,6 +267,70 @@ class TestTabulated:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
+
+    def test_constructor_with_interpolation_types(
+        self,
+        test_states: list[State],
+        earth,
+    ):
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                CartesianVelocity.default(): Interpolator.Type.Linear,
+            },
+        )
+
+        assert tabulated is not None
+        assert tabulated.is_defined()
+
+        orbit: Orbit = Orbit(tabulated, earth)
+
+        assert isinstance(orbit, Orbit)
+
+    def test_constructor_with_interpolation_types_ignores_unknown_subsets(
+        self,
+        test_states: list[State],
+    ):
+        # Coordinate subsets in the map that are not present in the states are ignored (no error).
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                CartesianVelocity.default(): Interpolator.Type.Linear,
+                CoordinateSubset.mass(): Interpolator.Type.Linear,
+            },
+        )
+
+        assert tabulated.is_defined()
+
+    def test_constructor_with_interpolation_types_failure(
+        self,
+        test_states: list[State],
+    ):
+        # A coordinate subset present in the states but missing from the map must raise.
+        with pytest.raises(Exception):
+            Tabulated(
+                states=test_states,
+                initial_revolution_number=1,
+                interpolation_types={
+                    CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                },
+            )
+
+    def test_default(
+        self,
+        test_states: list[State],
+        earth,
+    ):
+        # The initial revolution number defaults to 1.
+        tabulated = Tabulated.default(test_states)
+
+        assert tabulated.is_defined()
+        assert tabulated.get_interpolation_type() == Interpolator.Type.BarycentricRational
+        assert isinstance(Orbit(tabulated, earth), Orbit)
 
     def test_get_interpolation_type(self, test_states: list[State]):
         tabulated = Tabulated(

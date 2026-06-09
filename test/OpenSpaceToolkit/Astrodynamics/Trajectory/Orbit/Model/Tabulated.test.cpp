@@ -1,7 +1,9 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -9,12 +11,15 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::Table;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
@@ -22,6 +27,7 @@ using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
@@ -37,10 +43,12 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
-using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::Model;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public ::testing::Test
 {
@@ -105,11 +113,55 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Constructor)
 {
-    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+    {
+        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
 
-    Environment environment = Environment::Default();
+        EXPECT_TRUE(tabulated.isDefined());
+    }
 
-    const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        const Tabulated tabulated(states_, 0, interpolationTypes);
+
+        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
+    }
+
+    // Coordinate subsets in the map that are not present in the states are ignored (no error).
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> unknownSubsetInStates = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+            {CoordinateSubset::Mass(), Interpolator::Type::Linear},
+        };
+
+        EXPECT_NO_THROW({ const Tabulated tabulated(states_, 0, unknownSubsetInStates); });
+    }
+
+    // Omitting the interpolation type for a coordinate subset present in the states must raise.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> missingTypeForSubset = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+        };
+
+        EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingTypeForSubset); }, ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
+{
+    const Tabulated tabulated = Tabulated::Default(states_, 0);
+
+    EXPECT_TRUE(tabulated.isDefined());
+    EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
+    EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
+
+    // The initial revolution number defaults to 1.
+    EXPECT_TRUE(Tabulated::Default(states_).getRevolutionNumberAtEpoch() == 1);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInterval)

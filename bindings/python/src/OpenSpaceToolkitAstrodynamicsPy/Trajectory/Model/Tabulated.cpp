@@ -7,12 +7,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
     using namespace pybind11;
 
     using ostk::core::container::Array;
+    using ostk::core::container::Map;
+    using ostk::core::type::Shared;
 
     using ostk::mathematics::curvefitting::Interpolator;
 
     using ostk::astrodynamics::trajectory::Model;
     using ostk::astrodynamics::trajectory::model::Tabulated;
     using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     class_<Tabulated, Model>(
         aModule,
@@ -34,6 +37,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
              )doc",
             arg("states"),
             arg_v("interpolation_type", Interpolator::Type::Linear, "Interpolator.Type.Linear")
+        )
+
+        .def(
+            init<const Array<State>&, const Map<Shared<const CoordinateSubset>, Interpolator::Type>&>(),
+            R"doc(
+                Constructor with per-coordinate-subset interpolation types.
+
+                Each coordinate is interpolated using the interpolation type associated with the coordinate subset
+                it belongs to.
+
+                Args:
+                    states (Array[State]): The states of the model.
+                    interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
+             )doc",
+            arg("states"),
+            arg("interpolation_types")
         )
 
         .def(
@@ -141,6 +160,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                     list[State]: The states of the model at the specified instants.
              )doc",
             arg("instants")
+        )
+
+        .def_static(
+            "default",
+            &Tabulated::Default,
+            R"doc(
+                Construct a tabulated model using the default per-coordinate-subset interpolation types.
+
+                Each coordinate subset present in the states is interpolated using its default interpolation type
+                (barycentric rational for position, velocity, acceleration, attitude, angular velocity and mass;
+                zero-order for drag coefficient, surface area, mass flow rate and ballistic coefficient).
+
+                Args:
+                    states (Array[State]): The states of the model.
+
+                Returns:
+                    Tabulated: A tabulated model using the default interpolation types.
+             )doc",
+            arg("states")
         )
 
         ;

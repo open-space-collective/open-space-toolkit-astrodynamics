@@ -1,11 +1,19 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::String;
 using ostk::core::type::Shared;
 
@@ -26,6 +34,11 @@ using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::flight::profile::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated : public ::testing::Test
 {
@@ -84,6 +97,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
     {
         EXPECT_NO_THROW(Tabulated tabulated(states_););
     }
+
+    {
+        // The attitude quaternion entry is ignored (attitude is always interpolated using SLERP); all other reduced
+        // coordinate subsets use the type given for them.
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+            {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+            {AngularVelocity::Default(), Interpolator::Type::BarycentricRational},
+            {AttitudeQuaternion::Default(), Interpolator::Type::Linear},
+        };
+
+        const Tabulated tabulatedFromMap = Tabulated(states_, interpolationTypes);
+        const Tabulated tabulatedFromType = Tabulated(states_, Interpolator::Type::BarycentricRational);
+
+        EXPECT_TRUE(tabulatedFromMap.isDefined());
+
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
+
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            tabulatedFromMap.calculateStateAt(instant).getCoordinates(),
+            tabulatedFromType.calculateStateAt(instant).getCoordinates(),
+            1e-12
+        );
+    }
+
+    // The (reduced) states contain AngularVelocity but no interpolation type is provided for it.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::BarycentricRational},
+            {CartesianVelocity::Default(), Interpolator::Type::BarycentricRational},
+        };
+
+        EXPECT_THROW(Tabulated(states_, interpolationTypes), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Default)
+{
+    const Tabulated tabulated = Tabulated::Default(states_);
+
+    EXPECT_TRUE(tabulated.isDefined());
+    EXPECT_EQ(tabulated.getInterpolatorType(), Interpolator::Type::BarycentricRational);
+
+    EXPECT_NO_THROW(tabulated.calculateStateAt(Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC)));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, EqualToOperator)
