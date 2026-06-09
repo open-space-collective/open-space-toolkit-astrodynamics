@@ -217,7 +217,7 @@ Length COE::getPeriapsisRadius() const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return this->semiMajorAxis_ * (1.0 - this->eccentricity_);
+    return Length::Meters(COE::ComputePeriapsisRadius(semiMajorAxis_.inMeters(), eccentricity_));
 }
 
 Length COE::getApoapsisRadius() const
@@ -227,7 +227,7 @@ Length COE::getApoapsisRadius() const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return this->semiMajorAxis_ * (1.0 + this->eccentricity_);
+    return Length::Meters(COE::ComputeApoapsisRadius(semiMajorAxis_.inMeters(), eccentricity_));
 }
 
 Length COE::getSemiLatusRectum() const
@@ -281,28 +281,46 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    const Real semiMajorAxis_m = semiMajorAxis_.inMeters();
-
-    const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
-
-    return Derived(
-        std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
-        angularVelocitySIUnit
-    );
+    return Derived(COE::ComputeMeanMotion(semiMajorAxis_.inMeters(), aGravitationalParameter), angularVelocitySIUnit);
 }
 
 Derived COE::getNodalPrecessionRate(
     const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
 ) const
 {
-    const Real omega = this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit);
+    return Derived(
+        COE::ComputeNodalPrecessionRate(
+            this->semiMajorAxis_.inMeters(),
+            this->eccentricity_,
+            this->inclination_.inRadians(),
+            aGravitationalParameter,
+            anEquatorialRadius.inMeters(),
+            aJ2Parameter
+        ),
+        angularVelocitySIUnit
+    );
+}
 
-    const Real omega_p =
-        -(3.0 / 2.0) * std::pow(anEquatorialRadius.inMeters(), 2.0) * aJ2Parameter * omega *
-        std::cos(this->inclination_.inRadians()) /
-        std::pow(this->semiMajorAxis_.inMeters() * (1.0 - (this->eccentricity_ * this->eccentricity_)), 2.0);
+Derived COE::getArgumentOfLatitudeAngularRate(
+    const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
 
-    return Derived(omega_p, angularVelocitySIUnit);
+    return Derived(
+        COE::ComputeArgumentOfLatitudeAngularRate(
+            this->semiMajorAxis_.inMeters(),
+            this->eccentricity_,
+            this->inclination_.inRadians(),
+            aGravitationalParameter,
+            anEquatorialRadius.inMeters(),
+            aJ2Parameter
+        ),
+        angularVelocitySIUnit
+    );
 }
 
 Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
@@ -317,7 +335,7 @@ Duration COE::getOrbitalPeriod(const Derived& aGravitationalParameter) const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return Duration::Seconds(Real::TwoPi() / this->getMeanMotion(aGravitationalParameter).in(angularVelocitySIUnit));
+    return Duration::Seconds(COE::ComputeOrbitalPeriod(semiMajorAxis_.inMeters(), aGravitationalParameter));
 }
 
 COE::CartesianState COE::getCartesianState(
@@ -1052,6 +1070,70 @@ Real COE::ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aG
     const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     return std::sqrt(mu_SI * aSemiLatusRectum);
+}
+
+Real COE::ComputePeriapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity)
+{
+    return aSemiMajorAxis * (1.0 - anEccentricity);
+}
+
+Real COE::ComputeApoapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity)
+{
+    return aSemiMajorAxis * (1.0 + anEccentricity);
+}
+
+Real COE::ComputeMeanMotion(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter)
+{
+    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+
+    return std::sqrt(mu_SI / (aSemiMajorAxis * aSemiMajorAxis * aSemiMajorAxis));
+}
+
+Real COE::ComputeOrbitalPeriod(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter)
+{
+    return Real::TwoPi() / COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
+}
+
+Real COE::ComputeNodalPrecessionRate(
+    const Real& aSemiMajorAxis,
+    const Real& anEccentricity,
+    const Real& anInclination,
+    const Derived& aGravitationalParameter,
+    const Real& anEquatorialRadius,
+    const Real& aJ2Parameter
+)
+{
+    const Real meanMotion = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
+
+    return -(3.0 / 2.0) * std::pow(anEquatorialRadius, 2.0) * aJ2Parameter * meanMotion * std::cos(anInclination) /
+           std::pow(aSemiMajorAxis * (1.0 - (anEccentricity * anEccentricity)), 2.0);
+}
+
+Real COE::ComputeArgumentOfLatitudeAngularRate(
+    const Real& aSemiMajorAxis,
+    const Real& anEccentricity,
+    const Real& anInclination,
+    const Derived& aGravitationalParameter,
+    const Real& anEquatorialRadius,
+    const Real& aJ2Parameter
+)
+{
+    const Real meanMotion = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
+    const Real semiLatusRectum = COE::ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity);
+
+    const Real commonFactor =
+        (3.0 / 4.0) * meanMotion * aJ2Parameter * std::pow(anEquatorialRadius / semiLatusRectum, 2.0);
+
+    const Real sinInclinationSquared = std::pow(std::sin(anInclination), 2.0);
+
+    // Secular rate of change of the argument of periapsis
+    const Real aopRate = commonFactor * (4.0 - 5.0 * sinInclinationSquared);
+
+    // Secular rate of change of the mean anomaly
+    const Real meanAnomalyRate =
+        -commonFactor * std::sqrt(1.0 - (anEccentricity * anEccentricity)) * (3.0 * sinInclinationSquared - 2.0);
+
+    return meanMotion + meanAnomalyRate + aopRate;
 }
 
 Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)

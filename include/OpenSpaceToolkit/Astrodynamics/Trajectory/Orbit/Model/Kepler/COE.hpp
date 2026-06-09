@@ -221,6 +221,16 @@ class COE
         const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
     ) const;
 
+    /// @brief Get the along-track angular rate (argument of latitude angular rate) including J2 perturbations
+    ///
+    /// @param aGravitationalParameter A gravitational parameter
+    /// @param anEquatorialRadius An equatorial radius
+    /// @param aJ2Parameter A J2 parameter
+    /// @return Argument of latitude angular rate
+    Derived getArgumentOfLatitudeAngularRate(
+        const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+    ) const;
+
     /// @brief Get Orbital period
     ///
     /// @param aGravitationalParameter A gravitational parameter
@@ -441,6 +451,72 @@ class COE
     /// @param trueAnomaly True anomaly in radians.
     /// @return Radial distance in meters.
     static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);
+
+    /// @brief Compute the periapsis radius of the orbit.
+    ///
+    /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param anEccentricity Eccentricity of the orbit.
+    /// @return Periapsis radius in meters.
+    static Real ComputePeriapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity);
+
+    /// @brief Compute the apoapsis radius of the orbit.
+    ///
+    /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param anEccentricity Eccentricity of the orbit.
+    /// @return Apoapsis radius in meters.
+    static Real ComputeApoapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity);
+
+    /// @brief Compute the mean motion of the orbit.
+    ///
+    /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param aGravitationalParameter Gravitational parameter.
+    /// @return Mean motion in radians per second.
+    static Real ComputeMeanMotion(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter);
+
+    /// @brief Compute the orbital period of the orbit.
+    ///
+    /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param aGravitationalParameter Gravitational parameter.
+    /// @return Orbital period in seconds.
+    static Real ComputeOrbitalPeriod(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter);
+
+    /// @brief Compute the nodal precession rate of the orbit.
+    ///
+    /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param anEccentricity Eccentricity of the orbit.
+    /// @param anInclination Inclination of the orbit in radians.
+    /// @param aGravitationalParameter Gravitational parameter.
+    /// @param anEquatorialRadius Equatorial radius of the central body in meters.
+    /// @param aJ2Parameter Second zonal harmonic coefficient.
+    /// @return Nodal precession rate in radians per second.
+    static Real ComputeNodalPrecessionRate(
+        const Real& aSemiMajorAxis,
+        const Real& anEccentricity,
+        const Real& anInclination,
+        const Derived& aGravitationalParameter,
+        const Real& anEquatorialRadius,
+        const Real& aJ2Parameter
+    );
+
+    /// @brief Compute the along-track angular rate (argument of latitude angular rate) including J2 perturbations.
+    ///
+    /// Sums the unperturbed mean motion with the secular J2 rates of the mean anomaly and the argument of periapsis.
+    ///
+    /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
+    /// @param anEccentricity Eccentricity of the orbit.
+    /// @param anInclination Inclination of the orbit in radians.
+    /// @param aGravitationalParameter Gravitational parameter.
+    /// @param anEquatorialRadius Equatorial radius of the central body in meters.
+    /// @param aJ2Parameter Second zonal harmonic coefficient.
+    /// @return Argument of latitude angular rate in radians per second.
+    static Real ComputeArgumentOfLatitudeAngularRate(
+        const Real& aSemiMajorAxis,
+        const Real& anEccentricity,
+        const Real& anInclination,
+        const Derived& aGravitationalParameter,
+        const Real& anEquatorialRadius,
+        const Real& aJ2Parameter
+    );
 
     /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant
     ///

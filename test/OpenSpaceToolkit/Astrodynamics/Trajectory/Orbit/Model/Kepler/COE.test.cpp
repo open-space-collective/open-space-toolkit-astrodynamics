@@ -635,6 +635,178 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCart
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputePeriapsisRadius)
+{
+    {
+        EXPECT_DOUBLE_EQ(
+            defaultSemiMajorAxis_.inMeters() * (1.0 - defaultEccentricity_),
+            COE::ComputePeriapsisRadius(defaultSemiMajorAxis_.inMeters(), defaultEccentricity_)
+        );
+    }
+
+    {
+        EXPECT_DOUBLE_EQ(
+            coe_.getPeriapsisRadius().inMeters(),
+            COE::ComputePeriapsisRadius(defaultSemiMajorAxis_.inMeters(), defaultEccentricity_)
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeApoapsisRadius)
+{
+    {
+        EXPECT_DOUBLE_EQ(
+            defaultSemiMajorAxis_.inMeters() * (1.0 + defaultEccentricity_),
+            COE::ComputeApoapsisRadius(defaultSemiMajorAxis_.inMeters(), defaultEccentricity_)
+        );
+    }
+
+    {
+        EXPECT_DOUBLE_EQ(
+            coe_.getApoapsisRadius().inMeters(),
+            COE::ComputeApoapsisRadius(defaultSemiMajorAxis_.inMeters(), defaultEccentricity_)
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeMeanMotion)
+{
+    {
+        const Real semiMajorAxis_m = defaultSemiMajorAxis_.inMeters();
+        const Real mu = Earth::EGM2008.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared());
+
+        EXPECT_DOUBLE_EQ(
+            std::sqrt(mu / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
+            COE::ComputeMeanMotion(semiMajorAxis_m, Earth::EGM2008.gravitationalParameter_)
+        );
+    }
+
+    {
+        EXPECT_DOUBLE_EQ(
+            coe_.getMeanMotion(Earth::EGM2008.gravitationalParameter_).in(Derived::Unit::RadianPerSecond()),
+            COE::ComputeMeanMotion(defaultSemiMajorAxis_.inMeters(), Earth::EGM2008.gravitationalParameter_)
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeOrbitalPeriod)
+{
+    {
+        EXPECT_DOUBLE_EQ(
+            Real::TwoPi() /
+                COE::ComputeMeanMotion(defaultSemiMajorAxis_.inMeters(), Earth::EGM2008.gravitationalParameter_),
+            COE::ComputeOrbitalPeriod(defaultSemiMajorAxis_.inMeters(), Earth::EGM2008.gravitationalParameter_)
+        );
+    }
+
+    {
+        // The instance getter round-trips through Duration (integer nanoseconds), so compare with a
+        // tolerance well above sub-nanosecond rounding.
+        EXPECT_NEAR(
+            coe_.getOrbitalPeriod(Earth::EGM2008.gravitationalParameter_).inSeconds(),
+            COE::ComputeOrbitalPeriod(defaultSemiMajorAxis_.inMeters(), Earth::EGM2008.gravitationalParameter_),
+            1e-6
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeNodalPrecessionRate)
+{
+    {
+        const COE coe = {
+            Earth::EGM2008.equatorialRadius_ + Length::Kilometers(800.0),
+            0.0,
+            Angle::Degrees(56.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+            Angle::Degrees(0.0),
+        };
+
+        EXPECT_DOUBLE_EQ(
+            coe.getNodalPrecessionRate(
+                   Earth::EGM2008.gravitationalParameter_, Length::Meters(6.378137e6), 1.08262668e-3
+            )
+                .in(Derived::Unit::RadianPerSecond()),
+            COE::ComputeNodalPrecessionRate(
+                (Earth::EGM2008.equatorialRadius_ + Length::Kilometers(800.0)).inMeters(),
+                0.0,
+                Angle::Degrees(56.0).inRadians(),
+                Earth::EGM2008.gravitationalParameter_,
+                6.378137e6,
+                1.08262668e-3
+            )
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeArgumentOfLatitudeAngularRate)
+{
+    const auto earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+
+    const Length semiMajorAxis = Length::Kilometers(590.0 + 6378.137);
+    const Real eccentricity = 0.001;
+    const Angle inclination = Angle::Degrees(97.0);
+
+    const Real expectedRate = 0.0010840210523878169;
+
+    {
+        const Real rate = COE::ComputeArgumentOfLatitudeAngularRate(
+            semiMajorAxis.inMeters(),
+            eccentricity,
+            inclination.inRadians(),
+            earthSPtr->getGravitationalParameter(),
+            earthSPtr->getEquatorialRadius().inMeters(),
+            earthSPtr->getJ2()
+        );
+
+        EXPECT_NEAR(rate, expectedRate, std::abs(expectedRate) * 1e-6);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetArgumentOfLatitudeAngularRate)
+{
+    const auto earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+
+    const Derived gravitationalParameter = earthSPtr->getGravitationalParameter();
+    const Length equatorialRadius = earthSPtr->getEquatorialRadius();
+    const Real j2 = earthSPtr->getJ2();
+
+    const COE coe = {
+        Length::Kilometers(590.0 + 6378.137),
+        0.001,
+        Angle::Degrees(97.0),
+        Angle::Zero(),
+        Angle::Zero(),
+        Angle::Zero(),
+    };
+
+    const Real expectedRate = 0.0010840210523878169;
+
+    {
+        const Derived rate = coe.getArgumentOfLatitudeAngularRate(gravitationalParameter, equatorialRadius, j2);
+
+        EXPECT_NEAR(rate.in(Derived::Unit::RadianPerSecond()), expectedRate, std::abs(expectedRate) * 1e-6);
+
+        // The getter must match the static computation.
+        EXPECT_DOUBLE_EQ(
+            rate.in(Derived::Unit::RadianPerSecond()),
+            COE::ComputeArgumentOfLatitudeAngularRate(
+                coe.getSemiMajorAxis().inMeters(),
+                coe.getEccentricity(),
+                coe.getInclination().inRadians(),
+                gravitationalParameter,
+                equatorialRadius.inMeters(),
+                j2
+            )
+        );
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getArgumentOfLatitudeAngularRate(gravitationalParameter, equatorialRadius, j2)
+        );
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetVector)
 {
     {
