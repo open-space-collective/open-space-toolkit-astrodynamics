@@ -58,7 +58,7 @@ Tabulated::Tabulated(
         );
     }
 
-    if (aFrameSPtr != DefaultContributionFrameSPtr)
+    if ((*aFrameSPtr) != (*DefaultContributionFrameSPtr))
     {
         throw ostk::core::error::RuntimeError("Contributions must be expressed in an inertial frame.");
     }
@@ -182,7 +182,7 @@ VectorXd Tabulated::computeContribution(
 {
     // TBM: Allow frame conversion through `CoordinateSubset.inFrame` method, once we have a `CartesianAcceleration`
     // class
-    if (aFrameSPtr != frameSPtr_)
+    if ((*aFrameSPtr) != (*frameSPtr_))
     {
         throw ostk::core::error::RuntimeError("Contribution Frame conversion to non-inertial not yet supported.");
     }

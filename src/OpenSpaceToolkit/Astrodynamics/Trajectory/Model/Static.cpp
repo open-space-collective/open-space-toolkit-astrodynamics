@@ -18,7 +18,7 @@ Static::Static(const Position& aPosition)
     : Model(),
       position_(aPosition)
 {
-    if (aPosition.accessFrame() != Frame::ITRF())
+    if ((*aPosition.accessFrame()) != (*Frame::ITRF()))
     {
         throw ostk::core::error::runtime::Wrong("Position Frame", aPosition.accessFrame()->getName());
     }

@@ -42,7 +42,7 @@ VectorXd CartesianAcceleration::inFrame(
     const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
 ) const
 {
-    if (fromFrame == toFrame)
+    if ((*fromFrame) == (*toFrame))
     {
         return aCoordinateBrokerSPtr->extractCoordinate(aFullCoordinatesVector, *this);
     }
