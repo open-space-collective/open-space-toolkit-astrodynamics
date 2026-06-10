@@ -19,10 +19,16 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.cartesian
       ~COE.circular
       ~COE.compute_angular_momentum
+      ~COE.compute_apoapsis_radius
+      ~COE.compute_argument_of_latitude_angular_rate
       ~COE.compute_ltan
       ~COE.compute_ltdn
       ~COE.compute_mean_ltan
       ~COE.compute_mean_ltdn
+      ~COE.compute_mean_motion
+      ~COE.compute_nodal_precession_rate
+      ~COE.compute_orbital_period
+      ~COE.compute_periapsis_radius
       ~COE.compute_raan_from_ltan
       ~COE.compute_radial_distance
       ~COE.compute_semi_latus_rectum
@@ -38,6 +44,7 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.get_aop
       ~COE.get_apoapsis_radius
       ~COE.get_argument_of_latitude
+      ~COE.get_argument_of_latitude_angular_rate
       ~COE.get_cartesian_state
       ~COE.get_eccentric_anomaly
       ~COE.get_eccentricity

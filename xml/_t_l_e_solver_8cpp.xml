@@ -700,7 +700,7 @@
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>elementSetNumber_(0),</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tleStateBuilder_(StateBuilder::Undefined())</highlight></codeline>
 <codeline lineno="97"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(anEstimationFrameSPtr<sp/>!=<sp/>Frame::TEME())</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((*anEstimationFrameSPtr)<sp/>!=<sp/>(*Frame::TEME()))</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[TLESolver]<sp/>Warning:<sp/>The<sp/>&apos;estimationFrame&apos;<sp/>parameter<sp/>is<sp/>deprecated.<sp/>Solving<sp/>is<sp/>done<sp/>natively<sp/>in<sp/>TEME.&quot;</highlight><highlight class="normal"></highlight></codeline>

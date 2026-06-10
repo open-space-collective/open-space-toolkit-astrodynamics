@@ -494,7 +494,7 @@
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
 <codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(this-&gt;tleArray_<sp/>==<sp/>aSGP4Model.tleArray_)<sp/>&amp;&amp;<sp/>(this-&gt;validityIntervals_<sp/>==<sp/>aSGP4Model.validityIntervals_)<sp/>&amp;&amp;</highlight></codeline>
-<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(this-&gt;outputFrameSPtr_<sp/>==<sp/>aSGP4Model.outputFrameSPtr_);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((*this-&gt;outputFrameSPtr_)<sp/>==<sp/>(*aSGP4Model.outputFrameSPtr_));</highlight></codeline>
 <codeline lineno="217"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="218"><highlight class="normal"></highlight></codeline>
 <codeline lineno="219"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>SGP4::operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SGP4&amp;<sp/>aSGP4Model)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>

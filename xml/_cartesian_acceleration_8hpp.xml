@@ -14,6 +14,7 @@
     <includes refid="_cartesian_position_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</includes>
     <includes refid="_cartesian_velocity_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp</includes>
     <includedby refid="_maneuver_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</includedby>
+    <includedby refid="_trajectory_2_model_2_tabulated_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp</includedby>
     <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
     <includedby refid="_cartesian_acceleration_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp</includedby>
     <incdepgraph>
@@ -135,9 +136,13 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</label>
         <link refid="_maneuver_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.cpp</label>
         <link refid="_cartesian_acceleration_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp</label>
+        <link refid="_trajectory_2_model_2_tabulated_8cpp"/>
       </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp</label>
@@ -148,8 +153,10 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
         <link refid="_segment_8cpp"/>
       </node>

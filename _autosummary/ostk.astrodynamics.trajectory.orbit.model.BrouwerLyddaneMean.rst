@@ -19,10 +19,16 @@ ostk.astrodynamics.trajectory.orbit.model.BrouwerLyddaneMean
       ~BrouwerLyddaneMean.cartesian
       ~BrouwerLyddaneMean.circular
       ~BrouwerLyddaneMean.compute_angular_momentum
+      ~BrouwerLyddaneMean.compute_apoapsis_radius
+      ~BrouwerLyddaneMean.compute_argument_of_latitude_angular_rate
       ~BrouwerLyddaneMean.compute_ltan
       ~BrouwerLyddaneMean.compute_ltdn
       ~BrouwerLyddaneMean.compute_mean_ltan
       ~BrouwerLyddaneMean.compute_mean_ltdn
+      ~BrouwerLyddaneMean.compute_mean_motion
+      ~BrouwerLyddaneMean.compute_nodal_precession_rate
+      ~BrouwerLyddaneMean.compute_orbital_period
+      ~BrouwerLyddaneMean.compute_periapsis_radius
       ~BrouwerLyddaneMean.compute_raan_from_ltan
       ~BrouwerLyddaneMean.compute_radial_distance
       ~BrouwerLyddaneMean.compute_semi_latus_rectum
@@ -38,6 +44,7 @@ ostk.astrodynamics.trajectory.orbit.model.BrouwerLyddaneMean
       ~BrouwerLyddaneMean.get_aop
       ~BrouwerLyddaneMean.get_apoapsis_radius
       ~BrouwerLyddaneMean.get_argument_of_latitude
+      ~BrouwerLyddaneMean.get_argument_of_latitude_angular_rate
       ~BrouwerLyddaneMean.get_cartesian_state
       ~BrouwerLyddaneMean.get_eccentric_anomaly
       ~BrouwerLyddaneMean.get_eccentricity

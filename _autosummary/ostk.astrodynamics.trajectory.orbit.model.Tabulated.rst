@@ -22,6 +22,7 @@ ostk.astrodynamics.trajectory.orbit.model.Tabulated
       ~Tabulated.calculate_revolution_number_at
       ~Tabulated.calculate_state_at
       ~Tabulated.calculate_states_at
+      ~Tabulated.default
       ~Tabulated.get_epoch
       ~Tabulated.get_interpolation_type
       ~Tabulated.get_interval
