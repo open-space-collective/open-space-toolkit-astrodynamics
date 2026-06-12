@@ -77,7 +77,11 @@ class QLaw : public GuidanceLaw
         /// @param aPeriapsisWeight The periapsis constraint weight.
         /// @param minimumPeriapsisradius The minimum allowed periapsis radius.
         /// @param absoluteEffectivityThreshold The absolute effectivity threshold.
+        ///    @deprecated Use `guidancelaw::effectivityprovider::QLaw` with
+        ///    `EffectivityGatedGuidanceLaw`/`InTrack` instead. Will be removed in a future release.
         /// @param relativeEffectivityThreshold The relative effectivity threshold.
+        ///    @deprecated Use `guidancelaw::effectivityprovider::QLaw` with
+        ///    `EffectivityGatedGuidanceLaw`/`InTrack` instead. Will be removed in a future release.
         Parameters(
             const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
             const Size& aMValue = 3,
@@ -112,7 +116,9 @@ class QLaw : public GuidanceLaw
         const double b;
         const double k;
         const double periapsisWeight;
+        /// @deprecated See @ref Parameters constructor.
         const Real absoluteEffectivityThreshold;
+        /// @deprecated See @ref Parameters constructor.
         const Real relativeEffectivityThreshold;
 
         friend QLaw;
@@ -287,6 +293,50 @@ class QLaw : public GuidanceLaw
         const State& aState, const Real& aThrustAcceleration, const Size& discretizationStepCount = 50
     ) const;
 
+    /// @brief Compute the relative and absolute effectivity for a thrust direction held
+    ///    fixed in the theta-R-H (along-track, radial, normal) frame.
+    ///
+    /// dQ/dt is evaluated as D · aThrustDirectionThetaRH (where D is the dQ/dF coefficients in
+    /// theta-R-H) at the current true anomaly and at each sampled true anomaly. Effectivity is
+    /// normalized by the min/max of the sample range, making it a direction-aware counterpart to
+    /// the direction-agnostic overload above.
+    ///
+    /// @param aState The state from which to extract orbital elements
+    /// @param aThrustDirectionThetaRH Thrust direction in theta-R-H [θ, R, H]. Normalized internally.
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param discretizationStepCount The number of discretization steps for the true anomaly
+    ///
+    /// @return A tuple containing the relative and absolute effectivity
+    Tuple<double, double> computeEffectivity(
+        const State& aState,
+        const Vector3d& aThrustDirectionThetaRH,
+        const Real& aThrustAcceleration,
+        const Size& discretizationStepCount = 50
+    ) const;
+
+    /// @brief Direction-aware effectivity evaluated jointly for several candidate directions.
+    ///
+    /// Equivalent to calling the single-direction overload once per entry in
+    /// `aThrustDirectionsThetaRH`, but the per-anomaly thrust-vector grid (and the current
+    /// thrust vector) — which depend only on the COE state and `aThrustAcceleration` — are
+    /// computed once and reused across all directions. This is the entry point used by the
+    /// `effectivityprovider::QLaw` batched `evaluate` so that consumers like `InTrack`, which
+    /// score multiple candidates per step, do not pay for redundant grid sweeps.
+    ///
+    /// @param aState The state from which to extract orbital elements.
+    /// @param aThrustDirectionsThetaRH Candidate thrust directions in theta-R-H. Each is
+    ///    normalized internally; an entry whose norm is below 1e-12 raises `Undefined`.
+    /// @param aThrustAcceleration The thrust acceleration.
+    /// @param discretizationStepCount The number of true-anomaly samples (shared across all
+    ///    candidate directions).
+    /// @return One `(etaRelative, etaAbsolute)` tuple per input direction, in input order.
+    Array<Tuple<double, double>> computeEffectivities(
+        const State& aState,
+        const Array<Vector3d>& aThrustDirectionsThetaRH,
+        const Real& aThrustAcceleration,
+        const Size& discretizationStepCount = 50
+    ) const;
+
    private:
     const Parameters parameters_;
     const double mu_;
@@ -353,6 +403,52 @@ class QLaw : public GuidanceLaw
         const double& aThrustAcceleration,
         const VectorXd& trueAnomalyAngles
     ) const;
+
+    /// @brief Direction-aware effectivity helper.
+    ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements
+    /// @param aThrustDirectionThetaRH Unit thrust direction in theta-R-H
+    /// @param aThrustAcceleration The thrust acceleration
+    /// @param trueAnomalyAngles The true anomaly angles
+    ///
+    /// @return A tuple containing the relative and absolute effectivity
+    Tuple<double, double> computeDirectionAwareEffectivity_(
+        const Vector6d& aCOEVector,
+        const Vector3d& aThrustDirectionThetaRH,
+        const double& aThrustAcceleration,
+        const VectorXd& trueAnomalyAngles
+    ) const;
+
+    /// @brief Compute the per-anomaly grid of optimal thrust vectors and the current
+    ///    thrust vector. These outputs depend only on the COE state and acceleration,
+    ///    not on the candidate direction, so they are factored out for reuse across
+    ///    directions in the batched `computeEffectivities` path.
+    ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements.
+    /// @param aThrustAcceleration The thrust acceleration.
+    /// @param trueAnomalyAngles The true anomaly angles.
+    /// @param[out] aGridOut Matrix of shape 3 × `trueAnomalyAngles.size()`; column j is the
+    ///    optimal thrust vector at the j-th sampled anomaly.
+    /// @param[out] aCurrentOut Optimal thrust vector at the current true anomaly.
+    void computeDirectionAwareGrid_(
+        const Vector6d& aCOEVector,
+        const double& aThrustAcceleration,
+        const VectorXd& trueAnomalyAngles,
+        Eigen::Matrix<double, 3, Eigen::Dynamic>& aGridOut,
+        Vector3d& aCurrentOut
+    ) const;
+
+    /// @brief Direction-specific effectivity from a precomputed grid.
+    ///
+    /// @param aGrid Matrix of optimal thrust vectors per sampled anomaly (3 × N).
+    /// @param aCurrent Optimal thrust vector at the current anomaly.
+    /// @param aThrustDirectionThetaRH Unit thrust direction in theta-R-H.
+    /// @return `(etaRelative, etaAbsolute)`.
+    static Tuple<double, double> computeDirectionAwareEffectivityFromGrid_(
+        const Eigen::Matrix<double, 3, Eigen::Dynamic>& aGrid,
+        const Vector3d& aCurrent,
+        const Vector3d& aThrustDirectionThetaRH
+    );
 };
 
 }  // namespace guidancelaw
