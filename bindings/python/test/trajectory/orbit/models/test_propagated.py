@@ -234,7 +234,7 @@ class TestPropagated:
         state: State,
     ):
         instant_array = [
-            state.get_instant() + Duration.minutes(offset) for offset in range(4)
+            state.get_instant() + Duration.minutes(float(offset)) for offset in range(4)
         ]
 
         tabulated = propagated.to_tabulated(instant_array)
