@@ -806,3 +806,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Propaga
         ASSERT_EQ(estimatedState, states[1]);
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, ToTabulated)
+{
+    using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+
+    {
+        const Propagated propagatedModel = {propagator_, defaultState_};
+
+        const Tabulated tabulatedModel = propagatedModel.toTabulated(
+            {defaultInstant_,
+             defaultInstant_ + Duration::Minutes(1.0),
+             defaultInstant_ + Duration::Minutes(2.0),
+             defaultInstant_ + Duration::Minutes(3.0)}
+        );
+
+        ASSERT_EQ(
+            tabulatedModel.getInterval(), Interval::Closed(defaultInstant_, defaultInstant_ + Duration::Minutes(3.0))
+        );
+    }
+}

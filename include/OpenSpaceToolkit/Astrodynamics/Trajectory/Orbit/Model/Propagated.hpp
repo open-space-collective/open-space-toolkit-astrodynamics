@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -31,7 +32,10 @@ using ostk::core::type::Real;
 
 using ostk::physics::time::Instant;
 
+using ostk::mathematics::curvefitting::Interpolator;
+
 using ostk::astrodynamics::trajectory::orbit::Model;
+using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
@@ -176,6 +180,12 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param anOutputStream An output stream
     /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
+
+    /// @brief Compute the states at the given instants and construct a Tabulated orbit model from them.
+    ///
+    /// @param anInstantArray An array of at least 4 instants to compute the states at.
+    /// @return The Tabulated orbit model
+    Tabulated toTabulated(const Array<Instant>& anInstantArray) const;
 
    protected:
     /// @brief Equal to operator

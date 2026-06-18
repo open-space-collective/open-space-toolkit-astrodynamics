@@ -13,6 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
     using ostk::physics::time::Instant;
 
     using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+    using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
     using ostk::astrodynamics::trajectory::Propagator;
     using ostk::astrodynamics::trajectory::State;
 
@@ -187,6 +188,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
 
                     Args:
                         state_array (list[State]): The state array.
+
+                )doc"
+            )
+
+            .def(
+                "to_tabulated",
+                &Propagated::toTabulated,
+                arg("instants"),
+                R"doc(
+                    Compute the states at the given instants and construct a Tabulated orbit model from them.
+
+                    Args:
+                        instants (list[Instant]): An array of at least 4 instants to compute the states at.
+
+                    Returns:
+                        Tabulated: The Tabulated orbit model.
 
                 )doc"
             )
