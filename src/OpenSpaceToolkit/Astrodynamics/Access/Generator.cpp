@@ -474,7 +474,10 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
 
-        // TBI: See if this can be vectorized
+        // Apply each target's 3x3 SEZ rotation to its dx column. A vectorized variant (Eigen strided slicing over
+        // targets) was benchmarked and is not worthwhile: the per-target cost is dominated by the azimuth/elevation
+        // trig below, not this matmul, and the strided gather offsets any SIMD gain (slightly slower at low target
+        // counts, a wash at high counts). The contiguous-block loop is kept.
         MatrixXd dx_SEZ = MatrixXd::Zero(3, dx.cols());
         for (Eigen::Index i = 0; i < dx.cols(); ++i)
         {
