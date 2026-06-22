@@ -159,6 +159,63 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
     EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
+{
+    const Instant queryInstant = states_.accessFirst().accessInstant() + Duration::Seconds(30.0);
+
+    // The default output frame is GCRF (backward-compatible behavior).
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
+
+        EXPECT_EQ(tabulated.accessFrame(), Frame::GCRF());
+        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).accessFrame(), Frame::GCRF());
+    }
+
+    // An explicitly requested output frame is honored by calculateStateAt.
+    {
+        const Tabulated tabulatedGCRF(states_, Interpolator::Type::Linear, Frame::GCRF());
+        const Tabulated tabulatedITRF(states_, Interpolator::Type::Linear, Frame::ITRF());
+
+        EXPECT_EQ(tabulatedITRF.accessFrame(), Frame::ITRF());
+
+        const State stateGCRF = tabulatedGCRF.calculateStateAt(queryInstant);
+        const State stateITRF = tabulatedITRF.calculateStateAt(queryInstant);
+
+        EXPECT_EQ(stateITRF.accessFrame(), Frame::ITRF());
+
+        // Interpolation is frame-independent: converting the ITRF output back to GCRF recovers the GCRF output.
+        EXPECT_TRUE(stateITRF.inFrame(Frame::GCRF()).getCoordinates().isApprox(stateGCRF.getCoordinates(), 1e-8));
+    }
+
+    // The per-coordinate-subset constructor also honors the output frame.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::Linear},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        const Tabulated tabulated(states_, interpolationTypes, Frame::ITRF());
+
+        EXPECT_EQ(tabulated.accessFrame(), Frame::ITRF());
+        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).accessFrame(), Frame::ITRF());
+    }
+
+    // Default() honors the output frame.
+    {
+        EXPECT_EQ(Tabulated::Default(states_).accessFrame(), Frame::GCRF());
+        EXPECT_EQ(Tabulated::Default(states_, Frame::ITRF()).accessFrame(), Frame::ITRF());
+    }
+
+    // Models that differ only by their output frame are not equal.
+    {
+        const Tabulated tabulatedGCRF(states_, Interpolator::Type::Linear, Frame::GCRF());
+        const Tabulated tabulatedITRF(states_, Interpolator::Type::Linear, Frame::ITRF());
+
+        EXPECT_TRUE(tabulatedGCRF != tabulatedITRF);
+        EXPECT_FALSE(tabulatedGCRF == tabulatedITRF);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpolationTypes)
 {
     const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultTypes = Tabulated::DefaultInterpolationTypes();

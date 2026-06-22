@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
@@ -42,6 +43,7 @@ using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
@@ -74,6 +76,23 @@ class Tabulated : public virtual Model
         const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
     );
 
+    /// @brief Constructor with an explicit output frame.
+    ///
+    /// @code{.cpp}
+    ///     Array<State> states = { ... };
+    ///     Tabulated tabulated(states, Interpolator::Type::Linear, Frame::ITRF());
+    /// @endcode
+    ///
+    /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @param anInterpolationType The interpolation type to use between states.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. Interpolation is always
+    /// performed in the frame of the provided states; the result is then expressed in this frame.
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Interpolator::Type& anInterpolationType,
+        const Shared<const Frame>& aFrameSPtr
+    );
+
     /// @brief Constructor with per-coordinate-subset interpolation types.
     ///
     ///                      Each coordinate is interpolated using the interpolation type associated with the
@@ -95,6 +114,20 @@ class Tabulated : public virtual Model
     Tabulated(
         const Array<State>& aStateArray,
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
+    );
+
+    /// @brief Constructor with per-coordinate-subset interpolation types and an explicit output frame.
+    ///
+    /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
+    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
+    /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. Interpolation is always
+    /// performed in the frame of the provided states; the result is then expressed in this frame.
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
+        const Shared<const Frame>& aFrameSPtr
     );
 
     /// @brief Clone the tabulated model.
@@ -145,6 +178,15 @@ class Tabulated : public virtual Model
     ///
     /// @return True if the tabulated model is defined.
     virtual bool isDefined() const override;
+
+    /// @brief Access the reference frame in which the computed states are expressed.
+    ///
+    /// @code{.cpp}
+    ///     Shared<const Frame> frame = tabulated.accessFrame();
+    /// @endcode
+    ///
+    /// @return The output reference frame.
+    const Shared<const Frame>& accessFrame() const;
 
     /// @brief Get the time interval spanned by the tabulated states.
     ///
@@ -239,6 +281,14 @@ class Tabulated : public virtual Model
     /// @return A Tabulated trajectory model using the default interpolation types.
     static Tabulated Default(const Array<State>& aStateArray);
 
+    /// @brief Construct a tabulated model using the default per-coordinate-subset interpolation types and an explicit
+    /// output frame.
+    ///
+    /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed.
+    /// @return A Tabulated trajectory model using the default interpolation types.
+    static Tabulated Default(const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr);
+
     /// @brief Get the default interpolation type to use for each well-known coordinate subset.
     ///
     /// @details Position, velocity, acceleration, attitude, angular velocity and mass use barycentric rational
@@ -257,6 +307,7 @@ class Tabulated : public virtual Model
     State firstState_ = State::Undefined();
     State lastState_ = State::Undefined();
     Array<Shared<const Interpolator>> interpolators_;
+    Shared<const Frame> frameSPtr_ = Frame::GCRF();
 
     /// @brief Sort the provided states by instant, cache the first and last states, and compute the interpolation
     /// timestamps and coordinate matrix shared by all constructors.

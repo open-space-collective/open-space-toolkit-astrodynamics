@@ -46,6 +46,16 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& 
 
 Tabulated::Tabulated(
     const Array<State>& aStateArray,
+    const Interpolator::Type& anInterpolationType,
+    const Shared<const Frame>& aFrameSPtr
+)
+    : Tabulated(aStateArray, anInterpolationType)
+{
+    frameSPtr_ = aFrameSPtr;
+}
+
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
     const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
 )
     : Model()
@@ -105,6 +115,16 @@ Tabulated::Tabulated(
     }
 }
 
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
+    const Shared<const Frame>& aFrameSPtr
+)
+    : Tabulated(aStateArray, anInterpolationTypeMap)
+{
+    frameSPtr_ = aFrameSPtr;
+}
+
 Tabulated* Tabulated::clone() const
 {
     return new Tabulated(*this);
@@ -132,7 +152,12 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         }
     }
 
-    return firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState();
+    const bool framesEqual = (frameSPtr_ == aTabulatedModel.frameSPtr_) ||
+                             ((frameSPtr_ != nullptr) && (aTabulatedModel.frameSPtr_ != nullptr) &&
+                              ((*frameSPtr_) == (*aTabulatedModel.frameSPtr_)));
+
+    return framesEqual && firstState_ == aTabulatedModel.getFirstState() &&
+           lastState_ == aTabulatedModel.getLastState();
 }
 
 bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
@@ -150,6 +175,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
 bool Tabulated::isDefined() const
 {
     return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined();
+}
+
+const Shared<const Frame>& Tabulated::accessFrame() const
+{
+    return frameSPtr_;
 }
 
 Interval Tabulated::getInterval() const
@@ -220,7 +250,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     const Shared<const Frame>& frame = firstState_.accessFrame();
     const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
 
-    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker).inFrame(Frame::GCRF());
+    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker).inFrame(frameSPtr_);
 }
 
 Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) const
@@ -296,6 +326,11 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 Tabulated Tabulated::Default(const Array<State>& aStateArray)
 {
     return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes());
+}
+
+Tabulated Tabulated::Default(const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr)
+{
+    return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes(), aFrameSPtr);
 }
 
 Map<Shared<const CoordinateSubset>, Interpolator::Type> Tabulated::DefaultInterpolationTypes()

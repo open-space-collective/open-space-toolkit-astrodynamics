@@ -322,6 +322,62 @@ class TestTabulatedTrajectory:
     ):
         assert tabulated.get_interpolation_type() == Interpolator.Type.CubicSpline
 
+    def test_access_frame_default(
+        self,
+        tabulated: Tabulated,
+    ):
+        assert tabulated.access_frame() == Frame.GCRF()
+
+    @pytest.mark.parametrize(
+        "frame",
+        (
+            (Frame.GCRF()),
+            (Frame.ITRF()),
+        ),
+    )
+    def test_constructor_with_frame(
+        self,
+        test_states: list[State],
+        frame: Frame,
+    ):
+        tabulated: Tabulated = Tabulated(
+            states=test_states,
+            interpolation_type=Interpolator.Type.Linear,
+            frame=frame,
+        )
+
+        assert tabulated.is_defined()
+        assert tabulated.access_frame() == frame
+        assert (
+            tabulated.calculate_state_at(test_states[0].get_instant()).get_frame()
+            == frame
+        )
+
+    def test_constructor_with_interpolation_types_and_frame(
+        self,
+        test_states: list[State],
+    ):
+        tabulated: Tabulated = Tabulated(
+            states=test_states,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                CartesianVelocity.default(): Interpolator.Type.Linear,
+            },
+            frame=Frame.ITRF(),
+        )
+
+        assert tabulated.access_frame() == Frame.ITRF()
+
+    def test_default_with_frame(
+        self,
+        test_states: list[State],
+    ):
+        assert Tabulated.default(test_states).access_frame() == Frame.GCRF()
+        assert (
+            Tabulated.default(test_states, frame=Frame.ITRF()).access_frame()
+            == Frame.ITRF()
+        )
+
     @pytest.mark.parametrize(
         "interpolation_type,error_tolerance",
         (

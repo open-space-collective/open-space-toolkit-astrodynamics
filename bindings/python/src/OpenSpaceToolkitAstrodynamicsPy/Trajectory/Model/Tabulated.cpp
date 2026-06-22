@@ -12,6 +12,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
     using ostk::mathematics::curvefitting::Interpolator;
 
+    using ostk::physics::coordinate::Frame;
+
     using ostk::astrodynamics::trajectory::Model;
     using ostk::astrodynamics::trajectory::model::Tabulated;
     using ostk::astrodynamics::trajectory::State;
@@ -27,20 +29,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
     )
 
         .def(
-            init<const Array<State>&, const Interpolator::Type&>(),
+            init<const Array<State>&, const Interpolator::Type&, const Shared<const Frame>&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     states (Array[State]): The states of the model.
                     interpolation_type (Interpolator.Type): The type of interpolation to use. Defaults to Linear.
+                    frame (Frame): The reference frame in which the computed states are expressed. Defaults to GCRF.
              )doc",
             arg("states"),
-            arg_v("interpolation_type", Interpolator::Type::Linear, "Interpolator.Type.Linear")
+            arg_v("interpolation_type", Interpolator::Type::Linear, "Interpolator.Type.Linear"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def(
-            init<const Array<State>&, const Map<Shared<const CoordinateSubset>, Interpolator::Type>&>(),
+            init<
+                const Array<State>&,
+                const Map<Shared<const CoordinateSubset>, Interpolator::Type>&,
+                const Shared<const Frame>&>(),
             R"doc(
                 Constructor with per-coordinate-subset interpolation types.
 
@@ -50,9 +57,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                 Args:
                     states (Array[State]): The states of the model.
                     interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
+                    frame (Frame): The reference frame in which the computed states are expressed. Defaults to GCRF.
              )doc",
             arg("states"),
-            arg("interpolation_types")
+            arg("interpolation_types"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def(
@@ -85,6 +94,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Returns:
                     bool: True if the model is defined, False otherwise.
+             )doc"
+        )
+
+        .def(
+            "access_frame",
+            &Tabulated::accessFrame,
+            R"doc(
+                Access the reference frame in which the computed states are expressed.
+
+                Returns:
+                    Frame: The output reference frame.
              )doc"
         )
 
@@ -164,7 +184,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
         .def_static(
             "default",
-            &Tabulated::Default,
+            static_cast<Tabulated (*)(const Array<State>&, const Shared<const Frame>&)>(&Tabulated::Default),
             R"doc(
                 Construct a tabulated model using the default per-coordinate-subset interpolation types.
 
@@ -174,11 +194,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Args:
                     states (Array[State]): The states of the model.
+                    frame (Frame): The reference frame in which the computed states are expressed. Defaults to GCRF.
 
                 Returns:
                     Tabulated: A tabulated model using the default interpolation types.
              )doc",
-            arg("states")
+            arg("states"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         ;
