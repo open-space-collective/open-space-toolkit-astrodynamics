@@ -211,12 +211,16 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
-    return [&anAccessTarget, &aToTrajectory, this](const Instant& anInstant) mutable -> bool
+    // Resolve the Earth and bind the state filter once, rather than on every evaluation of the returned condition.
+    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+    const std::function<bool(const State&, const State&)> stateFilter = this->stateFilter_;
+
+    return [&anAccessTarget, &aToTrajectory, earthSPtr, stateFilter](const Instant& anInstant) -> bool
     {
         const State fromState = anAccessTarget.accessTrajectory().getStateAt(anInstant);
         const State toState = aToTrajectory.getStateAt(anInstant);
 
-        if (this->getStateFilter() && (!this->getStateFilter()(fromState, toState)))
+        if (stateFilter && (!stateFilter(fromState, toState)))
         {
             return false;
         }
@@ -236,9 +240,7 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
             );
         }
 
-        const AER aer = Generator::CalculateAer(
-            anInstant, fromPosition, toPosition, this->environment_.accessCelestialObjectWithName("Earth")
-        );
+        const AER aer = Generator::CalculateAer(anInstant, fromPosition, toPosition, earthSPtr);
 
         if (visibilityCriterion.is<VisibilityCriterion::AERMask>())
         {
