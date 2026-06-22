@@ -42,6 +42,8 @@ using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
+using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
@@ -431,6 +433,13 @@ void Propagated::sanitizeCachedArray() const
             )
         );
     }
+}
+
+Tabulated Propagated::toTabulated(const Array<Instant>& anInstantArray) const
+{
+    const Array<State> propagatedStates = this->calculateStatesAt(anInstantArray);
+
+    return Tabulated::Default(propagatedStates, this->initialRevolutionNumber_);
 }
 
 }  // namespace model

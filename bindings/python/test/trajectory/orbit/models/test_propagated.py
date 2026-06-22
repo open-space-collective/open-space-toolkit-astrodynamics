@@ -5,12 +5,12 @@ import pytest
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import CentralBodyGravity, PositionDerivative
 from ostk.astrodynamics.trajectory import Orbit, Propagator, State
-from ostk.astrodynamics.trajectory.orbit.model import Propagated
+from ostk.astrodynamics.trajectory.orbit.model import Propagated, Tabulated
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.core.type import Integer
 from ostk.physics.coordinate import Frame, Position, Velocity
 from ostk.physics.environment.object.celestial import Earth
-from ostk.physics.time import DateTime, Instant, Scale
+from ostk.physics.time import DateTime, Duration, Instant, Scale
 
 
 @pytest.fixture
@@ -227,3 +227,18 @@ class TestPropagated:
 
         with pytest.raises(Exception) as e:
             propagated.set_cached_state_array([])
+
+    def test_to_tabulated(
+        self,
+        propagated: Propagated,
+        state: State,
+    ):
+        instant_array = [
+            state.get_instant() + Duration.minutes(float(offset)) for offset in range(4)
+        ]
+
+        tabulated = propagated.to_tabulated(instant_array)
+
+        assert tabulated is not None
+        assert isinstance(tabulated, Tabulated)
+        assert tabulated.is_defined()
