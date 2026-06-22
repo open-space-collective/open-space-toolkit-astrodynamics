@@ -648,6 +648,9 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     MatrixXi inAccessPerTarget = MatrixXi::Zero(instants.getSize(), targetCount);
 
+    // Bind the state filter once, rather than copying the std::function (and re-running isDefined()) on every step.
+    const std::function<bool(const State&, const State&)>& stateFilter = this->stateFilter_;
+
     for (Index index = 0; index < instants.getSize(); ++index)
     {
         const Instant& instant = instants[index];
@@ -661,13 +664,13 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         // check if satellite is in access
         auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
 
-        if (this->getStateFilter())
+        if (stateFilter)
         {
             for (Index i = 0; i < targetCount; ++i)
             {
                 const State fromState = someAccessTargets[i].accessTrajectory().getStateAt(instant);
 
-                inAccess(i) = inAccess(i) && this->getStateFilter()(fromState, toTrajectoryState);
+                inAccess(i) = inAccess(i) && stateFilter(fromState, toTrajectoryState);
             }
         }
 
