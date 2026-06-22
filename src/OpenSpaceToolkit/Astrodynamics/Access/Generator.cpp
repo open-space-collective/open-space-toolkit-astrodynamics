@@ -1011,7 +1011,8 @@ Instant Generator::FindTimeOfClosestApproach(
         const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
 
         const Vector3d deltaPosition =
-            queryFromState.getPosition().accessCoordinates() - queryToState.getPosition().accessCoordinates();
+            queryFromState.getPosition().inFrame(Frame::ITRF(), queryInstant).accessCoordinates() -
+            queryToState.getPosition().inFrame(Frame::ITRF(), queryInstant).accessCoordinates();
 
         const Real rangeSquared = deltaPosition.squaredNorm();
 
