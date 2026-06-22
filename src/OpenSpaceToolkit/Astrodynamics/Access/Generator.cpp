@@ -657,9 +657,9 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
         const State toTrajectoryState = aToTrajectory.getStateAt(instant);
 
-        // calculate target to satellite vector in ITRF
+        // calculate target to satellite vector in ITRF (transform only the position, not the whole state)
         const Vector3d toPositionCoordinates_ITRF =
-            toTrajectoryState.inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            toTrajectoryState.getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
         // check if satellite is in access
         auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
@@ -758,7 +758,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                             ) -> Triple<Real, Real, Real>
     {
         const Vector3d toPositionCoordinates_ITRF =
-            aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            aToTrajectory.getStateAt(instant).getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
         const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -804,7 +804,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+                aToTrajectory.getStateAt(instant).getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
             return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
         };
@@ -817,7 +817,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+                aToTrajectory.getStateAt(instant).getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
             const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -1082,9 +1082,9 @@ Angle Generator::CalculateElevationAt(
 )
 {
     const Vector3d fromPositionCoordinates_ITRF =
-        aFromTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+        aFromTrajectory.getStateAt(anInstant).getPosition().inFrame(Frame::ITRF(), anInstant).getCoordinates();
     const Vector3d toPositionCoordinates_ITRF =
-        aToTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+        aToTrajectory.getStateAt(anInstant).getPosition().inFrame(Frame::ITRF(), anInstant).getCoordinates();
 
     const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinates_ITRF;
 
