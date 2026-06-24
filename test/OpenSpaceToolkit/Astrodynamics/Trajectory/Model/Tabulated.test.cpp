@@ -148,15 +148,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
         EXPECT_TRUE(state.isDefined());
         EXPECT_TRUE(state.getCoordinates().allFinite());
     }
+
+    // The output frame is set by the constructor.
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::Linear, Frame::ITRF());
+
+        EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
 {
-    const Tabulated tabulated = Tabulated::Default(states_);
+    {
+        const Tabulated tabulated = Tabulated::Default(states_);
 
-    EXPECT_TRUE(tabulated.isDefined());
-    // Position is interpolated using barycentric rational by default.
-    EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
+        EXPECT_TRUE(tabulated.isDefined());
+        // Position is interpolated using barycentric rational by default.
+        EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
+    }
+
+    // The output frame is set by the default constructor.
+    {
+        const Tabulated tabulated = Tabulated::Default(states_, Frame::ITRF());
+
+        EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
@@ -167,8 +183,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
     {
         const Tabulated tabulated(states_, Interpolator::Type::Linear);
 
-        EXPECT_EQ(tabulated.accessFrame(), Frame::GCRF());
-        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).accessFrame(), Frame::GCRF());
+        EXPECT_EQ(tabulated.getFrame(), Frame::GCRF());
+        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).getFrame(), Frame::GCRF());
     }
 
     // An explicitly requested output frame is honored by calculateStateAt.
@@ -176,15 +192,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
         const Tabulated tabulatedGCRF(states_, Interpolator::Type::Linear, Frame::GCRF());
         const Tabulated tabulatedITRF(states_, Interpolator::Type::Linear, Frame::ITRF());
 
-        EXPECT_EQ(tabulatedITRF.accessFrame(), Frame::ITRF());
+        EXPECT_EQ(tabulatedITRF.getFrame(), Frame::ITRF());
 
         const State stateGCRF = tabulatedGCRF.calculateStateAt(queryInstant);
         const State stateITRF = tabulatedITRF.calculateStateAt(queryInstant);
 
-        EXPECT_EQ(stateITRF.accessFrame(), Frame::ITRF());
+        EXPECT_EQ(stateITRF.getFrame(), Frame::ITRF());
 
-        // Interpolation is frame-independent: converting the ITRF output back to GCRF recovers the GCRF output.
-        EXPECT_TRUE(stateITRF.inFrame(Frame::GCRF()).getCoordinates().isApprox(stateGCRF.getCoordinates(), 1e-8));
+        // Interpolation now happens directly in the output frame: at a tabulated node the ITRF result matches the
+        // input state expressed in ITRF (linear interpolation reproduces the nodes exactly).
+        const State nodeState = states_[3];
+        EXPECT_TRUE(tabulatedITRF.calculateStateAt(nodeState.accessInstant())
+                        .getCoordinates()
+                        .isApprox(nodeState.inFrame(Frame::ITRF()).getCoordinates(), 1e-8));
+
+        // Away from the nodes, interpolating in ITRF and converting back to GCRF no longer recovers the GCRF
+        // interpolation, because interpolation is performed in the output frame rather than the native frame.
+        EXPECT_FALSE(stateITRF.inFrame(Frame::GCRF()).getCoordinates().isApprox(stateGCRF.getCoordinates(), 1e-8));
     }
 
     // The per-coordinate-subset constructor also honors the output frame.
@@ -196,14 +220,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
 
         const Tabulated tabulated(states_, interpolationTypes, Frame::ITRF());
 
-        EXPECT_EQ(tabulated.accessFrame(), Frame::ITRF());
-        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).accessFrame(), Frame::ITRF());
+        EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
+        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).getFrame(), Frame::ITRF());
     }
 
     // Default() honors the output frame.
     {
-        EXPECT_EQ(Tabulated::Default(states_).accessFrame(), Frame::GCRF());
-        EXPECT_EQ(Tabulated::Default(states_, Frame::ITRF()).accessFrame(), Frame::ITRF());
+        EXPECT_EQ(Tabulated::Default(states_).getFrame(), Frame::GCRF());
+        EXPECT_EQ(Tabulated::Default(states_, Frame::ITRF()).getFrame(), Frame::ITRF());
     }
 
     // Models that differ only by their output frame are not equal.

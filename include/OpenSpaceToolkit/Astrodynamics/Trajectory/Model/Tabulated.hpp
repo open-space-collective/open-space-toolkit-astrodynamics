@@ -85,8 +85,8 @@ class Tabulated : public virtual Model
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
     /// @param anInterpolationType The interpolation type to use between states.
-    /// @param aFrameSPtr The reference frame in which the computed states are expressed. Interpolation is always
-    /// performed in the frame of the provided states; the result is then expressed in this frame.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
+    /// converted to this frame and interpolation is performed in this frame.
     Tabulated(
         const Array<State>& aStateArray,
         const Interpolator::Type& anInterpolationType,
@@ -122,8 +122,8 @@ class Tabulated : public virtual Model
     /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
     /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
     /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
-    /// @param aFrameSPtr The reference frame in which the computed states are expressed. Interpolation is always
-    /// performed in the frame of the provided states; the result is then expressed in this frame.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
+    /// converted to this frame and interpolation is performed in this frame.
     Tabulated(
         const Array<State>& aStateArray,
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
@@ -179,14 +179,14 @@ class Tabulated : public virtual Model
     /// @return True if the tabulated model is defined.
     virtual bool isDefined() const override;
 
-    /// @brief Access the reference frame in which the computed states are expressed.
+    /// @brief Get the reference frame in which the computed states are expressed.
     ///
     /// @code{.cpp}
-    ///     Shared<const Frame> frame = tabulated.accessFrame();
+    ///     Shared<const Frame> frame = tabulated.getFrame();
     /// @endcode
     ///
     /// @return The output reference frame.
-    const Shared<const Frame>& accessFrame() const;
+    Shared<const Frame> getFrame() const;
 
     /// @brief Get the time interval spanned by the tabulated states.
     ///
@@ -307,15 +307,17 @@ class Tabulated : public virtual Model
     State firstState_ = State::Undefined();
     State lastState_ = State::Undefined();
     Array<Shared<const Interpolator>> interpolators_;
-    Shared<const Frame> frameSPtr_ = Frame::GCRF();
+    Shared<const Frame> outputFrameSPtr_ = Frame::GCRF();
 
-    /// @brief Sort the provided states by instant, cache the first and last states, and compute the interpolation
-    /// timestamps and coordinate matrix shared by all constructors.
+    /// @brief Sort the provided states by instant, cache the first and last states (in their native frame), and
+    /// compute the interpolation timestamps and coordinate matrix shared by all constructors. The states are
+    /// expressed in the output frame before their coordinates are extracted, so that interpolation is performed
+    /// directly in the output frame.
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
     /// @param aTimestampVector [out] The timestamps (in seconds, relative to the first state) of the sorted states.
-    /// @param aCoordinateMatrix [out] The coordinates of the sorted states (one row per state, one column per
-    /// coordinate).
+    /// @param aCoordinateMatrix [out] The coordinates of the sorted states, expressed in the output frame (one row
+    /// per state, one column per coordinate).
     /// @return True if the model could be defined (i.e. at least two states were provided), false otherwise.
     bool computeInterpolationData(
         const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aCoordinateMatrix
