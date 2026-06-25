@@ -38,6 +38,11 @@ Tabulated::Tabulated(
     : Model(),
       outputFrameSPtr_(aFrameSPtr)
 {
+    if (aFrameSPtr == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
     VectorXd timestamps;
     MatrixXd coordinates;
 
@@ -73,6 +78,11 @@ Tabulated::Tabulated(
     using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+
+    if (aFrameSPtr == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
 
     VectorXd timestamps;
     MatrixXd coordinates;

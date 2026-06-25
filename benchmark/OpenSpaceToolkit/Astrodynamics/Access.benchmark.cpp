@@ -118,9 +118,6 @@ static void benchmark001(benchmark::State& state)
     }
 }
 
-// Register the functions as a benchmark
-BENCHMARK(benchmark001)->Name("Access | Ground Station <> TLE")->Iterations(DEFAULT_ITERATIONS);
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Tabulated trajectory model scenarios.
 //
@@ -249,6 +246,9 @@ static void benchmarkTabulatedItrf100Targets1Week(benchmark::State& state)
         benchmark::DoNotOptimize(generator.computeAccesses(interval, targets, trajectory));
     }
 }
+
+// Register the functions as a benchmark
+BENCHMARK(benchmark001)->Name("Access | Ground Station <> TLE")->Iterations(DEFAULT_ITERATIONS);
 
 BENCHMARK(benchmarkTabulatedItrf1Target2Weeks)
     ->Name("Access | Tabulated (ITRF out) | 1 target | 2 weeks")

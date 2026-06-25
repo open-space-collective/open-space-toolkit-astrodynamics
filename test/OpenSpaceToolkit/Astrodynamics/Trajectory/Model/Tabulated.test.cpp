@@ -238,6 +238,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
         EXPECT_TRUE(tabulatedGCRF != tabulatedITRF);
         EXPECT_FALSE(tabulatedGCRF == tabulatedITRF);
     }
+
+    // A null output frame is rejected by both explicit-frame constructors.
+    {
+        const Shared<const Frame> nullFrameSPtr = nullptr;
+
+        EXPECT_THROW(
+            { const Tabulated tabulated(states_, Interpolator::Type::Linear, nullFrameSPtr); },
+            ostk::core::error::runtime::Undefined
+        );
+
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::Linear},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        EXPECT_THROW(
+            { const Tabulated tabulated(states_, interpolationTypes, nullFrameSPtr); },
+            ostk::core::error::runtime::Undefined
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpolationTypes)

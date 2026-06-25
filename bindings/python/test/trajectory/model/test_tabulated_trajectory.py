@@ -368,6 +368,28 @@ class TestTabulatedTrajectory:
 
         assert tabulated.get_frame() == Frame.ITRF()
 
+    def test_constructor_with_null_frame_failure(
+        self,
+        test_states: list[State],
+    ):
+        # A null output frame is rejected by both explicit-frame constructors.
+        with pytest.raises(Exception):
+            Tabulated(
+                states=test_states,
+                interpolation_type=Interpolator.Type.Linear,
+                output_frame=None,
+            )
+
+        with pytest.raises(Exception):
+            Tabulated(
+                states=test_states,
+                interpolation_types={
+                    CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                    CartesianVelocity.default(): Interpolator.Type.Linear,
+                },
+                output_frame=None,
+            )
+
     def test_default_with_frame(
         self,
         test_states: list[State],
