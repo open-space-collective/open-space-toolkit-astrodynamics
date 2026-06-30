@@ -161,7 +161,7 @@ static Trajectory MakeTabulatedTrajectory(const Shared<const Frame>& anOutputFra
 }
 
 // A single ground station with a line-of-sight visibility criterion.
-static AccessTarget MakeGroundStationTarget()
+static AccessTarget MakeLOSTarget()
 {
     const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromLineOfSight(REFERENCE_ENVIRONMENT);
 
@@ -204,7 +204,7 @@ static Array<AccessTarget> MakeElevationTargets(const Index aTargetCount)
 static void benchmarkTabulatedItrf1Target2Weeks(benchmark::State& state)
 {
     static const Trajectory trajectory = MakeTabulatedTrajectory(Frame::ITRF());
-    static const AccessTarget target = MakeGroundStationTarget();
+    static const AccessTarget target = MakeLOSTarget();
 
     const Generator generator = {REFERENCE_ENVIRONMENT};
     const Interval interval = Interval::Closed(REFERENCE_START_INSTANT, REFERENCE_TWO_WEEK_END_INSTANT);
@@ -220,7 +220,7 @@ static void benchmarkTabulatedItrf1Target2Weeks(benchmark::State& state)
 static void benchmarkTabulatedGcrf1Target2Weeks(benchmark::State& state)
 {
     static const Trajectory trajectory = MakeTabulatedTrajectory(Frame::GCRF());
-    static const AccessTarget target = MakeGroundStationTarget();
+    static const AccessTarget target = MakeLOSTarget();
 
     const Generator generator = {REFERENCE_ENVIRONMENT};
     const Interval interval = Interval::Closed(REFERENCE_START_INSTANT, REFERENCE_TWO_WEEK_END_INSTANT);

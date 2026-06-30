@@ -162,9 +162,9 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         }
     }
 
-    const bool framesEqual = (outputFrameSPtr_ == aTabulatedModel.outputFrameSPtr_) ||
-                             ((outputFrameSPtr_ != nullptr) && (aTabulatedModel.outputFrameSPtr_ != nullptr) &&
-                              ((*outputFrameSPtr_) == (*aTabulatedModel.outputFrameSPtr_)));
+    const bool framesEqual =
+        ((outputFrameSPtr_ != nullptr) && (aTabulatedModel.outputFrameSPtr_ != nullptr) &&
+         ((*outputFrameSPtr_) == (*aTabulatedModel.outputFrameSPtr_)));
 
     return framesEqual && firstState_ == aTabulatedModel.getFirstState() &&
            lastState_ == aTabulatedModel.getLastState();

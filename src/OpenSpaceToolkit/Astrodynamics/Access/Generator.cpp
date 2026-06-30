@@ -474,10 +474,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
 
-        // Apply each target's 3x3 SEZ rotation to its dx column. A vectorized variant (Eigen strided slicing over
-        // targets) was benchmarked and is not worthwhile: the per-target cost is dominated by the azimuth/elevation
-        // trig below, not this matmul, and the strided gather offsets any SIMD gain (slightly slower at low target
-        // counts, a wash at high counts). The contiguous-block loop is kept.
+        // Not worth optimizing using eigen operations, it's slower for lower N values.
         MatrixXd dx_SEZ = MatrixXd::Zero(3, dx.cols());
         for (Eigen::Index i = 0; i < dx.cols(); ++i)
         {
@@ -669,13 +666,13 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         // check if satellite is in access
         auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
 
-        if (stateFilter)
+        if (this->stateFilter_)
         {
             for (Index i = 0; i < targetCount; ++i)
             {
                 const State fromState = someAccessTargets[i].accessTrajectory().getStateAt(instant);
 
-                inAccess(i) = inAccess(i) && stateFilter(fromState, toTrajectoryState);
+                inAccess(i) = inAccess(i) && this->stateFilter_(fromState, toTrajectoryState);
             }
         }
 
