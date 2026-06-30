@@ -26,8 +26,23 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPositio
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
-    : Model()
+    : Tabulated(aStateArray, anInterpolationType, Frame::GCRF())
 {
+}
+
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Interpolator::Type& anInterpolationType,
+    const Shared<const Frame>& aFrameSPtr
+)
+    : Model(),
+      outputFrameSPtr_(aFrameSPtr)
+{
+    if (aFrameSPtr == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
     VectorXd timestamps;
     MatrixXd coordinates;
 
@@ -48,11 +63,26 @@ Tabulated::Tabulated(
     const Array<State>& aStateArray,
     const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
 )
-    : Model()
+    : Tabulated(aStateArray, anInterpolationTypeMap, Frame::GCRF())
+{
+}
+
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
+    const Shared<const Frame>& aFrameSPtr
+)
+    : Model(),
+      outputFrameSPtr_(aFrameSPtr)
 {
     using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+
+    if (aFrameSPtr == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
 
     VectorXd timestamps;
     MatrixXd coordinates;
@@ -132,7 +162,12 @@ bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
         }
     }
 
-    return firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState();
+    const bool framesEqual =
+        ((outputFrameSPtr_ != nullptr) && (aTabulatedModel.outputFrameSPtr_ != nullptr) &&
+         ((*outputFrameSPtr_) == (*aTabulatedModel.outputFrameSPtr_)));
+
+    return framesEqual && firstState_ == aTabulatedModel.getFirstState() &&
+           lastState_ == aTabulatedModel.getLastState();
 }
 
 bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
@@ -150,6 +185,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
 bool Tabulated::isDefined() const
 {
     return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined();
+}
+
+Shared<const Frame> Tabulated::getFrame() const
+{
+    return outputFrameSPtr_;
 }
 
 Interval Tabulated::getInterval() const
@@ -217,10 +257,10 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
     }
 
-    const Shared<const Frame>& frame = firstState_.accessFrame();
+    // The interpolators are built in the output frame, so the interpolated coordinates are already expressed in it.
     const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
 
-    return State(anInstant, interpolatedCoordinates, frame, coordinatesBroker).inFrame(Frame::GCRF());
+    return State(anInstant, interpolatedCoordinates, outputFrameSPtr_, coordinatesBroker);
 }
 
 Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) const
@@ -298,6 +338,11 @@ Tabulated Tabulated::Default(const Array<State>& aStateArray)
     return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes());
 }
 
+Tabulated Tabulated::Default(const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr)
+{
+    return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes(), aFrameSPtr);
+}
+
 Map<Shared<const CoordinateSubset>, Interpolator::Type> Tabulated::DefaultInterpolationTypes()
 {
     static const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultInterpolationTypes = {
@@ -347,17 +392,23 @@ bool Tabulated::computeInterpolationData(
         }
     );
 
+    // Cache the first and last states in their native frame, so getFirstState()/getLastState() preserve the
+    // frame of the provided states.
     firstState_ = stateArray.accessFirst();
     lastState_ = stateArray.accessLast();
 
     aTimestampVector.resize(stateArray.getSize());
     aCoordinateMatrix.resize(stateArray.getSize(), firstState_.getSize());
 
+    // Express each state in the output frame before extracting its coordinates, so that interpolation is performed
+    // directly in the output frame and calculateStateAt requires no per-evaluation frame transform.
     for (Index i = 0; i < stateArray.getSize(); ++i)
     {
-        aTimestampVector(i) = (stateArray[i].accessInstant() - firstState_.accessInstant()).inSeconds();
+        const State stateInOutputFrame = stateArray[i].inFrame(outputFrameSPtr_);
 
-        aCoordinateMatrix.row(i) = stateArray[i].accessCoordinates();
+        aTimestampVector(i) = (stateInOutputFrame.accessInstant() - firstState_.accessInstant()).inSeconds();
+
+        aCoordinateMatrix.row(i) = stateInOutputFrame.accessCoordinates();
     }
 
     return true;

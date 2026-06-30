@@ -211,12 +211,16 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
-    return [&anAccessTarget, &aToTrajectory, this](const Instant& anInstant) mutable -> bool
+    // Resolve the Earth and bind the state filter once, rather than on every evaluation of the returned condition.
+    const Shared<const Celestial> earthSPtr = this->environment_.accessCelestialObjectWithName("Earth");
+    const std::function<bool(const State&, const State&)> stateFilter = this->stateFilter_;
+
+    return [&anAccessTarget, &aToTrajectory, earthSPtr, stateFilter](const Instant& anInstant) -> bool
     {
         const State fromState = anAccessTarget.accessTrajectory().getStateAt(anInstant);
         const State toState = aToTrajectory.getStateAt(anInstant);
 
-        if (this->getStateFilter() && (!this->getStateFilter()(fromState, toState)))
+        if (stateFilter && (!stateFilter(fromState, toState)))
         {
             return false;
         }
@@ -236,9 +240,7 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
             );
         }
 
-        const AER aer = Generator::CalculateAer(
-            anInstant, fromPosition, toPosition, this->environment_.accessCelestialObjectWithName("Earth")
-        );
+        const AER aer = Generator::CalculateAer(anInstant, fromPosition, toPosition, earthSPtr);
 
         if (visibilityCriterion.is<VisibilityCriterion::AERMask>())
         {
@@ -472,7 +474,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
 
-        // TBI: See if this can be vectorized
+        // Not worth optimizing using eigen operations, it's slower for lower N values.
         MatrixXd dx_SEZ = MatrixXd::Zero(3, dx.cols());
         for (Eigen::Index i = 0; i < dx.cols(); ++i)
         {
@@ -648,26 +650,29 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     MatrixXi inAccessPerTarget = MatrixXi::Zero(instants.getSize(), targetCount);
 
+    // Bind the state filter once, rather than copying the std::function (and re-running isDefined()) on every step.
+    const std::function<bool(const State&, const State&)>& stateFilter = this->stateFilter_;
+
     for (Index index = 0; index < instants.getSize(); ++index)
     {
         const Instant& instant = instants[index];
 
         const State toTrajectoryState = aToTrajectory.getStateAt(instant);
 
-        // calculate target to satellite vector in ITRF
+        // calculate target to satellite vector in ITRF (transform only the position, not the whole state)
         const Vector3d toPositionCoordinates_ITRF =
-            toTrajectoryState.inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            toTrajectoryState.getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
         // check if satellite is in access
         auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
 
-        if (this->getStateFilter())
+        if (this->stateFilter_)
         {
             for (Index i = 0; i < targetCount; ++i)
             {
                 const State fromState = someAccessTargets[i].accessTrajectory().getStateAt(instant);
 
-                inAccess(i) = inAccess(i) && this->getStateFilter()(fromState, toTrajectoryState);
+                inAccess(i) = inAccess(i) && this->stateFilter_(fromState, toTrajectoryState);
             }
         }
 
@@ -755,7 +760,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                             ) -> Triple<Real, Real, Real>
     {
         const Vector3d toPositionCoordinates_ITRF =
-            aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+            aToTrajectory.getStateAt(instant).getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
         const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -801,7 +806,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+                aToTrajectory.getStateAt(instant).getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
             return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
         };
@@ -814,7 +819,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, visibilityCriterion](const Instant& instant) -> bool
         {
             const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+                aToTrajectory.getStateAt(instant).getPosition().inFrame(Frame::ITRF(), instant).getCoordinates();
 
             const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -1011,7 +1016,8 @@ Instant Generator::FindTimeOfClosestApproach(
         const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
 
         const Vector3d deltaPosition =
-            queryFromState.getPosition().accessCoordinates() - queryToState.getPosition().accessCoordinates();
+            queryFromState.getPosition().inFrame(Frame::ITRF(), queryInstant).accessCoordinates() -
+            queryToState.getPosition().inFrame(Frame::ITRF(), queryInstant).accessCoordinates();
 
         const Real rangeSquared = deltaPosition.squaredNorm();
 
@@ -1078,9 +1084,9 @@ Angle Generator::CalculateElevationAt(
 )
 {
     const Vector3d fromPositionCoordinates_ITRF =
-        aFromTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+        aFromTrajectory.getStateAt(anInstant).getPosition().inFrame(Frame::ITRF(), anInstant).getCoordinates();
     const Vector3d toPositionCoordinates_ITRF =
-        aToTrajectory.getStateAt(anInstant).inFrame(Frame::ITRF()).getPosition().getCoordinates();
+        aToTrajectory.getStateAt(anInstant).getPosition().inFrame(Frame::ITRF(), anInstant).getCoordinates();
 
     const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinates_ITRF;
 
