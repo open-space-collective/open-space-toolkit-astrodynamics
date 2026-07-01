@@ -114,9 +114,12 @@ Tabulated::Tabulated(
 
         if (interpolationTypeIt == interpolationTypeBySubsetId.end())
         {
-            throw ostk::core::error::RuntimeError(String::Format(
-                "No interpolation type was provided for the coordinate subset [{}].", coordinateSubsetSPtr->getName()
-            ));
+            throw ostk::core::error::RuntimeError(
+                String::Format(
+                    "No interpolation type was provided for the coordinate subset [{}].",
+                    coordinateSubsetSPtr->getName()
+                )
+            );
         }
 
         for (Size i = 0; i < coordinateSubsetSPtr->getSize(); ++i)
@@ -213,6 +216,33 @@ Interpolator::Type Tabulated::getInterpolationType() const
     return interpolators_[0]->getInterpolationType();
 }
 
+Map<Shared<const CoordinateSubset>, Interpolator::Type> Tabulated::getInterpolationTypes() const
+{
+    using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tabulated");
+    }
+
+    Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes;
+
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
+
+    // The interpolators are stored in the same order as the coordinate subsets, with each subset contributing one
+    // interpolator per coordinate. The first interpolator of each subset therefore reports that subset's type.
+    Index coordinateIndex = 0;
+
+    for (const auto& coordinateSubsetSPtr : coordinatesBroker->accessSubsets())
+    {
+        interpolationTypes[coordinateSubsetSPtr] = interpolators_[coordinateIndex]->getInterpolationType();
+
+        coordinateIndex += coordinateSubsetSPtr->getSize();
+    }
+
+    return interpolationTypes;
+}
+
 State Tabulated::getFirstState() const
 {
     return firstState_;
@@ -242,12 +272,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
     {
-        throw ostk::core::error::RuntimeError(String::Format(
-            "Provided instant [{}] is outside of interpolation range [{}, {}].",
-            anInstant.toString(),
-            firstState_.accessInstant().toString(),
-            lastState_.accessInstant().toString()
-        ));
+        throw ostk::core::error::RuntimeError(
+            String::Format(
+                "Provided instant [{}] is outside of interpolation range [{}, {}].",
+                anInstant.toString(),
+                firstState_.accessInstant().toString(),
+                lastState_.accessInstant().toString()
+            )
+        );
     }
 
     VectorXd interpolatedCoordinates(interpolators_.getSize());

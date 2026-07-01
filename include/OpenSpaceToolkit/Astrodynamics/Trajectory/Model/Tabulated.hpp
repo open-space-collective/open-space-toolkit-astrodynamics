@@ -207,7 +207,22 @@ class Tabulated : public virtual Model
     /// interpolation type of the first coordinate subset.
     ///
     /// @return The interpolation type.
+    [[deprecated(
+        "Use getInterpolationTypes() instead, which returns the interpolation type of every coordinate subset. This "
+        "method only reports the interpolation type of the first coordinate subset and will be removed in a future "
+        "version."
+    )]]
     Interpolator::Type getInterpolationType() const;
+
+    /// @brief Get the interpolation type used for each coordinate subset of the tabulated model.
+    ///
+    /// @code{.cpp}
+    ///     Map<Shared<const CoordinateSubset>, Interpolator::Type> types = tabulated.getInterpolationTypes();
+    /// @endcode
+    ///
+    /// @return A mapping from each coordinate subset present in the model to the interpolation type used for that
+    /// subset's coordinates.
+    Map<Shared<const CoordinateSubset>, Interpolator::Type> getInterpolationTypes() const;
 
     /// @brief Get the first state in the tabulated trajectory.
     ///

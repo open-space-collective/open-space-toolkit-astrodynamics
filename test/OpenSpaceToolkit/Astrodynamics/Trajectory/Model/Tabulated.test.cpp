@@ -276,3 +276,43 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpo
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::MassFlowRate()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::BallisticCoefficient()), Interpolator::Type::ZeroOrder);
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, GetInterpolationTypes)
+{
+    // An undefined model raises.
+    {
+        const Tabulated tabulated({}, Interpolator::Type::Linear);
+
+        EXPECT_FALSE(tabulated.isDefined());
+        EXPECT_THROW(tabulated.getInterpolationTypes(), ostk::core::error::runtime::Undefined);
+    }
+
+    // A single-type model reports that type for every coordinate subset.
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::CubicSpline);
+
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes =
+            tabulated.getInterpolationTypes();
+
+        EXPECT_EQ(interpolationTypes.size(), Size(2));
+        EXPECT_EQ(interpolationTypes.at(CartesianPosition::Default()), Interpolator::Type::CubicSpline);
+        EXPECT_EQ(interpolationTypes.at(CartesianVelocity::Default()), Interpolator::Type::CubicSpline);
+    }
+
+    // A per-coordinate-subset model reports each subset's interpolation type.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> requestedTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        const Tabulated tabulated(states_, requestedTypes);
+
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes =
+            tabulated.getInterpolationTypes();
+
+        EXPECT_EQ(interpolationTypes.size(), Size(2));
+        EXPECT_EQ(interpolationTypes.at(CartesianPosition::Default()), Interpolator::Type::CubicSpline);
+        EXPECT_EQ(interpolationTypes.at(CartesianVelocity::Default()), Interpolator::Type::Linear);
+    }
+}

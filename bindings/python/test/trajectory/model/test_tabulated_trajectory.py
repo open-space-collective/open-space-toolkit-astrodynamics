@@ -322,6 +322,55 @@ class TestTabulatedTrajectory:
     ):
         assert tabulated.get_interpolation_type() == Interpolator.Type.CubicSpline
 
+    def test_get_interpolation_types(
+        self,
+        tabulated: Tabulated,
+    ):
+        interpolation_types: dict = tabulated.get_interpolation_types()
+
+        assert isinstance(interpolation_types, dict)
+        assert len(interpolation_types) == 2
+
+        interpolation_types_by_name: dict = {
+            subset.get_name(): interpolation_type
+            for subset, interpolation_type in interpolation_types.items()
+        }
+
+        assert (
+            interpolation_types_by_name[CartesianPosition.default().get_name()]
+            == Interpolator.Type.CubicSpline
+        )
+        assert (
+            interpolation_types_by_name[CartesianVelocity.default().get_name()]
+            == Interpolator.Type.CubicSpline
+        )
+
+    def test_get_interpolation_types_per_subset(
+        self,
+        test_states: list[State],
+    ):
+        tabulated: Tabulated = Tabulated(
+            states=test_states,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                CartesianVelocity.default(): Interpolator.Type.Linear,
+            },
+        )
+
+        interpolation_types_by_name: dict = {
+            subset.get_name(): interpolation_type
+            for subset, interpolation_type in tabulated.get_interpolation_types().items()
+        }
+
+        assert (
+            interpolation_types_by_name[CartesianPosition.default().get_name()]
+            == Interpolator.Type.CubicSpline
+        )
+        assert (
+            interpolation_types_by_name[CartesianVelocity.default().get_name()]
+            == Interpolator.Type.Linear
+        )
+
     def test_get_frame_default(
         self,
         tabulated: Tabulated,

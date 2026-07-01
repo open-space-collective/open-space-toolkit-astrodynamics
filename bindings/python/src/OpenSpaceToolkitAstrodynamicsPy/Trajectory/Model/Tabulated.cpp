@@ -154,8 +154,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
             R"doc(
                 Get the interpolation type of the model.
 
+                Deprecated:
+                    Use `get_interpolation_types` instead, which returns the interpolation type of every coordinate
+                    subset. This method only reports the interpolation type of the first coordinate subset and will be
+                    removed in a future version.
+
                 Returns:
                     Interpolator.Type: The interpolation type of the model.
+             )doc"
+        )
+
+        .def(
+            "get_interpolation_types",
+            &Tabulated::getInterpolationTypes,
+            R"doc(
+                Get the interpolation type used for each coordinate subset of the model.
+
+                Returns:
+                    dict[CoordinateSubset, Interpolator.Type]: A mapping from each coordinate subset present in the model to the interpolation type used for that subset's coordinates.
              )doc"
         )
 
