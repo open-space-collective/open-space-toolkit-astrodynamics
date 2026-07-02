@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -29,6 +30,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::StateBuilder;
 using MathNumericalSolver = ostk::mathematics::solver::NumericalSolver;
 
 /// @brief Define an astrodynamics state contextual Numerical Solver. This class inherits from the OSTk Mathematics
@@ -243,9 +245,12 @@ class NumericalSolver : public MathNumericalSolver
 
    private:
     RootSolver rootSolver_;
-    Array<State> observedStates_;
+    mutable Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
     Real maxStepSize_ = Real::Undefined();
+    StateBuilder observedStateBuilder_ = StateBuilder::Undefined();
+    Instant observedStatesStartInstant_ = Instant::Undefined();
+    mutable bool observedStatesAreUpToDate_ = true;
 
     /// @brief Constructor
     ///
@@ -273,6 +278,12 @@ class NumericalSolver : public MathNumericalSolver
     ///
     /// @param aState The state to observe
     void observeState(const State& aState);
+
+    /// @brief Build the observed State objects from the observed state vectors of the underlying
+    ///        solver, if they have not been built yet. State construction is deferred until the
+    ///        observed states are actually accessed, to avoid building one State per accepted
+    ///        integration step when only the final state is needed.
+    void buildObservedStates() const;
 
     /// @brief Integrate with controlled stepper using the unified dense-output refinement.
     ///

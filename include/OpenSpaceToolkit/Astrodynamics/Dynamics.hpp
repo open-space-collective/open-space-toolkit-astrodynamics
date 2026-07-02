@@ -66,6 +66,7 @@ class Dynamics
         Array<Pair<Index, Size>> readIndexes;
         Array<Pair<Index, Size>> writeIndexes;
         Size readStateSize;
+        mutable VectorXd readStateBuffer;  ///< Scratch buffer reused across derivative evaluations
     };
 
     /// @brief Constructor
@@ -156,8 +157,11 @@ class Dynamics
         const Shared<const Frame>& aFrameSPtr
     );
 
-    static VectorXd extractReadState(
-        const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+    static void extractReadState(
+        const NumericalSolver::StateVector& x,
+        const Array<Pair<Index, Size>>& readInfo,
+        const Size readSize,
+        VectorXd& aReadState
     );
 
     static void applyContribution(

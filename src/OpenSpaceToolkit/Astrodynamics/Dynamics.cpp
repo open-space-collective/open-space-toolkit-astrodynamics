@@ -40,6 +40,8 @@ Dynamics::Context::Context(
     {
         this->readStateSize += pair.second;
     }
+
+    this->readStateBuffer = VectorXd::Zero(this->readStateSize);
 }
 
 Dynamics::Dynamics(const String& aName)
@@ -100,33 +102,39 @@ void Dynamics::DynamicalEquations(
 
     for (const Dynamics::Context& dynamicsContext : aContextArray)
     {
-        const VectorXd contribution = dynamicsContext.dynamics->computeContribution(
-            nextInstant,
-            Dynamics::extractReadState(x, dynamicsContext.readIndexes, dynamicsContext.readStateSize),
-            aFrameSPtr
+        Dynamics::extractReadState(
+            x, dynamicsContext.readIndexes, dynamicsContext.readStateSize, dynamicsContext.readStateBuffer
         );
+
+        const VectorXd contribution =
+            dynamicsContext.dynamics->computeContribution(nextInstant, dynamicsContext.readStateBuffer, aFrameSPtr);
 
         Dynamics::applyContribution(dxdt, contribution, dynamicsContext.writeIndexes);
     }
 }
 
-VectorXd Dynamics::extractReadState(
-    const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+void Dynamics::extractReadState(
+    const NumericalSolver::StateVector& x,
+    const Array<Pair<Index, Size>>& readInfo,
+    const Size readSize,
+    VectorXd& aReadState
 )
 {
+    if (aReadState.size() != static_cast<Eigen::Index>(readSize))
+    {
+        aReadState.resize(readSize);
+    }
+
     Index offset = 0;
-    VectorXd reducedState = VectorXd(readSize);
 
     for (const Pair<Index, Size>& pair : readInfo)
     {
         const Index subsetOffset = pair.first;
         const Size subsetSize = pair.second;
 
-        reducedState.segment(offset, subsetSize) = x.segment(subsetOffset, subsetSize);
+        aReadState.segment(offset, subsetSize) = x.segment(subsetOffset, subsetSize);
         offset += subsetSize;
     }
-
-    return reducedState;
 }
 
 void Dynamics::applyContribution(
