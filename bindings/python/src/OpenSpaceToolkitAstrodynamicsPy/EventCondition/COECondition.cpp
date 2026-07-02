@@ -24,6 +24,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             R"doc(
                 A COE Event Condition.
 
+                Deprecated:
+                    Use `OrbitalElementCondition` with `OrbitalElementCondition.Theory.Osculating` instead. This
+                    class will be removed in a future release.
+
             )doc"
         )
 
