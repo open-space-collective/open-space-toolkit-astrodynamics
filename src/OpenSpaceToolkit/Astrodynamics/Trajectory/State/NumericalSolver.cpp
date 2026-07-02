@@ -124,6 +124,8 @@ const Array<State>& NumericalSolver::accessObservedStates() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
+    this->buildObservedStates();
+
     return observedStates_;
 }
 
@@ -163,6 +165,10 @@ Array<State> NumericalSolver::integrateTime(
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
+    // Materialize any pending observed states before the underlying solver clears the observed
+    // state vectors they are built from.
+    this->buildObservedStates();
+
     const Array<Real> durationArray = anInstantArray.map<Real>(
         [&aState](const Instant& anInstant) -> Real
         {
@@ -194,7 +200,7 @@ State NumericalSolver::integrateTime(
     const State& aState, const Instant& anEndTime, const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    observedStates_ = {};
+    observedStates_.clear();
 
     const StateBuilder stateBuilder = {aState};
 
@@ -202,10 +208,10 @@ State NumericalSolver::integrateTime(
         aState.accessCoordinates(), (anEndTime - aState.accessInstant()).inSeconds(), aSystemOfEquations
     );
 
-    for (const auto& state : MathNumericalSolver::getObservedStateVectors())
-    {
-        observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
-    }
+    // Defer building the observed State objects until they are actually accessed
+    observedStateBuilder_ = stateBuilder;
+    observedStatesStartInstant_ = aState.accessInstant();
+    observedStatesAreUpToDate_ = false;
 
     return stateBuilder.build(anEndTime, solution.first);
 }
@@ -233,6 +239,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     }
 
     observedStates_ = {aState};
+    observedStatesAreUpToDate_ = true;
 
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
 
@@ -365,6 +372,29 @@ void NumericalSolver::observeState(const State& aState)
     }
 }
 
+void NumericalSolver::buildObservedStates() const
+{
+    if (observedStatesAreUpToDate_)
+    {
+        return;
+    }
+
+    const Array<MathNumericalSolver::Solution>& observedStateVectors =
+        MathNumericalSolver::accessObservedStateVectors();
+
+    observedStates_.clear();
+    observedStates_.reserve(observedStateVectors.getSize());
+
+    for (const MathNumericalSolver::Solution& solution : observedStateVectors)
+    {
+        observedStates_.add(observedStateBuilder_.build(
+            observedStatesStartInstant_ + Duration::Seconds(solution.second), solution.first
+        ));
+    }
+
+    observedStatesAreUpToDate_ = true;
+}
+
 namespace
 {
 
@@ -426,7 +456,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     double aSignedTimeStep
 )
 {
-    observedStates_ = {};
+    observedStates_.clear();
+    observedStatesAreUpToDate_ = true;
 
     const StateBuilder stateBuilder = {aState};
 
