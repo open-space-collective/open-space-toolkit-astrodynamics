@@ -31,6 +31,7 @@ ostk.astrodynamics.trajectory.orbit.model.Propagated
       ~Propagated.is_propagated
       ~Propagated.is_sgp4
       ~Propagated.set_cached_state_array
+      ~Propagated.to_tabulated
    
    
 

@@ -112,6 +112,32 @@
       <node id="45">
         <label>OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp</label>
       </node>
+      <node id="64">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp</label>
+        <link refid="_trajectory_2_orbit_2_model_2_tabulated_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
       <node id="17">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
         <link refid="_state_8hpp"/>
@@ -179,6 +205,40 @@
       <node id="24">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
+      <node id="65">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp</label>
+        <link refid="_trajectory_2_model_2_tabulated_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
       <node id="21">
         <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
       </node>
@@ -200,6 +260,9 @@
       </node>
       <node id="52">
         <label>OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp</label>
+      </node>
+      <node id="67">
+        <label>OpenSpaceToolkit/Physics/Time/Scale.hpp</label>
       </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp</label>
@@ -276,6 +339,9 @@
         <childnode refid="32" relation="include">
         </childnode>
       </node>
+      <node id="66">
+        <label>OpenSpaceToolkit/Core/FileSystem/File.hpp</label>
+      </node>
       <node id="18">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
       </node>
@@ -347,6 +413,8 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>

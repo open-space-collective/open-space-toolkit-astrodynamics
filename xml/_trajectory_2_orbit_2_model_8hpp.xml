@@ -201,6 +201,8 @@
       <node id="14">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp</label>
         <link refid="_trajectory_2_orbit_2_model_2_tabulated_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="4" relation="include">

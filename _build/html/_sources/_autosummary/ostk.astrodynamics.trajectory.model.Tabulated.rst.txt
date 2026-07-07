@@ -20,6 +20,7 @@ ostk.astrodynamics.trajectory.model.Tabulated
       ~Tabulated.calculate_states_at
       ~Tabulated.default
       ~Tabulated.get_first_state
+      ~Tabulated.get_frame
       ~Tabulated.get_interpolation_type
       ~Tabulated.get_interval
       ~Tabulated.get_last_state
