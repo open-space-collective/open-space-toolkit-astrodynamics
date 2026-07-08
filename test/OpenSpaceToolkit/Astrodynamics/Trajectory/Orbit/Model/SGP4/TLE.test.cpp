@@ -150,6 +150,26 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
     {
         EXPECT_ANY_THROW(TLE::Undefined().getSatelliteNumber());
     }
+
+    // Invalid Alpha-5 character in satellite number field
+    {
+        const String firstLine = "1 I5544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9992";
+        const String secondLine = "2 I5544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128314";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_THROW(tle.getSatelliteNumber(), ostk::core::error::runtime::Wrong);
+    }
+
+    // Empty satellite number field
+    {
+        const String firstLine = "1     U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  999 4";
+        const String secondLine = "2        51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_THROW(tle.getSatelliteNumber(), ostk::core::error::runtime::Wrong);
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatelliteNumberString)
@@ -642,8 +662,48 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
         EXPECT_EQ(100001, tle.getSatelliteNumber());
         EXPECT_EQ("A0001", tle.getFirstLine().getSubstring(2, 5));
 
-        // Values above the Alpha-5 range still throw
-        EXPECT_ANY_THROW(tle.setSatelliteNumber(340000));
+        // Values outside the Alpha-5 range throw
+        EXPECT_THROW(tle.setSatelliteNumber(340000), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(tle.setSatelliteNumber(-1), ostk::core::error::runtime::Wrong);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SatelliteNumberToAlpha5)
+{
+    using ostk::core::type::String;
+
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+
+    {
+        EXPECT_EQ("25544", TLE::SatelliteNumberToAlpha5(25544));
+        EXPECT_EQ("99999", TLE::SatelliteNumberToAlpha5(99999));
+        EXPECT_EQ("A0000", TLE::SatelliteNumberToAlpha5(100000));
+        EXPECT_EQ("A5544", TLE::SatelliteNumberToAlpha5(105544));
+    }
+
+    {
+        EXPECT_THROW(TLE::SatelliteNumberToAlpha5(-1), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(TLE::SatelliteNumberToAlpha5(340000), ostk::core::error::runtime::Wrong);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Alpha5ToSatelliteNumber)
+{
+    using ostk::core::type::Integer;
+
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+
+    {
+        EXPECT_EQ(25544, TLE::Alpha5ToSatelliteNumber("25544"));
+        EXPECT_EQ(99999, TLE::Alpha5ToSatelliteNumber("99999"));
+        EXPECT_EQ(100000, TLE::Alpha5ToSatelliteNumber("A0000"));
+        EXPECT_EQ(105544, TLE::Alpha5ToSatelliteNumber("A5544"));
+    }
+
+    {
+        EXPECT_THROW(TLE::Alpha5ToSatelliteNumber(""), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(TLE::Alpha5ToSatelliteNumber("     "), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(TLE::Alpha5ToSatelliteNumber("I5544"), ostk::core::error::runtime::Wrong);
     }
 }
 

@@ -81,6 +81,24 @@ class TestTLE:
     def test_get_satellite_number(self, tle: TLE):
         assert tle.get_satellite_number() == 25544
 
+    def test_get_satellite_number_failure_invalid_alpha5_character(self):
+        tle = TLE(
+            first_line="1 I5544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9992",
+            second_line="2 I5544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128314",
+        )
+
+        with pytest.raises(RuntimeError):
+            tle.get_satellite_number()
+
+    def test_get_satellite_number_failure_empty_field(self):
+        tle = TLE(
+            first_line="1     U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  999 4",
+            second_line="2        51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316",
+        )
+
+        with pytest.raises(RuntimeError):
+            tle.get_satellite_number()
+
     def test_get_satellite_number_string(self, tle: TLE):
         assert tle.get_satellite_number_string() == "25544"
 
@@ -159,6 +177,13 @@ class TestTLE:
         tle.set_satellite_number(25544)
 
         assert tle.get_satellite_number() == 25544
+
+    def test_set_satellite_number_failure_out_of_range(self, tle: TLE):
+        with pytest.raises(RuntimeError):
+            tle.set_satellite_number(340000)
+
+        with pytest.raises(RuntimeError):
+            tle.set_satellite_number(-1)
 
     def test_set_epoch(self, tle: TLE):
         tle.set_epoch(
