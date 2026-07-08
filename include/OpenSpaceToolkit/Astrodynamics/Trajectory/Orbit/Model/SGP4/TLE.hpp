@@ -151,6 +151,11 @@ class TLE
 
     /// @brief Get satellite number
     ///
+    ///        For satellite numbers above 99999 this returns the decoded integer and not
+    ///        the raw Alpha-5 encoded field (e.g. 105544 instead of "A5544"). If you need
+    ///        the raw Alpha-5 encoded field or the string representation that matches the
+    ///        content of the TLE, use getSatelliteNumberString() instead.
+    ///
     /// @return Satellite number
     Integer getSatelliteNumber() const;
 
