@@ -34,6 +34,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Constructor
         EXPECT_NO_THROW(TLE(firstLine, secondLine));
     }
 
+    // Alpha-5 satellite number
+    {
+        const String firstLine = "1 A5544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
+        const String secondLine = "2 A5544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563535";
+
+        EXPECT_NO_THROW(TLE(firstLine, secondLine));
+    }
+
     // Wrong checksum
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
@@ -141,6 +149,37 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
 
     {
         EXPECT_ANY_THROW(TLE::Undefined().getSatelliteNumber());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatelliteNumberString)
+{
+    using ostk::core::type::String;
+
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+
+    {
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_EQ("25544", tle.getSatelliteNumberString());
+    }
+
+    // Alpha-5 satellite number is returned as the raw field
+    {
+        const String firstLine = "1 A5544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
+        const String secondLine = "2 A5544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563535";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_EQ("A5544", tle.getSatelliteNumberString());
+        EXPECT_EQ(105544, tle.getSatelliteNumber());
+    }
+
+    {
+        EXPECT_ANY_THROW(TLE::Undefined().getSatelliteNumberString());
     }
 }
 
@@ -597,7 +636,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
 
         TLE tle(firstLine, secondLine);
 
-        EXPECT_ANY_THROW(tle.setSatelliteNumber(100001));
+        // Satellite numbers above 99999 are now valid via Alpha-5 encoding, up to 339999
+        EXPECT_NO_THROW(tle.setSatelliteNumber(100001));
+
+        EXPECT_EQ(100001, tle.getSatelliteNumber());
+        EXPECT_EQ("A0001", tle.getFirstLine().getSubstring(2, 5));
+
+        // Values above the Alpha-5 range still throw
+        EXPECT_ANY_THROW(tle.setSatelliteNumber(340000));
     }
 }
 
@@ -1313,6 +1359,30 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 
             EXPECT_EQ("1     0U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2     0  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
+        }
+
+        {
+            const TLE tle = TLE::Construct(
+                100000,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
+
+            EXPECT_EQ("1 A0000U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
+            EXPECT_EQ("2 A0000  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {

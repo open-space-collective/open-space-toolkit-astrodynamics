@@ -123,6 +123,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
             )doc"
         )
         .def(
+            "get_satellite_number_string",
+            &TLE::getSatelliteNumberString,
+            R"doc(
+                Get the satellite number field as it appears in the TLE.
+
+                For satellite numbers above 99999 this returns the raw Alpha-5 encoded
+                field (e.g. "A5544"), rather than the decoded integer.
+
+                Returns:
+                    str: The satellite number field.
+
+            )doc"
+        )
+        .def(
             "get_classification",
             &TLE::getClassification,
             R"doc(

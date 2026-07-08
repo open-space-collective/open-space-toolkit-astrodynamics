@@ -107,7 +107,17 @@ Integer TLE::getSatelliteNumber() const
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Integer::Parse(firstLine_.getSubstring(2, 5).trim());
+    return TLE::Alpha5ToSatelliteNumber(firstLine_.getSubstring(2, 5));
+}
+
+String TLE::getSatelliteNumberString() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE");
+    }
+
+    return firstLine_.getSubstring(2, 5);
 }
 
 String TLE::getClassification() const
@@ -339,29 +349,23 @@ void TLE::setSatelliteNumber(const Integer& aSatelliteNumber)
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    if (aSatelliteNumber > 99999 || aSatelliteNumber.isNegative())
+    if (aSatelliteNumber.isNegative() || aSatelliteNumber > 339999)
     {
-        throw ostk::core::error::runtime::Wrong("Provided Satellite Number");
+        throw ostk::core::error::runtime::Wrong("Satellite number must be in range [0, 339999]");
     }
 
-    const String satelliteNumberString = aSatelliteNumber.toString();
-    const String sanitizedSatelliteNumberString =
-        String::Replicate(" ", 5 - satelliteNumberString.getLength()) + satelliteNumberString;
-    const String newIntermediateFirstLine =
-        firstLine_.getSubstring(0, 2) + sanitizedSatelliteNumberString + firstLine_.getSubstring(7, 62);
-    const String newIntermediateSecondLine =
-        secondLine_.getSubstring(0, 2) + sanitizedSatelliteNumberString + secondLine_.getSubstring(7, 62);
+    const String satelliteNumberString = TLE::SatelliteNumberToAlpha5(aSatelliteNumber);
 
-    const Integer firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
+    const String newIntermediateFirstLine =
+        firstLine_.getSubstring(0, 2) + satelliteNumberString + firstLine_.getSubstring(7, 62);
+    const String newIntermediateSecondLine =
+        secondLine_.getSubstring(0, 2) + satelliteNumberString + secondLine_.getSubstring(7, 62);
+
+    const Integer firstLineNewChecksum  = TLE::GenerateChecksum(newIntermediateFirstLine);
     const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
 
-    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + firstLineNewChecksum.toString();
+    firstLine_  = newIntermediateFirstLine.getSubstring(0, 68)  + firstLineNewChecksum.toString();
     secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + secondLineNewChecksum.toString();
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
 }
 
 void TLE::setEpoch(const Instant& anInstant)
@@ -598,7 +602,7 @@ TLE TLE::Construct(
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
 
-    if (aSatelliteNumber > 99999)
+    if (aSatelliteNumber > 399999)
     {
         throw ostk::core::error::runtime::Wrong("Satellite number", aSatelliteNumber);
     }
@@ -710,7 +714,7 @@ TLE TLE::Construct(
 
     const String firstLine = String::Format(
         "1 {: >5}{:1} {: <8} {:0>2}{:0>12.8f} {} {} {:8} {:1}{: >5}0",
-        aSatelliteNumber,
+        TLE::SatelliteNumberToAlpha5(aSatelliteNumber),
         aClassification,
         anInternationalDesignator,
         epochYear,
@@ -724,7 +728,7 @@ TLE TLE::Construct(
 
     const String secondLine = String::Format(
         "2 {: >5} {:8.4f} {:8.4f} {} {:8.4f} {:8.4f} {:11.8f}{: >5}0",
-        aSatelliteNumber,
+        TLE::SatelliteNumberToAlpha5(aSatelliteNumber),
         anInclination.inDegrees(0.0, 360.0),
         aRaan.inDegrees(0.0, 360.0),
         String::Format("{:9.7f}", anEccentricity).replace("0.", ""),
@@ -848,6 +852,66 @@ Real TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
     }
 
     return Real::Parse(string);
+}
+
+String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber) {
+    static const String alpha5Letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+    if (aSatelliteNumber < 0 || aSatelliteNumber > 339999)
+    {
+        throw ostk::core::error::runtime::Wrong("Satellite number out of Alpha-5 range [0, 339999]");
+    }
+
+    if (aSatelliteNumber <= 99999)
+    {
+        // Standard: right-justify in 5 characters
+        const String digits = aSatelliteNumber.toString();
+        return String::Replicate(" ", 5 - digits.getLength()) + digits;
+    }
+
+    // Alpha-5: leading letter encodes the first one or two digits
+    const Integer leadingDigits = aSatelliteNumber / 10000;  // e.g. 182931 -> 18
+    const Integer remainder     = aSatelliteNumber % 10000;  // e.g. 182931 -> 2931
+
+    const String remainderString = remainder.toString();
+    const String paddedRemainder = String::Replicate("0", 4 - remainderString.getLength()) + remainderString;
+
+    const char letter = alpha5Letters[static_cast<int>(leadingDigits) - 10];  // 10 -> 'A', 11 -> 'B', ...
+
+    return String(1, letter) + paddedRemainder;
+}
+
+Integer TLE::Alpha5ToSatelliteNumber(const String& aField) {
+    static const String alpha5Letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+    String field = aField;  // mutable copy
+    field.trim();           // mutates in place
+
+    if (field.isEmpty())
+    {
+        throw ostk::core::error::runtime::Wrong("TLE satellite number field is empty");
+    }
+
+    const char firstChar = field[0];
+
+    if (std::isdigit(static_cast<unsigned char>(firstChar)))
+    {
+        return Integer::Parse(field);
+    }
+
+    const auto letterIndex = alpha5Letters.find(firstChar);
+
+    if (letterIndex == std::string::npos)
+    {
+        throw ostk::core::error::runtime::Wrong(
+            String::Format("Invalid Alpha-5 character '{}' in TLE satellite number field", firstChar)
+        );
+    }
+
+    const Integer leadingDigits = static_cast<int>(letterIndex) + 10;
+    const String remainingDigits = field.getSubstring(1, 4);
+
+    return Integer::Parse(String::Format("{}{}", leadingDigits, remainingDigits));
 }
 
 }  // namespace sgp4

@@ -189,3 +189,28 @@ class TestSGP4:
         ]
         states = sgp4.calculate_states_at(instants)
         assert states is not None
+
+    def test_alpha5(
+        self,
+        tle: TLE,
+        sgp4: SGP4,
+    ):
+        # Build an Alpha-5 variant of the ISS TLE (differs only in the satellite number field).
+        alpha5_tle: TLE = TLE(tle.get_first_line(), tle.get_second_line())
+        alpha5_tle.set_satellite_number(105544)
+
+        assert alpha5_tle.get_satellite_number_string() == "A5544"
+        assert alpha5_tle.get_satellite_number() == 105544
+
+        # Construction and propagation must not raise on an Alpha-5 TLE.
+        alpha5_sgp4: SGP4 = SGP4(alpha5_tle)
+
+        state = alpha5_sgp4.calculate_state_at(alpha5_tle.get_epoch())
+        assert state is not None
+        assert state.is_defined()
+
+        # The Alpha-5 model propagates identically to the numeric model (NORAD number is metadata).
+        state_numeric = sgp4.calculate_state_at(tle.get_epoch())
+        assert list(state.get_position().get_coordinates()) == pytest.approx(
+            list(state_numeric.get_position().get_coordinates()), abs=1e-6
+        )

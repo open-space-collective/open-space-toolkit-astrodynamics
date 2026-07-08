@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -33,6 +34,38 @@ using ostk::physics::time::Interval;
 
 const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 
+namespace
+{
+
+// The third-party libsgp4 library re-parses the raw TLE line strings and rejects any non-digit
+// character in the satellite (NORAD) number field. This means Alpha-5 satellite numbers (e.g.
+// "A5544"), which OSTk's TLE supports, would cause libsgp4::Tle construction to throw.
+//
+// libsgp4 never uses the satellite number in its propagation math, so we hand it a purely numeric
+// placeholder for that field when the field is Alpha-5 encoded. OSTk's own TLE object retains the
+// true satellite number for all its accessors; only the string given to libsgp4 is altered.
+String SanitizeLineForLibsgp4(const String& aLine)
+{
+    // Satellite number occupies columns 2-6 (0-indexed) of a TLE line.
+    const String satelliteNumberField = aLine.getSubstring(2, 5).trim();
+
+    if (satelliteNumberField.isEmpty() || std::isdigit(static_cast<unsigned char>(satelliteNumberField[0])))
+    {
+        // Standard numeric field (or empty): pass the line through unchanged.
+        return aLine;
+    }
+
+    // Alpha-5 field: replace columns 2-6 with a numeric placeholder. Both lines receive the same
+    // value so libsgp4's "satellite numbers must match" check passes. Line length (69) and the
+    // leading '1'/'2' are preserved. libsgp4 does not validate the checksum, so the trailing
+    // checksum digit is left untouched.
+    static const String placeholder = "00000";
+
+    return aLine.getSubstring(0, 2) + placeholder + aLine.getSubstring(7, aLine.getLength() - 7);
+}
+
+}  // namespace
+
 class SGP4::Impl
 {
    public:
@@ -55,7 +88,11 @@ class SGP4::Impl
 SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : tle_(aTle),
       outputFrameSPtr_(anOutputFrameSPtr),
-      sgp4_(libsgp4::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
+      sgp4_(libsgp4::Tle(
+          tle_.getSatelliteName(),
+          SanitizeLineForLibsgp4(tle_.getFirstLine()),
+          SanitizeLineForLibsgp4(tle_.getSecondLine())
+      )),
       temeFrameOfEpochSPtr_(Frame::TEME())
 {
 }
