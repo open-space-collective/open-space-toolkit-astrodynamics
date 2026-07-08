@@ -668,45 +668,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SatelliteNumberToAlpha5)
-{
-    using ostk::core::type::String;
-
-    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
-
-    {
-        EXPECT_EQ("25544", TLE::SatelliteNumberToAlpha5(25544));
-        EXPECT_EQ("99999", TLE::SatelliteNumberToAlpha5(99999));
-        EXPECT_EQ("A0000", TLE::SatelliteNumberToAlpha5(100000));
-        EXPECT_EQ("A5544", TLE::SatelliteNumberToAlpha5(105544));
-    }
-
-    {
-        EXPECT_THROW(TLE::SatelliteNumberToAlpha5(-1), ostk::core::error::runtime::Wrong);
-        EXPECT_THROW(TLE::SatelliteNumberToAlpha5(340000), ostk::core::error::runtime::Wrong);
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Alpha5ToSatelliteNumber)
-{
-    using ostk::core::type::Integer;
-
-    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
-
-    {
-        EXPECT_EQ(25544, TLE::Alpha5ToSatelliteNumber("25544"));
-        EXPECT_EQ(99999, TLE::Alpha5ToSatelliteNumber("99999"));
-        EXPECT_EQ(100000, TLE::Alpha5ToSatelliteNumber("A0000"));
-        EXPECT_EQ(105544, TLE::Alpha5ToSatelliteNumber("A5544"));
-    }
-
-    {
-        EXPECT_THROW(TLE::Alpha5ToSatelliteNumber(""), ostk::core::error::runtime::Wrong);
-        EXPECT_THROW(TLE::Alpha5ToSatelliteNumber("     "), ostk::core::error::runtime::Wrong);
-        EXPECT_THROW(TLE::Alpha5ToSatelliteNumber("I5544"), ostk::core::error::runtime::Wrong);
-    }
-}
-
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
 {
     using ostk::core::type::String;
@@ -2355,6 +2316,52 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 
             EXPECT_EQ("1 25544U 22001YAM 08264.51782528 -.00002182  00000-0 -11606-4 0  2922", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391999990", tle.getSecondLine());
+        }
+
+        {
+            EXPECT_THROW(
+                TLE::Construct(
+                    340000,
+                    classification,
+                    internationalDesignator,
+                    epoch,
+                    meanMotionFirstTimeDerivativeDividedByTwo,
+                    meanMotionSecondTimeDerivativeDividedBySix,
+                    bStarDragTerm,
+                    ephemerisType,
+                    elementSetNumber,
+                    inclination,
+                    raan,
+                    eccentricity,
+                    aop,
+                    meanAnomaly,
+                    meanMotion,
+                    revolutionNumberAtEpoch
+                ),
+                ostk::core::error::runtime::Wrong
+            );
+
+            EXPECT_THROW(
+                TLE::Construct(
+                    -1,
+                    classification,
+                    internationalDesignator,
+                    epoch,
+                    meanMotionFirstTimeDerivativeDividedByTwo,
+                    meanMotionSecondTimeDerivativeDividedBySix,
+                    bStarDragTerm,
+                    ephemerisType,
+                    elementSetNumber,
+                    inclination,
+                    raan,
+                    eccentricity,
+                    aop,
+                    meanAnomaly,
+                    meanMotion,
+                    revolutionNumberAtEpoch
+                ),
+                ostk::core::error::runtime::Wrong
+            );
         }
     }
 }
