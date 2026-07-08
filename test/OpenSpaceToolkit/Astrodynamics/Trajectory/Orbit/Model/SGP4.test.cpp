@@ -296,7 +296,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
     EXPECT_EQ(105544, alpha5Tle.getSatelliteNumber());
 
     // Construction must not throw (previously libsgp4 rejected the letter in the NORAD field).
-    EXPECT_NO_THROW(SGP4 { alpha5Tle });
+    EXPECT_NO_THROW(SGP4 {alpha5Tle});
 
     const SGP4 alpha5Sgp4 = {alpha5Tle};
 

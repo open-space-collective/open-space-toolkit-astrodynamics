@@ -361,10 +361,10 @@ void TLE::setSatelliteNumber(const Integer& aSatelliteNumber)
     const String newIntermediateSecondLine =
         secondLine_.getSubstring(0, 2) + satelliteNumberString + secondLine_.getSubstring(7, 62);
 
-    const Integer firstLineNewChecksum  = TLE::GenerateChecksum(newIntermediateFirstLine);
+    const Integer firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
     const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
 
-    firstLine_  = newIntermediateFirstLine.getSubstring(0, 68)  + firstLineNewChecksum.toString();
+    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + firstLineNewChecksum.toString();
     secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + secondLineNewChecksum.toString();
 }
 
@@ -854,7 +854,8 @@ Real TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
     return Real::Parse(string);
 }
 
-String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber) {
+String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
+{
     static const String alpha5Letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 
     if (aSatelliteNumber < 0 || aSatelliteNumber > 339999)
@@ -871,7 +872,7 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber) {
 
     // Alpha-5: leading letter encodes the first one or two digits
     const Integer leadingDigits = aSatelliteNumber / 10000;  // e.g. 182931 -> 18
-    const Integer remainder     = aSatelliteNumber % 10000;  // e.g. 182931 -> 2931
+    const Integer remainder = aSatelliteNumber % 10000;      // e.g. 182931 -> 2931
 
     const String remainderString = remainder.toString();
     const String paddedRemainder = String::Replicate("0", 4 - remainderString.getLength()) + remainderString;
@@ -881,7 +882,8 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber) {
     return String(1, letter) + paddedRemainder;
 }
 
-Integer TLE::Alpha5ToSatelliteNumber(const String& aField) {
+Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
+{
     static const String alpha5Letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 
     String field = aField;  // mutable copy

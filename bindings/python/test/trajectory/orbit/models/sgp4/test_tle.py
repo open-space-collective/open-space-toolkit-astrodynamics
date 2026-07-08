@@ -336,7 +336,9 @@ class TestTLE:
         assert constructed_tle.get_first_line() == tle.get_first_line()
         assert constructed_tle.get_second_line() == tle.get_second_line()
 
-    def test_construct_with_alpha5_satellite_number(self, tle_with_alpha5_satellite_number: TLE):
+    def test_construct_with_alpha5_satellite_number(
+        self, tle_with_alpha5_satellite_number: TLE
+    ):
         constructed_tle = TLE.construct(
             satellite_number=105544,
             classification="U",
@@ -361,8 +363,14 @@ class TestTLE:
             revolution_number_at_epoch=12831,
         )
 
-        assert constructed_tle.get_first_line() == tle_with_alpha5_satellite_number.get_first_line()
-        assert constructed_tle.get_second_line() == tle_with_alpha5_satellite_number.get_second_line()
+        assert (
+            constructed_tle.get_first_line()
+            == tle_with_alpha5_satellite_number.get_first_line()
+        )
+        assert (
+            constructed_tle.get_second_line()
+            == tle_with_alpha5_satellite_number.get_second_line()
+        )
 
     def test_generate_checksum(self, tle: TLE):
         assert (
@@ -381,19 +389,27 @@ class TestTLE:
             == tle.get_second_line_checksum()
         )
 
-    def test_generate_checksum_with_alpha5_satellite_number(self, tle_with_alpha5_satellite_number: TLE):
+    def test_generate_checksum_with_alpha5_satellite_number(
+        self, tle_with_alpha5_satellite_number: TLE
+    ):
         assert (
-            TLE.generate_checksum(tle_with_alpha5_satellite_number.get_first_line()) == tle_with_alpha5_satellite_number.get_first_line_checksum()
-        )
-        assert (
-            TLE.generate_checksum(tle_with_alpha5_satellite_number.get_second_line()) == tle_with_alpha5_satellite_number.get_second_line_checksum()
-        )
-
-        assert (
-            TLE.generate_checksum(f"{str(tle_with_alpha5_satellite_number.get_first_line())[:-1]}0")
+            TLE.generate_checksum(tle_with_alpha5_satellite_number.get_first_line())
             == tle_with_alpha5_satellite_number.get_first_line_checksum()
         )
         assert (
-            TLE.generate_checksum(f"{str(tle_with_alpha5_satellite_number.get_second_line())[:-1]}9")
+            TLE.generate_checksum(tle_with_alpha5_satellite_number.get_second_line())
+            == tle_with_alpha5_satellite_number.get_second_line_checksum()
+        )
+
+        assert (
+            TLE.generate_checksum(
+                f"{str(tle_with_alpha5_satellite_number.get_first_line())[:-1]}0"
+            )
+            == tle_with_alpha5_satellite_number.get_first_line_checksum()
+        )
+        assert (
+            TLE.generate_checksum(
+                f"{str(tle_with_alpha5_satellite_number.get_second_line())[:-1]}9"
+            )
             == tle_with_alpha5_satellite_number.get_second_line_checksum()
         )
