@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <cctype>
 #include <iostream>
 
 #include <boost/regex.hpp>
@@ -907,6 +908,12 @@ Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
     {
         throw ostk::core::error::runtime::Wrong(
             String::Format("Invalid Alpha-5 character '{}' in TLE satellite number field", firstChar)
+        );
+    }
+
+    if (field.getLength() < 5)
+    {
+        throw ostk::core::error::runtime::Wrong(String::Format("Invalid Alpha-5 TLE satellite number field [{}]", field)
         );
     }
 

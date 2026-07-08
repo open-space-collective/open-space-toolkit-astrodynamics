@@ -163,8 +163,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
 
     // Empty satellite number field
     {
-        const String firstLine = "1     U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  999 4";
+        const String firstLine = "1      U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994";
         const String secondLine = "2        51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_THROW(tle.getSatelliteNumber(), ostk::core::error::runtime::Wrong);
+    }
+
+    // Alpha-5 satellite number field too short after trim
+    {
+        const String firstLine = "1 A554 U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9998";
+        const String secondLine = "2 A554   51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128310";
 
         const TLE tle(firstLine, secondLine);
 

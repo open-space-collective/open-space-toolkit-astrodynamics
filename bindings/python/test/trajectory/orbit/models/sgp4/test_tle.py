@@ -49,8 +49,16 @@ def tle_with_invalid_alpha5_satellite_number() -> TLE:
 @pytest.fixture
 def tle_with_empty_satellite_number_field() -> TLE:
     return TLE(
-        first_line="1     U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  999 4",
+        first_line="1      U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
         second_line="2        51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316",
+    )
+
+
+@pytest.fixture
+def tle_with_short_alpha5_satellite_number_field() -> TLE:
+    return TLE(
+        first_line="1 A554 U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9998",
+        second_line="2 A554   51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128310",
     )
 
 
@@ -108,6 +116,12 @@ class TestTLE:
     ):
         with pytest.raises(RuntimeError):
             tle_with_empty_satellite_number_field.get_satellite_number()
+
+    def test_get_satellite_number_failure_short_alpha5_field(
+        self, tle_with_short_alpha5_satellite_number_field: TLE
+    ):
+        with pytest.raises(RuntimeError):
+            tle_with_short_alpha5_satellite_number_field.get_satellite_number()
 
     def test_get_satellite_number_string(self, tle: TLE):
         assert tle.get_satellite_number_string() == "25544"
