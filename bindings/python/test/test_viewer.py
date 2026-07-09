@@ -112,7 +112,7 @@ class TestViewer:
         assert packets[0]["clock"]["interval"] == (
             "2020-01-01T00:00:00.000000Z/2020-01-01T00:10:00.000000Z"
         )
-        assert packets[0]["clock"]["range"] == "CLAMPED"
+        assert packets[0]["clock"]["range"] == "LOOP_STOP"
 
         rendered_html: str = viewer.render()
 
@@ -121,6 +121,8 @@ class TestViewer:
         assert "Cesium.CzmlDataSource.load" in rendered_html
         assert "sceneModePicker: true" in rendered_html
         assert "sceneMode: Cesium.SceneMode.SCENE3D" in rendered_html
+        # Without an Ion token, imagery comes from the CesiumJS distribution itself.
+        assert "NaturalEarthII" in rendered_html
         assert rendered_html.endswith("</script>")
 
     def test_constructor_scene_mode_success(self, interval: Interval):

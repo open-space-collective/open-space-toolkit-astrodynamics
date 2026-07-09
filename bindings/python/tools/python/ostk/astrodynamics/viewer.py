@@ -779,7 +779,7 @@ class Viewer:
         )
 
         if label:
-            self.add_label(position, label, size, color)
+            self.add_label(position, label, color=color, pixel_offset=(0.0, -14.0))
 
         return self
 
@@ -873,6 +873,7 @@ class Viewer:
         text: str,
         size: int | None = None,
         color: str | None = None,
+        pixel_offset: tuple[float, float] | None = None,
     ) -> Viewer:
         """
         Add label to Viewer.
@@ -880,22 +881,29 @@ class Viewer:
         Args:
             position (Position): Label position.
             text (str): Label text.
-            size (int, optional): Label size. Defaults to None.
+            size (int, optional): Label scale (1 is the natural size). Defaults to None (1).
             color (str, optional): Label color. Defaults to None.
+            pixel_offset (tuple[float, float], optional): Screen-space offset in pixels.
+                Defaults to None.
 
         Returns:
             Viewer: The Viewer.
         """
 
+        label_property: dict = {
+            "text": text,
+            "scale": size or 1.0,
+            "fillColor": czml.format_color(color, default="white"),
+        }
+
+        if pixel_offset is not None:
+            label_property["pixelOffset"] = {"cartesian2": list(pixel_offset)}
+
         self._document.add_packet(
             {
                 "id": self._make_entity_id(f"{text}_label"),
                 "position": _static_position(position),
-                "label": {
-                    "text": text,
-                    "scale": size or 10,
-                    "fillColor": czml.format_color(color, default="white"),
-                },
+                "label": label_property,
             }
         )
 
@@ -950,10 +958,16 @@ class Viewer:
             "timeline: true",
         ]
 
+        imagery_statement: str = ""
         if self._cesium_token is None:
-            viewer_options.append(
-                "baseLayer: new Cesium.ImageryLayer(new Cesium.OpenStreetMapImageryProvider("
-                '{url: "https://tile.openstreetmap.org/"}))'
+            # Without an Ion token, use the NaturalEarthII imagery shipped with the CesiumJS
+            # distribution itself (same origin as Cesium.js, no external tile service).
+            viewer_options.append("baseLayer: false")
+            imagery_statement = (
+                'widget.scene.globe.baseColor = Cesium.Color.fromCssColorString("#0B1E33");'
+                "Cesium.TileMapServiceImageryProvider.fromUrl("
+                'Cesium.buildModuleUrl("Assets/Textures/NaturalEarthII")'
+                ").then(function (provider) { widget.imageryLayers.addImageryProvider(provider); });"
             )
 
         token_statement: str = (
@@ -986,6 +1000,7 @@ class Viewer:
             "_ostkLoadCesium(function () {\n"
             f"  {token_statement}\n"
             f'  var widget = new Cesium.Viewer("{container_id}", {{{", ".join(viewer_options)}}});\n'
+            f"  {imagery_statement}\n"
             f"  var czml = {self._document.to_json()};\n"
             "  widget.dataSources.add(Cesium.CzmlDataSource.load(czml)).then(function (dataSource) {\n"
             f"    {zoom_statement}\n"

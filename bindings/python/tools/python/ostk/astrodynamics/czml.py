@@ -242,6 +242,7 @@ class Document:
         interval: Interval,
         name: str = "OSTk Scenario",
         clock_multiplier: float = 1.0,
+        clock_range: str = "LOOP_STOP",
     ) -> None:
         """
         Construct a CZML Document.
@@ -251,11 +252,15 @@ class Document:
             name (str, optional): The document name. Defaults to "OSTk Scenario".
             clock_multiplier (float, optional): The clock multiplier (simulated seconds per
                 wall-clock second). Defaults to 1.0.
+            clock_range (str, optional): The clock behavior at the interval boundaries:
+                "LOOP_STOP", "CLAMPED" or "UNBOUNDED". Defaults to "LOOP_STOP" (loop back
+                to the start, so that playing never dead-ends at the interval boundary).
         """
 
         self._interval: Interval = interval
         self._name: str = name
         self._clock_multiplier: float = clock_multiplier
+        self._clock_range: str = clock_range
         self._packets: list[dict] = []
 
     @property
@@ -297,7 +302,7 @@ class Document:
                 "interval": format_interval(self._interval),
                 "currentTime": format_instant(self._interval.get_start()),
                 "multiplier": self._clock_multiplier,
-                "range": "CLAMPED",
+                "range": self._clock_range,
                 "step": "SYSTEM_CLOCK_MULTIPLIER",
             },
         }
