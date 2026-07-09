@@ -199,7 +199,7 @@ class TestSGP4:
         alpha5_tle: TLE = TLE(tle.get_first_line(), tle.get_second_line())
         alpha5_tle.set_satellite_number(105544)
 
-        assert alpha5_tle.get_satellite_number_string() == "A5544"
+        assert alpha5_tle.get_raw_satellite_number() == "A5544"
         assert alpha5_tle.get_satellite_number() == 105544
 
         # Construction and propagation must not raise on an Alpha-5 TLE.

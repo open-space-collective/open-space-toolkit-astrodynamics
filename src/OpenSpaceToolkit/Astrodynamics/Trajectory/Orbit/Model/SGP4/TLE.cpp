@@ -26,6 +26,8 @@ namespace model
 namespace sgp4
 {
 
+const Integer TLE::MaximumSatelliteNumber = 339999;
+
 TLE::TLE(const String& aFirstLine, const String& aSecondLine)
     : satelliteName_(String::Empty()),
       firstLine_(aFirstLine),
@@ -111,7 +113,7 @@ Integer TLE::getSatelliteNumber() const
     return TLE::Alpha5ToSatelliteNumber(firstLine_.getSubstring(2, 5));
 }
 
-String TLE::getSatelliteNumberString() const
+String TLE::getRawSatelliteNumber() const
 {
     if (!this->isDefined())
     {
@@ -350,9 +352,11 @@ void TLE::setSatelliteNumber(const Integer& aSatelliteNumber)
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    if (aSatelliteNumber.isNegative() || aSatelliteNumber > 339999)
+    if (aSatelliteNumber.isNegative() || aSatelliteNumber > TLE::MaximumSatelliteNumber)
     {
-        throw ostk::core::error::runtime::Wrong("Satellite number must be in range [0, 339999]");
+        throw ostk::core::error::runtime::Wrong(
+            String::Format("Satellite number must be in range [0, {}]", TLE::MaximumSatelliteNumber)
+        );
     }
 
     const String satelliteNumberString = TLE::SatelliteNumberToAlpha5(aSatelliteNumber);
@@ -603,7 +607,7 @@ TLE TLE::Construct(
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
 
-    if (aSatelliteNumber > 399999)
+    if (aSatelliteNumber > TLE::MaximumSatelliteNumber)
     {
         throw ostk::core::error::runtime::Wrong("Satellite number", aSatelliteNumber);
     }
@@ -857,11 +861,15 @@ Real TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
 
 String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
 {
+    // Alpha-5 alphabet (https://www.space-track.org/documentation#tle-alpha5):
+    // A-Z excluding I and O (to avoid confusion with 1 and 0), so 'A' encodes 10 and 'Z' encodes 33.
     static const String alpha5Letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 
-    if (aSatelliteNumber < 0 || aSatelliteNumber > 339999)
+    if (aSatelliteNumber < 0 || aSatelliteNumber > TLE::MaximumSatelliteNumber)
     {
-        throw ostk::core::error::runtime::Wrong("Satellite number out of Alpha-5 range [0, 339999]");
+        throw ostk::core::error::runtime::Wrong(
+            String::Format("Satellite number out of Alpha-5 range [0, {}]", TLE::MaximumSatelliteNumber)
+        );
     }
 
     if (aSatelliteNumber <= 99999)
@@ -871,7 +879,7 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
         return String::Replicate(" ", 5 - digits.getLength()) + digits;
     }
 
-    // Alpha-5: leading letter encodes the first one or two digits
+    // Alpha-5: leading letter encodes the first two digits
     const Integer leadingDigits = aSatelliteNumber / 10000;  // e.g. 182931 -> 18
     const Integer remainder = aSatelliteNumber % 10000;      // e.g. 182931 -> 2931
 
@@ -885,6 +893,8 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
 
 Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
 {
+    // Alpha-5 alphabet (https://www.space-track.org/documentation#tle-alpha5):
+    // A-Z excluding I and O (to avoid confusion with 1 and 0), so 'A' encodes 10 and 'Z' encodes 33.
     static const String alpha5Letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 
     String field = aField;  // mutable copy
@@ -911,7 +921,7 @@ Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
         );
     }
 
-    if (field.getLength() < 5)
+    if (field.getLength() != 5)
     {
         throw ostk::core::error::runtime::Wrong(String::Format("Invalid Alpha-5 TLE satellite number field [{}]", field)
         );

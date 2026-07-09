@@ -292,7 +292,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
     alpha5Tle.setSatelliteNumber(105544);
 
     // Guard: the TLE is genuinely Alpha-5 encoded.
-    EXPECT_EQ("A5544", alpha5Tle.getSatelliteNumberString());
+    EXPECT_EQ("A5544", alpha5Tle.getRawSatelliteNumber());
     EXPECT_EQ(105544, alpha5Tle.getSatelliteNumber());
 
     // Construction must not throw (previously libsgp4 rejected the letter in the NORAD field).

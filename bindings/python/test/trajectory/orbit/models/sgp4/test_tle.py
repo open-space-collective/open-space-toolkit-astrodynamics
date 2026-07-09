@@ -123,13 +123,13 @@ class TestTLE:
         with pytest.raises(RuntimeError):
             tle_with_short_alpha5_satellite_number_field.get_satellite_number()
 
-    def test_get_satellite_number_string(self, tle: TLE):
-        assert tle.get_satellite_number_string() == "25544"
+    def test_get_raw_satellite_number(self, tle: TLE):
+        assert tle.get_raw_satellite_number() == "25544"
 
-    def test_get_satellite_number_string_alpha5(self, tle: TLE):
+    def test_get_raw_satellite_number_alpha5(self, tle: TLE):
         tle.set_satellite_number(105544)
 
-        assert tle.get_satellite_number_string() == "A5544"
+        assert tle.get_raw_satellite_number() == "A5544"
         assert tle.get_satellite_number() == 105544
 
     def test_get_classification(self, tle: TLE):
