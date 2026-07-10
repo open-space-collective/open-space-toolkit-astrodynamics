@@ -1508,6 +1508,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5a786cee7a33949aac998a335c9d6fe9" kind="function"><name>operator!=</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a851d244edc4850a2b9ba6c64a1df760c" kind="function"><name>findTleIndexForInstant</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a1e0e001f7ee75f8863800afe0ea10798" kind="function"><name>GenerateIntervalsFromEpochs</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a93aaab51c9510566bc5da60076fbbd00" kind="function"><name>SanitizeLineForLibsgp4</name></member>
   </compound>
   <compound refid="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler" kind="struct"><name>ostk::astrodynamics::trajectory::SharedFrameEnabler</name>
     <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_shared_frame_enabler_1aad6106ff0103965e8bbdd47dcdbad134" kind="function"><name>SharedFrameEnabler</name></member>
@@ -1842,6 +1843,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1adf7b59b0aec8fbddc6421410f1eeec30" kind="variable"><name>satelliteName_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5c55975c0b01ce0357e7e392e3ace800" kind="variable"><name>firstLine_</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a4249a2e35a0ff2bcb7b2a72fae0b3c14" kind="variable"><name>secondLine_</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a661a9df10297646afede95d8b319f09f" kind="variable"><name>MaximumSatelliteNumber</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab4dc9bc4b9ca69bc1988a61500f82648" kind="function"><name>TLE</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a318722e7bb868717f46e24d2ffa5f435" kind="function"><name>TLE</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1afef71bebc5b20892bcca81a888c364f2" kind="function"><name>operator==</name></member>
@@ -1851,6 +1853,7 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a76a9d284aef353cbb62e807461a5ae65" kind="function"><name>getFirstLine</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ae6d04c6e656d8caf8b11b68bff1f2404" kind="function"><name>getSecondLine</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a48028529983da069bb161549a7b5903d" kind="function"><name>getSatelliteNumber</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a621849a0b2fb56ede54e006bfedf60ec" kind="function"><name>getRawSatelliteNumber</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a78bc9c027e5230ec101ed7c39e0d8898" kind="function"><name>getClassification</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a8190617419b29ae1bc1c0ae75501b64c" kind="function"><name>getInternationalDesignator</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5ddffbe8a01286103c4a0a652fd46599" kind="function"><name>getEpoch</name></member>
@@ -1882,6 +1885,8 @@
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a10e75f1538c2334529da6df9972f7cfc" kind="function"><name>Construct</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab2183d753590a806818a969dfb4257b0" kind="function"><name>GenerateChecksum</name></member>
     <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a20f8eb4e66e207c43f767d29804ea66a" kind="function"><name>ParseReal</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a7efddf6ccb7cf7427b23b31fc72b0290" kind="function"><name>SatelliteNumberToAlpha5</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ae70303c70ff9edcc43c36804c11cbec0" kind="function"><name>Alpha5ToSatelliteNumber</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver" kind="class"><name>ostk::astrodynamics::estimator::TLESolver</name>
     <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae3b1813ec84dbbc2a73972178d571e20" kind="variable"><name>SemiLatusRectumSubset</name></member>

@@ -378,15 +378,24 @@
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>Size<sp/>findTleIndexForInstant(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="278"><highlight class="normal"></highlight></codeline>
 <codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Array&lt;Interval&gt;<sp/>GenerateIntervalsFromEpochs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;TLE&gt;&amp;<sp/>aTleArray);</highlight></codeline>
-<codeline lineno="280"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"></highlight></codeline>
-<codeline lineno="282"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>model</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="283"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>orbit</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="284"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="285"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="286"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="287"><highlight class="normal"></highlight></codeline>
-<codeline lineno="288"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>third-party<sp/>libsgp4<sp/>library<sp/>re-parses<sp/>the<sp/>raw<sp/>TLE<sp/>line<sp/>strings<sp/>and<sp/>rejects<sp/>any<sp/>non-digit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>character<sp/>in<sp/>the<sp/>satellite<sp/>(NORAD)<sp/>number<sp/>field.<sp/>This<sp/>means<sp/>Alpha-5<sp/>satellite<sp/>numbers<sp/>(e.g.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;A5544&quot;),<sp/>which<sp/>OSTk&apos;s<sp/>TLE<sp/>supports,<sp/>would<sp/>cause<sp/>libsgp4::Tle<sp/>construction<sp/>to<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>libsgp4<sp/>never<sp/>uses<sp/>the<sp/>satellite<sp/>number<sp/>in<sp/>its<sp/>propagation<sp/>math,<sp/>so<sp/>we<sp/>hand<sp/>it<sp/>a<sp/>purely<sp/>numeric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>placeholder<sp/>for<sp/>that<sp/>field<sp/>when<sp/>the<sp/>field<sp/>is<sp/>Alpha-5<sp/>encoded.<sp/>OSTk&apos;s<sp/>own<sp/>TLE<sp/>object<sp/>retains<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>true<sp/>satellite<sp/>number<sp/>for<sp/>all<sp/>its<sp/>accessors;<sp/>only<sp/>the<sp/>string<sp/>given<sp/>to<sp/>libsgp4<sp/>is<sp/>altered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>String<sp/>SanitizeLineForLibsgp4(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>aLine);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>orbit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp"/>
   </compounddef>

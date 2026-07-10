@@ -35,6 +35,7 @@ ostk.astrodynamics.trajectory.orbit.model.sgp4.TLE
       ~TLE.get_mean_motion_first_time_derivative_divided_by_two
       ~TLE.get_mean_motion_second_time_derivative_divided_by_six
       ~TLE.get_raan
+      ~TLE.get_raw_satellite_number
       ~TLE.get_revolution_number_at_epoch
       ~TLE.get_satellite_name
       ~TLE.get_satellite_number

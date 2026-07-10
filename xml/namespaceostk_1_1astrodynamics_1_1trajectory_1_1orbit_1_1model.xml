@@ -177,7 +177,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="224" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="224" bodyend="229"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="249" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="249" bodyend="254"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

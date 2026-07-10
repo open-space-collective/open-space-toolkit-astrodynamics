@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="457" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="457" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="470" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="470" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5c55975c0b01ce0357e7e392e3ace800" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="458" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="458" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="471" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="471" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a4249a2e35a0ff2bcb7b2a72fae0b3c14" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -41,7 +41,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="459" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="459" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="472" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a661a9df10297646afede95d8b319f09f" prot="private" static="yes" mutable="no">
+        <type>const Integer</type>
+        <definition>const Integer ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE::MaximumSatelliteNumber</definition>
+        <argsstring></argsstring>
+        <name>MaximumSatelliteNumber</name>
+        <initializer>= 339999</initializer>
+        <briefdescription>
+<para>Maximum <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> satellite number (Alpha-5 encoding limit) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="475" column="26" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="475" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -86,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="53" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="28" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="53" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="31" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a318722e7bb868717f46e24d2ffa5f435" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -142,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="66" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="41" bodyend="52"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="66" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="44" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1afef71bebc5b20892bcca81a888c364f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -176,7 +193,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="78" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="54" bodyend="63"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="78" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="57" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a46b43ab049b3412cc3f1d08578af0d33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -210,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="90" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="65" bodyend="74"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="90" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="68" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab38cc47718b305671589a9e59088ae55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -231,7 +248,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="113" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="83" bodyend="86"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="113" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="86" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1afb290976207178f77d00c454410abee5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -253,7 +270,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="125" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="88" bodyend="91"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="125" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="91" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a76a9d284aef353cbb62e807461a5ae65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -276,7 +293,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="138" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="93" bodyend="96"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="138" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="96" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ae6d04c6e656d8caf8b11b68bff1f2404" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -298,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="150" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="98" bodyend="101"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="150" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="101" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a48028529983da069bb161549a7b5903d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -309,13 +326,38 @@
 <para>Get satellite number. </para>
         </briefdescription>
         <detaileddescription>
+<para><verbatim>   For satellite numbers above 99999 this returns the decoded integer and not
+   the raw Alpha-5 encoded field (e.g. 105544 instead of &quot;A5544&quot;). If you need
+   the raw Alpha-5 encoded field or the string representation that matches the
+   content of the TLE, use getRawSatelliteNumber() instead.
+</verbatim></para>
 <para><simplesect kind="return"><para>Satellite number </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="155" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="103" bodyend="111"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="160" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a621849a0b2fb56ede54e006bfedf60ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE::getRawSatelliteNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getRawSatelliteNumber</name>
+        <briefdescription>
+<para>Get satellite number field as it appears in the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>   For satellite numbers above 99999 this returns the raw Alpha-5 encoded field
+   (e.g. &quot;A5544&quot;), rather than the decoded integer.
+</verbatim></para>
+<para><simplesect kind="return"><para>Satellite number field </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="168" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="116" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a78bc9c027e5230ec101ed7c39e0d8898" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -332,7 +374,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="160" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="113" bodyend="121"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="173" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="126" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a8190617419b29ae1bc1c0ae75501b64c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -349,7 +391,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="165" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="123" bodyend="131"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="178" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="136" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5ddffbe8a01286103c4a0a652fd46599" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Instant</type>
@@ -366,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="170" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="133" bodyend="156"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="183" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="146" bodyend="169"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aa9f7cce1be85519f105b921b6edb9173" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -383,7 +425,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="175" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="158" bodyend="166"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="188" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="171" bodyend="179"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a409cd93387ffc0e7acfd055cd54e7f12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -400,7 +442,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="180" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="168" bodyend="176"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="193" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="181" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a426b13141615bd90360f7c58a0972377" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -417,7 +459,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="186" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="178" bodyend="186"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="199" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="191" bodyend="199"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a536344594cfdc4e686a03dda81198b51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -434,7 +476,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="191" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="188" bodyend="196"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="204" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="201" bodyend="209"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a2a984920189c9ffd5af1f6793758a993" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -451,7 +493,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="196" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="198" bodyend="206"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="209" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="211" bodyend="219"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a9c83ec8d45c3debac4b417483df05968" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -468,7 +510,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="201" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="208" bodyend="216"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="214" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="221" bodyend="229"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a290deea84ee2ada33de3d1b01090ad21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -485,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="206" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="218" bodyend="226"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="219" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="231" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a794b218052cf6f12efab2ae26e829d3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -502,7 +544,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="211" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="228" bodyend="236"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="224" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="241" bodyend="249"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ace6a723203e535d1add027207f8f58b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Real</type>
@@ -519,7 +561,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="216" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="238" bodyend="246"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="229" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="251" bodyend="259"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a005a89315e15dfa92baa36c264a0cb11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -536,7 +578,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="221" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="248" bodyend="256"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="234" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="261" bodyend="269"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1adf638b46e6f5ea4365f02ef39e449a17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Angle</type>
@@ -553,7 +595,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="226" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="258" bodyend="266"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="239" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="271" bodyend="279"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a71f059f9c2561447727d3d2ea8cbbf74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Derived</type>
@@ -570,7 +612,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="231" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="268" bodyend="279"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="244" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="281" bodyend="292"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aac6968433feae25ed9b64a98bbe3e82a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -587,7 +629,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="236" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="281" bodyend="289"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="249" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="294" bodyend="302"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a46ee451c98781e04b663a290a9bf4f92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -604,7 +646,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="241" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="291" bodyend="299"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="254" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="304" bodyend="312"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a98c7374673a6eba916844e4eb52b1639" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -645,7 +687,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="247" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="301" bodyend="333"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="260" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="314" bodyend="346"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aff68d2ab10d649db2f69786a258a88e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -675,7 +717,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="253" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="335" bodyend="365"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="266" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="348" bodyend="374"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a85443754bbdb4548720158d4938f1c0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -705,7 +747,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="259" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="367" bodyend="418"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="272" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="376" bodyend="427"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a14a142da16dd843e5326644920ae30e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -735,7 +777,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="265" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="420" bodyend="446"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="278" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="429" bodyend="455"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -782,7 +824,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="102" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="76" bodyend="81"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="102" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="79" bodyend="84"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -803,7 +845,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="274" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="448" bodyend="451"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="287" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="457" bodyend="460"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a8deef332b19ede8f7afe8be3c1407e45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -837,7 +879,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="286" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="453" bodyend="485"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="299" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="462" bodyend="494"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1af140ae55027966ae011175b1bd085451" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -883,7 +925,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="299" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="487" bodyend="509"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="312" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="496" bodyend="518"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a9a7098780c078cdd814ae64145d1b78f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
@@ -916,7 +958,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="310" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="511" bodyend="550"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="323" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="520" bodyend="559"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5694732fc6c25a991b7842d503612780" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
@@ -948,7 +990,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="320" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="552" bodyend="567"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="333" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="561" bodyend="576"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5815758eeb76eaabdb31c493406b0372" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
@@ -1191,7 +1233,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="365" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="569" bodyend="742"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="378" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="578" bodyend="751"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a10e75f1538c2334529da6df9972f7cfc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
@@ -1421,7 +1463,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="426" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="744" bodyend="782"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="439" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="753" bodyend="791"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab2183d753590a806818a969dfb4257b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Integer</type>
@@ -1454,7 +1496,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="454" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="784" bodyend="806"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="467" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="793" bodyend="815"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -1477,7 +1519,41 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="461" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="808" bodyend="851"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="477" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="817" bodyend="860"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a7efddf6ccb7cf7427b23b31fc72b0290" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE::SatelliteNumberToAlpha5</definition>
+        <argsstring>(const Integer &amp;aSatelliteNumber)</argsstring>
+        <name>SatelliteNumberToAlpha5</name>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aSatelliteNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="478" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="862" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ae70303c70ff9edcc43c36804c11cbec0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE::Alpha5ToSatelliteNumber</definition>
+        <argsstring>(const String &amp;aField)</argsstring>
+        <name>Alpha5ToSatelliteNumber</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aField</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="479" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.cpp" bodystart="895" bodyend="935"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1486,8 +1562,9 @@
     <detaileddescription>
 <para><ulink url="https://en.wikipedia.org/wiki/Two-line_element_set">https://en.wikipedia.org/wiki/Two-line_element_set</ulink> </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="42" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="41" bodyend="462"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="42" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" bodystart="41" bodyend="480"/>
     <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ae70303c70ff9edcc43c36804c11cbec0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>Alpha5ToSatelliteNumber</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a8deef332b19ede8f7afe8be3c1407e45" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>CanParse</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1af140ae55027966ae011175b1bd085451" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>CanParse</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5815758eeb76eaabdb31c493406b0372" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>Construct</name></member>
@@ -1510,6 +1587,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aa9f7cce1be85519f105b921b6edb9173" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getMeanMotionFirstTimeDerivativeDividedByTwo</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a409cd93387ffc0e7acfd055cd54e7f12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getMeanMotionSecondTimeDerivativeDividedBySix</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a794b218052cf6f12efab2ae26e829d3b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getRaan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a621849a0b2fb56ede54e006bfedf60ec" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getRawSatelliteNumber</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1aac6968433feae25ed9b64a98bbe3e82a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getRevolutionNumberAtEpoch</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1afb290976207178f77d00c454410abee5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getSatelliteName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a48028529983da069bb161549a7b5903d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getSatelliteNumber</name></member>
@@ -1517,6 +1595,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a46ee451c98781e04b663a290a9bf4f92" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>getSecondLineChecksum</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1ab38cc47718b305671589a9e59088ae55" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a5694732fc6c25a991b7842d503612780" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>Load</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a661a9df10297646afede95d8b319f09f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>MaximumSatelliteNumber</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a46b43ab049b3412cc3f1d08578af0d33" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a54a7a3bca65674d5052031634f900984" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1afef71bebc5b20892bcca81a888c364f2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>operator==</name></member>
@@ -1524,6 +1603,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a20f8eb4e66e207c43f767d29804ea66a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>ParseReal</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a98c7374673a6eba916844e4eb52b1639" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1adf7b59b0aec8fbddc6421410f1eeec30" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>satelliteName_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a7efddf6ccb7cf7427b23b31fc72b0290" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>SatelliteNumberToAlpha5</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a4249a2e35a0ff2bcb7b2a72fae0b3c14" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>secondLine_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a85443754bbdb4548720158d4938f1c0e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>setEpoch</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e_1a14a142da16dd843e5326644920ae30e3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</scope><name>setRevolutionNumberAtEpoch</name></member>

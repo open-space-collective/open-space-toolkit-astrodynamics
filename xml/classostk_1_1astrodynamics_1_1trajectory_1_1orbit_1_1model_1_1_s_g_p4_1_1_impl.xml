@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="48" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="48" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="69" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1ada546b4dd232a06d381b5f34c90855ee" prot="private" static="no" mutable="no">
         <type>Shared&lt; const Frame &gt;</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="49" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="49" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="70" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1a43ebf21ba0dec4c3630c5a6a8de3fa5a" prot="private" static="no" mutable="no">
         <type>libsgp4::SGP4</type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="50" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="50" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="71" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1a98627efb1fb8c8e18ef7b7bb41ddce1f" prot="private" static="no" mutable="no">
         <type>Shared&lt; const Frame &gt;</type>
@@ -53,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="52" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="52" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="73" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="73" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="39" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="55" bodyend="61"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="60" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="76" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1aca76e7c7ee9b322b5fc4bd7299c7cab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="41" column="5"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="62" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1aefeb31913483be4af0f0555e9bba69d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>SGP4::Impl &amp;</type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="43" column="16"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="64" column="16"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1a84f867c7b0074225418b16186a4e90d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -127,14 +127,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="45" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="63" bodyend="85"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="66" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="88" bodyend="110"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="37" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="36" bodyend="53"/>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="58" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="57" bodyend="74"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1a84f867c7b0074225418b16186a4e90d9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::SGP4::Impl</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1_1_impl_1ade6f75d639b6e4233d1d1ba323a46e18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::SGP4::Impl</scope><name>Impl</name></member>

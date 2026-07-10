@@ -88,7 +88,7 @@
 <span class=n >state</span> <span class=o >=</span> <span class=n >state_builder</span><span class=o >.</span><span class=n >build</span><span class=p >(</span><span class=n >initial_state</span><span class=o >.</span><span class=n >get_instant</span><span class=p >(),</span> <span class=n >coordinates</span><span class=p >)</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >dynamics</span> <span class=o >=</span> <span class=n >Dynamics</span><span class=o >.</span><span class=n >from_environment</span><span class=p >(</span><span class=n >environment</span><span class=p >)</span>
 <span class=n >numerical_solver</span> <span class=o >=</span> <span class=n >NumericalSolver</span><span class=o >.</span><span class=n >default_conditional</span><span class=p >()</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2154/3106912556.py:2: DeprecationWarning: NumericalSolver.default_conditional is deprecated. Use NumericalSolver.default instead.
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stderr highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>/tmp/ipykernel_2198/3106912556.py:2: DeprecationWarning: NumericalSolver.default_conditional is deprecated. Use NumericalSolver.default instead.
   numerical_solver = NumericalSolver.default_conditional()
 </pre></div> </div> </div> </div> <section id=sequence > <h3 id=sequence >Sequence<a class=headerlink  href="#sequence" title="Link to this heading">¶</a></h3> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >sequence</span> <span class=o >=</span> <span class=n >Sequence</span><span class=p >(</span>
     <span class=n >numerical_solver</span><span class=o >=</span><span class=n >numerical_solver</span><span class=p >,</span>
@@ -130,7 +130,7 @@
 <span class=p >)</span>
 </pre></div> </div> </div> </div> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >sol</span> <span class=o >=</span> <span class=n >sequence</span><span class=o >.</span><span class=n >solve</span><span class=p >(</span><span class=n >state</span><span class=p >,</span> <span class=mi >2</span><span class=p >)</span>
 <span class=n >states</span> <span class=o >=</span> <span class=n >sol</span><span class=o >.</span><span class=n >get_states</span><span class=p >()</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-07 23:11:11.427783] [0x00007f32c0535740] [debug]   Solving Segment:
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-10 23:37:15.448568] [0x00007fa72ab2e740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Coast                                    
     Type:                                    Coast                                    
@@ -153,7 +153,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2026-07-07 23:11:11.818503] [0x00007f32c0535740] [debug]   
+[2026-07-10 23:37:15.786407] [0x00007fa72ab2e740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Coast - Mean SMA crossing - coast - 0    
     Condition satisfied:                     True                                     
@@ -164,7 +164,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2026-07-07 23:11:11.818682] [0x00007f32c0535740] [debug]   Solving Segment:
+[2026-07-10 23:37:15.786563] [0x00007fa72ab2e740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Maneuver                                 
     Type:                                    Maneuver                                 
@@ -209,7 +209,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-07 23:11:12.135929] [0x00007f32c0535740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-10 23:37:16.052756] [0x00007fa72ab2e740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Maneuver - Mean SMA crossing - thrust - 0 
     Condition satisfied:                     True                                     
@@ -224,7 +224,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2026-07-07 23:11:12.136052] [0x00007f32c0535740] [debug]   Solving Segment:
+[2026-07-10 23:37:16.052854] [0x00007fa72ab2e740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Coast                                    
     Type:                                    Coast                                    
@@ -245,7 +245,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-07 23:11:12.610513] [0x00007f32c0535740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-10 23:37:16.429724] [0x00007fa72ab2e740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Coast - Mean SMA crossing - coast - 1    
     Condition satisfied:                     True                                     
@@ -256,7 +256,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[2026-07-07 23:11:12.610773] [0x00007f32c0535740] [debug]   Solving Segment:
+[2026-07-10 23:37:16.429938] [0x00007fa72ab2e740] [debug]   Solving Segment:
 -- Segment -----------------------------------------------------------------------------------------
     Name:                                    Maneuver                                 
     Type:                                    Maneuver                                 
@@ -301,7 +301,7 @@
     Integration relative tolerance:          9.9999999999999998e-13                   
     Integration absolute tolerance:          9.9999999999999998e-13                   
 ----------------------------------------------------------------------------------------------------
-</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-07 23:11:12.932161] [0x00007f32c0535740] [debug]   
+</pre></div> </div> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[2026-07-10 23:37:16.697751] [0x00007fa72ab2e740] [debug]   
 -- Segment Solution --------------------------------------------------------------------------------
     Name:                                    Maneuver - Mean SMA crossing - thrust - 1 
     Condition satisfied:                     True                                     
