@@ -151,8 +151,21 @@ class TLE
 
     /// @brief Get satellite number
     ///
+    ///        For satellite numbers above 99999 this returns the decoded integer and not
+    ///        the raw Alpha-5 encoded field (e.g. 105544 instead of "A5544"). If you need
+    ///        the raw Alpha-5 encoded field or the string representation that matches the
+    ///        content of the TLE, use getRawSatelliteNumber() instead.
+    ///
     /// @return Satellite number
     Integer getSatelliteNumber() const;
+
+    /// @brief Get satellite number field as it appears in the TLE
+    ///
+    ///        For satellite numbers above 99999 this returns the raw Alpha-5 encoded field
+    ///        (e.g. "A5544"), rather than the decoded integer.
+    ///
+    /// @return Satellite number field
+    String getRawSatelliteNumber() const;
 
     /// @brief Get classification
     ///
@@ -458,7 +471,12 @@ class TLE
     String firstLine_;
     String secondLine_;
 
+    /// @brief Maximum TLE satellite number (Alpha-5 encoding limit)
+    static const Integer MaximumSatelliteNumber;
+
     static Real ParseReal(const String& aString, bool isDecimalPointAssumed);
+    static String SatelliteNumberToAlpha5(const Integer& aSatelliteNumber);
+    static Integer Alpha5ToSatelliteNumber(const String& aField);
 };
 
 }  // namespace sgp4

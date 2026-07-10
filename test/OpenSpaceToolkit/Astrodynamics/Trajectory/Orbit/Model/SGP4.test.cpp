@@ -281,6 +281,53 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
     delete sgp4ClonePtr;
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
+{
+    using ostk::core::type::String;
+
+    // Build an Alpha-5 variant of the fixture ISS TLE. It differs from the numeric TLE ONLY in the
+    // satellite (NORAD) number field, which does not affect the orbit. Using setSatelliteNumber
+    // rewrites both lines to the Alpha-5 field "A5544" and recomputes the checksums for us.
+    TLE alpha5Tle = tle_;
+    alpha5Tle.setSatelliteNumber(105544);
+
+    // Guard: the TLE is genuinely Alpha-5 encoded.
+    EXPECT_EQ("A5544", alpha5Tle.getRawSatelliteNumber());
+    EXPECT_EQ(105544, alpha5Tle.getSatelliteNumber());
+
+    // Construction must not throw (previously libsgp4 rejected the letter in the NORAD field).
+    EXPECT_NO_THROW(SGP4 {alpha5Tle});
+
+    const SGP4 alpha5Sgp4 = {alpha5Tle};
+
+    // calculateStateAt yields a defined state.
+    {
+        const State state = alpha5Sgp4.calculateStateAt(alpha5Tle.getEpoch());
+
+        EXPECT_TRUE(state.isDefined());
+        EXPECT_TRUE(state.getPosition().isDefined());
+        EXPECT_TRUE(state.getVelocity().isDefined());
+    }
+
+    // Propagation correctness: the Alpha-5 model must produce the same states as the numeric ISS
+    // model, at epoch and at a later instant. This proves the placeholder NORAD substitution does
+    // not perturb the propagation math.
+    for (const Instant& instant : {tle_.getEpoch(), tle_.getEpoch() + Duration::Hours(3.0)})
+    {
+        const State stateNumeric = sgp4_.calculateStateAt(instant);
+        const State stateAlpha5 = alpha5Sgp4.calculateStateAt(instant);
+
+        EXPECT_LT(
+            (stateNumeric.getPosition().accessCoordinates() - stateAlpha5.getPosition().accessCoordinates()).norm(),
+            1e-6
+        );
+        EXPECT_LT(
+            (stateNumeric.getVelocity().accessCoordinates() - stateAlpha5.getVelocity().accessCoordinates()).norm(),
+            1e-9
+        );
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, EqualityOperator)
 {
     // Same TLE, same frame

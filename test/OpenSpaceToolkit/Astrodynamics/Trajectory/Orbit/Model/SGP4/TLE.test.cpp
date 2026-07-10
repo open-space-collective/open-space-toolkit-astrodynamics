@@ -34,6 +34,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Constructor
         EXPECT_NO_THROW(TLE(firstLine, secondLine));
     }
 
+    // Alpha-5 satellite number
+    {
+        const String firstLine = "1 A5544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
+        const String secondLine = "2 A5544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563535";
+
+        EXPECT_NO_THROW(TLE(firstLine, secondLine));
+    }
+
     // Wrong checksum
     {
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
@@ -141,6 +149,93 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
 
     {
         EXPECT_ANY_THROW(TLE::Undefined().getSatelliteNumber());
+    }
+
+    // Invalid Alpha-5 character in satellite number field
+    {
+        const String firstLine = "1 I5544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9992";
+        const String secondLine = "2 I5544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128314";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_THROW(tle.getSatelliteNumber(), ostk::core::error::runtime::Wrong);
+    }
+
+    // Empty satellite number field
+    {
+        const String firstLine = "1      U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994";
+        const String secondLine = "2        51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_THROW(tle.getSatelliteNumber(), ostk::core::error::runtime::Wrong);
+    }
+
+    // Alpha-5 satellite number field too short after trim (length != 5)
+    {
+        const String firstLine = "1 A554 U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9998";
+        const String secondLine = "2 A554   51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128310";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_THROW(tle.getSatelliteNumber(), ostk::core::error::runtime::Wrong);
+    }
+
+    // Alpha-5 maximum satellite number (Z9999); Z is last letter because I and O are skipped
+    {
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+        TLE tle(firstLine, secondLine);
+        tle.setSatelliteNumber(339999);
+
+        const TLE tleFromLines(tle.getFirstLine(), tle.getSecondLine());
+
+        EXPECT_EQ(339999, tleFromLines.getSatelliteNumber());
+        EXPECT_EQ("Z9999", tleFromLines.getRawSatelliteNumber());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetRawSatelliteNumber)
+{
+    using ostk::core::type::String;
+
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+
+    {
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_EQ("25544", tle.getRawSatelliteNumber());
+    }
+
+    // Alpha-5 satellite number is returned as the raw field
+    {
+        const String firstLine = "1 A5544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2925";
+        const String secondLine = "2 A5544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563535";
+
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_EQ("A5544", tle.getRawSatelliteNumber());
+        EXPECT_EQ(105544, tle.getSatelliteNumber());
+    }
+
+    // Alpha-5 maximum satellite number field (Z9999)
+    {
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+        TLE tle(firstLine, secondLine);
+        tle.setSatelliteNumber(339999);
+
+        EXPECT_EQ("Z9999", tle.getRawSatelliteNumber());
+        EXPECT_EQ(339999, tle.getSatelliteNumber());
+    }
+
+    {
+        EXPECT_ANY_THROW(TLE::Undefined().getRawSatelliteNumber());
     }
 }
 
@@ -597,7 +692,29 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
 
         TLE tle(firstLine, secondLine);
 
-        EXPECT_ANY_THROW(tle.setSatelliteNumber(100001));
+        // Satellite numbers above 99999 are now valid via Alpha-5 encoding
+        EXPECT_NO_THROW(tle.setSatelliteNumber(100001));
+
+        EXPECT_EQ(100001, tle.getSatelliteNumber());
+        EXPECT_EQ("A0001", tle.getFirstLine().getSubstring(2, 5));
+
+        // Values outside the Alpha-5 range throw
+        EXPECT_THROW(tle.setSatelliteNumber(339999 + 1), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(tle.setSatelliteNumber(-1), ostk::core::error::runtime::Wrong);
+    }
+
+    {
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+        TLE tle(firstLine, secondLine);
+
+        // Alpha-5 maximum (Z9999): Z is the last letter because I and O are excluded from the alphabet
+        tle.setSatelliteNumber(339999);
+
+        EXPECT_EQ(339999, tle.getSatelliteNumber());
+        EXPECT_EQ("Z9999", tle.getFirstLine().getSubstring(2, 5));
+        EXPECT_EQ("Z9999", tle.getSecondLine().getSubstring(2, 5));
     }
 }
 
@@ -1313,6 +1430,30 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 
             EXPECT_EQ("1     0U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2     0  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
+        }
+
+        {
+            const TLE tle = TLE::Construct(
+                100000,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
+
+            EXPECT_EQ("1 A0000U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
+            EXPECT_EQ("2 A0000  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
@@ -2225,6 +2366,52 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 
             EXPECT_EQ("1 25544U 22001YAM 08264.51782528 -.00002182  00000-0 -11606-4 0  2922", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391999990", tle.getSecondLine());
+        }
+
+        {
+            EXPECT_THROW(
+                TLE::Construct(
+                    340000,
+                    classification,
+                    internationalDesignator,
+                    epoch,
+                    meanMotionFirstTimeDerivativeDividedByTwo,
+                    meanMotionSecondTimeDerivativeDividedBySix,
+                    bStarDragTerm,
+                    ephemerisType,
+                    elementSetNumber,
+                    inclination,
+                    raan,
+                    eccentricity,
+                    aop,
+                    meanAnomaly,
+                    meanMotion,
+                    revolutionNumberAtEpoch
+                ),
+                ostk::core::error::runtime::Wrong
+            );
+
+            EXPECT_THROW(
+                TLE::Construct(
+                    -1,
+                    classification,
+                    internationalDesignator,
+                    epoch,
+                    meanMotionFirstTimeDerivativeDividedByTwo,
+                    meanMotionSecondTimeDerivativeDividedBySix,
+                    bStarDragTerm,
+                    ephemerisType,
+                    elementSetNumber,
+                    inclination,
+                    raan,
+                    eccentricity,
+                    aop,
+                    meanAnomaly,
+                    meanMotion,
+                    revolutionNumberAtEpoch
+                ),
+                ostk::core::error::runtime::Wrong
+            );
         }
     }
 }

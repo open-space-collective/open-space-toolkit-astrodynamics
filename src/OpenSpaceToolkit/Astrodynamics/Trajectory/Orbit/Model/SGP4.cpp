@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -33,6 +34,26 @@ using ostk::physics::time::Interval;
 
 const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 
+String SGP4::SanitizeLineForLibsgp4(const String& aLine)
+{
+    // Satellite number occupies columns 2-6 (0-indexed) of a TLE line.
+    const String satelliteNumberField = aLine.getSubstring(2, 5).trim();
+
+    if (satelliteNumberField.isEmpty() || std::isdigit(static_cast<unsigned char>(satelliteNumberField[0])))
+    {
+        // Standard numeric field (or empty): pass the line through unchanged.
+        return aLine;
+    }
+
+    // Alpha-5 field: replace columns 2-6 with a numeric placeholder. Both lines receive the same
+    // value so libsgp4's "satellite numbers must match" check passes. Line length (69) and the
+    // leading '1'/'2' are preserved. libsgp4 does not validate the checksum, so the trailing
+    // checksum digit is left untouched.
+    static const String placeholder = "00000";
+
+    return aLine.getSubstring(0, 2) + placeholder + aLine.getSubstring(7, aLine.getLength() - 7);
+}
+
 class SGP4::Impl
 {
    public:
@@ -55,7 +76,11 @@ class SGP4::Impl
 SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : tle_(aTle),
       outputFrameSPtr_(anOutputFrameSPtr),
-      sgp4_(libsgp4::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
+      sgp4_(libsgp4::Tle(
+          tle_.getSatelliteName(),
+          SGP4::SanitizeLineForLibsgp4(tle_.getFirstLine()),
+          SGP4::SanitizeLineForLibsgp4(tle_.getSecondLine())
+      )),
       temeFrameOfEpochSPtr_(Frame::TEME())
 {
 }

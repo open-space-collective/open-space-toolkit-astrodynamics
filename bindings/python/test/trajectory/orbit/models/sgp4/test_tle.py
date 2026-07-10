@@ -4,6 +4,8 @@ import pytest
 
 import tempfile
 
+from ostk.core.type import Integer
+from ostk.core.type import String
 from ostk.core.filesystem import Path
 from ostk.core.filesystem import File
 
@@ -27,6 +29,30 @@ def tle() -> TLE:
         satellite_name="Satellite",
         first_line="1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
         second_line="2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316",
+    )
+
+
+@pytest.fixture
+def tle_with_invalid_alpha5_satellite_number() -> TLE:
+    return TLE(
+        first_line="1 I5544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9992",
+        second_line="2 I5544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128314",
+    )
+
+
+@pytest.fixture
+def tle_with_empty_satellite_number_field() -> TLE:
+    return TLE(
+        first_line="1      U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
+        second_line="2        51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316",
+    )
+
+
+@pytest.fixture
+def tle_with_short_alpha5_satellite_number_field() -> TLE:
+    return TLE(
+        first_line="1 A554 U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9998",
+        second_line="2 A554   51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128310",
     )
 
 
@@ -71,7 +97,38 @@ class TestTLE:
         )
 
     def test_get_satellite_number(self, tle: TLE):
+        assert isinstance(tle.get_satellite_number(), Integer)
         assert tle.get_satellite_number() == 25544
+
+    def test_get_satellite_number_failure_invalid_alpha5_character(
+        self, tle_with_invalid_alpha5_satellite_number: TLE
+    ):
+        with pytest.raises(RuntimeError):
+            tle_with_invalid_alpha5_satellite_number.get_satellite_number()
+
+    def test_get_satellite_number_failure_empty_field(
+        self, tle_with_empty_satellite_number_field: TLE
+    ):
+        with pytest.raises(RuntimeError):
+            tle_with_empty_satellite_number_field.get_satellite_number()
+
+    def test_get_satellite_number_failure_short_alpha5_field(
+        self, tle_with_short_alpha5_satellite_number_field: TLE
+    ):
+        with pytest.raises(RuntimeError):
+            tle_with_short_alpha5_satellite_number_field.get_satellite_number()
+
+    def test_get_raw_satellite_number(self, tle: TLE):
+        assert isinstance(tle.get_raw_satellite_number(), String)
+        assert tle.get_raw_satellite_number() == "25544"
+
+    def test_get_raw_satellite_number_alpha5(self, tle: TLE):
+        tle.set_satellite_number(105544)
+
+        assert isinstance(tle.get_raw_satellite_number(), String)
+        assert tle.get_raw_satellite_number() == "A5544"
+        assert isinstance(tle.get_satellite_number(), Integer)
+        assert tle.get_satellite_number() == 105544
 
     def test_get_classification(self, tle: TLE):
         assert tle.get_classification() == "U"
@@ -142,6 +199,13 @@ class TestTLE:
         tle.set_satellite_number(25544)
 
         assert tle.get_satellite_number() == 25544
+
+    def test_set_satellite_number_failure_out_of_range(self, tle: TLE):
+        with pytest.raises(RuntimeError):
+            tle.set_satellite_number(340000)
+
+        with pytest.raises(RuntimeError):
+            tle.set_satellite_number(-1)
 
     def test_set_epoch(self, tle: TLE):
         tle.set_epoch(

@@ -117,8 +117,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
             R"doc(
                 Get the satellite number.
 
+                For satellite numbers above 99999 this returns the decoded integer and not
+                the raw Alpha-5 encoded field (e.g. 105544 instead of "A5544"). If you need
+                the raw Alpha-5 encoded field, use get_raw_satellite_number() instead.
+
                 Returns:
                     int: The satellite number.
+
+            )doc"
+        )
+        .def(
+            "get_raw_satellite_number",
+            &TLE::getRawSatelliteNumber,
+            R"doc(
+                Get the satellite number field as it appears in the TLE.
+
+                For satellite numbers above 99999 this returns the raw Alpha-5 encoded
+                field (e.g. "A5544"), rather than the decoded integer.
+
+                Returns:
+                    str: The satellite number field.
 
             )doc"
         )
