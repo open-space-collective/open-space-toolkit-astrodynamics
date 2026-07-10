@@ -277,6 +277,15 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     Size findTleIndexForInstant(const Instant& anInstant) const;
 
     static Array<Interval> GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray);
+
+    // The third-party libsgp4 library re-parses the raw TLE line strings and rejects any non-digit
+    // character in the satellite (NORAD) number field. This means Alpha-5 satellite numbers (e.g.
+    // "A5544"), which OSTk's TLE supports, would cause libsgp4::Tle construction to throw.
+    //
+    // libsgp4 never uses the satellite number in its propagation math, so we hand it a purely numeric
+    // placeholder for that field when the field is Alpha-5 encoded. OSTk's own TLE object retains the
+    // true satellite number for all its accessors; only the string given to libsgp4 is altered.
+    static String SanitizeLineForLibsgp4(const String& aLine);
 };
 
 }  // namespace model

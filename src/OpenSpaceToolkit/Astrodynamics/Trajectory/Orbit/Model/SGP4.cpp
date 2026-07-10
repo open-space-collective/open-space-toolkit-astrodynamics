@@ -34,17 +34,7 @@ using ostk::physics::time::Interval;
 
 const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 
-namespace
-{
-
-// The third-party libsgp4 library re-parses the raw TLE line strings and rejects any non-digit
-// character in the satellite (NORAD) number field. This means Alpha-5 satellite numbers (e.g.
-// "A5544"), which OSTk's TLE supports, would cause libsgp4::Tle construction to throw.
-//
-// libsgp4 never uses the satellite number in its propagation math, so we hand it a purely numeric
-// placeholder for that field when the field is Alpha-5 encoded. OSTk's own TLE object retains the
-// true satellite number for all its accessors; only the string given to libsgp4 is altered.
-String SanitizeLineForLibsgp4(const String& aLine)
+String SGP4::SanitizeLineForLibsgp4(const String& aLine)
 {
     // Satellite number occupies columns 2-6 (0-indexed) of a TLE line.
     const String satelliteNumberField = aLine.getSubstring(2, 5).trim();
@@ -63,8 +53,6 @@ String SanitizeLineForLibsgp4(const String& aLine)
 
     return aLine.getSubstring(0, 2) + placeholder + aLine.getSubstring(7, aLine.getLength() - 7);
 }
-
-}  // namespace
 
 class SGP4::Impl
 {
@@ -90,8 +78,8 @@ SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
       outputFrameSPtr_(anOutputFrameSPtr),
       sgp4_(libsgp4::Tle(
           tle_.getSatelliteName(),
-          SanitizeLineForLibsgp4(tle_.getFirstLine()),
-          SanitizeLineForLibsgp4(tle_.getSecondLine())
+          SGP4::SanitizeLineForLibsgp4(tle_.getFirstLine()),
+          SGP4::SanitizeLineForLibsgp4(tle_.getSecondLine())
       )),
       temeFrameOfEpochSPtr_(Frame::TEME())
 {

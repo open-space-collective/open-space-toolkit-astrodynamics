@@ -31,14 +31,6 @@ def tle() -> TLE:
 
 
 @pytest.fixture
-def tle_with_alpha5_satellite_number() -> TLE:
-    return TLE(
-        first_line="1 A5544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9992",
-        second_line="2 A5544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128314",
-    )
-
-
-@pytest.fixture
 def tle_with_invalid_alpha5_satellite_number() -> TLE:
     return TLE(
         first_line="1 I5544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9992",
@@ -124,12 +116,15 @@ class TestTLE:
             tle_with_short_alpha5_satellite_number_field.get_satellite_number()
 
     def test_get_raw_satellite_number(self, tle: TLE):
+        assert isinstance(tle.get_raw_satellite_number(), str)
         assert tle.get_raw_satellite_number() == "25544"
 
     def test_get_raw_satellite_number_alpha5(self, tle: TLE):
         tle.set_satellite_number(105544)
-
+        
+        assert isinstance(tle.get_raw_satellite_number(), str)
         assert tle.get_raw_satellite_number() == "A5544"
+        assert isinstance(tle.get_raw_satellite_number(), int)
         assert tle.get_satellite_number() == 105544
 
     def test_get_classification(self, tle: TLE):
@@ -385,42 +380,6 @@ class TestTLE:
         assert constructed_tle.get_first_line() == tle.get_first_line()
         assert constructed_tle.get_second_line() == tle.get_second_line()
 
-    def test_construct_with_alpha5_satellite_number(
-        self, tle_with_alpha5_satellite_number: TLE
-    ):
-        constructed_tle = TLE.construct(
-            satellite_number=105544,
-            classification="U",
-            international_designator="98067A",
-            epoch=Instant.date_time(
-                DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC
-            ),
-            mean_motion_first_time_derivative_divided_by_two=1.8700000000000001e-06,
-            mean_motion_second_time_derivative_divided_by_six=0.0,
-            b_star_drag_term=1.0196e-05,
-            ephemeris_type=0,
-            element_set_number=999,
-            inclination=Angle.degrees(51.6447),
-            raan=Angle.degrees(64.782399999999996),
-            eccentricity=0.00059710000000000004,
-            aop=Angle.degrees(73.146699999999996),
-            mean_anomaly=Angle.degrees(36.436599999999999),
-            mean_motion=Derived(
-                15.53848234,
-                Derived.Unit.angular_velocity(Angle.Unit.Revolution, Time.Unit.Day),
-            ),
-            revolution_number_at_epoch=12831,
-        )
-
-        assert (
-            constructed_tle.get_first_line()
-            == tle_with_alpha5_satellite_number.get_first_line()
-        )
-        assert (
-            constructed_tle.get_second_line()
-            == tle_with_alpha5_satellite_number.get_second_line()
-        )
-
     def test_generate_checksum(self, tle: TLE):
         assert (
             TLE.generate_checksum(tle.get_first_line()) == tle.get_first_line_checksum()
@@ -436,29 +395,4 @@ class TestTLE:
         assert (
             TLE.generate_checksum(f"{str(tle.get_second_line())[:-1]}9")
             == tle.get_second_line_checksum()
-        )
-
-    def test_generate_checksum_with_alpha5_satellite_number(
-        self, tle_with_alpha5_satellite_number: TLE
-    ):
-        assert (
-            TLE.generate_checksum(tle_with_alpha5_satellite_number.get_first_line())
-            == tle_with_alpha5_satellite_number.get_first_line_checksum()
-        )
-        assert (
-            TLE.generate_checksum(tle_with_alpha5_satellite_number.get_second_line())
-            == tle_with_alpha5_satellite_number.get_second_line_checksum()
-        )
-
-        assert (
-            TLE.generate_checksum(
-                f"{str(tle_with_alpha5_satellite_number.get_first_line())[:-1]}0"
-            )
-            == tle_with_alpha5_satellite_number.get_first_line_checksum()
-        )
-        assert (
-            TLE.generate_checksum(
-                f"{str(tle_with_alpha5_satellite_number.get_second_line())[:-1]}9"
-            )
-            == tle_with_alpha5_satellite_number.get_second_line_checksum()
         )

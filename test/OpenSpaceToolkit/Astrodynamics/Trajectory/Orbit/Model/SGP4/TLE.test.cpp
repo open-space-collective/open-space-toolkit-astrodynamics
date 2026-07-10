@@ -187,11 +187,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
         TLE tle(firstLine, secondLine);
-        tle.setSatelliteNumber(TLE::MaximumSatelliteNumber);
+        tle.setSatelliteNumber(339999);
 
         const TLE tleFromLines(tle.getFirstLine(), tle.getSecondLine());
 
-        EXPECT_EQ(TLE::MaximumSatelliteNumber, tleFromLines.getSatelliteNumber());
+        EXPECT_EQ(339999, tleFromLines.getSatelliteNumber());
         EXPECT_EQ("Z9999", tleFromLines.getRawSatelliteNumber());
     }
 }
@@ -228,10 +228,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetRawSatel
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
         TLE tle(firstLine, secondLine);
-        tle.setSatelliteNumber(TLE::MaximumSatelliteNumber);
+        tle.setSatelliteNumber(339999);
 
         EXPECT_EQ("Z9999", tle.getRawSatelliteNumber());
-        EXPECT_EQ(TLE::MaximumSatelliteNumber, tle.getSatelliteNumber());
+        EXPECT_EQ(339999, tle.getSatelliteNumber());
     }
 
     {
@@ -699,7 +699,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
         EXPECT_EQ("A0001", tle.getFirstLine().getSubstring(2, 5));
 
         // Values outside the Alpha-5 range throw
-        EXPECT_THROW(tle.setSatelliteNumber(TLE::MaximumSatelliteNumber + 1), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(tle.setSatelliteNumber(339999 + 1), ostk::core::error::runtime::Wrong);
         EXPECT_THROW(tle.setSatelliteNumber(-1), ostk::core::error::runtime::Wrong);
     }
 
@@ -710,9 +710,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
         TLE tle(firstLine, secondLine);
 
         // Alpha-5 maximum (Z9999): Z is the last letter because I and O are excluded from the alphabet
-        tle.setSatelliteNumber(TLE::MaximumSatelliteNumber);
+        tle.setSatelliteNumber(339999);
 
-        EXPECT_EQ(TLE::MaximumSatelliteNumber, tle.getSatelliteNumber());
+        EXPECT_EQ(339999, tle.getSatelliteNumber());
         EXPECT_EQ("Z9999", tle.getFirstLine().getSubstring(2, 5));
         EXPECT_EQ("Z9999", tle.getSecondLine().getSubstring(2, 5));
     }

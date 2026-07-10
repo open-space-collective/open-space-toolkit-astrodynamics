@@ -466,13 +466,13 @@ class TLE
     /// @return Checksum
     static Integer GenerateChecksum(const String& aLine);
 
-    /// @brief Maximum TLE satellite number (Alpha-5 encoding limit)
-    static const Integer MaximumSatelliteNumber;
-
    private:
     String satelliteName_;
     String firstLine_;
     String secondLine_;
+
+    /// @brief Maximum TLE satellite number (Alpha-5 encoding limit)
+    static const Integer MaximumSatelliteNumber;
 
     static Real ParseReal(const String& aString, bool isDecimalPointAssumed);
     static String SatelliteNumberToAlpha5(const Integer& aSatelliteNumber);
