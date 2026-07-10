@@ -121,7 +121,7 @@ class TestTLE:
 
     def test_get_raw_satellite_number_alpha5(self, tle: TLE):
         tle.set_satellite_number(105544)
-        
+
         assert isinstance(tle.get_raw_satellite_number(), str)
         assert tle.get_raw_satellite_number() == "A5544"
         assert isinstance(tle.get_raw_satellite_number(), int)

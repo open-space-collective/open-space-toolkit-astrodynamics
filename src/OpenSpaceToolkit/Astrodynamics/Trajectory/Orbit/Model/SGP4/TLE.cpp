@@ -886,7 +886,8 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
     const String remainderString = remainder.toString();
     const String paddedRemainder = String::Replicate("0", 4 - remainderString.getLength()) + remainderString;
 
-    const String letter = alpha5Letters.getSubstring(static_cast<int>(leadingDigits) - 10, 1);  // 10 -> "A", 11 -> "B", ...
+    const String letter =
+        alpha5Letters.getSubstring(static_cast<int>(leadingDigits) - 10, 1);  // 10 -> "A", 11 -> "B", ...
 
     return letter + paddedRemainder;
 }
