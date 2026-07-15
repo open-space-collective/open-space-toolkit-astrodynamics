@@ -20,7 +20,6 @@ from ostk.physics.time import Instant
 from ostk.astrodynamics import Access
 from ostk.astrodynamics import Trajectory
 
-
 DEFAULT_COLOR: str = "rgba(255, 0, 0, 0.5)"
 
 DEFAULT_LAYOUT_2D: go.Layout = go.Layout(

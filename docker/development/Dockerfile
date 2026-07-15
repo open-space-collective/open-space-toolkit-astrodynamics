@@ -104,7 +104,7 @@ ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/g
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
     && cd /tmp/open-space-toolkit-core \
-    && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
+    && export LATEST_PATCH_OF_MINOR=$(jq -r '.[].ref' versions.json | cut -d "/" -f3 | sort -V | tail -1) \
     && export PACKAGE_PLATFORM=$(if [ ${TARGETPLATFORM} = "linux/amd64" ]; then echo "x86_64"; elif [ ${TARGETPLATFORM} = "linux/arm64" ]; then echo "aarch64"; else echo "Unknown platform" && exit 1; fi;) \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-core-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-runtime.deb \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-core-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-devel.deb \
@@ -121,7 +121,7 @@ ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-io/git
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
     && cd /tmp/open-space-toolkit-io \
-    && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
+    && export LATEST_PATCH_OF_MINOR=$(jq -r '.[].ref' versions.json | cut -d "/" -f3 | sort -V | tail -1) \
     && export PACKAGE_PLATFORM=$(if [ ${TARGETPLATFORM} = "linux/amd64" ]; then echo "x86_64"; elif [ ${TARGETPLATFORM} = "linux/arm64" ]; then echo "aarch64"; else echo "Unknown platform" && exit 1; fi;) \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-io-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-runtime.deb \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-io-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-devel.deb \
@@ -138,7 +138,7 @@ ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathem
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
     && cd /tmp/open-space-toolkit-mathematics \
-    && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
+    && export LATEST_PATCH_OF_MINOR=$(jq -r '.[].ref' versions.json | cut -d "/" -f3 | sort -V | tail -1) \
     && export PACKAGE_PLATFORM=$(if [ ${TARGETPLATFORM} = "linux/amd64" ]; then echo "x86_64"; elif [ ${TARGETPLATFORM} = "linux/arm64" ]; then echo "aarch64"; else echo "Unknown platform" && exit 1; fi;) \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-mathematics-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-runtime.deb \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-mathematics-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-devel.deb \
@@ -155,7 +155,7 @@ ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physic
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
     && cd /tmp/open-space-toolkit-physics \
-    && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
+    && export LATEST_PATCH_OF_MINOR=$(jq -r '.[].ref' versions.json | cut -d "/" -f3 | sort -V | tail -1) \
     && export PACKAGE_PLATFORM=$(if [ ${TARGETPLATFORM} = "linux/amd64" ]; then echo "x86_64"; elif [ ${TARGETPLATFORM} = "linux/arm64" ]; then echo "aarch64"; else echo "Unknown platform" && exit 1; fi;) \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-physics-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-runtime.deb \
     && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-physics-${LATEST_PATCH_OF_MINOR}-1.${PACKAGE_PLATFORM}-devel.deb \
@@ -180,6 +180,19 @@ ENV LC_ALL="en_US.UTF-8"
 ARG VERSION
 ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
+
+# A layer that includes the codebase, and has the Python development environment set up.
+FROM root-user AS ci-base
+
+COPY bindings/python/pyproject.toml /app/bindings/python/
+COPY bindings/python/uv.lock /app/bindings/python/
+
+RUN cd /app/bindings/python \
+    && uv sync --all-extras --python ${OSTK_PYTHON_VERSION} --frozen
+
+COPY . /app
+
+WORKDIR /app/build
 
 # Development image for humans (non-root user)
 
@@ -219,6 +232,12 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 ## Configure environment
 
 ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"
+
+# Install Python dev dependencies (non-root)
+COPY --chown=${USER_UID}:${USER_GID} bindings/python/pyproject.toml /app/bindings/python/
+COPY --chown=${USER_UID}:${USER_GID} bindings/python/uv.lock /app/bindings/python/
+RUN cd /app/bindings/python \
+    && uv sync --all-extras --python ${OSTK_PYTHON_VERSION} --frozen
 
 # Entrypoint
 
