@@ -607,7 +607,8 @@ benchmark: build-development-image ## Run C++ benchmarks
 		--volume="/app/build" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "$(MAKE) _build-benchmark-cpp"
+		/bin/bash -c "$(MAKE) _build-benchmark-cpp \
+		&& /app/bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=/app/bin/benchmark_result.json"
 
 .PHONY: benchmark
 
@@ -634,7 +635,8 @@ validation: build-development-image ## Run C++ validation tests
 		--volume="/app/build" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "$(MAKE) _build-validation-cpp"
+		/bin/bash -c "$(MAKE) _build-validation-cpp \
+		&& /app/bin/open-space-toolkit-$(project_name).validation"
 
 .PHONY: validation
 
