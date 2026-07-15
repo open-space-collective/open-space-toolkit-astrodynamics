@@ -64,7 +64,7 @@ jobs:
 
   benchmark-and-validate:
     name: Benchmark and Validate
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs:
       - prepare-environment
       - build-development-image
