@@ -330,7 +330,7 @@
 </sect1>
 <sect1 id="md__r_e_a_d_m_e_1autotoc_md22">
 <title>Dependencies</title>
-<para><table rows="11" cols="4"><row>
+<para><table rows="12" cols="4"><row>
 <entry thead="yes"><para>Name </para>
 </entry><entry thead="yes"><para>Version </para>
 </entry><entry thead="yes"><para>License </para>
@@ -373,6 +373,12 @@
 </entry><entry thead="no"><para><ulink url="https://github.com/google/benchmark">github.com/google/benchmark</ulink>  </para>
 </entry></row>
 <row>
+<entry thead="no"><para>cesiumpy </para>
+</entry><entry thead="no"><para><computeroutput>0.4.1</computeroutput> </para>
+</entry><entry thead="no"><para>Apache License 2.0 </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/open-space-collective/cesiumpy">github.com/open-space-collective/cesiumpy</ulink>  </para>
+</entry></row>
+<row>
 <entry thead="no"><para>Core </para>
 </entry><entry thead="no"><para><computeroutput>main</computeroutput> </para>
 </entry><entry thead="no"><para>Apache License 2.0 </para>
@@ -398,6 +404,7 @@
 </entry></row>
 </table>
 </para>
+<para>⚠️ Until <ulink url="https://github.com/open-space-collective/open-space-toolkit/issues/183">OSTk#183</ulink> is implemented, the fork of <computeroutput>cesiumpy</computeroutput> must be installed separately in order to use the <computeroutput>viewer</computeroutput> module. It is not specified as a dependency of <computeroutput>ostk-astrodynamics</computeroutput>.</para>
 </sect1>
 <sect1 id="md__r_e_a_d_m_e_1autotoc_md23">
 <title>Contribution</title>

@@ -58,10 +58,8 @@
     <span class=p >),</span>
 <span class=p >)</span>
 </pre></div> </div> </div> </div> <p>Calculate and plot the Yaw-Pitch-Roll (YPR) angles in the VVLH frame during the access:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >def</span><span class=w > </span><span class=nf >reduce_angle</span><span class=p >(</span><span class=n >angle</span><span class=p >:</span> <span class=n >Angle</span><span class=p >):</span>
-    <span class=c1 ># Reduce angle to be within the range 0 to 2*pi</span>
     <span class=n >reduced_angle</span> <span class=o >=</span> <span class=nb >float</span><span class=p >(</span><span class=n >angle</span><span class=o >.</span><span class=n >in_radians</span><span class=p >())</span> <span class=o >%</span> <span class=p >(</span><span class=mi >2</span> <span class=o >*</span> <span class=n >math</span><span class=o >.</span><span class=n >pi</span><span class=p >)</span>
 
-    <span class=c1 ># If angle is negative, add 2*pi to make it positive</span>
     <span class=k >if</span> <span class=n >reduced_angle</span> <span class=o >&lt;</span> <span class=mi >0</span><span class=p >:</span>
         <span class=n >reduced_angle</span> <span class=o >+=</span> <span class=mi >2</span> <span class=o >*</span> <span class=n >math</span><span class=o >.</span><span class=n >pi</span>
 

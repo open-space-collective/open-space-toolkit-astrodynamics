@@ -1,0 +1,77 @@
+Traceback (most recent call last):
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 1323, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+viewer = Viewer(
+    interval=interval,
+    cesium_token=os.environ.get("CESIUM_TOKEN"),  # Get a token from https://cesium.com/learn/ion/cesium-ion-access-tokens/
+    zoom_to_entity=False,
+    track_entity=False,
+)
+viewer.add_orbit(
+    orbit=orbit,
+    step=Duration.seconds(5.0),
+    show_orbital_track=True,
+)
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mNameError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m viewer = Viewer(
+[32m      2[39m     interval=interval,
+[32m      3[39m     cesium_token=os.environ.get([33m"CESIUM_TOKEN"[39m),  [38;5;66;03m# Get a token from https://cesium.com/learn/ion/cesium-ion-access-tokens/[39;00m
+[32m      4[39m     zoom_to_entity=[38;5;28;01mFalse[39;00m,
+
+[36mFile [39m[32m/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/viewer.py:76[39m, in [36mViewer.__init__[39m[34m(self, interval, cesium_token, width, height, zoom_to_entity, track_entity)[39m
+[32m     65[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34m__init__[39m(
+[32m     66[39m     [38;5;28mself[39m,
+[32m     67[39m     interval: Interval,
+[32m   (...)[39m[32m     72[39m     track_entity: [38;5;28mbool[39m = [38;5;28;01mTrue[39;00m,
+[32m     73[39m ) -> [38;5;28;01mNone[39;00m:
+[32m     74[39m     [38;5;28mself[39m._interval: Interval = interval
+[32m---> [39m[32m76[39m     [38;5;28mself[39m._viewer: cesiumpy.Viewer = [30;43mcesiumpy[39;49m.Viewer(
+[32m     77[39m         width=width,
+[32m     78[39m         height=height,
+[32m     79[39m         clock_view_model=cesiumpy.ClockViewModel(
+[32m     80[39m             clock=cesiumpy.Clock(
+[32m     81[39m                 start_time=coerce_to_datetime(interval.get_start()),
+[32m     82[39m                 stop_time=coerce_to_datetime(interval.get_end()),
+[32m     83[39m                 clock_range=cesiumpy.Clock.Range.CLAMPED,
+[32m     84[39m                 can_animate=[38;5;28;01mTrue[39;00m,
+[32m     85[39m                 should_animate=[38;5;28;01mFalse[39;00m,
+[32m     86[39m             )
+[32m     87[39m         ),
+[32m     88[39m         fullscreen_button=[38;5;28;01mFalse[39;00m,
+[32m     89[39m         home_button=[38;5;28;01mFalse[39;00m,
+[32m     90[39m         info_box=[38;5;28;01mFalse[39;00m,
+[32m     91[39m         timeline=[38;5;28;01mTrue[39;00m,
+[32m     92[39m         navigation_help_button=[38;5;28;01mFalse[39;00m,
+[32m     93[39m         navigation_instructions_initially_visible=[38;5;28;01mFalse[39;00m,
+[32m     94[39m         scene_mode_picker=[38;5;28;01mFalse[39;00m,
+[32m     95[39m         selection_indicator=[38;5;28;01mFalse[39;00m,
+[32m     96[39m         scene3d_only=[38;5;28;01mTrue[39;00m,
+[32m     97[39m         zoom_to_entity=zoom_to_entity,
+[32m     98[39m         track_entity=track_entity,
+[32m     99[39m         default_access_token=cesium_token,
+[32m    100[39m     )
+
+[31mNameError[39m: name 'cesiumpy' is not defined
+
