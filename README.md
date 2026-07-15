@@ -99,7 +99,20 @@ pip install open-space-toolkit-astrodynamics
 
 ## Documentation
 
-Documentation is available [here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics):
+Documentation is available [here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics).
+
+It is organised using the [Diátaxis](https://diataxis.fr/) framework, which
+separates documentation into four purpose-built sections:
+
+- **[Tutorials](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/tutorials/index.html)** — learning-oriented lessons to get you started.
+- **[How-to guides](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/how-to/index.html)** — practical recipes for specific tasks, backed by runnable notebooks.
+- **[Reference](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/reference/index.html)** — the complete Python and C++ APIs, generated automatically.
+- **[Explanation](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/explanation/index.html)** — discussion of the design and concepts.
+
+The API reference is generated automatically on every build — the Python API by
+introspecting the compiled `ostk.astrodynamics` module, and the C++ API from the
+header comments via Doxygen and [Exhale](https://exhale.readthedocs.io/) — so it
+never needs to be maintained by hand.
 
 <details>
 <summary>Structure</summary>
@@ -153,10 +166,13 @@ The library exhibits the following detailed and descriptive structure:
 
 ## Tutorials
 
-Tutorials are available here:
+Learning-oriented tutorials and task-oriented how-to guides — including runnable
+Jupyter notebooks — are part of the
+[documentation](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/tutorials/index.html).
 
-- C++ (in progress)
-- [Python](https://github.com/open-space-collective/open-space-toolkit/tree/main/notebooks)
+The notebooks live in the [`notebooks/`](./notebooks) directory of this
+repository and can be executed locally or in the Jupyter Docker image (see
+below).
 
 ## Setup
 

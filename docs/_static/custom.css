@@ -1,0 +1,43 @@
+/* Open Space Toolkit ▸ Core — documentation overrides. */
+
+/*
+ * Align the closing parenthesis of multi-line (wrapped) signatures with the
+ * function / method name, and indent the parameters one level.
+ *
+ * Furo styles every ``.sig`` with a hanging indent
+ * (``padding-left: 3em; text-indent: -2.5em``) so that the name sits 2.5em to
+ * the left of wrapped content. In a multi-line signature the trailing ")" is
+ * "wrapped content", so it ends up indented to the parameter column instead of
+ * lining up under the name:
+ *
+ *     create(
+ *         self: ostk.core.filesystem.Directory,
+ *         ...,
+ *         ) -> None        <- misaligned closing paren
+ *
+ * Removing the hanging indent (and indenting the parameters explicitly) puts
+ * the closing paren back under the name:
+ *
+ *     create(
+ *         self: ostk.core.filesystem.Directory,
+ *         ...,
+ *     ) -> None
+ *
+ * The ``dt.sig-object.py`` selector (specificity 0,2,1) outranks Furo's
+ * ``.sig:not(.sig-inline)`` (0,2,0), so no ``!important`` is required.
+ */
+dt.sig-object.py {
+    padding-left: 0.5em;
+    text-indent: 0;
+}
+
+/* The parameter list of a multi-line signature is rendered as a <dl>/<dd>. */
+dt.sig-object.py>dl {
+    margin: 0;
+    padding: 0;
+}
+
+dt.sig-object.py>dl>dd {
+    margin-left: 2em;
+    text-indent: 0;
+}
