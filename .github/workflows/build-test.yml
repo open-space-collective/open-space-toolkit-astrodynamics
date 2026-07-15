@@ -64,12 +64,12 @@ jobs:
 
   benchmark-and-validate:
     name: Benchmark and Validate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # if: github.event_name == 'push' && github.ref == 'refs/heads/main' # TBR
     needs:
       - prepare-environment
       - build-development-image
       - test
-    uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@main
+    uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@users/alexl/fix-benchmark
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
