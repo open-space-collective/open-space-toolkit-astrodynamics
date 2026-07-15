@@ -4,6 +4,7 @@
 :hidden:
 
 getting-started
+numerical-propagation
 Orbit computation </notebooks/Flight Dynamics/Orbit Computation>
 ```
 
@@ -24,6 +25,14 @@ package (`pip install open-space-toolkit-astrodynamics`).
 
 Set up your environment, build a Keplerian orbit and propagate it to obtain a
 spacecraft state. A gentle first contact with the library.
+:::
+
+:::{grid-item-card} {octicon}`globe;1.5em;sd-mr-1` Propagating with realistic forces
+:link: numerical-propagation
+:link-type: doc
+
+Assemble gravity, third-body and drag into a numerical propagator, and watch a
+satellite's orbit decay over time.
 :::
 
 ::::
