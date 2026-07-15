@@ -53,6 +53,7 @@ MACRO (FIND_PYTHON version)
         GET_FILENAME_COMPONENT (_python_bin_dir "${_python_executable}" DIRECTORY)
         FIND_PROGRAM (PYTHON_CONFIG_${version} python${version}-config HINTS "${_python_bin_dir}")
     ENDIF ()
+
     IF (EXISTS ${PYTHON_CONFIG_${version}})
         EXECUTE_PROCESS (COMMAND ${PYTHON_CONFIG_${version}} --includes OUTPUT_VARIABLE _python_include_args)
         SEPARATE_ARGUMENTS (_python_includes UNIX_COMMAND "${_python_include_args}")
@@ -144,7 +145,6 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
 
     # Get python extension for relevant shared library spotting
     STRING (REPLACE "." "" EXTENSION "${PYTHON_VERSION}")
-
 
     # Configure pyproject.toml file
     SET (PYPROJECT_TOML_IN "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/pyproject.toml.in")

@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 # Operating Systems
 
@@ -29,6 +29,7 @@
 
 bin/*
 lib/*
+share/*
 build/
 *.so*
 *.a
@@ -52,6 +53,7 @@ docs/cpp_rst
 tmp/
 __pycache__
 .ipynb_checkpoints
+.pytest_cache/
 .open-space-toolkit
-share/OpenSpaceToolkit/*
 scripts
+*.egg-info/
