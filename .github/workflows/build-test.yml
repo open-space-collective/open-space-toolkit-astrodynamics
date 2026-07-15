@@ -68,7 +68,7 @@ jobs:
     needs:
       - prepare-environment
       - build-development-image
-      - test
+      # - test # TBR
     uses: open-space-collective/open-space-toolkit/.github/workflows/benchmark-validation.yml@users/alexl/fix-benchmark
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
