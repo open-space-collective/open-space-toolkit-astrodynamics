@@ -5,9 +5,10 @@ answers a specific question of the form *"How do I …?"*. They assume you
 already know the basics — if you don't, start with the
 [tutorials](../tutorials/index).
 
-Some guides are hand-written recipes; others are runnable Jupyter notebooks you
-can also open under [`notebooks/`](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/tree/main/notebooks)
-in the repository and execute yourself.
+The **guides** below are concise recipes. Many pair with a runnable
+**[example notebook](#example-notebooks)** further down the page that walks
+through the same task end to end, with real data and plots — the guide gives you
+the recipe, the notebook shows it in action.
 
 ## Installation
 
@@ -26,11 +27,6 @@ Model the forces on a spacecraft and integrate its motion.
 
 configure-dynamics
 custom-dynamics
-Constant thrust dynamics </notebooks/Flight Dynamics/Constant Thrust Dynamics>
-Stop on a custom event condition </notebooks/Flight Dynamics/Custom Event Condition>
-Generate custom windows </notebooks/Flight Dynamics/Custom Window Generation>
-Atmospheric density (NRLMSISE-00) </notebooks/Mission Analysis/Constant Flux and Geomagnetic Index NRLMSISE-00>
-Visualize a satellite trajectory (Cesium) </notebooks/Flight Dynamics/Visualize Satellite Trajectory (Cesium)>
 ```
 
 ## Access & visibility
@@ -41,8 +37,6 @@ Determine when objects can see one another.
 :maxdepth: 1
 
 compute-accesses
-Access computation </notebooks/Flight Dynamics/Access Computation>
-Find RF interference accesses </notebooks/Flight Dynamics/Find RF Interference Accesses>
 ```
 
 ## Guidance & maneuvers
@@ -53,9 +47,6 @@ Design thrust, guidance and station-keeping campaigns.
 :maxdepth: 1
 
 custom-guidance-law
-Station-keeping with QLaw </notebooks/Mission Analysis/QLaw Examples>
-Station-keeping sequence </notebooks/Mission Analysis/Station-Keeping Sequence>
-Altitude + eccentricity station-keeping [QLaw] </notebooks/Mission Analysis/Station-Keeping Sequence [QLaw]>
 ```
 
 ## Attitude & flight profiles
@@ -66,9 +57,6 @@ Point the spacecraft — nadir, target tracking, and custom attitudes.
 :maxdepth: 1
 
 flight-profiles
-Nadir tracking (with yaw compensation) </notebooks/Mission Analysis/Nadir Tracking (With Yaw Compensation)>
-Target tracking </notebooks/Mission Analysis/Target Tracking>
-Target tracking (with yaw compensation) </notebooks/Mission Analysis/Target Tracking (With Yaw Compensation)>
 ```
 
 ## Estimation
@@ -80,8 +68,6 @@ Fit orbits and element sets to observations.
 
 orbit-determination
 solve-tle
-Orbit determination </notebooks/Flight Dynamics/Orbit Determination>
-TLE determination </notebooks/Flight Dynamics/TLE Determination>
 ```
 
 ## Conjunction analysis
@@ -94,9 +80,45 @@ Screen for close approaches between objects.
 close-approaches
 ```
 
-## Sensor modelling
+(example-notebooks)=
 
-Project sensor geometry onto the ground and compute coverage.
+## Example notebooks
+
+Runnable, end-to-end Jupyter notebooks with real data and plots. Several expand
+on the guides above; the rest stand on their own. You can also open them under
+[`notebooks/`](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/tree/main/notebooks)
+in the repository and execute them yourself.
+
+### Flight dynamics
+
+```{toctree}
+:maxdepth: 1
+
+Access computation </notebooks/Flight Dynamics/Access Computation>
+Constant thrust dynamics </notebooks/Flight Dynamics/Constant Thrust Dynamics>
+Stop on a custom event condition </notebooks/Flight Dynamics/Custom Event Condition>
+Generate custom windows </notebooks/Flight Dynamics/Custom Window Generation>
+Find RF interference accesses </notebooks/Flight Dynamics/Find RF Interference Accesses>
+Orbit determination </notebooks/Flight Dynamics/Orbit Determination>
+TLE determination </notebooks/Flight Dynamics/TLE Determination>
+Visualize a satellite trajectory (Cesium) </notebooks/Flight Dynamics/Visualize Satellite Trajectory (Cesium)>
+```
+
+### Mission analysis
+
+```{toctree}
+:maxdepth: 1
+
+Atmospheric density (NRLMSISE-00) </notebooks/Mission Analysis/Constant Flux and Geomagnetic Index NRLMSISE-00>
+Nadir tracking (with yaw compensation) </notebooks/Mission Analysis/Nadir Tracking (With Yaw Compensation)>
+Target tracking </notebooks/Mission Analysis/Target Tracking>
+Target tracking (with yaw compensation) </notebooks/Mission Analysis/Target Tracking (With Yaw Compensation)>
+Station-keeping with QLaw </notebooks/Mission Analysis/QLaw Examples>
+Station-keeping sequence </notebooks/Mission Analysis/Station-Keeping Sequence>
+Altitude + eccentricity station-keeping [QLaw] </notebooks/Mission Analysis/Station-Keeping Sequence [QLaw]>
+```
+
+### Sensor modelling
 
 ```{toctree}
 :maxdepth: 1
@@ -105,7 +127,7 @@ Sensor modeling </notebooks/Sensor Modeling/Sensor Modeling>
 Area coverage </notebooks/Sensor Modeling/Area Coverage>
 ```
 
-## Cross-platform validation
+### Cross-platform validation
 
 Reproduce mission-sequence scenarios and compare Open Space Toolkit against
 [GMAT](https://gmat.gsfc.nasa.gov/) and [Orekit](https://www.orekit.org/).
