@@ -14,14 +14,6 @@ Orbit, attitude, access, mission analysis.
 
 ## Getting Started
 
-Want to get started? This is the simplest and quickest way:
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/main?urlpath=lab/tree/notebooks)
-
-*Nothing to download or install! This will automatically start a [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) environment in your browser with Open Space Toolkit libraries and example notebooks ready to use.*
-
-### Alternatives
-
 #### Docker Images
 
 [Docker](https://www.docker.com/) must be installed on your system.
@@ -44,11 +36,11 @@ from ostk.astrodynamics.trajectory.orbit.model import SGP4
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
 
 tle = TLE(
-    '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
-    '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
+    "1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994",
+    "2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316"
 )  # Construct Two-Line Element set
 
-earth = Environment.default().access_celestial_object_with_name('Earth')  # Access Earth model
+earth = Environment.default().access_celestial_object_with_name("Earth")  # Access Earth model
 
 orbit = Orbit(SGP4(tle), earth)  # Construct orbit using SGP4 model
 
@@ -100,69 +92,6 @@ pip install open-space-toolkit-astrodynamics
 ## Documentation
 
 Documentation is available [here](https://open-space-collective.github.io/open-space-toolkit-astrodynamics).
-
-It is organised using the [Diátaxis](https://diataxis.fr/) framework, which
-separates documentation into four purpose-built sections:
-
-- **[Tutorials](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/tutorials/index.html)** — learning-oriented lessons to get you started.
-- **[How-to guides](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/how-to/index.html)** — practical recipes for specific tasks, backed by runnable notebooks.
-- **[Reference](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/reference/index.html)** — the complete Python and C++ APIs, generated automatically.
-- **[Explanation](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/explanation/index.html)** — discussion of the design and concepts.
-
-The API reference is generated automatically on every build — the Python API by
-introspecting the compiled `ostk.astrodynamics` module, and the C++ API from the
-header comments via Doxygen and [Exhale](https://exhale.readthedocs.io/) — so it
-never needs to be maintained by hand.
-
-<details>
-<summary>Structure</summary>
-<p>
-
-The library exhibits the following detailed and descriptive structure:
-
-```txt
-├── NumericalSolver
-├── Trajectory
-│   ├── State
-│   ├── Orbit
-│   │   ├── Model
-│   │   │   ├── Kepler
-│   │   │   │   └── Classical Orbital Elements (COE)
-│   │   │   ├── SGP4
-│   │   │   │   └── Two-Line Element set (TLE)
-│   │   │   ├── Tabulated (input csv)
-│   │   │   └── Propagated (numerical integration)
-│   │   ├── Pass
-│   │   └── Message
-│   │       └── SpaceX
-│   │           └── OPM
-│   ├── Model
-│   │   ├── Static
-│   │   └── Tabulated
-│   └── Propagator
-├── Flight
-│   ├── Profile
-│   │    ├── Model
-│   │    │   ├── Transform
-│   │    │   └── Tabulated
-│   │    └── State
-│   └── System
-│        ├── SatelliteSystem
-│        └── Dynamics
-│            └── PositionDerivative
-│            └── CentralBodyGravity
-│            └── ThirdBodyGravity
-│            └── AtmosphericDrag
-├── Access
-│   └── Generator
-└── Conjunction
-    └── Message
-        └── CCSDS
-            └── CDM
-```
-
-</p>
-</details>
 
 ## Tutorials
 
