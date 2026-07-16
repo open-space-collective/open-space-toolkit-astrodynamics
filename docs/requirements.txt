@@ -1,10 +1,24 @@
 # Apache License 2.0
 
 sphinx~=7.2
+
+# Theme
+furo~=2024.1
+
+# API reference generation
+#   - Python: sphinx.ext.autosummary (bundled with Sphinx)
+#   - C++:    Doxygen -> Breathe -> Exhale (auto-generated tree)
 breathe~=4.35
-myst-parser~=2.0
-sphinx-math-dollar~=1.2
-sphinx-design~=0.5
-sphinx-material~=0.0
-kaleido~=0.2
+exhale~=0.3
+
+# Markdown & notebooks
 myst-nb~=1.0
+
+# Authoring helpers
+sphinx-design~=0.5
+sphinx-copybutton~=0.5
+sphinx-math-dollar~=1.2
+sphinxcontrib-mermaid~=0.9
+
+# Notebook figure rendering
+kaleido~=0.2
