@@ -50,11 +50,8 @@ ext-modules = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["ostk.astrodynamics"]
+include = ["ostk.astrodynamics", "ostk.astrodynamics.*"]
 
 [tool.setuptools.package-data]
 "ostk.astrodynamics" = ["${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}", "${LIBRARY_TARGET}.*${EXTENSION}*.so"]
 "*" = ["*/data/*"]
-
-[tool.black]
-line-length = 90
