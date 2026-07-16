@@ -5,7 +5,7 @@ typically GNSS position/velocity fixes or ground-tracking measurements — by
 least-squares estimation. The `OrbitDeterminationSolver` propagates an initial
 guess, compares it to the observations, and iterates until the residuals settle.
 
-The [Orbit Determination](/notebooks/Flight Dynamics/Orbit Determination) notebook
+The {doc}`Orbit Determination </notebooks/Flight Dynamics/Orbit Determination>` notebook
 runs this on real data; this guide covers the API.
 
 ## Load the observations
@@ -82,5 +82,5 @@ To go straight to a propagatable orbit instead of a single state, call
 
 ```{seealso}
 - Fit a Two-Line Element set instead of a Cartesian state: [Fit a TLE to an ephemeris](solve-tle).
-- Applied example on real tracking data: [Orbit Determination](/notebooks/Flight Dynamics/Orbit Determination).
+- Applied example on real tracking data: {doc}`Orbit Determination </notebooks/Flight Dynamics/Orbit Determination>`.
 ```

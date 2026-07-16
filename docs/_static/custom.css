@@ -1,4 +1,4 @@
-/* Open Space Toolkit ▸ Core — documentation overrides. */
+/* Open Space Toolkit ▸ Astrodynamics — documentation overrides. */
 
 /*
  * Align the closing parenthesis of multi-line (wrapped) signatures with the
@@ -40,4 +40,30 @@ dt.sig-object.py>dl {
 dt.sig-object.py>dl>dd {
     margin-left: 2em;
     text-indent: 0;
+}
+
+/*
+ * Notebook (MyST-NB) code-cell outputs.
+ *
+ * Pandas dataframes render as wide ``<table class="dataframe">`` elements that
+ * Furo does not wrap in its scrollable ``.table-wrapper``. Left alone, a wide
+ * table stretches the content column and spills across the page (over the
+ * right-hand "On this page" sidebar). Making the output container scroll
+ * horizontally keeps the table — or any wide plot — inside its own box.
+ */
+.cell_output {
+    overflow-x: auto;
+}
+
+.cell_output table.dataframe {
+    /* Don't let the table shrink its columns below their content width; let the
+       container above scroll instead. */
+    width: auto;
+    max-width: none;
+}
+
+/* Keep notebook figures/images from overflowing the content column. */
+.cell_output img {
+    max-width: 100%;
+    height: auto;
 }

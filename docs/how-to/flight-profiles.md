@@ -5,8 +5,8 @@ points. Given an orbit, a `Profile` produces a full state at any instant,
 including the attitude quaternion and angular velocity. This guide covers the
 common pointing modes.
 
-The [Nadir Tracking](/notebooks/Mission Analysis/Nadir Tracking (With Yaw Compensation))
-and [Target Tracking](/notebooks/Mission Analysis/Target Tracking) notebooks
+The {doc}`Nadir Tracking </notebooks/Mission Analysis/Nadir Tracking (With Yaw Compensation)>`
+and {doc}`Target Tracking </notebooks/Mission Analysis/Target Tracking>` notebooks
 show these profiles applied end to end.
 
 ## Nadir pointing
@@ -109,7 +109,7 @@ profile = Profile.inertial_pointing(orbit, Quaternion.unit())
 
 ```{seealso}
 - Applied pointing with plots and yaw compensation:
-  [Nadir Tracking](/notebooks/Mission Analysis/Nadir Tracking (With Yaw Compensation))
-  and [Target Tracking](/notebooks/Mission Analysis/Target Tracking).
+  {doc}`Nadir Tracking </notebooks/Mission Analysis/Nadir Tracking (With Yaw Compensation)>`
+  and {doc}`Target Tracking </notebooks/Mission Analysis/Target Tracking>`.
 - How profiles fit alongside orbits and trajectories: [Concepts](../explanation/concepts).
 ```

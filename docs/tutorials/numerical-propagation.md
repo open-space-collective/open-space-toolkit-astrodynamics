@@ -174,6 +174,6 @@ guides that follow.
   and combine dynamics terms explicitly.
 - [Write a custom dynamics term](../how-to/custom-dynamics) — add a force the
   toolkit doesn't ship.
-- [Plan a station-keeping maneuver](/notebooks/Mission Analysis/Station-Keeping Sequence)
+- {doc}`Plan a station-keeping maneuver </notebooks/Mission Analysis/Station-Keeping Sequence>`
   — put thrust into the propagation.
 ```

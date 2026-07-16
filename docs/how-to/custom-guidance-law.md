@@ -7,7 +7,7 @@ need your own steering logic you subclass `GuidanceLaw` in Python and drive a
 
 This guide assumes you can [propagate an orbit](../tutorials/numerical-propagation)
 and have seen the built-in laws (see the
-[station-keeping notebook](/notebooks/Mission Analysis/Station-Keeping Sequence)).
+{doc}`station-keeping notebook </notebooks/Mission Analysis/Station-Keeping Sequence>`).
 
 ## The interface to implement
 
@@ -126,12 +126,12 @@ To schedule different laws over different intervals — a constant burn followed
 a Q-law targeting phase, say — wrap them in
 `HeterogeneousGuidanceLaw([(law_a, interval_a), (law_b, interval_b)])`. For
 full maneuver campaigns, drive the thruster from a
-[`Sequence`](/notebooks/Mission Analysis/Station-Keeping Sequence) of
+{doc}`Sequence </notebooks/Mission Analysis/Station-Keeping Sequence>` of
 thrust and coast segments.
 ```
 
 ```{seealso}
 - Closed-loop element targeting with the built-in Q-law:
-  [Station-keeping with QLaw](/notebooks/Mission Analysis/QLaw Examples).
+  {doc}`Station-keeping with QLaw </notebooks/Mission Analysis/QLaw Examples>`.
 - Add non-thrust forces instead: [Write a custom dynamics term](custom-dynamics).
 ```

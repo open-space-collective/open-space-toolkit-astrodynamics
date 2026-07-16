@@ -6,7 +6,7 @@ with SGP4. When you have a precise ephemeris — from GNSS, or from your own orb
 determination — and need a TLE that reproduces it, the `TLESolver` fits one by
 least squares.
 
-The [TLE Determination](/notebooks/Flight Dynamics/TLE Determination) notebook
+The {doc}`TLE Determination </notebooks/Flight Dynamics/TLE Determination>` notebook
 runs this on real data; this guide covers the API.
 
 ## Provide the observations
@@ -78,5 +78,5 @@ as the `initial_guess`, and let the solver converge from there.
 
 ```{seealso}
 - Determine a Cartesian state instead: [Determine an orbit from observations](orbit-determination).
-- Applied example: [TLE Determination](/notebooks/Flight Dynamics/TLE Determination).
+- Applied example: {doc}`TLE Determination </notebooks/Flight Dynamics/TLE Determination>`.
 ```

@@ -228,6 +228,11 @@ def setup(app):
     app.connect("autodoc-skip-member", skip_member)
     app.connect("autodoc-process-docstring", autodoc_process_docstring)
     app.connect("builder-inited", generate_python_reference)
+    # Load MathJax on every page. Notebook output tables carry dollar-delimited
+    # LaTeX column labels (e.g. ``$x_{x}^{ECI}$``) as raw HTML that Sphinx's math
+    # detection never sees, so without this MathJax would not be injected on
+    # those pages and the labels would show as literal ``$...$`` text.
+    app.set_html_assets_policy("always")
 
 
 # -- HTML output (Furo theme) ---------------------------------------------
@@ -283,6 +288,24 @@ myst_footnote_transition = False
 
 nb_execution_mode = "off"  # Do not execute notebooks at build time
 nb_execution_timeout = 60
+
+# -- Maths (MathJax) ------------------------------------------------------
+#
+# ``sphinx_math_dollar`` converts ``$...$`` in prose to ``\(...\)`` at build
+# time and, by default, disables MathJax's ``$`` delimiter. The example
+# notebooks, however, label dataframe columns with dollar-delimited LaTeX (an
+# OSTk convention, e.g. ``$x_{x}^{ECI}$``) that lives in raw notebook-output
+# HTML which ``sphinx_math_dollar`` never sees. Providing ``inlineMath`` here
+# keeps ``$...$`` active browser-side so those labels render as maths instead of
+# raw text. Prose no longer contains ``$`` by this point (it has been rewritten
+# to ``\(...\)``), and MathJax skips ``<pre>``/``<code>``, so code and stdout
+# are unaffected.
+mathjax3_config = {
+    "tex": {
+        "inlineMath": [["\\(", "\\)"], ["$", "$"]],
+        "displayMath": [["\\[", "\\]"], ["$$", "$$"]],
+    },
+}
 
 # -- Breathe / Exhale configuration (C++ API) ------------------------------
 #

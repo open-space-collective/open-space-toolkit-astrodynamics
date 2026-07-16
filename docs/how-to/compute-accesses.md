@@ -6,7 +6,7 @@ minimum elevation, for example. This guide computes those intervals and then
 shows how to make the computation much faster for long horizons.
 
 For a fuller, runnable walkthrough see the
-[Access Computation](/notebooks/Flight Dynamics/Access Computation) notebook.
+{doc}`Access Computation </notebooks/Flight Dynamics/Access Computation>` notebook.
 
 ## Define a visibility criterion
 
@@ -144,7 +144,7 @@ the generator would otherwise perform, and pays off whenever you compute accesse
 over long intervals or against many ground targets.
 
 ```{seealso}
-- End-to-end example with plots: [Access Computation](/notebooks/Flight Dynamics/Access Computation).
-- Interference geometry: [Find RF Interference Accesses](/notebooks/Flight Dynamics/Find RF Interference Accesses).
+- End-to-end example with plots: {doc}`Access Computation </notebooks/Flight Dynamics/Access Computation>`.
+- Interference geometry: {doc}`Find RF Interference Accesses </notebooks/Flight Dynamics/Find RF Interference Accesses>`.
 - The concepts behind trajectories, frames and accesses: [Concepts](../explanation/concepts).
 ```
