@@ -25,7 +25,7 @@ dependencies = [
     "open-space-toolkit-core~=5.0",
     "open-space-toolkit-io~=4.0",
     "open-space-toolkit-mathematics~=4.3",
-    "open-space-toolkit-physics~=13.0",
+    "open-space-toolkit-physics~=14.0",
 
 	"pandas~=2.0",
     "numpy~=2.0",
