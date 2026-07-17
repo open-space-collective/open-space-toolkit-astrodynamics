@@ -19,7 +19,7 @@ classifiers = [
 	"Programming Language :: Python :: 3",
 	"Operating System :: POSIX :: Linux",
 ]
-requires-python = "~=${PYTHON_VERSION}.0"
+requires-python = ">=3.9"
 
 dependencies = [
     "open-space-toolkit-core~=5.0",
