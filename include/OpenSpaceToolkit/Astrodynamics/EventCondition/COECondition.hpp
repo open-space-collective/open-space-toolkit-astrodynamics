@@ -40,7 +40,11 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::State;
 
 /// @brief A Classical Orbital Element based event condition
-class COECondition
+///
+/// @deprecated Use OrbitalElementCondition with OrbitalElementCondition::Theory::Osculating instead. This class
+/// will be removed in a future release.
+class [[deprecated("Use OrbitalElementCondition instead. This class will be removed in a future release."
+)]] COECondition
 {
    public:
     /// @brief Semi-Major Axis based constructor

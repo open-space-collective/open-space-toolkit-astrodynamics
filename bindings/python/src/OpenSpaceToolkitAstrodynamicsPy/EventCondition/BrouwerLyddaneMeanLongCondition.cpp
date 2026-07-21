@@ -24,6 +24,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLon
             R"doc(
                 A Brouwer-Lyddane Mean Long Event Condition.
 
+                Deprecated:
+                    Use `OrbitalElementCondition` with `OrbitalElementCondition.Theory.BrouwerLyddaneMeanLong`
+                    instead. This class will be removed in a future release.
+
             )doc"
         )
 

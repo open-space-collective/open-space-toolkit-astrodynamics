@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 
 using namespace pybind11;
 
@@ -13,39 +13,63 @@ using ostk::physics::unit::Derived;
 
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
+using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
+using ostk::astrodynamics::eventcondition::RealCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_OrbitalElementCondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition>(
+        class_<OrbitalElementCondition> orbitalElementCondition(
             aModule,
-            "COECondition",
+            "OrbitalElementCondition",
             R"doc(
-                A COE Event Condition.
+                An orbital element based Event Condition. Supports evaluating the element using different orbital
+                element theories (osculating or Brouwer-Lyddane mean).
 
-                Deprecated:
-                    Use `OrbitalElementCondition` with `OrbitalElementCondition.Theory.Osculating` instead. This
-                    class will be removed in a future release.
+            )doc"
+        );
 
+        enum_<OrbitalElementCondition::Theory>(
+            orbitalElementCondition,
+            "Theory",
+            R"doc(
+                The orbital element theory used to compute the orbital elements from a Cartesian state.
             )doc"
         )
 
+            .value("Osculating", OrbitalElementCondition::Theory::Osculating, "Osculating (Classical) orbital elements")
+            .value(
+                "BrouwerLyddaneMeanShort",
+                OrbitalElementCondition::Theory::BrouwerLyddaneMeanShort,
+                "Brouwer-Lyddane Mean Short orbital elements"
+            )
+            .value(
+                "BrouwerLyddaneMeanLong",
+                OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
+                "Brouwer-Lyddane Mean Long orbital elements"
+            )
+
+            ;
+
+        orbitalElementCondition
+
             .def_static(
                 "semi_major_axis",
-                &COECondition::SemiMajorAxis,
+                &OrbitalElementCondition::SemiMajorAxis,
                 R"doc(
-                    Create a COE condition based on the semi-major axis.
+                    Create an orbital element condition based on the semi-major axis.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         semi_major_axis (EventConditionTarget): The semi-major axis.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("semi_major_axis"),
@@ -54,19 +78,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "eccentricity",
-                &COECondition::Eccentricity,
+                &OrbitalElementCondition::Eccentricity,
                 R"doc(
-                    Create a COE condition based on the eccentricity.
+                    Create an orbital element condition based on the eccentricity.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         eccentricity (EventConditionTarget): The eccentricity.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("eccentricity"),
@@ -76,22 +102,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "inclination",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::Inclination),
+                    const Derived&>(&OrbitalElementCondition::Inclination),
                 R"doc(
-                    Create a COE condition based on the inclination.
+                    Create an orbital element condition based on the inclination.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         inclination (EventConditionTarget): The inclination.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("inclination"),
@@ -100,20 +129,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "inclination",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::Inclination
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::Inclination),
                 R"doc(
-                    Create a COE condition based on the inclination being within a range.
+                    Create an orbital element condition based on the inclination being within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
@@ -122,22 +155,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "aop",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::Aop),
+                    const Derived&>(&OrbitalElementCondition::Aop),
                 R"doc(
-                    Create a COE condition based on the argument of perigee.
+                    Create an orbital element condition based on the argument of perigee.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         aop (EventConditionTarget): The argument of perigee.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("aop"),
@@ -146,19 +182,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "aop",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(&COECondition::Aop
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::Aop),
                 R"doc(
-                    Create a COE condition based on the argument of perigee being within a range.
+                    Create an orbital element condition based on the argument of perigee being within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
@@ -167,22 +208,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "raan",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::Raan),
+                    const Derived&>(&OrbitalElementCondition::Raan),
                 R"doc(
-                    Create a COE condition based on the right ascension of the ascending node.
+                    Create an orbital element condition based on the right ascension of the ascending node.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         raan (EventConditionTarget): The right ascension of the ascending node.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("raan"),
@@ -191,19 +235,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "raan",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(&COECondition::Raan
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::Raan),
                 R"doc(
-                    Create a COE condition based on the right ascension of the ascending node being within a range.
+                    Create an orbital element condition based on the right ascension of the ascending node being
+                    within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
@@ -212,22 +262,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "true_anomaly",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::TrueAnomaly),
+                    const Derived&>(&OrbitalElementCondition::TrueAnomaly),
                 R"doc(
-                    Create a COE condition based on the true anomaly.
+                    Create an orbital element condition based on the true anomaly.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         true_anomaly (EventConditionTarget): The true anomaly.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("true_anomaly"),
@@ -236,20 +289,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "true_anomaly",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::TrueAnomaly
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::TrueAnomaly),
                 R"doc(
-                    Create a COE condition based on the true anomaly being within a range.
+                    Create an orbital element condition based on the true anomaly being within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
@@ -258,22 +315,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "mean_anomaly",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::MeanAnomaly),
+                    const Derived&>(&OrbitalElementCondition::MeanAnomaly),
                 R"doc(
-                    Create a COE condition based on the mean anomaly.
+                    Create an orbital element condition based on the mean anomaly.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         mean_anomaly (EventConditionTarget): The mean anomaly.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("mean_anomaly"),
@@ -282,20 +342,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "mean_anomaly",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::MeanAnomaly
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::MeanAnomaly),
                 R"doc(
-                    Create a COE condition based on the mean anomaly being within a range.
+                    Create an orbital element condition based on the mean anomaly being within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
@@ -304,22 +368,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "eccentric_anomaly",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::EccentricAnomaly),
+                    const Derived&>(&OrbitalElementCondition::EccentricAnomaly),
                 R"doc(
-                    Create a COE condition based on the eccentric anomaly.
+                    Create an orbital element condition based on the eccentric anomaly.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         eccentric_anomaly (EventConditionTarget): The eccentric anomaly.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("eccentric_anomaly"),
@@ -328,20 +395,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "eccentric_anomaly",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::EccentricAnomaly
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::EccentricAnomaly),
                 R"doc(
-                    Create a COE condition based on the eccentric anomaly being within a range.
+                    Create an orbital element condition based on the eccentric anomaly being within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
@@ -350,22 +421,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             .def_static(
                 "argument_of_latitude",
                 overload_cast<
+                    const OrbitalElementCondition::Theory&,
                     const AngularCondition::Criterion&,
                     const Shared<const Frame>&,
                     const EventCondition::Target&,
-                    const Derived&>(&COECondition::ArgumentOfLatitude),
+                    const Derived&>(&OrbitalElementCondition::ArgumentOfLatitude),
                 R"doc(
-                    Create a COE condition based on the argument of latitude.
+                    Create an orbital element condition based on the argument of latitude.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         criterion (Criterion): The criterion.
                         frame (Frame): The reference frame.
                         argument_of_latitude (EventConditionTarget): The argument of latitude.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("criterion"),
                 arg("frame"),
                 arg("argument_of_latitude"),
@@ -374,20 +448,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
 
             .def_static(
                 "argument_of_latitude",
-                overload_cast<const Shared<const Frame>&, const Pair<Angle, Angle>&, const Derived&>(
-                    &COECondition::ArgumentOfLatitude
-                ),
+                overload_cast<
+                    const OrbitalElementCondition::Theory&,
+                    const Shared<const Frame>&,
+                    const Pair<Angle, Angle>&,
+                    const Derived&>(&OrbitalElementCondition::ArgumentOfLatitude),
                 R"doc(
-                    Create a COE condition based on the argument of latitude being within a range.
+                    Create an orbital element condition based on the argument of latitude being within a range.
 
                     Args:
+                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
                         frame (Frame): The reference frame.
                         target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
                         gravitational_parameter (Derived): The gravitational parameter.
 
                     Returns:
-                        COECondition: The COE condition.
+                        OrbitalElementCondition: The orbital element condition.
                 )doc",
+                arg("theory"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
