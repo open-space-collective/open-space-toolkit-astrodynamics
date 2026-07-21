@@ -1,0 +1,1276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::eventcondition::OrbitalElementCondition</compoundname>
+    <includes refid="_orbital_element_condition_8hpp" local="no">OrbitalElementCondition.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Theory</name>
+        <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a1e7caaabaa9a4358abca0b4ff7b5b7a2" prot="public">
+          <name>Osculating</name>
+          <briefdescription>
+<para>Osculating (Classical) orbital elements. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a771f0d033fe804fac72a3f41d58a04b8" prot="public">
+          <name>BrouwerLyddaneMeanShort</name>
+          <briefdescription>
+<para>Brouwer-Lyddane Mean Short orbital elements. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a3dbb397bf3787e721fd22ff669db963e" prot="public">
+          <name>BrouwerLyddaneMeanLong</name>
+          <briefdescription>
+<para>Brouwer-Lyddane Mean Long orbital elements. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The orbital element theory used to compute the orbital elements from a Cartesian state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="52" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1aa4ae1400637ac15835717d4ffdbfbe39" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
+        <definition>RealCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::SemiMajorAxis</definition>
+        <argsstring>(const Theory &amp;aTheory, const RealCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>SemiMajorAxis</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">RealCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Semi-Major Axis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">RealCondition<sp/>condition<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1aa4ae1400637ac15835717d4ffdbfbe39" kindref="member">OrbitalElementCondition::SemiMajorAxis</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a771f0d033fe804fac72a3f41d58a04b8" kindref="member">OrbitalElementCondition::Theory::BrouwerLyddaneMeanShort</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8aa87074e622d8fecce2c96877e39ac8e8a" kindref="member">RealCondition::Criterion::AnyCrossing</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Frame::GCRF(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EventCondition::Target(7000000.0),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>gravitationalParameter</highlight></codeline>
+<codeline><highlight class="normal">)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="77" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="48" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1af33d2d7acad921de58459d2c1b6696d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
+        <definition>RealCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Eccentricity</definition>
+        <argsstring>(const Theory &amp;aTheory, const RealCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Eccentricity</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" kindref="member">RealCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentricity based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="94" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="64" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1ac701e7204c90de12e298c0bdec4ca2ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Inclination</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Inclination</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Inclination based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="111" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="80" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a852a3e18311239ac9758e2282a225b08" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Inclination</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Inclination</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Inclination based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="127" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="96" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a8b1410bc8acafb86c7e3ba5661670211" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Aop</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Aop</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Periapsis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="143" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="110" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a7d71381e7ecc303bc9dc56ac03157aed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Aop</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Aop</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Periapsis based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="159" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="126" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a468f8c3a7d3c5f4578dbb5c8e89e26a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Raan</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Raan</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Right Ascension of Ascending Node based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="175" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="140" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a16333e2378414bad09a20f9f1f8a271b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::Raan</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>Raan</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Right Ascension of Ascending Node based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="191" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="156" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1afc7665606f40432a9ce4a6cb95da96d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::TrueAnomaly</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>TrueAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>True Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="207" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="170" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a344058aa148c382b0fc89dc4b1b0e0a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::TrueAnomaly</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>TrueAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>True Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="223" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="186" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a4b9cea4e36886082db2d26f48eea260d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::MeanAnomaly</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>MeanAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Mean Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="239" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="200" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a10884fe4691348ea90ad58c958e690a5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::MeanAnomaly</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>MeanAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Mean Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="255" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="216" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1ac1babe4f462743eff6e183abd72dec62" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::EccentricAnomaly</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>EccentricAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentric Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="271" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="230" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a139e1d871b12bd45a67f8a2dcf4998cb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::EccentricAnomaly</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>EccentricAnomaly</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Eccentric Anomaly based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="287" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="246" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1aafce26c686cfc53b122d25efcfeba9bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::ArgumentOfLatitude</definition>
+        <argsstring>(const Theory &amp;aTheory, const AngularCondition::Criterion &amp;aCriterion, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const EventCondition::Target &amp;aTarget, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ArgumentOfLatitude</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition_1aab27c1430469e94751717ae5a625edaa" kindref="member">AngularCondition::Criterion</ref> &amp;</type>
+          <declname>aCriterion</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">EventCondition::Target</ref> &amp;</type>
+          <declname>aTarget</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Latitude based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCriterion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The criterion used to resolve the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="303" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="260" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a7ad087309892e957af1a58d64d261e13" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
+        <definition>AngularCondition ostk::astrodynamics::eventcondition::OrbitalElementCondition::ArgumentOfLatitude</definition>
+        <argsstring>(const Theory &amp;aTheory, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Pair&lt; Angle, Angle &gt; &amp;aTargetRange, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>ArgumentOfLatitude</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Pair&lt; Angle, Angle &gt; &amp;</type>
+          <declname>aTargetRange</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+<para>Argument of Latitude based constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTheory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orbital element theory to use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame in which the element is to be computed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aTargetRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A Target Range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aGravitationalParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A gravitational parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event Condition </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="319" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="276" bodyend="288"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a748bad1dd22f328aa683d860d8a3b477" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; Real(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>std::function&lt; Real(const State &amp;)&gt; ostk::astrodynamics::eventcondition::OrbitalElementCondition::GenerateEvaluator</definition>
+        <argsstring>(const Theory &amp;aTheory, const COE::Element &amp;anElement, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Derived &amp;aGravitationalParameter)</argsstring>
+        <name>GenerateEvaluator</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" kindref="member">Theory</ref> &amp;</type>
+          <declname>aTheory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad329a59499bd192ab5b154433a04ce31" kindref="member">COE::Element</ref> &amp;</type>
+          <declname>anElement</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aGravitationalParameter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="327" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp" bodystart="290" bodyend="330"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>An orbital element based event condition. Supports evaluating the element using different orbital element theories (osculating or Brouwer-Lyddane mean). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp" bodystart="47" bodyend="333"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a8b1410bc8acafb86c7e3ba5661670211" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Aop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a7d71381e7ecc303bc9dc56ac03157aed" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Aop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1aafce26c686cfc53b122d25efcfeba9bf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>ArgumentOfLatitude</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a7ad087309892e957af1a58d64d261e13" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>ArgumentOfLatitude</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1ac1babe4f462743eff6e183abd72dec62" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>EccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a139e1d871b12bd45a67f8a2dcf4998cb" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>EccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1af33d2d7acad921de58459d2c1b6696d2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Eccentricity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a748bad1dd22f328aa683d860d8a3b477" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>GenerateEvaluator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1ac701e7204c90de12e298c0bdec4ca2ae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Inclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a852a3e18311239ac9758e2282a225b08" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Inclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a4b9cea4e36886082db2d26f48eea260d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>MeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a10884fe4691348ea90ad58c958e690a5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>MeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a468f8c3a7d3c5f4578dbb5c8e89e26a4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Raan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a16333e2378414bad09a20f9f1f8a271b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Raan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1aa4ae1400637ac15835717d4ffdbfbe39" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>SemiMajorAxis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>Theory</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1afc7665606f40432a9ce4a6cb95da96d4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>TrueAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a344058aa148c382b0fc89dc4b1b0e0a7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::OrbitalElementCondition</scope><name>TrueAnomaly</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -8,6 +8,7 @@
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" prot="public">ostk::astrodynamics::eventcondition::COECondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_instant_condition" prot="public">ostk::astrodynamics::eventcondition::InstantCondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition" prot="public">ostk::astrodynamics::eventcondition::LogicalCondition</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition" prot="public">ostk::astrodynamics::eventcondition::OrbitalElementCondition</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" prot="public">ostk::astrodynamics::eventcondition::RealCondition</innerclass>
     <briefdescription>
     </briefdescription>

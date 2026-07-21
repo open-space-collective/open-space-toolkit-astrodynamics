@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="63" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="15" bodyend="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="67" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="15" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a0a658913d4f4ad02be0f1aac33991e2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition" kindref="compound">RealCondition</ref></type>
@@ -141,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="78" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="30" bodyend="43"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="82" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="30" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a9e22f65874df7f17e2eab57bb9ec4b8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -207,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="93" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="45" bodyend="58"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="97" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="45" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a365c919ba934604d34db0110db572526" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -261,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="107" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="60" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="111" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="60" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3fb71e74232437ecedd5344776476a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -327,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="121" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="71" bodyend="84"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="125" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="71" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3dccea674c7017ba816b05ae925bc70" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -381,7 +381,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="135" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="86" bodyend="95"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="139" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="86" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1aad1a6b92733545555e668bfdfbb12723" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -447,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="149" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="97" bodyend="110"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="153" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="97" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1aa46243927f6287ff4dd5b50a391f7a2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -501,7 +501,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="163" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="112" bodyend="123"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="167" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="112" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a36e555812b9860268999153a6ec5bd69" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -567,7 +567,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="177" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="125" bodyend="138"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="181" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="125" bodyend="138"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a67d9632dcd172d8bb2739f51a223806f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -621,7 +621,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="191" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="140" bodyend="149"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="195" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="140" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1adf13f91243d10cc8931de779e90bf517" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -687,7 +687,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="205" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="151" bodyend="164"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="209" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="151" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a68d90fe8202b3421a8f19588602ed9f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -741,7 +741,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="219" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="166" bodyend="175"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="223" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="166" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a75a7dbabf7600b7344f937aac21b7228" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -807,7 +807,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="233" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="177" bodyend="190"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="237" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="177" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ab4cd6ea2ca21a041a54c2d84bf512add" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -861,7 +861,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="247" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="192" bodyend="203"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="251" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="192" bodyend="203"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1a047d45f02107262a007185a3a49405cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -927,7 +927,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="261" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="205" bodyend="218"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="265" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="205" bodyend="218"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1afe45a3538ca1beb5d0875bb04a077048" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_angular_condition" kindref="compound">AngularCondition</ref></type>
@@ -981,7 +981,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="275" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="220" bodyend="231"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="279" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="220" bodyend="231"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -1008,15 +1008,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="282" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="233" bodyend="279"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="286" column="26" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp" bodystart="233" bodyend="279"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>A Classical Orbital Element based event condition. </para>
     </briefdescription>
     <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000002"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition" kindref="compound">OrbitalElementCondition</ref> with <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a1e7caaabaa9a4358abca0b4ff7b5b7a2" kindref="member">OrbitalElementCondition::Theory::Osculating</ref> instead. This class will be removed in a future release. </para>
+</xrefdescription></xrefsect></para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="44" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" bodystart="43" bodyend="285"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp" bodystart="46" bodyend="289"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3fb71e74232437ecedd5344776476a2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Aop</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition_1ad3dccea674c7017ba816b05ae925bc70" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::COECondition</scope><name>Aop</name></member>

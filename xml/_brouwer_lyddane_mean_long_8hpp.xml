@@ -17,6 +17,7 @@
     <includes refid="_brouwer_lyddane_mean_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp</includes>
     <includes refid="_c_o_e_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp</includes>
     <includedby refid="_brouwer_lyddane_mean_long_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</includedby>
+    <includedby refid="_orbital_element_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp</includedby>
     <includedby refid="_q_law_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</includedby>
     <includedby refid="_brouwer_lyddane_mean_long_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp</includedby>
     <incdepgraph>
@@ -153,9 +154,19 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="5">
+      <node id="7">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.cpp</label>
         <link refid="_brouwer_lyddane_mean_long_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp</label>
+        <link refid="_orbital_element_condition_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp</label>
+        <link refid="_orbital_element_condition_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp</label>
@@ -164,7 +175,9 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -173,7 +186,7 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp</label>
         <link refid="_q_law_8cpp"/>
       </node>

@@ -8,6 +8,7 @@
     <innerfile refid="_c_o_e_condition_8cpp">COECondition.cpp</innerfile>
     <innerfile refid="_instant_condition_8cpp">InstantCondition.cpp</innerfile>
     <innerfile refid="_logical_condition_8cpp">LogicalCondition.cpp</innerfile>
+    <innerfile refid="_orbital_element_condition_8cpp">OrbitalElementCondition.cpp</innerfile>
     <innerfile refid="_real_condition_8cpp">RealCondition.cpp</innerfile>
     <briefdescription>
     </briefdescription>

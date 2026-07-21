@@ -10,6 +10,7 @@
     <includedby refid="_brouwer_lyddane_mean_long_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp</includedby>
     <includedby refid="_c_o_e_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp</includedby>
     <includedby refid="_instant_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp</includedby>
+    <includedby refid="_orbital_element_condition_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp</includedby>
     <includedby refid="_segment_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</includedby>
     <includedby refid="_real_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</includedby>
     <includedby refid="_segment_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</includedby>
@@ -164,6 +165,10 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.cpp</label>
         <link refid="_instant_condition_8cpp"/>
       </node>
+      <node id="11">
+        <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.cpp</label>
+        <link refid="_orbital_element_condition_8cpp"/>
+      </node>
       <node id="3">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp</label>
         <link refid="_boolean_condition_8cpp"/>
@@ -172,6 +177,12 @@
         <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp</label>
         <link refid="_boolean_condition_8hpp"/>
         <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp</label>
+        <link refid="_orbital_element_condition_8hpp"/>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -187,9 +198,11 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -210,18 +223,18 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="13">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
         <link refid="_sequence_8hpp"/>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="12">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
         <link refid="_segment_8hpp"/>
-        <childnode refid="11" relation="include">
-        </childnode>
         <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -232,15 +245,15 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.cpp</label>
         <link refid="_c_o_e_condition_8cpp"/>
       </node>
-      <node id="12">
+      <node id="14">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
         <link refid="_sequence_8cpp"/>
       </node>
-      <node id="14">
+      <node id="16">
         <label>src/OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.cpp</label>
         <link refid="_real_condition_8cpp"/>
       </node>
-      <node id="13">
+      <node id="15">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
         <link refid="_segment_8cpp"/>
       </node>

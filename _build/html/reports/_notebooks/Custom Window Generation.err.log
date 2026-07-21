@@ -40,21 +40,21 @@ print(*eclipse_windows[:3])
  0# ostk::core::error::RuntimeError::RuntimeError(ostk::core::type::String const&) in /usr/local/lib/libopen-space-toolkit-core.so.5
  1# ostk::astrodynamics::trajectory::model::Tabulated::calculateStateAt(ostk::physics::time::Instant const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp:245
  2# ostk::astrodynamics::trajectory::orbit::model::Tabulated::calculateStateAt(ostk::physics::time::Instant const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.cpp:90
- 3# 0x00007F671C7589DA in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 4# 0x00007F671C9CB0E1 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 5# 0x00007F671C929013 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 6# 0x00007F671C858FE1 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 7# 0x00007F671C859112 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 8# 0x00007F671C631A56 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 3# 0x00007F01729C8C72 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 4# 0x00007F0172C4596F in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 5# 0x00007F0172BA2581 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 6# 0x00007F0172ACE547 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 7# 0x00007F0172ACE678 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+ 8# 0x00007F017289CEF6 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
  9# cfunction_call in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 10# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 11# _PyFunction_Vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-12# 0x00007F671C6EF4AC in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-13# 0x00007F671CAE2081 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-14# 0x00007F671CADECD0 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-15# 0x00007F671CAD8799 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-16# 0x00007F671CACC7DF in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-17# 0x00007F671CABAC2D in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+12# 0x00007F017295E3BE in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+13# 0x00007F0172D5DBFF in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+14# 0x00007F0172D5A84E in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+15# 0x00007F0172D54317 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+16# 0x00007F0172D48381 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+17# 0x00007F0172D367BF in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
 18# std::function<bool (ostk::physics::time::Instant const&)>::operator()(ostk::physics::time::Instant const&) const at /usr/include/c++/13/bits/std_function.h:592
 19# ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}::operator()(std::function<bool (ostk::physics::time::Instant const&)> const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:150
 20# bool __gnu_cxx::__ops::_Iter_negate<ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}>::operator()<__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > > >(__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >) at /usr/include/c++/13/bits/predefined_ops.h:395
@@ -65,12 +65,12 @@ print(*eclipse_windows[:3])
 25# ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&) at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:152
 26# ostk::astrodynamics::solver::TemporalConditionSolver::solve(ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&, ostk::physics::time::Interval const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:70
 27# ostk::astrodynamics::solver::TemporalConditionSolver::solve(std::function<bool (ostk::physics::time::Instant const&)> const&, ostk::physics::time::Interval const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:46
-28# 0x00007F671C73DB1A in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-29# 0x00007F671C9A9201 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-30# 0x00007F671C90531D in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-31# 0x00007F671C814505 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-32# 0x00007F671C81477C in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-33# 0x00007F671C631A56 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+28# 0x00007F01729ADDB2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+29# 0x00007F0172C23A8F in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+30# 0x00007F0172B7E88B in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+31# 0x00007F0172A89A8B in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+32# 0x00007F0172A89D02 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
+33# 0x00007F017289CEF6 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
 34# cfunction_call in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 35# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 36# _PyEval_Vector in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
@@ -114,6 +114,6 @@ print(*eclipse_windows[:3])
 74# pymain_main in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 75# main in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 76# __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
-77# 0x0000559F57A827AD in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
+77# 0x00005591EE78E7AD in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
 
 

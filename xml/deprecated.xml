@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="deprecated" kind="page">
+    <compoundname>deprecated</compoundname>
+    <title>Deprecated List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Class <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_brouwer_lyddane_mean_long_condition" kindref="compound">ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition</ref>  </term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000001"/>Use <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition" kindref="compound">OrbitalElementCondition</ref> with <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a3dbb397bf3787e721fd22ff669db963e" kindref="member">OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong</ref> instead. This class will be removed in a future release.  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_c_o_e_condition" kindref="compound">ostk::astrodynamics::eventcondition::COECondition</ref>  </term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000002"/>Use <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition" kindref="compound">OrbitalElementCondition</ref> with <ref refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_orbital_element_condition_1a83f9ae95337e09bb465fe098b31d3488a1e7caaabaa9a4358abca0b4ff7b5b7a2" kindref="member">OrbitalElementCondition::Theory::Osculating</ref> instead. This class will be removed in a future release. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -26,6 +26,7 @@
       COECondition
       InstantCondition
       LogicalCondition
+      OrbitalElementCondition
       RealCondition
    
    
