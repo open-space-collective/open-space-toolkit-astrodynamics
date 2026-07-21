@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventConditions_OrbitalElementCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventConditions_OrbitalElementCondition__
 
+#include <functional>
+
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -316,84 +318,6 @@ class OrbitalElementCondition
     /// @return Event Condition
     static AngularCondition ArgumentOfLatitude(
         const Theory& aTheory,
-        const Shared<const Frame>& aFrameSPtr,
-        const Pair<Angle, Angle>& aTargetRange,
-        const Derived& aGravitationalParameter
-    );
-
-    /// @brief Generic constructor for a Real-valued element (SemiMajorAxis or Eccentricity)
-    ///
-    /// @code{.cpp}
-    ///     RealCondition condition = OrbitalElementCondition::Construct(
-    ///         OrbitalElementCondition::Theory::BrouwerLyddaneMeanShort,
-    ///         COE::Element::SemiMajorAxis,
-    ///         RealCondition::Criterion::AnyCrossing,
-    ///         Frame::GCRF(),
-    ///         EventCondition::Target(7000000.0),
-    ///         gravitationalParameter
-    ///     ) ;
-    /// @endcode
-    ///
-    /// @param aTheory The orbital element theory to use
-    /// @param anElement The orbital element. Must be SemiMajorAxis or Eccentricity
-    /// @param aCriterion The criterion used to resolve the Event Condition
-    /// @param aFrameSPtr A frame in which the element is to be computed
-    /// @param aTarget A Target
-    /// @param aGravitationalParameter A gravitational parameter
-    ///
-    /// @return Event Condition
-    static RealCondition Construct(
-        const Theory& aTheory,
-        const COE::Element& anElement,
-        const RealCondition::Criterion& aCriterion,
-        const Shared<const Frame>& aFrameSPtr,
-        const EventCondition::Target& aTarget,
-        const Derived& aGravitationalParameter
-    );
-
-    /// @brief Generic constructor for an Angular element (any element other than SemiMajorAxis or Eccentricity)
-    ///
-    /// @code{.cpp}
-    ///     AngularCondition condition = OrbitalElementCondition::Construct(
-    ///         OrbitalElementCondition::Theory::BrouwerLyddaneMeanShort,
-    ///         COE::Element::Inclination,
-    ///         AngularCondition::Criterion::AnyCrossing,
-    ///         Frame::GCRF(),
-    ///         EventCondition::Target(Angle::Degrees(45.0)),
-    ///         gravitationalParameter
-    ///     ) ;
-    /// @endcode
-    ///
-    /// @param aTheory The orbital element theory to use
-    /// @param anElement The orbital element. Must not be SemiMajorAxis or Eccentricity
-    /// @param aCriterion The criterion used to resolve the Event Condition
-    /// @param aFrameSPtr A frame in which the element is to be computed
-    /// @param aTarget A Target
-    /// @param aGravitationalParameter A gravitational parameter
-    ///
-    /// @return Event Condition
-    static AngularCondition Construct(
-        const Theory& aTheory,
-        const COE::Element& anElement,
-        const AngularCondition::Criterion& aCriterion,
-        const Shared<const Frame>& aFrameSPtr,
-        const EventCondition::Target& aTarget,
-        const Derived& aGravitationalParameter
-    );
-
-    /// @brief Generic constructor for an Angular element (any element other than SemiMajorAxis or Eccentricity),
-    /// satisfied when the element is within a target range
-    ///
-    /// @param aTheory The orbital element theory to use
-    /// @param anElement The orbital element. Must not be SemiMajorAxis or Eccentricity
-    /// @param aFrameSPtr A frame in which the element is to be computed
-    /// @param aTargetRange A Target Range
-    /// @param aGravitationalParameter A gravitational parameter
-    ///
-    /// @return Event Condition
-    static AngularCondition Construct(
-        const Theory& aTheory,
-        const COE::Element& anElement,
         const Shared<const Frame>& aFrameSPtr,
         const Pair<Angle, Angle>& aTargetRange,
         const Derived& aGravitationalParameter

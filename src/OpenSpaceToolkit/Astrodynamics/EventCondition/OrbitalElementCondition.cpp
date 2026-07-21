@@ -43,11 +43,6 @@ Real ExtractElement(const OrbitalElementSet& anOrbitalElementSet, const COE::Ele
     }
 }
 
-bool IsRealElement(const COE::Element& anElement)
-{
-    return (anElement == COE::Element::SemiMajorAxis) || (anElement == COE::Element::Eccentricity);
-}
-
 }  // namespace
 
 RealCondition OrbitalElementCondition::SemiMajorAxis(
@@ -288,76 +283,6 @@ AngularCondition OrbitalElementCondition::ArgumentOfLatitude(
     return AngularCondition::WithinRange(
         "Argument of Latitude",
         GenerateEvaluator(aTheory, COE::Element::ArgumentOfLatitude, aFrameSPtr, aGravitationalParameter),
-        aTargetRange
-    );
-}
-
-RealCondition OrbitalElementCondition::Construct(
-    const Theory& aTheory,
-    const COE::Element& anElement,
-    const RealCondition::Criterion& aCriterion,
-    const Shared<const Frame>& aFrameSPtr,
-    const EventCondition::Target& aTarget,
-    const Derived& aGravitationalParameter
-)
-{
-    if (!IsRealElement(anElement))
-    {
-        throw ostk::core::error::RuntimeError(
-            "Element [{}] is not a Real element. Use SemiMajorAxis or Eccentricity.", COE::StringFromElement(anElement)
-        );
-    }
-
-    return RealCondition(
-        COE::StringFromElement(anElement),
-        aCriterion,
-        GenerateEvaluator(aTheory, anElement, aFrameSPtr, aGravitationalParameter),
-        aTarget
-    );
-}
-
-AngularCondition OrbitalElementCondition::Construct(
-    const Theory& aTheory,
-    const COE::Element& anElement,
-    const AngularCondition::Criterion& aCriterion,
-    const Shared<const Frame>& aFrameSPtr,
-    const EventCondition::Target& aTarget,
-    const Derived& aGravitationalParameter
-)
-{
-    if (IsRealElement(anElement))
-    {
-        throw ostk::core::error::RuntimeError(
-            "Element [{}] is not an Angular element.", COE::StringFromElement(anElement)
-        );
-    }
-
-    return {
-        COE::StringFromElement(anElement),
-        aCriterion,
-        GenerateEvaluator(aTheory, anElement, aFrameSPtr, aGravitationalParameter),
-        aTarget
-    };
-}
-
-AngularCondition OrbitalElementCondition::Construct(
-    const Theory& aTheory,
-    const COE::Element& anElement,
-    const Shared<const Frame>& aFrameSPtr,
-    const Pair<Angle, Angle>& aTargetRange,
-    const Derived& aGravitationalParameter
-)
-{
-    if (IsRealElement(anElement))
-    {
-        throw ostk::core::error::RuntimeError(
-            "Element [{}] is not an Angular element.", COE::StringFromElement(anElement)
-        );
-    }
-
-    return AngularCondition::WithinRange(
-        COE::StringFromElement(anElement),
-        GenerateEvaluator(aTheory, anElement, aFrameSPtr, aGravitationalParameter),
         aTargetRange
     );
 }

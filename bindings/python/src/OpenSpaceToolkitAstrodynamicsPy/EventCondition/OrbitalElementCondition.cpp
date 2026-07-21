@@ -15,7 +15,6 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
-using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_OrbitalElementCondition(pybind11::module& aModule)
 {
@@ -467,99 +466,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_OrbitalElementConditi
                         OrbitalElementCondition: The orbital element condition.
                 )doc",
                 arg("theory"),
-                arg("frame"),
-                arg("target_range"),
-                arg("gravitational_parameter")
-            )
-
-            .def_static(
-                "construct",
-                overload_cast<
-                    const OrbitalElementCondition::Theory&,
-                    const COE::Element&,
-                    const RealCondition::Criterion&,
-                    const Shared<const Frame>&,
-                    const EventCondition::Target&,
-                    const Derived&>(&OrbitalElementCondition::Construct),
-                R"doc(
-                    Create an orbital element condition based on an arbitrary Real element
-                    (semi-major axis or eccentricity).
-
-                    Args:
-                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
-                        element (COE.Element): The orbital element. Must be SemiMajorAxis or Eccentricity.
-                        criterion (RealCondition.Criterion): The criterion.
-                        frame (Frame): The reference frame.
-                        target (EventConditionTarget): The target.
-                        gravitational_parameter (Derived): The gravitational parameter.
-
-                    Returns:
-                        OrbitalElementCondition: The orbital element condition.
-                )doc",
-                arg("theory"),
-                arg("element"),
-                arg("criterion"),
-                arg("frame"),
-                arg("target"),
-                arg("gravitational_parameter")
-            )
-
-            .def_static(
-                "construct",
-                overload_cast<
-                    const OrbitalElementCondition::Theory&,
-                    const COE::Element&,
-                    const AngularCondition::Criterion&,
-                    const Shared<const Frame>&,
-                    const EventCondition::Target&,
-                    const Derived&>(&OrbitalElementCondition::Construct),
-                R"doc(
-                    Create an orbital element condition based on an arbitrary Angular element
-                    (any element other than semi-major axis or eccentricity).
-
-                    Args:
-                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
-                        element (COE.Element): The orbital element. Must not be SemiMajorAxis or Eccentricity.
-                        criterion (AngularCondition.Criterion): The criterion.
-                        frame (Frame): The reference frame.
-                        target (EventConditionTarget): The target.
-                        gravitational_parameter (Derived): The gravitational parameter.
-
-                    Returns:
-                        OrbitalElementCondition: The orbital element condition.
-                )doc",
-                arg("theory"),
-                arg("element"),
-                arg("criterion"),
-                arg("frame"),
-                arg("target"),
-                arg("gravitational_parameter")
-            )
-
-            .def_static(
-                "construct",
-                overload_cast<
-                    const OrbitalElementCondition::Theory&,
-                    const COE::Element&,
-                    const Shared<const Frame>&,
-                    const Pair<Angle, Angle>&,
-                    const Derived&>(&OrbitalElementCondition::Construct),
-                R"doc(
-                    Create an orbital element condition based on an arbitrary Angular element
-                    (any element other than semi-major axis or eccentricity) being within a range.
-
-                    Args:
-                        theory (OrbitalElementCondition.Theory): The orbital element theory to use.
-                        element (COE.Element): The orbital element. Must not be SemiMajorAxis or Eccentricity.
-                        frame (Frame): The reference frame.
-                        target_range (tuple[Angle, Angle]): A tuple of two angles defining the range.
-                        gravitational_parameter (Derived): The gravitational parameter.
-
-                    Returns:
-                        OrbitalElementCondition: The orbital element condition.
-                )doc",
-                arg("theory"),
-                arg("element"),
                 arg("frame"),
                 arg("target_range"),
                 arg("gravitational_parameter")
