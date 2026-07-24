@@ -18,68 +18,30 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import os
-import cesiumpy
-
-from ostk.mathematics.object import RealInterval
-
-from ostk.physics import Environment
-from ostk.physics.unit import Length
-from ostk.physics.unit import Angle
-from ostk.physics.time import Scale
-from ostk.physics.time import Instant
-from ostk.physics.time import Duration
-from ostk.physics.time import Interval
-from ostk.physics.time import DateTime
-from ostk.physics.time import Time
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate.spherical import LLA
-
-from ostk.astrodynamics import Trajectory
-from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory.model import TargetScan
-from ostk.astrodynamics.flight import Profile
-from ostk.astrodynamics.access import Generator as AccessGenerator
-from ostk.astrodynamics.access import AccessTarget
-from ostk.astrodynamics.access import VisibilityCriterion
-from ostk.astrodynamics.viewer import Viewer
-from ostk.astrodynamics.viewer import ConicSensor
+line_scan_trajectory = Trajectory(
+    TargetScan(
+        start_lla=start_lla,
+        end_lla=end_lla,
+        start_instant=access.get_start(),
+        end_instant=access.get_end(),
+        step_size=time_step,
+        celestial=earth,
+    )
+)
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m os
-[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m cesiumpy
-[32m      3[39m 
-[32m      4[39m [38;5;28;01mfrom[39;00m ostk.mathematics.object [38;5;28;01mimport[39;00m RealInterval
-[32m      5[39m 
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[10][39m[32m, line 5[39m
+[32m      1[39m line_scan_trajectory = Trajectory(
+[32m      2[39m     TargetScan(
+[32m      3[39m         start_lla=start_lla,
+[32m      4[39m         end_lla=end_lla,
+[32m----> [39m[32m5[39m         start_instant=access.get_start(),
+[32m      6[39m         end_instant=access.get_end(),
+[32m      7[39m         step_size=time_step,
+[32m      8[39m         celestial=earth,
 
-[36mFile [39m[32m/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/cesiumpy/__init__.py:14[39m
-[32m     10[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mentities[39;00m[34;01m.[39;00m[34;01mcolor[39;00m  [38;5;66;03m# noqa[39;00m
-[32m     12[39m color = cesiumpy.entities.color.ColorFactory()  [38;5;66;03m# noqa[39;00m
-[32m---> [39m[32m14[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mentities[39;00m[34;01m.[39;00m[34;01mcartesian[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Cartesian2, Cartesian3, Cartesian4  [38;5;66;03m# noqa[39;00m
-[32m     15[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mentities[39;00m[34;01m.[39;00m[34;01mgraphics[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m (
-[32m     16[39m     Point,
-[32m     17[39m     Label,
-[32m   (...)[39m[32m     32[39m     IonResource,
-[32m     33[39m )  [38;5;66;03m# noqa[39;00m
-[32m     35[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mentities[39;00m[34;01m.[39;00m[34;01mmodel[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Model  [38;5;66;03m# noqa[39;00m
-
-[36mFile [39m[32m/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/cesiumpy/entities/cartesian.py:10[39m
-[32m      7[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mtraitlets[39;00m
-[32m      9[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mbase[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m _CesiumObject
-[32m---> [39m[32m10[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mextension[39;00m[34;01m.[39;00m[34;01mgeocode[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mgeocode[39;00m
-[32m     11[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mextension[39;00m[34;01m.[39;00m[34;01mshapefile[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mshapefile[39;00m
-[32m     12[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mutil[39;00m[34;01m.[39;00m[34;01mcommon[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mcom[39;00m
-
-[36mFile [39m[32m/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/cesiumpy/extension/geocode.py:5[39m
-[32m      1[39m [38;5;66;03m# Apache License 2.0[39;00m
-[32m      3[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01m__future__[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m unicode_literals
-[32m----> [39m[32m5[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mgeopy[39;00m[34;01m.[39;00m[34;01mgeocoders[39;00m[34;01m.[39;00m[34;01mgeocodefarm[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m GeocodeFarm
-[32m      7[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mcesiumpy[39;00m[34;01m.[39;00m[34;01mutil[39;00m[34;01m.[39;00m[34;01mcommon[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mcom[39;00m
-[32m      9[39m [38;5;66;03m# ToDo: want different geocoders?[39;00m
-
-[31mModuleNotFoundError[39m: No module named 'geopy.geocoders.geocodefarm'
+[31mAttributeError[39m: 'ostk.astrodynamics.Access' object has no attribute 'get_start'
 
