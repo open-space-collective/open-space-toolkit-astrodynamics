@@ -197,7 +197,7 @@ FIND_PACKAGE (pybind11 2.12.0 REQUIRED)
 ### Python
 
 # Python versions to build for and support
-SET (PYTHON_SEARCH_VERSIONS 3.9 3.10 3.11 3.12 3.13 CACHE STRING "Versions of Python bindings to build.")
+SET (PYTHON_SEARCH_VERSIONS 3.9 3.10 3.11 3.12 3.13 3.14 CACHE STRING "Versions of Python bindings to build.")
 
 MESSAGE (STATUS "Looking for available python versions...")
 FOREACH (PYTHON_VERSION ${PYTHON_SEARCH_VERSIONS})
@@ -206,7 +206,7 @@ FOREACH (PYTHON_VERSION ${PYTHON_SEARCH_VERSIONS})
         MESSAGE (STATUS "Python ${PYTHON_VERSION} found.")
         LIST (APPEND PYTHON_VERSIONS ${PYTHON_VERSION})
     ELSE ()
-        MESSAGE (STATUS "Python ${PYTHON_VERSION} not found.")
+        MESSAGE (FATAL_ERROR "Python ${PYTHON_VERSION} was requested but not found.")
     ENDIF ()
 ENDFOREACH ()
 
