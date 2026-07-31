@@ -1,26 +1,18 @@
 # Apache License 2.0
 
-import pytest
-
 import numpy as np
-
-from ostk.mathematics.curve_fitting import Interpolator
-
-from ostk.physics.time import Instant
-from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
-from ostk.physics.time import Duration
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
-from ostk.physics.coordinate import Frame
-from ostk.physics import Environment
-
-from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import Orbit
+import pytest
+from ostk.astrodynamics.trajectory import Orbit, State
 from ostk.astrodynamics.trajectory.orbit.model import Tabulated
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
-from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
+    CartesianPosition,
+    CartesianVelocity,
+)
+from ostk.mathematics.curve_fitting import Interpolator
+from ostk.physics import Environment
+from ostk.physics.coordinate import Frame, Position, Velocity
+from ostk.physics.time import DateTime, Duration, Instant, Scale
 
 
 @pytest.fixture
@@ -340,6 +332,88 @@ class TestTabulated:
         )
 
         assert tabulated.get_interpolation_type() == Interpolator.Type.CubicSpline
+
+    @pytest.mark.parametrize(
+        "frame",
+        (
+            (Frame.GCRF()),
+            (Frame.ITRF()),
+        ),
+    )
+    def test_constructor_with_frame(
+        self,
+        test_states: list[State],
+        frame: Frame,
+    ):
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_type=Interpolator.Type.Linear,
+            output_frame=frame,
+        )
+
+        assert tabulated.is_defined()
+        assert tabulated.get_frame() == frame
+        assert tabulated.get_revolution_number_at_epoch() == 1
+        assert (
+            tabulated.calculate_state_at(test_states[0].get_instant()).get_frame()
+            == frame
+        )
+
+    def test_constructor_with_interpolation_types_and_frame(
+        self,
+        test_states: list[State],
+    ):
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_types={
+                CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                CartesianVelocity.default(): Interpolator.Type.Linear,
+            },
+            output_frame=Frame.ITRF(),
+        )
+
+        assert tabulated.get_frame() == Frame.ITRF()
+
+    def test_constructor_with_null_frame_failure(
+        self,
+        test_states: list[State],
+    ):
+        # A null output frame is rejected by both explicit-frame constructors.
+        with pytest.raises(Exception):
+            Tabulated(
+                states=test_states,
+                initial_revolution_number=1,
+                interpolation_type=Interpolator.Type.Linear,
+                output_frame=None,
+            )
+
+        with pytest.raises(Exception):
+            Tabulated(
+                states=test_states,
+                initial_revolution_number=1,
+                interpolation_types={
+                    CartesianPosition.default(): Interpolator.Type.CubicSpline,
+                    CartesianVelocity.default(): Interpolator.Type.Linear,
+                },
+                output_frame=None,
+            )
+
+    def test_default_with_frame(
+        self,
+        test_states: list[State],
+    ):
+        assert Tabulated.default(test_states).get_frame() == Frame.GCRF()
+
+        tabulated = Tabulated.default(
+            test_states,
+            initial_revolution_number=2,
+            output_frame=Frame.ITRF(),
+        )
+
+        assert tabulated.get_frame() == Frame.ITRF()
+        assert tabulated.get_revolution_number_at_epoch() == 2
 
     @pytest.mark.parametrize(
         "interpolation_type,error_tolerance",

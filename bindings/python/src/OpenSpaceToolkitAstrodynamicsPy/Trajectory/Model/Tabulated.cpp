@@ -49,7 +49,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                 Args:
                     states (list[State]): The states of the model.
                     interpolation_type (Interpolator.Type): The type of interpolation to use.
-                    output_frame (Frame): The reference frame in which the computed states are expressed.
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
              )doc",
             arg("states"),
             arg("interpolation_type"),
@@ -86,7 +86,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                 Args:
                     states (list[State]): The states of the model.
                     interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
-                    output_frame (Frame): The reference frame in which the computed states are expressed.
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
              )doc",
             arg("states"),
             arg("interpolation_types"),
@@ -242,7 +242,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Args:
                     states (list[State]): The states of the model.
-                    output_frame (Frame): The reference frame in which the computed states are expressed.
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
 
                 Returns:
                     Tabulated: A tabulated model using the default interpolation types.
