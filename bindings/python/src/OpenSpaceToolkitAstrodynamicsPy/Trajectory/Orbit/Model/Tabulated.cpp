@@ -11,6 +11,8 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
+using ostk::physics::coordinate::Frame;
+
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -47,6 +49,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
         )
 
         .def(
+            init<const Array<State>&, const Integer&, const Interpolator::Type&, const Shared<const Frame>&>(),
+            R"doc(
+                Constructor with an explicit output frame.
+
+                Args:
+                    states (list[State]): The states.
+                    initial_revolution_number (int): The initial revolution number.
+                    interpolation_type (Interpolator.Type): The interpolation type.
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
+
+            )doc",
+            arg("states"),
+            arg("initial_revolution_number"),
+            arg("interpolation_type"),
+            arg("output_frame")
+        )
+
+        .def(
             init<const Array<State>&, const Integer&, const Map<Shared<const CoordinateSubset>, Interpolator::Type>&>(),
             R"doc(
                 Constructor with per-coordinate-subset interpolation types.
@@ -63,6 +83,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             arg("states"),
             arg("initial_revolution_number"),
             arg("interpolation_types")
+        )
+
+        .def(
+            init<
+                const Array<State>&,
+                const Integer&,
+                const Map<Shared<const CoordinateSubset>, Interpolator::Type>&,
+                const Shared<const Frame>&>(),
+            R"doc(
+                Constructor with per-coordinate-subset interpolation types and an explicit output frame.
+
+                Each coordinate is interpolated using the interpolation type associated with the coordinate subset
+                it belongs to.
+
+                Args:
+                    states (list[State]): The states.
+                    initial_revolution_number (int): The initial revolution number.
+                    interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
+
+            )doc",
+            arg("states"),
+            arg("initial_revolution_number"),
+            arg("interpolation_types"),
+            arg("output_frame")
         )
 
         .def(self == self)
@@ -105,6 +150,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
 
                 Returns:
                     int: The revolution number.
+
+            )doc"
+        )
+
+        .def(
+            "get_frame",
+            &Tabulated::getFrame,
+            R"doc(
+                Get the reference frame in which the computed states are expressed.
+
+                Returns:
+                    Frame: The output reference frame.
 
             )doc"
         )
@@ -167,7 +224,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
 
         .def_static(
             "default",
-            &Tabulated::Default,
+            overload_cast<const Array<State>&, const Integer&>(&Tabulated::Default),
             R"doc(
                 Construct a tabulated orbit model using the default per-coordinate-subset interpolation types.
 
@@ -185,6 +242,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             )doc",
             arg("states"),
             arg_v("initial_revolution_number", Integer(1), "1")
+        )
+
+        .def_static(
+            "default",
+            overload_cast<const Array<State>&, const Integer&, const Shared<const Frame>&>(&Tabulated::Default),
+            R"doc(
+                Construct a tabulated orbit model using the default per-coordinate-subset interpolation types and an
+                explicit output frame.
+
+                Each coordinate subset present in the states is interpolated using its default interpolation type
+                (barycentric rational for position, velocity, acceleration, attitude, angular velocity and mass;
+                zero-order for drag coefficient, surface area, mass flow rate and ballistic coefficient).
+
+                Args:
+                    states (list[State]): The states.
+                    initial_revolution_number (int): The initial revolution number.
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
+
+                Returns:
+                    Tabulated: A tabulated orbit model using the default interpolation types.
+
+            )doc",
+            arg("states"),
+            arg("initial_revolution_number"),
+            arg("output_frame")
         )
 
         ;

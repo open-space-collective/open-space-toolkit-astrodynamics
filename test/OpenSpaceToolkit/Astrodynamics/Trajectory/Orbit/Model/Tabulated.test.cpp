@@ -150,6 +150,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
 
         EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingTypeForSubset); }, ostk::core::error::RuntimeError);
     }
+
+    // The output frame is set by the constructor.
+    {
+        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear, Frame::ITRF());
+
+        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
+        EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
@@ -162,6 +171,101 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 
     // The initial revolution number defaults to 1.
     EXPECT_TRUE(Tabulated::Default(states_).getRevolutionNumberAtEpoch() == 1);
+
+    // The output frame is set by the default constructor.
+    {
+        const Tabulated tabulatedITRF = Tabulated::Default(states_, 0, Frame::ITRF());
+
+        EXPECT_EQ(tabulatedITRF.getFrame(), Frame::ITRF());
+        EXPECT_TRUE(tabulatedITRF.getRevolutionNumberAtEpoch() == 0);
+        EXPECT_EQ(tabulatedITRF.getInterpolationType(), Interpolator::Type::BarycentricRational);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFrame)
+{
+    const Instant queryInstant = states_.accessFirst().accessInstant() + Duration::Seconds(30.0);
+
+    // The default output frame is GCRF (backward-compatible behavior).
+    {
+        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+
+        EXPECT_EQ(tabulated.getFrame(), Frame::GCRF());
+        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).getFrame(), Frame::GCRF());
+    }
+
+    // An explicitly requested output frame is honored by calculateStateAt.
+    {
+        const Tabulated tabulatedGCRF(states_, 0, Interpolator::Type::Linear, Frame::GCRF());
+        const Tabulated tabulatedITRF(states_, 0, Interpolator::Type::Linear, Frame::ITRF());
+
+        EXPECT_EQ(tabulatedITRF.getFrame(), Frame::ITRF());
+        EXPECT_EQ(tabulatedGCRF.getFrame(), Frame::GCRF());
+
+        const State stateGCRF = tabulatedGCRF.calculateStateAt(queryInstant);
+        const State stateITRF = tabulatedITRF.calculateStateAt(queryInstant);
+
+        EXPECT_EQ(stateITRF.getFrame(), Frame::ITRF());
+
+        // Interpolation happens directly in the output frame: at a tabulated node the ITRF result matches the
+        // input state expressed in ITRF (linear interpolation reproduces the nodes exactly).
+        const State nodeState = states_[3];
+        EXPECT_TRUE(tabulatedITRF.calculateStateAt(nodeState.accessInstant())
+                        .getCoordinates()
+                        .isApprox(nodeState.inFrame(Frame::ITRF()).getCoordinates(), 1e-8));
+
+        // Away from the nodes, interpolating in ITRF and converting back to GCRF no longer recovers the GCRF
+        // interpolation, because interpolation is performed in the output frame rather than the native frame.
+        EXPECT_FALSE(stateITRF.inFrame(Frame::GCRF()).getCoordinates().isApprox(stateGCRF.getCoordinates(), 1e-8));
+    }
+
+    // The per-coordinate-subset constructor also honors the output frame.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::Linear},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        const Tabulated tabulated(states_, 0, interpolationTypes, Frame::ITRF());
+
+        EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
+        EXPECT_EQ(tabulated.calculateStateAt(queryInstant).getFrame(), Frame::ITRF());
+    }
+
+    // Default() honors the output frame.
+    {
+        EXPECT_EQ(Tabulated::Default(states_, 0).getFrame(), Frame::GCRF());
+        EXPECT_EQ(Tabulated::Default(states_, 0, Frame::ITRF()).getFrame(), Frame::ITRF());
+    }
+
+    // Models that differ only by their output frame are not equal.
+    {
+        const Tabulated tabulatedGCRF(states_, 0, Interpolator::Type::Linear, Frame::GCRF());
+        const Tabulated tabulatedITRF(states_, 0, Interpolator::Type::Linear, Frame::ITRF());
+
+        EXPECT_TRUE(tabulatedGCRF != tabulatedITRF);
+        EXPECT_FALSE(tabulatedGCRF == tabulatedITRF);
+    }
+
+    // A null output frame is rejected by both explicit-frame constructors.
+    {
+        const Shared<const Frame> nullFrameSPtr = nullptr;
+
+        EXPECT_THROW(
+            { const Tabulated tabulated(states_, 0, Interpolator::Type::Linear, nullFrameSPtr); },
+            ostk::core::error::runtime::Undefined
+        );
+
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::Linear},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        EXPECT_THROW(
+            { const Tabulated tabulated(states_, 0, interpolationTypes, nullFrameSPtr); },
+            ostk::core::error::runtime::Undefined
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInterval)

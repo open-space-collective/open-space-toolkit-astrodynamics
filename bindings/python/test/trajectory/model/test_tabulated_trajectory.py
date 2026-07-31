@@ -1,23 +1,15 @@
 # Apache License 2.0
 
-import pytest
-
 import numpy as np
-
-from ostk.mathematics.curve_fitting import Interpolator
-
-from ostk.physics.time import Instant
-from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
-from ostk.physics.coordinate import Frame
-
+import pytest
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.model import Tabulated
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
-from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
-from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
+    CartesianPosition, CartesianVelocity)
+from ostk.mathematics.curve_fitting import Interpolator
+from ostk.physics.coordinate import Frame, Position, Velocity
+from ostk.physics.time import DateTime, Instant, Scale
 
 
 @pytest.fixture
@@ -321,12 +313,6 @@ class TestTabulatedTrajectory:
         interpolation_type: Interpolator.Type,
     ):
         assert tabulated.get_interpolation_type() == Interpolator.Type.CubicSpline
-
-    def test_get_frame_default(
-        self,
-        tabulated: Tabulated,
-    ):
-        assert tabulated.get_frame() == Frame.GCRF()
 
     @pytest.mark.parametrize(
         "frame",
