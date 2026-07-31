@@ -6,7 +6,9 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.model import Tabulated
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
-    CartesianPosition, CartesianVelocity)
+    CartesianPosition,
+    CartesianVelocity,
+)
 from ostk.mathematics.curve_fitting import Interpolator
 from ostk.physics.coordinate import Frame, Position, Velocity
 from ostk.physics.time import DateTime, Instant, Scale
