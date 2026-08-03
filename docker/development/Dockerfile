@@ -13,7 +13,7 @@ LABEL maintainer="lucas@loftorbital.com"
 ## Additional deps
 
 RUN apt-get update \
-    && apt-get install -y unzip jq git-lfs locales \
+    && apt-get install -y unzip jq git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
 ## fmt
@@ -169,11 +169,6 @@ ENV OSTK_DATA_LOCAL_CACHE="${OSTK_DATA_LOCAL_CACHE}"
 ENV OSTK_PHYSICS_DATA_LOCAL_REPOSITORY="${OSTK_DATA_LOCAL_CACHE}/data"
 
 RUN git clone --branch v1 --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git ${OSTK_DATA_LOCAL_CACHE} && chmod -R g+w ${OSTK_DATA_LOCAL_CACHE}
-
-RUN locale-gen en_US.UTF-8
-ENV LANG="en_US.UTF-8"
-ENV LANGUAGE="en_US:en"
-ENV LC_ALL="en_US.UTF-8"
 
 # Labels
 
