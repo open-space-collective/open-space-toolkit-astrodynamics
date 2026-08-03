@@ -328,6 +328,7 @@ start-development-no-link: build-development-image-non-root ## Start development
 		-it \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/bindings/python/.venv" \
 		--volume="$(HOME)/.ssh:/home/$(dev_username)/.ssh:ro" \
 		--volume="$(HOME)/.gitconfig:/home/$(dev_username)/.gitconfig:ro" \
 		--workdir=/app/build \
