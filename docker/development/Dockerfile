@@ -1,6 +1,6 @@
 # Apache License 2.0
 
-ARG BASE_IMAGE_VERSION="0.12.1-5-g096e019"
+ARG BASE_IMAGE_VERSION="latest"
 
 # General purpose development image (root user)
 
