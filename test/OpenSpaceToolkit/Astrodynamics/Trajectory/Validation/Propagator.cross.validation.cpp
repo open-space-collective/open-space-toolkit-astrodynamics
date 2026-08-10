@@ -191,9 +191,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
     {
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated/STK_TwoBody_2hr_run.csv"
-            )),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated/STK_TwoBody_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -259,13 +261,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            // These bounds sit on the floating-point noise floor of the propagation, not on any physical
-            // difference with the reference data: even in GCRF, the gravitational field is evaluated in the
-            // Earth-fixed frame, so the round-off of the GCRF <-> ITRF round trip accumulates over the ~1400
-            // integration steps. Any change to the resolution of the underlying time conversions re-rolls that
-            // noise, so the bounds are set an order of magnitude above the observed maxima (6.8e-7 m, 7.2e-10 m/s)
-            // and remain several orders of magnitude below a physically meaningful difference.
-
             ASSERT_GT(5e-6, positionErrorGCRF);
             ASSERT_GT(5e-9, velocityErrorGCRF);
 
@@ -312,8 +307,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_EGM2008_100x100_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_EGM2008_100x100_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -391,8 +390,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_WGS
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );
@@ -470,8 +473,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         // Reference data setup
         const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                                   "Propagated/STK_WGS84_70x70_2hr_run.csv")),
+            File::Path(
+                Path::Parse(
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                    "Propagated/STK_WGS84_70x70_2hr_run.csv"
+                )
+            ),
             Table::Format::CSV,
             true
         );

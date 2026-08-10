@@ -56,11 +56,6 @@ def initial_state_with_b_star(observations: list[State]) -> tuple[State, float]:
 
 @pytest.fixture
 def observations() -> list[State]:
-    # Same dataset and 12-hour fit span as the C++ tests. A TLE fit only converges in the sense of the
-    # solver's RMS update criterion if the arc actually constrains the estimated elements: over a very
-    # short arc the fit reaches the accuracy floor imposed by the quantization of the TLE strings after
-    # a few iterations and then oscillates around it, so whether the RMS update ever drops below the
-    # threshold comes down to where the oscillation happens to land.
     all_observations: list[State] = generate_states_from_dataframe(
         pd.read_csv(
             "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/observations.csv"

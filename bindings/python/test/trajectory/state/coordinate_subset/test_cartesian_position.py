@@ -99,8 +99,6 @@ class TestCartesianPosition:
         another_coordinates: list[float],
         coordinate_broker: CoordinateBroker,
     ):
-        # The expected coordinates are obtained through the equivalent Position transformation rather than
-        # hard-coded, as their exact value depends on the resolution of the Earth Rotation Angle at the instant.
         expected_coordinates = (
             Position.meters(coordinates, frame)
             .in_frame(Frame.ITRF(), instant)

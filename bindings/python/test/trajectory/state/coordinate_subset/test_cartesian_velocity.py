@@ -108,8 +108,6 @@ class TestCartesianVelocity:
         another_coordinates: list[float],
         coordinate_broker: CoordinateBroker,
     ):
-        # The expected coordinates are obtained through the equivalent Velocity transformation rather than
-        # hard-coded, as their exact value depends on the resolution of the Earth Rotation Angle at the instant.
         expected_coordinates = (
             Velocity.meters_per_second(coordinates[3:6], frame)
             .in_frame(Position.meters(coordinates[0:3], frame), Frame.ITRF(), instant)
