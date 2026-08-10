@@ -4,6 +4,7 @@ import pytest
 
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate import Position
 
 from ostk.astrodynamics.trajectory.state import CoordinateBroker, CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
@@ -98,10 +99,18 @@ class TestCartesianPosition:
         another_coordinates: list[float],
         coordinate_broker: CoordinateBroker,
     ):
+        # The expected coordinates are obtained through the equivalent Position transformation rather than
+        # hard-coded, as their exact value depends on the resolution of the Earth Rotation Angle at the instant.
+        expected_coordinates = (
+            Position.meters(coordinates, frame)
+            .in_frame(Frame.ITRF(), instant)
+            .get_coordinates()
+        )
+
         for value, expected in zip(
             cartesian_position.in_frame(
                 instant, coordinates, frame, Frame.ITRF(), coordinate_broker
             ),
-            [1238864.12746338, 6889500.39136482, -176.262107699686],
+            expected_coordinates,
         ):
             assert value == pytest.approx(expected, rel=1e-14)

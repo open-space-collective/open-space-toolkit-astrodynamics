@@ -4,6 +4,8 @@ import pytest
 
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
 
 from ostk.astrodynamics.trajectory.state import CoordinateBroker, CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -106,10 +108,18 @@ class TestCartesianVelocity:
         another_coordinates: list[float],
         coordinate_broker: CoordinateBroker,
     ):
+        # The expected coordinates are obtained through the equivalent Velocity transformation rather than
+        # hard-coded, as their exact value depends on the resolution of the Earth Rotation Angle at the instant.
+        expected_coordinates = (
+            Velocity.meters_per_second(coordinates[3:6], frame)
+            .in_frame(Position.meters(coordinates[0:3], frame), Frame.ITRF(), instant)
+            .get_coordinates()
+        )
+
         for value, expected in zip(
             cartesian_velocity.in_frame(
                 instant, coordinates, frame, Frame.ITRF(), coordinate_broker
             ),
-            [-4749.36551256577, 854.163395375881, 5335.71857543495],
+            expected_coordinates,
         ):
             assert value == pytest.approx(expected, rel=1e-14)
