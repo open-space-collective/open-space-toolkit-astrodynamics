@@ -782,8 +782,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                                 const Instant& instant
                             ) -> Triple<Real, Real, Real>
     {
-        const Vector3d toPositionCoordinates_ITRF =
-            aToTrajectory.getStateAt(instant).getPosition().inFrame(aCelestialSPtr->accessFrame(), instant).getCoordinates();
+        const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
+                                                        .getPosition()
+                                                        .inFrame(aCelestialSPtr->accessFrame(), instant)
+                                                        .getCoordinates();
 
         const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -830,8 +832,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                         const Instant& instant
                     ) -> bool
         {
-            const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).getPosition().inFrame(aCelestialSPtr->accessFrame(), instant).getCoordinates();
+            const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
+                                                            .getPosition()
+                                                            .inFrame(aCelestialSPtr->accessFrame(), instant)
+                                                            .getCoordinates();
 
             return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
         };
@@ -845,8 +849,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                         const Instant& instant
                     ) -> bool
         {
-            const Vector3d toPositionCoordinates_ITRF =
-                aToTrajectory.getStateAt(instant).getPosition().inFrame(aCelestialSPtr->accessFrame(), instant).getCoordinates();
+            const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
+                                                            .getPosition()
+                                                            .inFrame(aCelestialSPtr->accessFrame(), instant)
+                                                            .getCoordinates();
 
             const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
 
@@ -993,8 +999,9 @@ Access Generator::GenerateAccess(
 
     const Instant acquisitionOfSignal = anAccessInterval.getStart();
 
-    const Instant timeOfClosestApproach =
-        Generator::FindTimeOfClosestApproach(anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance, aCelestialSPtr);
+    const Instant timeOfClosestApproach = Generator::FindTimeOfClosestApproach(
+        anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance, aCelestialSPtr
+    );
 
     const Instant lossOfSignal = anAccessInterval.getEnd();
 
@@ -1032,8 +1039,8 @@ Instant Generator::FindTimeOfClosestApproach(
 
     // Capture-less, so that it converts to the plain function pointer NLopt expects: everything it
     // needs travels through the data context.
-    const auto calculateRange =
-        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double
+    const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
+                                ) -> double
     {
         (void)aGradient;
         if (aDataContext == nullptr)
@@ -1124,10 +1131,14 @@ Angle Generator::CalculateElevationAt(
     const Shared<const Celestial>& aCelestialSPtr
 )
 {
-    const Vector3d fromPositionCoordinates_ITRF =
-        aFromTrajectory.getStateAt(anInstant).getPosition().inFrame(aCelestialSPtr->accessFrame(), anInstant).getCoordinates();
-    const Vector3d toPositionCoordinates_ITRF =
-        aToTrajectory.getStateAt(anInstant).getPosition().inFrame(aCelestialSPtr->accessFrame(), anInstant).getCoordinates();
+    const Vector3d fromPositionCoordinates_ITRF = aFromTrajectory.getStateAt(anInstant)
+                                                      .getPosition()
+                                                      .inFrame(aCelestialSPtr->accessFrame(), anInstant)
+                                                      .getCoordinates();
+    const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(anInstant)
+                                                    .getPosition()
+                                                    .inFrame(aCelestialSPtr->accessFrame(), anInstant)
+                                                    .getCoordinates();
 
     const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinates_ITRF;
 
