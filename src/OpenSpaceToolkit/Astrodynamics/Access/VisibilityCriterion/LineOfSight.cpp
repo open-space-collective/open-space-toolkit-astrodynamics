@@ -27,13 +27,13 @@ VisibilityCriterion::LineOfSight::LineOfSight(const Environment& anEnvironment)
 {
     if (!anEnvironment.hasCentralCelestialObject())
     {
-        std::cout << "Warning: Environment must have a central celestial object for LineOfSight criterion."
+        std::cerr << "Warning: Environment must have a central celestial object for LineOfSight criterion."
                   << std::endl;
     }
 }
 
 bool VisibilityCriterion::LineOfSight::isSatisfied(
-    const Instant& anInstant, const Vector3d& aFromPositionCoordinates_ITRF, const Vector3d& aToPositionCoordinates_ITRF
+    const Instant& anInstant, const Vector3d& aFromPositionCoordinates_Body, const Vector3d& aToPositionCoordinates_Body
 ) const
 {
     // TBR: Deprecate this check in a future release
@@ -49,8 +49,8 @@ bool VisibilityCriterion::LineOfSight::isSatisfied(
 
     this->environment.setInstant(anInstant);
 
-    const Point fromPositionCoordinates = Point::Vector(aFromPositionCoordinates_ITRF);
-    const Point toPositionCoordinates = Point::Vector(aToPositionCoordinates_ITRF);
+    const Point fromPositionCoordinates = Point::Vector(aFromPositionCoordinates_Body);
+    const Point toPositionCoordinates = Point::Vector(aToPositionCoordinates_Body);
 
     if (fromPositionCoordinates == toPositionCoordinates)
     {

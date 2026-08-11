@@ -510,7 +510,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             {
                 PyErr_WarnEx(
                     PyExc_DeprecationWarning,
-                    "Use align_and_constraint(alignment_target, clocking_target, celestial, angular_offset) instead.",
+                    "Use align_and_constrain(alignment_target, clocking_target, celestial, angular_offset) instead.",
                     1
                 );
                 return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);

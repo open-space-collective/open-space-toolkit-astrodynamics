@@ -100,10 +100,12 @@ AccessTarget AccessTarget::FromLLA(
     return AccessTarget(
         AccessTarget::Type::Fixed,
         aVisibilityCriterion,
-        Trajectory::Position(Position::Meters(
-            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
-            aCelestialSPtr->accessFrame()
-        ))
+        Trajectory::Position(
+            Position::Meters(
+                anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
+                aCelestialSPtr->accessFrame()
+            )
+        )
     );
 }
 
@@ -153,7 +155,7 @@ Generator::Generator(
 {
     if (anEnvironment.isDefined() && !anEnvironment.hasCentralCelestialObject())
     {
-        std::cout << "Warning: Environment must have a central celestial object for Access Generator." << std::endl;
+        std::cerr << "Warning: Environment must have a central celestial object for Access Generator." << std::endl;
 
         if (anEnvironment.accessCelestialObjectWithName("Earth") == nullptr)
         {
@@ -487,7 +489,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         }
     );
 
-    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
+    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](
+                                const Vector3d& aToPositionCoordinates_ITRF
                             ) -> Triple<VectorXd, VectorXd, VectorXd>
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
@@ -520,8 +523,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    const auto computeElevations = [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
-                                   ) -> VectorXd
+    const auto computeElevations =
+        [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
         const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
@@ -1037,8 +1040,8 @@ Instant Generator::FindTimeOfClosestApproach(
 
     // Capture-less, so that it converts to the plain function pointer NLopt expects: everything it
     // needs travels through the data context.
-    const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
-                                ) -> double
+    const auto calculateRange =
+        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double
     {
         (void)aGradient;
         if (aDataContext == nullptr)
