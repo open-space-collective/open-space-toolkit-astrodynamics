@@ -223,8 +223,6 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
-    // Resolve the central celestial and bind the state filter once, rather than on every evaluation of the returned
-    // condition.
     // TBR: Deprecate the Earth fallback in a future release
     const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
                                                     ? this->environment_.accessCentralCelestialObject()

@@ -1443,9 +1443,10 @@ COE COE::GeoSynchronous(
     const LLA lla = {Angle::Zero(), aLongitude, geosynchronousAltitude};
     const Vector3d ascendingNodeVectorITRF =
         lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
-    const Position ascendingNodePositionITRF =
+    const Position ascendingNodePositionBodyFrame =
         Position::Meters(ascendingNodeVectorITRF, aCelestialObjectSPtr->accessFrame());
-    const Vector3d ascendingNodeVectorGCRF = ascendingNodePositionITRF.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
+    const Vector3d ascendingNodeVectorGCRF =
+        ascendingNodePositionBodyFrame.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
 
     // Define COEs that make up this orbit
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
