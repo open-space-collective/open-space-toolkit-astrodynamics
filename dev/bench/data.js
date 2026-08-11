@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785856254991,
+  "lastUpdate": 1786476947765,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -204,6 +204,108 @@ window.BENCHMARK_DATA = {
             "value": 11.58679255200002,
             "unit": "s/iter",
             "extra": "iterations: 1\ncpu: 11.585030324000002 s\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8d62f4169ea912b02c89eae9f19886f7dee314e0",
+          "message": "test: make frame-sensitive expectations robust to time conversion resolution (#706)\n\n* test: make frame-sensitive expectations robust to time conversion resolution\n\nostk-physics #378 computes Julian dates arithmetically from Instant's internal\nnanosecond count rather than round-tripping through a calendar date and a\n~2.4e6-magnitude double, and has the CIRF/TIRF/ITRF providers use those accessors\ndirectly. It had to be reverted in #390 because it broke tests here.\n\nThat change removes ~20-40 us of quantization noise from the Modified Julian Date\nfeeding the Earth Rotation Angle, which shifts every Earth-fixed frame\ntransformation by up to a few millimeters and re-rolls the floating-point noise of\npropagations whose force model is evaluated in the Earth-fixed frame. Four\nexpectations were pinned tightly enough, or conditioned poorly enough, to notice:\n\n- Orbit.GeoSynchronous compares against reference states aligned with a geodetic\n  longitude, so they move with the Earth Rotation Angle (3.9 mm). The tolerance was\n  the print precision of those values; it is now 1 cm, which at geosynchronous\n  radius is still a 2.4e-10 rad longitude error.\n- CrossValidation.ForceModel_TwoBody bounds the GCRF difference with the STK\n  reference on the round-off floor of the propagation rather than on any physical\n  difference. Observed maxima are now 6.8e-7 m and 7.2e-10 m/s, so the bounds are\n  raised an order of magnitude to 5e-6 m and 5e-9 m/s.\n- test_cartesian_position and test_cartesian_velocity hard-coded the ITRF\n  coordinates at J2000 with rel=1e-14. They now obtain the expected coordinates\n  through the equivalent Position / Velocity transformation, as the C++ tests do.\n- test_tle_solver asserted termination on the RMS update criterion while fitting an\n  11-observation, 14.5-minute arc from the orbit determination dataset. Over an arc\n  that short the fit reaches the accuracy floor imposed by the quantization of the\n  TLE strings after 5 iterations and then limit-cycles around it with an RMS update\n  of 1.0 to 5.3 m, so meeting the 1 m threshold was a coincidence. The fixture now\n  uses the same dataset and 12-hour fit span as the C++ tests, where the RMS update\n  drops to 1e-3 m.\n\nVerified against both the re-landed physics change (C++ 1104 passed / 2 pre-existing\nskips, Python 839 passed) and the released ostk-physics 14.1.1.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>\n\n* chore: clean up comments\n\n* chore: format\n\n---------\n\nCo-authored-by: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-11T18:56:26Z",
+          "tree_id": "02b9eb58a842dabd37eb6e1cf8ffaccd1be5e79f",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/8d62f4169ea912b02c89eae9f19886f7dee314e0"
+        },
+        "date": 1786476945907,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 3139111128.2999873,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3043541540.299999 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 957.7542553333274,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 957.6796106666662 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 2950.5198690000047,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 2950.285750666666 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 11098.910467666676,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 11098.135549333332 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 2908546149.39999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2908353420.399997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 5338262127.599989,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5337928220.400003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 5390771577.500005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5390347721.800001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 5384494491.999999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5383722171.700001 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.8892882999999756,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.8891945780000015 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 4.5117450370000824,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 4.511228436999943 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 9.811082297999974,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 9.810185443000023 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 6.828759563000062,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.828119569000023 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 10.195877306000057,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 10.195028147999949 s\nthreads: 1"
           }
         ]
       }
