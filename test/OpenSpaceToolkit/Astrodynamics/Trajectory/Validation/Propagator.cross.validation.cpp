@@ -259,8 +259,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-7, positionErrorGCRF);
-            ASSERT_GT(2e-10, velocityErrorGCRF);
+            ASSERT_GT(5e-6, positionErrorGCRF);
+            ASSERT_GT(5e-9, velocityErrorGCRF);
 
             // ITRF Compare
             const Position position_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).getPosition();

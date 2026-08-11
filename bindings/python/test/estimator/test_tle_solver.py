@@ -7,6 +7,7 @@ import pandas as pd
 from ostk.core.type import Real
 from ostk.core.type import Integer
 
+from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.solver import LeastSquaresSolver
@@ -36,9 +37,10 @@ def tle_solver(least_squares_solver: LeastSquaresSolver) -> TLESolver:
 
 @pytest.fixture
 def initial_tle() -> TLE:
+    # Approximate TLE for the observation arc below, used only as an initial guess
     return TLE(
-        "1 25544U 98067A   22253.00000622  .00000000  00000-0  71655-1 0    02",
-        "2 25544  97.5641  21.8296 0012030 155.5301 309.4836 15.14446734123455",
+        "1 25544U 98067A   24108.27550222  .00000000  00000-0  36948-2 0    05",
+        "2 25544  97.4637 232.8952 0013366 138.7208  75.4931 15.17238608123452",
     )
 
 
@@ -54,12 +56,20 @@ def initial_state_with_b_star(observations: list[State]) -> tuple[State, float]:
 
 @pytest.fixture
 def observations() -> list[State]:
-    return generate_states_from_dataframe(
+    all_observations: list[State] = generate_states_from_dataframe(
         pd.read_csv(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolverData/gnss_data.csv"
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/observations.csv"
         ),
         reference_frame=Frame.ITRF(),
     )
+
+    start_instant = all_observations[0].get_instant()
+
+    return [
+        observation
+        for observation in all_observations
+        if observation.get_instant() - start_instant <= Duration.hours(12.0)
+    ]
 
 
 class TestTLESolver:
