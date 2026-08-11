@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/AnalyticalThirdBodyGravity.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/AtmosphericDrag.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/CentralBodyGravity.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/PositionDerivative.cpp>
@@ -187,6 +188,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(dynamics);
+    OpenSpaceToolkitAstrodynamicsPy_Dynamics_AnalyticalThirdBodyGravity(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(dynamics);
