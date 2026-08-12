@@ -694,13 +694,13 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         // check if satellite is in access
         auto inAccess = visibilityCriterionFilter(fromPositionCoordinates_ITRF, toPositionCoordinates_ITRF, instant);
 
-        if (this->stateFilter_)
+        if (stateFilter)
         {
             for (Index i = 0; i < targetCount; ++i)
             {
                 const State fromState = someAccessTargets[i].accessTrajectory().getStateAt(instant);
 
-                inAccess(i) = inAccess(i) && this->stateFilter_(fromState, toTrajectoryState);
+                inAccess(i) = inAccess(i) && stateFilter(fromState, toTrajectoryState);
             }
         }
 
