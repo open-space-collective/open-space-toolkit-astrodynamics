@@ -69,6 +69,16 @@ Position AccessTarget::getPosition() const
     return trajectory_.getStateAt(Instant::J2000()).inFrame(Frame::ITRF()).getPosition();
 }
 
+Position AccessTarget::getPosition(const Shared<const Celestial>& aCelestialSPtr) const
+{
+    if (type_ != Type::Fixed)
+    {
+        throw ostk::core::error::RuntimeError("Position is only defined for fixed targets.");
+    }
+
+    return trajectory_.getStateAt(Instant::J2000()).inFrame(aCelestialSPtr->accessFrame()).getPosition();
+}
+
 LLA AccessTarget::getLLA(const Shared<const Celestial>& aCelestialSPtr) const
 {
     return LLA::Cartesian(
@@ -451,7 +461,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     for (Index i = 0; i < targetCount; ++i)
     {
-        fromPositionCoordinates_ITRF.col(i) = someAccessTargets[i].getPosition().getCoordinates();
+        fromPositionCoordinates_ITRF.col(i) = someAccessTargets[i].getPosition(celestialSPtr).getCoordinates();
     }
 
     const bool allAccessTargetsHaveMasks = std::all_of(

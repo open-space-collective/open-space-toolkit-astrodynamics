@@ -110,7 +110,19 @@ class AccessTarget
     /// @endcode
     ///
     /// @return The position
+    [[deprecated("Use getPosition(getPosition(const Shared<const Celestial>& aCelestialSPtr) instead.")]]
     Position getPosition() const;
+
+    /// @brief Get the position
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              Shared<const Celestial> celestialSPtr = ...;
+    ///              Position position = accessTarget.getPosition(celestialSPtr);
+    /// @endcode
+    ///
+    /// @return The position
+    Position getPosition(const Shared<const Celestial>& aCelestialSPtr) const;
 
     /// @brief Get the latitude, longitude, and altitude (LLA)
     ///

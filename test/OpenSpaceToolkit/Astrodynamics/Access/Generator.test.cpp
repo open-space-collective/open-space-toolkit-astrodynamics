@@ -214,6 +214,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
     }
 
     {
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            defaultAccessTarget_.getPosition(defaultEarthSPtr_).accessCoordinates(),
+            Position::Meters(
+                defaultLLA_.toCartesian(
+                    EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
+                ),
+                defaultEarthSPtr_->accessFrame()
+            )
+                .accessCoordinates(),
+            1e-13
+        );
+    }
+
+    {
         const AccessTarget nonFixedAccessTarget = AccessTarget::FromTrajectory(
             defaultVisibilityCriterion_, Trajectory::Position(defaultAccessTarget_.getPosition())
         );
