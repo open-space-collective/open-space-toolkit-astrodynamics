@@ -15,6 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
     using ostk::physics::coordinate::spherical::AER;
     using ostk::physics::Environment;
+    using ostk::physics::environment::object::Celestial;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Interval;
 
@@ -73,12 +74,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         )
         .def(
             "get_position",
-            &AccessTarget::getPosition,
+            overload_cast<>(&AccessTarget::getPosition, const_),
             R"doc(
                 Get the fixed position associated with the access target.
 
                 Returns:
                     Position: The position.
+            )doc"
+        )
+        .def(
+            "get_position",
+            overload_cast<const Shared<const Celestial>&>(&AccessTarget::getPosition, const_),
+            R"doc(
+                Get the fixed position associated with the access target.
+
+                Args:
+                    celestial (Celestial): The celestial whose body frame will be used.
+
+                Returns:
+                    Position: The position in the celestial body frame.
             )doc"
         )
         .def(

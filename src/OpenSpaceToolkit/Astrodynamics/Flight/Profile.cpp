@@ -4,6 +4,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Sun.hpp>
 
@@ -19,6 +20,7 @@ namespace flight
 
 using ostk::core::type::Real;
 
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
 using ostk::physics::environment::object::celestial::Sun;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -338,8 +340,9 @@ Profile Profile::CustomPointing(
     const Angle& anAngularOffset
 )
 {
-    const auto orientationGenerator =
-        Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
+    const auto orientationGenerator = Profile::AlignAndConstrain(
+        anAlignmentTargetSPtr, aClockingTargetSPtr, anOrbit.accessCelestialObject(), anAngularOffset
+    );
 
     return Profile::CustomPointing(anOrbit, orientationGenerator);
 }
@@ -374,6 +377,17 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     const Angle& anAngularOffset
 )
 {
+    const Shared<const Celestial> celestialSPtr = std::make_shared<Earth>(Earth::Default());
+    return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, celestialSPtr, anAngularOffset);
+}
+
+std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
+    const Shared<const Target>& anAlignmentTargetSPtr,
+    const Shared<const Target>& aClockingTargetSPtr,
+    const Shared<const Celestial>& aCelestialSPtr,
+    const Angle& anAngularOffset
+)
+{
     if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
         (anAlignmentTargetSPtr->type != TargetType::TargetPosition) &&
         (anAlignmentTargetSPtr->type != TargetType::TargetVelocity))
@@ -402,7 +416,9 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         );
     }
 
-    const auto targetVectorGenerator = [](const Shared<const Target>& aTargetSPtr
+    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
+
+    const auto targetVectorGenerator = [aCelestialSPtr, celestialFrameSPtr](const Shared<const Target>& aTargetSPtr
                                        ) -> std::function<Vector3d(const State&)>
     {
         switch (aTargetSPtr->type)
@@ -410,7 +426,10 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
             case TargetType::GeocentricNadir:
                 return Profile::ComputeGeocentricNadirDirectionVector;
             case TargetType::GeodeticNadir:
-                return Profile::ComputeGeodeticNadirDirectionVector;
+                return [aCelestialSPtr](const State& aState) -> Vector3d
+                {
+                    return Profile::ComputeGeodeticNadirDirectionVector(aState, aCelestialSPtr);
+                };
             case TargetType::TargetPosition:
             {
                 const Shared<const TrajectoryTarget> targetPositionSPtr =
@@ -433,9 +452,11 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
             {
                 const Shared<const TrajectoryTarget> targetVelocitySPtr =
                     std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
-                return [targetVelocitySPtr](const State& aState) -> Vector3d
+                return [targetVelocitySPtr, celestialFrameSPtr](const State& aState) -> Vector3d
                 {
-                    return Profile::ComputeTargetSlidingGroundVelocityVector(aState, targetVelocitySPtr->trajectory);
+                    return Profile::ComputeTargetSlidingGroundVelocityVector(
+                        aState, targetVelocitySPtr->trajectory, celestialFrameSPtr
+                    );
                 };
             }
             case TargetType::Sun:
@@ -517,16 +538,20 @@ Vector3d Profile::ComputeGeocentricNadirDirectionVector(const State& aState)
     return -aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates().normalized();
 }
 
-Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
+Vector3d Profile::ComputeGeodeticNadirDirectionVector(
+    const State& aState, const Shared<const Celestial>& aCelestialSPtr
+)
 {
-    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(DEFAULT_PROFILE_FRAME, aState.accessInstant());
+    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
+    const Transform celestialFrame_GCRF_transform =
+        celestialFrameSPtr->getTransformTo(DEFAULT_PROFILE_FRAME, aState.accessInstant());
 
     const LLA lla = LLA::Cartesian(
-        ITRF_GCRF_transform.getInverse().applyToPosition(
+        celestialFrame_GCRF_transform.getInverse().applyToPosition(
             aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates()
         ),
-        EarthGravitationalModel::EGM2008.equatorialRadius_,
-        EarthGravitationalModel::EGM2008.flattening_
+        aCelestialSPtr->getEquatorialRadius(),
+        aCelestialSPtr->getFlattening()
     );
 
     const Vector3d nadir = {
@@ -535,7 +560,7 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(const State& aState)
         -std::sin(lla.getLatitude().inRadians()),
     };
 
-    return ITRF_GCRF_transform.applyToVector(nadir).normalized();
+    return celestialFrame_GCRF_transform.applyToVector(nadir).normalized();
 }
 
 Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
@@ -563,13 +588,15 @@ Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::a
 }
 
 Vector3d Profile::ComputeTargetSlidingGroundVelocityVector(
-    const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory
+    const State& aState,
+    const ostk::astrodynamics::Trajectory& aTrajectory,
+    const Shared<const Frame>& aCelestialFrameSPtr
 )
 {
     const Instant& instant = aState.accessInstant();
 
     const Vector3d targetSlidingGroundVelocityCoordinates =
-        aTrajectory.getStateAt(instant).inFrame(Frame::ITRF()).getVelocity().accessCoordinates();
+        aTrajectory.getStateAt(instant).inFrame(aCelestialFrameSPtr).getVelocity().accessCoordinates();
 
     if (targetSlidingGroundVelocityCoordinates.isZero())
     {
@@ -579,10 +606,10 @@ Vector3d Profile::ComputeTargetSlidingGroundVelocityVector(
         );
     }
 
-    const Transform ITRF_GCRF_transform = Frame::ITRF()->getTransformTo(DEFAULT_PROFILE_FRAME, instant);
+    const Transform celestialFrame_GCRF_transform = aCelestialFrameSPtr->getTransformTo(DEFAULT_PROFILE_FRAME, instant);
 
     const Vector3d slidingTargetGroundVelocityCoordinatesRotated =
-        ITRF_GCRF_transform.applyToVector(targetSlidingGroundVelocityCoordinates);
+        celestialFrame_GCRF_transform.applyToVector(targetSlidingGroundVelocityCoordinates);
 
     return slidingTargetGroundVelocityCoordinatesRotated.normalized();
 }

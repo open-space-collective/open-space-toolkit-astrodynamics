@@ -110,7 +110,19 @@ class AccessTarget
     /// @endcode
     ///
     /// @return The position
+    [[deprecated("Use getPosition(getPosition(const Shared<const Celestial>& aCelestialSPtr) instead.")]]
     Position getPosition() const;
+
+    /// @brief Get the position
+    ///
+    /// @code{.cpp}
+    ///              AccessTarget accessTarget = { ... } ;
+    ///              Shared<const Celestial> celestialSPtr = ...;
+    ///              Position position = accessTarget.getPosition(celestialSPtr);
+    /// @endcode
+    ///
+    /// @return The position
+    Position getPosition(const Shared<const Celestial>& aCelestialSPtr) const;
 
     /// @brief Get the latitude, longitude, and altitude (LLA)
     ///
@@ -441,7 +453,8 @@ class Generator
         const physics::time::Interval& anAnalysisInterval,
         const Vector3d& fromPositionCoordinate_ITRF,
         const Trajectory& aToTrajectory,
-        const AccessTarget& anAccessTarget
+        const AccessTarget& anAccessTarget,
+        const Shared<const Celestial>& aCelestialSPtr
     ) const;
 
     static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);
@@ -451,25 +464,30 @@ class Generator
         const physics::time::Interval& aGlobalInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
-        const Duration& aTolerance
+        const Duration& aTolerance,
+        const Shared<const Celestial>& aCelestialSPtr
     );
 
     static Instant FindTimeOfClosestApproach(
         const physics::time::Interval& anAccessInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
-        const Duration& aTolerance
+        const Duration& aTolerance,
+        const Shared<const Celestial>& aCelestialSPtr
     );
 
     static Angle CalculateElevationAt(
-        const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+        const Instant& anInstant,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial>& aCelestialSPtr
     );
 
     static AER CalculateAer(
         const Instant& anInstant,
         const Position& aFromPosition,
         const Position& aToPosition,
-        const Shared<const Celestial>& anEarthSPtr
+        const Shared<const Celestial>& aCelestialSPtr
     );
 };
 

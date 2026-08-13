@@ -36,7 +36,7 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def earth(environment: Environment) -> Celestial:
+def earth(environment: Environment) -> Earth:
     return environment.access_celestial_object_with_name("Earth")
 
 
@@ -117,22 +117,41 @@ def trajectory_target(
 
 
 class TestAccessTarget:
-    def test_constructor_success(self, access_target: AccessTarget):
+    def test_constructor_success(
+        self,
+        access_target: AccessTarget,
+    ):
         assert isinstance(access_target, AccessTarget)
 
-    def test_get_type_success(self, access_target: AccessTarget):
+    def test_get_type_success(
+        self,
+        access_target: AccessTarget,
+    ):
         assert access_target.get_type() == AccessTarget.Type.Fixed
 
-    def test_get_visibility_criterion_success(self, access_target: AccessTarget):
+    def test_get_visibility_criterion_success(
+        self,
+        access_target: AccessTarget,
+    ):
         assert access_target.get_visibility_criterion() is not None
         assert isinstance(access_target.get_visibility_criterion(), VisibilityCriterion)
 
-    def test_get_trajectory_success(self, access_target: AccessTarget):
+    def test_get_trajectory_success(
+        self,
+        access_target: AccessTarget,
+    ):
         assert access_target.get_trajectory() is not None
         assert isinstance(access_target.get_trajectory(), Trajectory)
 
-    def test_get_position_success(self, access_target: AccessTarget):
+    def test_get_position_success(
+        self,
+        access_target: AccessTarget,
+        earth: Earth,
+    ):
         assert access_target.get_position() is not None
+        assert isinstance(access_target.get_position(), Position)
+
+        assert access_target.get_position(earth) is not None
         assert isinstance(access_target.get_position(), Position)
 
     def test_get_lla_success(
