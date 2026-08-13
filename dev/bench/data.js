@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786476947765,
+  "lastUpdate": 1786649364051,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -306,6 +306,108 @@ window.BENCHMARK_DATA = {
             "value": 10.195877306000057,
             "unit": "s/iter",
             "extra": "iterations: 1\ncpu: 10.195028147999949 s\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "230ffdf74315f3a57de6e90e0fc7cae34384ba74",
+          "message": "feat: use celestial frame instead of ITRF when possible (#627)\n\n* feat: use celestial frame instead of ITRF when possible\n\n* feat: adapt Profile class\n\n* Apply suggestions from code review\n\nCo-authored-by: Lucas <lucas.bremond@gmail.com>\n\n* feat: address feedback\n\n* fix: format and tests\n\n* chore: format\n\n* chore: format\n\n* chore: address feedback\n\n* chore: format\n\n* feat: add getPosition overload\n\n* fix: bindings\n\n---------\n\nCo-authored-by: Lucas <lucas.bremond@gmail.com>",
+          "timestamp": "2026-08-13T11:55:38-07:00",
+          "tree_id": "bba81956cfcf28397bbc6b0402bc6a3d01be3870",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/230ffdf74315f3a57de6e90e0fc7cae34384ba74"
+        },
+        "date": 1786649361955,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 4726023041.300005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4622660296.599998 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 1334.434091666651,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 1334.2816276666647 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 4245.076926000005,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 4244.597172000001 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 15394.122793666667,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 15391.734767000002 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 4109483814.1000023,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4109098839.300008 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 7250639801.300003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7249966701.099996 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 7242763938.500013,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7241833968.300014 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 7238822743.599985,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7238125077.499995 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 1.2064348540000083,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 1.206335620999937 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 5.4276736099999425,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 5.427225937000003 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 11.286137999000061,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 11.285228508999978 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 8.011900073999982,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 8.011258113999986 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 11.35959469699992,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 11.358730302000026 s\nthreads: 1"
           }
         ]
       }
