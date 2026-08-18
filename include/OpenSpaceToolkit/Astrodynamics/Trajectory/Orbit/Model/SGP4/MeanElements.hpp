@@ -39,14 +39,23 @@ using ostk::physics::unit::Derived;
 
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief SGP4 mean element set, held at full precision.
+/// @brief SGP4 mean element set, held at full precision, and the propagator that flies it.
 ///
-/// @details A TLE is a lossy serialization of this: writing one rounds the eccentricity to
-/// 1e-7 and the angles to 1e-4 degrees. That rounding is harmless for propagation but fatal
-/// for differentiation — on a near-circular orbit a finite-difference step in eccentricity
-/// can be smaller than the quantum, so the propagator does not respond at all and the
-/// Jacobian silently loses rank. Estimators should iterate on MeanElements and serialize a
-/// TLE once, at the end.
+/// @details Reach for this when the elements are being computed rather than read: fitted by an
+/// estimator, differentiated, stepped, or produced by anything other than 69 columns of text.
+/// It takes the eight elements as continuous values and imposes no quantum on any of them. To
+/// propagate a TLE that was published, received, or read from a file, use orbit::model::SGP4.
+///
+/// A TLE is a lossy serialization of this set: writing one rounds the eccentricity to 1e-7, the
+/// angles to 1e-4 deg, the mean motion to 1e-8 rev/day and the epoch to 1e-8 day. That rounding
+/// is harmless for propagation but fatal for differentiation — on a near-circular orbit a
+/// finite-difference step in eccentricity can be smaller than the quantum, so the propagator
+/// does not respond at all and the Jacobian silently loses rank. Estimators should iterate on
+/// MeanElements and serialize a TLE once, at the end, which costs a few tens of millimetres.
+///
+/// Underneath there is one propagator: orbit::model::SGP4 decodes its TLE into a MeanElements
+/// and propagates that. Fed the same values the two agree exactly; they differ only in what
+/// precision can reach them.
 ///
 /// @code{.cpp}
 ///     const MeanElements meanElements = MeanElements::FromTLE(tle);

@@ -43,10 +43,7 @@ static const Derived::Unit RadianPerMinute = Derived::Unit::AngularVelocity(Angl
 
 /// @brief Holds the vendored propagator, so it stays out of the public header.
 ///
-/// @details Vallado's reference SGP4 (see thirdparty/vallado-sgp4/README.md). This is the
-/// library's only SGP4: orbit::model::SGP4 decodes its TLE into a MeanElements and lands here
-/// too, so the TLE format's rounding is applied once, when a TLE is written, and never sits
-/// between an element set and its propagation.
+/// @details Vallado's reference SGP4 (see thirdparty/vallado-sgp4/README.md).
 class MeanElements::Impl
 {
    public:
