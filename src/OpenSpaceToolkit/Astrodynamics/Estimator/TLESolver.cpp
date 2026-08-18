@@ -217,6 +217,13 @@ TLESolver::Analysis TLESolver::estimate(
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
     }
 
+    // Snap the estimation epoch onto the grid the TLE epoch field can represent (1e-8 day).
+    // The epoch is held fixed for the whole fit, so this costs nothing in conditioning; it
+    // just means the TLE written at the end has nothing left to round in its epoch field,
+    // which would otherwise be worth a few metres of along-track error on its own.
+    initialGuessTLEState =
+        tleStateBuilder_.build(TLEStateToTLE(initialGuessTLEState).getEpoch(), initialGuessTLEState.getCoordinates());
+
     const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
         [this](const State& aState) -> State
         {
@@ -224,20 +231,15 @@ TLESolver::Analysis TLESolver::estimate(
         }
     );
 
+    // Propagate trial states from the elements themselves, not from a TLE written and
+    // re-parsed on every call. The text format rounds the eccentricity to 1e-7 and the
+    // angles to 1e-4 deg; on a near-circular orbit the finite-difference step in the
+    // eccentricity components falls below that quantum, the propagator does not respond at
+    // all, and the ex/ey Jacobian columns collapse onto one direction. A TLE is written
+    // once, at the end, from the converged state.
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        const TLE tle = TLEStateToTLE(aState);
-        const SGP4 sgp4(tle, tleStateBuilder_.getFrame());
-
-        Array<State> states;
-        states.reserve(anInstantArray.getSize());
-
-        for (const Instant& instant : anInstantArray)
-        {
-            states.add(sgp4.calculateStateAt(instant));
-        }
-
-        return states;
+        return TLEStateToMeanElements(aState).calculateStatesAt(anInstantArray, tleStateBuilder_.getFrame());
     };
 
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
@@ -319,6 +321,31 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
         coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
         revolutionNumber_
     );
+}
+
+MeanElements TLESolver::TLEStateToMeanElements(const State& aTLEState) const
+{
+    const ModifiedEquinoctial modifiedEquinoctial = {
+        Length::Kilometers(aTLEState.extractCoordinate(SemiLatusRectumSubset)[0]),
+        aTLEState.extractCoordinate(EccentricityXSubset)[0],
+        aTLEState.extractCoordinate(EccentricityYSubset)[0],
+        aTLEState.extractCoordinate(NodeXSubset)[0],
+        aTLEState.extractCoordinate(NodeYSubset)[0],
+        Angle::Radians(aTLEState.extractCoordinate(TrueLongitudeSubset)[0]),
+    };
+
+    const COE coe = modifiedEquinoctial.toCOE(EarthGravitationalModel::EGM2008.gravitationalParameter_);
+
+    return {
+        aTLEState.getInstant(),
+        coe.getInclination(),
+        coe.getRaan(),
+        coe.getEccentricity(),
+        coe.getAop(),
+        coe.getMeanAnomaly(),
+        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
+        estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
+    };
 }
 
 State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, const Real& aBStar) const

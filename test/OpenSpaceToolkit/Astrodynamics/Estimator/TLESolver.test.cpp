@@ -541,3 +541,102 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
         EXPECT_LT(positionDelta.norm(), 5000.0);
     }
 }
+
+// Regression: the estimator used to write and re-parse a TLE for every trial state. The text
+// format rounds the eccentricity to 1e-7, so on a near-circular orbit the finite-difference
+// step in the eccentricity components (1e-3 of a value below 1e-4) fell under the quantum,
+// the propagator did not respond at all, the ex/ey Jacobian columns collapsed onto a single
+// direction, and the Gauss-Newton step ran off to a hyperbola -- surfacing as
+// "Algorithm error." out of COE::EccentricAnomalyFromTrueAnomaly.
+//
+// Truth arcs are generated from real TLEs identical in every element but eccentricity, so
+// this pins the failure to the one variable that caused it.
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircular)
+{
+    using ostk::core::type::Integer;
+    using ostk::physics::unit::Angle;
+    using ostk::physics::unit::Derived;
+    using ostk::physics::unit::Time;
+
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2023-01-01 00:00:00"), Scale::UTC);
+
+    const TLESolver solver = {LeastSquaresSolver::Default(), 99999, "23001A", 0, false};
+
+    for (const Real eccentricity : {1e-3, 1e-4, 3e-5, 1e-5, 3e-6})
+    {
+        const TLE truthTLE = TLE::Construct(
+            Integer(11111),
+            "U",
+            "23001A",
+            epoch,
+            0.0,
+            0.0,
+            1e-4,
+            Integer(0),
+            Integer(0),
+            Angle::Degrees(97.8054),
+            Angle::Degrees(127.36),
+            eccentricity,
+            Angle::Degrees(90.0),
+            Angle::Degrees(0.0),
+            Derived(15.1029, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            Integer(0)
+        );
+
+        const SGP4 truthSGP4 = {truthTLE, Frame::GCRF()};
+
+        Array<State> observations = Array<State>::Empty();
+        observations.reserve(72);
+
+        for (Size i = 0; i < 72; ++i)
+        {
+            observations.add(truthSGP4.calculateStateAt(epoch + Duration::Minutes(20.0 * i)));
+        }
+
+        TLESolver::Analysis analysis = TLESolver::Analysis(
+            TLE::Undefined(),
+            LeastSquaresSolver::Analysis(
+                "",
+                State::Undefined(),
+                MatrixXd::Identity(6, 6),
+                MatrixXd::Identity(6, 6),
+                {observations[0]},
+                {LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))}
+            )
+        );
+
+        ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations))
+            << "eccentricity " << eccentricity.toString();
+
+        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold")
+            << "eccentricity " << eccentricity.toString();
+
+        // The eccentricity must be recovered to within the TLE's own quantum.
+        EXPECT_NEAR(analysis.estimatedTLE.getEccentricity(), eccentricity, 1e-7)
+            << "eccentricity " << eccentricity.toString();
+
+        // The estimated state carries the epoch the emitted TLE will actually hold, so that
+        // serializing it costs nothing more.
+        EXPECT_EQ(analysis.solverAnalysis.estimatedState.getInstant(), analysis.estimatedTLE.getEpoch());
+
+        // The fit must land on the SGP4-representability floor of the arc, which is what the
+        // quantized TLE can express -- not merely avoid throwing.
+        const SGP4 estimatedSGP4 = {analysis.estimatedTLE, Frame::GCRF()};
+
+        double sumOfSquares = 0.0;
+
+        for (const auto& observation : observations)
+        {
+            const Vector3d positionDelta =
+                estimatedSGP4.calculateStateAt(observation.getInstant()).getPosition().getCoordinates() -
+                observation.getPosition().getCoordinates();
+
+            EXPECT_LT(positionDelta.norm(), 200.0) << "eccentricity " << eccentricity.toString();
+
+            sumOfSquares += positionDelta.squaredNorm();
+        }
+
+        EXPECT_LT(std::sqrt(sumOfSquares / static_cast<double>(observations.getSize())), 100.0)
+            << "eccentricity " << eccentricity.toString();
+    }
+}

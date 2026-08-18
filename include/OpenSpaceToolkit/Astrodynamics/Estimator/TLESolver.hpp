@@ -22,6 +22,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -51,6 +52,7 @@ using ostk::physics::unit::Time;
 
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::MeanElements;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -229,10 +231,24 @@ class TLESolver
 
     /// @brief Convert TLE state to TLE
     ///
+    /// @details This is the lossy step: the TLE text format rounds the eccentricity to 1e-7
+    /// and the angles to 1e-4 degrees. It runs once, on the converged state — never inside
+    /// the iteration, where that rounding would flatten the Jacobian.
+    ///
     /// @param aTLEState TLE state
     ///
     /// @return TLE
     TLE TLEStateToTLE(const State& aTLEState) const;
+
+    /// @brief Convert TLE state to an SGP4 mean element set, at full precision
+    ///
+    /// @details Used to propagate trial states during the fit, in place of writing and
+    /// re-parsing a TLE on every iteration.
+    ///
+    /// @param aTLEState TLE state
+    ///
+    /// @return Mean element set
+    MeanElements TLEStateToMeanElements(const State& aTLEState) const;
 
     /// @brief Convert Cartesian state and B* to TLE state
     ///
