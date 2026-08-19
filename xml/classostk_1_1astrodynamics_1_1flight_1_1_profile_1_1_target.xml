@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="105" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="36" bodyend="44"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="105" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="38" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_target_1a192673acea78f21926fcc3144616ea26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="112" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="46" bodyend="50"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="112" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="48" bodyend="52"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

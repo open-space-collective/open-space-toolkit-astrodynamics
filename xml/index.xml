@@ -37,6 +37,7 @@
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a4b3e93d4a7bbf2425bdcbb3e6c654f03" kind="function"><name>accessVisibilityCriterion</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a1ab0fcd8af1ab98a98c48b5a6df59db5" kind="function"><name>accessTrajectory</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a0369a428baec017b6926aebda9914834" kind="function"><name>getPosition</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a06eed765e5a949e7477c658979067a4d" kind="function"><name>getPosition</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a5fda31a9c8c6c96681475fd8ec9b0e72" kind="function"><name>getLLA</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a2cd98ada41f1276e37dc7e7d3fe3598e" kind="function"><name>computeR_SEZ_ECEF</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1af18ed5cf8155dd3f31595cbda2fa8395" kind="function"><name>FromLLA</name></member>
@@ -596,12 +597,12 @@
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3730059acc84fc8b0fe8eadbd6a7e4c7" kind="function"><name>computeAccessesForTrajectoryTarget</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1adbdbe36beb8bbf63d1045c220058289d" kind="function"><name>computeAccessesForFixedTargets</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a52230a41412b3ce41b8688a8b0a6785e" kind="function"><name>generateAccessesFromIntervals</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a03c578cbf4f653ef69892b318754a8ea" kind="function"><name>computePreciseCrossings</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a42c359e9665791e1cfe3039c5f8199cf" kind="function"><name>computePreciseCrossings</name></member>
     <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1af8dc7f2e1d27630a6421a97427c45327" kind="function"><name>ComputeIntervals</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a6da150a5ee57db4e9175d0c63c97fecc" kind="function"><name>GenerateAccess</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ab77bb1d3c4895a42212585640ca610e8" kind="function"><name>FindTimeOfClosestApproach</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a606262101c72820e55493026dc611f14" kind="function"><name>CalculateElevationAt</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1ae1a56ca0b66c094eb9c29ae495edb9b1" kind="function"><name>CalculateAer</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a3a04fbe2b96b5536cfa3616a0ae543de" kind="function"><name>GenerateAccess</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a73b94f9c9c3875d213d9bd88c74aa49e" kind="function"><name>FindTimeOfClosestApproach</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a496e3ccbb9e152f7b79f0c2d60a7a54d" kind="function"><name>CalculateElevationAt</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1access_1_1_generator_1a1bed519149934641eb2e31bb44068323" kind="function"><name>CalculateAer</name></member>
   </compound>
   <compound refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator" kind="class"><name>ostk::astrodynamics::conjunction::closeapproach::Generator</name>
     <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1closeapproach_1_1_generator_1a817e9adae72546e05b5e18adf530166f" kind="variable"><name>referenceTrajectory_</name></member>
@@ -1209,12 +1210,13 @@
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ad6e3b2007d0fa30b297c2dc092b0f659" kind="function"><name>CustomPointing</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a9c7ae3efcc54586d4cc14847c85f873c" kind="function"><name>CustomPointing</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a26f8188de4d75cc7d3f344836e97f2a5" kind="function"><name>AlignAndConstrain</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aee1fbb969d3907f056bf81c899abb04f" kind="function"><name>AlignAndConstrain</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affc9fb559bac3163e33883c466264564" kind="function"><name>Profile</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1d10bb4daa2a6227259b160ba2f3935c" kind="function"><name>ComputeGeocentricNadirDirectionVector</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1aa103dd295f872fbb585320bf122b9e59" kind="function"><name>ComputeGeodeticNadirDirectionVector</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a27f76013abdb5c5c50e78d4227ffa5c0" kind="function"><name>ComputeGeodeticNadirDirectionVector</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1ae8f77b79f99383f3af92c3ff489e7d59" kind="function"><name>ComputeTargetDirectionVector</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a7dc3c7acee16d9f57d89e5b44ceb7f43" kind="function"><name>ComputeTargetVelocityVector</name></member>
-    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a6967dc35e49011342f155bb39cbcd399" kind="function"><name>ComputeTargetSlidingGroundVelocityVector</name></member>
+    <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1a09476dd0ae8603ff7429ca2ba2dc74" kind="function"><name>ComputeTargetSlidingGroundVelocityVector</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a21244ed0e0630371134ce2275dda8c54" kind="function"><name>ComputeCelestialDirectionVector</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1a1d13ed85e90a4fa81a2164052fa061d6" kind="function"><name>ComputeVelocityDirectionVector_ECI</name></member>
     <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1affd94ab4573a3771f048498db0dacc7b" kind="function"><name>ComputeOrbitalMomentumDirectionVector</name></member>

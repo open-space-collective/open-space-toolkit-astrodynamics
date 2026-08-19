@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="17" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="40" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="17" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a37b27d80820a12ac8e096b6266b5407c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static" kindref="compound">Static</ref> *</type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="50" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="50" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="29" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ab588208e9d9859b30208ea6488c91a27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="62" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="32" bodyend="40"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="62" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="34" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1af5f92baf327c859d478125ad8ebdcfa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -138,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="74" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="42" bodyend="45"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="74" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="44" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1afe9bcc0dbd33385904b00c0ef3531dc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -159,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="96" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="54" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="96" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="56" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a54dc2696b84b3db796d4291de721dc35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -194,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="108" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="59" bodyend="75"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="108" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="61" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ae30f8ba6533aca4f229525a032aefb0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -239,7 +239,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="119" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="77" bodyend="87"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="119" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="79" bodyend="89"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -286,7 +286,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="86" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="47" bodyend="52"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="86" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="49" bodyend="54"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -323,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="132" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="89" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="132" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="91" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1acb140acc2965e7a67c42f45a5119dce4" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -358,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="144" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="96" bodyend="99"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp" line="144" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="98" bodyend="101"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

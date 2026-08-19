@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="126" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="52" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="126" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="54" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1ab72bea3e9b5a99822e9e37ecd597304f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="135" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="73" bodyend="78"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="135" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="75" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1aa71be2ba80c3887075150e5bbe87d30b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="144" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="59" bodyend="64"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="144" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="61" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1acbcd1e9a80fc117f6b39bd14ee6a713a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
@@ -205,7 +205,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="154" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="80" bodyend="85"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="154" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="82" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1a3ac322351412f0f98a6063eaa8ac9c41" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
@@ -245,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="164" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="66" bodyend="71"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="164" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="68" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target_1af19ed040b7bc8f37a9cf7191c6b9df0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_target" kindref="compound">TrajectoryTarget</ref></type>
@@ -298,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="175" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="87" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="175" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="89" bodyend="96"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -352,7 +352,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="187" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="96" bodyend="112"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="187" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="98" bodyend="114"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

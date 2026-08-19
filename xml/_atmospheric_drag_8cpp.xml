@@ -429,7 +429,7 @@
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getValue();</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
 <codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>earthAngularVelocity<sp/>=</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aFrameSPtr-&gt;getTransformTo(Frame::ITRF(),<sp/>anInstant).getAngularVelocity();<sp/><sp/></highlight><highlight class="comment">//<sp/>rad/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aFrameSPtr-&gt;getTransformTo(celestialObjectSPtr_-&gt;accessFrame(),<sp/>anInstant).getAngularVelocity();<sp/><sp/></highlight><highlight class="comment">//<sp/>rad/s</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="107"><highlight class="normal"></highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector3d<sp/>relativeVelocity<sp/>=<sp/>velocityCoordinates<sp/>-<sp/>earthAngularVelocity.cross(positionCoordinates);</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
