@@ -640,3 +640,58 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
             << "eccentricity " << eccentricity.toString();
     }
 }
+
+// Regression, on flight data, for what the synthetic sweep above isolates: 10.4 h of 20 s
+// GNSS-derived states for a 533 km SSO spacecraft, fitted eccentricity 5.9e-5 -- an order of
+// magnitude under the 1e-4 threshold below which a TLE-in-the-loop estimator loses the ex/ey
+// Jacobian block to the text format's 1e-7 eccentricity quantum. Fitting this arc through a
+// written TLE throws "Algorithm error." out of COE::EccentricAnomalyFromTrueAnomaly, the
+// Gauss-Newton step having run off to a hyperbola; through MeanElements it converges in four
+// iterations to the SGP4 floor of the arc.
+//
+// The 20 s sampling is load-bearing -- decimating the arc to 60 s happens to skirt the
+// degeneracy (it converged, but in nine iterations rather than four).
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircularFlightData)
+{
+    const Array<State> observations = loadData("near_circular_observations", Frame::GCRF());
+
+    const TLESolver solver = {LeastSquaresSolver::Default(), 0, "00001A", 0, false};
+
+    TLESolver::Analysis analysis = TLESolver::Analysis(
+        TLE::Undefined(),
+        LeastSquaresSolver::Analysis(
+            "",
+            State::Undefined(),
+            MatrixXd::Identity(6, 6),
+            MatrixXd::Identity(6, 6),
+            {observations[0]},
+            {LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))}
+        )
+    );
+
+    ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations));
+
+    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+
+    // The arc is near-circular, which is the whole point of the case.
+    EXPECT_LT(analysis.estimatedTLE.getEccentricity(), 1e-4);
+
+    // A no-B* SGP4 fit of a 10.4 h GNSS arc bottoms out around 560 m RMS; require the fit to
+    // reach that floor rather than merely avoid throwing.
+    const SGP4 sgp4(analysis.estimatedTLE);
+
+    double sumOfSquares = 0.0;
+
+    for (const auto& observation : observations)
+    {
+        const Vector3d positionDelta = sgp4.calculateStateAt(observation.getInstant()).getPosition().getCoordinates() -
+                                       observation.inFrame(Frame::GCRF()).getPosition().getCoordinates();
+
+        EXPECT_LT(positionDelta.norm(), 1500.0);
+
+        sumOfSquares += positionDelta.squaredNorm();
+    }
+
+    EXPECT_LT(std::sqrt(sumOfSquares / static_cast<double>(observations.getSize())), 700.0);
+}
