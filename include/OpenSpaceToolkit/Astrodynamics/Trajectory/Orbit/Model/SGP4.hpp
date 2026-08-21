@@ -53,9 +53,22 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief SGP4 orbit model.
+/// @brief SGP4 orbit model, propagating a Two-Line Element set.
 ///
-/// @details Simplified General Perturbations 4 (SGP4) orbit propagation model using Two-Line Element (TLE) sets.
+/// @details Simplified General Perturbations 4. Reach for this to propagate a TLE that was published,
+/// received, or read from a file. It takes one TLE, or several with validity intervals, and selects
+/// between them by instant.
+///
+/// The elements it flies are the ones the text carries, and the TLE format quantizes them: the
+/// eccentricity to 1e-7, the angles to 1e-4 deg, the mean motion to 1e-8 rev/day, and the epoch to
+/// 1e-8 day (about 0.9 ms). That is the precision the element set was published at, so it costs
+/// nothing here -- but it makes the model a staircase rather than a smooth function of its inputs.
+/// Anything that differentiates the propagator, an estimator above all, wants sgp4::MeanElements
+/// instead, which takes the same elements as continuous values.
+///
+/// Underneath there is one propagator: a TLE is decoded into a sgp4::MeanElements once, at
+/// construction, and propagated from there. Fed the same values the two agree exactly; they differ
+/// only in what precision can reach them.
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
@@ -277,15 +290,6 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     Size findTleIndexForInstant(const Instant& anInstant) const;
 
     static Array<Interval> GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray);
-
-    // The third-party libsgp4 library re-parses the raw TLE line strings and rejects any non-digit
-    // character in the satellite (NORAD) number field. This means Alpha-5 satellite numbers (e.g.
-    // "A5544"), which OSTk's TLE supports, would cause libsgp4::Tle construction to throw.
-    //
-    // libsgp4 never uses the satellite number in its propagation math, so we hand it a purely numeric
-    // placeholder for that field when the field is Alpha-5 encoded. OSTk's own TLE object retains the
-    // true satellite number for all its accessors; only the string given to libsgp4 is altered.
-    static String SanitizeLineForLibsgp4(const String& aLine);
 };
 
 }  // namespace model

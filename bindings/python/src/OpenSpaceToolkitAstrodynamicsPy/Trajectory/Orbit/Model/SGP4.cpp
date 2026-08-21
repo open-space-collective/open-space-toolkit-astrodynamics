@@ -7,6 +7,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/MeanElements.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11::module& aModule)
@@ -30,9 +31,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             aModule,
             "SGP4",
             R"doc(
-                A SGP4 model.
+                SGP4 orbit model, propagating a Two-Line Element set.
 
-                Provides the interface for orbit models.
+                Simplified General Perturbations 4. Reach for this to propagate a TLE that was
+                published, received, or read from a file. It takes one TLE, or several with validity
+                intervals, and selects between them by instant.
+
+                The elements it flies are the ones the text carries, and the TLE format quantizes
+                them: the eccentricity to 1e-7, the angles to 1e-4 deg, the mean motion to
+                1e-8 rev/day, and the epoch to 1e-8 day (about 0.9 ms). That is the precision the
+                element set was published at, so it costs nothing here — but it makes the model a
+                staircase rather than a smooth function of its inputs. Anything that differentiates
+                the propagator, an estimator above all, wants `MeanElements` instead, which takes the
+                same elements as continuous values.
+
+                Underneath there is one propagator: a TLE is decoded into a `MeanElements` once, at
+                construction, and propagated from there. Fed the same values the two agree exactly;
+                they differ only in what precision can reach them.
 
             )doc"
         )
@@ -228,4 +243,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
     // Add objects to "sgp4" python submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(sgp4);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElements(sgp4);
 }

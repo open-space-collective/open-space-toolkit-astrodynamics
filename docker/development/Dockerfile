@@ -54,22 +54,6 @@ RUN mkdir /tmp/eigen \
     && make install \
     && rm -rf /tmp/eigen
 
-## SGP4
-
-ARG SGP4_VERSION="6a448b4"
-
-RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
-    && cd /tmp/sgp4 \
-    && git checkout ${SGP4_VERSION} \
-    && mkdir build \
-    && cd build \
-    && cmake -DCMAKE_CXX_FLAGS="-fPIC" .. \
-    && make -j $(nproc) \
-    && mkdir /usr/local/include/sgp4 \
-    && cp ../libsgp4/*.h /usr/local/include/sgp4/ \
-    && cp libsgp4/*.a /usr/local/lib \
-    && rm -rf /tmp/sgp4
-
 ## NLopt
 
 ARG NLOPT_VERSION="2.9.1"

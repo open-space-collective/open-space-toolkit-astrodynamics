@@ -295,7 +295,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
     EXPECT_EQ("A5544", alpha5Tle.getRawSatelliteNumber());
     EXPECT_EQ(105544, alpha5Tle.getSatelliteNumber());
 
-    // Construction must not throw (previously libsgp4 rejected the letter in the NORAD field).
+    // Construction must not throw. The propagator is now fed elements rather than TLE text, so
+    // nothing downstream ever sees the NORAD field.
     EXPECT_NO_THROW(SGP4 {alpha5Tle});
 
     const SGP4 alpha5Sgp4 = {alpha5Tle};
@@ -310,8 +311,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
     }
 
     // Propagation correctness: the Alpha-5 model must produce the same states as the numeric ISS
-    // model, at epoch and at a later instant. This proves the placeholder NORAD substitution does
-    // not perturb the propagation math.
+    // model, at epoch and at a later instant. The satellite number reaches nothing that the orbit
+    // depends on, and this is what says so.
     for (const Instant& instant : {tle_.getEpoch(), tle_.getEpoch() + Duration::Hours(3.0)})
     {
         const State stateNumeric = sgp4_.calculateStateAt(instant);

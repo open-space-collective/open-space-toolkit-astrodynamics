@@ -1,12 +1,9 @@
 /// Apache License 2.0
 
 #include <algorithm>
-#include <cctype>
 #include <cmath>
 #include <iostream>
 #include <memory>
-
-#include <sgp4/SGP4.h>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -15,6 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
 
 namespace ostk
 {
@@ -34,26 +32,11 @@ using ostk::physics::time::Interval;
 
 const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 
-String SGP4::SanitizeLineForLibsgp4(const String& aLine)
-{
-    // Satellite number occupies columns 2-6 (0-indexed) of a TLE line.
-    const String satelliteNumberField = aLine.getSubstring(2, 5).trim();
-
-    if (satelliteNumberField.isEmpty() || std::isdigit(static_cast<unsigned char>(satelliteNumberField[0])))
-    {
-        // Standard numeric field (or empty): pass the line through unchanged.
-        return aLine;
-    }
-
-    // Alpha-5 field: replace columns 2-6 with a numeric placeholder. Both lines receive the same
-    // value so libsgp4's "satellite numbers must match" check passes. Line length (69) and the
-    // leading '1'/'2' are preserved. libsgp4 does not validate the checksum, so the trailing
-    // checksum digit is left untouched.
-    static const String placeholder = "00000";
-
-    return aLine.getSubstring(0, 2) + placeholder + aLine.getSubstring(7, aLine.getLength() - 7);
-}
-
+/// @brief Propagates one TLE.
+///
+/// @details The TLE is decoded into its mean elements once, here, and everything downstream
+/// runs on MeanElements. Both entry points into SGP4 therefore share a single propagator,
+/// and a TLE is never re-parsed from its text.
 class SGP4::Impl
 {
    public:
@@ -66,47 +49,23 @@ class SGP4::Impl
     State calculateStateAt(const Instant& anInstant) const;
 
    private:
-    TLE tle_;
+    sgp4::MeanElements meanElements_;
     Shared<const Frame> outputFrameSPtr_;
-    libsgp4::SGP4 sgp4_;
-
-    Shared<const Frame> temeFrameOfEpochSPtr_;
 };
 
 SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
-    : tle_(aTle),
-      outputFrameSPtr_(anOutputFrameSPtr),
-      sgp4_(libsgp4::Tle(
-          tle_.getSatelliteName(),
-          SGP4::SanitizeLineForLibsgp4(tle_.getFirstLine()),
-          SGP4::SanitizeLineForLibsgp4(tle_.getSecondLine())
-      )),
-      temeFrameOfEpochSPtr_(Frame::TEME())
+    : meanElements_(sgp4::MeanElements::FromTLE(aTle)),
+      outputFrameSPtr_(anOutputFrameSPtr)
 {
+    // MeanElements builds its propagator lazily, and the propagator is what rejects an
+    // element set it cannot fly. Force that now: a TLE this model cannot propagate has always
+    // been an error at construction, not one that waits for a caller to ask for a state.
+    this->meanElements_.calculateStateAt(aTle.getEpoch(), Frame::TEME());
 }
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 {
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::time::Duration;
-
-    const Real durationFromEpoch_min = Duration::Between(this->tle_.getEpoch(), anInstant).inMinutes();
-
-    const libsgp4::Eci xv_TEME = this->sgp4_.FindPosition(durationFromEpoch_min);
-
-    const libsgp4::Vector x_TEME_km = xv_TEME.Position();
-    const libsgp4::Vector v_TEME_kmps = xv_TEME.Velocity();
-
-    const Vector3d x_TEME_m = Vector3d(x_TEME_km.x, x_TEME_km.y, x_TEME_km.z) * 1e3;
-    const Vector3d v_TEME_mps = Vector3d(v_TEME_kmps.x, v_TEME_kmps.y, v_TEME_kmps.z) * 1e3;
-
-    const Position position_TEME = {x_TEME_m, Position::Unit::Meter, this->temeFrameOfEpochSPtr_};
-    const Velocity velocity_TEME = {v_TEME_mps, Velocity::Unit::MeterPerSecond, this->temeFrameOfEpochSPtr_};
-
-    const State state_TEME = {anInstant, position_TEME, velocity_TEME};
-
-    return state_TEME.inFrame(this->outputFrameSPtr_);
+    return this->meanElements_.calculateStateAt(anInstant, this->outputFrameSPtr_);
 }
 
 SGP4::SGP4(const TLE& aTle)
