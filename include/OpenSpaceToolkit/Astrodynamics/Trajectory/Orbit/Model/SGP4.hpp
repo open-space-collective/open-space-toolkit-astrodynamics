@@ -59,10 +59,9 @@ using ostk::astrodynamics::trajectory::State;
 /// received, or read from a file. It takes one TLE, or several with validity intervals, and selects
 /// between them by instant.
 ///
-/// The elements it flies are the ones the text carries, and the TLE format quantizes them: the
+/// The elements it flies are the ones the text carries, and the TLE format truncates them: the
 /// eccentricity to 1e-7, the angles to 1e-4 deg, the mean motion to 1e-8 rev/day, and the epoch to
-/// 1e-8 day (about 0.9 ms). That is the precision the element set was published at, so it costs
-/// nothing here -- but it makes the model a staircase rather than a smooth function of its inputs.
+/// 1e-8 day (about 0.9 ms). That is the precision the element set was published at.
 /// Anything that differentiates the propagator, an estimator above all, wants sgp4::MeanElements
 /// instead, which takes the same elements as continuous values.
 ///

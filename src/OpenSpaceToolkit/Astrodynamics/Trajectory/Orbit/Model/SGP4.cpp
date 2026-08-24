@@ -35,8 +35,7 @@ const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 /// @brief Propagates one TLE.
 ///
 /// @details The TLE is decoded into its mean elements once, here, and everything downstream
-/// runs on MeanElements. Both entry points into SGP4 therefore share a single propagator,
-/// and a TLE is never re-parsed from its text.
+/// runs on MeanElements. Both entry points into SGP4 therefore share a single propagator.
 class SGP4::Impl
 {
    public:
@@ -50,22 +49,19 @@ class SGP4::Impl
 
    private:
     sgp4::MeanElements meanElements_;
-    Shared<const Frame> outputFrameSPtr_;
 };
 
 SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
-    : meanElements_(sgp4::MeanElements::FromTLE(aTle)),
-      outputFrameSPtr_(anOutputFrameSPtr)
+    : meanElements_(sgp4::MeanElements::FromTLE(aTle, anOutputFrameSPtr))
 {
-    // MeanElements builds its propagator lazily, and the propagator is what rejects an
-    // element set it cannot fly. Force that now: a TLE this model cannot propagate has always
-    // been an error at construction, not one that waits for a caller to ask for a state.
-    this->meanElements_.calculateStateAt(aTle.getEpoch(), Frame::TEME());
+    // Constructing the MeanElements above builds the propagator, and the propagator is what
+    // rejects an element set it cannot fly, so a TLE this model cannot propagate is already an
+    // error here rather than one that waits for a caller to ask for a state.
 }
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 {
-    return this->meanElements_.calculateStateAt(anInstant, this->outputFrameSPtr_);
+    return this->meanElements_.calculateStateAt(anInstant);
 }
 
 SGP4::SGP4(const TLE& aTle)

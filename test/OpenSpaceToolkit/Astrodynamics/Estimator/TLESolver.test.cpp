@@ -71,9 +71,11 @@ Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrame
     Array<State> observations;
 
     const Table observationData = Table::Load(
-        File::Path(Path::Parse(
-            String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
-        )),
+        File::Path(
+            Path::Parse(
+                String::Format("/app/test/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolverData/{}.csv", aFileName)
+            )
+        ),
         Table::Format::CSV,
         true
     );
@@ -544,7 +546,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
 
 // Regression: the estimator used to write and re-parse a TLE for every trial state. The text
 // format rounds the eccentricity to 1e-7, so on a near-circular orbit the finite-difference
-// step in the eccentricity components (1e-3 of a value below 1e-4) fell under the quantum,
+// step in the eccentricity components (1e-3 of a value below 1e-4) fell under the quantization,
 // the propagator did not respond at all, the ex/ey Jacobian columns collapsed onto a single
 // direction, and the Gauss-Newton step ran off to a hyperbola -- surfacing as
 // "Algorithm error." out of COE::EccentricAnomalyFromTrueAnomaly.
@@ -611,7 +613,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold")
             << "eccentricity " << eccentricity.toString();
 
-        // The eccentricity must be recovered to within the TLE's own quantum.
+        // The eccentricity must be recovered to within the TLE's own quantization.
         EXPECT_NEAR(analysis.estimatedTLE.getEccentricity(), eccentricity, 1e-7)
             << "eccentricity " << eccentricity.toString();
 
@@ -644,13 +646,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
 // Regression, on flight data, for what the synthetic sweep above isolates: 10.4 h of 20 s
 // GNSS-derived states for a 533 km SSO spacecraft, fitted eccentricity 5.9e-5 -- an order of
 // magnitude under the 1e-4 threshold below which a TLE-in-the-loop estimator loses the ex/ey
-// Jacobian block to the text format's 1e-7 eccentricity quantum. Fitting this arc through a
+// Jacobian block to the text format's 1e-7 eccentricity quantization. Fitting this arc through a
 // written TLE throws "Algorithm error." out of COE::EccentricAnomalyFromTrueAnomaly, the
 // Gauss-Newton step having run off to a hyperbola; through MeanElements it converges in four
 // iterations to the SGP4 floor of the arc.
-//
-// The 20 s sampling is load-bearing -- decimating the arc to 60 s happens to skirt the
-// degeneracy (it converged, but in nine iterations rather than four).
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircularFlightData)
 {
     const Array<State> observations = loadData("near_circular_observations", Frame::GCRF());

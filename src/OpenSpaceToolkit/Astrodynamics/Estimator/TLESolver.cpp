@@ -234,12 +234,12 @@ TLESolver::Analysis TLESolver::estimate(
     // Propagate trial states from the elements themselves, not from a TLE written and
     // re-parsed on every call. The text format rounds the eccentricity to 1e-7 and the
     // angles to 1e-4 deg; on a near-circular orbit the finite-difference step in the
-    // eccentricity components falls below that quantum, the propagator does not respond at
+    // eccentricity components falls below that quantization, the propagator does not respond at
     // all, and the ex/ey Jacobian columns collapse onto one direction. A TLE is written
     // once, at the end, from the converged state.
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        return TLEStateToMeanElements(aState).calculateStatesAt(anInstantArray, tleStateBuilder_.getFrame());
+        return TLEStateToMeanElements(aState).calculateStatesAt(anInstantArray);
     };
 
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
@@ -345,6 +345,8 @@ MeanElements TLESolver::TLEStateToMeanElements(const State& aTLEState) const
         coe.getMeanAnomaly(),
         coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
         estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
+        1,
+        tleStateBuilder_.getFrame(),
     };
 }
 

@@ -7,6 +7,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
     using namespace pybind11;
 
     using ostk::core::container::Array;
+    using ostk::core::type::Integer;
     using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
@@ -19,29 +20,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<MeanElements>(
+    class_<MeanElements, ostk::astrodynamics::trajectory::orbit::Model>(
         aModule,
         "MeanElements",
         R"doc(
-            SGP4 mean element set, held at full precision, and the propagator that flies it.
-
-            Reach for this when the elements are being computed rather than read: fitted by an
-            estimator, differentiated, stepped, or produced by anything other than 69 columns of
-            text. It takes the eight elements as continuous values and imposes no quantum on any of
-            them. To propagate a TLE that was published, received, or read from a file, use `SGP4`.
+            SGP4 mean element set, held at full precision.
 
             A TLE is a lossy serialization of this set: writing one rounds the eccentricity to 1e-7,
-            the angles to 1e-4 deg, the mean motion to 1e-8 rev/day and the epoch to 1e-8 day. That
-            rounding is harmless for propagation but fatal for differentiation — on a near-circular
-            orbit a finite-difference step in eccentricity can be smaller than the quantum, so the
-            propagator does not respond at all and the Jacobian silently loses rank. Estimators
-            should iterate on `MeanElements` and serialize a TLE once, at the end, which costs a few
+            the angles to 1e-4 deg, the mean motion to 1e-8 rev/day and the epoch to 1e-8 day.
+            That rounding is harmless for propagation but fatal for differentiation — on a near-circular
+            orbit a finite-difference step in eccentricity can be smaller than 1e-7, so the
+            propagator does not respond at all and the Jacobian silently loses rank.
+
+            Estimators should iterate on `MeanElements` and serialize a TLE once, at the end, which costs a few
             tens of millimetres.
 
-            Underneath there is one propagator: `SGP4` decodes its TLE into a `MeanElements` and
-            propagates that. Fed the same values the two agree exactly; they differ only in what
-            precision can reach them.
-
+            To propagate a TLE that was published, received, or read from a file, use the `SGP4` class.
         )doc"
     )
 
@@ -54,7 +48,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
                 const Angle&,
                 const Angle&,
                 const Derived&,
-                const Real&>(),
+                const Real&,
+                const Integer&,
+                const Shared<const Frame>&>(),
             R"doc(
                 Constructor.
 
@@ -66,7 +62,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
                     aop (Angle): The argument of periapsis.
                     mean_anomaly (Angle): The mean anomaly.
                     mean_motion (Derived): The mean motion.
-                    b_star_drag_term (float): The B* drag term. Defaults to 0.0.
+                    b_star_drag_term (float): The B* drag term.
+                    revolution_number_at_epoch (int): The revolution number at epoch. Defaults to 1.
+                    output_frame (Frame): The output frame. Defaults to TEME.
 
             )doc",
             arg("epoch"),
@@ -76,7 +74,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
             arg("aop"),
             arg("mean_anomaly"),
             arg("mean_motion"),
-            arg_v("b_star_drag_term", Real(0.0), "0.0")
+            arg("b_star_drag_term"),
+            arg_v("revolution_number_at_epoch", Integer(1), "1"),
+            arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
         )
 
         .def(self == self)
@@ -194,19 +194,41 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
         )
 
         .def(
+            "get_revolution_number_at_epoch",
+            &MeanElements::getRevolutionNumberAtEpoch,
+            R"doc(
+                Get the revolution number at epoch.
+
+                Returns:
+                    int: The revolution number at epoch.
+
+            )doc"
+        )
+
+        .def(
+            "get_output_frame",
+            &MeanElements::getOutputFrame,
+            R"doc(
+                Get the output frame.
+
+                Returns:
+                    Frame: The output frame.
+
+            )doc"
+        )
+
+        .def(
             "calculate_state_at",
             &MeanElements::calculateStateAt,
             arg("instant"),
-            arg_v("output_frame", Frame::TEME(), "Frame.TEME()"),
             R"doc(
                 Calculate the state at a given instant.
 
                 Args:
                     instant (Instant): The instant.
-                    output_frame (Frame): The output frame. Defaults to TEME.
 
                 Returns:
-                    State: The state.
+                    State: The state, expressed in the output frame.
 
             )doc"
         )
@@ -215,16 +237,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
             "calculate_states_at",
             &MeanElements::calculateStatesAt,
             arg("instants"),
-            arg_v("output_frame", Frame::TEME(), "Frame.TEME()"),
             R"doc(
                 Calculate the states at given instants.
 
                 Args:
                     instants (list[Instant]): The instants.
-                    output_frame (Frame): The output frame. Defaults to TEME.
 
                 Returns:
-                    list[State]: The states.
+                    list[State]: The states, expressed in the output frame.
 
             )doc"
         )
@@ -245,6 +265,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
             "from_tle",
             &MeanElements::FromTLE,
             arg("tle"),
+            arg_v("output_frame", Frame::TEME(), "Frame.TEME()"),
             R"doc(
                 Construct a mean element set from a TLE.
 
@@ -253,6 +274,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
                 Args:
                     tle (TLE): The TLE.
+                    output_frame (Frame): The output frame. Defaults to TEME.
 
                 Returns:
                     MeanElements: The mean element set the TLE encodes.

@@ -91,15 +91,13 @@ class MeanElements::Impl
         double x_TEME_km[3] = {0.0, 0.0, 0.0};
         double v_TEME_kmps[3] = {0.0, 0.0, 0.0};
 
-        // Deep-space runs carry an integrator state across calls, which is why the record is
-        // mutable; sgp4() restarts it whenever the requested time is not a continuation. It
-        // does mean a MeanElements -- and its copies, which share this -- is not reentrant.
-        if (!SGP4Funcs::sgp4(this->satelliteRecord_, durationFromEpoch_min, x_TEME_km, v_TEME_kmps))
+        // copy the satelliteRecord to keep it thread safe
+        elsetrec satelliteRecord = this->satelliteRecord_;
+
+        if (!SGP4Funcs::sgp4(satelliteRecord, durationFromEpoch_min, x_TEME_km, v_TEME_kmps))
         {
             throw ostk::core::error::RuntimeError(
-                "Cannot propagate SGP4 to [{}]: {}.",
-                anInstant.toString(),
-                Impl::ErrorMessage(this->satelliteRecord_.error)
+                "Cannot propagate SGP4 to [{}]: {}.", anInstant.toString(), Impl::ErrorMessage(satelliteRecord.error)
             );
         }
 
@@ -116,13 +114,13 @@ class MeanElements::Impl
     }
 
    private:
-    mutable elsetrec satelliteRecord_;
+    elsetrec satelliteRecord_;
     Shared<const Frame> temeFrameSPtr_;
 
     static double EpochFromInstant(const Instant& anInstant)
     {
         // Days since 1949-12-31 00:00 UT, which is what the TLE epoch field is defined
-        // against too. Only the deep-space initialization reads it.
+        // against too. Only the SGP4 initialization reads it.
         static const double julianDateAtEpoch = 2433281.5;
 
         return anInstant.getJulianDate(Scale::UTC) - julianDateAtEpoch;
@@ -158,7 +156,9 @@ MeanElements::MeanElements(
     const Angle& anAop,
     const Angle& aMeanAnomaly,
     const Derived& aMeanMotion,
-    const Real& aBStarDragTerm
+    const Real& aBStarDragTerm,
+    const Integer& aRevolutionNumberAtEpoch,
+    const Shared<const Frame>& anOutputFrameSPtr
 )
     : epoch_(anEpoch),
       inclination_(anInclination),
@@ -168,8 +168,19 @@ MeanElements::MeanElements(
       meanAnomaly_(aMeanAnomaly),
       meanMotion_(aMeanMotion),
       bStarDragTerm_(aBStarDragTerm),
+      revolutionNumberAtEpoch_(aRevolutionNumberAtEpoch),
+      outputFrameSPtr_(anOutputFrameSPtr),
       implSPtr_(nullptr)
 {
+    if (this->isDefined())
+    {
+        this->implSPtr_ = std::make_shared<const Impl>(*this);
+    }
+}
+
+MeanElements* MeanElements::clone() const
+{
+    return new MeanElements(*this);
 }
 
 bool MeanElements::operator==(const MeanElements& aMeanElements) const
@@ -182,7 +193,9 @@ bool MeanElements::operator==(const MeanElements& aMeanElements) const
     return (epoch_ == aMeanElements.epoch_) && (inclination_ == aMeanElements.inclination_) &&
            (raan_ == aMeanElements.raan_) && (eccentricity_ == aMeanElements.eccentricity_) &&
            (aop_ == aMeanElements.aop_) && (meanAnomaly_ == aMeanElements.meanAnomaly_) &&
-           (meanMotion_ == aMeanElements.meanMotion_) && (bStarDragTerm_ == aMeanElements.bStarDragTerm_);
+           (meanMotion_ == aMeanElements.meanMotion_) && (bStarDragTerm_ == aMeanElements.bStarDragTerm_) &&
+           (revolutionNumberAtEpoch_ == aMeanElements.revolutionNumberAtEpoch_) &&
+           (*outputFrameSPtr_ == *aMeanElements.outputFrameSPtr_);
 }
 
 bool MeanElements::operator!=(const MeanElements& aMeanElements) const
@@ -200,7 +213,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const MeanElements& aMean
 bool MeanElements::isDefined() const
 {
     return epoch_.isDefined() && inclination_.isDefined() && raan_.isDefined() && eccentricity_.isDefined() &&
-           aop_.isDefined() && meanAnomaly_.isDefined() && meanMotion_.isDefined() && bStarDragTerm_.isDefined();
+           aop_.isDefined() && meanAnomaly_.isDefined() && meanMotion_.isDefined() && bStarDragTerm_.isDefined() &&
+           revolutionNumberAtEpoch_.isDefined() && outputFrameSPtr_;
 }
 
 Instant MeanElements::getEpoch() const
@@ -283,41 +297,49 @@ Real MeanElements::getBStarDragTerm() const
     return bStarDragTerm_;
 }
 
-State MeanElements::calculateStateAt(const Instant& anInstant, const Shared<const Frame>& anOutputFrameSPtr) const
+Integer MeanElements::getRevolutionNumberAtEpoch() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("MeanElements");
+    }
+
+    return revolutionNumberAtEpoch_;
+}
+
+Shared<const Frame> MeanElements::getOutputFrame() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("MeanElements");
+    }
+
+    return outputFrameSPtr_;
+}
+
+State MeanElements::calculateStateAt(const Instant& anInstant) const
 {
     if (!anInstant.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Instant");
     }
 
-    if (anOutputFrameSPtr == nullptr)
-    {
-        throw ostk::core::error::runtime::Undefined("Output frame");
-    }
-
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("MeanElements");
     }
 
-    return this->accessImpl().calculateStateAt(epoch_, anInstant, anOutputFrameSPtr);
+    return this->implSPtr_->calculateStateAt(epoch_, anInstant, outputFrameSPtr_);
 }
 
-Array<State> MeanElements::calculateStatesAt(
-    const Array<Instant>& anInstantArray, const Shared<const Frame>& anOutputFrameSPtr
-) const
+Array<State> MeanElements::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
-    if (anOutputFrameSPtr == nullptr)
-    {
-        throw ostk::core::error::runtime::Undefined("Output frame");
-    }
-
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("MeanElements");
     }
 
-    const Impl& impl = this->accessImpl();
+    const Impl& impl = *this->implSPtr_;
 
     Array<State> stateArray = Array<State>::Empty();
     stateArray.reserve(anInstantArray.getSize());
@@ -329,7 +351,7 @@ Array<State> MeanElements::calculateStatesAt(
             throw ostk::core::error::runtime::Undefined("Instant");
         }
 
-        stateArray.add(impl.calculateStateAt(epoch_, instant, anOutputFrameSPtr));
+        stateArray.add(impl.calculateStateAt(epoch_, instant, outputFrameSPtr_));
     }
 
     return stateArray;
@@ -353,6 +375,9 @@ void MeanElements::print(std::ostream& anOutputStream, bool displayDecorator) co
         << "Mean motion:" << (meanMotion_.isDefined() ? meanMotion_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "B*:" << (bStarDragTerm_.isDefined() ? bStarDragTerm_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Revolution Number:"
+        << (revolutionNumberAtEpoch_.isDefined() ? revolutionNumberAtEpoch_.toString() : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -368,10 +393,11 @@ MeanElements MeanElements::Undefined()
         Angle::Undefined(),
         Derived::Undefined(),
         Real::Undefined(),
+        Integer::Undefined(),
     };
 }
 
-MeanElements MeanElements::FromTLE(const TLE& aTLE)
+MeanElements MeanElements::FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr)
 {
     if (!aTLE.isDefined())
     {
@@ -387,17 +413,21 @@ MeanElements MeanElements::FromTLE(const TLE& aTLE)
         aTLE.getMeanAnomaly(),
         aTLE.getMeanMotion(),
         aTLE.getBStarDragTerm(),
+        aTLE.getRevolutionNumberAtEpoch(),
+        anOutputFrameSPtr,
     };
 }
 
-const MeanElements::Impl& MeanElements::accessImpl() const
+bool MeanElements::operator==(const trajectory::Model& aModel) const
 {
-    if (implSPtr_ == nullptr)
-    {
-        implSPtr_ = std::make_shared<const Impl>(*this);
-    }
+    const MeanElements* aMeanElementsPtr = dynamic_cast<const MeanElements*>(&aModel);
 
-    return *implSPtr_;
+    return (aMeanElementsPtr != nullptr) && this->operator==(*aMeanElementsPtr);
+}
+
+bool MeanElements::operator!=(const trajectory::Model& aModel) const
+{
+    return !((*this) == aModel);
 }
 
 }  // namespace sgp4
