@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
@@ -50,14 +50,14 @@ using ostk::astrodynamics::trajectory::State;
 /// orbit a finite-difference step in eccentricity can be smaller than 1e-7, so the
 /// propagator does not respond at all and the Jacobian silently loses rank.
 ///
-/// Estimators should iterate on `MeanElements` and serialize a TLE once, at the end, which costs a few
+/// Estimators should iterate on `SGP4FullPrecision` and serialize a TLE once, at the end, which costs a few
 /// tens of millimetres.
 ///
 /// To propagate a TLE that was published, received, or read from a file, use the `SGP4` class.
 ///
 /// @code{.cpp}
 ///     // Elements computed rather than read: they are taken as continuous values
-///     const MeanElements meanElements = {
+///     const SGP4FullPrecision sgp4FullPrecision = {
 ///         Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104"), Scale::UTC),
 ///         Angle::Degrees(51.6416),   // inclination
 ///         Angle::Degrees(247.4627),  // RAAN
@@ -68,15 +68,15 @@ using ostk::astrodynamics::trajectory::State;
 ///         -1.1606e-5,                // B*
 ///     };
 ///
-///     const State state = meanElements.calculateStateAt(Instant::Now());
+///     const State state = sgp4FullPrecision.calculateStateAt(Instant::Now());
 /// @endcode
-class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
+class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
     /// @brief Constructor.
     ///
     /// @code{.cpp}
-    ///     const MeanElements meanElements = {
+    ///     const SGP4FullPrecision sgp4FullPrecision = {
     ///         epoch,
     ///         Angle::Degrees(51.6416),
     ///         Angle::Degrees(247.4627),
@@ -99,7 +99,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aRevolutionNumberAtEpoch A revolution number at epoch. Defaults to 1.
     /// @param anOutputFrameSPtr An output frame. Defaults to Frame::TEME().
     /// @throw ostk::core::error::RuntimeError If the element set cannot be propagated.
-    MeanElements(
+    SGP4FullPrecision(
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aRaan,
@@ -115,47 +115,47 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Clone the mean element set.
     ///
     /// @code{.cpp}
-    ///     MeanElements* meanElementsPtr = meanElements.clone();
+    ///     SGP4FullPrecision* sgp4FullPrecisionPtr = sgp4FullPrecision.clone();
     /// @endcode
     ///
     /// @return A pointer to the cloned mean element set.
-    virtual MeanElements* clone() const override;
+    virtual SGP4FullPrecision* clone() const override;
 
     /// @brief Equal to operator.
     ///
     /// @code{.cpp}
-    ///     bool isEqual = MeanElements::FromTLE(tle) == MeanElements::FromTLE(tle);  // True
+    ///     bool isEqual = SGP4FullPrecision::FromTLE(tle) == SGP4FullPrecision::FromTLE(tle);  // True
     /// @endcode
     ///
-    /// @param aMeanElements A mean element set.
+    /// @param aSGP4FullPrecision A mean element set.
     /// @return True if both mean element sets are equal.
-    bool operator==(const MeanElements& aMeanElements) const;
+    bool operator==(const SGP4FullPrecision& aSGP4FullPrecision) const;
 
     /// @brief Not equal to operator.
     ///
     /// @code{.cpp}
-    ///     bool isNotEqual = MeanElements::FromTLE(tle) != MeanElements::Undefined();  // True
+    ///     bool isNotEqual = SGP4FullPrecision::FromTLE(tle) != SGP4FullPrecision::Undefined();  // True
     /// @endcode
     ///
-    /// @param aMeanElements A mean element set.
+    /// @param aSGP4FullPrecision A mean element set.
     /// @return True if both mean element sets are not equal.
-    bool operator!=(const MeanElements& aMeanElements) const;
+    bool operator!=(const SGP4FullPrecision& aSGP4FullPrecision) const;
 
     /// @brief Output stream operator.
     ///
     /// @code{.cpp}
-    ///     std::cout << meanElements << std::endl;
+    ///     std::cout << sgp4FullPrecision << std::endl;
     /// @endcode
     ///
     /// @param anOutputStream An output stream.
-    /// @param aMeanElements A mean element set.
+    /// @param aSGP4FullPrecision A mean element set.
     /// @return A reference to the output stream.
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const MeanElements& aMeanElements);
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const SGP4FullPrecision& aSGP4FullPrecision);
 
     /// @brief Check if the mean element set is defined.
     ///
     /// @code{.cpp}
-    ///     bool isDefined = meanElements.isDefined();
+    ///     bool isDefined = sgp4FullPrecision.isDefined();
     /// @endcode
     ///
     /// @return True if the mean element set is defined.
@@ -164,7 +164,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the epoch.
     ///
     /// @code{.cpp}
-    ///     Instant epoch = meanElements.getEpoch();
+    ///     Instant epoch = sgp4FullPrecision.getEpoch();
     /// @endcode
     ///
     /// @return The epoch.
@@ -173,7 +173,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the inclination.
     ///
     /// @code{.cpp}
-    ///     Angle inclination = meanElements.getInclination();
+    ///     Angle inclination = sgp4FullPrecision.getInclination();
     /// @endcode
     ///
     /// @return The inclination.
@@ -182,7 +182,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the right ascension of the ascending node.
     ///
     /// @code{.cpp}
-    ///     Angle raan = meanElements.getRaan();
+    ///     Angle raan = sgp4FullPrecision.getRaan();
     /// @endcode
     ///
     /// @return The right ascension of the ascending node.
@@ -191,7 +191,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the eccentricity.
     ///
     /// @code{.cpp}
-    ///     Real eccentricity = meanElements.getEccentricity();
+    ///     Real eccentricity = sgp4FullPrecision.getEccentricity();
     /// @endcode
     ///
     /// @return The eccentricity.
@@ -200,7 +200,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the argument of periapsis.
     ///
     /// @code{.cpp}
-    ///     Angle aop = meanElements.getAop();
+    ///     Angle aop = sgp4FullPrecision.getAop();
     /// @endcode
     ///
     /// @return The argument of periapsis.
@@ -209,7 +209,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the mean anomaly.
     ///
     /// @code{.cpp}
-    ///     Angle meanAnomaly = meanElements.getMeanAnomaly();
+    ///     Angle meanAnomaly = sgp4FullPrecision.getMeanAnomaly();
     /// @endcode
     ///
     /// @return The mean anomaly.
@@ -218,7 +218,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the mean motion.
     ///
     /// @code{.cpp}
-    ///     Real meanMotion_revPerDay = meanElements.getMeanMotion().in(
+    ///     Real meanMotion_revPerDay = sgp4FullPrecision.getMeanMotion().in(
     ///         Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)
     ///     );
     /// @endcode
@@ -229,7 +229,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the B* drag term.
     ///
     /// @code{.cpp}
-    ///     Real bStarDragTerm = meanElements.getBStarDragTerm();
+    ///     Real bStarDragTerm = sgp4FullPrecision.getBStarDragTerm();
     /// @endcode
     ///
     /// @return The B* drag term.
@@ -238,7 +238,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the revolution number at epoch.
     ///
     /// @code{.cpp}
-    ///     Integer revolutionNumber = meanElements.getRevolutionNumberAtEpoch();
+    ///     Integer revolutionNumber = sgp4FullPrecision.getRevolutionNumberAtEpoch();
     /// @endcode
     ///
     /// @return The revolution number at epoch.
@@ -247,7 +247,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get output frame.
     ///
     /// @code{.cpp}
-    ///     Shared<const Frame> outputFrameSPtr = meanElements.getOutputFrame();
+    ///     Shared<const Frame> outputFrameSPtr = sgp4FullPrecision.getOutputFrame();
     /// @endcode
     ///
     /// @return The output frame.
@@ -256,7 +256,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Calculate the state at a given instant.
     ///
     /// @code{.cpp}
-    ///     const State state = meanElements.calculateStateAt(Instant::Now());
+    ///     const State state = sgp4FullPrecision.calculateStateAt(Instant::Now());
     /// @endcode
     ///
     /// @param anInstant An instant.
@@ -266,9 +266,9 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Calculate the states at given instants.
     ///
     /// @code{.cpp}
-    ///     const Array<State> states = meanElements.calculateStatesAt({
-    ///         meanElements.getEpoch(),
-    ///         meanElements.getEpoch() + Duration::Minutes(10.0),
+    ///     const Array<State> states = sgp4FullPrecision.calculateStatesAt({
+    ///         sgp4FullPrecision.getEpoch(),
+    ///         sgp4FullPrecision.getEpoch() + Duration::Minutes(10.0),
     ///     });
     /// @endcode
     ///
@@ -279,7 +279,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Print the mean element set.
     ///
     /// @code{.cpp}
-    ///     meanElements.print(std::cout, true);
+    ///     sgp4FullPrecision.print(std::cout, true);
     /// @endcode
     ///
     /// @param anOutputStream An output stream.
@@ -289,11 +289,11 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Construct an undefined mean element set.
     ///
     /// @code{.cpp}
-    ///     const MeanElements meanElements = MeanElements::Undefined();  // isDefined() is false
+    ///     const SGP4FullPrecision sgp4FullPrecision = SGP4FullPrecision::Undefined();  // isDefined() is false
     /// @endcode
     ///
     /// @return An undefined mean element set.
-    static MeanElements Undefined();
+    static SGP4FullPrecision Undefined();
 
     /// @brief Construct a mean element set from a TLE.
     ///
@@ -301,14 +301,14 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     /// this does not recover the precision that was lost when the TLE was written.
     ///
     /// @code{.cpp}
-    ///     const MeanElements meanElements = MeanElements::FromTLE(tle);
-    ///     const MeanElements meanElementsGCRF = MeanElements::FromTLE(tle, Frame::GCRF());
+    ///     const SGP4FullPrecision sgp4FullPrecision = SGP4FullPrecision::FromTLE(tle);
+    ///     const SGP4FullPrecision sgp4FullPrecisionGCRF = SGP4FullPrecision::FromTLE(tle, Frame::GCRF());
     /// @endcode
     ///
     /// @param aTLE A TLE.
     /// @param anOutputFrameSPtr An output frame. Defaults to Frame::TEME().
     /// @return The mean element set the TLE encodes.
-    static MeanElements FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
+    static SGP4FullPrecision FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
 
    protected:
     virtual bool operator==(const trajectory::Model& aModel) const override;
@@ -330,7 +330,7 @@ class MeanElements : public ostk::astrodynamics::trajectory::orbit::Model
     class Impl;
 
     // Built at construction and never touched again, so copies can share it freely. Holding it
-    // by shared pointer keeps MeanElements copyable and keeps the vendored propagator out of
+    // by shared pointer keeps SGP4FullPrecision copyable and keeps the vendored propagator out of
     // this header. Null exactly when the element set is undefined.
     Shared<const Impl> implSPtr_;
 };

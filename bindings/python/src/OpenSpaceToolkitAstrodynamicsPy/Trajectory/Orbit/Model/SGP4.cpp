@@ -7,7 +7,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/MeanElements.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11::module& aModule)
@@ -42,10 +42,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 1e-8 rev/day, and the epoch to 1e-8 day (about 0.9 ms). That is the precision the
                 element set was published at, so it costs nothing here — but it makes the model a
                 staircase rather than a smooth function of its inputs. Anything that differentiates
-                the propagator, an estimator above all, wants `MeanElements` instead, which takes the
+                the propagator, an estimator above all, wants `SGP4FullPrecision` instead, which takes the
                 same elements as continuous values.
 
-                Underneath there is one propagator: a TLE is decoded into a `MeanElements` once, at
+                Underneath there is one propagator: a TLE is decoded into an `SGP4FullPrecision` once, at
                 construction, and propagated from there. Fed the same values the two agree exactly;
                 they differ only in what precision can reach them.
 
@@ -243,5 +243,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
     // Add objects to "sgp4" python submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(sgp4);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElements(sgp4);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision(sgp4);
 }

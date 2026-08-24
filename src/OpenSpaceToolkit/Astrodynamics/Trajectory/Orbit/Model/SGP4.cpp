@@ -12,7 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
 
 namespace ostk
 {
@@ -35,7 +35,7 @@ const Duration SGP4::epochBuffer_ = Duration::Days(36525.0);  // 100 years
 /// @brief Propagates one TLE.
 ///
 /// @details The TLE is decoded into its mean elements once, here, and everything downstream
-/// runs on MeanElements. Both entry points into SGP4 therefore share a single propagator.
+/// runs on SGP4FullPrecision. Both entry points into SGP4 therefore share a single propagator.
 class SGP4::Impl
 {
    public:
@@ -48,20 +48,20 @@ class SGP4::Impl
     State calculateStateAt(const Instant& anInstant) const;
 
    private:
-    sgp4::MeanElements meanElements_;
+    sgp4::SGP4FullPrecision sgp4FullPrecision_;
 };
 
 SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
-    : meanElements_(sgp4::MeanElements::FromTLE(aTle, anOutputFrameSPtr))
+    : sgp4FullPrecision_(sgp4::SGP4FullPrecision::FromTLE(aTle, anOutputFrameSPtr))
 {
-    // Constructing the MeanElements above builds the propagator, and the propagator is what
+    // Constructing the SGP4FullPrecision above builds the propagator, and the propagator is what
     // rejects an element set it cannot fly, so a TLE this model cannot propagate is already an
     // error here rather than one that waits for a caller to ask for a state.
 }
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 {
-    return this->meanElements_.calculateStateAt(anInstant);
+    return this->sgp4FullPrecision_.calculateStateAt(anInstant);
 }
 
 SGP4::SGP4(const TLE& aTle)

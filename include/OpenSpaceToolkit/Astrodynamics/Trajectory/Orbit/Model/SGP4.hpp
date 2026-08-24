@@ -62,10 +62,10 @@ using ostk::astrodynamics::trajectory::State;
 /// The elements it flies are the ones the text carries, and the TLE format truncates them: the
 /// eccentricity to 1e-7, the angles to 1e-4 deg, the mean motion to 1e-8 rev/day, and the epoch to
 /// 1e-8 day (about 0.9 ms). That is the precision the element set was published at.
-/// Anything that differentiates the propagator, an estimator above all, wants sgp4::MeanElements
+/// Anything that differentiates the propagator, an estimator above all, wants sgp4::SGP4FullPrecision
 /// instead, which takes the same elements as continuous values.
 ///
-/// Underneath there is one propagator: a TLE is decoded into a sgp4::MeanElements once, at
+/// Underneath there is one propagator: a TLE is decoded into an sgp4::SGP4FullPrecision once, at
 /// construction, and propagated from there. Fed the same values the two agree exactly; they differ
 /// only in what precision can reach them.
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model

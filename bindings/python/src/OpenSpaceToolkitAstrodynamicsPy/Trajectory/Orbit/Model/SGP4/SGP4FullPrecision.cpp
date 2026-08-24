@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElements(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -16,13 +16,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Derived;
 
-    using ostk::astrodynamics::trajectory::orbit::model::sgp4::MeanElements;
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision;
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<MeanElements, ostk::astrodynamics::trajectory::orbit::Model>(
+    class_<SGP4FullPrecision, ostk::astrodynamics::trajectory::orbit::Model>(
         aModule,
-        "MeanElements",
+        "SGP4FullPrecision",
         R"doc(
             SGP4 mean element set, held at full precision.
 
@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
             orbit a finite-difference step in eccentricity can be smaller than 1e-7, so the
             propagator does not respond at all and the Jacobian silently loses rank.
 
-            Estimators should iterate on `MeanElements` and serialize a TLE once, at the end, which costs a few
+            Estimators should iterate on `SGP4FullPrecision` and serialize a TLE once, at the end, which costs a few
             tens of millimetres.
 
             To propagate a TLE that was published, received, or read from a file, use the `SGP4` class.
@@ -82,12 +82,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
         .def(self == self)
         .def(self != self)
 
-        .def("__str__", &(shiftToString<MeanElements>))
-        .def("__repr__", &(shiftToString<MeanElements>))
+        .def("__str__", &(shiftToString<SGP4FullPrecision>))
+        .def("__repr__", &(shiftToString<SGP4FullPrecision>))
 
         .def(
             "is_defined",
-            &MeanElements::isDefined,
+            &SGP4FullPrecision::isDefined,
             R"doc(
                 Check if the mean element set is defined.
 
@@ -99,7 +99,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_epoch",
-            &MeanElements::getEpoch,
+            &SGP4FullPrecision::getEpoch,
             R"doc(
                 Get the epoch.
 
@@ -111,7 +111,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_inclination",
-            &MeanElements::getInclination,
+            &SGP4FullPrecision::getInclination,
             R"doc(
                 Get the inclination.
 
@@ -123,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_raan",
-            &MeanElements::getRaan,
+            &SGP4FullPrecision::getRaan,
             R"doc(
                 Get the right ascension of the ascending node.
 
@@ -135,7 +135,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_eccentricity",
-            &MeanElements::getEccentricity,
+            &SGP4FullPrecision::getEccentricity,
             R"doc(
                 Get the eccentricity.
 
@@ -147,7 +147,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_aop",
-            &MeanElements::getAop,
+            &SGP4FullPrecision::getAop,
             R"doc(
                 Get the argument of periapsis.
 
@@ -159,7 +159,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_mean_anomaly",
-            &MeanElements::getMeanAnomaly,
+            &SGP4FullPrecision::getMeanAnomaly,
             R"doc(
                 Get the mean anomaly.
 
@@ -171,7 +171,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_mean_motion",
-            &MeanElements::getMeanMotion,
+            &SGP4FullPrecision::getMeanMotion,
             R"doc(
                 Get the mean motion.
 
@@ -183,7 +183,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_b_star_drag_term",
-            &MeanElements::getBStarDragTerm,
+            &SGP4FullPrecision::getBStarDragTerm,
             R"doc(
                 Get the B* drag term.
 
@@ -195,7 +195,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_revolution_number_at_epoch",
-            &MeanElements::getRevolutionNumberAtEpoch,
+            &SGP4FullPrecision::getRevolutionNumberAtEpoch,
             R"doc(
                 Get the revolution number at epoch.
 
@@ -207,7 +207,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "get_output_frame",
-            &MeanElements::getOutputFrame,
+            &SGP4FullPrecision::getOutputFrame,
             R"doc(
                 Get the output frame.
 
@@ -219,7 +219,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "calculate_state_at",
-            &MeanElements::calculateStateAt,
+            &SGP4FullPrecision::calculateStateAt,
             arg("instant"),
             R"doc(
                 Calculate the state at a given instant.
@@ -235,7 +235,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def(
             "calculate_states_at",
-            &MeanElements::calculateStatesAt,
+            &SGP4FullPrecision::calculateStatesAt,
             arg("instants"),
             R"doc(
                 Calculate the states at given instants.
@@ -251,19 +251,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
 
         .def_static(
             "undefined",
-            &MeanElements::Undefined,
+            &SGP4FullPrecision::Undefined,
             R"doc(
                 Construct an undefined mean element set.
 
                 Returns:
-                    MeanElements: An undefined mean element set.
+                    SGP4FullPrecision: An undefined mean element set.
 
             )doc"
         )
 
         .def_static(
             "from_tle",
-            &MeanElements::FromTLE,
+            &SGP4FullPrecision::FromTLE,
             arg("tle"),
             arg_v("output_frame", Frame::TEME(), "Frame.TEME()"),
             R"doc(
@@ -277,7 +277,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_MeanElem
                     output_frame (Frame): The output frame. Defaults to TEME.
 
                 Returns:
-                    MeanElements: The mean element set the TLE encodes.
+                    SGP4FullPrecision: The mean element set the TLE encodes.
 
             )doc"
         )

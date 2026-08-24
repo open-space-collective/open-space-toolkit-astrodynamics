@@ -648,7 +648,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
 // magnitude under the 1e-4 threshold below which a TLE-in-the-loop estimator loses the ex/ey
 // Jacobian block to the text format's 1e-7 eccentricity quantization. Fitting this arc through a
 // written TLE throws "Algorithm error." out of COE::EccentricAnomalyFromTrueAnomaly, the
-// Gauss-Newton step having run off to a hyperbola; through MeanElements it converges in four
+// Gauss-Newton step having run off to a hyperbola; through SGP4FullPrecision it converges in four
 // iterations to the SGP4 floor of the arc.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircularFlightData)
 {

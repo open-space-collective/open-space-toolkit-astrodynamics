@@ -22,7 +22,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -52,7 +52,7 @@ using ostk::physics::unit::Time;
 
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
-using ostk::astrodynamics::trajectory::orbit::model::sgp4::MeanElements;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -248,7 +248,7 @@ class TLESolver
     /// @param aTLEState TLE state
     ///
     /// @return Mean element set
-    MeanElements TLEStateToMeanElements(const State& aTLEState) const;
+    SGP4FullPrecision TLEStateToSGP4FullPrecision(const State& aTLEState) const;
 
     /// @brief Convert Cartesian state and B* to TLE state
     ///

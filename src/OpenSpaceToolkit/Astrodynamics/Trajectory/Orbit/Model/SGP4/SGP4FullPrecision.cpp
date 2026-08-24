@@ -14,7 +14,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
 
 namespace ostk
 {
@@ -44,10 +44,10 @@ static const Derived::Unit RadianPerMinute = Derived::Unit::AngularVelocity(Angl
 /// @brief Holds the vendored propagator, so it stays out of the public header.
 ///
 /// @details Vallado's reference SGP4 (see thirdparty/vallado-sgp4/README.md).
-class MeanElements::Impl
+class SGP4FullPrecision::Impl
 {
    public:
-    Impl(const MeanElements& aMeanElements)
+    Impl(const SGP4FullPrecision& aSGP4FullPrecision)
         : satelliteRecord_(),
           temeFrameSPtr_(Frame::TEME())
     {
@@ -58,16 +58,16 @@ class MeanElements::Impl
             wgs72,  // The gravity model the TLE mean elements are defined against.
             'i',    // Improved operation mode rather than AFSPC: better sidereal time, no node wrap.
             satelliteNumber,
-            Impl::EpochFromInstant(aMeanElements.getEpoch()),
-            aMeanElements.getBStarDragTerm(),
+            Impl::EpochFromInstant(aSGP4FullPrecision.getEpoch()),
+            aSGP4FullPrecision.getBStarDragTerm(),
             0.0,  // First derivative of the mean motion: carried by the TLE, unused by SGP4.
             0.0,  // Second derivative of the mean motion: idem.
-            aMeanElements.getEccentricity(),
-            aMeanElements.getAop().inRadians(0.0, Real::TwoPi()),
-            aMeanElements.getInclination().inRadians(0.0, Real::TwoPi()),
-            aMeanElements.getMeanAnomaly().inRadians(0.0, Real::TwoPi()),
-            aMeanElements.getMeanMotion().in(RadianPerMinute),
-            aMeanElements.getRaan().inRadians(0.0, Real::TwoPi()),
+            aSGP4FullPrecision.getEccentricity(),
+            aSGP4FullPrecision.getAop().inRadians(0.0, Real::TwoPi()),
+            aSGP4FullPrecision.getInclination().inRadians(0.0, Real::TwoPi()),
+            aSGP4FullPrecision.getMeanAnomaly().inRadians(0.0, Real::TwoPi()),
+            aSGP4FullPrecision.getMeanMotion().in(RadianPerMinute),
+            aSGP4FullPrecision.getRaan().inRadians(0.0, Real::TwoPi()),
             this->satelliteRecord_
         );
 
@@ -148,7 +148,7 @@ class MeanElements::Impl
     }
 };
 
-MeanElements::MeanElements(
+SGP4FullPrecision::SGP4FullPrecision(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aRaan,
@@ -178,146 +178,146 @@ MeanElements::MeanElements(
     }
 }
 
-MeanElements* MeanElements::clone() const
+SGP4FullPrecision* SGP4FullPrecision::clone() const
 {
-    return new MeanElements(*this);
+    return new SGP4FullPrecision(*this);
 }
 
-bool MeanElements::operator==(const MeanElements& aMeanElements) const
+bool SGP4FullPrecision::operator==(const SGP4FullPrecision& aSGP4FullPrecision) const
 {
-    if ((!this->isDefined()) || (!aMeanElements.isDefined()))
+    if ((!this->isDefined()) || (!aSGP4FullPrecision.isDefined()))
     {
         return false;
     }
 
-    return (epoch_ == aMeanElements.epoch_) && (inclination_ == aMeanElements.inclination_) &&
-           (raan_ == aMeanElements.raan_) && (eccentricity_ == aMeanElements.eccentricity_) &&
-           (aop_ == aMeanElements.aop_) && (meanAnomaly_ == aMeanElements.meanAnomaly_) &&
-           (meanMotion_ == aMeanElements.meanMotion_) && (bStarDragTerm_ == aMeanElements.bStarDragTerm_) &&
-           (revolutionNumberAtEpoch_ == aMeanElements.revolutionNumberAtEpoch_) &&
-           (*outputFrameSPtr_ == *aMeanElements.outputFrameSPtr_);
+    return (epoch_ == aSGP4FullPrecision.epoch_) && (inclination_ == aSGP4FullPrecision.inclination_) &&
+           (raan_ == aSGP4FullPrecision.raan_) && (eccentricity_ == aSGP4FullPrecision.eccentricity_) &&
+           (aop_ == aSGP4FullPrecision.aop_) && (meanAnomaly_ == aSGP4FullPrecision.meanAnomaly_) &&
+           (meanMotion_ == aSGP4FullPrecision.meanMotion_) && (bStarDragTerm_ == aSGP4FullPrecision.bStarDragTerm_) &&
+           (revolutionNumberAtEpoch_ == aSGP4FullPrecision.revolutionNumberAtEpoch_) &&
+           (*outputFrameSPtr_ == *aSGP4FullPrecision.outputFrameSPtr_);
 }
 
-bool MeanElements::operator!=(const MeanElements& aMeanElements) const
+bool SGP4FullPrecision::operator!=(const SGP4FullPrecision& aSGP4FullPrecision) const
 {
-    return !((*this) == aMeanElements);
+    return !((*this) == aSGP4FullPrecision);
 }
 
-std::ostream& operator<<(std::ostream& anOutputStream, const MeanElements& aMeanElements)
+std::ostream& operator<<(std::ostream& anOutputStream, const SGP4FullPrecision& aSGP4FullPrecision)
 {
-    aMeanElements.print(anOutputStream);
+    aSGP4FullPrecision.print(anOutputStream);
 
     return anOutputStream;
 }
 
-bool MeanElements::isDefined() const
+bool SGP4FullPrecision::isDefined() const
 {
     return epoch_.isDefined() && inclination_.isDefined() && raan_.isDefined() && eccentricity_.isDefined() &&
            aop_.isDefined() && meanAnomaly_.isDefined() && meanMotion_.isDefined() && bStarDragTerm_.isDefined() &&
            revolutionNumberAtEpoch_.isDefined() && outputFrameSPtr_;
 }
 
-Instant MeanElements::getEpoch() const
+Instant SGP4FullPrecision::getEpoch() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return epoch_;
 }
 
-Angle MeanElements::getInclination() const
+Angle SGP4FullPrecision::getInclination() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return inclination_;
 }
 
-Angle MeanElements::getRaan() const
+Angle SGP4FullPrecision::getRaan() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return raan_;
 }
 
-Real MeanElements::getEccentricity() const
+Real SGP4FullPrecision::getEccentricity() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return eccentricity_;
 }
 
-Angle MeanElements::getAop() const
+Angle SGP4FullPrecision::getAop() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return aop_;
 }
 
-Angle MeanElements::getMeanAnomaly() const
+Angle SGP4FullPrecision::getMeanAnomaly() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return meanAnomaly_;
 }
 
-Derived MeanElements::getMeanMotion() const
+Derived SGP4FullPrecision::getMeanMotion() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return meanMotion_;
 }
 
-Real MeanElements::getBStarDragTerm() const
+Real SGP4FullPrecision::getBStarDragTerm() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return bStarDragTerm_;
 }
 
-Integer MeanElements::getRevolutionNumberAtEpoch() const
+Integer SGP4FullPrecision::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return revolutionNumberAtEpoch_;
 }
 
-Shared<const Frame> MeanElements::getOutputFrame() const
+Shared<const Frame> SGP4FullPrecision::getOutputFrame() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return outputFrameSPtr_;
 }
 
-State MeanElements::calculateStateAt(const Instant& anInstant) const
+State SGP4FullPrecision::calculateStateAt(const Instant& anInstant) const
 {
     if (!anInstant.isDefined())
     {
@@ -326,17 +326,17 @@ State MeanElements::calculateStateAt(const Instant& anInstant) const
 
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     return this->implSPtr_->calculateStateAt(epoch_, anInstant, outputFrameSPtr_);
 }
 
-Array<State> MeanElements::calculateStatesAt(const Array<Instant>& anInstantArray) const
+Array<State> SGP4FullPrecision::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("MeanElements");
+        throw ostk::core::error::runtime::Undefined("SGP4FullPrecision");
     }
 
     const Impl& impl = *this->implSPtr_;
@@ -357,7 +357,7 @@ Array<State> MeanElements::calculateStatesAt(const Array<Instant>& anInstantArra
     return stateArray;
 }
 
-void MeanElements::print(std::ostream& anOutputStream, bool displayDecorator) const
+void SGP4FullPrecision::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4 Mean Elements") : void();
 
@@ -382,7 +382,7 @@ void MeanElements::print(std::ostream& anOutputStream, bool displayDecorator) co
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-MeanElements MeanElements::Undefined()
+SGP4FullPrecision SGP4FullPrecision::Undefined()
 {
     return {
         Instant::Undefined(),
@@ -397,7 +397,7 @@ MeanElements MeanElements::Undefined()
     };
 }
 
-MeanElements MeanElements::FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr)
+SGP4FullPrecision SGP4FullPrecision::FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr)
 {
     if (!aTLE.isDefined())
     {
@@ -418,14 +418,14 @@ MeanElements MeanElements::FromTLE(const TLE& aTLE, const Shared<const Frame>& a
     };
 }
 
-bool MeanElements::operator==(const trajectory::Model& aModel) const
+bool SGP4FullPrecision::operator==(const trajectory::Model& aModel) const
 {
-    const MeanElements* aMeanElementsPtr = dynamic_cast<const MeanElements*>(&aModel);
+    const SGP4FullPrecision* aSGP4FullPrecisionPtr = dynamic_cast<const SGP4FullPrecision*>(&aModel);
 
-    return (aMeanElementsPtr != nullptr) && this->operator==(*aMeanElementsPtr);
+    return (aSGP4FullPrecisionPtr != nullptr) && this->operator==(*aSGP4FullPrecisionPtr);
 }
 
-bool MeanElements::operator!=(const trajectory::Model& aModel) const
+bool SGP4FullPrecision::operator!=(const trajectory::Model& aModel) const
 {
     return !((*this) == aModel);
 }

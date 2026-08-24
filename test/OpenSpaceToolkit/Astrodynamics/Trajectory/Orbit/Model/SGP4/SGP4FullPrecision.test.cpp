@@ -23,7 +23,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/MeanElements.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 
 #include <Global.test.hpp>
@@ -47,11 +47,11 @@ using ostk::physics::unit::Time;
 
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::SGP4;
-using ostk::astrodynamics::trajectory::orbit::model::sgp4::MeanElements;
+using ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
-class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision : public ::testing::Test
 {
    protected:
     static Derived MeanMotion(const Real& aValue_revPerDay)
@@ -64,12 +64,12 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements : 
         "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
     };
 
-    const MeanElements meanElements_ = MeanElements::FromTLE(tle_);
+    const SGP4FullPrecision sgp4FullPrecision_ = SGP4FullPrecision::FromTLE(tle_);
 
     /// A geostationary element set: its period is well past the 225 min above which the
     /// propagator switches to its deep-space path. Built directly rather than through a TLE,
     /// which is the point of the class.
-    const MeanElements deepSpaceMeanElements_ = {
+    const SGP4FullPrecision deepSpaceSGP4FullPrecision_ = {
         tle_.getEpoch(),
         Angle::Degrees(0.0503),
         Angle::Degrees(84.1275),
@@ -81,9 +81,9 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements : 
     };
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Constructor)
 {
-    EXPECT_NO_THROW(MeanElements(
+    EXPECT_NO_THROW(SGP4FullPrecision(
         tle_.getEpoch(),
         tle_.getInclination(),
         tle_.getRaan(),
@@ -96,7 +96,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
 
     // The revolution number and the output frame are optional, and default to 1 and TEME.
     {
-        const MeanElements defaulted = {
+        const SGP4FullPrecision defaulted = {
             tle_.getEpoch(),
             tle_.getInclination(),
             tle_.getRaan(),
@@ -111,7 +111,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
         EXPECT_EQ(*defaulted.getOutputFrame(), *Frame::TEME());
     }
 
-    EXPECT_NO_THROW(MeanElements(
+    EXPECT_NO_THROW(SGP4FullPrecision(
         tle_.getEpoch(),
         tle_.getInclination(),
         tle_.getRaan(),
@@ -127,7 +127,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
     // The propagator is built here, so an element set it cannot fly is rejected at
     // construction rather than at the first call for a state.
     EXPECT_THROW(
-        MeanElements(
+        SGP4FullPrecision(
             tle_.getEpoch(),
             tle_.getInclination(),
             tle_.getRaan(),
@@ -141,75 +141,75 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
     );
 
     // An undefined element set carries no propagator, so it constructs without complaint.
-    EXPECT_NO_THROW(MeanElements::Undefined());
+    EXPECT_NO_THROW(SGP4FullPrecision::Undefined());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, Clone)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Clone)
 {
-    const MeanElements* clonePtr = meanElements_.clone();
+    const SGP4FullPrecision* clonePtr = sgp4FullPrecision_.clone();
 
     EXPECT_NE(clonePtr, nullptr);
-    EXPECT_TRUE(*clonePtr == meanElements_);
+    EXPECT_TRUE(*clonePtr == sgp4FullPrecision_);
 
     // The clone shares the propagator, and flies to the same place.
     EXPECT_EQ(
         clonePtr->calculateStateAt(tle_.getEpoch() + Duration::Minutes(45.0)).getPosition().getCoordinates(),
-        meanElements_.calculateStateAt(tle_.getEpoch() + Duration::Minutes(45.0)).getPosition().getCoordinates()
+        sgp4FullPrecision_.calculateStateAt(tle_.getEpoch() + Duration::Minutes(45.0)).getPosition().getCoordinates()
     );
 
     delete clonePtr;
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, EqualToOperator)
 {
-    EXPECT_TRUE(meanElements_ == MeanElements::FromTLE(tle_));
-    EXPECT_FALSE(meanElements_ != MeanElements::FromTLE(tle_));
+    EXPECT_TRUE(sgp4FullPrecision_ == SGP4FullPrecision::FromTLE(tle_));
+    EXPECT_FALSE(sgp4FullPrecision_ != SGP4FullPrecision::FromTLE(tle_));
 
     const auto elementsWith = [this](
                                   const Real& anEccentricity,
                                   const Integer& aRevolutionNumberAtEpoch,
                                   const Shared<const Frame>& anOutputFrameSPtr
-                              ) -> MeanElements
+                              ) -> SGP4FullPrecision
     {
         return {
-            meanElements_.getEpoch(),
-            meanElements_.getInclination(),
-            meanElements_.getRaan(),
+            sgp4FullPrecision_.getEpoch(),
+            sgp4FullPrecision_.getInclination(),
+            sgp4FullPrecision_.getRaan(),
             anEccentricity,
-            meanElements_.getAop(),
-            meanElements_.getMeanAnomaly(),
-            meanElements_.getMeanMotion(),
-            meanElements_.getBStarDragTerm(),
+            sgp4FullPrecision_.getAop(),
+            sgp4FullPrecision_.getMeanAnomaly(),
+            sgp4FullPrecision_.getMeanMotion(),
+            sgp4FullPrecision_.getBStarDragTerm(),
             aRevolutionNumberAtEpoch,
             anOutputFrameSPtr,
         };
     };
 
-    const Real eccentricity = meanElements_.getEccentricity();
-    const Integer revolutionNumberAtEpoch = meanElements_.getRevolutionNumberAtEpoch();
+    const Real eccentricity = sgp4FullPrecision_.getEccentricity();
+    const Integer revolutionNumberAtEpoch = sgp4FullPrecision_.getRevolutionNumberAtEpoch();
 
-    EXPECT_TRUE(meanElements_ == elementsWith(eccentricity, revolutionNumberAtEpoch, Frame::TEME()));
+    EXPECT_TRUE(sgp4FullPrecision_ == elementsWith(eccentricity, revolutionNumberAtEpoch, Frame::TEME()));
 
     // Any one of the elements differing is enough, down to a step the TLE format could not hold.
-    EXPECT_TRUE(meanElements_ != elementsWith(eccentricity + 1e-9, revolutionNumberAtEpoch, Frame::TEME()));
+    EXPECT_TRUE(sgp4FullPrecision_ != elementsWith(eccentricity + 1e-9, revolutionNumberAtEpoch, Frame::TEME()));
 
     // ... and so is the revolution number, or the output frame.
-    EXPECT_TRUE(meanElements_ != elementsWith(eccentricity, revolutionNumberAtEpoch + 1, Frame::TEME()));
-    EXPECT_TRUE(meanElements_ != elementsWith(eccentricity, revolutionNumberAtEpoch, Frame::GCRF()));
+    EXPECT_TRUE(sgp4FullPrecision_ != elementsWith(eccentricity, revolutionNumberAtEpoch + 1, Frame::TEME()));
+    EXPECT_TRUE(sgp4FullPrecision_ != elementsWith(eccentricity, revolutionNumberAtEpoch, Frame::GCRF()));
 
-    EXPECT_FALSE(MeanElements::Undefined() == MeanElements::Undefined());
-    EXPECT_TRUE(MeanElements::Undefined() != MeanElements::Undefined());
-    EXPECT_TRUE(meanElements_ != MeanElements::Undefined());
+    EXPECT_FALSE(SGP4FullPrecision::Undefined() == SGP4FullPrecision::Undefined());
+    EXPECT_TRUE(SGP4FullPrecision::Undefined() != SGP4FullPrecision::Undefined());
+    EXPECT_TRUE(sgp4FullPrecision_ != SGP4FullPrecision::Undefined());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, IsDefined)
 {
-    EXPECT_TRUE(meanElements_.isDefined());
-    EXPECT_TRUE(deepSpaceMeanElements_.isDefined());
-    EXPECT_FALSE(MeanElements::Undefined().isDefined());
+    EXPECT_TRUE(sgp4FullPrecision_.isDefined());
+    EXPECT_TRUE(deepSpaceSGP4FullPrecision_.isDefined());
+    EXPECT_FALSE(SGP4FullPrecision::Undefined().isDefined());
 
     // An undefined revolution number is enough to make the set undefined.
-    EXPECT_FALSE(MeanElements(
+    EXPECT_FALSE(SGP4FullPrecision(
                      tle_.getEpoch(),
                      tle_.getInclination(),
                      tle_.getRaan(),
@@ -223,48 +223,48 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
                      .isDefined());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Getters)
 {
-    EXPECT_EQ(meanElements_.getEpoch(), tle_.getEpoch());
-    EXPECT_EQ(meanElements_.getInclination(), tle_.getInclination());
-    EXPECT_EQ(meanElements_.getRaan(), tle_.getRaan());
-    EXPECT_EQ(meanElements_.getEccentricity(), tle_.getEccentricity());
-    EXPECT_EQ(meanElements_.getAop(), tle_.getAop());
-    EXPECT_EQ(meanElements_.getMeanAnomaly(), tle_.getMeanAnomaly());
-    EXPECT_EQ(meanElements_.getMeanMotion(), tle_.getMeanMotion());
-    EXPECT_EQ(meanElements_.getBStarDragTerm(), tle_.getBStarDragTerm());
-    EXPECT_EQ(meanElements_.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
-    EXPECT_EQ(*meanElements_.getOutputFrame(), *Frame::TEME());
+    EXPECT_EQ(sgp4FullPrecision_.getEpoch(), tle_.getEpoch());
+    EXPECT_EQ(sgp4FullPrecision_.getInclination(), tle_.getInclination());
+    EXPECT_EQ(sgp4FullPrecision_.getRaan(), tle_.getRaan());
+    EXPECT_EQ(sgp4FullPrecision_.getEccentricity(), tle_.getEccentricity());
+    EXPECT_EQ(sgp4FullPrecision_.getAop(), tle_.getAop());
+    EXPECT_EQ(sgp4FullPrecision_.getMeanAnomaly(), tle_.getMeanAnomaly());
+    EXPECT_EQ(sgp4FullPrecision_.getMeanMotion(), tle_.getMeanMotion());
+    EXPECT_EQ(sgp4FullPrecision_.getBStarDragTerm(), tle_.getBStarDragTerm());
+    EXPECT_EQ(sgp4FullPrecision_.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
+    EXPECT_EQ(*sgp4FullPrecision_.getOutputFrame(), *Frame::TEME());
 
-    EXPECT_ANY_THROW(MeanElements::Undefined().getEpoch());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getInclination());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getRaan());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getEccentricity());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getAop());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getMeanAnomaly());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getMeanMotion());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getBStarDragTerm());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getRevolutionNumberAtEpoch());
-    EXPECT_ANY_THROW(MeanElements::Undefined().getOutputFrame());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getEpoch());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getInclination());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getRaan());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getEccentricity());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getAop());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getMeanAnomaly());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getMeanMotion());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getBStarDragTerm());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getRevolutionNumberAtEpoch());
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getOutputFrame());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, StreamOperator)
 {
     testing::internal::CaptureStdout();
 
-    EXPECT_NO_THROW(std::cout << meanElements_ << std::endl);
-    EXPECT_NO_THROW(std::cout << MeanElements::Undefined() << std::endl);
+    EXPECT_NO_THROW(std::cout << sgp4FullPrecision_ << std::endl);
+    EXPECT_NO_THROW(std::cout << SGP4FullPrecision::Undefined() << std::endl);
 
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Print)
 {
     testing::internal::CaptureStdout();
 
-    EXPECT_NO_THROW(meanElements_.print(std::cout, true));
-    EXPECT_NO_THROW(meanElements_.print(std::cout, false));
-    EXPECT_NO_THROW(MeanElements::Undefined().print(std::cout, true));
+    EXPECT_NO_THROW(sgp4FullPrecision_.print(std::cout, true));
+    EXPECT_NO_THROW(sgp4FullPrecision_.print(std::cout, false));
+    EXPECT_NO_THROW(SGP4FullPrecision::Undefined().print(std::cout, true));
 
     const String output = testing::internal::GetCapturedStdout();
 
@@ -273,10 +273,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
 }
 
 /// Fed the values a TLE carries, this must agree with the TLE path -- and since orbit::model::
-/// SGP4 decodes its TLE into a MeanElements and propagates that, the two are the same
+/// SGP4 decodes its TLE into an SGP4FullPrecision and propagates that, the two are the same
 /// computation and the difference is exactly zero. The epsilon below is slack, not tolerance.
 /// This guards the structure: reintroduce a second propagator behind the TLE path and it fails.
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, MatchesSGP4FromTLE)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, MatchesSGP4FromTLE)
 {
     const SGP4 sgp4 = {tle_, Frame::TEME()};
 
@@ -284,28 +284,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
     {
         const Instant instant = tle_.getEpoch() + Duration::Minutes(minutesFromEpoch);
 
-        const State fromMeanElements = meanElements_.calculateStateAt(instant);
+        const State fromSGP4FullPrecision = sgp4FullPrecision_.calculateStateAt(instant);
         const State fromTLE = sgp4.calculateStateAt(instant);
 
         EXPECT_LT(
-            (fromMeanElements.getPosition().getCoordinates() - fromTLE.getPosition().getCoordinates()).norm(), 1e-12
+            (fromSGP4FullPrecision.getPosition().getCoordinates() - fromTLE.getPosition().getCoordinates()).norm(),
+            1e-12
         );
         EXPECT_LT(
-            (fromMeanElements.getVelocity().getCoordinates() - fromTLE.getVelocity().getCoordinates()).norm(), 1e-12
+            (fromSGP4FullPrecision.getVelocity().getCoordinates() - fromTLE.getVelocity().getCoordinates()).norm(),
+            1e-12
         );
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, CalculateStateAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, CalculateStateAt)
 {
-    const State state = meanElements_.calculateStateAt(tle_.getEpoch());
+    const State state = sgp4FullPrecision_.calculateStateAt(tle_.getEpoch());
 
     EXPECT_TRUE(state.isDefined());
     EXPECT_EQ(state.getInstant(), tle_.getEpoch());
     EXPECT_EQ(*state.accessFrame(), *Frame::TEME());
 
     // The output frame is the one the element set was built with, not one passed per call.
-    const State stateGCRF = MeanElements::FromTLE(tle_, Frame::GCRF()).calculateStateAt(tle_.getEpoch());
+    const State stateGCRF = SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).calculateStateAt(tle_.getEpoch());
 
     EXPECT_EQ(*stateGCRF.accessFrame(), *Frame::GCRF());
     EXPECT_GT(
@@ -313,13 +315,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
     );  // the two frames really do differ
 
     // The deep-space path is reached through the same call.
-    EXPECT_TRUE(deepSpaceMeanElements_.calculateStateAt(tle_.getEpoch() + Duration::Hours(12.0)).isDefined());
+    EXPECT_TRUE(deepSpaceSGP4FullPrecision_.calculateStateAt(tle_.getEpoch() + Duration::Hours(12.0)).isDefined());
 
-    EXPECT_ANY_THROW(meanElements_.calculateStateAt(Instant::Undefined()));
-    EXPECT_ANY_THROW(MeanElements::Undefined().calculateStateAt(tle_.getEpoch()));
+    EXPECT_ANY_THROW(sgp4FullPrecision_.calculateStateAt(Instant::Undefined()));
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().calculateStateAt(tle_.getEpoch()));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, CalculateStatesAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, CalculateStatesAt)
 {
     const Array<Instant> instants = {
         tle_.getEpoch(),
@@ -327,7 +329,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
         tle_.getEpoch() + Duration::Minutes(20.0),
     };
 
-    const Array<State> states = meanElements_.calculateStatesAt(instants);
+    const Array<State> states = sgp4FullPrecision_.calculateStatesAt(instants);
 
     ASSERT_EQ(states.getSize(), instants.getSize());
 
@@ -337,61 +339,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
         EXPECT_EQ(*states[i].accessFrame(), *Frame::TEME());
         EXPECT_LT(
             (states[i].getPosition().getCoordinates() -
-             meanElements_.calculateStateAt(instants[i]).getPosition().getCoordinates())
+             sgp4FullPrecision_.calculateStateAt(instants[i]).getPosition().getCoordinates())
                 .norm(),
             1e-12
         );
     }
 
     // Here too the output frame comes from the element set.
-    for (const State& stateGCRF : MeanElements::FromTLE(tle_, Frame::GCRF()).calculateStatesAt(instants))
+    for (const State& stateGCRF : SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).calculateStatesAt(instants))
     {
         EXPECT_EQ(*stateGCRF.accessFrame(), *Frame::GCRF());
     }
 
-    EXPECT_EQ(meanElements_.calculateStatesAt({}).getSize(), 0);
+    EXPECT_EQ(sgp4FullPrecision_.calculateStatesAt({}).getSize(), 0);
 
-    EXPECT_ANY_THROW(meanElements_.calculateStatesAt({Instant::Undefined()}));
-    EXPECT_ANY_THROW(MeanElements::Undefined().calculateStatesAt(instants));
+    EXPECT_ANY_THROW(sgp4FullPrecision_.calculateStatesAt({Instant::Undefined()}));
+    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().calculateStatesAt(instants));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, Undefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Undefined)
 {
-    const MeanElements meanElements = MeanElements::Undefined();
+    const SGP4FullPrecision sgp4FullPrecision = SGP4FullPrecision::Undefined();
 
-    EXPECT_FALSE(meanElements.isDefined());
-    EXPECT_ANY_THROW(meanElements.calculateStateAt(tle_.getEpoch()));
+    EXPECT_FALSE(sgp4FullPrecision.isDefined());
+    EXPECT_ANY_THROW(sgp4FullPrecision.calculateStateAt(tle_.getEpoch()));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, FromTLE)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, FromTLE)
 {
-    EXPECT_EQ(meanElements_.getEpoch(), tle_.getEpoch());
-    EXPECT_EQ(meanElements_.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
-    EXPECT_EQ(*meanElements_.getOutputFrame(), *Frame::TEME());
+    EXPECT_EQ(sgp4FullPrecision_.getEpoch(), tle_.getEpoch());
+    EXPECT_EQ(sgp4FullPrecision_.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
+    EXPECT_EQ(*sgp4FullPrecision_.getOutputFrame(), *Frame::TEME());
 
-    EXPECT_EQ(*MeanElements::FromTLE(tle_, Frame::GCRF()).getOutputFrame(), *Frame::GCRF());
+    EXPECT_EQ(*SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).getOutputFrame(), *Frame::GCRF());
 
-    EXPECT_ANY_THROW(MeanElements::FromTLE(TLE::Undefined()));
+    EXPECT_ANY_THROW(SGP4FullPrecision::FromTLE(TLE::Undefined()));
 }
 
 /// The class is an orbit::Model, so it can be handed anywhere one is expected -- an Orbit
 /// above all -- without a TLE in between.
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, UsableAsAnOrbitModel)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, UsableAsAnOrbitModel)
 {
-    const ostk::astrodynamics::trajectory::orbit::Model& model = meanElements_;
+    const ostk::astrodynamics::trajectory::orbit::Model& model = sgp4FullPrecision_;
 
     EXPECT_TRUE(model.isDefined());
     EXPECT_EQ(model.getEpoch(), tle_.getEpoch());
     EXPECT_EQ(model.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
     EXPECT_TRUE(model.calculateStateAt(tle_.getEpoch()).isDefined());
 
-    EXPECT_TRUE(model.is<MeanElements>());
-    EXPECT_TRUE(model.as<MeanElements>() == meanElements_);
+    EXPECT_TRUE(model.is<SGP4FullPrecision>());
+    EXPECT_TRUE(model.as<SGP4FullPrecision>() == sgp4FullPrecision_);
 
     // The epoch short-circuits; away from it the revolution number is counted off passes.
     EXPECT_EQ(model.calculateRevolutionNumberAt(tle_.getEpoch()), tle_.getRevolutionNumberAtEpoch());
 
-    const Orbit orbit = {meanElements_, std::make_shared<Earth>(Earth::Spherical())};
+    const Orbit orbit = {sgp4FullPrecision_, std::make_shared<Earth>(Earth::Spherical())};
 
     EXPECT_TRUE(orbit.isDefined());
     EXPECT_TRUE(orbit.getStateAt(tle_.getEpoch()).isDefined());
@@ -399,12 +401,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
 
 /// The reason this class exists. A step in eccentricity below the TLE's 1e-7 quantization must
 /// still move the propagated position; through a TLE it does not move it at all.
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, RespondsBelowTheTLEQuantum)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, RespondsBelowTheTLEQuantum)
 {
     const Real nearCircularEccentricity = 2.4e-5;
     const Real step = 1e-3 * nearCircularEccentricity;  // ~2.4e-8, a quarter of the 1e-7 quantization
 
-    const auto elementsWith = [this](const Real& anEccentricity) -> MeanElements
+    const auto elementsWith = [this](const Real& anEccentricity) -> SGP4FullPrecision
     {
         return {
             tle_.getEpoch(),
@@ -432,11 +434,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
 
 /// Vallado's propagator keeps its working state in the element record it is handed, and the
 /// deep-space path carries an integrator state across calls, so a shared record would make
-/// concurrent propagation of one MeanElements -- or of copies, which share the record -- both
+/// concurrent propagation of one SGP4FullPrecision -- or of copies, which share the record -- both
 /// racy and order-dependent. Each call takes its own copy of the record; this pins that down.
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, CalculateStateAtIsThreadSafe)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, CalculateStateAtIsThreadSafe)
 {
-    for (const MeanElements& meanElements : Array<MeanElements>({meanElements_, deepSpaceMeanElements_}))
+    for (const SGP4FullPrecision& sgp4FullPrecision :
+         Array<SGP4FullPrecision>({sgp4FullPrecision_, deepSpaceSGP4FullPrecision_}))
     {
         Array<Instant> instants = Array<Instant>::Empty();
 
@@ -444,10 +447,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
         {
             // Deliberately out of order and far apart, so a carried-over integrator state
             // would show up as a difference rather than as a coincidence.
-            instants.add(meanElements.getEpoch() + Duration::Minutes(((i * 17) % 32) * 53.0));
+            instants.add(sgp4FullPrecision.getEpoch() + Duration::Minutes(((i * 17) % 32) * 53.0));
         }
 
-        const Array<State> expectedStates = meanElements.calculateStatesAt(instants);
+        const Array<State> expectedStates = sgp4FullPrecision.calculateStatesAt(instants);
 
         std::vector<Vector3d> positions(instants.getSize(), Vector3d::Zero());
         std::vector<std::thread> threads;
@@ -456,9 +459,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_MeanElements, 
         for (Size i = 0; i < instants.getSize(); ++i)
         {
             threads.emplace_back(
-                [&meanElements, &instants, &positions, i]()
+                [&sgp4FullPrecision, &instants, &positions, i]()
                 {
-                    positions[i] = meanElements.calculateStateAt(instants[i]).getPosition().getCoordinates();
+                    positions[i] = sgp4FullPrecision.calculateStateAt(instants[i]).getPosition().getCoordinates();
                 }
             );
         }

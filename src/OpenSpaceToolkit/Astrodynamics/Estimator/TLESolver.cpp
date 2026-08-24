@@ -239,7 +239,7 @@ TLESolver::Analysis TLESolver::estimate(
     // once, at the end, from the converged state.
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        return TLEStateToMeanElements(aState).calculateStatesAt(anInstantArray);
+        return TLEStateToSGP4FullPrecision(aState).calculateStatesAt(anInstantArray);
     };
 
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
@@ -323,7 +323,7 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
     );
 }
 
-MeanElements TLESolver::TLEStateToMeanElements(const State& aTLEState) const
+SGP4FullPrecision TLESolver::TLEStateToSGP4FullPrecision(const State& aTLEState) const
 {
     const ModifiedEquinoctial modifiedEquinoctial = {
         Length::Kilometers(aTLEState.extractCoordinate(SemiLatusRectumSubset)[0]),
