@@ -2,18 +2,13 @@
 
 import numpy as np
 import pytest
-
+from ostk.astrodynamics.trajectory import Orbit, State
+from ostk.astrodynamics.trajectory.orbit.model import SGP4
+from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE, SGP4FullPrecision
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import Duration
-from ostk.physics.unit import Angle
-from ostk.physics.unit import Derived
-
-from ostk.astrodynamics.trajectory import Orbit
-from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory.orbit.model import SGP4
-from ostk.astrodynamics.trajectory.orbit.model.sgp4 import SGP4FullPrecision
-from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE
+from ostk.physics.unit import Angle, Derived
 
 
 @pytest.fixture
@@ -98,6 +93,13 @@ class TestSGP4FullPrecision:
         )
 
     def test_calculate_state_at(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
+            SGP4FullPrecision.from_tle(
+                tle, output_frame=Frame.GCRF()
+            ).get_output_frame()
+            == Frame.GCRF()
+        )
+
+    def test_calculate_state_at(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
         state = sgp4_full_precision.calculate_state_at(tle.get_epoch())
 
         assert isinstance(state, State)
@@ -113,12 +115,9 @@ class TestSGP4FullPrecision:
             == Frame.GCRF()
         )
 
-    def test_calculate_states_at(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
-        instants = [
-            tle.get_epoch(),
-            tle.get_epoch() + Duration.minutes(10.0),
-        ]
-
+    def test_calculate_states_at(
+        self, tle: TLE, sgp4_full_precision: SGP4FullPrecision
+    ):
         states = sgp4_full_precision.calculate_states_at(instants)
 
         assert len(states) == len(instants)
@@ -136,26 +135,3 @@ class TestSGP4FullPrecision:
         orbit = Orbit(sgp4_full_precision, Earth.spherical())
 
         assert orbit.is_defined()
-
-    def test_matches_sgp4_from_tle(
-        self, tle: TLE, sgp4_full_precision: SGP4FullPrecision
-    ):
-        """Fed the values a TLE carries, it must agree with the TLE path.
-
-        SGP4 decodes its TLE into an SGP4FullPrecision and propagates that, so the
-        two are the same computation. SGP4FullPrecision.test.cpp is where this is
-        actually pinned down.
-        """
-        sgp4 = SGP4(tle, Frame.TEME())
-        instant = tle.get_epoch() + Duration.minutes(60.0)
-
-        from_sgp4_full_precision = sgp4_full_precision.calculate_state_at(instant)
-        from_tle = sgp4.calculate_state_at(instant)
-
-        assert (
-            np.linalg.norm(
-                from_sgp4_full_precision.get_position().get_coordinates()
-                - from_tle.get_position().get_coordinates()
-            )
-            < 1e-12
-        )

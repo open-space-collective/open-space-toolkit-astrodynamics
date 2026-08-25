@@ -39,10 +39,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                 The elements it flies are the ones the text carries, and the TLE format quantizes
                 them: the eccentricity to 1e-7, the angles to 1e-4 deg, the mean motion to
-                1e-8 rev/day, and the epoch to 1e-8 day (about 0.9 ms). That is the precision the
-                element set was published at, so it costs nothing here — but it makes the model a
-                staircase rather than a smooth function of its inputs. Anything that differentiates
-                the propagator, an estimator above all, wants `SGP4FullPrecision` instead, which takes the
+                1e-8 rev/day, and the epoch to 1e-8 day (about 0.9 ms). Anything that differentiates
+                the propagator, an estimator for example, wants `SGP4FullPrecision` instead, which takes the
                 same elements as continuous values.
 
                 Underneath there is one propagator: a TLE is decoded into an `SGP4FullPrecision` once, at
@@ -128,7 +126,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 &SGP4::getTle,
                 R"doc(
                     Get the TLE of the `SGP4` model.
-                    
+
 
                     Returns:
                         TLE: The TLE.
