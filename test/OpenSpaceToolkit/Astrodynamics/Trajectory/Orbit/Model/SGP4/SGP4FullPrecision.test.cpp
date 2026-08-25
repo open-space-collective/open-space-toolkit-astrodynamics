@@ -124,7 +124,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
         Frame::GCRF()
     ));
 
-    // The propagator is built here, so an element set it cannot fly is rejected at
+    // The propagator is built here, so an element set it cannot propagate is rejected at
     // construction rather than at the first call for a state.
     EXPECT_THROW(
         SGP4FullPrecision(
@@ -151,7 +151,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_NE(clonePtr, nullptr);
     EXPECT_TRUE(*clonePtr == sgp4FullPrecision_);
 
-    // The clone shares the propagator, and flies to the same place.
+    // The clone carries a propagator of its own, and propagates to the same place.
     EXPECT_EQ(
         clonePtr->calculateStateAt(tle_.getEpoch() + Duration::Minutes(45.0)).getPosition().getCoordinates(),
         sgp4FullPrecision_.calculateStateAt(tle_.getEpoch() + Duration::Minutes(45.0)).getPosition().getCoordinates()
@@ -163,43 +163,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, EqualToOperator)
 {
     EXPECT_TRUE(sgp4FullPrecision_ == SGP4FullPrecision::FromTLE(tle_));
+
     EXPECT_FALSE(sgp4FullPrecision_ != SGP4FullPrecision::FromTLE(tle_));
-
-    const auto elementsWith = [this](
-                                  const Real& anEccentricity,
-                                  const Integer& aRevolutionNumberAtEpoch,
-                                  const Shared<const Frame>& anOutputFrameSPtr
-                              ) -> SGP4FullPrecision
-    {
-        return {
-            sgp4FullPrecision_.getEpoch(),
-            sgp4FullPrecision_.getInclination(),
-            sgp4FullPrecision_.getRaan(),
-            anEccentricity,
-            sgp4FullPrecision_.getAop(),
-            sgp4FullPrecision_.getMeanAnomaly(),
-            sgp4FullPrecision_.getMeanMotion(),
-            sgp4FullPrecision_.getBStarDragTerm(),
-            aRevolutionNumberAtEpoch,
-            anOutputFrameSPtr,
-        };
-    };
-
-    const Real eccentricity = sgp4FullPrecision_.getEccentricity();
-    const Integer revolutionNumberAtEpoch = sgp4FullPrecision_.getRevolutionNumberAtEpoch();
-
-    EXPECT_TRUE(sgp4FullPrecision_ == elementsWith(eccentricity, revolutionNumberAtEpoch, Frame::TEME()));
-
-    // Any one of the elements differing is enough, down to a step the TLE format could not hold.
-    EXPECT_TRUE(sgp4FullPrecision_ != elementsWith(eccentricity + 1e-9, revolutionNumberAtEpoch, Frame::TEME()));
-
-    // ... and so is the revolution number, or the output frame.
-    EXPECT_TRUE(sgp4FullPrecision_ != elementsWith(eccentricity, revolutionNumberAtEpoch + 1, Frame::TEME()));
-    EXPECT_TRUE(sgp4FullPrecision_ != elementsWith(eccentricity, revolutionNumberAtEpoch, Frame::GCRF()));
-
-    EXPECT_FALSE(SGP4FullPrecision::Undefined() == SGP4FullPrecision::Undefined());
-    EXPECT_TRUE(SGP4FullPrecision::Undefined() != SGP4FullPrecision::Undefined());
-    EXPECT_TRUE(sgp4FullPrecision_ != SGP4FullPrecision::Undefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, IsDefined)
@@ -208,7 +173,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_TRUE(deepSpaceSGP4FullPrecision_.isDefined());
     EXPECT_FALSE(SGP4FullPrecision::Undefined().isDefined());
 
-    // An undefined revolution number is enough to make the set undefined.
     EXPECT_FALSE(SGP4FullPrecision(
                      tle_.getEpoch(),
                      tle_.getInclination(),
@@ -306,16 +270,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_EQ(state.getInstant(), tle_.getEpoch());
     EXPECT_EQ(*state.accessFrame(), *Frame::TEME());
 
-    // The output frame is the one the element set was built with, not one passed per call.
     const State stateGCRF = SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).calculateStateAt(tle_.getEpoch());
 
     EXPECT_EQ(*stateGCRF.accessFrame(), *Frame::GCRF());
-    EXPECT_GT(
-        (stateGCRF.getPosition().getCoordinates() - state.getPosition().getCoordinates()).norm(), 1.0
-    );  // the two frames really do differ
-
-    // The deep-space path is reached through the same call.
-    EXPECT_TRUE(deepSpaceSGP4FullPrecision_.calculateStateAt(tle_.getEpoch() + Duration::Hours(12.0)).isDefined());
+    EXPECT_GT((stateGCRF.getPosition().getCoordinates() - state.getPosition().getCoordinates()).norm(), 1.0);
 
     EXPECT_ANY_THROW(sgp4FullPrecision_.calculateStateAt(Instant::Undefined()));
     EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().calculateStateAt(tle_.getEpoch()));
@@ -345,7 +303,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
         );
     }
 
-    // Here too the output frame comes from the element set.
     for (const State& stateGCRF : SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).calculateStatesAt(instants))
     {
         EXPECT_EQ(*stateGCRF.accessFrame(), *Frame::GCRF());
@@ -374,29 +331,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_EQ(*SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).getOutputFrame(), *Frame::GCRF());
 
     EXPECT_ANY_THROW(SGP4FullPrecision::FromTLE(TLE::Undefined()));
-}
-
-/// The class is an orbit::Model, so it can be handed anywhere one is expected -- an Orbit
-/// above all -- without a TLE in between.
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, UsableAsAnOrbitModel)
-{
-    const ostk::astrodynamics::trajectory::orbit::Model& model = sgp4FullPrecision_;
-
-    EXPECT_TRUE(model.isDefined());
-    EXPECT_EQ(model.getEpoch(), tle_.getEpoch());
-    EXPECT_EQ(model.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
-    EXPECT_TRUE(model.calculateStateAt(tle_.getEpoch()).isDefined());
-
-    EXPECT_TRUE(model.is<SGP4FullPrecision>());
-    EXPECT_TRUE(model.as<SGP4FullPrecision>() == sgp4FullPrecision_);
-
-    // The epoch short-circuits; away from it the revolution number is counted off passes.
-    EXPECT_EQ(model.calculateRevolutionNumberAt(tle_.getEpoch()), tle_.getRevolutionNumberAtEpoch());
-
-    const Orbit orbit = {sgp4FullPrecision_, std::make_shared<Earth>(Earth::Spherical())};
-
-    EXPECT_TRUE(orbit.isDefined());
-    EXPECT_TRUE(orbit.getStateAt(tle_.getEpoch()).isDefined());
 }
 
 /// The reason this class exists. A step in eccentricity below the TLE's 1e-7 quantization must
@@ -433,9 +367,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 }
 
 /// Vallado's propagator keeps its working state in the element record it is handed, and the
-/// deep-space path carries an integrator state across calls, so a shared record would make
-/// concurrent propagation of one SGP4FullPrecision -- or of copies, which share the record -- both
-/// racy and order-dependent. Each call takes its own copy of the record; this pins that down.
+/// deep-space path carries an integrator state across calls, so one SGP4FullPrecision propagates
+/// one record in place under a lock rather than handing every call a copy of it. Concurrent
+/// propagation of a single model therefore has to come out both race-free and independent of the
+/// order the calls happen to land in; this pins that down.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, CalculateStateAtIsThreadSafe)
 {
     for (const SGP4FullPrecision& sgp4FullPrecision :

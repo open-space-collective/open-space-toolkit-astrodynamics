@@ -112,13 +112,35 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
         const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
     );
 
-    /// @brief Clone the mean element set.
+    /// @brief Copy constructor.
+    ///
+    /// @details The copy propagates independently of its source: it gets its own propagator
+    /// state rather than sharing it.
+    ///
+    /// @param aSGP4FullPrecision A full precision sgp4 model.
+    SGP4FullPrecision(const SGP4FullPrecision& aSGP4FullPrecision);
+
+    /// @brief Copy assignment operator.
+    ///
+    /// @param aSGP4FullPrecision A full precision sgp4 model.
+    /// @return A reference to this full precision sgp4 model.
+    SGP4FullPrecision& operator=(const SGP4FullPrecision& aSGP4FullPrecision);
+
+    /// @brief Move constructor.
+    SGP4FullPrecision(SGP4FullPrecision&& aSGP4FullPrecision) = default;
+
+    /// @brief Move assignment operator.
+    ///
+    /// @return A reference to this full precision sgp4 model.
+    SGP4FullPrecision& operator=(SGP4FullPrecision&& aSGP4FullPrecision) = default;
+
+    /// @brief Clone the full precision sgp4 model.
     ///
     /// @code{.cpp}
     ///     SGP4FullPrecision* sgp4FullPrecisionPtr = sgp4FullPrecision.clone();
     /// @endcode
     ///
-    /// @return A pointer to the cloned mean element set.
+    /// @return A pointer to the cloned full precision sgp4 model.
     virtual SGP4FullPrecision* clone() const override;
 
     /// @brief Equal to operator.
@@ -127,8 +149,8 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     ///     bool isEqual = SGP4FullPrecision::FromTLE(tle) == SGP4FullPrecision::FromTLE(tle);  // True
     /// @endcode
     ///
-    /// @param aSGP4FullPrecision A mean element set.
-    /// @return True if both mean element sets are equal.
+    /// @param aSGP4FullPrecision A full precision sgp4 model.
+    /// @return True if both full precision sgp4 models are equal.
     bool operator==(const SGP4FullPrecision& aSGP4FullPrecision) const;
 
     /// @brief Not equal to operator.
@@ -137,8 +159,8 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     ///     bool isNotEqual = SGP4FullPrecision::FromTLE(tle) != SGP4FullPrecision::Undefined();  // True
     /// @endcode
     ///
-    /// @param aSGP4FullPrecision A mean element set.
-    /// @return True if both mean element sets are not equal.
+    /// @param aSGP4FullPrecision A full precision sgp4 model.
+    /// @return True if both full precision sgp4 models are not equal.
     bool operator!=(const SGP4FullPrecision& aSGP4FullPrecision) const;
 
     /// @brief Output stream operator.
@@ -148,17 +170,17 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @param anOutputStream An output stream.
-    /// @param aSGP4FullPrecision A mean element set.
+    /// @param aSGP4FullPrecision A full precision sgp4 model.
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SGP4FullPrecision& aSGP4FullPrecision);
 
-    /// @brief Check if the mean element set is defined.
+    /// @brief Check if the full precision sgp4 model is defined.
     ///
     /// @code{.cpp}
     ///     bool isDefined = sgp4FullPrecision.isDefined();
     /// @endcode
     ///
-    /// @return True if the mean element set is defined.
+    /// @return True if the full precision sgp4 model is defined.
     virtual bool isDefined() const override;
 
     /// @brief Get the epoch.
@@ -276,7 +298,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return The states at the given instants, expressed in the output frame.
     virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;
 
-    /// @brief Print the mean element set.
+    /// @brief Print the full precision sgp4 model.
     ///
     /// @code{.cpp}
     ///     sgp4FullPrecision.print(std::cout, true);
@@ -286,16 +308,16 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param displayDecorator If true, display the decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-    /// @brief Construct an undefined mean element set.
+    /// @brief Construct an undefined full precision sgp4 model.
     ///
     /// @code{.cpp}
     ///     const SGP4FullPrecision sgp4FullPrecision = SGP4FullPrecision::Undefined();  // isDefined() is false
     /// @endcode
     ///
-    /// @return An undefined mean element set.
+    /// @return An undefined full precision sgp4 model.
     static SGP4FullPrecision Undefined();
 
-    /// @brief Construct a mean element set from a TLE.
+    /// @brief Construct a full precision sgp4 model from a TLE.
     ///
     /// @details The values carried by the TLE have already been rounded by its text format;
     /// this does not recover the precision that was lost when the TLE was written.
@@ -307,7 +329,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     ///
     /// @param aTLE A TLE.
     /// @param anOutputFrameSPtr An output frame. Defaults to Frame::TEME().
-    /// @return The mean element set the TLE encodes.
+    /// @return The full precision sgp4 model the TLE encodes.
     static SGP4FullPrecision FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
 
    protected:
@@ -329,10 +351,15 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
 
     class Impl;
 
-    // Built at construction and never touched again, so copies can share it freely. Holding it
-    // by shared pointer keeps SGP4FullPrecision copyable and keeps the vendored propagator out of
-    // this header. Null exactly when the element set is undefined.
+    // Holds the vendored propagator, by pointer so that it stays out of this header. Null
+    // exactly when the element set is undefined.
+    //
+    // The propagator carries state across calls — where its deep-space integrator has reached —
+    // so this is not shared between copies: copying the model copies it. Shared rather than
+    // unique only because that keeps the pointee const and the class copyable in one step.
     Shared<const Impl> implSPtr_;
+
+    static Shared<const Impl> CopyImpl(const Shared<const Impl>& anImplSPtr);
 };
 
 }  // namespace sgp4

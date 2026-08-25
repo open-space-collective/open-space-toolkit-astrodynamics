@@ -289,6 +289,10 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     Size findTleIndexForInstant(const Instant& anInstant) const;
 
     static Array<Interval> GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray);
+
+    // Each propagator carries state across calls, so copies of a model get their own rather
+    // than sharing one.
+    static Array<Shared<SGP4::Impl>> CopyImplArray(const Array<Shared<SGP4::Impl>>& anImplArray);
 };
 
 }  // namespace model

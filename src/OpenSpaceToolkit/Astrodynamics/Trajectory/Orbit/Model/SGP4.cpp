@@ -41,7 +41,7 @@ class SGP4::Impl
    public:
     Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr);
 
-    Impl(const SGP4::Impl& anImpl) = delete;
+    Impl(const SGP4::Impl& anImpl) = default;
 
     SGP4::Impl& operator=(const SGP4::Impl& anImpl) = delete;
 
@@ -159,7 +159,7 @@ SGP4::SGP4(const SGP4& aSGP4Model)
       tleArray_(aSGP4Model.tleArray_),
       validityIntervals_(aSGP4Model.validityIntervals_),
       outputFrameSPtr_(aSGP4Model.outputFrameSPtr_),
-      implArray_(aSGP4Model.implArray_)
+      implArray_(SGP4::CopyImplArray(aSGP4Model.implArray_))
 {
 }
 
@@ -174,10 +174,24 @@ SGP4& SGP4::operator=(const SGP4& aSGP4Model)
         this->tleArray_ = aSGP4Model.tleArray_;
         this->validityIntervals_ = aSGP4Model.validityIntervals_;
         this->outputFrameSPtr_ = aSGP4Model.outputFrameSPtr_;
-        this->implArray_ = aSGP4Model.implArray_;
+        this->implArray_ = SGP4::CopyImplArray(aSGP4Model.implArray_);
     }
 
     return *this;
+}
+
+Array<Shared<SGP4::Impl>> SGP4::CopyImplArray(const Array<Shared<SGP4::Impl>>& anImplArray)
+{
+    Array<Shared<SGP4::Impl>> implArray = Array<Shared<SGP4::Impl>>::Empty();
+
+    implArray.reserve(anImplArray.getSize());
+
+    for (const Shared<SGP4::Impl>& implSPtr : anImplArray)
+    {
+        implArray.add(std::make_shared<SGP4::Impl>(*implSPtr));
+    }
+
+    return implArray;
 }
 
 SGP4* SGP4::clone() const

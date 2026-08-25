@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <mutex>
+
 #include <vallado-sgp4/SGP4.h>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -82,6 +84,22 @@ class SGP4FullPrecision::Impl
         }
     }
 
+    /// @brief Copy constructor, giving the copy a record of its own.
+    ///
+    /// @details Sharing one record between two models would mean each one's backward jump
+    /// resets the resonance integrator the other just advanced.
+    /// The record is copied rather than rebuilt from the elements.
+    Impl(const Impl& anImpl)
+        : satelliteRecord_(),
+          temeFrameSPtr_(anImpl.temeFrameSPtr_)
+    {
+        // The source may be mid-propagation on another thread; its lock is what makes reading
+        // the record whole rather than torn.
+        const std::lock_guard<std::mutex> lock {anImpl.mutex_};
+
+        this->satelliteRecord_ = anImpl.satelliteRecord_;
+    }
+
     State calculateStateAt(
         const Instant& anEpoch, const Instant& anInstant, const Shared<const Frame>& anOutputFrameSPtr
     ) const
@@ -91,13 +109,21 @@ class SGP4FullPrecision::Impl
         double x_TEME_km[3] = {0.0, 0.0, 0.0};
         double v_TEME_kmps[3] = {0.0, 0.0, 0.0};
 
-        // copy the satelliteRecord to keep it thread safe
-        elsetrec satelliteRecord = this->satelliteRecord_;
+        int errorCode = 0;
 
-        if (!SGP4Funcs::sgp4(satelliteRecord, durationFromEpoch_min, x_TEME_km, v_TEME_kmps))
+        {
+            const std::lock_guard<std::mutex> lock {this->mutex_};
+
+            if (!SGP4Funcs::sgp4(this->satelliteRecord_, durationFromEpoch_min, x_TEME_km, v_TEME_kmps))
+            {
+                errorCode = this->satelliteRecord_.error;
+            }
+        }
+
+        if (errorCode != 0)
         {
             throw ostk::core::error::RuntimeError(
-                "Cannot propagate SGP4 to [{}]: {}.", anInstant.toString(), Impl::ErrorMessage(satelliteRecord.error)
+                "Cannot propagate SGP4 to [{}]: {}.", anInstant.toString(), Impl::ErrorMessage(errorCode)
             );
         }
 
@@ -114,7 +140,8 @@ class SGP4FullPrecision::Impl
     }
 
    private:
-    elsetrec satelliteRecord_;
+    mutable elsetrec satelliteRecord_;
+    mutable std::mutex mutex_;
     Shared<const Frame> temeFrameSPtr_;
 
     static double EpochFromInstant(const Instant& anInstant)
@@ -176,6 +203,41 @@ SGP4FullPrecision::SGP4FullPrecision(
     {
         this->implSPtr_ = std::make_shared<const Impl>(*this);
     }
+}
+
+SGP4FullPrecision::SGP4FullPrecision(const SGP4FullPrecision& aSGP4FullPrecision)
+    : epoch_(aSGP4FullPrecision.epoch_),
+      inclination_(aSGP4FullPrecision.inclination_),
+      raan_(aSGP4FullPrecision.raan_),
+      eccentricity_(aSGP4FullPrecision.eccentricity_),
+      aop_(aSGP4FullPrecision.aop_),
+      meanAnomaly_(aSGP4FullPrecision.meanAnomaly_),
+      meanMotion_(aSGP4FullPrecision.meanMotion_),
+      bStarDragTerm_(aSGP4FullPrecision.bStarDragTerm_),
+      revolutionNumberAtEpoch_(aSGP4FullPrecision.revolutionNumberAtEpoch_),
+      outputFrameSPtr_(aSGP4FullPrecision.outputFrameSPtr_),
+      implSPtr_(SGP4FullPrecision::CopyImpl(aSGP4FullPrecision.implSPtr_))
+{
+}
+
+SGP4FullPrecision& SGP4FullPrecision::operator=(const SGP4FullPrecision& aSGP4FullPrecision)
+{
+    if (this != &aSGP4FullPrecision)
+    {
+        epoch_ = aSGP4FullPrecision.epoch_;
+        inclination_ = aSGP4FullPrecision.inclination_;
+        raan_ = aSGP4FullPrecision.raan_;
+        eccentricity_ = aSGP4FullPrecision.eccentricity_;
+        aop_ = aSGP4FullPrecision.aop_;
+        meanAnomaly_ = aSGP4FullPrecision.meanAnomaly_;
+        meanMotion_ = aSGP4FullPrecision.meanMotion_;
+        bStarDragTerm_ = aSGP4FullPrecision.bStarDragTerm_;
+        revolutionNumberAtEpoch_ = aSGP4FullPrecision.revolutionNumberAtEpoch_;
+        outputFrameSPtr_ = aSGP4FullPrecision.outputFrameSPtr_;
+        implSPtr_ = SGP4FullPrecision::CopyImpl(aSGP4FullPrecision.implSPtr_);
+    }
+
+    return *this;
 }
 
 SGP4FullPrecision* SGP4FullPrecision::clone() const
@@ -428,6 +490,11 @@ bool SGP4FullPrecision::operator==(const trajectory::Model& aModel) const
 bool SGP4FullPrecision::operator!=(const trajectory::Model& aModel) const
 {
     return !((*this) == aModel);
+}
+
+Shared<const SGP4FullPrecision::Impl> SGP4FullPrecision::CopyImpl(const Shared<const Impl>& anImplSPtr)
+{
+    return (anImplSPtr != nullptr) ? std::make_shared<const Impl>(*anImplSPtr) : nullptr;
 }
 
 }  // namespace sgp4
