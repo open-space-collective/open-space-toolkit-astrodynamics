@@ -7,6 +7,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11::module& aModule)
@@ -30,10 +31,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             aModule,
             "SGP4",
             R"doc(
-                A SGP4 model.
+                Simplified General Perturbations 4 (SGP4) Orbit Model, propagating a Two-Line Element set.
 
-                Provides the interface for orbit models.
+                Takes one TLE, or several with validity intervals.
 
+                To use SGP4 with orbital elements at a higher numerical precision than what can be encoded in a TLE, use `SGP4FullPrecision` instead.
             )doc"
         )
 
@@ -113,7 +115,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 &SGP4::getTle,
                 R"doc(
                     Get the TLE of the `SGP4` model.
-                    
+
 
                     Returns:
                         TLE: The TLE.
@@ -228,4 +230,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
     // Add objects to "sgp4" python submodule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(sgp4);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision(sgp4);
 }

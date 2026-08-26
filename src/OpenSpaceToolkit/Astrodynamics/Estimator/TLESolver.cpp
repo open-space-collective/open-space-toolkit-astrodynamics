@@ -217,6 +217,11 @@ TLESolver::Analysis TLESolver::estimate(
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
     }
 
+    // Snap the estimation epoch to the nearest epoch that can be represented by a TLE.
+    // This avoids accuracy loss compared to if the epoch was truncated to TLE precision at the end of the solve.
+    initialGuessTLEState =
+        tleStateBuilder_.build(TLEStateToTLE(initialGuessTLEState).getEpoch(), initialGuessTLEState.getCoordinates());
+
     const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
         [this](const State& aState) -> State
         {
@@ -224,20 +229,11 @@ TLESolver::Analysis TLESolver::estimate(
         }
     );
 
+    // Propagate trial states using full-precision elements, rather than TLE text field precision.
+    // This can prevent Jacobian conditioning issues, especially when eccentricity is small.
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
-        const TLE tle = TLEStateToTLE(aState);
-        const SGP4 sgp4(tle, tleStateBuilder_.getFrame());
-
-        Array<State> states;
-        states.reserve(anInstantArray.getSize());
-
-        for (const Instant& instant : anInstantArray)
-        {
-            states.add(sgp4.calculateStateAt(instant));
-        }
-
-        return states;
+        return TLEStateToSGP4FullPrecision(aState).calculateStatesAt(anInstantArray);
     };
 
     const LeastSquaresSolver::Analysis analysis = solver_.solve(
@@ -319,6 +315,33 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
         coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
         revolutionNumber_
     );
+}
+
+SGP4FullPrecision TLESolver::TLEStateToSGP4FullPrecision(const State& aTLEState) const
+{
+    const ModifiedEquinoctial modifiedEquinoctial = {
+        Length::Kilometers(aTLEState.extractCoordinate(SemiLatusRectumSubset)[0]),
+        aTLEState.extractCoordinate(EccentricityXSubset)[0],
+        aTLEState.extractCoordinate(EccentricityYSubset)[0],
+        aTLEState.extractCoordinate(NodeXSubset)[0],
+        aTLEState.extractCoordinate(NodeYSubset)[0],
+        Angle::Radians(aTLEState.extractCoordinate(TrueLongitudeSubset)[0]),
+    };
+
+    const COE coe = modifiedEquinoctial.toCOE(EarthGravitationalModel::EGM2008.gravitationalParameter_);
+
+    return {
+        aTLEState.getInstant(),
+        coe.getInclination(),
+        coe.getRaan(),
+        coe.getEccentricity(),
+        coe.getAop(),
+        coe.getMeanAnomaly(),
+        coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
+        estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
+        1,
+        tleStateBuilder_.getFrame(),
+    };
 }
 
 State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, const Real& aBStar) const

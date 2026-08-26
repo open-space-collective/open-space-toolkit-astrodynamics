@@ -53,9 +53,15 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief SGP4 orbit model.
+/// @brief Simplified General Perturbations 4 (SGP4) Orbit Model, propagating a Two-Line Element set.
 ///
-/// @details Simplified General Perturbations 4 (SGP4) orbit propagation model using Two-Line Element (TLE) sets.
+/// @details Takes one TLE, or several with validity intervals.
+/// To use SGP4 with orbital elements at a higher numerical precision than what can be encoded in a TLE, use
+/// `SGP4FullPrecision` instead.
+///
+/// Underneath there is one propagator: a TLE is decoded into an sgp4::SGP4FullPrecision once, at
+/// construction, and propagated from there. Fed the same values the two agree exactly; they differ
+/// only in what precision can reach them.
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
@@ -278,14 +284,9 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 
     static Array<Interval> GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray);
 
-    // The third-party libsgp4 library re-parses the raw TLE line strings and rejects any non-digit
-    // character in the satellite (NORAD) number field. This means Alpha-5 satellite numbers (e.g.
-    // "A5544"), which OSTk's TLE supports, would cause libsgp4::Tle construction to throw.
-    //
-    // libsgp4 never uses the satellite number in its propagation math, so we hand it a purely numeric
-    // placeholder for that field when the field is Alpha-5 encoded. OSTk's own TLE object retains the
-    // true satellite number for all its accessors; only the string given to libsgp4 is altered.
-    static String SanitizeLineForLibsgp4(const String& aLine);
+    // Each propagator carries state across calls, so copies of a model get their own rather
+    // than sharing one.
+    static Array<Shared<SGP4::Impl>> CopyImplArray(const Array<Shared<SGP4::Impl>>& anImplArray);
 };
 
 }  // namespace model
