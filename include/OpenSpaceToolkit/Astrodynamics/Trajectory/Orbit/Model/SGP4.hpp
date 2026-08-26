@@ -56,7 +56,7 @@ using ostk::astrodynamics::trajectory::State;
 /// @brief Simplified General Perturbations 4 (SGP4) Orbit Model, propagating a Two-Line Element set.
 ///
 /// @details Takes one TLE, or several with validity intervals.
-/// To use SGP4 with orbital elements at a higher numerical precision that what can be encoded in a TLE, use
+/// To use SGP4 with orbital elements at a higher numerical precision than what can be encoded in a TLE, use
 /// `SGP4FullPrecision` instead.
 ///
 /// Underneath there is one propagator: a TLE is decoded into an sgp4::SGP4FullPrecision once, at

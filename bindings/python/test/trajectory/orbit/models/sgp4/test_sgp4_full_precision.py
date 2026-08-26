@@ -1,9 +1,7 @@
 # Apache License 2.0
 
-import numpy as np
 import pytest
 from ostk.astrodynamics.trajectory import Orbit, State
-from ostk.astrodynamics.trajectory.orbit.model import SGP4
 from ostk.astrodynamics.trajectory.orbit.model.sgp4 import TLE, SGP4FullPrecision
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth
@@ -93,13 +91,6 @@ class TestSGP4FullPrecision:
         )
 
     def test_calculate_state_at(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
-            SGP4FullPrecision.from_tle(
-                tle, output_frame=Frame.GCRF()
-            ).get_output_frame()
-            == Frame.GCRF()
-        )
-
-    def test_calculate_state_at(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
         state = sgp4_full_precision.calculate_state_at(tle.get_epoch())
 
         assert isinstance(state, State)
@@ -115,9 +106,13 @@ class TestSGP4FullPrecision:
             == Frame.GCRF()
         )
 
-    def test_calculate_states_at(
-        self, tle: TLE, sgp4_full_precision: SGP4FullPrecision
-    ):
+    def test_calculate_states_at(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
+        instants = [
+            tle.get_epoch(),
+            tle.get_epoch() + Duration.minutes(10.0),
+            tle.get_epoch() + Duration.minutes(20.0),
+        ]
+
         states = sgp4_full_precision.calculate_states_at(instants)
 
         assert len(states) == len(instants)
