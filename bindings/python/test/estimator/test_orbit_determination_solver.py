@@ -19,6 +19,8 @@ from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.estimator import MeanElementConsistency
+from ostk.astrodynamics.estimator import ObservationFilter
 from ostk.astrodynamics.estimator import OrbitDeterminationSolver
 from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 
@@ -202,6 +204,7 @@ class TestOrbitDeterminationSolverAnalysis:
     ):
         assert isinstance(analysis.estimated_state, State)
         assert isinstance(analysis.solver_analysis, LeastSquaresSolver.Analysis)
+        assert analysis.observation_filter_analysis is None
 
 
 class TestOrbitDeterminationSolver:
@@ -219,6 +222,38 @@ class TestOrbitDeterminationSolver:
         assert isinstance(orbit_determination_solver.access_propagator(), Propagator)
         assert isinstance(orbit_determination_solver.access_solver(), LeastSquaresSolver)
         assert isinstance(orbit_determination_solver.access_estimation_frame(), Frame)
+        assert orbit_determination_solver.access_observation_filter() is None
+
+    def test_constructor_with_observation_filter(
+        self,
+        environment: Environment,
+    ):
+        solver = OrbitDeterminationSolver(
+            environment=environment,
+            observation_filter=MeanElementConsistency(),
+        )
+        assert isinstance(solver.access_observation_filter(), ObservationFilter)
+
+    def test_estimate_with_observation_filter(
+        self,
+        environment: Environment,
+        initial_guess: State,
+        observations: list[State],
+    ):
+        solver = OrbitDeterminationSolver(
+            environment=environment,
+            observation_filter=MeanElementConsistency(),
+        )
+
+        analysis: OrbitDeterminationSolver.Analysis = solver.estimate(
+            initial_guess=initial_guess,
+            observations=observations,
+        )
+
+        assert isinstance(analysis, OrbitDeterminationSolver.Analysis)
+        assert isinstance(
+            analysis.observation_filter_analysis, ObservationFilter.Analysis
+        )
 
     def test_estimate(
         self,

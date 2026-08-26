@@ -20,10 +20,13 @@ using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 OrbitDeterminationSolver::Analysis::Analysis(
-    const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis
+    const State& anEstimatedState,
+    const LeastSquaresSolver::Analysis& anAnalysis,
+    const Shared<const ObservationFilter::Analysis>& anObservationFilterAnalysisSPtr
 )
     : estimatedState(anEstimatedState),
-      solverAnalysis(anAnalysis)
+      solverAnalysis(anAnalysis),
+      observationFilterAnalysis(anObservationFilterAnalysisSPtr)
 {
 }
 
@@ -44,6 +47,12 @@ void OrbitDeterminationSolver::Analysis::print(std::ostream& anOutputStream) con
     ostk::core::utils::Print::Separator(anOutputStream, "Analysis");
     solverAnalysis.print(anOutputStream);
 
+    if (observationFilterAnalysis != nullptr)
+    {
+        ostk::core::utils::Print::Separator(anOutputStream, "Observation Filter Analysis");
+        observationFilterAnalysis->print(anOutputStream, false);
+    }
+
     ostk::core::utils::Print::Footer(anOutputStream);
 }
 
@@ -51,12 +60,14 @@ OrbitDeterminationSolver::OrbitDeterminationSolver(
     const Environment& anEnvironment,
     const NumericalSolver& aNumericalSolver,
     const LeastSquaresSolver& aSolver,
-    const Shared<const Frame>& anEstimationFrameSPtr
+    const Shared<const Frame>& anEstimationFrameSPtr,
+    const Shared<const ObservationFilter>& anObservationFilterSPtr
 )
     : environment_(anEnvironment),
       propagator_(Propagator::FromEnvironment(aNumericalSolver, anEnvironment)),
       solver_(aSolver),
-      estimationFrameSPtr_(anEstimationFrameSPtr)
+      estimationFrameSPtr_(anEstimationFrameSPtr),
+      observationFilterSPtr_(anObservationFilterSPtr)
 {
     if (!environment_.hasCentralCelestialObject())
     {
@@ -84,6 +95,11 @@ const Shared<const Frame>& OrbitDeterminationSolver::accessEstimationFrame() con
     return estimationFrameSPtr_;
 }
 
+const Shared<const ObservationFilter>& OrbitDeterminationSolver::accessObservationFilter() const
+{
+    return observationFilterSPtr_;
+}
+
 OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
     const State& anInitialGuessState,
     const Array<State>& anObservationStateArray,
@@ -94,12 +110,21 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
 {
     const State initialGuessStateInEstimationFrame = anInitialGuessState.inFrame(estimationFrameSPtr_);
 
-    const Array<State> observationStatesInEstimationFrame = anObservationStateArray.map<State>(
+    Array<State> observationStatesInEstimationFrame = anObservationStateArray.map<State>(
         [this](const State& aState) -> State
         {
             return aState.inFrame(estimationFrameSPtr_);
         }
     );
+
+    // Pre-filtering step: reject outlier observations before solving.
+    Shared<const ObservationFilter::Analysis> observationFilterAnalysis = nullptr;
+    if (observationFilterSPtr_ != nullptr)
+    {
+        observationFilterAnalysis = observationFilterSPtr_->filter(observationStatesInEstimationFrame);
+        observationStatesInEstimationFrame =
+            observationFilterAnalysis->getFilteredObservations(observationStatesInEstimationFrame);
+    }
 
     // Setup state builders
 
@@ -143,7 +168,7 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
         propagationStateBuilder.expand(analysis.estimatedState, initialGuessStateInEstimationFrame)
             .inFrame(estimationFrameSPtr_);
 
-    return Analysis(estimatedState, analysis);
+    return Analysis(estimatedState, analysis, observationFilterAnalysis);
 }
 
 Orbit OrbitDeterminationSolver::estimateOrbit(

@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/ObservationFilter.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
@@ -36,6 +37,7 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 
+using ostk::astrodynamics::estimator::ObservationFilter;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::NumericalSolver;
@@ -48,6 +50,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 #define DEFAULT_NUMERICAL_SOLVER NumericalSolver::Default()         // Default numerical solver
 #define DEFAULT_LEAST_SQUARES_SOLVER LeastSquaresSolver::Default()  // Default least squares solver
 #define DEFAULT_ESTIMATION_FRAME Frame::GCRF()                      // Default estimation frame
+#define DEFAULT_OBSERVATION_FILTER nullptr                          // No observation pre-filtering by default
 
 /// @brief Orbit Determination solver using least squares.
 ///
@@ -65,7 +68,13 @@ class OrbitDeterminationSolver
         ///
         /// @param anEstimatedState The estimated state resulting from orbit determination
         /// @param anAnalysis The least squares solver analysis containing convergence and residual information
-        Analysis(const State& anEstimatedState, const LeastSquaresSolver::Analysis& anAnalysis);
+        /// @param anObservationFilterAnalysisSPtr The observation filter analysis, when an observation filter was
+        /// applied (nullptr otherwise)
+        Analysis(
+            const State& anEstimatedState,
+            const LeastSquaresSolver::Analysis& anAnalysis,
+            const Shared<const ObservationFilter::Analysis>& anObservationFilterAnalysisSPtr = nullptr
+        );
 
         /// @brief Stream insertion operator
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Analysis& anAnalysis);
@@ -75,6 +84,8 @@ class OrbitDeterminationSolver
 
         State estimatedState;  ///< Matching the frame and expanded coordinates of the provided initial guess state.
         LeastSquaresSolver::Analysis solverAnalysis;  ///< Least squares solver analysis results.
+        Shared<const ObservationFilter::Analysis>
+            observationFilterAnalysis;  ///< Observation filter analysis (nullptr when no filter was applied).
     };
 
     /// @brief Constructor
@@ -87,11 +98,14 @@ class OrbitDeterminationSolver
     /// @param aNumericalSolver Numerical solver, Defaults to NumericalSolver::Default()
     /// @param aSolver Least squares solver, Defaults to LeastSquaresSolver::Default()
     /// @param anEstimationFrameSPtr Estimation frame, Defaults to Frame::GCRF()
+    /// @param anObservationFilterSPtr Observation filter applied to the observations (in the estimation frame)
+    /// before solving, as a pre-filtering step rejecting outlier observations. Defaults to nullptr (no filtering).
     OrbitDeterminationSolver(
         const Environment& anEnvironment = DEFAULT_ENVIRONMENT,
         const NumericalSolver& aNumericalSolver = DEFAULT_NUMERICAL_SOLVER,
         const LeastSquaresSolver& aSolver = DEFAULT_LEAST_SQUARES_SOLVER,
-        const Shared<const Frame>& anEstimationFrameSPtr = DEFAULT_ESTIMATION_FRAME
+        const Shared<const Frame>& anEstimationFrameSPtr = DEFAULT_ESTIMATION_FRAME,
+        const Shared<const ObservationFilter>& anObservationFilterSPtr = DEFAULT_OBSERVATION_FILTER
     );
 
     /// @brief Access environment
@@ -113,6 +127,11 @@ class OrbitDeterminationSolver
     ///
     /// @return Estimation frame
     const Shared<const Frame>& accessEstimationFrame() const;
+
+    /// @brief Access observation filter
+    ///
+    /// @return Observation filter (nullptr when no filter is configured)
+    const Shared<const ObservationFilter>& accessObservationFilter() const;
 
     /// @brief Estimate state from observations
     ///
@@ -162,6 +181,7 @@ class OrbitDeterminationSolver
     Propagator propagator_;
     LeastSquaresSolver solver_;
     Shared<const Frame> estimationFrameSPtr_;
+    Shared<const ObservationFilter> observationFilterSPtr_;
 };
 
 }  // namespace estimator

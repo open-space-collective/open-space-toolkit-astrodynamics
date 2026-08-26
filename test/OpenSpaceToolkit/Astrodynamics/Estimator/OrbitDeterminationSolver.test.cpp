@@ -19,6 +19,7 @@
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/ObservationFilter/MeanElementConsistency.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -53,6 +54,8 @@ using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 
+using ostk::astrodynamics::estimator::ObservationFilter;
+using ostk::astrodynamics::estimator::observationfilter::MeanElementConsistency;
 using ostk::astrodynamics::estimator::OrbitDeterminationSolver;
 using ostk::astrodynamics::solver::LeastSquaresSolver;
 using ostk::astrodynamics::trajectory::Orbit;
@@ -101,6 +104,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, 
     {
         EXPECT_EQ(analysis_.estimatedState, estimatedState_);
         EXPECT_EQ(analysis_.solverAnalysis.terminationCriteria, terminationCriteria_);
+        EXPECT_EQ(analysis_.observationFilterAnalysis, nullptr);
     }
 }
 
@@ -192,6 +196,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Construct
     }
 
     {
+        EXPECT_NO_THROW(OrbitDeterminationSolver(
+            environment_,
+            numericalSolver_,
+            leastSquaresSolver_,
+            estimationFrame_,
+            std::make_shared<MeanElementConsistency>()
+        ));
+    }
+
+    {
         EXPECT_NO_THROW(OrbitDeterminationSolver(environment_, numericalSolver_, leastSquaresSolver_));
     }
 
@@ -217,6 +231,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Accessors
         EXPECT_TRUE(odSolver.accessPropagator().isDefined());
         EXPECT_NO_THROW(odSolver.accessSolver());
         EXPECT_EQ(odSolver.accessEstimationFrame()->getName(), "GCRF");
+        EXPECT_EQ(odSolver.accessObservationFilter(), nullptr);
+    }
+
+    {
+        const Shared<const ObservationFilter> observationFilterSPtr = std::make_shared<MeanElementConsistency>();
+
+        const OrbitDeterminationSolver odSolver(
+            environment_, numericalSolver_, leastSquaresSolver_, estimationFrame_, observationFilterSPtr
+        );
+
+        EXPECT_EQ(odSolver.accessObservationFilter(), observationFilterSPtr);
     }
 }
 
@@ -296,6 +321,43 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate_
             ostk::core::error::RuntimeError
         );
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate_WithObservationFilter)
+{
+    // Corrupt one observation with a 50 km along-x position offset
+    Array<State> corruptedObservationStates = observationStates_;
+    const Size corruptedIndex = corruptedObservationStates.getSize() / 2;
+    {
+        const State& originalState = corruptedObservationStates[corruptedIndex];
+
+        VectorXd coordinates = originalState.getCoordinates();
+        coordinates(0) += 50.0e3;
+
+        corruptedObservationStates[corruptedIndex] = State(
+            originalState.accessInstant(),
+            coordinates,
+            originalState.accessFrame(),
+            originalState.getCoordinateSubsets()
+        );
+    }
+
+    const OrbitDeterminationSolver odSolverWithFilter = {
+        environment_,
+        numericalSolver_,
+        leastSquaresSolver_,
+        estimationFrame_,
+        std::make_shared<MeanElementConsistency>(),
+    };
+
+    const OrbitDeterminationSolver::Analysis analysis =
+        odSolverWithFilter.estimate(observationStates_[0], corruptedObservationStates);
+
+    // The filter analysis is exposed, and exactly the corrupted observation was rejected before solving
+    ASSERT_NE(analysis.observationFilterAnalysis, nullptr);
+    EXPECT_EQ(analysis.observationFilterAnalysis->getOutlierCount(), 1u);
+    EXPECT_EQ(analysis.observationFilterAnalysis->inlierMask(static_cast<Eigen::Index>(corruptedIndex)), 0);
+    EXPECT_EQ(analysis.solverAnalysis.computedObservationStates.getSize(), corruptedObservationStates.getSize() - 1);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateOrbit)
