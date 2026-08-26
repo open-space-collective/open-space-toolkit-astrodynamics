@@ -64,7 +64,7 @@ ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObje
         throw ostk::core::error::RuntimeError("Cannot calculate third body acceleration for the Earth yet.");
     }
 
-    usesPointMassGravitationalModel_ = celestialObjectSPtr_->isPointMass();
+    usesPointMassGravitationalModel_ = celestialObjectSPtr_->accessGravitationalModel()->isPointMass();
 }
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
