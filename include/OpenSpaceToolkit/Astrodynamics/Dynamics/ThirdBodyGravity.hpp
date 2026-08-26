@@ -144,14 +144,6 @@ class ThirdBodyGravity : public Dynamics
     // a Sun/Moon/Earth model configured with its respective `Spherical` type). A point-mass field does not
     // depend on the body's orientation, which enables a faster `computeContribution` path.
     bool usesPointMassGravitationalModel_;
-
-    /// @brief Check whether a celestial's gravitational model is a point mass (i.e., its field does not
-    /// depend on the body's orientation), which allows computing the third-body perturbation directly from
-    /// body positions instead of rotating gravitational field vectors in and out of the body's frame.
-    ///
-    /// @param aCelestial A celestial object.
-    /// @return True if the celestial's gravitational model is a point mass model.
-    static bool IsPointMassGravitationalModel(const Celestial& aCelestial);
 };
 
 }  // namespace dynamics
