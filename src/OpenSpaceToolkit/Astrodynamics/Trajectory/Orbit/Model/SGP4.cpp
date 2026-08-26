@@ -54,9 +54,7 @@ class SGP4::Impl
 SGP4::Impl::Impl(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : sgp4FullPrecision_(sgp4::SGP4FullPrecision::FromTLE(aTle, anOutputFrameSPtr))
 {
-    // Constructing the SGP4FullPrecision above builds the propagator, and the propagator is what
-    // rejects an element set it cannot fly, so a TLE this model cannot propagate is already an
-    // error here rather than one that waits for a caller to ask for a state.
+    // Validation is done by the propagator's constructor.
 }
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const

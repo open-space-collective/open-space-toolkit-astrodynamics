@@ -24,18 +24,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
         aModule,
         "SGP4FullPrecision",
         R"doc(
-            SGP4 mean element set, held at full precision.
-
-            A TLE is a lossy serialization of this set: writing one rounds the eccentricity to 1e-7,
-            the angles to 1e-4 deg, the mean motion to 1e-8 rev/day and the epoch to 1e-8 day.
-            That rounding is harmless for propagation but fatal for differentiation — on a near-circular
-            orbit a finite-difference step in eccentricity can be smaller than 1e-7, so the
-            propagator does not respond at all and the Jacobian silently loses rank.
-
-            Estimators should iterate on `SGP4FullPrecision` and serialize a TLE once, at the end, which costs a few
-            tens of millimetres.
-
-            To propagate a TLE that was published, received, or read from a file, use the `SGP4` class.
+            An Orbit Model that holds SGP4 mean elements at full precision.
+            This uses the SGP4 propagator, but with the orbital elements stored at machine-precision rather than the truncated precision of the TLE format.
         )doc"
     )
 

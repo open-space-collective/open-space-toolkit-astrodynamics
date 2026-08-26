@@ -217,10 +217,8 @@ TLESolver::Analysis TLESolver::estimate(
         initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
     }
 
-    // Snap the estimation epoch onto the grid the TLE epoch field can represent (1e-8 day).
-    // The epoch is held fixed for the whole fit, so this costs nothing in conditioning; it
-    // just means the TLE written at the end has nothing left to round in its epoch field,
-    // which would otherwise be worth a few metres of along-track error on its own.
+    // Snap the estimation epoch to the nearest epoch that can be represented by a TLE.
+    // This avoids accuracy loss compared to if the epoch was truncated to TLE precision at the end of the solve.
     initialGuessTLEState =
         tleStateBuilder_.build(TLEStateToTLE(initialGuessTLEState).getEpoch(), initialGuessTLEState.getCoordinates());
 
@@ -231,12 +229,8 @@ TLESolver::Analysis TLESolver::estimate(
         }
     );
 
-    // Propagate trial states from the elements themselves, not from a TLE written and
-    // re-parsed on every call. The text format rounds the eccentricity to 1e-7 and the
-    // angles to 1e-4 deg; on a near-circular orbit the finite-difference step in the
-    // eccentricity components falls below that quantization, the propagator does not respond at
-    // all, and the ex/ey Jacobian columns collapse onto one direction. A TLE is written
-    // once, at the end, from the converged state.
+    // Propagate trial states using full-precision elements, rather than TLE text field precision.
+    // This can prevent Jacobian conditioning issues, especially when eccentricity is small.
     const auto stateGenerator = [this](const State& aState, const Array<Instant>& anInstantArray) -> Array<State>
     {
         return TLEStateToSGP4FullPrecision(aState).calculateStatesAt(anInstantArray);

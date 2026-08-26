@@ -31,22 +31,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
             aModule,
             "SGP4",
             R"doc(
-                SGP4 orbit model, propagating a Two-Line Element set.
+                Simplified General Perturbations 4 (SGP4) Orbit Model, propagating a Two-Line Element set.
 
-                Simplified General Perturbations 4. Reach for this to propagate a TLE that was
-                published, received, or read from a file. It takes one TLE, or several with validity
-                intervals, and selects between them by instant.
+                Takes one TLE, or several with validity
+                intervals.
 
-                The elements it flies are the ones the text carries, and the TLE format quantizes
-                them: the eccentricity to 1e-7, the angles to 1e-4 deg, the mean motion to
-                1e-8 rev/day, and the epoch to 1e-8 day (about 0.9 ms). Anything that differentiates
-                the propagator, an estimator for example, wants `SGP4FullPrecision` instead, which takes the
-                same elements as continuous values.
-
-                Underneath there is one propagator: a TLE is decoded into an `SGP4FullPrecision` once, at
-                construction, and propagated from there. Fed the same values the two agree exactly;
-                they differ only in what precision can reach them.
-
+                To use SGP4 with orbital elements at a higher numerical precision that what can be encoded in a TLE, use `SGP4FullPrecision` instead.
             )doc"
         )
 

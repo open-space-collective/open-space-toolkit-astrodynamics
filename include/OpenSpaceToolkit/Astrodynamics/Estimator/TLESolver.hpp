@@ -231,9 +231,8 @@ class TLESolver
 
     /// @brief Convert TLE state to TLE
     ///
-    /// @details This is the lossy step: the TLE text format rounds the eccentricity to 1e-7
-    /// and the angles to 1e-4 degrees. It runs once, on the converged state — never inside
-    /// the iteration, where that rounding would flatten the Jacobian.
+    /// @details Warning: this truncates orbital elements to the precision of the TLE format.
+    /// This is only run once, on the converged state.
     ///
     /// @param aTLEState TLE state
     ///
