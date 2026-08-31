@@ -627,3 +627,39 @@ class TestState:
         )
         assert len(pv_coordinates) == 6
         assert (pv_coordinates == state.get_coordinates()).all()
+
+    def test_is_near(
+        self,
+        state: State,
+    ):
+        tolerance_map: dict[CoordinateSubset, float] = {
+            CartesianPosition.default(): 1e-10,
+            CartesianVelocity.default(): 1e-10,
+        }
+        is_near_result: dict[CoordinateSubset, bool] = state.is_near(
+            state=state,
+            tolerance_map=tolerance_map,
+        )
+        expected_is_near_result: dict[CoordinateSubset, bool] = {
+            CartesianPosition.default(): True,
+            CartesianVelocity.default(): True,
+        }
+        assert is_near_result == expected_is_near_result
+
+    def test_is_near_element_wise(
+        self,
+        state: State,
+    ):
+        tolerance_array_map: dict[CoordinateSubset, np.ndarray] = {
+            CartesianPosition.default(): np.array([1e-10, 1e-10, 1e-10]),
+            CartesianVelocity.default(): np.array([1e-10, 1e-10, 1e-10]),
+        }
+        is_near_result: dict[CoordinateSubset, list[bool]] = state.is_near(
+            state=state,
+            tolerance_array_map=tolerance_array_map,
+        )
+        expected_is_near_result: dict[CoordinateSubset, list[bool]] = {
+            CartesianPosition.default(): [True, True, True],
+            CartesianVelocity.default(): [True, True, True],
+        }
+        assert is_near_result == expected_is_near_result
