@@ -1,7 +1,15 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
+
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Model.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Spherical.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Sun.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
@@ -14,14 +22,26 @@ namespace astrodynamics
 namespace dynamics
 {
 
+using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Position;
+using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::environment::gravitational::Moon;
+using ostk::physics::environment::gravitational::Spherical;
+using ostk::physics::environment::gravitational::Sun;
+using ostk::physics::unit::Derived;
+using ostk::physics::unit::Length;
+using ostk::physics::unit::Time;
+using GravitationalModel = ostk::physics::environment::gravitational::Model;
 
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+
+static const Derived::Unit GravitationalParameterSIUnit =
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
     : ThirdBodyGravity(aCelestialObjectSPtr, String::Format("Third Body Gravity [{}]", aCelestialObjectSPtr->getName()))
@@ -30,7 +50,8 @@ ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObje
 
 ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr, const String& aName)
     : Dynamics(aName),
-      celestialObjectSPtr_(aCelestialObjectSPtr)
+      celestialObjectSPtr_(aCelestialObjectSPtr),
+      usesPointMassGravitationalModel_(false)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->gravitationalModelIsDefined())
     {
@@ -42,6 +63,8 @@ ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObje
     {
         throw ostk::core::error::RuntimeError("Cannot calculate third body acceleration for the Earth yet.");
     }
+
+    usesPointMassGravitationalModel_ = celestialObjectSPtr_->accessGravitationalModel()->isPointMass();
 }
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
@@ -86,19 +109,41 @@ VectorXd ThirdBodyGravity::computeContribution(
     const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
-    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
-    Vector3d gravitationalAccelerationSI =
-        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, aFrameSPtr), anInstant)
-             .inFrame(aFrameSPtr, anInstant)
-             .getValue();
+    const Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
 
-    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
+    Vector3d gravitationalAccelerationSI;
 
-    gravitationalAccelerationSI +=
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
-            .inFrame(aFrameSPtr, anInstant)
-            .getValue();
+    if (usesPointMassGravitationalModel_)
+    {
+        // For a point-mass (spherical) gravitational model, the field does not depend on the body's
+        // orientation. The third-body perturbation can therefore be computed directly from the body's
+        // position in the working frame (a pure translation lookup) rather than by rotating the query
+        // position into the body's ephemeris-attached frame and rotating the resulting acceleration back
+        // out, twice.
+        const Vector3d thirdBodyPositionCoordinates =
+            celestialObjectSPtr_->getPositionIn(aFrameSPtr, anInstant).getCoordinates();
+        const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - positionCoordinates;
+
+        const Real mu = celestialObjectSPtr_->getGravitationalParameter().in(GravitationalParameterSIUnit);
+
+        gravitationalAccelerationSI =
+            mu * (relativePositionCoordinates / std::pow(relativePositionCoordinates.norm(), 3) -
+                  thirdBodyPositionCoordinates / std::pow(thirdBodyPositionCoordinates.norm(), 3));
+    }
+    else
+    {
+        // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
+        // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
+        gravitationalAccelerationSI =
+            -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, aFrameSPtr), anInstant)
+                 .inFrame(aFrameSPtr, anInstant)
+                 .getValue();
+
+        gravitationalAccelerationSI +=
+            celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
+                .inFrame(aFrameSPtr, anInstant)
+                .getValue();
+    }
 
     // Compute contribution
     VectorXd contribution(3);

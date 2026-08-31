@@ -139,6 +139,11 @@ class ThirdBodyGravity : public Dynamics
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;
+
+    // True if `celestialObjectSPtr_`'s gravitational model is a point mass (e.g., a `Spherical` model, or
+    // a Sun/Moon/Earth model configured with its respective `Spherical` type). A point-mass field does not
+    // depend on the body's orientation, which enables a faster `computeContribution` path.
+    bool usesPointMassGravitationalModel_;
 };
 
 }  // namespace dynamics
