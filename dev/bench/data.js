@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787784710541,
+  "lastUpdate": 1788204647119,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -102,6 +102,108 @@ window.BENCHMARK_DATA = {
             "value": 9.072960273999797,
             "unit": "s/iter",
             "extra": "iterations: 1\ncpu: 9.071867794000013 s\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a0791f6225a3e98a88a78bc8336939de75cb94be",
+          "message": "perf: simplify third body gravity calculation (#707)\n\n* perf: reduce per-step allocation overhead in the propagation loop\n\nTwo hot-loop cleanups on the astrodynamics side of numerical propagation,\nwith no public API change and bit-identical numerical results:\n\n- Dynamics::DynamicalEquations: reuse a per-context scratch buffer for the\n  reduced read state instead of heap-allocating a fresh VectorXd for every\n  dynamics at every derivative evaluation. The buffer lives in the\n  Dynamics::Context copies bound into the system-of-equations wrapper\n  (per-propagation), not in the shared Dynamics objects.\n\n- NumericalSolver::integrateTime(State, Instant, ...): defer construction\n  of the observed State objects (one per accepted integration step) until\n  accessObservedStates()/getObservedStates() is actually called, and build\n  them from a const reference to the underlying solver's observed state\n  vectors instead of a by-value copy. Propagator::calculateStateAt no\n  longer pays for building thousands of State objects nobody reads;\n  Segment and other consumers get identical states, built lazily.\n\nMeasured (Release, EGM96 10x10 + PositionDerivative, RK4 fixed 5 s):\n- loop overhead (PositionDerivative-only, 17,280 steps): 1.05 -> 0.78 us/step\n- derivative-evaluation glue with 5 dynamics: 0.222 -> 0.173 us/eval\n- 1-day propagation: ~991 -> ~950 ms, 7-day: ~4.76 -> ~4.65 s (medians of\n  3 interleaved A/B runs); final states bit-identical to baseline\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>\n\n* perf: avoid body-frame rotation round trip in ThirdBodyGravity\n\nThirdBodyGravity::computeContribution evaluated the third body's\ngravitational field twice via Celestial::getGravitationalFieldAt, each\ncall rotating the query position into the body's own ephemeris-attached\nframe (a full SPICE sxform_c lookup for SPICE-backed bodies) and then\nrotating the resulting acceleration back out via inFrame. For a\npoint-mass (spherical) gravitational model, the field does not depend\non the body's orientation, so this rotate-in/rotate-out round trip is\npure overhead: the same result can be obtained from the body's position\nalone (Celestial::getPositionIn, a pure translation lookup) combined\nwith mu (Celestial::getGravitationalParameter) via the closed-form\ntwo-term third-body formula, with no per-call orientation lookups.\n\nSince ThirdBodyGravity accepts an arbitrary Shared<const Celestial>,\nnothing guarantees the attached model is point-mass (e.g. a\nhigher-fidelity spherical-harmonics model could be attached). A new\nprivate static helper, IsPointMassGravitationalModel, dynamic_casts the\nCelestial's gravitational model to Spherical (the generic point-mass\nmodel) or to Sun/Moon/Earth with their respective Type::Spherical\n(their only non-orientation-dependent type); this is computed once at\nconstruction and cached. The fast path is only taken when this\npositively identifies a point mass; otherwise computeContribution falls\nback unchanged to the original two-call getGravitationalFieldAt +\ninFrame path, so behavior is unaffected for any other configuration.\n\nStandalone micro-benchmark (Release, unique instants per call):\n  Sun (SPICE):                17.5 -> 15.5 us/call (~12% faster)\n  Moon (SPICE):               19.3 -> 17.1 us/call (~12% faster)\n  Sun (analytical ephemeris):  9.9 ->  7.4 us/call (~25% faster)\n  Moon (analytical ephemeris): 10.6 ->  8.2 us/call (~22% faster)\n\nAdded tests verifying the fast path numerically matches the generic\npath for Sun::Default/Moon::Default/Sun::Analytical/Moon::Analytical,\nand a test with a synthetic non-spherical (WGS84) third body proving\nthe generic fallback path is genuinely exercised.\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>\n\n* feat: leverage new celestial method\n\n---------\n\nCo-authored-by: Claude Fable 5 <noreply@anthropic.com>",
+          "timestamp": "2026-08-31T11:58:50-07:00",
+          "tree_id": "c0af55a5f6b16d96af613d8c774d911ef53a61ff",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a0791f6225a3e98a88a78bc8336939de75cb94be"
+        },
+        "date": 1788204645618,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 2521631115.8999815,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2449648530.7999997 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 832.9022846666779,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 832.8102636666669 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 2594.595138666667,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 2594.3673599999984 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 9738.00668233334,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 9737.097828666667 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 2564147665.2,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2563911075.100002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 6038464379.500005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6037896449.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 6036600866.400004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6036134787.800003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 6036887322.599989,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6036378160.900008 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.7918004500000961,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.7917882400000167 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 4.28455090500006,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 4.283186610999962 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 9.731540369000072,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 9.730424775000017 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 6.4221513530001175,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.420019477000039 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 8.863445354999953,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 8.862389829999984 s\nthreads: 1"
           }
         ]
       }
