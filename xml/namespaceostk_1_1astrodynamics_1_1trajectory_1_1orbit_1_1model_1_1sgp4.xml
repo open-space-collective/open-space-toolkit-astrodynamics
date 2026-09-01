@@ -2,8 +2,68 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::trajectory::orbit::model::sgp4</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" prot="public">ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" prot="public">ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1a4210656fc38728984c756c51c68190da" prot="public" static="yes" mutable="no">
+        <type>const Derived::Unit</type>
+        <definition>const Derived::Unit ostk::astrodynamics::trajectory::orbit::model::sgp4::RadianPerMinute</definition>
+        <argsstring></argsstring>
+        <name>RadianPerMinute</name>
+        <initializer>= Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Minute)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="44" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1a659303eeaeea328caec7414044e37fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::trajectory::orbit::model::sgp4::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const SGP4FullPrecision &amp;aSGP4FullPrecision)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>sgp4FullPrecision<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSGP4FullPrecision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="268" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="268" bodyend="273"/>
+      </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1ad614a5b0cc565bbc0f1bcff6dd20d4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
         <definition>std::ostream&amp; ostk::astrodynamics::trajectory::orbit::model::sgp4::operator&lt;&lt;</definition>
@@ -53,6 +113,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp" line="26" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="31" column="1"/>
   </compounddef>
 </doxygen>

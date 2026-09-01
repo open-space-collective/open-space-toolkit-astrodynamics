@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="dir_c7b895d6b19dd52a22e0642ca02b204b" kind="dir">
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4</compoundname>
+    <innerfile refid="_s_g_p4_full_precision_8cpp">SGP4FullPrecision.cpp</innerfile>
     <innerfile refid="_t_l_e_8cpp">TLE.cpp</innerfile>
     <briefdescription>
     </briefdescription>

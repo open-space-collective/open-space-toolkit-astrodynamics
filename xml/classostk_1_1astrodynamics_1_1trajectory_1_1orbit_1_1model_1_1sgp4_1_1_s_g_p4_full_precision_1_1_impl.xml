@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a31b6bff9e2283a37916c9fad49f4e708" prot="private" static="no" mutable="yes">
+        <type>elsetrec</type>
+        <definition>elsetrec ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::satelliteRecord_</definition>
+        <argsstring></argsstring>
+        <name>satelliteRecord_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="143" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1ad422c6dbf724a90c5d659ac94fb705bc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="144" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a8ac402ba6270dcc179ab931fd8da682f" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::temeFrameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>temeFrameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="145" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a8e4618cdddf7784a89cb72b7a12f9900" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::Impl</definition>
+        <argsstring>(const SGP4FullPrecision &amp;aSGP4FullPrecision)</argsstring>
+        <name>Impl</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="52" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="52" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1aaf4e68ec3d926b2827b4dc44099907ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::Impl</definition>
+        <argsstring>(const Impl &amp;anImpl)</argsstring>
+        <name>Impl</name>
+        <param>
+          <type>const Impl &amp;</type>
+          <declname>anImpl</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor, giving the copy a record of its own. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sharing one record between two models would mean each one&apos;s backward jump resets the resonance integrator the other just advanced. The record is copied rather than rebuilt from the elements. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="92" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1ae305145ad098cda6eadbb92e2bef1172" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anEpoch, const Instant &amp;anInstant, const Shared&lt; const Frame &gt; &amp;anOutputFrameSPtr) const</argsstring>
+        <name>calculateStateAt</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEpoch</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>anOutputFrameSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="103" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="103" bodyend="140"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1ae6d0cfe79447e61b0b11bd56703961f2" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::EpochFromInstant</definition>
+        <argsstring>(const Instant &amp;anInstant)</argsstring>
+        <name>EpochFromInstant</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="147" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="147" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a54cc13ccae5f68de167d27d35c28a9bf" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>static String ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl::ErrorMessage</definition>
+        <argsstring>(const int anErrorCode)</argsstring>
+        <name>ErrorMessage</name>
+        <param>
+          <type>const int</type>
+          <declname>anErrorCode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="156" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="156" bodyend="175"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Holds the vendored propagator, so it stays out of the public header. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Vallado&apos;s reference <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4" kindref="compound">SGP4</ref> (see thirdparty/vallado-sgp4/README.md). </para>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" line="50" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="49" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1ae305145ad098cda6eadbb92e2bef1172" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1ae6d0cfe79447e61b0b11bd56703961f2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>EpochFromInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a54cc13ccae5f68de167d27d35c28a9bf" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>ErrorMessage</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a8e4618cdddf7784a89cb72b7a12f9900" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>Impl</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1aaf4e68ec3d926b2827b4dc44099907ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>Impl</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1ad422c6dbf724a90c5d659ac94fb705bc" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>mutex_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a31b6bff9e2283a37916c9fad49f4e708" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>satelliteRecord_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl_1a8ac402ba6270dcc179ab931fd8da682f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</scope><name>temeFrameSPtr_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

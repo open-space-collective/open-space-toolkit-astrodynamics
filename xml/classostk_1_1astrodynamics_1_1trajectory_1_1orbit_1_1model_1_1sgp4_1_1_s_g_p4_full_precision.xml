@@ -1,0 +1,1123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::orbit::Model</basecompoundref>
+    <includes refid="_s_g_p4_full_precision_8hpp" local="no">SGP4FullPrecision.hpp</includes>
+    <innerclass refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1_1_impl" prot="public">ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Impl</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a9cf33c26fa2827a35b76e5ee14657e0a" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::epoch_</definition>
+        <argsstring></argsstring>
+        <name>epoch_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="333" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a5fb7d37426eadad9d5e0b7e429aba189" prot="private" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::inclination_</definition>
+        <argsstring></argsstring>
+        <name>inclination_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="334" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a29c6778cb3796f364d478b37c6ed043f" prot="private" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::raan_</definition>
+        <argsstring></argsstring>
+        <name>raan_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="335" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a86bd48019077cb2c674d61e6c6efc14b" prot="private" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::eccentricity_</definition>
+        <argsstring></argsstring>
+        <name>eccentricity_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="336" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa2b1e2bb410ecfe3764a625ca1cea4f2" prot="private" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::aop_</definition>
+        <argsstring></argsstring>
+        <name>aop_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="337" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a005e2a478b11c7100f64d2c750058272" prot="private" static="no" mutable="no">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::meanAnomaly_</definition>
+        <argsstring></argsstring>
+        <name>meanAnomaly_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="338" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1af2b621432564a2f69fdcfc9c9dbbd217" prot="private" static="no" mutable="no">
+        <type>Derived</type>
+        <definition>Derived ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::meanMotion_</definition>
+        <argsstring></argsstring>
+        <name>meanMotion_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="339" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1adca7a3446af931777838d36edff6a598" prot="private" static="no" mutable="no">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::bStarDragTerm_</definition>
+        <argsstring></argsstring>
+        <name>bStarDragTerm_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="340" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ae0838921e39e21fcd696cd44c44f8e41" prot="private" static="no" mutable="no">
+        <type>Integer</type>
+        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::revolutionNumberAtEpoch_</definition>
+        <argsstring></argsstring>
+        <name>revolutionNumberAtEpoch_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="341" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a1cfa76d5349850a25d663d0fe4d1c2fe" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::outputFrameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>outputFrameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="342" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a9e589eb5bb7dac7d6f15f9273c3ee0e8" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Impl &gt;</type>
+        <definition>Shared&lt;const Impl&gt; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::implSPtr_</definition>
+        <argsstring></argsstring>
+        <name>implSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="352" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::SGP4FullPrecision</definition>
+        <argsstring>(const Instant &amp;anEpoch, const Angle &amp;anInclination, const Angle &amp;aRaan, const Real &amp;anEccentricity, const Angle &amp;anAop, const Angle &amp;aMeanAnomaly, const Derived &amp;aMeanMotion, const Real &amp;aBStarDragTerm, const Integer &amp;aRevolutionNumberAtEpoch=1, const Shared&lt; const Frame &gt; &amp;anOutputFrameSPtr=Frame::TEME())</argsstring>
+        <name>SGP4FullPrecision</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anEpoch</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anInclination</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aRaan</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>anEccentricity</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAop</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aMeanAnomaly</declname>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aMeanMotion</declname>
+        </param>
+        <param>
+          <type>const Real &amp;</type>
+          <declname>aBStarDragTerm</declname>
+        </param>
+        <param>
+          <type>const Integer &amp;</type>
+          <declname>aRevolutionNumberAtEpoch</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>anOutputFrameSPtr</declname>
+          <defval>Frame::TEME()</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" kindref="member">SGP4FullPrecision</ref><sp/>sgp4FullPrecision<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>epoch,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(51.6416),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(247.4627),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>0.0006703,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(130.5360),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(325.0288),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Derived(15.72125391,<sp/>Derived::Unit::AngularVelocity(Angle::Unit::Revolution,<sp/>Time::Unit::Day)),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-1.1606e-5,</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anEpoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An epoch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInclination</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inclination. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRaan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A right ascension of the ascending node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEccentricity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An eccentricity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAop</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An argument of periapsis. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMeanAnomaly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A mean anomaly. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMeanMotion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A mean motion. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aBStarDragTerm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A B* drag term. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRevolutionNumberAtEpoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A revolution number at epoch. Defaults to 1. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOutputFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output frame. Defaults to Frame::TEME(). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::RuntimeError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the element set cannot be propagated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="94" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="178" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1abc21e2d78a0165750389cfa3d1c51e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::SGP4FullPrecision</definition>
+        <argsstring>(const SGP4FullPrecision &amp;aSGP4FullPrecision)</argsstring>
+        <name>SGP4FullPrecision</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The copy propagates independently of its source: it gets its own propagator state rather than sharing it.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSGP4FullPrecision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="113" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="208" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a31dcc348af02a42b78f16fac9db7be0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+        <definition>SGP4FullPrecision &amp; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::operator=</definition>
+        <argsstring>(const SGP4FullPrecision &amp;aSGP4FullPrecision)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSGP4FullPrecision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to this full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="119" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="223" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaa72eff3b55b620bcfe8415890e11832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::SGP4FullPrecision</definition>
+        <argsstring>(SGP4FullPrecision &amp;&amp;aSGP4FullPrecision)=default</argsstring>
+        <name>SGP4FullPrecision</name>
+        <param>
+          <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;&amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ae3d5b8528301edd60851f53931743bc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+        <definition>SGP4FullPrecision&amp; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::operator=</definition>
+        <argsstring>(SGP4FullPrecision &amp;&amp;aSGP4FullPrecision)=default</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;&amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A reference to this full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="127" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaeb6fea43961ab9fe73158c88727edda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> *</type>
+        <definition>SGP4FullPrecision * ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a8e8b55528a289a24a139fdc9526d6699">clone</reimplements>
+        <briefdescription>
+<para>Clone the full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" kindref="member">SGP4FullPrecision</ref>*<sp/>sgp4FullPrecisionPtr<sp/>=<sp/>sgp4FullPrecision.clone();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>A pointer to the cloned full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="136" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="243" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ad2c5dee545d396a69d344e729466a27d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::operator==</definition>
+        <argsstring>(const SGP4FullPrecision &amp;aSGP4FullPrecision) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEqual<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" kindref="member">SGP4FullPrecision::FromTLE</ref>(tle)<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" kindref="member">SGP4FullPrecision::FromTLE</ref>(tle);<sp/><sp/></highlight><highlight class="comment">//<sp/>True</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSGP4FullPrecision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if both full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> models are equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="146" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="248" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a9c5f503c63e6257fe1117921951342cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::operator!=</definition>
+        <argsstring>(const SGP4FullPrecision &amp;aSGP4FullPrecision) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNotEqual<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" kindref="member">SGP4FullPrecision::FromTLE</ref>(tle)<sp/>!=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa6677bc7f074a967e65f06d6e8810c1d" kindref="member">SGP4FullPrecision::Undefined</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>True</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSGP4FullPrecision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if both full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> models are not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="156" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="263" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ada222f4aae7caa9fc6710c6046282d81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::isDefined</definition>
+        <argsstring>() const override</argsstring>
+        <name>isDefined</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a68336998bbf054ebf15060fe56baed46">isDefined</reimplements>
+        <briefdescription>
+<para>Check if the full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ada222f4aae7caa9fc6710c6046282d81" kindref="member">isDefined</ref><sp/>=<sp/>sgp4FullPrecision.isDefined();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>True if the full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model is defined. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="176" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="275" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ab536a2b8887f4eabf4b40fb421ac6292" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getEpoch</definition>
+        <argsstring>() const override</argsstring>
+        <name>getEpoch</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a9867f3f069a4333ba5a037ace603466d">getEpoch</reimplements>
+        <briefdescription>
+<para>Get the epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Instant<sp/>epoch<sp/>=<sp/>sgp4FullPrecision.getEpoch();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The epoch. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="185" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="282" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1afcb203279a606b21724dd461732a0178" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getInclination</definition>
+        <argsstring>() const</argsstring>
+        <name>getInclination</name>
+        <briefdescription>
+<para>Get the inclination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Angle<sp/>inclination<sp/>=<sp/>sgp4FullPrecision.getInclination();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The inclination. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="194" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="292" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1af3b236b3d26f0cc866b0d4f905f7ff97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getRaan</definition>
+        <argsstring>() const</argsstring>
+        <name>getRaan</name>
+        <briefdescription>
+<para>Get the right ascension of the ascending node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Angle<sp/>raan<sp/>=<sp/>sgp4FullPrecision.getRaan();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The right ascension of the ascending node. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="203" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="302" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a819ea347782b811cf0264008c7d3e928" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getEccentricity</definition>
+        <argsstring>() const</argsstring>
+        <name>getEccentricity</name>
+        <briefdescription>
+<para>Get the eccentricity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>eccentricity<sp/>=<sp/>sgp4FullPrecision.getEccentricity();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The eccentricity. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="212" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="312" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a979d71813148988af91cc9e79c31478e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getAop</definition>
+        <argsstring>() const</argsstring>
+        <name>getAop</name>
+        <briefdescription>
+<para>Get the argument of periapsis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Angle<sp/>aop<sp/>=<sp/>sgp4FullPrecision.getAop();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The argument of periapsis. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="221" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="322" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7927690ae06f25569f0da2f05b3c4c67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Angle</type>
+        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getMeanAnomaly</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanAnomaly</name>
+        <briefdescription>
+<para>Get the mean anomaly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Angle<sp/>meanAnomaly<sp/>=<sp/>sgp4FullPrecision.getMeanAnomaly();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The mean anomaly. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="230" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="332" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a1cb289f01e7a5703590648349cc4f2ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Derived</type>
+        <definition>Derived ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getMeanMotion</definition>
+        <argsstring>() const</argsstring>
+        <name>getMeanMotion</name>
+        <briefdescription>
+<para>Get the mean motion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>meanMotion_revPerDay<sp/>=<sp/>sgp4FullPrecision.getMeanMotion().in(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Derived::Unit::AngularVelocity(Angle::Unit::Revolution,<sp/>Time::Unit::Day)</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The mean motion. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="241" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="342" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a1a11087b5031dbbbaf5a44af48c7982a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Real</type>
+        <definition>Real ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getBStarDragTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getBStarDragTerm</name>
+        <briefdescription>
+<para>Get the B* drag term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Real<sp/>bStarDragTerm<sp/>=<sp/>sgp4FullPrecision.getBStarDragTerm();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The B* drag term. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="250" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="352" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a449d26ccda0b4469eb0ce0772bc73e10" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Integer</type>
+        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getRevolutionNumberAtEpoch</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRevolutionNumberAtEpoch</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1af94c4fb7500e16671735e1d978b7475e">getRevolutionNumberAtEpoch</reimplements>
+        <briefdescription>
+<para>Get the revolution number at epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Integer<sp/>revolutionNumber<sp/>=<sp/>sgp4FullPrecision.getRevolutionNumberAtEpoch();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The revolution number at epoch. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="259" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="362" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ad383d42daaaa9dfe9b97f4690043181e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::getOutputFrame</definition>
+        <argsstring>() const</argsstring>
+        <name>getOutputFrame</name>
+        <briefdescription>
+<para>Get output frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>Frame&gt;<sp/>outputFrameSPtr<sp/>=<sp/>sgp4FullPrecision.getOutputFrame();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>The output frame. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="268" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="372" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7dc7e42b9bbcd9bea9cd9dce49acd3f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::calculateStateAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const override</argsstring>
+        <name>calculateStateAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ac1357b291393c44c18be2d5db954e32b">calculateStateAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the state at a given instant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>state<sp/>=<sp/>sgp4FullPrecision.calculateStateAt(Instant::Now());</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The state at the given instant, expressed in the output frame. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="278" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="382" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7e98cf738d2fb2c5e8939f297c41ad69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
+        <definition>Array&lt; State &gt; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::calculateStatesAt</definition>
+        <argsstring>(const Array&lt; Instant &gt; &amp;anInstantArray) const override</argsstring>
+        <name>calculateStatesAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075">calculateStatesAt</reimplements>
+        <param>
+          <type>const Array&lt; Instant &gt; &amp;</type>
+          <declname>anInstantArray</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the states at given instants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;State&gt;<sp/>states<sp/>=<sp/>sgp4FullPrecision.calculateStatesAt({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sgp4FullPrecision.getEpoch(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sgp4FullPrecision.getEpoch()<sp/>+<sp/>Duration::Minutes(10.0),</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstantArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An array of instants. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The states at the given instants, expressed in the output frame. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="291" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="397" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a6208209bee0b650edf9f8d4f7b21786d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</argsstring>
+        <name>print</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1adb95510c1c7cde93bcfc7fd0d8c8f4f7">print</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">sgp4FullPrecision.print(std::cout,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, display the decorator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="301" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="422" bodyend="445"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa5282fd3517e686c4700662facff8439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const SGP4FullPrecision &amp;aSGP4FullPrecision)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref> &amp;</type>
+          <declname>aSGP4FullPrecision</declname>
+        </param>
+        <briefdescription>
+<para>Output stream operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>sgp4FullPrecision<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSGP4FullPrecision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the output stream. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="167" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="268" bodyend="273"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa6677bc7f074a967e65f06d6e8810c1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref></type>
+        <definition>SGP4FullPrecision ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::Undefined</definition>
+        <argsstring>()</argsstring>
+        <name>Undefined</name>
+        <briefdescription>
+<para>Construct an undefined full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" kindref="member">SGP4FullPrecision</ref><sp/>sgp4FullPrecision<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa6677bc7f074a967e65f06d6e8810c1d" kindref="member">SGP4FullPrecision::Undefined</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>isDefined()<sp/>is<sp/>false</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>An undefined full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="310" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="447" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref></type>
+        <definition>SGP4FullPrecision ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::FromTLE</definition>
+        <argsstring>(const TLE &amp;aTLE, const Shared&lt; const Frame &gt; &amp;anOutputFrameSPtr=Frame::TEME())</argsstring>
+        <name>FromTLE</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> &amp;</type>
+          <declname>aTLE</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>anOutputFrameSPtr</declname>
+          <defval>Frame::TEME()</defval>
+        </param>
+        <briefdescription>
+<para>Construct a full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model from a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The values carried by the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> have already been rounded by its text format; this does not recover the precision that was lost when the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> was written.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" kindref="member">SGP4FullPrecision</ref><sp/>sgp4FullPrecision<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" kindref="member">SGP4FullPrecision::FromTLE</ref>(tle);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" kindref="member">SGP4FullPrecision</ref><sp/>sgp4FullPrecisionGCRF<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" kindref="member">SGP4FullPrecision::FromTLE</ref>(tle,<sp/>Frame::GCRF());</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTLE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anOutputFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An output frame. Defaults to Frame::TEME(). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The full precision <ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4" kindref="compound">sgp4</ref> model the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> encodes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="325" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="462" bodyend="481"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a01ba92451890ab15623c36f3001c6036" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::operator==</definition>
+        <argsstring>(const trajectory::Model &amp;aModel) const override</argsstring>
+        <name>operator==</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a3815cac54f418dcc69a94935de307d89">operator==</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">trajectory::Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="328" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="483" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a94378d2b8cb327856b39180a1ada8a9b" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::operator!=</definition>
+        <argsstring>(const trajectory::Model &amp;aModel) const override</argsstring>
+        <name>operator!=</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d">operator!=</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model" kindref="compound">trajectory::Model</ref> &amp;</type>
+          <declname>aModel</declname>
+        </param>
+        <briefdescription>
+<para>Not equal to operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aModel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if models are not equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="330" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="490" bodyend="493"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ab6423cbf56c899a3d36e7352ea13fb98" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Impl &gt;</type>
+        <definition>Shared&lt; const SGP4FullPrecision::Impl &gt; ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision::CopyImpl</definition>
+        <argsstring>(const Shared&lt; const Impl &gt; &amp;anImplSPtr)</argsstring>
+        <name>CopyImpl</name>
+        <param>
+          <type>const Shared&lt; const Impl &gt; &amp;</type>
+          <declname>anImplSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="354" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp" bodystart="495" bodyend="498"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>An <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref> <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" kindref="compound">Model</ref> that holds <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4" kindref="compound">SGP4</ref> mean elements at full precision. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This uses the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4" kindref="compound">SGP4</ref> propagator, but with the orbital elements stored at machine-precision rather than the truncated precision of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref> format.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Elements<sp/>computed<sp/>rather<sp/>than<sp/>read:<sp/>they<sp/>are<sp/>taken<sp/>as<sp/>continuous<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" kindref="member">SGP4FullPrecision</ref><sp/>sgp4FullPrecision<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Instant::DateTime(DateTime::Parse(</highlight><highlight class="stringliteral">&quot;2008-09-20<sp/>12:25:40.104&quot;</highlight><highlight class="normal">),<sp/>Scale::UTC),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(51.6416),<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>inclination</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(247.4627),<sp/><sp/></highlight><highlight class="comment">//<sp/>RAAN</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>0.0006703,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>eccentricity</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(130.5360),<sp/><sp/></highlight><highlight class="comment">//<sp/>AoP</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Angle::Degrees(325.0288),<sp/><sp/></highlight><highlight class="comment">//<sp/>mean<sp/>anomaly</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Derived(15.72125391,<sp/>Derived::Unit::AngularVelocity(Angle::Unit::Revolution,<sp/>Time::Unit::Day)),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-1.1606e-5,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>B*</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State<sp/>state<sp/>=<sp/>sgp4FullPrecision.calculateStateAt(Instant::Now());</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::trajectory::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::trajectory::orbit::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::trajectory::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::trajectory::orbit::Model</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" line="66" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp" bodystart="65" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa2b1e2bb410ecfe3764a625ca1cea4f2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>aop_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>as</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1adca7a3446af931777838d36edff6a598" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>bStarDragTerm_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a96da6a07d34c0b30d8e8dc579065b8b8" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>calculateRevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7dc7e42b9bbcd9bea9cd9dce49acd3f4" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>calculateStateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7e98cf738d2fb2c5e8939f297c41ad69" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>calculateStatesAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaeb6fea43961ab9fe73158c88727edda" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>clone</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ab6423cbf56c899a3d36e7352ea13fb98" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>CopyImpl</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a86bd48019077cb2c674d61e6c6efc14b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>eccentricity_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a9cf33c26fa2827a35b76e5ee14657e0a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>epoch_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a4cc58f0c411baa2ca3867f41c388c435" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>FromTLE</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a979d71813148988af91cc9e79c31478e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getAop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a1a11087b5031dbbbaf5a44af48c7982a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getBStarDragTerm</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a819ea347782b811cf0264008c7d3e928" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getEccentricity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ab536a2b8887f4eabf4b40fb421ac6292" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getEpoch</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1afcb203279a606b21724dd461732a0178" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getInclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7927690ae06f25569f0da2f05b3c4c67" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getMeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a1cb289f01e7a5703590648349cc4f2ab" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getMeanMotion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ad383d42daaaa9dfe9b97f4690043181e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getOutputFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1af3b236b3d26f0cc866b0d4f905f7ff97" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getRaan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a449d26ccda0b4469eb0ce0772bc73e10" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>getRevolutionNumberAtEpoch</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a9e589eb5bb7dac7d6f15f9273c3ee0e8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>implSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a5fb7d37426eadad9d5e0b7e429aba189" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>inclination_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>is</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ada222f4aae7caa9fc6710c6046282d81" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a005e2a478b11c7100f64d2c750058272" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>meanAnomaly_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1af2b621432564a2f69fdcfc9c9dbbd217" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>meanMotion_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ae31a2ca84e2ced0ed3ae5b89b240f68d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>Model</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a9c5f503c63e6257fe1117921951342cb" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a94378d2b8cb327856b39180a1ada8a9b" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator!=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa5282fd3517e686c4700662facff8439" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a31dcc348af02a42b78f16fac9db7be0e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ae3d5b8528301edd60851f53931743bc7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ad2c5dee545d396a69d344e729466a27d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a01ba92451890ab15623c36f3001c6036" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>operator==</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a1cfa76d5349850a25d663d0fe4d1c2fe" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>outputFrameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a6208209bee0b650edf9f8d4f7b21786d" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a29c6778cb3796f364d478b37c6ed043f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>raan_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ae0838921e39e21fcd696cd44c44f8e41" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>revolutionNumberAtEpoch_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a8144dc698f170773b950503f980f1f78" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>SGP4FullPrecision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1abc21e2d78a0165750389cfa3d1c51e24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>SGP4FullPrecision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaa72eff3b55b620bcfe8415890e11832" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>SGP4FullPrecision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aa6677bc7f074a967e65f06d6e8810c1d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>Undefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a49fe068b6734357011f16e3db5e1457d" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</scope><name>~Model</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

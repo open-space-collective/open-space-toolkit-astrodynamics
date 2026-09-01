@@ -356,9 +356,9 @@
 </entry></row>
 <row>
 <entry thead="no"><para>SGP4 </para>
-</entry><entry thead="no"><para><computeroutput>6a448b4</computeroutput> </para>
-</entry><entry thead="no"><para>Apache License 2.0 </para>
-</entry><entry thead="no"><para><ulink url="https://github.com/dnwrnr/sgp4">github.com/dnwrnr/sgp4</ulink>  </para>
+</entry><entry thead="no"><para><computeroutput>2020-07-13</computeroutput> </para>
+</entry><entry thead="no"><para>None stated </para>
+</entry><entry thead="no"><para><ulink url="https://celestrak.org/software/vallado-sw.php">celestrak.org/software/vallado-sw.php</ulink> (vendored, see <computeroutput>thirdparty/vallado-sgp4</computeroutput>)  </para>
 </entry></row>
 <row>
 <entry thead="no"><para>NLopt </para>

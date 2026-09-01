@@ -6,6 +6,7 @@
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::orbit::model::Kepler</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::orbit::model::Propagated</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::orbit::model::SGP4</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</derivedcompoundref>
     <derivedcompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated" prot="public" virt="virtual">ostk::astrodynamics::trajectory::orbit::model::Tabulated</derivedcompoundref>
     <includes refid="_trajectory_2_orbit_2_model_8hpp" local="no">Model.hpp</includes>
       <sectiondef kind="public-func">
@@ -47,6 +48,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae6c6823d8d795c53422c643d4288713d">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1aec60303c53b1cfd49b18f6bf04f62bf8">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaeb6fea43961ab9fe73158c88727edda">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5c602e82d4eb0e20497943e45b437893">clone</reimplementedby>
         <briefdescription>
 <para>Clone the orbit model. </para>
@@ -69,6 +71,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1ee56729996737bdeb0a82aae6208218">isDefined</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a212c20f9354591e30d9fb27400869809">isDefined</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a4555bef397257e8f4239ece8aff79d0d">isDefined</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ada222f4aae7caa9fc6710c6046282d81">isDefined</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a2cf7eb3886519efe9ff2e47d78afa3cc">isDefined</reimplementedby>
         <briefdescription>
 <para>Check if the orbit model is defined. </para>
@@ -90,6 +93,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae59405bd8e3741bedf843305a7ac8670">getEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa5f849dfef488812988656e334f2be98">getEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a2179b5781de8a1b58be9794d295158e8">getEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ab536a2b8887f4eabf4b40fb421ac6292">getEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ae54bd0ba0ab57343a301b332587c8a8c">getEpoch</reimplementedby>
         <briefdescription>
 <para>Get the epoch of the orbit model. </para>
@@ -112,6 +116,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aba868792a196fe2e28fd5b52b1e34998">getRevolutionNumberAtEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9785d1c1f627838e69f6c816026226ec">getRevolutionNumberAtEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ae5070899e3a10f0727ed29772677151e">getRevolutionNumberAtEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a449d26ccda0b4469eb0ce0772bc73e10">getRevolutionNumberAtEpoch</reimplementedby>
         <briefdescription>
 <para>Get the revolution number at the epoch. </para>
         </briefdescription>
@@ -134,6 +139,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1afe6ee6f73e40b3c1723de24663158b93">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a1b006869b9345866044450138104e900">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a41cbcbf78726ae3beaa0b4d1e9255fbc">calculateStateAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7dc7e42b9bbcd9bea9cd9dce49acd3f4">calculateStateAt</reimplementedby>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -203,6 +209,7 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab633721b98b7518e0136e62cb964f604">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a38e950141db96b27e959391885e32122">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a50eed9bbbdeab33745acfad02b10bc5f">print</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a6208209bee0b650edf9f8d4f7b21786d">print</reimplementedby>
         <param>
           <type>std::ostream &amp;</type>
           <declname>anOutputStream</declname>
@@ -258,6 +265,12 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="6">
+        <label>ostk::astrodynamics::trajectory::orbit::model::sgp4::SGP4FullPrecision</label>
+        <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="2">
         <label>ostk::astrodynamics::trajectory::Model</label>
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model"/>
@@ -274,7 +287,7 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>ostk::astrodynamics::trajectory::orbit::model::Tabulated</label>
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated"/>
         <childnode refid="1" relation="public-inheritance">
