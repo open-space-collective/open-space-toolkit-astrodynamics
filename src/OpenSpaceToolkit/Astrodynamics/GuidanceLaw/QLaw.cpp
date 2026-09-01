@@ -96,6 +96,15 @@ QLaw::Parameters::Parameters(
             throw ostk::core::error::RuntimeError("Absolute effectivity threshold must be within range [0.0, 1.0].");
         }
     }
+
+    if (anAbsoluteEffectivityThreshold.isDefined() || aRelativeEffectivityThreshold.isDefined())
+    {
+        std::cerr << "[QLaw::Parameters] Warning: 'absoluteEffectivityThreshold' and "
+                  << "'relativeEffectivityThreshold' parameters are deprecated and will be removed "
+                  << "in a future release. Pass them to "
+                  << "guidancelaw::effectivityprovider::QLaw and use it with "
+                  << "EffectivityGatedGuidanceLaw or InTrack instead." << std::endl;
+    }
 }
 
 Vector5d QLaw::Parameters::getControlWeights() const
@@ -472,6 +481,76 @@ Tuple<double, double> QLaw::computeEffectivity(
     const VectorXd trueAnomalyAnglesVector = VectorXd::LinSpaced(discretizationStepCount, 0.0, 2.0 * M_PI);
 
     return computeEffectivity_(coeVector, thrustVector, aThrustAcceleration, trueAnomalyAnglesVector);
+}
+
+Tuple<double, double> QLaw::computeEffectivity(
+    const State& aState,
+    const Vector3d& aThrustDirectionThetaRH,
+    const Real& aThrustAcceleration,
+    const Size& discretizationStepCount
+) const
+{
+    const double norm = aThrustDirectionThetaRH.norm();
+    if (norm < 1e-12)
+    {
+        throw ostk::core::error::runtime::Undefined("Thrust direction");
+    }
+
+    const State stateGCRF = aState.inFrame(Frame::GCRF());
+    const Position position = stateGCRF.getPosition();
+    const Velocity velocity = stateGCRF.getVelocity();
+
+    const COE::CartesianState cartesianState = {position, velocity};
+
+    const Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
+
+    const VectorXd trueAnomalyAnglesVector = VectorXd::LinSpaced(discretizationStepCount, 0.0, 2.0 * M_PI);
+
+    return computeDirectionAwareEffectivity_(
+        coeVector, aThrustDirectionThetaRH / norm, aThrustAcceleration, trueAnomalyAnglesVector
+    );
+}
+
+Array<Tuple<double, double>> QLaw::computeEffectivities(
+    const State& aState,
+    const Array<Vector3d>& aThrustDirectionsThetaRH,
+    const Real& aThrustAcceleration,
+    const Size& discretizationStepCount
+) const
+{
+    Array<Tuple<double, double>> results;
+    results.reserve(aThrustDirectionsThetaRH.getSize());
+
+    if (aThrustDirectionsThetaRH.isEmpty())
+    {
+        return results;
+    }
+
+    const State stateGCRF = aState.inFrame(Frame::GCRF());
+    const Position position = stateGCRF.getPosition();
+    const Velocity velocity = stateGCRF.getVelocity();
+
+    const COE::CartesianState cartesianState = {position, velocity};
+    const Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
+
+    const VectorXd trueAnomalyAnglesVector = VectorXd::LinSpaced(discretizationStepCount, 0.0, 2.0 * M_PI);
+
+    Eigen::Matrix<double, 3, Eigen::Dynamic> grid;
+    Vector3d current;
+    computeDirectionAwareGrid_(coeVector, aThrustAcceleration, trueAnomalyAnglesVector, grid, current);
+
+    for (const Vector3d& direction : aThrustDirectionsThetaRH)
+    {
+        const double norm = direction.norm();
+        if (norm < 1e-12)
+        {
+            throw ostk::core::error::runtime::Undefined("Thrust direction");
+        }
+
+        results.add(computeDirectionAwareEffectivityFromGrid_(grid, current, direction / norm));
+    }
+
+    return results;
 }
 
 Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter)
@@ -890,6 +969,74 @@ Tuple<double, double> QLaw::computeEffectivity_(
     const double etaAbsolute = (dQn_dt / dQnn_dt);
     // η = (Q̇n - Q̇nx) / (Q̇nn - Q̇nx) -> (current Q̇ - maximum Q̇) / (minimum Q̇ - maximum Q̇)
     const double etaRelative = (dQn_dt - dQnx_dt) / (dQnn_dt - dQnx_dt);
+
+    return {etaRelative, etaAbsolute};
+}
+
+Tuple<double, double> QLaw::computeDirectionAwareEffectivity_(
+    const Vector6d& aCOEVector,
+    const Vector3d& aThrustDirectionThetaRH,
+    const double& aThrustAcceleration,
+    const VectorXd& trueAnomalyAngles
+) const
+{
+    Eigen::Matrix<double, 3, Eigen::Dynamic> grid;
+    Vector3d current;
+    computeDirectionAwareGrid_(aCOEVector, aThrustAcceleration, trueAnomalyAngles, grid, current);
+
+    return computeDirectionAwareEffectivityFromGrid_(grid, current, aThrustDirectionThetaRH);
+}
+
+void QLaw::computeDirectionAwareGrid_(
+    const Vector6d& aCOEVector,
+    const double& aThrustAcceleration,
+    const VectorXd& trueAnomalyAngles,
+    Eigen::Matrix<double, 3, Eigen::Dynamic>& aGridOut,
+    Vector3d& aCurrentOut
+) const
+{
+    const Index sampleCount = trueAnomalyAngles.size();
+    aGridOut.resize(3, sampleCount);
+
+    Vector6d coeVector = aCOEVector;
+    for (Index j = 0; j < sampleCount; ++j)
+    {
+        coeVector[5] = trueAnomalyAngles(j);
+        aGridOut.col(j) = computeThrustVector(coeVector, aThrustAcceleration);
+    }
+
+    aCurrentOut = computeThrustVector(aCOEVector, aThrustAcceleration);
+}
+
+Tuple<double, double> QLaw::computeDirectionAwareEffectivityFromGrid_(
+    const Eigen::Matrix<double, 3, Eigen::Dynamic>& aGrid,
+    const Vector3d& aCurrent,
+    const Vector3d& aThrustDirectionThetaRH
+)
+{
+    // dQ/dt achievable by the constant theta-R-H direction at each sampled true anomaly and at
+    // the current true anomaly. Direction-independent grid sampling has already been done; this
+    // step is a per-direction contraction.
+    const VectorXd dQdt = aGrid.transpose() * aThrustDirectionThetaRH;
+    const double dQdt_current = aCurrent.dot(aThrustDirectionThetaRH);
+
+    const double dQdt_best = dQdt.minCoeff();   // most negative — best Q reduction for this direction
+    const double dQdt_worst = dQdt.maxCoeff();  // least negative / positive — worst
+
+    const double epsilon = 1e-30;
+
+    // Degenerate: flat response across the orbit.
+    if (std::abs(dQdt_best - dQdt_worst) < epsilon)
+    {
+        return {1.0, 1.0};
+    }
+
+    // Pathological: direction never reduces Q at any sampled anomaly. eta_abs is not meaningful
+    // (normalizer is non-negative, making the ratio unbounded). Report 0 so the absolute gate
+    // rejects. eta_rel remains well-defined and keeps its normal meaning.
+    const double etaAbsolute = (dQdt_best >= 0.0) ? 0.0 : (dQdt_current / dQdt_best);
+
+    const double etaRelative = (dQdt_current - dQdt_worst) / (dQdt_best - dQdt_worst);
 
     return {etaRelative, etaAbsolute};
 }
