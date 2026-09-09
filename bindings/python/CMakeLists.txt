@@ -95,6 +95,9 @@ FUNCTION (NB_ADD_LIBRARY version)
     TARGET_COMPILE_FEATURES (${target} PUBLIC cxx_std_17)
     # Python's C API type-puns heavily.
     TARGET_COMPILE_OPTIONS (${target} PRIVATE "-fno-strict-aliasing")
+    # Trade nanobind's verbose assertion messages for a smaller binary. The macro is only read by
+    # nanobind's own sources, so this is the target that actually needs it.
+    TARGET_COMPILE_DEFINITIONS (${target} PRIVATE $<$<NOT:$<CONFIG:Debug>>:NB_COMPACT_ASSERTIONS>)
     SET_TARGET_PROPERTIES (${target} PROPERTIES
                           POSITION_INDEPENDENT_CODE ON
                           C_VISIBILITY_PRESET hidden
@@ -203,7 +206,7 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
                             COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/README.md"
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv sync --python ${PYTHON_VERSION} --all-extras
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv pip install "cesiumpy @ git+https://github.com/open-space-collective/cesiumpy@0.4.1" # TBR: after https://github.com/open-space-collective/open-space-toolkit/issues/183
-                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}" && uv run --project "${NAME}" python -m nanobind.stubgen -m "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" -r -M "${NAME}/${PROJECT_PATH}/py.typed" -O "${NAME}" # generate stubs in same dir as binaries
+                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}" && uv run --project "${NAME}" python -m nanobind.stubgen -m "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" -r -M "${NAME}/${PROJECT_PATH}/py.typed" -O "${NAME}/${PROJECT_PATH}" # generate stubs in same dir as binaries
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && env _PYTHON_HOST_PLATFORM="${PLATFORM}" uv build
                             COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/dist"
                             COMMAND cp "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dist/*" "${CMAKE_CURRENT_BINARY_DIR}/dist"
