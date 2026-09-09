@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11
     using ostk::astrodynamics::dynamics::CentralBodyGravity;
 
     {
-        class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(
+        class_<CentralBodyGravity, Dynamics>(
             aModule,
             "CentralBodyGravity",
             R"doc(

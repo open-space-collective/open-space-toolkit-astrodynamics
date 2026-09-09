@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
 
@@ -33,8 +33,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
                 arg("specific_impulse_si_unit")
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const PropulsionSystem& self, const PropulsionSystem& other)
+                {
+                    return self == other;
+                },
+                nanobind::is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const PropulsionSystem& self, const PropulsionSystem& other)
+                {
+                    return self != other;
+                },
+                nanobind::is_operator()
+            )
 
             .def("__str__", &(shiftToString<PropulsionSystem>))
             .def("__repr__", &(shiftToString<PropulsionSystem>))

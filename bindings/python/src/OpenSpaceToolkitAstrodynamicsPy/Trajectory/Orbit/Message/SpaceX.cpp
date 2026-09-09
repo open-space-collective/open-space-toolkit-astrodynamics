@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Message/SpaceX/OPM.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX(nanobind::module_& aModule)
 {
     // Create "spacex" python submodule
     auto spacex = aModule.def_submodule("spacex");

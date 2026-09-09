@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -38,11 +38,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(pybind11::mod
                     Nadir: The `Nadir` object.
             )doc",
             arg("orbit"),
-            arg_v("step_size", Duration::Seconds(1e-2), "Duration.seconds(1e-2)")
+            arg("step_size").sig("Duration.seconds(1e-2)") = Duration::Seconds(1e-2)
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Nadir& self, const Nadir& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Nadir& self, const Nadir& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<Nadir>))
         .def("__repr__", &(shiftToString<Nadir>))

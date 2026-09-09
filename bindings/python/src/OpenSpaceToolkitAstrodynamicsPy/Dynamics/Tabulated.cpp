@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -20,7 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     {
-        class_<Tabulated, Dynamics, Shared<Tabulated>>(
+        class_<Tabulated, Dynamics>(
             aModule,
             "Tabulated",
             R"doc(
@@ -39,11 +39,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
                 arg("contribution_profile"),
                 arg("coordinate_subsets"),
                 arg("frame"),
-                arg_v(
-                    "interpolation_type",
+                arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
                     DEFAULT_TABULATED_DYNAMICS_INTERPOLATION_TYPE,
-                    "Interpolator.Type.BarycentricRational"
-                ),
                 R"doc(
                     Constructor.
 
