@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <nanobind/trampoline.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/AtmosphericDrag.cpp>
@@ -9,7 +11,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/ThirdBodyGravity.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Dynamics/Thruster.cpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Shared;
 
@@ -28,46 +30,40 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class PyDynamics : public Dynamics
 {
    public:
-    using Dynamics::Dynamics;
+    NB_TRAMPOLINE(Dynamics, 5);
 
     // Trampoline (need one for each virtual function)
 
     void print(std::ostream& anOutputStream, bool displayDecorator) const override
     {
-        PYBIND11_OVERRIDE(void, Dynamics, print, anOutputStream, displayDecorator);
+        NB_OVERRIDE(print, anOutputStream, displayDecorator);
     }
 
     bool isDefined() const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(bool, Dynamics, "is_defined", isDefined);
+        NB_OVERRIDE_PURE_NAME("is_defined", isDefined);
     }
 
     Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinateSubset>>, Dynamics, "get_read_coordinate_subsets", getReadCoordinateSubsets
-        );
+        NB_OVERRIDE_PURE_NAME("get_read_coordinate_subsets", getReadCoordinateSubsets);
     }
 
     Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            Array<Shared<const CoordinateSubset>>, Dynamics, "get_write_coordinate_subsets", getWriteCoordinateSubsets
-        );
+        NB_OVERRIDE_PURE_NAME("get_write_coordinate_subsets", getWriteCoordinateSubsets);
     }
 
     VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr)
         const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            VectorXd, Dynamics, "compute_contribution", computeContribution, anInstant, x, aFrameSPtr
-        );
+        NB_OVERRIDE_PURE_NAME("compute_contribution", computeContribution, anInstant, x, aFrameSPtr);
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(nanobind::module_& aModule)
 {
-    class_<Dynamics, PyDynamics, Shared<Dynamics>>(
+    class_<Dynamics, PyDynamics>(
         aModule,
         "Dynamics",
         R"doc(

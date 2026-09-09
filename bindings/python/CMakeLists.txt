@@ -27,6 +27,7 @@ SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake")
 ### Policies
 
 CMAKE_POLICY (SET "CMP0048" NEW)
+CMAKE_POLICY (SET "CMP0063" NEW)  # honour visibility properties on static libraries
 
 ### Options
 
@@ -68,6 +69,39 @@ MACRO (FIND_PYTHON version)
     ENDIF ()
 ENDMACRO ()
 
+### Function stripping a built python module
+
+# Replaces pybind11's `pybind11_strip`, which nanobind has no equivalent of.
+
+FUNCTION (PY_STRIP name)
+    IF (CMAKE_STRIP)
+        ADD_CUSTOM_COMMAND (TARGET ${name} POST_BUILD COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${name}>)
+    ENDIF ()
+ENDFUNCTION ()
+
+### Function building the nanobind runtime library for one python version
+
+FUNCTION (NB_ADD_LIBRARY version)
+    SET (target "nanobind-static-${version}")
+
+    IF (TARGET ${target})
+        RETURN ()
+    ENDIF ()
+
+    ADD_LIBRARY (${target} STATIC EXCLUDE_FROM_ALL ${NANOBIND_SOURCES})
+    TARGET_INCLUDE_DIRECTORIES (${target} SYSTEM PUBLIC "${nanobind_SOURCE_DIR}/include")
+    TARGET_INCLUDE_DIRECTORIES (${target} PRIVATE "${nanobind_SOURCE_DIR}/ext/robin_map/include")
+    TARGET_LINK_LIBRARIES (${target} PUBLIC python${version}::headers)
+    TARGET_COMPILE_FEATURES (${target} PUBLIC cxx_std_17)
+    # Python's C API type-puns heavily.
+    TARGET_COMPILE_OPTIONS (${target} PRIVATE "-fno-strict-aliasing")
+    SET_TARGET_PROPERTIES (${target} PROPERTIES
+                          POSITION_INDEPENDENT_CODE ON
+                          C_VISIBILITY_PRESET hidden
+                          CXX_VISIBILITY_PRESET hidden
+    )
+ENDFUNCTION ()
+
 ### Function to grab python extension and use for target
 
 FUNCTION (PY_EXTENSION name version)
@@ -87,8 +121,10 @@ FUNCTION (PY_ADD_MODULE NAME)
     CMAKE_PARSE_ARGUMENTS (PARSE "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     SET (PYTHON_VERSION ${PARSE_PYTHON_VERSION})
 
+    NB_ADD_LIBRARY (${PYTHON_VERSION})
+
     ADD_LIBRARY (${NAME} MODULE ${PARSE_UNPARSED_ARGUMENTS})
-    PYBIND11_STRIP (${NAME})
+    PY_STRIP (${NAME})
     PY_EXTENSION (${NAME} ${PYTHON_VERSION})
 
     # Source Code
@@ -102,7 +138,10 @@ FUNCTION (PY_ADD_MODULE NAME)
     # TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} "Boost::${PYTHON_VERSION}" "Boost::numpy37")
 
     # Pybind11/Python Headers
-    TARGET_LINK_LIBRARIES (${NAME} PRIVATE pybind11::module pybind11::lto python${PYTHON_VERSION}::headers)
+    TARGET_LINK_LIBRARIES (${NAME} PRIVATE "nanobind-static-${PYTHON_VERSION}" python${PYTHON_VERSION}::headers)
+    TARGET_COMPILE_OPTIONS (${NAME} PRIVATE "-fno-strict-aliasing")
+    # Trade nanobind's verbose assertion messages for a smaller binary.
+    TARGET_COMPILE_DEFINITIONS (${NAME} PRIVATE $<$<NOT:$<CONFIG:Debug>>:NB_COMPACT_ASSERTIONS>)
 
     TARGET_LINK_LIBRARIES (${NAME} PRIVATE ${SHARED_LIBRARY_TARGET})
 
@@ -164,8 +203,7 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
                             COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/README.md"
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv sync --python ${PYTHON_VERSION} --all-extras
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv pip install "cesiumpy @ git+https://github.com/open-space-collective/cesiumpy@0.4.1" # TBR: after https://github.com/open-space-collective/open-space-toolkit/issues/183
-                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv run pybind11-stubgen -o . "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" # generate stubs in same dir as binaries
-                            COMMAND find "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}" -type f -name "*.pyi" -exec sed -i "s/: \\\\.\\\\.\\\\./: typing.Any/g" {} + # crudely fix broken stubs; need to escape \\
+                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}" && uv run --project "${NAME}" python -m nanobind.stubgen -m "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" -r -M "${NAME}/${PROJECT_PATH}/py.typed" -O "${NAME}" # generate stubs in same dir as binaries
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && env _PYTHON_HOST_PLATFORM="${PLATFORM}" uv build
                             COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/dist"
                             COMMAND cp "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dist/*" "${CMAKE_CURRENT_BINARY_DIR}/dist"
@@ -189,10 +227,28 @@ ENDFUNCTION ()
 
 ## Dependencies
 
-### Pybind11
+### Nanobind
 
-SET (PYBIND11_NOPYTHON ON)
-FIND_PACKAGE (pybind11 2.12.0 REQUIRED)
+INCLUDE (FetchContent)
+
+FetchContent_Declare (
+    nanobind
+    GIT_REPOSITORY https://github.com/wjakob/nanobind.git
+    GIT_TAG v2.9.2
+    GIT_SHALLOW TRUE
+)
+
+# Only nanobind's sources are needed. Its own CMake project resolves a single
+# interpreter, whereas the bindings are built once per supported python version,
+# so the runtime library is assembled per version by NB_ADD_LIBRARY below.
+FetchContent_GetProperties (nanobind)
+IF (NOT nanobind_POPULATED)
+    FetchContent_Populate (nanobind)
+ENDIF ()
+
+# `nb_combined.cpp` is nanobind's officially supported single-translation-unit
+# amalgamation, which keeps this list correct across nanobind upgrades.
+SET (NANOBIND_SOURCES "${nanobind_SOURCE_DIR}/src/nb_combined.cpp")
 
 ### Python
 

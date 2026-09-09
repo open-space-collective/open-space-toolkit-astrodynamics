@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -19,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
-    class_<LocalOrbitalFrameFactory, Shared<LocalOrbitalFrameFactory>>(
+    class_<LocalOrbitalFrameFactory>(
         aModule,
         "LocalOrbitalFrameFactory",
         R"doc(

@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
@@ -17,7 +17,7 @@ using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(nanobind::module_& aModule)
 {
     class_<Tabulated, ostk::astrodynamics::trajectory::orbit::Model>(
         aModule,
@@ -41,11 +41,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             )doc",
             arg("states"),
             arg("initial_revolution_number"),
-            arg_v(
-                "interpolation_type",
-                DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            )
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
+                DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
         )
 
         .def(
@@ -110,9 +107,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             arg("output_frame")
         )
 
-        .def(self == self)
+        .def(
+            "__eq__",
+            [](const Tabulated& self, const Tabulated& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
 
-        .def(self != self)
+        .def(
+            "__ne__",
+            [](const Tabulated& self, const Tabulated& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<Tabulated>))
 
@@ -241,7 +252,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
 
             )doc",
             arg("states"),
-            arg_v("initial_revolution_number", Integer(1), "1")
+            arg("initial_revolution_number").sig("1") = Integer(1)
         )
 
         .def_static(

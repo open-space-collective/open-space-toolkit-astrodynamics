@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Pair;
 using ostk::core::type::Shared;
@@ -15,7 +15,7 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::COECondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(nanobind::module_& aModule)
 {
     {
         class_<COECondition>(
