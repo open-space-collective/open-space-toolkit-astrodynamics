@@ -27,14 +27,27 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
+using ostk::physics::unit::Derived;
 
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 CloseApproach::CloseApproach(const State& anObject1State, const State& anObject2State)
+    : CloseApproach(anObject1State, anObject2State, CovarianceMatrix::Undefined(), CovarianceMatrix::Undefined())
+{
+}
+
+CloseApproach::CloseApproach(
+    const State& anObject1State,
+    const State& anObject2State,
+    const CovarianceMatrix& anObject1CovarianceMatrix,
+    const CovarianceMatrix& anObject2CovarianceMatrix
+)
     : object1State_(anObject1State),
       object2State_(anObject2State),
+      object1CovarianceMatrix_(anObject1CovarianceMatrix),
+      object2CovarianceMatrix_(anObject2CovarianceMatrix),
       stateBuilder_(StateBuilder::Undefined())
 {
     if (anObject1State.isDefined() && anObject2State.isDefined())
@@ -43,6 +56,10 @@ CloseApproach::CloseApproach(const State& anObject1State, const State& anObject2
         {
             throw ostk::core::error::RuntimeError("Inconsistent state instants.");
         }
+
+        CloseApproach::ThrowIfInconsistentCovarianceMatrixInstants(
+            anObject1State.getInstant(), anObject1CovarianceMatrix, anObject2CovarianceMatrix
+        );
 
         // Build state builder with the frame of Object 1 and position/velocity coordinate subsets
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
@@ -101,6 +118,58 @@ State CloseApproach::getObject2State() const
     return object2State_;
 }
 
+CovarianceMatrix CloseApproach::getObject1CovarianceMatrix() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    return object1CovarianceMatrix_;
+}
+
+CovarianceMatrix CloseApproach::getObject2CovarianceMatrix() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    return object2CovarianceMatrix_;
+}
+
+void CloseApproach::setCovarianceMatrices(
+    const CovarianceMatrix& anObject1CovarianceMatrix, const CovarianceMatrix& anObject2CovarianceMatrix
+)
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    CloseApproach::ThrowIfInconsistentCovarianceMatrixInstants(
+        object1State_.getInstant(), anObject1CovarianceMatrix, anObject2CovarianceMatrix
+    );
+
+    object1CovarianceMatrix_ = anObject1CovarianceMatrix;
+    object2CovarianceMatrix_ = anObject2CovarianceMatrix;
+}
+
+CloseApproach CloseApproach::scale(const Real& aScaleFactor1, const Real& aScaleFactor2) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    const CovarianceMatrix scaledObject1CovarianceMatrix =
+        aScaleFactor1.isDefined() ? object1CovarianceMatrix_.scale(aScaleFactor1) : object1CovarianceMatrix_;
+    const CovarianceMatrix scaledObject2CovarianceMatrix =
+        aScaleFactor2.isDefined() ? object2CovarianceMatrix_.scale(aScaleFactor2) : object2CovarianceMatrix_;
+
+    return {object1State_, object2State_, scaledObject1CovarianceMatrix, scaledObject2CovarianceMatrix};
+}
+
 Instant CloseApproach::getInstant() const
 {
     if (!this->isDefined())
@@ -136,6 +205,21 @@ State CloseApproach::getRelativeState() const
     const State reducedObject2State = stateBuilder_.reduce(object2State_.inFrame(object1State_.accessFrame()));
 
     return reducedObject2State - reducedObject1State;
+}
+
+Derived CloseApproach::getRelativeVelocity() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    const State relativeState = this->getRelativeState();
+    const Velocity relativeVelocity = relativeState.getVelocity();
+    const Vector3d relativeVelocityCoordinates =
+        relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
+
+    return Derived(relativeVelocityCoordinates.norm(), Derived::Unit::MeterPerSecond());
 }
 
 Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFrame(const Shared<const Frame>& aFrame
@@ -202,6 +286,22 @@ void CloseApproach::print(std::ostream& anOutputStream, bool displayDecorator) c
 CloseApproach CloseApproach::Undefined()
 {
     return CloseApproach(State::Undefined(), State::Undefined());
+}
+
+void CloseApproach::ThrowIfInconsistentCovarianceMatrixInstants(
+    const Instant& aStateInstant,
+    const CovarianceMatrix& anObject1CovarianceMatrix,
+    const CovarianceMatrix& anObject2CovarianceMatrix
+)
+{
+    if (anObject1CovarianceMatrix.isDefined() && anObject2CovarianceMatrix.isDefined())
+    {
+        if ((anObject1CovarianceMatrix.getInstant() != aStateInstant) ||
+            (anObject2CovarianceMatrix.getInstant() != aStateInstant))
+        {
+            throw ostk::core::error::RuntimeError("Inconsistent covariance matrix instants.");
+        }
+    }
 }
 
 }  // namespace conjunction

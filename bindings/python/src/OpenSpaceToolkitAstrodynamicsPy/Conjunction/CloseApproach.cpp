@@ -9,13 +9,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
     using namespace pybind11;
 
     using ostk::core::container::Tuple;
+    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
+    using ostk::physics::unit::Derived;
     using ostk::physics::unit::Length;
 
     using ostk::astrodynamics::conjunction::CloseApproach;
+    using ostk::astrodynamics::estimator::CovarianceMatrix;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
     using ostk::astrodynamics::trajectory::State;
 
@@ -26,7 +29,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             Close approach between two objects.
 
             This class represents a close approach event between two objects, providing access to the states of both
-            objects at the time of closest approach, the miss distance, and the relative state.
+            objects at the time of closest approach, the miss distance, the relative state, and the relative velocity.
         )doc"
     )
 
@@ -41,6 +44,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             )doc",
             arg("object_1_state"),
             arg("object_2_state")
+        )
+
+        .def(
+            init<const State&, const State&, const CovarianceMatrix&, const CovarianceMatrix&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    object_1_state (State): The state of Object 1.
+                    object_2_state (State): The state of Object 2.
+                    object_1_covariance_matrix (CovarianceMatrix): The covariance matrix of Object 1.
+                    object_2_covariance_matrix (CovarianceMatrix): The covariance matrix of Object 2.
+            )doc",
+            arg("object_1_state"),
+            arg("object_2_state"),
+            arg("object_1_covariance_matrix"),
+            arg("object_2_covariance_matrix")
         )
 
         .def(
@@ -106,6 +126,62 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
+            "get_object_1_covariance_matrix",
+            &CloseApproach::getObject1CovarianceMatrix,
+            R"doc(
+                Get the covariance matrix of Object 1.
+
+                Returns:
+                    CovarianceMatrix: The covariance matrix of Object 1.
+            )doc"
+        )
+
+        .def(
+            "get_object_2_covariance_matrix",
+            &CloseApproach::getObject2CovarianceMatrix,
+            R"doc(
+                Get the covariance matrix of Object 2.
+
+                Returns:
+                    CovarianceMatrix: The covariance matrix of Object 2.
+            )doc"
+        )
+
+        .def(
+            "set_covariance_matrices",
+            &CloseApproach::setCovarianceMatrices,
+            R"doc(
+                Set the covariance matrices of Object 1 and Object 2.
+
+                Args:
+                    object_1_covariance_matrix (CovarianceMatrix): The covariance matrix of Object 1.
+                    object_2_covariance_matrix (CovarianceMatrix): The covariance matrix of Object 2.
+            )doc",
+            arg("object_1_covariance_matrix"),
+            arg("object_2_covariance_matrix")
+        )
+
+        .def(
+            "scale",
+            &CloseApproach::scale,
+            R"doc(
+                Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given factors.
+
+                If a scale factor is undefined, the corresponding covariance matrix is not scaled. This is useful when
+                scaling only one covariance or when a covariance is undefined.
+
+                Args:
+                    scale_factor_1 (float, optional): The scale factor for Object 1 covariance. Defaults to Real.undefined().
+                    scale_factor_2 (float, optional): The scale factor for Object 2 covariance. Defaults to Real.undefined().
+
+                Returns:
+                    CloseApproach: A new Close Approach with scaled covariance matrices.
+            )doc",
+            arg_v("scale_factor_1", Real::Undefined(), "Real.undefined()"),
+            arg_v("scale_factor_2", Real::Undefined(), "Real.undefined()")
+        )
+
+        .def(
             "get_instant",
             &CloseApproach::getInstant,
             R"doc(
@@ -135,6 +211,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
 
                 Returns:
                     State: The relative state.
+            )doc"
+        )
+
+        .def(
+            "get_relative_velocity",
+            &CloseApproach::getRelativeVelocity,
+            R"doc(
+                Get the relative velocity magnitude.
+
+                Returns:
+                    Derived: The relative velocity magnitude in meters per second.
             )doc"
         )
 
