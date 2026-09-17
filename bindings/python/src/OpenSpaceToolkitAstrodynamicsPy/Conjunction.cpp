@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Message.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction(pybind11::module& aModule)
 {
@@ -11,4 +12,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction(pybind11::module& aModul
     // Add objects to "conjunction" submodule
     OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(conjunction);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message(conjunction);
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm(conjunction);
 }
