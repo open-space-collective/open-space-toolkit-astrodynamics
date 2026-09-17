@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -9,6 +11,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Static.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -18,6 +21,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+
+#include <Eigen/Eigenvalues>
 
 namespace ostk
 {
@@ -31,8 +36,11 @@ using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
+using ostk::mathematics::object::Matrix2d;
+using ostk::mathematics::object::Vector2d;
 using ostk::mathematics::object::Vector3d;
 
+using ostk::physics::coordinate::frame::provider::Static;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Transform;
 using ostk::physics::coordinate::Velocity;
@@ -137,21 +145,21 @@ Instant CloseApproach::getInstant() const
     return object1State_.getInstant();
 }
 
-Length CloseApproach::getMissDistance() const
+Length CloseApproach::computeMissDistance() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    const State relativeState = this->getRelativeState();
+    const State relativeState = this->computeRelativeState();
     const Position relativePosition = relativeState.getPosition();
     const Vector3d relativePositionCoordinates = relativePosition.inMeters().getCoordinates();
 
     return Length::Meters(relativePositionCoordinates.norm());
 }
 
-State CloseApproach::getRelativeState() const
+State CloseApproach::computeRelativeState() const
 {
     if (!this->isDefined())
     {
@@ -164,14 +172,14 @@ State CloseApproach::getRelativeState() const
     return reducedObject2State - reducedObject1State;
 }
 
-Derived CloseApproach::getRelativeSpeed() const
+Derived CloseApproach::computeRelativeSpeed() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    const State relativeState = this->getRelativeState();
+    const State relativeState = this->computeRelativeState();
     const Velocity relativeVelocity = relativeState.getVelocity();
     const Vector3d relativeVelocityCoordinates =
         relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
@@ -179,7 +187,7 @@ Derived CloseApproach::getRelativeSpeed() const
     return Derived(relativeVelocityCoordinates.norm(), Derived::Unit::MeterPerSecond());
 }
 
-Shared<const Frame> CloseApproach::getEncounterFrame(const Shared<const Frame>& aFrameSPtr) const
+Shared<const Frame> CloseApproach::computeEncounterFrame(const Shared<const Frame>& aFrameSPtr) const
 {
     if (!this->isDefined())
     {
@@ -305,6 +313,99 @@ Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLoca
     return {Length::Meters(coordinates[0]), Length::Meters(coordinates[1]), Length::Meters(coordinates[2])};
 }
 
+CloseApproach::RotatedEncounterFrameParameters CloseApproach::computeRotatedEncounterFrameParameters(
+    const Shared<const Frame>& anEncounterFrameSPtr
+) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    if ((anEncounterFrameSPtr == nullptr) || (!anEncounterFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Encounter frame");
+    }
+
+    const std::optional<Covariance> object1Covariance = object1State_.getCovariance();
+    if (!object1Covariance.has_value() ||
+        !object1Covariance->getCoordinateSubsets().contains(CartesianPosition::Default()))
+    {
+        throw ostk::core::error::runtime::Undefined("Object 1 position covariance");
+    }
+
+    const std::optional<Covariance> object2Covariance = object2State_.getCovariance();
+    if (!object2Covariance.has_value() ||
+        !object2Covariance->getCoordinateSubsets().contains(CartesianPosition::Default()))
+    {
+        throw ostk::core::error::runtime::Undefined("Object 2 position covariance");
+    }
+
+    // Compute miss distance components in the encounter plane
+    const Tuple<Length, Length, Length> missDistanceComponents =
+        this->computeMissDistanceComponentsInFrame(anEncounterFrameSPtr);
+
+    const Vector2d missDistanceInEncounterPlane = {
+        std::get<0>(missDistanceComponents).inMeters(),
+        std::get<1>(missDistanceComponents).inMeters(),
+    };
+
+    // Compute combined position covariance projected onto the encounter plane
+    const Covariance object1EncounterPositionUncertainty =
+        object1Covariance->reduce({CartesianPosition::Default()}).rotate(anEncounterFrameSPtr);
+    const Covariance object2EncounterPositionUncertainty =
+        object2Covariance->reduce({CartesianPosition::Default()}).rotate(anEncounterFrameSPtr);
+
+    const Matrix2d combinedEncounterPlaneCovariance =
+        (object1EncounterPositionUncertainty.getCoordinates() + object2EncounterPositionUncertainty.getCoordinates())
+            .topLeftCorner<2, 2>();
+
+    // Diagonalize the combined covariance: x-axis along the major principal axis, y-axis along the minor principal axis
+    // (eigenvalues are sorted in increasing order)
+    const Eigen::SelfAdjointEigenSolver<Matrix2d> eigenSolver(combinedEncounterPlaneCovariance);
+
+    const Vector2d majorPrincipalAxis = eigenSolver.eigenvectors().col(1);
+    const Vector2d minorPrincipalAxis = eigenSolver.eigenvectors().col(0);
+
+    // Rotated encounter frame: the encounter frame rotated about its z-axis, its x-axis along the major principal axis
+    // and its y-axis completing the right-handed coordinate system (hence along the minor principal axis)
+    const Vector3d rotatedXAxis = {majorPrincipalAxis.x(), majorPrincipalAxis.y(), 0.0};
+    const Vector3d rotatedZAxis = {0.0, 0.0, 1.0};
+    const Vector3d rotatedYAxis = rotatedZAxis.cross(rotatedXAxis);
+
+    const Quaternion rotatedTransformOrientation =
+        Quaternion::RotationMatrix(RotationMatrix::Rows(rotatedXAxis, rotatedYAxis, rotatedZAxis))
+            .toNormalized()
+            .rectify();
+
+    const String rotatedEncounterFrameName =
+        String::Format("ROTATED_{}{}", anEncounterFrameSPtr->getName(), rotatedTransformOrientation.toString());
+
+    const Shared<const Frame> rotatedEncounterFrameSPtr = Frame::Exists(rotatedEncounterFrameName)
+                                                            ? Frame::WithName(rotatedEncounterFrameName)
+                                                            : Frame::Construct(
+                                                                  rotatedEncounterFrameName,
+                                                                  false,
+                                                                  anEncounterFrameSPtr,
+                                                                  std::make_shared<const Static>(Transform::Passive(
+                                                                      this->getInstant(),
+                                                                      Vector3d::Zero(),
+                                                                      Vector3d::Zero(),
+                                                                      rotatedTransformOrientation,
+                                                                      Vector3d::Zero()
+                                                                  ))
+                                                              );
+
+    // Compute miss distance components along the principal axes (absolute values, as the axes orientation is arbitrary)
+    return {
+        rotatedEncounterFrameSPtr,
+        Length::Meters(std::abs(majorPrincipalAxis.dot(missDistanceInEncounterPlane))),
+        Length::Meters(std::abs(minorPrincipalAxis.dot(missDistanceInEncounterPlane))),
+        Length::Meters(std::sqrt(eigenSolver.eigenvalues()(1))),
+        Length::Meters(std::sqrt(eigenSolver.eigenvalues()(0))),
+    };
+}
+
 void CloseApproach::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Close Approach") : void();
@@ -313,7 +414,7 @@ void CloseApproach::print(std::ostream& anOutputStream, bool displayDecorator) c
         << "Instant:" << (this->isDefined() ? this->getInstant().toString() : "Undefined");
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Miss Distance:" << (this->isDefined() ? this->getMissDistance().toString() : "Undefined");
+        << "Miss Distance:" << (this->isDefined() ? this->computeMissDistance().toString() : "Undefined");
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Object 1 State:" << (object1State_.isDefined() ? "Defined" : "Undefined");
