@@ -4,6 +4,7 @@
 
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
@@ -30,6 +31,7 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
+using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;

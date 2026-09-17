@@ -41,8 +41,16 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     OpenSpaceToolkitAstrodynamicsPy_Solver(m);
     OpenSpaceToolkitAstrodynamicsPy_RootSolver(m);
 
+<<<<<<< HEAD
     // Uncertainty is registered before Trajectory so State can expose Covariance
     OpenSpaceToolkitAstrodynamicsPy_Uncertainty(m);
+=======
+    // CovarianceMatrix is registered before Trajectory so State can expose it
+    {
+        auto estimator = m.def_submodule("estimator");
+        OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(estimator);
+    }
+>>>>>>> 6ef70876 (feat: enrich Close Approach with Covariance Matrices)
 
     // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
     OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);

@@ -212,6 +212,16 @@ bool State::operator==(const State& aState) const
         }
     }
 
+    if (this->covarianceMatrix_.has_value() != aState.covarianceMatrix_.has_value())
+    {
+        return false;
+    }
+
+    if (this->covarianceMatrix_.has_value() && (*this->covarianceMatrix_ != *aState.covarianceMatrix_))
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -361,6 +371,16 @@ const Shared<const CoordinateBroker>& State::accessCoordinateBroker() const
     }
 
     return this->coordinatesBrokerSPtr_;
+}
+
+const CovarianceMatrix& State::accessCovarianceMatrix() const
+{
+    if (!this->covarianceMatrix_.has_value())
+    {
+        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
+    }
+
+    return *this->covarianceMatrix_;
 }
 
 Size State::getSize() const
