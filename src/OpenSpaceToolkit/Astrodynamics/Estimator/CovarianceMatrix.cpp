@@ -379,6 +379,31 @@ CovarianceMatrix CovarianceMatrix::reduce(const Array<Shared<const CoordinateSub
     };
 }
 
+CovarianceMatrix CovarianceMatrix::scale(const Real& aScalar) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
+    }
+
+    if (!aScalar.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Scalar");
+    }
+
+    if (!aScalar.isStrictlyPositive())
+    {
+        throw ostk::core::error::runtime::Wrong("Scalar");
+    }
+
+    return {
+        this->instant_,
+        this->coordinates_ * aScalar,
+        this->frameSPtr_,
+        this->getCoordinateSubsets(),
+    };
+}
+
 MatrixXd CovarianceMatrix::getPositionCoordinates() const
 {
     if (!this->isDefined())

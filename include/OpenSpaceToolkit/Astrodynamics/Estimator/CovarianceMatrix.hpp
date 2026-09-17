@@ -6,6 +6,7 @@
 #include <ostream>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
@@ -26,6 +27,7 @@ namespace estimator
 {
 
 using ostk::core::container::Array;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -187,6 +189,12 @@ class CovarianceMatrix
     /// @param aCoordinateSubsetsArray The coordinate subsets to retain
     /// @return A new Covariance Matrix containing only the specified coordinate subsets
     CovarianceMatrix reduce(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const;
+
+    /// @brief Return a new Covariance Matrix whose coordinates are multiplied by a scalar.
+    ///
+    /// @param aScalar The strictly positive scalar to multiply the covariance coordinates by
+    /// @return A new Covariance Matrix with scaled coordinates
+    CovarianceMatrix scale(const Real& aScalar) const;
 
     /// @brief Get the cartesian position covariance coordinates associated with the Covariance Matrix (if present).
     ///
