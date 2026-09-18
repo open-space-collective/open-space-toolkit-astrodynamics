@@ -176,6 +176,16 @@ CloseApproach CloseApproach::swap() const
     return {object2State_, object1State_};
 }
 
+CloseApproach CloseApproach::flip() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    return {object2State_, object1State_, object2CovarianceMatrix_, object1CovarianceMatrix_};
+}
+
 Instant CloseApproach::getInstant() const
 {
     if (!this->isDefined())
