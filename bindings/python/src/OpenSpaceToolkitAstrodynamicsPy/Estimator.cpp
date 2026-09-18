@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator(pybind11::module& aModule)
     auto estimator = aModule.def_submodule("estimator");
 
     // Add objects to python "estimator" submodules
-    OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(estimator);
+    // CovarianceMatrix is registered before Trajectory, so State can expose it.
     OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(estimator);
     OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(estimator);
 }

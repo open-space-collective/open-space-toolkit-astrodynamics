@@ -41,7 +41,8 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 /// @brief Close approach between two objects.
 ///
 /// @details This class represents a close approach event between two objects, providing access to the states of both
-/// objects at the time of closest approach, the miss distance, and the relative state.
+/// objects at the time of closest approach, the miss distance, and the relative state. The covariance matrices of
+/// both objects, if any, are carried by their respective states.
 class CloseApproach
 {
    public:
@@ -54,25 +55,6 @@ class CloseApproach
     /// @param anObject1State The state of Object 1
     /// @param anObject2State The state of Object 2
     CloseApproach(const State& anObject1State, const State& anObject2State);
-
-    /// @brief Constructor
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = {
-    ///                  object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix
-    ///              };
-    /// @endcode
-    ///
-    /// @param anObject1State The state of Object 1
-    /// @param anObject2State The state of Object 2
-    /// @param anObject1CovarianceMatrix The covariance matrix of Object 1
-    /// @param anObject2CovarianceMatrix The covariance matrix of Object 2
-    CloseApproach(
-        const State& anObject1State,
-        const State& anObject2State,
-        const CovarianceMatrix& anObject1CovarianceMatrix,
-        const CovarianceMatrix& anObject2CovarianceMatrix
-    );
 
     /// @brief Equal to operator
     ///
@@ -139,6 +121,8 @@ class CloseApproach
 
     /// @brief Get the covariance matrix of Object 1
     ///
+    /// @details Raises an Undefined error if the state of Object 1 has no covariance matrix attached.
+    ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
     ///              CovarianceMatrix object1CovarianceMatrix = closeApproach.getObject1CovarianceMatrix() ;
@@ -149,6 +133,8 @@ class CloseApproach
 
     /// @brief Get the covariance matrix of Object 2
     ///
+    /// @details Raises an Undefined error if the state of Object 2 has no covariance matrix attached.
+    ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
     ///              CovarianceMatrix object2CovarianceMatrix = closeApproach.getObject2CovarianceMatrix() ;
@@ -157,24 +143,12 @@ class CloseApproach
     /// @return The covariance matrix of Object 2
     CovarianceMatrix getObject2CovarianceMatrix() const;
 
-    /// @brief Set the covariance matrices of Object 1 and Object 2
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              closeApproach.setCovarianceMatrices(object1CovarianceMatrix, object2CovarianceMatrix) ;
-    /// @endcode
-    ///
-    /// @param anObject1CovarianceMatrix The covariance matrix of Object 1
-    /// @param anObject2CovarianceMatrix The covariance matrix of Object 2
-    void setCovarianceMatrices(
-        const CovarianceMatrix& anObject1CovarianceMatrix, const CovarianceMatrix& anObject2CovarianceMatrix
-    );
-
     /// @brief Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given
     /// factors.
     ///
     /// @details If a scale factor is undefined, the corresponding covariance matrix is not scaled. This is useful when
-    /// scaling only one covariance or when a covariance is undefined.
+    /// scaling only one covariance or when a state has no covariance matrix attached. Raises an Undefined error if a
+    /// scale factor is defined but the corresponding state has no covariance matrix attached.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
@@ -187,6 +161,18 @@ class CloseApproach
     /// @return A new Close Approach with scaled covariance matrices
     CloseApproach scale(const Real& aScaleFactor1 = Real::Undefined(), const Real& aScaleFactor2 = Real::Undefined())
         const;
+
+    /// @brief Return a new Close Approach with Object 1 and Object 2 swapped
+    ///
+    /// @details The states and covariance matrices of Object 1 and Object 2 are exchanged.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              CloseApproach flippedCloseApproach = closeApproach.flip() ;
+    /// @endcode
+    ///
+    /// @return A new Close Approach with Object 1 and Object 2 swapped
+    CloseApproach flip() const;
 
     /// @brief Get the instant of the close approach
     ///
@@ -292,15 +278,7 @@ class CloseApproach
    private:
     State object1State_;
     State object2State_;
-    CovarianceMatrix object1CovarianceMatrix_;
-    CovarianceMatrix object2CovarianceMatrix_;
     StateBuilder stateBuilder_;
-
-    static void ThrowIfInconsistentCovarianceMatrixInstants(
-        const Instant& aStateInstant,
-        const CovarianceMatrix& anObject1CovarianceMatrix,
-        const CovarianceMatrix& anObject2CovarianceMatrix
-    );
 };
 
 }  // namespace conjunction
