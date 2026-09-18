@@ -3,6 +3,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Bai2013.cpp>
 
 using namespace pybind11;
 
@@ -301,7 +302,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     // Create "probability_of_collision_algorithm" python submodule
     auto probabilityOfCollisionAlgorithmModule = aModule.def_submodule("probability_of_collision_algorithm");
 
+    // Add objects to "probability_of_collision_algorithm" submodule
     OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005(
+        probabilityOfCollisionAlgorithmModule
+    );
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Bai2013(
         probabilityOfCollisionAlgorithmModule
     );
 }
