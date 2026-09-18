@@ -296,6 +296,37 @@ class TestCloseApproach:
             unscaled_close_approach.get_object_2_covariance_matrix().is_defined() is True
         )
 
+    def test_flip_success(
+        self,
+        object_1_state: State,
+        object_2_state: State,
+        object_1_covariance_matrix: CovarianceMatrix,
+        object_2_covariance_matrix: CovarianceMatrix,
+    ):
+        close_approach = CloseApproach(
+            object_1_state=object_1_state,
+            object_2_state=object_2_state,
+            object_1_covariance_matrix=object_1_covariance_matrix,
+            object_2_covariance_matrix=object_2_covariance_matrix,
+        )
+
+        flipped_close_approach = close_approach.flip()
+
+        assert flipped_close_approach is not None
+        assert isinstance(flipped_close_approach, CloseApproach)
+        assert flipped_close_approach.is_defined() is True
+        assert flipped_close_approach.get_object_1_state() == object_2_state
+        assert flipped_close_approach.get_object_2_state() == object_1_state
+        assert (
+            flipped_close_approach.get_object_1_covariance_matrix()
+            == object_2_covariance_matrix
+        )
+        assert (
+            flipped_close_approach.get_object_2_covariance_matrix()
+            == object_1_covariance_matrix
+        )
+        assert flipped_close_approach.flip() == close_approach
+
     def test_get_instant_success(
         self,
         close_approach: CloseApproach,

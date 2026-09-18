@@ -180,6 +180,16 @@ CloseApproach CloseApproach::scale(const Real& aScaleFactor1, const Real& aScale
     return {object1State_, object2State_, scaledObject1CovarianceMatrix, scaledObject2CovarianceMatrix};
 }
 
+CloseApproach CloseApproach::flip() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    return {object2State_, object1State_, object2CovarianceMatrix_, object1CovarianceMatrix_};
+}
+
 Instant CloseApproach::getInstant() const
 {
     if (!this->isDefined())

@@ -188,6 +188,18 @@ class CloseApproach
     CloseApproach scale(const Real& aScaleFactor1 = Real::Undefined(), const Real& aScaleFactor2 = Real::Undefined())
         const;
 
+    /// @brief Return a new Close Approach with Object 1 and Object 2 swapped
+    ///
+    /// @details The states and covariance matrices of Object 1 and Object 2 are exchanged.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              CloseApproach flippedCloseApproach = closeApproach.flip() ;
+    /// @endcode
+    ///
+    /// @return A new Close Approach with Object 1 and Object 2 swapped
+    CloseApproach flip() const;
+
     /// @brief Get the instant of the close approach
     ///
     /// @code{.cpp}

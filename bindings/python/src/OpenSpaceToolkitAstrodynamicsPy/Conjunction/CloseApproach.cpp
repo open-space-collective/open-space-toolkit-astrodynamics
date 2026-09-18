@@ -182,6 +182,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
+            "flip",
+            &CloseApproach::flip,
+            R"doc(
+                Return a new Close Approach with Object 1 and Object 2 swapped.
+
+                The states and covariance matrices of Object 1 and Object 2 are exchanged.
+
+                Returns:
+                    CloseApproach: A new Close Approach with Object 1 and Object 2 swapped.
+            )doc"
+        )
+
+        .def(
             "get_instant",
             &CloseApproach::getInstant,
             R"doc(
