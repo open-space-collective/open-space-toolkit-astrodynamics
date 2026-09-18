@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp>
 
 using namespace pybind11;
 
@@ -23,8 +24,8 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
     // Public constructor (the base class constructor is protected)
-    PyProbabilityOfCollisionAlgorithm(const String& aName)
-        : ProbabilityOfCollisionAlgorithm(aName)
+    PyProbabilityOfCollisionAlgorithm(const String& aName, const bool& isMaximum)
+        : ProbabilityOfCollisionAlgorithm(aName, isMaximum)
     {
     }
 
@@ -75,10 +76,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             2. If the algorithm is applicable, compute the probability of collision analysis,
             otherwise fall back to another algorithm.
             3. If the nominal probability of collision is in the robust region, take it, if it is in the diluted region,
-            take the maximum probability of collision, otherwise (unknown region) the maximum probability of collision
-            could not be located.
+            take the maximum probability of collision, if it is in the maximum region (i.e. the algorithm already
+            computes an upper bound), take it, otherwise (unknown region) the maximum probability of collision could
+            not be located.
 
-            Can inherit (calling the constructor with the algorithm name) and provide the virtual methods:
+            Can inherit (calling the constructor with the algorithm name and whether it computes a maximum probability
+            of collision) and provide the virtual methods:
                 - identify_unsatisfied_assumptions
                 - compute_probability_of_collision
             to create a custom probability of collision algorithm.
@@ -86,7 +89,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             Examples:
                 >>> if algorithm.is_applicable(close_approach):
                 ...     analysis = algorithm.compute_probability_analysis(close_approach, hard_body_1, hard_body_2)
-                ...     if analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Robust:
+                ...     if analysis.region in (
+                ...         ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Robust,
+                ...         ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Maximum,
+                ...     ):
                 ...         probability_of_collision = analysis.probability_of_collision
                 ...     elif analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Diluted:
                 ...         probability_of_collision = analysis.maximum_probability_of_collision
@@ -110,6 +116,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             "Diluted",
             ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Diluted,
             "The probability of collision is in the diluted region."
+        )
+        .value(
+            "Maximum",
+            ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum,
+            "The probability of collision is already an upper bound."
         )
         .value(
             "Unknown",
@@ -136,18 +147,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
         .def_readonly(
             "maximum_probability_of_collision",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollision,
-            "The maximum probability of collision (None in the unknown region)."
+            "The maximum probability of collision (None in the maximum and unknown regions)."
         )
         .def_readonly(
             "maximum_probability_of_collision_scaling_factor",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionScalingFactor,
-            "The covariance scaling factor yielding the maximum probability of collision (None in the unknown region)."
+            "The covariance scaling factor yielding the maximum probability of collision (None in the maximum and "
+            "unknown regions)."
         )
         .def_readonly(
             "maximum_probability_of_collision_sigma_scaling_factor",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionSigmaScalingFactor,
             "The sigma scaling factor (i.e. the square root of the covariance scaling factor) yielding the maximum "
-            "probability of collision (None in the unknown region)."
+            "probability of collision (None in the maximum and unknown regions)."
         )
 
         ;
@@ -155,14 +167,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     probabilityOfCollisionAlgorithm
 
         .def(
-            init<const String&>(),
+            init<const String&, const bool&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     name (str): The name of the probability of collision algorithm.
+                    is_maximum (bool): Whether the algorithm computes a maximum probability of collision (i.e. an
+                        upper bound).
             )doc",
-            arg("name")
+            arg("name"),
+            arg("is_maximum")
         )
 
         .def(
@@ -173,6 +188,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
                 Returns:
                     str: The name of the algorithm.
+            )doc"
+        )
+
+        .def(
+            "is_maximum",
+            &ProbabilityOfCollisionAlgorithm::isMaximum,
+            R"doc(
+                Check if the probability of collision algorithm computes a maximum probability of collision (i.e. an
+                upper bound).
+
+                Returns:
+                    bool: True if the algorithm computes a maximum probability of collision.
             )doc"
         )
 
@@ -262,7 +289,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             R"doc(
                 Compute the probability of collision analysis of a close approach.
 
-                This function computes the probability of collision and locates the maximum probability of
+                If the algorithm computes a maximum probability of collision (see is_maximum), the probability of
+                collision is computed once and is already an upper bound: the region is ProbabilityRegion.Maximum and
+                the maximum probability of collision and its scaling factors are None.
+
+                Otherwise, this function computes the probability of collision and locates the maximum probability of
                 collision as it scales the covariance(s): starting from the unscaled covariance(s), a root solver
                 (bracket and solve) locates where the slope of the probability of collision with respect to the
                 (logarithmic) scaling factor changes sign. The probability of collision is assumed to have a single
@@ -293,7 +324,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         approach.
 
                 Raises:
-                    RuntimeError: If neither covariance is to be scaled.
+                    RuntimeError: If neither covariance is to be scaled (unless the algorithm computes a maximum
+                        probability of collision).
             )doc",
             arg("close_approach"),
             arg("hard_body_1"),
@@ -308,6 +340,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     auto probabilityOfCollisionAlgorithmModule = aModule.def_submodule("probability_of_collision_algorithm");
 
     OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005(
+        probabilityOfCollisionAlgorithmModule
+    );
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Frisbee2015(
         probabilityOfCollisionAlgorithmModule
     );
 }

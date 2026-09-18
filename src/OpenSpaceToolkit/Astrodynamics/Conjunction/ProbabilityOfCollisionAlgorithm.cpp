@@ -16,14 +16,20 @@ namespace astrodynamics
 namespace conjunction
 {
 
-ProbabilityOfCollisionAlgorithm::ProbabilityOfCollisionAlgorithm(const String& aName)
-    : name_(aName)
+ProbabilityOfCollisionAlgorithm::ProbabilityOfCollisionAlgorithm(const String& aName, const bool& isMaximum)
+    : name_(aName),
+      isMaximum_(isMaximum)
 {
 }
 
 String ProbabilityOfCollisionAlgorithm::getName() const
 {
     return name_;
+}
+
+bool ProbabilityOfCollisionAlgorithm::isMaximum() const
+{
+    return isMaximum_;
 }
 
 bool ProbabilityOfCollisionAlgorithm::isApplicable(const CloseApproach& aCloseApproach) const
@@ -39,6 +45,18 @@ ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::compu
     const bool& scaleObject2Covariance
 ) const
 {
+    // The probability of collision is already an upper bound: no need to locate the maximum
+    if (isMaximum_)
+    {
+        return {
+            this->computeProbabilityOfCollision(aCloseApproach, aHardBody1SPtr, aHardBody2SPtr),
+            ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+        };
+    }
+
     if (!scaleObject1Covariance && !scaleObject2Covariance)
     {
         throw ostk::core::error::RuntimeError("At least one covariance must be scalable to find the probability region."

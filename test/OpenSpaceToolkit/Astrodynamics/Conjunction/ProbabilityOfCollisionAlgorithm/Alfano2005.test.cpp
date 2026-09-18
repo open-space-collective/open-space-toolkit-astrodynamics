@@ -1117,6 +1117,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005, IsMaximum)
+{
+    EXPECT_FALSE(algorithm_.isMaximum());
+}
+
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005,
     IdentifyUnsatisfiedAssumptions

@@ -58,7 +58,7 @@ class AlwaysApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
     AlwaysApplicableAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Always Applicable")
+        : ProbabilityOfCollisionAlgorithm("Always Applicable", false)
     {
     }
 
@@ -88,7 +88,7 @@ class NeverApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
     NeverApplicableAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Never Applicable")
+        : ProbabilityOfCollisionAlgorithm("Never Applicable", false)
     {
     }
 
@@ -119,7 +119,42 @@ class ConstantProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlg
 {
    public:
     ConstantProbabilityOfCollisionAlgorithm(const Real& aProbabilityOfCollision)
-        : ProbabilityOfCollisionAlgorithm("Constant"),
+        : ProbabilityOfCollisionAlgorithm("Constant", false),
+          probabilityOfCollision_(aProbabilityOfCollision)
+    {
+    }
+
+    virtual Array<String> identifyUnsatisfiedAssumptions(const CloseApproach& aCloseApproach) const override
+    {
+        (void)aCloseApproach;
+
+        return Array<String>::Empty();
+    }
+
+    virtual Real computeProbabilityOfCollision(
+        const CloseApproach& aCloseApproach,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr
+    ) const override
+    {
+        (void)aCloseApproach;
+        (void)aHardBody1SPtr;
+        (void)aHardBody2SPtr;
+
+        return probabilityOfCollision_;
+    }
+
+   private:
+    Real probabilityOfCollision_;
+};
+
+/// @brief Mock probability of collision algorithm computing a maximum probability of collision (i.e. an upper bound),
+/// returning a constant value whatever the close approach.
+class MaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
+{
+   public:
+    MaximumProbabilityOfCollisionAlgorithm(const Real& aProbabilityOfCollision)
+        : ProbabilityOfCollisionAlgorithm("Maximum", true),
           probabilityOfCollision_(aProbabilityOfCollision)
     {
     }
@@ -157,7 +192,7 @@ class IncreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
 {
    public:
     IncreasingProbabilityOfCollisionAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Increasing")
+        : ProbabilityOfCollisionAlgorithm("Increasing", false)
     {
     }
 
@@ -190,7 +225,7 @@ class DecreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
 {
    public:
     DecreasingProbabilityOfCollisionAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Decreasing")
+        : ProbabilityOfCollisionAlgorithm("Decreasing", false)
     {
     }
 
@@ -222,7 +257,7 @@ class SingleMaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisi
 {
    public:
     SingleMaximumProbabilityOfCollisionAlgorithm(const Real& aMaximumProbabilityOfCollisionSigma)
-        : ProbabilityOfCollisionAlgorithm("Single Maximum"),
+        : ProbabilityOfCollisionAlgorithm("Single Maximum", false),
           maximumProbabilityOfCollisionSigma_(aMaximumProbabilityOfCollisionSigma)
     {
     }
@@ -320,6 +355,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, IsMaximum)
+{
+    {
+        EXPECT_FALSE(AlwaysApplicableAlgorithm().isMaximum());
+        EXPECT_TRUE(MaximumProbabilityOfCollisionAlgorithm(0.01).isMaximum());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, Applicability)
 {
     const CloseApproach closeApproach = buildCloseApproach();
@@ -362,6 +405,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
             ostk::core::error::RuntimeError
         );
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, ComputeProbabilityAnalysis_Maximum)
+{
+    // The probability of collision is already an upper bound: it is computed once, the region is maximum and the
+    // maximum probability of collision and its scaling factors are empty
+    const MaximumProbabilityOfCollisionAlgorithm algorithm = {0.01};
+    const CloseApproach closeApproach = buildCloseApproach();
+
+    const ProbabilityOfCollisionAlgorithm::Analysis analysis =
+        algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr_, hardBody2SPtr_);
+
+    EXPECT_EQ(analysis.probabilityOfCollision, 0.01);
+    EXPECT_EQ(analysis.region, ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum);
+    EXPECT_FALSE(analysis.maximumProbabilityOfCollision.has_value());
+    EXPECT_FALSE(analysis.maximumProbabilityOfCollisionScalingFactor.has_value());
+    EXPECT_FALSE(analysis.maximumProbabilityOfCollisionSigmaScalingFactor.has_value());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, ComputeProbabilityAnalysis)

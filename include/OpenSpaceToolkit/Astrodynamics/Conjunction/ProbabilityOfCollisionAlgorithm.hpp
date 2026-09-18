@@ -36,8 +36,8 @@ using ostk::core::type::String;
 /// 2. If the algorithm is applicable, compute the probability of collision analysis,
 /// otherwise fall back to another algorithm.
 /// 3. If the nominal probability of collision is in the robust region, take it, if it is in the diluted region, take
-/// the maximum probability of collision, otherwise (unknown region) the maximum probability of collision could not be
-/// located.
+/// the maximum probability of collision, if it is in the maximum region (i.e. the algorithm already computes an upper
+/// bound), take it, otherwise (unknown region) the maximum probability of collision could not be located.
 ///
 /// @code{.cpp}
 ///     if (algorithm.isApplicable(closeApproach))
@@ -45,7 +45,8 @@ using ostk::core::type::String;
 ///         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
 ///             algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
 ///
-///         if (analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust)
+///         if ((analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust) ||
+///             (analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum))
 ///         {
 ///             return analysis.probabilityOfCollision;
 ///         }
@@ -64,6 +65,7 @@ class ProbabilityOfCollisionAlgorithm
     {
         Robust,   ///< The probability of collision is in the robust region.
         Diluted,  ///< The probability of collision is in the diluted region.
+        Maximum,  ///< The probability of collision is already an upper bound.
         Unknown   ///< The maximum probability of collision could not be located.
     };
 
@@ -73,15 +75,15 @@ class ProbabilityOfCollisionAlgorithm
         Real probabilityOfCollision;                        ///< The probability of collision.
         ProbabilityRegion region;                           ///< The probability region.
         std::optional<Real> maximumProbabilityOfCollision;  ///< The maximum probability of collision (empty in the
-                                                            ///< unknown region).
+                                                            ///< maximum and unknown regions).
         std::optional<Real> maximumProbabilityOfCollisionScalingFactor;  ///< The covariance scaling factor yielding the
                                                                          ///< maximum probability of collision (empty
-                                                                         ///< in the unknown region).
+                                                                         ///< in the maximum and unknown regions).
         std::optional<Real> maximumProbabilityOfCollisionSigmaScalingFactor;  ///< The sigma scaling factor (i.e. the
                                                                               ///< square root of the covariance
                                                                               ///< scaling factor) yielding the maximum
                                                                               ///< probability of collision (empty in
-                                                                              ///< the unknown region).
+                                                                              ///< the maximum and unknown regions).
     };
 
     /// @brief Destructor
@@ -91,6 +93,12 @@ class ProbabilityOfCollisionAlgorithm
     ///
     /// @return The name of the algorithm
     String getName() const;
+
+    /// @brief Check if the probability of collision algorithm computes a maximum probability of collision (i.e. an
+    /// upper bound)
+    ///
+    /// @return True if the algorithm computes a maximum probability of collision
+    bool isMaximum() const;
 
     /// @brief Identify unsatisfied assumptions for a close approach
     ///
@@ -163,7 +171,11 @@ class ProbabilityOfCollisionAlgorithm
 
     /// @brief Compute the probability of collision analysis of a close approach
     ///
-    /// @details This function computes the probability of collision and locates the maximum probability of
+    /// @details If the algorithm computes a maximum probability of collision (see isMaximum()), the probability of
+    /// collision is computed once and is already an upper bound: the region is ProbabilityRegion::Maximum and the
+    /// maximum probability of collision and its scaling factors are empty.
+    ///
+    /// Otherwise, this function computes the probability of collision and locates the maximum probability of
     /// collision as it scales the covariance(s): starting from the unscaled covariance(s), a root solver (bracket and
     /// solve) locates where the slope of the probability of collision with respect to the (logarithmic) scaling factor
     /// changes sign. The probability of collision is assumed to have a single maximum.
@@ -181,7 +193,8 @@ class ProbabilityOfCollisionAlgorithm
     /// scaling factor and as a sigma scaling factor. In the unknown region (ProbabilityRegion::Unknown), the maximum
     /// probability of collision and its scaling factors are empty.
     ///
-    /// Raises a RuntimeError if neither covariance is to be scaled.
+    /// Raises a RuntimeError if neither covariance is to be scaled (unless the algorithm computes a maximum probability
+    /// of collision).
     ///
     /// @ref Alfano, Salvatore. (2020). Relating Position Uncertainty to Maximum Conjunction Probability.
     /// The Journal of the Astronautical Sciences. 53. 193-205. 10.1007/BF03546350.
@@ -205,9 +218,11 @@ class ProbabilityOfCollisionAlgorithm
     /// @brief Constructor
     ///
     /// @param aName The name of the probability of collision algorithm
-    ProbabilityOfCollisionAlgorithm(const String& aName);
+    /// @param isMaximum Whether the algorithm computes a maximum probability of collision (i.e. an upper bound)
+    ProbabilityOfCollisionAlgorithm(const String& aName, const bool& isMaximum);
 
     String name_;
+    bool isMaximum_;
 };
 
 }  // namespace conjunction

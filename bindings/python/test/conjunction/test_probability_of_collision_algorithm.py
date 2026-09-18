@@ -18,10 +18,10 @@ from ostk.astrodynamics.trajectory import State
 
 
 class ConstantProbabilityOfCollisionAlgorithm(ProbabilityOfCollisionAlgorithm):
-    """Mock algorithm returning a constant probability of collision."""
+    """Mock algorithm returning a constant (maximum) probability of collision."""
 
     def __init__(self, probability_of_collision: float = 0.01):
-        super().__init__("Constant")
+        super().__init__("Constant", True)
         self._probability_of_collision: float = probability_of_collision
 
     def identify_unsatisfied_assumptions(
@@ -96,9 +96,13 @@ class TestProbabilityOfCollisionAlgorithm:
     def test_get_name_success(self, algorithm: ConstantProbabilityOfCollisionAlgorithm):
         assert algorithm.get_name() == "Constant"
 
+    def test_is_maximum_success(self, algorithm: ConstantProbabilityOfCollisionAlgorithm):
+        assert algorithm.is_maximum() is True
+
     def test_probability_region_success(self):
         assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Robust is not None
         assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Diluted is not None
+        assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Maximum is not None
         assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Unknown is not None
 
     def test_identify_unsatisfied_assumptions_success(
@@ -156,9 +160,9 @@ class TestProbabilityOfCollisionAlgorithm:
             analysis.region, ProbabilityOfCollisionAlgorithm.ProbabilityRegion
         )
         assert 0.0 <= analysis.probability_of_collision <= 1.0
-        # A constant probability of collision has no maximum: the region is unknown
+        # The probability of collision is already an upper bound: the region is maximum
         assert (
-            analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Unknown
+            analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Maximum
         )
         assert analysis.maximum_probability_of_collision is None
         assert analysis.maximum_probability_of_collision_scaling_factor is None
@@ -187,7 +191,7 @@ class TestProbabilityOfCollisionAlgorithm:
     ):
         with pytest.raises(RuntimeError):
             ProbabilityOfCollisionAlgorithm(
-                name="Abstract"
+                name="Abstract", is_maximum=False
             ).compute_probability_of_collision(
                 close_approach=close_approach,
                 hard_body_1=hard_body,

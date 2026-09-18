@@ -33,7 +33,7 @@ const Size Alfano2005::LowerIntervalPairCount = 10;
 const Size Alfano2005::UpperIntervalPairCount = 50;
 
 Alfano2005::Alfano2005(const Derived& aRelativeSpeedThreshold, const Shared<const Frame>& aFrameSPtr)
-    : ProbabilityOfCollisionAlgorithm("Alfano 2005"),
+    : ProbabilityOfCollisionAlgorithm("Alfano 2005", false),
       relativeSpeedThreshold_(aRelativeSpeedThreshold),
       frameSPtr_(aFrameSPtr)
 {
