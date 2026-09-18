@@ -82,6 +82,20 @@ Array<String> Bai2013::identifyUnsatisfiedAssumptions(const CloseApproach& aClos
         unsatisfiedAssumptions.add("No position uncertainty for Object 2");
     }
 
+    const Real relativeVelocityMetersPerSecond =
+        aCloseApproach.getRelativeVelocity().in(Derived::Unit::MeterPerSecond());
+    const Real relativeVelocityThresholdMetersPerSecond =
+        relativeVelocityThreshold_.in(Derived::Unit::MeterPerSecond());
+
+    if (relativeVelocityMetersPerSecond < relativeVelocityThresholdMetersPerSecond)
+    {
+        unsatisfiedAssumptions.add(String::Format(
+            "Relative velocity [{} m/s] is below the threshold [{} m/s]",
+            relativeVelocityMetersPerSecond.toString(),
+            relativeVelocityThresholdMetersPerSecond.toString()
+        ));
+    }
+
     const Real object1Eccentricity = this->computeEccentricity(aCloseApproach.getObject1State());
     if (object1Eccentricity > eccentricityThreshold_)
     {
