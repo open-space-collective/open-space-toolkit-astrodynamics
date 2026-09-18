@@ -336,6 +336,19 @@ class TestCloseApproach:
         assert isinstance(relative_velocity, Derived)
         assert relative_velocity.in_unit(Derived.Unit.meter_per_second()) > 0.0
 
+    def test_get_encounter_frame_success(
+        self,
+        close_approach: CloseApproach,
+        gcrf_frame: Frame,
+    ):
+        encounter_frame = close_approach.get_encounter_frame()
+
+        assert encounter_frame is not None
+        assert isinstance(encounter_frame, Frame)
+        assert encounter_frame.is_defined() is True
+        assert encounter_frame.access_parent() == gcrf_frame
+        assert close_approach.get_encounter_frame(frame=gcrf_frame) == encounter_frame
+
     def test_compute_miss_distance_components_in_frame_success(
         self,
         close_approach: CloseApproach,
