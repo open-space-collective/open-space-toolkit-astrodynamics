@@ -5,13 +5,16 @@
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Axes.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -23,18 +26,22 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
+using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
+using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::conjunction::CloseApproach;
+using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -77,6 +84,86 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Constructor)
         const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
 
         EXPECT_NO_THROW(CloseApproach closeApproach(object1State, object2State););
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        EXPECT_NO_THROW(
+            CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+        );
+
+        const CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        EXPECT_TRUE(closeApproach.isDefined());
+        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+        EXPECT_NEAR(
+            closeApproach.getRelativeVelocity().in(Derived::Unit::MeterPerSecond()),
+            std::sqrt(8.0e3 * 8.0e3 + 8.0e3 * 8.0e3),
+            1e-6
+        );
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        EXPECT_NO_THROW(CloseApproach closeApproach(
+                            object1State, object2State, CovarianceMatrix::Undefined(), CovarianceMatrix::Undefined()
+        ););
+
+        const CloseApproach closeApproach(
+            object1State, object2State, CovarianceMatrix::Undefined(), CovarianceMatrix::Undefined()
+        );
+
+        EXPECT_TRUE(closeApproach.isDefined());
+        EXPECT_FALSE(closeApproach.getObject1CovarianceMatrix().isDefined());
+        EXPECT_FALSE(closeApproach.getObject2CovarianceMatrix().isDefined());
+    }
+
+    {
+        const Instant instant1 = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant instant2 = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 1), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State =
+            buildState(instant1, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State =
+            buildState(instant1, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant1, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant2, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        EXPECT_THROW(
+            try {
+                CloseApproach closeApproach(
+                    object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix
+                );
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ("Inconsistent covariance matrix instants.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 
     {
@@ -274,6 +361,337 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject2State
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject1CovarianceMatrix)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        const CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        EXPECT_FALSE(closeApproach.getObject1CovarianceMatrix().isDefined());
+    }
+
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try { closeApproach.getObject1CovarianceMatrix(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject2CovarianceMatrix)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        const CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        EXPECT_FALSE(closeApproach.getObject2CovarianceMatrix().isDefined());
+    }
+
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try { closeApproach.getObject2CovarianceMatrix(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, SetCovarianceMatrices)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        CloseApproach closeApproach(object1State, object2State);
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        EXPECT_NO_THROW(closeApproach.setCovarianceMatrices(object1CovarianceMatrix, object2CovarianceMatrix));
+
+        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        EXPECT_NO_THROW(
+            closeApproach.setCovarianceMatrices(CovarianceMatrix::Undefined(), CovarianceMatrix::Undefined())
+        );
+
+        EXPECT_FALSE(closeApproach.getObject1CovarianceMatrix().isDefined());
+        EXPECT_FALSE(closeApproach.getObject2CovarianceMatrix().isDefined());
+    }
+
+    {
+        const Instant instant1 = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Instant instant2 = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 1), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State =
+            buildState(instant1, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State =
+            buildState(instant1, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        CloseApproach closeApproach(object1State, object2State);
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant1, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant2, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        EXPECT_THROW(
+            try {
+                closeApproach.setCovarianceMatrices(object1CovarianceMatrix, object2CovarianceMatrix);
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ("Inconsistent covariance matrix instants.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
+        CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try {
+                closeApproach.setCovarianceMatrices(CovarianceMatrix::Undefined(), CovarianceMatrix::Undefined());
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Scale)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        const CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        const CloseApproach scaledCloseApproach = closeApproach.scale(2.0, 4.0);
+
+        EXPECT_EQ(object1State, scaledCloseApproach.getObject1State());
+        EXPECT_EQ(object2State, scaledCloseApproach.getObject2State());
+        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledCloseApproach.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix.scale(4.0), scaledCloseApproach.getObject2CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        const CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        const CloseApproach scaledObject1Only = closeApproach.scale(2.0, Real::Undefined());
+        const CloseApproach scaledObject2Only = closeApproach.scale(Real::Undefined(), 4.0);
+        const CloseApproach unscaledCloseApproach = closeApproach.scale();
+
+        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledObject1Only.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix, scaledObject1Only.getObject2CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix, scaledObject2Only.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix.scale(4.0), scaledObject2Only.getObject2CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix, unscaledCloseApproach.getObject1CovarianceMatrix());
+        EXPECT_EQ(object2CovarianceMatrix, unscaledCloseApproach.getObject2CovarianceMatrix());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        const CloseApproach scaledCloseApproach = closeApproach.scale();
+
+        EXPECT_FALSE(scaledCloseApproach.getObject1CovarianceMatrix().isDefined());
+        EXPECT_FALSE(scaledCloseApproach.getObject2CovarianceMatrix().isDefined());
+    }
+
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try { closeApproach.scale(2.0, 4.0); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Flip)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CovarianceMatrix object1CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+        const CovarianceMatrix object2CovarianceMatrix = CovarianceMatrix::FromPositionVelocitySigmas(
+            instant, Vector3d(2.0, 2.0, 2.0), Vector3d(0.02, 0.02, 0.02), gcrfFrame
+        );
+
+        const CloseApproach closeApproach(object1State, object2State, object1CovarianceMatrix, object2CovarianceMatrix);
+
+        const CloseApproach flippedCloseApproach = closeApproach.flip();
+
+        EXPECT_TRUE(flippedCloseApproach.isDefined());
+        EXPECT_EQ(object2State, flippedCloseApproach.getObject1State());
+        EXPECT_EQ(object1State, flippedCloseApproach.getObject2State());
+        EXPECT_EQ(object2CovarianceMatrix, flippedCloseApproach.getObject1CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix, flippedCloseApproach.getObject2CovarianceMatrix());
+        EXPECT_EQ(closeApproach.getInstant(), flippedCloseApproach.getInstant());
+        EXPECT_EQ(closeApproach.getMissDistance(), flippedCloseApproach.getMissDistance());
+        EXPECT_EQ(object1State, closeApproach.getObject1State());
+        EXPECT_EQ(object2State, closeApproach.getObject2State());
+        EXPECT_EQ(closeApproach, flippedCloseApproach.flip());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        const CloseApproach flippedCloseApproach = closeApproach.flip();
+
+        EXPECT_EQ(object2State, flippedCloseApproach.getObject1State());
+        EXPECT_EQ(object1State, flippedCloseApproach.getObject2State());
+        EXPECT_FALSE(flippedCloseApproach.getObject1CovarianceMatrix().isDefined());
+        EXPECT_FALSE(flippedCloseApproach.getObject2CovarianceMatrix().isDefined());
+    }
+
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try { closeApproach.flip(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetInstant)
 {
     {
@@ -376,6 +794,160 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeStat
 
         EXPECT_THROW(
             try { closeApproach.getRelativeState(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeVelocity)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        const Derived relativeVelocity = closeApproach.getRelativeVelocity();
+
+        // Expected relative velocity magnitude: sqrt(0^2 + (-8e3)^2 + (8e3)^2) = 11313.708498984761 m/s
+        const double expectedRelativeVelocity = std::sqrt(8.0e3 * 8.0e3 + 8.0e3 * 8.0e3);
+
+        EXPECT_EQ(Derived::Unit::MeterPerSecond(), relativeVelocity.getUnit());
+        EXPECT_NEAR(relativeVelocity.in(Derived::Unit::MeterPerSecond()), expectedRelativeVelocity, 1e-6);
+    }
+
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try { closeApproach.getRelativeVelocity(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFrame)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const Vector3d object1Position = {7.0e6, 0.0, 0.0};
+        const Vector3d object1Velocity = {0.0, 8.0e3, 0.0};
+        const Vector3d object2Position = {0.0, 7.0e6, 0.0};
+        const Vector3d object2Velocity = {0.0, 0.0, 8.0e3};
+
+        const State object1State = buildState(instant, gcrfFrame, object1Position, object1Velocity);
+        const State object2State = buildState(instant, gcrfFrame, object2Position, object2Velocity);
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        const Shared<const Frame> encounterFrame = closeApproach.getEncounterFrame();
+
+        EXPECT_TRUE(encounterFrame != nullptr);
+        EXPECT_TRUE(encounterFrame->isDefined());
+        EXPECT_EQ(gcrfFrame, encounterFrame->accessParent());
+
+        const Vector3d relativePosition = object2Position - object1Position;
+        const Vector3d relativeVelocity = object2Velocity - object1Velocity;
+        const Vector3d expectedZAxis = relativeVelocity.normalized();
+        const Vector3d expectedYAxis = expectedZAxis.cross(relativePosition).normalized();
+        const Vector3d expectedXAxis = expectedYAxis.cross(expectedZAxis);
+
+        const Axes axes = encounterFrame->getAxesIn(gcrfFrame, instant);
+
+        EXPECT_NEAR((axes.x() - expectedXAxis).norm(), 0.0, 1e-12);
+        EXPECT_NEAR((axes.y() - expectedYAxis).norm(), 0.0, 1e-12);
+        EXPECT_NEAR((axes.z() - expectedZAxis).norm(), 0.0, 1e-12);
+        EXPECT_NEAR(axes.x().cross(axes.y()).dot(axes.z()), 1.0, 1e-12);
+
+        const State object1StateInEncounterFrame = object1State.inFrame(encounterFrame);
+        const Vector3d object1PositionInEncounterFrame =
+            object1StateInEncounterFrame.getPosition().inMeters().getCoordinates();
+
+        EXPECT_NEAR(object1PositionInEncounterFrame.norm(), 0.0, 1e-6);
+
+        const Shared<const Frame> defaultEncounterFrame = closeApproach.getEncounterFrame();
+        const Shared<const Frame> explicitGcrfEncounterFrame = closeApproach.getEncounterFrame(gcrfFrame);
+
+        EXPECT_EQ(defaultEncounterFrame, explicitGcrfEncounterFrame);
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        EXPECT_THROW(
+            try { closeApproach.getEncounterFrame(nullptr); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            try {
+                closeApproach.getEncounterFrame(Frame::Undefined());
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            try { closeApproach.getEncounterFrame(Frame::ITRF()); } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_EQ("Frame = ITRF is wrong.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        EXPECT_THROW(closeApproach.getEncounterFrame(), ostk::core::error::RuntimeError);
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State =
+            buildState(instant, gcrfFrame, Vector3d(8.0e6, 0.0, 0.0), Vector3d(1.0e3, 8.0e3, 0.0));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        EXPECT_THROW(closeApproach.getEncounterFrame(), ostk::core::error::RuntimeError);
+    }
+
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try { closeApproach.getEncounterFrame(); } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },
