@@ -155,28 +155,26 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
 INSTANTIATE_TEST_SUITE_P(
     Cases,
     OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Bai2013,
-    ::testing::Values(
-        ComputeProbabilityOfCollisionParams {
-            "CaseA_Explicit",
-            buildBai2013Explicit(),
-            buildCaseA(),
-            Length::Meters(10.0),
-            1.807975e-4,
-        },
-        // Case B is not run for the Explicit case.
-        // When run we get a PoC of ~1.71e-8 (one oom below the expected PoC of 1.47e-7).
-        // Upon further inspection, it seems that the miss distance components (RSW)
-        // are off w.r.t. Table 2 NTW values:
-        // - Computed RSW miss distances: 3.7km, -15.1km, 8.6km
-        // - Table 2 NTW miss distances: 2.5km, 16.2km, 5.9km
-        // It looks like they simply injected the NTW miss distances into the explicit formulation
-        // instead of injecting the state vectors and let the algorithm compute the RTN miss distances.
-        // In order to verify this, when injecting the NTW miss distances directly, we get a PoC of ~1.54e-7,
-        // which is now way closer to the expected value.
+    ::testing::Values(ComputeProbabilityOfCollisionParams {
+        "CaseA_Explicit",
+        buildBai2013Explicit(),
+        buildCaseA(),
+        Length::Meters(10.0),
+        1.807975e-4,
+    }  // Case B is not run for the Explicit case.
+       // When run we get a PoC of ~1.71e-8 (one oom below the expected PoC of 1.47e-7).
+       // Upon further inspection, it seems that the miss distance components (RSW)
+       // are off w.r.t. Table 2 NTW values:
+       // - Computed RSW miss distances: 3.7km, -15.1km, 8.6km
+       // - Table 2 NTW miss distances: 2.5km, 16.2km, 5.9km
+       // It looks like they simply injected the NTW miss distances into the explicit formulation
+       // instead of injecting the state vectors and let the algorithm compute the RTN miss distances.
+       // In order to verify this, when injecting the NTW miss distances directly, we get a PoC of ~1.54e-7,
+       // which is now way closer to the expected value.
     ),
-    [](const ::testing::TestParamInfo<ComputeProbabilityOfCollisionParams>& info) -> std::string
+    [](const ::testing::TestParamInfo<ComputeProbabilityOfCollisionParams>& aParamInfo) -> std::string
     {
-        return info.param.name;
+        return aParamInfo.param.name;
     }
 );
 
