@@ -2,6 +2,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp>
+
 using namespace pybind11;
 
 using ostk::core::container::Array;
@@ -237,4 +239,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
         )
 
         ;
+
+    // Create "probability_of_collision_algorithm" python submodule
+    auto probabilityOfCollisionAlgorithmModule = aModule.def_submodule("probability_of_collision_algorithm");
+
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Frisbee2015(
+        probabilityOfCollisionAlgorithmModule
+    );
 }
