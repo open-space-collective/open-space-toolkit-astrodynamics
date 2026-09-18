@@ -2,14 +2,19 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Utility/Print.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
@@ -22,13 +27,18 @@ namespace conjunction
 {
 
 using ostk::core::container::Array;
+using ostk::core::type::String;
 
+using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Transform;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::unit::Derived;
 
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
@@ -220,6 +230,87 @@ Derived CloseApproach::getRelativeVelocity() const
         relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
     return Derived(relativeVelocityCoordinates.norm(), Derived::Unit::MeterPerSecond());
+}
+
+Shared<const Frame> CloseApproach::getEncounterFrame(const Shared<const Frame>& aFrameSPtr) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
+    if (!aFrameSPtr->isQuasiInertial())
+    {
+        throw ostk::core::error::runtime::Wrong("Frame", aFrameSPtr->getName());
+    }
+
+    const StateBuilder stateBuilder = {
+        aFrameSPtr,
+        {CartesianPosition::Default(), CartesianVelocity::Default()},
+    };
+
+    const State object1StateInFrame = stateBuilder.reduce(object1State_);
+    const State object2StateInFrame = stateBuilder.reduce(object2State_);
+
+    const State relativeStateInFrame = object2StateInFrame - object1StateInFrame;
+
+    const Vector3d positionCoordinates = object1StateInFrame.extractCoordinate(CartesianPosition::Default());
+    const Vector3d velocityCoordinates = object1StateInFrame.extractCoordinate(CartesianVelocity::Default());
+    const Vector3d relativePositionCoordinates = relativeStateInFrame.extractCoordinate(CartesianPosition::Default());
+    const Vector3d relativeVelocityCoordinates = relativeStateInFrame.extractCoordinate(CartesianVelocity::Default());
+
+    if (relativeVelocityCoordinates.norm() == 0.0)
+    {
+        throw ostk::core::error::RuntimeError("Relative velocity is zero.");
+    }
+
+    const Vector3d zAxis = relativeVelocityCoordinates.normalized();
+    const Vector3d yAxisUnnormalized = zAxis.cross(relativePositionCoordinates);
+
+    if (yAxisUnnormalized.norm() == 0.0)
+    {
+        throw ostk::core::error::RuntimeError("Relative position is aligned with relative velocity.");
+    }
+
+    const Vector3d yAxis = yAxisUnnormalized.normalized();
+    const Vector3d xAxis = yAxis.cross(zAxis);
+
+    const Quaternion transformOrientation =
+        Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+
+    const Transform transform = {
+        object1StateInFrame.accessInstant(),
+        -positionCoordinates,
+        -velocityCoordinates,
+        transformOrientation,
+        Vector3d {0.0, 0.0, 0.0},  // Angular velocity (TBD)
+        Transform::Type::Passive,
+    };
+
+    const String frameName = String::Format(
+        "ENCOUNTER@{}{}{}{}{}{}",
+        object1StateInFrame.accessInstant().toString(),
+        positionCoordinates.toString(),
+        velocityCoordinates.toString(),
+        relativePositionCoordinates.toString(),
+        relativeVelocityCoordinates.toString(),
+        aFrameSPtr->getName()
+    );
+
+    if (Frame::Exists(frameName))
+    {
+        return Frame::WithName(frameName);
+    }
+
+    const Shared<const LocalOrbitalFrameTransformProvider> providerSPtr =
+        std::make_shared<const LocalOrbitalFrameTransformProvider>(transform);
+
+    return Frame::Construct(frameName, false, aFrameSPtr, providerSPtr);
 }
 
 Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFrame(const Shared<const Frame>& aFrame

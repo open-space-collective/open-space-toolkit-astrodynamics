@@ -228,6 +228,24 @@ class CloseApproach
     /// @return The relative velocity magnitude in meters per second
     Derived getRelativeVelocity() const;
 
+    /// @brief Get the "default" convention of the encounter frame centered on Object 1.
+    ///
+    /// @details The encounter frame is a local orbital frame centered on Object 1:
+    /// - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
+    /// - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1
+    /// position)
+    /// - x-axis: Completes the right-handed coordinate system
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              Shared<const Frame> encounterFrame = closeApproach.getEncounterFrame() ;
+    /// @endcode
+    ///
+    /// @param aFrameSPtr The inertial (or quasi-inertial) frame in which relative position and velocity are computed.
+    /// Defaults to GCRF.
+    /// @return The encounter frame
+    Shared<const Frame> getEncounterFrame(const Shared<const Frame>& aFrameSPtr = Frame::GCRF()) const;
+
     /// @brief Compute the miss distance components in the desired frame
     ///
     /// @code{.cpp}

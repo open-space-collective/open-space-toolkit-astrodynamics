@@ -226,6 +226,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
+            "get_encounter_frame",
+            &CloseApproach::getEncounterFrame,
+            R"doc(
+                Get the "default" convention of the encounter frame centered on Object 1.
+
+                The encounter frame is a local orbital frame centered on Object 1:
+                - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
+                - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1 position)
+                - x-axis: Completes the right-handed coordinate system
+
+                Args:
+                    frame (Frame, optional): The inertial (or quasi-inertial) frame in which relative position and velocity are computed. Defaults to GCRF.
+
+                Returns:
+                    Frame: The encounter frame.
+            )doc",
+            arg_v("frame", Frame::GCRF(), "GCRF")
+        )
+
+        .def(
             "compute_miss_distance_components_in_frame",
             &CloseApproach::computeMissDistanceComponentsInFrame,
             R"doc(
