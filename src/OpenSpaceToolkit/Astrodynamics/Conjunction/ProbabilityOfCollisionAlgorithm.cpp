@@ -11,6 +11,11 @@ namespace astrodynamics
 namespace conjunction
 {
 
+bool ProbabilityOfCollisionAlgorithm::isApplicable(const CloseApproach& aCloseApproach) const
+{
+    return this->identifyUnsatisfiedAssumptions(aCloseApproach).isEmpty();
+}
+
 ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorithm::computeProbabilityRegion(
     const CloseApproach& aCloseApproach,
     const Length& aCombinedHardBodyRadius,
