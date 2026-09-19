@@ -109,22 +109,38 @@ state across targets, but TCA runs per access, so total cost is linear in access
   the minimum-range sample is a good bracket and is currently thrown away.
 - Make TCA optional. Callers that only want acquisition/loss of signal pay for it unconditionally.
 
-## Bottleneck 3 — line-of-sight is evaluated once per (instant, target)
+## Bottleneck 3 — line-of-sight costs a full environment re-pose per distinct instant
 
 `VisibilityCriterion::LineOfSight::isSatisfied` calls `Environment::setInstant(anInstant)` and then
-`Environment::intersects(...)`, which re-poses **every** object in the environment (Earth, Sun, Moon)
-into the common frame before testing a two-point segment against it. Callgrind call counts for a 20-target,
-one-day run: `Environment::setInstant` is called **37 109** times, i.e. once per (instant, target) pair,
-for 1441 distinct instants. With 100 targets that is 100 redundant re-poses of the whole environment per
-step.
+`Environment::intersects(...)`, which re-poses **every** object in the environment — Earth, Sun, Moon —
+into the common frame before testing a two-point segment against it. `Environment::intersects` is 72.7%
+of a 20-target line-of-sight run.
 
-The cost shows up directly — 20 targets, 1 day: line-of-sight 1360 ms vs elevation 273 ms vs AER
-285 ms, a 5× gap against criteria that are closed-form vector maths on the same grid.
+It is tempting to read the call counts as per-target redundancy — `Environment::setInstant` is called
+37 109 times in that run, over only 1441 distinct instants — but the absolute instruction counts say
+otherwise. The coarse scan costs 36.7 M instructions with one target and 41.3 M with twenty: it grew
+**1.13× for 20× the criterion evaluations**, or about 169 instructions per extra target per instant.
+Inside one coarse step the environment is already posed and every transform is a cache hit, so the
+repeated `setInstant` calls are nearly free and hoisting them out of the target loop would save almost
+nothing.
 
-**Opportunities.** Hoist `setInstant` out of the per-target loop in `computeAccessesForFixedTargets`
-(it depends only on the instant). Transform the segment into each body's frame rather than transforming
-the bodies' geometry. Intersect against the central body only, or pre-filter with a cheap analytic
-Earth-grazing test and fall back to the full geometry test only near the horizon.
+The cost is in the *distinct* instants, and refinement supplies about 8 600 of them — each a fresh
+environment re-pose and a fresh nutation evaluation:
+
+| 20 targets, line-of-sight, 1 day | Instructions | Share |
+| -------------------------------- | -----------: | ----: |
+| Coarse scan (1441 instants)      |       41.3 M | 0.3%  |
+| Crossing refinement (~8 600 evaluations) | 10 538.7 M | 74.4% |
+| TCA + access construction        |    3 590.7 M | 25.3% |
+
+A refinement evaluation costs about 1.2 M instructions against 1.4 k for a coarse per-target
+evaluation. So the levers are the *number* of refinement evaluations and the cost of one
+line-of-sight test — not the target loop.
+
+**Opportunities.** Cut the evaluation count with a seeded root-find (see the interpolation section).
+Make one test cheaper: intersect against the central body only, or pre-filter with a closed-form
+Earth-grazing test and fall back to full geometry only near the horizon; and transform the two-point
+segment into each body's frame rather than transforming the bodies' geometry.
 
 ## Bottleneck 4 — `coarse = true` is unusable at the default step
 
@@ -339,6 +355,117 @@ would put a floor under any derivative-based refinement built on these models.
   ±1. TOMS748's interpolation steps are worthless on a step function, so it degenerates to bisection —
   measured ~29 criterion evaluations per crossing to reach 1 µs. Root-finding on a *continuous* residual
   instead (elevation minus mask, say) would converge in a handful of evaluations.
+
+## The full list
+
+Impact is labelled by how it was established:
+
+- **measured** — an end-to-end wall-clock or instruction-count measurement of the change itself
+- **derived** — a measured phase share combined with a measured evaluation-count reduction, assuming
+  cost is proportional to state transforms
+- **estimated** — reasoned from the profile, not measured; treat as a hypothesis to test
+
+Phase shares used throughout, one-day window, default cache:
+
+| Workload | Total | Coarse scan | Refinement | TCA + build |
+| -------- | ----: | ----------: | ---------: | ----------: |
+| 1 target, line-of-sight    |    339 M |  37 M (10.8%) |    209 M (61.7%) |    93 M (27.5%) |
+| 20 targets, line-of-sight  | 14 171 M |  41 M ( 0.3%) | 10 539 M (74.4%) | 3 591 M (25.3%) |
+| 20 targets, elevation      |  3 461 M |  41 M ( 1.2%) |    180 M ( 5.2%) | 3 240 M (93.6%) |
+
+### Tier 1 — configuration, no code change
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 1 | Raise `OSTK_PHYSICS_FRAME_MANAGER_MAX_TRANSFORM_CACHE_SIZE` off its 1000-entry default, or size it from the analysis interval | **6.3×** on 100 line-of-sight targets · **7.4×** elevation · **7.1×** AER · **5.1×** on a 14-day single-target run | measured |
+
+Nothing else on this list is as cheap. The one open question is memory: the win saturates by ~5000
+entries in the sweep, so the default can move a long way without holding 100 000 transforms. Worth
+measuring the footprint per entry before picking a number.
+
+### Tier 2 — time of closest approach
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 2 | Hoist the constant fixed-target state out of the COBYLA objective (it is a fixed vector in ITRF, re-propagated and re-transformed every iteration) | ~2× on the TCA phase → **~1.9×** end-to-end on 20-target elevation | derived |
+| 3 | Replace COBYLA with a range² spline seed + secant on exact `rdot`: ~30 double-state evaluations → 4 single-state | ~7× on the TCA phase → **~5.0×** end-to-end on 20-target elevation, **~1.3×** on line-of-sight. Also 5 orders of magnitude more accurate | derived; evaluation counts and accuracy measured |
+| 4 | Make TCA optional for callers that only want acquisition and loss of signal | **~15×** on 20-target elevation | derived |
+| 5 | Transform position only, not the whole state, in the existing objective | ~7% of the objective | measured (profile) |
+
+Item 2 is the small-diff version of item 3 and a sensible first change; item 3 subsumes it. Item 4 is
+a flag, and is the largest single win available to a scheduler that only needs windows.
+
+### Tier 3 — crossing refinement
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 6 | Root-find a continuous residual (elevation − mask) seeded by a spline, instead of bisecting a boolean: ~29 evaluations per crossing → 2–3 | ~10× on the refinement phase → **~3.0×** end-to-end on 20-target line-of-sight, negligible on elevation (5.2% phase) | derived |
+
+Caveat on scope: elevation and AER have a natural continuous residual, line-of-sight does not — the
+criterion is an intersection test. Applying this to line-of-sight needs a smooth surrogate, such as the
+perpendicular distance from the segment to the ellipsoid, which is the same quantity item 8 wants.
+
+### Tier 4 — line-of-sight evaluation cost
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 7 | Intersect against the central body only, rather than every object in the environment | unknown share of the 72.7% in `Environment::intersects`; needs a measurement splitting Earth from Sun and Moon | estimated |
+| 8 | Closed-form Earth-grazing pre-filter, full geometry only near the horizon | would bring line-of-sight toward elevation cost, ~5× on 100 targets | estimated |
+| 9 | Transform the two-point segment into each body's frame instead of transforming the bodies' geometry | 3 ellipsoid transforms → 2 point transforms per test | estimated |
+
+Note what is *not* here: hoisting `Environment::setInstant` out of the per-target loop. The call counts
+suggest 20× redundancy, the instruction counts show 169 instructions per extra target per instant. It
+is not worth doing.
+
+### Tier 5 — frame transforms, structural
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 10 | Precomputed, interpolated Earth-rotation table over the analysis window, removing the 1365-term IAU 2000A nutation series from the inner loop | `iauNut00a` is 29–59% of instructions; the ceiling is large but the achievable fraction depends on interpolation error budget | estimated |
+
+This overlaps item 1: the cache already removes repeats, this removes the cost of a miss. Most valuable
+once the cache is fixed and misses are what remain.
+
+### Tier 6 — trajectory targets
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 11 | Route a stationary trajectory target to the fixed-target path | **12.5×** (line-of-sight) · **37.6×** (elevation) for that case | measured |
+| 12 | For genuinely moving targets, recompute the SEZ rotation per step instead of constructing an NED frame object per sample in `CalculateAer` | the NED construction dominates the scalar path | estimated |
+
+### Tier 7 — micro-optimizations
+
+| # | Change | Impact | Basis |
+| - | ------ | ------ | ----- |
+| 13 | Preallocate the `MatrixXd` temporaries in `computeAer` / `computeElevations`; hoist `fromPositionDirection_ITRF`, which is recomputed each step from data that never changes | <1% end-to-end on multi-target runs — the coarse scan is 0.3–1.2% | derived |
+| 14 | Reduce `ostk::core::type::Real` in inner loops | ~13% of instructions in the 1-target line-of-sight profile, spread across all phases; an ostk-core-wide change | measured (profile) |
+
+### Correctness fixes
+
+| # | Change | Detail | Basis |
+| - | ------ | ------ | ----- |
+| 15 | `coarse = true` throws on a pass captured by a single coarse sample | reproduces with a 10° mask at the default 60 s step, and at 300 s with any mask | measured |
+| 16 | `Access::getMaxElevation()` reports elevation at TCA, not the maximum | wrong by 204.8 s and 2.029° at `e = 0.15`; fixed by the `sdot` root-find in item 3 | measured |
+| 17 | `Kepler::CalculateJ2StateAt` / `CalculateJ4StateAt` report a velocity inconsistent with the derivative of their own position | \|v\|/\|dP/dt\| = 1.0013; `Orbit::SunSynchronous` inherits it | measured |
+
+### Untested candidate
+
+| # | Change | Note |
+| - | ------ | ---- |
+| 18 | Parallelize the per-target refinement and TCA loops | Embarrassingly parallel and they are 99% of a multi-target run, so it should scale close to core count — but it was not measured, and it needs the frame-transform cache to be thread-safe, which was not checked. |
+
+### Stacked estimates
+
+Composing the measured cache multiplier with the derived phase reductions, one-day window, 100 targets:
+
+| Workload | Today | + cache (1) | + TCA (3) | + refinement (6) |
+| -------- | ----: | ----------: | --------: | ---------------: |
+| Elevation      | 1352 ms | 183 ms *(measured)* | ~36 ms | ~36 ms |
+| Line-of-sight  | 6804 ms | 1081 ms *(measured)* | ~980 ms | ~330 ms |
+
+So roughly **37×** on the elevation workload and **20×** on line-of-sight before touching the
+line-of-sight test itself (tier 4) or the nutation series (tier 5). Only the cache column is measured
+end to end; the rest assumes cost tracks state transforms, and wants confirming with a real build.
 
 ## Reproducing
 
