@@ -204,6 +204,27 @@ class AccessTarget
 /// configurable cadence, detects crossings of the visibility condition, and then refines each
 /// crossing to within a configurable tolerance. Optional access-level and state-level filter
 /// functions allow further pruning of the resulting Access objects.
+///
+/// @note Access generation is dominated by frame transforms, and those are cached by the frame
+/// manager in OSTk Physics. The cache holds 1000 entries by default, which
+/// `OSTK_PHYSICS_FRAME_MANAGER_MAX_TRANSFORM_CACHE_SIZE` overrides. The default is enough for many
+/// runs and too small for some, and the difference is a cliff rather than a gradient: once a run
+/// asks for more distinct instants than the cache holds, it stops paying and per-step cost jumps
+/// about fivefold.
+///
+/// What decides it is how many *distinct* instants a run evaluates, not how long it is. Raising the
+/// cache is worth doing when:
+///
+/// - the trajectory model's output frame differs from the central body's frame, so every coarse step
+///   needs a rotation. A two-week single-target run measured 7.0x faster with the cache raised when
+///   the model output GCRF, and unchanged when it output ITRF;
+/// - the analysis window is long relative to the step. A single target over two weeks measured 2.1x;
+/// - the target is a trajectory rather than a fixed position, which takes the scalar code path: 2.3x.
+///
+/// It is worth nothing at all for multi-target runs against fixed targets with an elevation or AER
+/// criterion, which reuse the same grid of instants across every target: those measured within
+/// measurement noise of unchanged, and marginally slower, since a larger cache is not free to
+/// maintain. Raise it deliberately rather than by default, and measure.
 class Generator
 {
    public:
