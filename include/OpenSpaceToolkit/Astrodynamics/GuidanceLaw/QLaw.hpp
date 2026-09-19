@@ -266,6 +266,14 @@ class QLaw : public GuidanceLaw
     /// @return The derivative of the orbital elements with respect to the thrust vectors
     static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter);
 
+    /// @brief Compute the derivative of the orbital elements with respect to the thrust direction
+    ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements
+    /// @param aGravitationalParameter The gravitational parameter, in m^3/s^2
+    ///
+    /// @return The derivative of the orbital elements with respect to the thrust direction
+    static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const double& aGravitationalParameter);
+
     /// @brief Get the rotation matrix to convert from the theta-R-H frame to the GCRF frame
     ///
     /// @param aPositionCoordinates The position coordinates

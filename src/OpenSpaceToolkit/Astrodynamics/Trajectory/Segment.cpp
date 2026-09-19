@@ -468,11 +468,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         segmentThrusterDynamics->getName() + " (Ungated)"
     );
 
-    const MatrixXd fullSegmentContributions = this->getDynamicsContribution(
-        ungatedThrusterDynamics, aFrameSPtr, {CartesianVelocity::Default(), CoordinateSubset::Mass()}
-    );
-
-    const Size numberOfStates = static_cast<Size>(fullSegmentContributions.rows());
+    const Size numberOfStates = this->states.getSize();
 
     Array<Pair<Size, Size>> maneuverBlockStartStopIndices = Array<Pair<Size, Size>>::Empty();
 
@@ -517,14 +513,25 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         }
     };
 
+    // Evaluating the thruster dynamics is expensive (a state-dependent guidance law is re-evaluated
+    // at every state), so only the states that belong to a maneuver block are evaluated here, rather
+    // than computing the contribution over the whole segment and discarding the coasting rows.
+    const StateBuilder thrusterInputStateBuilder =
+        StateBuilder(aFrameSPtr, ungatedThrusterDynamics->getReadCoordinateSubsets());
+
+    const auto computeThrusterContributionAt =
+        [&ungatedThrusterDynamics, &thrusterInputStateBuilder, &aFrameSPtr](const State& aState) -> VectorXd
+    {
+        return ungatedThrusterDynamics->computeContribution(
+            aState.getInstant(), thrusterInputStateBuilder.reduce(aState).getCoordinates(), aFrameSPtr
+        );
+    };
+
     Array<FlightManeuver> extractedManeuvers = Array<FlightManeuver>::Empty();
 
     for (const Pair<Size, Size>& startStopPair : maneuverBlockStartStopIndices)
     {
         const Size blockLength = startStopPair.second - startStopPair.first;
-
-        const MatrixXd maneuverContributionBlock =
-            fullSegmentContributions.block(startStopPair.first, 0, blockLength, fullSegmentContributions.cols());
 
         Array<State> maneuverStatesBlock = Array<State>::Empty();
         maneuverStatesBlock.reserve(blockLength);
@@ -533,13 +540,15 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
         {
             const State& state = this->states[startStopPair.first + i].inFrame(aFrameSPtr);
 
+            const VectorXd thrusterContribution = computeThrusterContributionAt(state);
+
             VectorXd coordinates(10);
             coordinates.segment<6>(0) = state.extractCoordinates({
                 CartesianPosition::Default(),
                 CartesianVelocity::Default(),
             });
-            coordinates.segment<3>(6) = maneuverContributionBlock.block<1, 3>(i, 0);
-            coordinates(9) = fullSegmentContributions(startStopPair.first + i, 3);
+            coordinates.segment<3>(6) = thrusterContribution.segment<3>(0);
+            coordinates(9) = thrusterContribution(3);
 
             maneuverStatesBlock.add(stateBuilder.build(state.accessInstant(), coordinates));
         }
