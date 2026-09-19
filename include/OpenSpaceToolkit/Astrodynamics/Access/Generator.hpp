@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 #define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -57,6 +59,10 @@ using ostk::astrodynamics::trajectory::State;
 
 #define DEFAULT_STEP Duration::Minutes(1.0)
 #define DEFAULT_TOLERANCE Duration::Microseconds(1.0)
+
+/// Iteration ceiling for the closest-approach root solve. The bracketed solve converges in roughly a dozen
+/// iterations; this only guards against a pathological bracket.
+#define DEFAULT_TCA_MAXIMUM_ITERATION_COUNT 100
 
 /// @brief Represents the configuration for an Access target, including azimuth, elevation, and range intervals, as well
 /// as position and LLA (Latitude, Longitude, Altitude).
@@ -441,11 +447,14 @@ class Generator
         const bool& coarse = false
     ) const;
 
+    /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
+    /// the target is fixed. Supplying them lets the closest-approach search skip re-evaluating a constant.
     Array<Access> generateAccessesFromIntervals(
         const Array<physics::time::Interval>& someIntervals,
         const physics::time::Interval& anInterval,
         const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory
+        const Trajectory& aToTrajectory,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     ) const;
 
     Array<physics::time::Interval> computePreciseCrossings(
@@ -465,22 +474,30 @@ class Generator
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
         const Duration& aTolerance,
-        const Shared<const Celestial>& aCelestialSPtr
+        const Shared<const Celestial>& aCelestialSPtr,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     );
 
+    /// @brief Find the time of closest approach within an access interval.
+    ///
+    /// @details Range is smooth across a pass and has a single minimum, so its time derivative changes sign exactly
+    /// once. This solves for that sign change rather than minimizing the range itself: a range minimum is locally
+    /// flat, which makes it expensive to localize, whereas the derivative crosses zero transversally.
     static Instant FindTimeOfClosestApproach(
         const physics::time::Interval& anAccessInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
         const Duration& aTolerance,
-        const Shared<const Celestial>& aCelestialSPtr
+        const Shared<const Celestial>& aCelestialSPtr,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     );
 
     static Angle CalculateElevationAt(
         const Instant& anInstant,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
-        const Shared<const Celestial>& aCelestialSPtr
+        const Shared<const Celestial>& aCelestialSPtr,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     );
 
     static AER CalculateAer(

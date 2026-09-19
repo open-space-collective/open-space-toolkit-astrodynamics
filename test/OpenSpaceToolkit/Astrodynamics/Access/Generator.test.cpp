@@ -732,6 +732,66 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsARangeMinimum)
+{
+    // The time of closest approach is solved for as the sign change of the range derivative rather than by
+    // minimizing the range. Assert the property that defines it: the range at the reported instant is smaller
+    // than the range just before and just after it.
+
+    const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
+    const Interval interval = Interval::Closed(startInstant, endInstant);
+
+    const TLE tle = {
+        "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
+        "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
+    };
+    const Orbit orbit = {SGP4(tle), defaultEarthSPtr_};
+
+    const VisibilityCriterion visibilityCriterion =
+        VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0));
+
+    const AccessTarget accessTarget = AccessTarget::FromLLA(
+        visibilityCriterion, LLA(Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(0.0)), defaultEarthSPtr_
+    );
+
+    const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, accessTarget, orbit);
+
+    ASSERT_FALSE(accesses.isEmpty());
+
+    const Trajectory targetTrajectory = accessTarget.accessTrajectory();
+
+    const auto rangeAt = [&targetTrajectory, &orbit, this](const Instant& anInstant) -> Real
+    {
+        const Shared<const Frame> earthFrameSPtr = defaultEarthSPtr_->accessFrame();
+
+        return (orbit.getStateAt(anInstant).getPosition().inFrame(earthFrameSPtr, anInstant).accessCoordinates() -
+                targetTrajectory.getStateAt(anInstant)
+                    .getPosition()
+                    .inFrame(earthFrameSPtr, anInstant)
+                    .accessCoordinates())
+            .norm();
+    };
+
+    for (const Access& access : accesses)
+    {
+        const Instant timeOfClosestApproach = access.getTimeOfClosestApproach();
+
+        ASSERT_TRUE(timeOfClosestApproach.isDefined());
+        EXPECT_TRUE(access.getAcquisitionOfSignal() <= timeOfClosestApproach);
+        EXPECT_TRUE(timeOfClosestApproach <= access.getLossOfSignal());
+
+        // A complete pass has its closest approach strictly inside the interval, so both neighbours are farther.
+        if (access.getType() == Access::Type::Complete)
+        {
+            const Real rangeAtClosestApproach = rangeAt(timeOfClosestApproach);
+
+            EXPECT_LT(rangeAtClosestApproach, rangeAt(timeOfClosestApproach - Duration::Seconds(1.0)));
+            EXPECT_LT(rangeAtClosestApproach, rangeAt(timeOfClosestApproach + Duration::Seconds(1.0)));
+        }
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
 {
     const Instant startInstant = Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC);
