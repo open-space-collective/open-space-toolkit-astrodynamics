@@ -27,8 +27,8 @@ Inclusive share of total instructions, by scenario:
 | ----------------------------------------- | ----------: | ---------: | -----------------: |
 | 1 target, line-of-sight                   |         11% |        62% |                27% |
 | 20 targets, line-of-sight                 |          <1% |        74% |                25% |
-| 20 targets, elevation                     |          2% |         9% |            **89%** |
-| 1 target, elevation, **GCRF** output frame |     **90%** |         7% |                 2% |
+| 20 targets, elevation                     |          1% |         5% |            **94%** |
+| 1 target, elevation, **GCRF** output frame |     **89%** |         7% |                 4% |
 
 Two things fall out of that table. The coarse scan — the part that is actually vectorized across
 targets — is a rounding error in every case except when the trajectory model forces a per-step frame
@@ -39,7 +39,7 @@ time is spent finding times of closest approach**.
 
 `Frame::getTransformTo` accounts for **73–99%** of instructions across all scenarios. Inside it,
 `CIRF::getTransformAt` → `iauNut06a` → `iauNut00a` — the full 1365-term IAU 2000A nutation series — is
-**28–55%** of total runtime on its own.
+**29–59%** of total runtime on its own.
 
 The frame manager caches transforms, but the cache holds 1000 entries by default
 (`OSTK_PHYSICS_FRAME_MANAGER_MAX_TRANSFORM_CACHE_SIZE`). A one-day analysis at a 1 minute step already
@@ -63,12 +63,9 @@ anything else measured here:
 
 | 100 targets, 1 day | Default (1000) | Cache 100 000 | Speedup |
 | ------------------ | -------------: | ------------: | ------: |
-| Line-of-sight      |       6812 ms |       1072 ms | **6.4×** |
-| Elevation interval |        816 ms |        139 ms | **5.9×** |
-| AER interval       |       16.5 ms |       16.3 ms |    1.0× |
-
-(AER is unchanged because this criterion admits only 20 accesses here versus 618 for elevation — again
-pointing at per-access work, not the scan, as the thing that costs.)
+| Line-of-sight      |       6804 ms |       1081 ms | **6.3×** |
+| Elevation interval |       1352 ms |        183 ms | **7.4×** |
+| AER interval       |       1397 ms |        197 ms | **7.1×** |
 
 **Opportunity.** Raise the default cache size for access generation, or size it from the analysis
 interval. Beyond that, the generator asks for a full transform at instants it chooses itself; a
@@ -77,9 +74,9 @@ out of the inner loop entirely.
 
 ## Bottleneck 2 — time of closest approach dominates multi-target runs
 
-`FindTimeOfClosestApproach` is **89% of a 20-target elevation run**. It is a 1-D minimization of range²
+`FindTimeOfClosestApproach` is **93% of a 20-target elevation run**. It is a 1-D minimization of range²
 over the access interval, solved with NLopt's COBYLA — a general-purpose derivative-free method — at
-`xtol_rel = 1 µs`. Measured cost per access: ~16–31 objective evaluations, and each evaluation does
+`xtol_rel = 1 µs`. Measured cost per access: ~30 objective evaluations, and each evaluation does
 
 ```cpp
 const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
@@ -87,7 +84,7 @@ const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant
 ```
 
 two **full `State::inFrame`** transforms — position *and* velocity — where only positions are used
-(`State::inFrame` alone is 83.5% of the 20-target elevation run). For a fixed ground target the "from"
+(`State::inFrame` alone is 88.5% of the 20-target elevation run). For a fixed ground target the "from"
 state is *constant in ITRF*, yet it is re-propagated and re-transformed on every iteration.
 
 This is also why the batched multi-target API does not pay off. The coarse scan shares the satellite
@@ -95,9 +92,9 @@ state across targets, but TCA runs per access, so total cost is linear in access
 
 | Targets | Elevation, 1 day | per target |
 | ------: | ---------------: | ---------: |
-|       1 |           4.7 ms |     4.7 ms |
-|      20 |          158.8 ms |     7.9 ms |
-|     100 |          815.5 ms |     8.2 ms |
+|       1 |           6.0 ms |     6.0 ms |
+|      20 |          273.2 ms |    13.7 ms |
+|     100 |         1351.7 ms |    13.5 ms |
 
 **Opportunities**, roughly in order of payoff:
 
@@ -121,8 +118,8 @@ one-day run: `Environment::setInstant` is called **37 109** times, i.e. once per
 for 1441 distinct instants. With 100 targets that is 100 redundant re-poses of the whole environment per
 step.
 
-The cost shows up directly — 20 targets, 1 day: line-of-sight 1360 ms vs elevation 159 ms vs AER
-5 ms.
+The cost shows up directly — 20 targets, 1 day: line-of-sight 1360 ms vs elevation 273 ms vs AER
+285 ms, a 5× gap against criteria that are closed-form vector maths on the same grid.
 
 **Opportunities.** Hoist `setInstant` out of the per-target loop in `computeAccessesForFixedTargets`
 (it depends only on the instant). Transform the segment into each body's frame rather than transforming
@@ -143,15 +140,16 @@ Precise mode widens it; coarse mode does not, so `FindTimeOfClosestApproach` is 
 `upperBound = 0.0`, COBYLA returns a non-success code, TCA comes back undefined, and `GenerateAccess`
 throws because the interval does not touch the analysis boundaries (so it is typed `Complete`).
 
-Reproduced with the SSO satellite above and a single above-the-horizon ground station: the real passes
-are 28–82 s long, shorter than the default 60 s step.
+The trigger is any pass captured by a single coarse sample. An above-the-horizon mask on the SSO
+satellite above survives the default step, but a **10° mask — an entirely ordinary station
+constraint — does not**, because it shortens the marginal passes below 60 s:
 
-| Step | 1 target | 20 targets |
-| ---- | -------- | ---------- |
-| 60 s | throws   | throws     |
-| 30 s | throws   | throws     |
-| 10 s | ok       | ok         |
-| 5 s  | ok       | ok         |
+| Step  | 1 target, 0° mask | 20 targets, 0° mask | 20 targets, 10° mask |
+| ----- | ----------------- | ------------------- | -------------------- |
+| 300 s | throws            | throws              | throws               |
+| 60 s  | ok                | ok                  | **throws**           |
+| 30 s  | ok                | ok                  | ok                   |
+| 10 s  | ok                | ok                  | ok                   |
 
 **Opportunity.** Handle the degenerate interval: skip TCA (or return the sample instant) when the
 interval has zero duration, rather than letting the optimizer fail. The benchmark scenarios here use a
@@ -165,13 +163,103 @@ the scalar `getConditionFunction`, which for any non-line-of-sight criterion cal
 (`aCelestialSPtr->getFrameAt(referencePoint_LLA, Celestial::FrameType::NED)`) before transforming both
 positions into it.
 
-Same geometry, same window, 1 day, line-of-sight: fixed target 11.8 ms, trajectory target 150.9 ms —
-**12.8×**. With an elevation criterion the trajectory target costs 146.5 ms, against 4.7 ms for the
-equivalent fixed target.
+Same geometry, same window, 1 day: line-of-sight 12.2 ms fixed vs 152.6 ms as a trajectory target
+(**12.5×**); elevation 4.2 ms vs 157.2 ms (**37.6×**). The trajectory path costs about the same either
+way, because the NED frame construction dominates whatever the criterion.
 
 **Opportunity.** A stationary trajectory target is geometrically a fixed target; more generally, the
 SEZ-rotation approach already used for fixed targets works for a moving target too, recomputed per
 step, and avoids constructing a frame object each time.
+
+## Recovering TCA and the crossings by interpolation
+
+The coarse scan already evaluates the geometry at every grid point and throws the numbers away — only a
+boolean survives into `inAccessPerTarget`. `computeElevations` computes `dx.colwise().norm()` as its own
+denominator, so **range is already in hand at every coarse sample** for the elevation criterion, and the
+AER path computes azimuth, elevation and range outright. Fitting a cubic spline through those retained
+samples and solving analytically costs no new geometry evaluations at all.
+
+Measured against a well-conditioned reference — `brentq` on the exact range-rate, rather than minimizing
+range, which is locally flat and only resolves its own argmin to ~10 ms in double precision — on a
+500 km SSO against a ground station, one-day window:
+
+| Coarse step | Current (COBYLA, ~30 evals) | Cubic spline on range², 0 evals | Spline seed + secant on exact ṙ |
+| ----------- | --------------------------: | ------------------------------: | ------------------------------: |
+| 30 s        |                     0.020 s |                         0.021 s |                       8e-10 s |
+| 60 s        |                     0.019 s |                         0.022 s |                       7e-10 s |
+| 120 s       |                     0.021 s |                         0.099 s |                       5e-10 s |
+
+Worst case over six passes. Three things fall out:
+
+- **What COBYLA actually delivers is ~20 ms, not the 1 µs the tolerance implies.** `xtol_rel` is
+  *relative*, and a simplex method on a locally flat minimum does not do better than that.
+- **The free spline estimate matches it** at the 30 s and 60 s steps, for zero additional geometry
+  evaluations. Spline range², not range: range² is very nearly parabolic across a pass, and splining
+  range directly is 60× worse (worst 1.35 s at a 60 s step).
+- **A spline seed plus a secant on the exact range-rate reaches sub-nanosecond in 4–6 evaluations.**
+  ṙ = (Δr · Δv)/|Δr| is exact at any instant, because the state already carries velocity, so TCA is a
+  root-find on a smooth scalar rather than a minimization of a black box. Six evaluations of the
+  satellite state, against ~30 evaluations of *two* full states today — one of which, for a fixed
+  target, is constant.
+
+Note the split: the spline wants only positions (so it is free), and only the handful of refinement
+steps need velocity.
+
+### Crossings: a good seed, not a drop-in answer
+
+The same idea applied to acquisition and loss of signal is weaker, because the crossing falls wherever
+it falls between two grid points rather than near the middle of a fitted span. Cubic spline through the
+four real grid samples straddling each crossing, error against `brentq` on the true residual:
+
+| Coarse step | Mask | Spline root, worst | median | Linear between the two straddling samples |
+| ----------- | ---- | -----------------: | -----: | ----------------------------------------: |
+| 60 s        | 0°   |            76.5 ms | 5.0 ms |                                    2050 ms |
+| 60 s        | 10°  |           310.0 ms | 218 ms |                                    3899 ms |
+| 120 s       | 0°   |           1444 ms  | 323 ms |                                    7284 ms |
+
+So a spline root is not accurate enough to *replace* refinement at the current tolerance. It is an
+excellent bracket: it localizes the crossing to ~0.1 s instead of the 60 s coarse bracket, a 600×
+tighter start. Feed that to a secant on the continuous residual (elevation − mask) and two or three
+evaluations finish it, against the ~29 bisection steps the boolean TOMS748 costs today.
+
+### Do not spline the elevation peak
+
+Fitting the peak from the elevation samples is the one place this approach fails outright — elevation is
+sharply peaked near zenith and a cubic spline under-resolves it badly:
+
+| Coarse step | Worst peak-elevation error, spline | Evaluating elevation at the converged TCA |
+| ----------- | ---------------------------------: | ----------------------------------------: |
+| 30 s        |                             0.574° |                                  0.000000° |
+| 60 s        |                             1.536° |                                  0.000000° |
+| 120 s       |                            16.210° |                                  0.000000° |
+
+One exact evaluation at the converged TCA beats the spline by orders of magnitude, which is what
+`GenerateAccess` already does. Keep it; just give it an accurate TCA.
+
+### A correctness bug this exposes
+
+That last column holds because closest approach and peak elevation coincide for a **circular** orbit.
+They do not in general, and `Access::getMaxElevation()` reports elevation at TCA regardless:
+
+| Orbit                            | TCA vs peak-elevation time | Error in reported "max elevation" |
+| -------------------------------- | -------------------------: | --------------------------------: |
+| SSO 500 km, e = 0                |                    18.1 ms |                         0.000000° |
+| Kepler a = 8000 km, e = 0.15     |               **204.8 s**  |                        **2.029°** |
+
+For an eccentric orbit the reported maximum elevation is simply wrong. The fix is the same machinery:
+root-find the elevation derivative (also available in closed form from position and velocity), seeded
+from the elevation spline, instead of assuming the peak sits at closest approach.
+
+### What it would take
+
+- Retain range² (and elevation) per target per step in the coarse scan instead of only the boolean —
+  one `double` per target per step, and for the elevation and AER criteria the values are already
+  computed.
+- Line-of-sight does not compute range at all today; it would need adding, which is cheap given both
+  ITRF positions are in hand.
+- Guard the short-pass case. A pass needs four interior samples to fit a cubic; at a 60 s step with a
+  10° mask, one pass in four had only two. That is the same population that breaks `coarse = true`
+  today, and both want the same fallback.
 
 ## Secondary observations
 

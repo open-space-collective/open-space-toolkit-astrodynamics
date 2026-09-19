@@ -130,8 +130,9 @@ static void benchmark001(benchmark::State& state)
 // Cadence of the tabulated states.
 static const Duration TABULATED_STEP = Duration::Seconds(20.0);
 
-// Above-the-horizon elevation bounds, in radians.
-static const MathInterval ABOVE_HORIZON_ELEVATION = MathInterval::Closed(0.0, Angle::Degrees(90.0).inRadians());
+// Above-the-horizon elevation bounds. The AER and elevation criteria take their angular bounds in degrees (the
+// constructor converts to radians), so these are degrees.
+static const MathInterval ABOVE_HORIZON_ELEVATION = MathInterval::Closed(0.0, 90.0);
 
 // SSO satellite states sampled at 20 s over the full (two-week) window plus margin, expressed in GCRF. Built once and
 // shared across the tabulated benchmarks; the tabulated model converts them to its output frame at construction.
@@ -313,9 +314,7 @@ static void benchmarkCriterionAER(benchmark::State& state)
     static const Array<AccessTarget> targets = MakeTargets(
         10,
         VisibilityCriterion::FromAERInterval(
-            MathInterval::Closed(0.0, Angle::Degrees(360.0).inRadians()),
-            ABOVE_HORIZON_ELEVATION,
-            MathInterval::Closed(0.0, 1.0e9)
+            MathInterval::Closed(0.0, 360.0), ABOVE_HORIZON_ELEVATION, MathInterval::Closed(0.0, 1.0e9)
         )
     );
 
