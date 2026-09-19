@@ -179,31 +179,95 @@ denominator, so **range is already in hand at every coarse sample** for the elev
 AER path computes azimuth, elevation and range outright. Fitting a cubic spline through those retained
 samples and solving analytically costs no new geometry evaluations at all.
 
-Measured against a well-conditioned reference — `brentq` on the exact range-rate, rather than minimizing
-range, which is locally flat and only resolves its own argmin to ~10 ms in double precision — on a
-500 km SSO against a ground station, one-day window:
+Three scalars are available in closed form from a state, with `u` the station's unit vertical and
+`s = sin(elevation) = (u · dx)/|dx|`:
 
-| Coarse step | Current (COBYLA, ~30 evals) | Cubic spline on range², 0 evals | Spline seed + secant on exact ṙ |
-| ----------- | --------------------------: | ------------------------------: | ------------------------------: |
-| 30 s        |                     0.020 s |                         0.021 s |                       8e-10 s |
-| 60 s        |                     0.019 s |                         0.022 s |                       7e-10 s |
-| 120 s       |                     0.021 s |                         0.099 s |                       5e-10 s |
+```
+rdot = (dx · v) / |dx|                       zero at closest approach
+sdot = [ (u · v) - s * rdot ] / |dx|         zero at peak elevation
+edot = sdot / sqrt(1 - s^2)
+```
 
-Worst case over six passes. Three things fall out:
+Root-find `sdot`, not `edot`: they share the root, but `edot` blows up near zenith where
+`sqrt(1 - s^2)` goes to zero.
 
-- **What COBYLA actually delivers is ~20 ms, not the 1 µs the tolerance implies.** `xtol_rel` is
-  *relative*, and a simplex method on a locally flat minimum does not do better than that.
-- **The free spline estimate matches it** at the 30 s and 60 s steps, for zero additional geometry
-  evaluations. Spline range², not range: range² is very nearly parabolic across a pass, and splining
-  range directly is 60× worse (worst 1.35 s at a 60 s step).
-- **A spline seed plus a secant on the exact range-rate reaches sub-nanosecond in 4–6 evaluations.**
-  ṙ = (Δr · Δv)/|Δr| is exact at any instant, because the state already carries velocity, so TCA is a
-  root-find on a smooth scalar rather than a minimization of a black box. Six evaluations of the
-  satellite state, against ~30 evaluations of *two* full states today — one of which, for a fixed
-  target, is constant.
+### Test bed
 
-Note the split: the spline wants only positions (so it is free), and only the handful of refinement
-steps need velocity.
+All figures below are on **SGP4**, plus unperturbed Kepler orbits for the circular and eccentric cases.
+`Orbit::SunSynchronous` is deliberately excluded — see *A model bug this exposes* — because its reported
+velocity does not match the derivative of its own position, which silently corrupts every `rdot`-based
+measurement. The references are `brentq` on the exact `rdot` and `sdot`, cross-checked against direct
+parabola fits to range and elevation; on the self-consistent models the two agree to 14–320 µs, which is
+the parabola fit's own truncation.
+
+### Seeding: range² beats range-rate, decisively
+
+Both splines cost zero new evaluations. Worst error over the passes in a one-day window:
+
+| Coarse step | Cubic spline on range² | Cubic spline on rdot |
+| ----------- | ---------------------: | -------------------: |
+| 30 s        |              0.0002 s  |             0.0114 s |
+| 60 s        |              0.0023 s  |             0.6768 s |
+| 120 s       |              0.0340 s  |             4.0929 s |
+
+Range² is very nearly parabolic across a pass, so a cubic captures it almost exactly. `rdot` is its
+derivative — an S-curve with far more curvature — and a cubic through the same sample points is
+**50–300× worse**. Splining `rdot` also needs velocity at every coarse sample, which the scan does not
+currently transform; splining range² needs only what is already there.
+
+At a 60 s step the free range² estimate (2.3 ms) is already better than what COBYLA returns after ~30
+evaluations (2.9 ms).
+
+### Refining: secant on the exact rdot
+
+Worst error after a given number of true-geometry evaluations, SGP4:
+
+| Step  | Seed | 3 evals | 4 evals | 6 evals |
+| ----- | ---- | ------: | ------: | ------: |
+| 60 s  | range² |  3.1e-5 s | 3.7e-8 s | 2.5e-8 s |
+| 60 s  | rdot   |  8.9e-5 s | 3.9e-8 s | 2.6e-8 s |
+| 120 s | range² |  1.2e-4 s | 4.7e-8 s | 2.0e-8 s |
+| 120 s | rdot   |  6.4e-3 s | 1.9e-5 s | 2.5e-8 s |
+
+Four evaluations reach ~4e-8 s — about five orders of magnitude better than COBYLA's 2–3 ms, at an
+eighth of the cost. The seed matters most at coarse steps: at 120 s the range² seed is still converged
+at 4 evaluations while the rdot seed needs 6. For reference, Brent on `rdot` over the raw coarse
+bracket, with no spline seed, takes **20–76 evaluations** to reach the same tolerance.
+
+The 2-evaluation column is omitted because it is just the initial bracket point, not an estimate.
+
+### Peak elevation: root-find sdot, do not spline the elevation
+
+| Method | SGP4, 30 s | SGP4, 60 s | SGP4, 120 s | Kepler e = 0.15, 60 s |
+| ------ | ---------: | ---------: | ----------: | --------------------: |
+| Cubic spline argmax of elevation | 3.436° | 5.234° | 23.877° | 0.241° |
+| Elevation evaluated at TCA | 0.00021° | 0.00021° | 0.00021° | **2.029°** |
+| Secant on sdot, 3 evals | 8.1e-9° | 1.2e-3° | 0.964° | 1.1e-8° |
+| Secant on sdot, 4 evals | 4.4e-9° | 2.7e-7° | 3.5e-3° | 2.3e-9° |
+| Secant on sdot, 6 evals | 1.1e-10° | 2.6e-9° | 2.6e-9° | 5.0e-12° |
+
+Splining the elevation samples is the one variant that fails outright — elevation is sharply peaked near
+zenith and a cubic under-resolves it by degrees. Evaluating elevation at TCA is accurate for a
+near-circular orbit and wrong for an eccentric one. **Four secant steps on `sdot` are accurate for
+both**, and cost about the same as one COBYLA iteration.
+
+### Cost
+
+Velocity is nearly free once the position is being transformed: the Callgrind profile puts
+`CartesianVelocity::inFrame` at 1.63% against `CartesianPosition::inFrame` at 23.12%, because both ride
+the same frame transform. So the choice between position-only and full-state evaluation is roughly a 7%
+difference per evaluation, not 2× — the argument against splining `rdot` is accuracy, not cost.
+
+Per access, end to end:
+
+| | Evaluations | What each costs |
+| --- | ---: | --- |
+| Today | ~30 | two full `State::inFrame`, one of them a constant fixed target |
+| Range² spline + 4 secant on rdot + 4 secant on sdot | 8 | one satellite state each |
+
+That is roughly a 7× reduction in state transforms on the phase that is 93% of a multi-target elevation
+run, and it returns a TCA five orders of magnitude tighter plus a peak elevation that is correct for
+eccentric orbits.
 
 ### Crossings: a good seed, not a drop-in answer
 
@@ -222,33 +286,34 @@ excellent bracket: it localizes the crossing to ~0.1 s instead of the 60 s coars
 tighter start. Feed that to a secant on the continuous residual (elevation − mask) and two or three
 evaluations finish it, against the ~29 bisection steps the boolean TOMS748 costs today.
 
-### Do not spline the elevation peak
-
-Fitting the peak from the elevation samples is the one place this approach fails outright — elevation is
-sharply peaked near zenith and a cubic spline under-resolves it badly:
-
-| Coarse step | Worst peak-elevation error, spline | Evaluating elevation at the converged TCA |
-| ----------- | ---------------------------------: | ----------------------------------------: |
-| 30 s        |                             0.574° |                                  0.000000° |
-| 60 s        |                             1.536° |                                  0.000000° |
-| 120 s       |                            16.210° |                                  0.000000° |
-
-One exact evaluation at the converged TCA beats the spline by orders of magnitude, which is what
-`GenerateAccess` already does. Keep it; just give it an accurate TCA.
-
 ### A correctness bug this exposes
 
-That last column holds because closest approach and peak elevation coincide for a **circular** orbit.
-They do not in general, and `Access::getMaxElevation()` reports elevation at TCA regardless:
+Closest approach and peak elevation coincide for a **circular** orbit. They do not in general, and
+`Access::getMaxElevation()` reports elevation at TCA regardless:
 
-| Orbit                            | TCA vs peak-elevation time | Error in reported "max elevation" |
-| -------------------------------- | -------------------------: | --------------------------------: |
-| SSO 500 km, e = 0                |                    18.1 ms |                         0.000000° |
-| Kepler a = 8000 km, e = 0.15     |               **204.8 s**  |                        **2.029°** |
+| Orbit                                    | TCA vs peak-elevation time | Error in reported "max elevation" |
+| ---------------------------------------- | -------------------------: | --------------------------------: |
+| SGP4 LEO, e ≈ 0.0013                     |                    0.754 s |                         0.00021° |
+| Kepler a = 8000 km, e = 0.15             |               **204.8 s**  |                        **2.029°** |
 
-For an eccentric orbit the reported maximum elevation is simply wrong. The fix is the same machinery:
-root-find the elevation derivative (also available in closed form from position and velocity), seeded
-from the elevation spline, instead of assuming the peak sits at closest approach.
+### A model bug this exposes
+
+`Kepler::CalculateJ2StateAt` advances the mean anomaly at the J2-corrected mean motion `n_bar` and
+secularly drifts RAAN and AOP, then builds the Cartesian state with `coe.getCartesianState(mu)` — the
+*unperturbed* two-body position/velocity relation. The position sequence therefore evolves at a
+different rate than the reported velocity describes. Measured as |v| against the central difference of
+the model's own position:
+
+| Model                                      | \|v\| / \|dP/dt\| |
+| ------------------------------------------ | ----------------: |
+| SGP4                                        |         1.0000022 |
+| Kepler, `PerturbationType::No`              |         1.0000000 |
+| Kepler, `PerturbationType::J2`              |     **1.0013275** |
+| `Orbit::SunSynchronous` (J2 under the hood) |     **1.0013282** |
+
+`CalculateJ4StateAt` is built the same way. A 1.3e-3 velocity error is inconsequential for a boolean
+visibility test, which is why it has gone unnoticed, but it shifts the root of `rdot` by 2–20 ms and
+would put a floor under any derivative-based refinement built on these models.
 
 ### What it would take
 
