@@ -130,6 +130,9 @@ static void benchmark001(benchmark::State& state)
 // Cadence of the tabulated states.
 static const Duration TABULATED_STEP = Duration::Seconds(20.0);
 
+// Above-the-horizon elevation bounds, in radians.
+static const MathInterval ABOVE_HORIZON_ELEVATION = MathInterval::Closed(0.0, Angle::Degrees(90.0).inRadians());
+
 // SSO satellite states sampled at 20 s over the full (two-week) window plus margin, expressed in GCRF. Built once and
 // shared across the tabulated benchmarks; the tabulated model converts them to its output frame at construction.
 static const Array<State>& ReferenceSsoStatesGCRF()
@@ -173,12 +176,9 @@ static AccessTarget MakeLOSTarget()
     return AccessTarget::FromPosition(visibilityCriterion, groundStationPosition);
 }
 
-// A spread of ground stations across the globe, each with an above-the-horizon elevation criterion.
-static Array<AccessTarget> MakeElevationTargets(const Index aTargetCount)
+// A spread of ground stations across the globe, all sharing `aVisibilityCriterion`.
+static Array<AccessTarget> MakeTargets(const Index aTargetCount, const VisibilityCriterion& aVisibilityCriterion)
 {
-    const VisibilityCriterion elevationCriterion =
-        VisibilityCriterion::FromElevationInterval(MathInterval::Closed(0.0, 90.0));
-
     Array<AccessTarget> targets = Array<AccessTarget>::Empty();
     targets.reserve(aTargetCount);
 
@@ -193,10 +193,16 @@ static Array<AccessTarget> MakeElevationTargets(const Index aTargetCount)
             lla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
         );
 
-        targets.add(AccessTarget::FromPosition(elevationCriterion, position));
+        targets.add(AccessTarget::FromPosition(aVisibilityCriterion, position));
     }
 
     return targets;
+}
+
+// A spread of ground stations, each with an above-the-horizon elevation criterion.
+static Array<AccessTarget> MakeElevationTargets(const Index aTargetCount)
+{
+    return MakeTargets(aTargetCount, VisibilityCriterion::FromElevationInterval(ABOVE_HORIZON_ELEVATION));
 }
 
 // Scenario 1: tabulated model with ITRF output frame, one target, two-week window. The target is in ITRF, so no
@@ -247,6 +253,147 @@ static void benchmarkTabulatedItrf100Targets1Week(benchmark::State& state)
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Bottleneck-isolating scenarios.
+//
+// The scenarios above measure end-to-end cost. The ones below vary one lever at a time, so that a regression can be
+// attributed to a phase of the algorithm rather than just to "access generation got slower". They share a one-day
+// window, which keeps the sweeps to seconds rather than minutes per iteration.
+//
+// The levers, and what each one exposes:
+//
+//   * Visibility criterion. LineOfSight calls Environment::setInstant() and Environment::intersects() once per
+//     (instant, target) pair, which re-poses every celestial body's geometry; the elevation and AER criteria are
+//     closed-form vector maths on ITRF coordinates.
+//   * Target count. The coarse scan computes the satellite state once per step and shares it across targets, but
+//     crossing refinement and time-of-closest-approach run per target, so the spread between these two shows how
+//     much of the total is actually shared.
+//   * Coarse vs precise. `coarse = true` skips crossing refinement, so the delta is the cost of the root solve.
+//   * Target kind. Fixed targets take the vectorized path; trajectory targets take a scalar path that builds an NED
+//     frame per sample in Generator::CalculateAer. Compare against the 1-target elevation scenario above.
+// ---------------------------------------------------------------------------------------------------------------------
+
+static const Instant REFERENCE_ONE_DAY_END_INSTANT = REFERENCE_START_INSTANT + Duration::Days(1.0);
+
+// The LineOfSight sweep is an order of magnitude more expensive than the rest of the suite; keep it to one iteration.
+static const int HEAVY_ITERATIONS = 1;
+
+// Runs `someAccessTargets` against the shared tabulated (ITRF out) trajectory over the one-day window.
+static void benchmarkOneDay(benchmark::State& state, const Array<AccessTarget>& someAccessTargets)
+{
+    static const Trajectory trajectory = MakeTabulatedTrajectory(Frame::ITRF());
+
+    const Generator generator = {REFERENCE_ENVIRONMENT};
+    const Interval interval = Interval::Closed(REFERENCE_START_INSTANT, REFERENCE_ONE_DAY_END_INSTANT);
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(generator.computeAccesses(interval, someAccessTargets, trajectory));
+    }
+}
+
+// Scenario 4: visibility criterion cost, at a fixed target count and window.
+static void benchmarkCriterionLineOfSight(benchmark::State& state)
+{
+    static const Array<AccessTarget> targets =
+        MakeTargets(10, VisibilityCriterion::FromLineOfSight(REFERENCE_ENVIRONMENT));
+
+    benchmarkOneDay(state, targets);
+}
+
+static void benchmarkCriterionElevation(benchmark::State& state)
+{
+    static const Array<AccessTarget> targets = MakeElevationTargets(10);
+
+    benchmarkOneDay(state, targets);
+}
+
+static void benchmarkCriterionAER(benchmark::State& state)
+{
+    static const Array<AccessTarget> targets = MakeTargets(
+        10,
+        VisibilityCriterion::FromAERInterval(
+            MathInterval::Closed(0.0, Angle::Degrees(360.0).inRadians()),
+            ABOVE_HORIZON_ELEVATION,
+            MathInterval::Closed(0.0, 1.0e9)
+        )
+    );
+
+    benchmarkOneDay(state, targets);
+}
+
+// Scenario 5: target-count sweep, with the elevation criterion.
+static void benchmarkElevation1Target(benchmark::State& state)
+{
+    static const Array<AccessTarget> targets = MakeElevationTargets(1);
+
+    benchmarkOneDay(state, targets);
+}
+
+static void benchmarkElevation100Targets(benchmark::State& state)
+{
+    static const Array<AccessTarget> targets = MakeElevationTargets(100);
+
+    benchmarkOneDay(state, targets);
+}
+
+// Scenario 6: coarse vs precise, isolating the crossing refinement (root solve).
+//
+// A 10 s step is used rather than the 1 minute default: in coarse mode an access captured by a single sample yields a
+// zero-length interval, and the time-of-closest-approach search cannot converge on one. A 10 s step keeps every pass
+// in this scenario at two or more samples.
+static void benchmarkRefinement(benchmark::State& state, const bool aCoarseFlag)
+{
+    static const Trajectory trajectory = MakeTabulatedTrajectory(Frame::ITRF());
+    static const Array<AccessTarget> targets = MakeElevationTargets(10);
+
+    const Generator generator = {REFERENCE_ENVIRONMENT, Duration::Seconds(10.0)};
+    const Interval interval = Interval::Closed(REFERENCE_START_INSTANT, REFERENCE_ONE_DAY_END_INSTANT);
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(generator.computeAccesses(interval, targets, trajectory, aCoarseFlag));
+    }
+}
+
+static void benchmarkCoarse(benchmark::State& state)
+{
+    benchmarkRefinement(state, true);
+}
+
+static void benchmarkPrecise(benchmark::State& state)
+{
+    benchmarkRefinement(state, false);
+}
+
+// The same ground station as the 1-target elevation scenario, but declared as a (stationary) trajectory target, which
+// sends it down the scalar code path.
+static AccessTarget MakeElevationTrajectoryTarget()
+{
+    const LLA lla = {Angle::Degrees(-70.0), Angle::Degrees(-180.0), Length::Meters(0.0)};
+    const Position position =
+        Position::Meters(lla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF());
+
+    return AccessTarget::FromTrajectory(
+        VisibilityCriterion::FromElevationInterval(ABOVE_HORIZON_ELEVATION), Trajectory::Position(position)
+    );
+}
+
+// Scenario 7: trajectory target (scalar path) for the same geometry as the 1-target elevation scenario above.
+static void benchmarkTrajectoryTarget(benchmark::State& state)
+{
+    static const Trajectory trajectory = MakeTabulatedTrajectory(Frame::ITRF());
+    static const AccessTarget target = MakeElevationTrajectoryTarget();
+
+    const Generator generator = {REFERENCE_ENVIRONMENT};
+    const Interval interval = Interval::Closed(REFERENCE_START_INSTANT, REFERENCE_ONE_DAY_END_INSTANT);
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(generator.computeAccesses(interval, target, trajectory));
+    }
+}
+
 // Register the functions as a benchmark
 BENCHMARK(benchmark001)->Name("Access | Ground Station <> TLE")->Iterations(DEFAULT_ITERATIONS);
 
@@ -262,5 +409,45 @@ BENCHMARK(benchmarkTabulatedGcrf1Target2Weeks)
 
 BENCHMARK(benchmarkTabulatedItrf100Targets1Week)
     ->Name("Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkCriterionLineOfSight)
+    ->Name("Access | Criterion | 10 targets | 1 day | LineOfSight")
+    ->Iterations(HEAVY_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkCriterionElevation)
+    ->Name("Access | Criterion | 10 targets | 1 day | Elevation")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkCriterionAER)
+    ->Name("Access | Criterion | 10 targets | 1 day | AER")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkElevation1Target)
+    ->Name("Access | Targets | 1 target | 1 day | Elevation")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkElevation100Targets)
+    ->Name("Access | Targets | 100 targets | 1 day | Elevation")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkCoarse)
+    ->Name("Access | Refinement | 10 targets | 1 day | 10 s step | coarse")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkPrecise)
+    ->Name("Access | Refinement | 10 targets | 1 day | 10 s step | precise")
+    ->Iterations(TABULATED_ITERATIONS)
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(benchmarkTrajectoryTarget)
+    ->Name("Access | Target kind | trajectory (scalar) | 1 day | Elevation")
     ->Iterations(TABULATED_ITERATIONS)
     ->Unit(benchmark::kMillisecond);
