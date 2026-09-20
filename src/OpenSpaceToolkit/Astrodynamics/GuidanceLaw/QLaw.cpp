@@ -864,6 +864,16 @@ Tuple<double, double> QLaw::computeEffectivity_(
     Vector6d coeVector = aCOEVector;
     VectorXd dQ_dt(trueAnomalyAngles.size());
 
+    // ∂Q/∂oe only depends on the five non-anomalistic elements, which are held fixed over the
+    // sweep below. Evaluate it once here instead of once per true anomaly: only the Gauss
+    // variational matrix ∂oe/∂F depends on the true anomaly.
+    const Vector5d dQ_dOE = compute_dQ_dOE(coeVector.segment<5>(0), aThrustAcceleration);
+
+    if (dQ_dOE.array().isNaN().any())
+    {
+        throw ostk::core::error::RuntimeError("NaN encountered in dQ_dOE calculation.");
+    }
+
     // For each true anomaly, compute Q̇
     // Coarse grid search is sufficient, no need to for finding the exact root.
     Index i = 0;
@@ -871,7 +881,7 @@ Tuple<double, double> QLaw::computeEffectivity_(
     {
         coeVector[5] = trueAnomalyAngles(j);
 
-        const Vector3d thrustVector = computeThrustVector(coeVector, aThrustAcceleration);
+        const Vector3d thrustVector = dQ_dOE.transpose() * QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
 
         dQ_dt[i] = compute_dQn_dt(thrustVector);
 
