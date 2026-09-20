@@ -476,15 +476,23 @@ Tuple<double, double> QLaw::computeEffectivity(
 
 Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter)
 {
+    return QLaw::Compute_dOE_dF(aCOEVector, aGravitationalParameter.in(Derived::Unit::MeterCubedPerSecondSquared()));
+}
+
+Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const double& aGravitationalParameter)
+{
     const double& semiMajorAxis = aCOEVector[0];
     const double& eccentricity = aCOEVector[1];
     const double& inclination = aCOEVector[2];
     const double& argumentOfPeriapsis = aCOEVector[4];
     const double& trueAnomaly = aCOEVector[5];
 
-    const double semiLatusRectum = COE::ComputeSemiLatusRectum(semiMajorAxis, eccentricity);
-    const double angularMomentum = COE::ComputeAngularMomentum(semiLatusRectum, aGravitationalParameter);
-    const double radialDistance = COE::ComputeRadialDistance(semiMajorAxis, eccentricity, trueAnomaly);
+    // Same expressions as the COE::Compute* helpers, evaluated on plain doubles: this function is
+    // called once per true anomaly of the effectivity sweep, so the boxed-Real call overhead of
+    // those helpers (and the unit conversion of the gravitational parameter) dominates otherwise.
+    const double semiLatusRectum = semiMajorAxis * (1.0 - eccentricity * eccentricity);
+    const double angularMomentum = std::sqrt(aGravitationalParameter * semiLatusRectum);
+    const double radialDistance = semiLatusRectum / (1.0 + eccentricity * std::cos(trueAnomaly));
 
     // columns: Orbital elements
     // rows: theta, radial, angular momentum directions
@@ -777,7 +785,7 @@ Vector5d QLaw::computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double&
 
 Vector3d QLaw::computeThrustVector(const Vector6d& aCOEVector, const double& aThrustAcceleration) const
 {
-    const Matrix53d derivativeMatrix = QLaw::Compute_dOE_dF(aCOEVector, gravitationalParameter_);
+    const Matrix53d derivativeMatrix = QLaw::Compute_dOE_dF(aCOEVector, mu_);
 
     const Vector5d dQ_dOE = compute_dQ_dOE(aCOEVector.segment<5>(0), aThrustAcceleration);
 
