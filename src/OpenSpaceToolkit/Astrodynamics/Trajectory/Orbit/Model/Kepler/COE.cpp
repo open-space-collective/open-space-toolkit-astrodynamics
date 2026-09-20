@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -983,43 +985,47 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
 
     // Provides a starting value to solve Kepler's equation
 
-    auto keplerstart3 = [](Real e, Real M) -> Real
+    // The iteration below is scalar Newton-type refinement executed up to 1000 times per call and
+    // is itself called once per Brouwer-Lyddane fixed-point iteration. Using plain doubles here
+    // keeps the arithmetic identical while avoiding the boxed-Real call overhead on every operation.
+    auto keplerstart3 = [](const double& e, const double& M) -> double
     {
-        const Real t34 = e * e;
-        const Real t35 = e * t34;
-        const Real t33 = std::cos(M);
+        const double t34 = e * e;
+        const double t35 = e * t34;
+        const double t33 = std::cos(M);
 
         return M + (-0.5 * t35 + e + (t34 + 1.5 * t33 * t35) * t33) * std::sin(M);
     };
 
     // An iteration (correction) method to solve Kepler's equation
 
-    auto eps3 = [](Real e, Real M, Real x) -> Real
+    auto eps3 = [](const double& e, const double& M, const double& x) -> double
     {
-        const Real t1 = std::cos(x);
-        const Real t2 = -1.0 + e * t1;
-        const Real t3 = std::sin(x);
-        const Real t4 = e * t3;
-        const Real t5 = -x + t4 + M;
-        const Real t6 = t5 / (0.5 * t5 * t4 / t2 + t2);
+        const double t1 = std::cos(x);
+        const double t2 = -1.0 + e * t1;
+        const double t3 = std::sin(x);
+        const double t4 = e * t3;
+        const double t5 = -x + t4 + M;
+        const double t6 = t5 / (0.5 * t5 * t4 / t2 + t2);
 
         return t5 / (((0.5 * t3) - ((1.0 / 6.0) * t1 * t6)) * e * t6 + t2);
     };
 
-    const Real meanAnomaly_rad = aMeanAnomaly.inRadians();
+    const double eccentricity = anEccentricity;
+    const double tolerance = aTolerance;
 
-    const Real M = meanAnomaly_rad;
-    const Real Mnorm = std::fmod(M, 2.0 * M_PI);
+    const double M = aMeanAnomaly.inRadians();
+    const double Mnorm = std::fmod(M, 2.0 * M_PI);
 
-    Real E = Real::Undefined();
+    double E = std::numeric_limits<double>::quiet_NaN();
 
-    Real E0 = keplerstart3(anEccentricity, Mnorm);
-    Real dE = aTolerance + 1.0;
+    double E0 = keplerstart3(eccentricity, Mnorm);
+    double dE = tolerance + 1.0;
     Size count = 0;
 
-    while (dE > aTolerance)
+    while (dE > tolerance)
     {
-        E = E0 - eps3(anEccentricity, Mnorm, E0);
+        E = E0 - eps3(eccentricity, Mnorm, E0);
         dE = std::abs(E - E0);
         E0 = E;
 
