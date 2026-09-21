@@ -11,6 +11,7 @@ using ostk::core::type::Size;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::Vector6d;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
@@ -416,7 +417,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
         .def_static(
             "compute_d_oe_d_f",
-            &QLaw::Compute_dOE_dF,
+            overload_cast<const Vector6d&, const Derived&>(&QLaw::Compute_dOE_dF),
             R"doc(
                 Compute the derivative of the orbital elements with respect to the thrust vectors.
 

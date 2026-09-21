@@ -487,9 +487,7 @@ Matrix53d QLaw::Compute_dOE_dF(const Vector6d& aCOEVector, const double& aGravit
     const double& argumentOfPeriapsis = aCOEVector[4];
     const double& trueAnomaly = aCOEVector[5];
 
-    // Same expressions as the COE::Compute* helpers, evaluated on plain doubles: this function is
-    // called once per true anomaly of the effectivity sweep, so the boxed-Real call overhead of
-    // those helpers (and the unit conversion of the gravitational parameter) dominates otherwise.
+    // use direct formulas over COE static methods to avoid extra conversions for performance
     const double semiLatusRectum = semiMajorAxis * (1.0 - eccentricity * eccentricity);
     const double angularMomentum = std::sqrt(aGravitationalParameter * semiLatusRectum);
     const double radialDistance = semiLatusRectum / (1.0 + eccentricity * std::cos(trueAnomaly));
@@ -888,7 +886,7 @@ Tuple<double, double> QLaw::computeEffectivity_(
     {
         coeVector[5] = trueAnomalyAngles(j);
 
-        const Vector3d thrustVector = dQ_dOE.transpose() * QLaw::Compute_dOE_dF(coeVector, gravitationalParameter_);
+        const Vector3d thrustVector = dQ_dOE.transpose() * QLaw::Compute_dOE_dF(coeVector, mu_);
 
         dQ_dt[i] = compute_dQn_dt(thrustVector);
 
