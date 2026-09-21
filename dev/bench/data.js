@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790026309143,
+  "lastUpdate": 1790033136371,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -366,6 +366,138 @@ window.BENCHMARK_DATA = {
             "value": 93.87452517696357,
             "unit": "us/iter",
             "extra": "iterations: 7487\ncpu: 93.86701535996664 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0b3af6d379d73c28f1dd3da4c44c2fb4852e6c0d",
+          "message": "perf: evaluate BrouwerLyddaneMeanLong::toCOE on doubles instead of Real (#725)\n\n* perf: evaluate BrouwerLyddaneMeanLong::toCOE on doubles instead of Real\n\ntoCOE is roughly 300 lines of scalar arithmetic written in ostk::core::type::Real.\nReal is not a zero-cost wrapper over double: its operators are defined in\nlibopen-space-toolkit-core.so, so they cannot inline across the shared-library\nboundary, and each one branches on undefined and infinite operands and calls further\nout-of-line predicates such as isZero, isStrictlyPositive and getSign.\n\nThat cost is multiplied twice over. toCOE runs once per iteration of the\nBrouwer-Lyddane fixed-point solve (up to 75 iterations, 1e-8 relative tolerance),\nand that solve runs on every osculating-to-mean conversion - which for a Q-Law in\nthe BrouwerLyddaneMeanLong domain is every single guidance law evaluation. A\nsampling profile of the Q-Law orbit raise in benchmark/.../Sequence.benchmark.cpp\nput 43% of the whole run inside boxed-Real operators reached through this function.\n\nDeclare the locals as double. The arithmetic is identical - Real's operators perform\nplain double arithmetic - so the results are bit-identical. Real::Pi() and\nReal::TwoPi() are literally M_PI and 2.0 * M_PI, and the Real::Undefined() sentinels\nfor ma, raan and aop become quiet NaN; all three are assigned on every path before\nuse. The diff is mechanical: types, those two constants, and the mod lambda's\nsignature.\n\nMeasured against the merge base on the Q-Law orbit raise (15 repetitions for the\nmicro-benchmark, best of 3 for the rest):\n\n  QLaw::calculateThrustAccelerationAt   mean 92.8 us -> 70.6 us   (median 93.4 -> 70.5)\n  Segment::solve                        8.5-9.2 s   -> 6.52 s\n  extractManeuvers                      78-87 ms    -> 62 ms\n\nThe merge-base figures are given as a range because this container drifts by over\n10% across tens of minutes; this change is well outside that band. States, maneuvers,\npropellant and final elements are unchanged in every benchmark scenario, and the 261\nunit tests covering COE, BrouwerLyddaneMean / Long / Short, QLaw, Segment and\nSequence pass.\n\nOne behavioural edge remains: Real division by exactly zero yields Undefined where\ndouble yields an infinity. In toCOE the only such divisor is the 1 - 5cos^2(i) term,\nthe critical-inclination singularity at i ~ 63.4 and 116.6 degrees, which the\nfunction already detects and warns about separately and where both the old and the\nnew result are meaningless.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_016zS8dRNQPH1VizthzErmuG\n\n* perf: solve Kepler's equation on doubles instead of Real (#726)\n\nCOE::EccentricAnomalyFromMeanAnomaly runs a Newton-type refinement of up to 1000\niterations, and its two helper lambdas, keplerstart3 and eps3, took and returned\nostk::core::type::Real by value - about 15 boxed operations per iteration. Real's\noperators live in libopen-space-toolkit-core.so, so they cannot inline across the\nshared-library boundary, and each branches on undefined and infinite operands and\ncalls further out-of-line predicates.\n\nThe function is reached once per iteration of the Brouwer-Lyddane fixed-point solve\n(through getSIVector's anomaly conversion and the Kepler-to-Cartesian step), which\nin turn runs on every osculating-to-mean conversion, so a Q-Law in the\nBrouwerLyddaneMeanLong domain pays it on every guidance law evaluation.\n\nDeclare the lambdas and the loop variables as double. The arithmetic is identical -\nReal's operators perform plain double arithmetic - so results are bit-identical. The\nReal::Undefined() sentinel for E becomes quiet NaN and is still assigned before use\non every path, and the public signature (Angle, Real, Real) is untouched.\n\nOn its own this change is not measurable on the Q-Law benchmark: with toCOE still\nevaluated on Real, that function so dominates the fixed-point solve that the Kepler\nsolver is a small slice, and the difference sits inside this container's roughly\n10% drift (15 repetitions gave 84.5 us against 81.8 us for an adjacently built merge\nbase - noise, not a regression).\n\nStacked on claude/perf-blm-tocoe-doubles, where the profile says it should matter,\nit is unambiguous (15 repetitions each, built back to back):\n\n  QLaw::calculateThrustAccelerationAt   mean 70.6 us -> 51.6 us   (-27%)\n                                        standard deviation 0.8 us and 1.1 us\n\nSo this is worth landing alongside or after that change rather than being judged on\nits own. States, maneuvers, propellant and final elements are unchanged in every\nbenchmark scenario, and the 261 unit tests covering COE, BrouwerLyddaneMean /\nLong / Short, QLaw, Segment and Sequence pass.\n\n\nClaude-Session: https://claude.ai/code/session_016zS8dRNQPH1VizthzErmuG\n\nCo-authored-by: Claude <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2026-09-21T15:52:29-07:00",
+          "tree_id": "71afe2b5d215c0522460fb8a8361df1aaaa2fe6b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/0b3af6d379d73c28f1dd3da4c44c2fb4852e6c0d"
+        },
+        "date": 1790033134621,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 2157310760.7,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2132945851.2 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 754.0201686666705,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 753.9414560000009 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 2262.6732056666583,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 2262.451366999999 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 8529.964382666682,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 8529.398916000004 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 2208817115.7999964,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2208624967 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4659512104.300001,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4659106785.399995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4666158617.799988,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4665718829.299991 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4670383144.000005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4669963007.499996 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.624849728000072,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.624773724000022 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 2.321392218000028,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.3211649890000103 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 2.5468329860000267,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.5464805410000224 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 3.317843870000047,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 3.3175406199999884 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 8.81206776900001,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 8.81110349299999 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Sequence_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 6.5944519739999805,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.593785009999976 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 6.54913035900006,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.548401184999989 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_FullHorizon/iterations:1",
+            "value": 133.88175918699994,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 133.85591232599995 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_ExtractManeuvers/iterations:1",
+            "value": 0.043257391999986794,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.04325750100002779 s\nthreads: 1"
+          },
+          {
+            "name": "BM_QLaw_CalculateThrustAccelerationAt",
+            "value": 40.0786205078215,
+            "unit": "us/iter",
+            "extra": "iterations: 17447\ncpu: 40.076874133088495 us\nthreads: 1"
           }
         ]
       }
