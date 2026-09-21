@@ -865,8 +865,7 @@ Tuple<double, double> QLaw::computeEffectivity_(
     VectorXd dQ_dt(trueAnomalyAngles.size());
 
     // ∂Q/∂oe only depends on the five non-anomalistic elements, which are held fixed over the
-    // sweep below. Evaluate it once here instead of once per true anomaly: only the Gauss
-    // variational matrix ∂oe/∂F depends on the true anomaly.
+    // sweep below.
     const Vector5d dQ_dOE = compute_dQ_dOE(coeVector.segment<5>(0), aThrustAcceleration);
 
     if (dQ_dOE.array().isNaN().any())
