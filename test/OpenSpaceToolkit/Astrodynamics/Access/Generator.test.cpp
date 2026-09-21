@@ -735,7 +735,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsARangeMinimum)
 {
     // The time of closest approach is solved for as the sign change of the range derivative rather than by
-    // minimizing the range. Assert the property that defines it: the range at the reported instant is smaller
+    // minimizing the range. The range at the reported instant is smaller
     // than the range just before and just after it.
 
     const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
