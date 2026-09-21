@@ -800,7 +800,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     // crossing is a sign change. Where the criterion admits a continuous margin the residual carries it, and the
     // root solve converges on the real function; otherwise it degrades to the boolean +/-1 step, on which the
     // solver can do no better than bisect.
-    std::function<double(const Instant&)> residual;
+    std::function<double(const Instant&)> condition;
 
     const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, &aCelestialSPtr](
                                 const Instant& instant
@@ -828,7 +828,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::AERInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
 
-        residual = [&computeAER, visibilityCriterion](const Instant& instant) -> double
+        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
         {
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
@@ -840,7 +840,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::AERMask visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
 
-        residual = [&computeAER, visibilityCriterion](const Instant& instant) -> double
+        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
         {
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
@@ -852,7 +852,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::LineOfSight visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
 
-        residual = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
                        const Instant& instant
                    ) -> double
         {
@@ -876,7 +876,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
         // Distance to whichever elevation bound is nearer, in radians. Positive between the bounds, negative
         // outside them, and zero exactly on a crossing - so the solver sees the geometry rather than a step.
-        residual = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, lowerBound_rad, upperBound_rad](
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, lowerBound_rad, upperBound_rad](
                        const Instant& instant
                    ) -> double
         {
@@ -936,9 +936,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         if (lowerBoundPreviousInstant >= anAnalysisInterval.getStart())
         {
             const auto startCrossingDurationSeconds = rootSolver.solve(
-                [&lowerBoundPreviousInstant, &residual](double aDurationInSeconds) -> double
+                [&lowerBoundPreviousInstant, &condition](double aDurationInSeconds) -> double
                 {
-                    return residual(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds));
+                    return condition(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds));
                 },
                 0.0,
                 Duration::Between(lowerBoundPreviousInstant, lowerBoundInstant).inSeconds()
@@ -955,9 +955,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         if (upperBoundNextInstant <= anAnalysisInterval.getEnd() && upperBoundNextInstant != upperBoundInstant)
         {
             const auto endCrossingDurationSeconds = rootSolver.solve(
-                [&upperBoundInstant, &residual](double aDurationInSeconds) -> double
+                [&upperBoundInstant, &condition](double aDurationInSeconds) -> double
                 {
-                    return residual(upperBoundInstant + Duration::Seconds(aDurationInSeconds));
+                    return condition(upperBoundInstant + Duration::Seconds(aDurationInSeconds));
                 },
                 0.0,
                 Duration::Between(upperBoundInstant, upperBoundNextInstant).inSeconds()
