@@ -131,9 +131,11 @@ Array<MatrixXd> FiniteDifferenceSolver::computeStateTransitionMatrix(
 
     for (Index i = 0; i < stateVectorDimension; ++i)
     {
-        const Real stepSize = (aState.accessCoordinates()(i) * stepPercentage_ != 0.0)
-                                ? aState.accessCoordinates()(i) * stepPercentage_
-                                : stepPercentage_;
+        // Use stepPercentage as both a relative percentage and an absolute minimum step.
+        // This prevents vanishingly small perturbations for near-zero coordinates (e.g., eccentricity
+        // ~0.001, B* ~1e-4) which would otherwise produce FD steps dominated by numerical noise.
+        const Real absStep = std::max(std::abs(aState.accessCoordinates()(i)) * stepPercentage_, stepPercentage_);
+        const Real stepSize = (aState.accessCoordinates()(i) >= 0.0) ? absStep : -absStep;
 
         const MatrixXd differencedCoordinates = computeBlock(stepSize, aState.accessCoordinates(), i);
 
@@ -286,9 +288,8 @@ MatrixXd FiniteDifferenceSolver::computeJacobian(
 
     for (Index i = 0; i < stateVectorDimension; ++i)
     {
-        const Real stepSize = (aState.accessCoordinates()(i) * stepPercentage_ != 0.0)
-                                ? aState.accessCoordinates()(i) * stepPercentage_
-                                : stepPercentage_;
+        const Real absStep = std::max(std::abs(aState.accessCoordinates()(i)) * stepPercentage_, stepPercentage_);
+        const Real stepSize = (aState.accessCoordinates()(i) >= 0.0) ? absStep : -absStep;
 
         jacobian.col(i) = computeBlock(stepSize, i);
     }
