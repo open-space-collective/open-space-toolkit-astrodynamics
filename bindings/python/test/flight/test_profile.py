@@ -15,6 +15,7 @@ from ostk.physics.time import Duration
 from ostk.physics.time import Time
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
+from ostk.physics.time import Interval
 from ostk.physics.unit import Length
 from ostk.physics.unit import Angle
 from ostk.physics.coordinate import Transform
@@ -25,8 +26,10 @@ from ostk.physics.coordinate import Axes
 from ostk.physics.coordinate.frame.provider import Dynamic as DynamicProvider
 
 from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.trajectory import Model as TrajectoryModel
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.orbit.model import Tabulated as TabulatedOrbitModel
 from ostk.astrodynamics.flight import Profile
 from ostk.astrodynamics.flight.profile.model import Transform as TransformModel
 from ostk.astrodynamics.flight.profile.model import Tabulated as TabulatedModel
@@ -310,3 +313,42 @@ class TestProfile:
         assert state.is_defined()
         assert len(state.get_angular_velocity()) == 3
         assert np.linalg.norm(state.get_angular_velocity()) > 0.0
+
+    def test_custom_pointing_angular_velocity_tabulated_orbit(
+        self, orbit: Orbit, instant: Instant, environment: Environment
+    ):
+        interval = Interval.closed(instant, instant + Duration.minutes(10.0))
+
+        tabulated_orbit = Orbit(
+            model=TabulatedOrbitModel(
+                states=orbit.get_states_at(
+                    interval.generate_grid(Duration.seconds(10.0))
+                ),
+                initial_revolution_number=1,
+                interpolation_type=Interpolator.Type.BarycentricRational,
+            ),
+            celestial_object=environment.access_celestial_object_with_name("Earth"),
+        )
+
+        profile = Profile.custom_pointing(
+            orbit=tabulated_orbit,
+            alignment_target=Profile.Target(
+                Profile.TargetType.GeocentricNadir, Profile.Axis.Z
+            ),
+            clocking_target=Profile.Target(
+                Profile.TargetType.VelocityECI, Profile.Axis.X
+            ),
+        )
+
+        # One-sided differences at the bounds of the tabulated orbit
+        for evaluation_instant in (interval.get_start(), interval.get_end()):
+            state = profile.get_state_at(evaluation_instant)
+
+            assert state.is_defined()
+            assert np.linalg.norm(state.get_angular_velocity()) > 0.0
+
+        with pytest.raises(TrajectoryModel.BeforeStartError):
+            profile.get_state_at(interval.get_start() - Duration.seconds(1.0))
+
+        with pytest.raises(TrajectoryModel.AfterEndError):
+            profile.get_state_at(interval.get_end() + Duration.seconds(1.0))

@@ -11,7 +11,7 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import (
 )
 from ostk.mathematics.curve_fitting import Interpolator
 from ostk.physics.coordinate import Frame, Position, Velocity
-from ostk.physics.time import DateTime, Instant, Scale
+from ostk.physics.time import DateTime, Duration, Instant, Scale
 
 
 @pytest.fixture
@@ -423,3 +423,15 @@ class TestTabulatedTrajectory:
                 )
                 < error_tolerance
             )
+
+    def test_calculate_state_at_out_of_bounds(
+        self,
+        tabulated: Tabulated,
+    ):
+        interval = tabulated.get_interval()
+
+        with pytest.raises(Tabulated.BeforeStartError):
+            tabulated.calculate_state_at(interval.get_start() - Duration.seconds(1.0))
+
+        with pytest.raises(Tabulated.AfterEndError):
+            tabulated.calculate_state_at(interval.get_end() + Duration.seconds(1.0))

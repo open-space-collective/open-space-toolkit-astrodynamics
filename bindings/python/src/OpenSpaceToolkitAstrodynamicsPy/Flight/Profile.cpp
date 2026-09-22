@@ -466,8 +466,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 The angular velocity of the body frame is computed by finite difference of the generated orientation:
                 a central difference is used, falling back to a forward (resp. backward) difference at the start
-                (resp. end) of the time range over which the orbit and the orientation generator are defined
-                (e.g. a tabulated orbit).
+                (resp. end) of the time interval over which the orbit is defined (e.g. a tabulated orbit). Such a bound
+                is detected through the `trajectory.Model.BeforeStartError` (resp. `AfterEndError`) raised when probing
+                the orientation beyond it. Any other error is propagated.
 
                 Args:
                     orbit (Orbit): The orbit.
@@ -493,8 +494,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 The angular velocity of the body frame is computed by finite difference of the generated orientation:
                 a central difference is used, falling back to a forward (resp. backward) difference at the start
-                (resp. end) of the time range over which the orbit and the targets are defined (e.g. a tabulated
-                orbit or target trajectory).
+                (resp. end) of the time interval over which the orbit and the targets are defined (e.g. a tabulated
+                orbit or target trajectory). Such a bound is detected through the `trajectory.Model.BeforeStartError`
+                (resp. `AfterEndError`) raised when probing the orientation beyond it. Any other error is propagated.
 
                 Args:
                     orbit (Orbit): The orbit.

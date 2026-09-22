@@ -184,6 +184,8 @@ class TargetScan : public virtual Model
     ///
     /// @param anInstant The instant at which to calculate the state
     /// @return The state at the given instant
+    /// @throw BeforeStartError If the instant is before the start instant.
+    /// @throw AfterEndError If the instant is after the end instant.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
     /// @brief Print the static model to an output stream

@@ -2,7 +2,7 @@
 
 import numpy as np
 import pytest
-from ostk.astrodynamics.trajectory import Orbit, State
+from ostk.astrodynamics.trajectory import Model, Orbit, State
 from ostk.astrodynamics.trajectory.orbit.model import Tabulated
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -510,12 +510,12 @@ class TestTabulated:
             interpolation_type=interpolation_type,
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(Model.BeforeStartError):
             tabulated.calculate_state_at(
-                test_states[0].get_instant() - Duration.seconds(1)
+                test_states[0].get_instant() - Duration.seconds(1.0)
             )
 
-        with pytest.raises(Exception):
+        with pytest.raises(Model.AfterEndError):
             tabulated.calculate_state_at(
-                test_states[-1].get_instant() + Duration.seconds(1)
+                test_states[-1].get_instant() + Duration.seconds(1.0)
             )

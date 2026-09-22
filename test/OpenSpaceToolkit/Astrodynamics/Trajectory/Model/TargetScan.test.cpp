@@ -65,14 +65,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, CalculateStat
 
         {
             EXPECT_THROW(
-                targetScan_.calculateStateAt(startInstant_ - Duration::Seconds(1.0)), ostk::core::error::RuntimeError
+                targetScan_.calculateStateAt(startInstant_ - Duration::Seconds(1.0)), TargetScan::BeforeStartError
             );
         }
 
         {
-            EXPECT_THROW(
-                targetScan_.calculateStateAt(endInstant_ + Duration::Seconds(1.0)), ostk::core::error::RuntimeError
-            );
+            EXPECT_THROW(targetScan_.calculateStateAt(endInstant_ + Duration::Seconds(1.0)), TargetScan::AfterEndError);
         }
 
         {

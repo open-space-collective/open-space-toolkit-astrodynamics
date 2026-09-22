@@ -168,6 +168,8 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     ///
     /// @param anInstant An instant at which to calculate the state.
     /// @return The interpolated orbital state at the given instant.
+    /// @throw BeforeStartError If the instant is before the first tabulated state.
+    /// @throw AfterEndError If the instant is after the last tabulated state.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
     /// @brief Print the tabulated orbit model to an output stream.

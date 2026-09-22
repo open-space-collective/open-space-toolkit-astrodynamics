@@ -3,6 +3,7 @@
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
@@ -33,6 +34,7 @@ using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::flight::profile::model::Tabulated;
+using TrajectoryModel = ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
@@ -278,8 +280,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
     // state outside the interval
     {
-        const Instant instant = states_.accessLast().accessInstant() + Duration::Seconds(1.0);
-        EXPECT_THROW(tabulated_.calculateStateAt(instant), ostk::core::error::RuntimeError);
+        EXPECT_THROW(
+            tabulated_.calculateStateAt(states_.accessFirst().accessInstant() - Duration::Seconds(1.0)),
+            TrajectoryModel::BeforeStartError
+        );
+        EXPECT_THROW(
+            tabulated_.calculateStateAt(states_.accessLast().accessInstant() + Duration::Seconds(1.0)),
+            TrajectoryModel::AfterEndError
+        );
     }
 }
 

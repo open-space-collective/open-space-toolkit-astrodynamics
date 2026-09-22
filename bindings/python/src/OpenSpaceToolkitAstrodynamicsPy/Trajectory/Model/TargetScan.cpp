@@ -78,6 +78,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
 
                 Returns:
                     State: The state at the given instant.
+
+                Raises:
+                    trajectory.Model.BeforeStartError: If the instant is before the start instant.
+                    trajectory.Model.AfterEndError: If the instant is after the end instant.
             )doc",
             arg("instant")
         )

@@ -41,6 +41,7 @@ using ostk::physics::Environment;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
 using ostk::astrodynamics::trajectory::orbit::Model;
@@ -376,4 +377,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
             EXPECT_TRUE(states[i].getFrame() == Frame::GCRF());
         }
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, CalculateStateAt_OutOfBounds)
+{
+    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+
+    const Interval interval = tabulated.getInterval();
+
+    // The bounds of the interval are included
+    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessStart()));
+    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessEnd()));
+
+    EXPECT_THROW(
+        tabulated.calculateStateAt(interval.accessStart() - Duration::Seconds(1.0)), Tabulated::BeforeStartError
+    );
+    EXPECT_THROW(tabulated.calculateStateAt(interval.accessEnd() + Duration::Seconds(1.0)), Tabulated::AfterEndError);
 }

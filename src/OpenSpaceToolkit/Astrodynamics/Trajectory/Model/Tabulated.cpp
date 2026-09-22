@@ -226,7 +226,6 @@ State Tabulated::getLastState() const
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
     using ostk::core::type::Index;
-    using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
@@ -240,14 +239,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
+    if (anInstant < firstState_.accessInstant())
     {
-        throw ostk::core::error::RuntimeError(String::Format(
-            "Provided instant [{}] is outside of interpolation range [{}, {}].",
-            anInstant.toString(),
-            firstState_.accessInstant().toString(),
-            lastState_.accessInstant().toString()
-        ));
+        throw Model::BeforeStartError(anInstant, this->getInterval());
+    }
+
+    if (anInstant > lastState_.accessInstant())
+    {
+        throw Model::AfterEndError(anInstant, this->getInterval());
     }
 
     VectorXd interpolatedCoordinates(interpolators_.getSize());

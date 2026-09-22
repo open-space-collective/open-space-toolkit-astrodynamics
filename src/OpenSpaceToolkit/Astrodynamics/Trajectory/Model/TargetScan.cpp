@@ -92,9 +92,14 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("TargetScan");
     }
 
-    if (anInstant < startInstant_ || anInstant > endInstant_)
+    if (anInstant < startInstant_)
     {
-        throw ostk::core::error::RuntimeError("Instant is outside the interval.");
+        throw Model::BeforeStartError(anInstant, Interval::Closed(startInstant_, endInstant_));
+    }
+
+    if (anInstant > endInstant_)
+    {
+        throw Model::AfterEndError(anInstant, Interval::Closed(startInstant_, endInstant_));
     }
 
     // interpolate the velocity using polynomial interpolation
