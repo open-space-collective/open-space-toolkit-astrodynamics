@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
@@ -34,6 +36,9 @@ using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
 
 static const Shared<const Frame> DEFAULT_PROFILE_FRAME = Frame::GCRF();
+
+/// Time step used to compute the angular velocity of custom pointing profiles by finite difference of the orientation.
+static const Duration ANGULAR_VELOCITY_FINITE_DIFFERENCE_STEP = Duration::Seconds(0.1);
 
 Profile::Target::Target(const TargetType& aType, const Vector3d& aDirection)
     : type(aType),
@@ -354,17 +359,67 @@ Profile Profile::CustomPointing(
     // Copy the orbit and orientation generator to avoid dangling references.
     auto dynamicProviderGenerator = [anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
     {
+        const auto orientationAt = [&anOrbit, &anOrientationGenerator](const Instant& anEvaluationInstant) -> Quaternion
+        {
+            return anOrientationGenerator(anOrbit.getStateAt(anEvaluationInstant).inFrame(DEFAULT_PROFILE_FRAME));
+        };
+
+        // The orbit or the orientation generator may only be defined over a bounded time range (e.g. tabulated orbit
+        // or tabulated target trajectory): a failing evaluation marks a boundary of that range.
+        const auto tryOrientationAt = [&orientationAt](const Instant& anEvaluationInstant) -> std::optional<Quaternion>
+        {
+            try
+            {
+                return orientationAt(anEvaluationInstant);
+            }
+            catch (const std::exception&)
+            {
+                return std::nullopt;
+            }
+        };
+
+        const Duration& step = ANGULAR_VELOCITY_FINITE_DIFFERENCE_STEP;
+
+        const std::optional<Quaternion> q_B_GCRF_previous = tryOrientationAt(anInstant - step);
+
         const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_PROFILE_FRAME);
+        const Quaternion q_B_GCRF = anOrientationGenerator(state);
+
+        const std::optional<Quaternion> q_B_GCRF_next = tryOrientationAt(anInstant + step);
+
+        const Vector3d w_B_GCRF_in_B = [&]() -> Vector3d
+        {
+            if (q_B_GCRF_previous.has_value() && q_B_GCRF_next.has_value())
+            {
+                // Central difference
+                return Profile::ComputeAngularVelocity(*q_B_GCRF_previous, *q_B_GCRF_next, step * 2.0);
+            }
+
+            if (q_B_GCRF_next.has_value())
+            {
+                // Forward difference (start of the time range)
+                return Profile::ComputeAngularVelocity(q_B_GCRF, *q_B_GCRF_next, step);
+            }
+
+            if (q_B_GCRF_previous.has_value())
+            {
+                // Backward difference (end of the time range)
+                return Profile::ComputeAngularVelocity(*q_B_GCRF_previous, q_B_GCRF, step);
+            }
+
+            throw ostk::core::error::RuntimeError(
+                "Cannot compute the angular velocity at [{}]: the orientation is undefined at both [{}] and [{}].",
+                anInstant.toString(),
+                (anInstant - step).toString(),
+                (anInstant + step).toString()
+            );
+        }();
 
         const Position position = state.getPosition();
         const Velocity velocity = state.getVelocity();
 
         return Transform::Active(
-            anInstant,
-            -position.accessCoordinates(),
-            -velocity.accessCoordinates(),
-            anOrientationGenerator(state),
-            Vector3d(0.0, 0.0, 0.0)  // TBM: Artificially set to 0 for now.
+            anInstant, -position.accessCoordinates(), -velocity.accessCoordinates(), q_B_GCRF, w_B_GCRF_in_B
         );
     };
 
@@ -658,6 +713,34 @@ Vector3d Profile::AxisToDirection(const Axis& anAxis, const bool& isAntiDirectio
         default:
             throw ostk::core::error::runtime::Wrong("Axis");
     }
+}
+
+Vector3d Profile::ComputeAngularVelocity(
+    const Quaternion& aStartOrientation, const Quaternion& anEndOrientation, const Duration& aTimeStep
+)
+{
+    if (!aTimeStep.isDefined() || aTimeStep.isZero())
+    {
+        throw ostk::core::error::runtime::Wrong("Time step");
+    }
+
+    // Rotation from the body frame at the start of the time step (B1) to the body frame at its end (B2), i.e.
+    // q_B2_B1 = q_B2_REF * q_REF_B1. Rectified so that the rotation angle lies in [0, π].
+    const Quaternion q_B2_B1 = (anEndOrientation * aStartOrientation.toConjugate()).toNormalized().toRectify();
+
+    const Vector3d vectorPart = q_B2_B1.getVectorPart();
+    const Real vectorPartNorm = vectorPart.norm();
+
+    if (vectorPartNorm == 0.0)
+    {
+        return Vector3d::Zero();
+    }
+
+    // Rotation angle from atan2 rather than acos, as the latter is ill-conditioned for the small angles at play here.
+    const Real rotationAngle_rad = 2.0 * std::atan2(vectorPartNorm, q_B2_B1.getScalarPart());
+
+    // The rotation vector is expressed in the body frame, hence so is the angular velocity.
+    return vectorPart * (rotationAngle_rad / vectorPartNorm / aTimeStep.inSeconds());
 }
 
 }  // namespace flight
