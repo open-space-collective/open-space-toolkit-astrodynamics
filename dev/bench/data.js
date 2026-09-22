@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790033136371,
+  "lastUpdate": 1790039827659,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -498,6 +498,138 @@ window.BENCHMARK_DATA = {
             "value": 40.0786205078215,
             "unit": "us/iter",
             "extra": "iterations: 17447\ncpu: 40.076874133088495 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d7b1ebc93026f86e10c4245e8ae5c767c29ab7b5",
+          "message": "perf: add a double overload of QLaw::Compute_dOE_dF (#724)\n\n* perf: add a double overload of QLaw::Compute_dOE_dF\n\nCompute_dOE_dF is the Gauss variational matrix, and with an effectivity threshold\nconfigured it runs 51 times per Q-Law evaluation - once for the current true anomaly\nand once for each point of the 50-point sweep. Each call converted the gravitational\nparameter out of its Derived unit and then went through COE::ComputeSemiLatusRectum,\nCOE::ComputeAngularMomentum and COE::ComputeRadialDistance, whose arguments and\nresults are ostk::core::type::Real.\n\nReal is not a zero-cost wrapper: its operators live in libopen-space-toolkit-core.so,\nso they cannot inline across the shared-library boundary, and each one branches on\nundefined and infinite operands and calls further out-of-line predicates. For three\none-line formulas evaluated 51 times per guidance law call, that dominates.\n\nAdd an overload taking the gravitational parameter as a double and inline the three\nhelper expressions on plain doubles. QLaw already stores mu_ in SI units, so the hot\npath passes it straight through; the existing Derived overload is kept and simply\nforwards, so no caller or binding has to change.\n\nMeasured on the Q-Law micro-benchmark in benchmark/.../Sequence.benchmark.cpp, built\nfrom this branch and from its merge base back to back (15 repetitions each):\n\n  QLaw::calculateThrustAccelerationAt   mean 92.8 us -> 85.5 us\n                                        median 93.4 us -> 88.3 us\n\nThe container these ran on drifts by more than 10% over tens of minutes, which is the\nsame order as this change, so the two builds were measured adjacently and repeated\nrather than compared against an earlier reading. Segment::solve on the same benchmark\ncame out at 8.0 s against 8.5-9.2 s for the merge base. States, maneuvers, propellant\nand final elements are unchanged.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_016zS8dRNQPH1VizthzErmuG\n\n* fix: bindings\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>",
+          "timestamp": "2026-09-21T17:47:39-07:00",
+          "tree_id": "0dfd8ea14e9ebf621d077907dbe5faffae02efe2",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/d7b1ebc93026f86e10c4245e8ae5c767c29ab7b5"
+        },
+        "date": 1790039825834,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 1948898546.1000028,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1901701624.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 646.8325786666659,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 646.7774129999999 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 2018.2074436666728,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 2018.0238439999994 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 7557.105372666664,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 7556.533379000001 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1996901699.099999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1996724479.9999974 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4697410016.300006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4697005863.899999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4697711922.600013,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4697301346.299997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4694315227.999994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4693778799.500001 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.5560579099999927,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.5560357170000145 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 1.888537600999996,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 1.8883392699999604 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 2.0642607999999996,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.064103996999961 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 2.653596961000062,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.6533398239999997 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 6.665663179000035,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.665017596000013 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Sequence_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 5.184980714999938,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 5.184357120000016 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 5.1521234150000055,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 5.151593910999992 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_FullHorizon/iterations:1",
+            "value": 104.70026148000011,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 104.680809565 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_ExtractManeuvers/iterations:1",
+            "value": 0.024951130999966153,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.024949584000012237 s\nthreads: 1"
+          },
+          {
+            "name": "BM_QLaw_CalculateThrustAccelerationAt",
+            "value": 23.397890763883847,
+            "unit": "us/iter",
+            "extra": "iterations: 29926\ncpu: 23.397284535186806 us\nthreads: 1"
           }
         ]
       }
