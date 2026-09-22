@@ -337,6 +337,14 @@ class QLaw : public GuidanceLaw
     /// @return The thrust vector
     Vector3d computeThrustVector(const Vector6d& aCOEVector, const double& aThrustAcceleration) const;
 
+    /// @brief Compute the derivative of the orbital elements with respect to the thrust vectors
+    ///
+    /// @param aCOEVector The 6-dimensional vector of classical orbital elements
+    /// @param aGravitationalParameter The gravitational parameter, in m^3/s^2
+    ///
+    /// @return The derivative of the orbital elements with respect to the thrust vectors
+    static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const double& aGravitationalParameter);
+
     /// @brief Compute the effectivity of the guidance law
     ///
     /// @param aCOEVector The 6-dimensional vector of classical orbital elements
