@@ -110,10 +110,12 @@ AccessTarget AccessTarget::FromLLA(
     return AccessTarget(
         AccessTarget::Type::Fixed,
         aVisibilityCriterion,
-        Trajectory::Position(Position::Meters(
-            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
-            aCelestialSPtr->accessFrame()
-        ))
+        Trajectory::Position(
+            Position::Meters(
+                anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
+                aCelestialSPtr->accessFrame()
+            )
+        )
     );
 }
 
@@ -341,7 +343,7 @@ Array<Array<Access>> Generator::computeAccesses(
         throw ostk::core::error::runtime::Undefined("To Trajectory");
     }
 
-    if (std ::all_of(
+    if (std::all_of(
             someAccessTargets.begin(),
             someAccessTargets.end(),
             [](const auto& accessTarget)
@@ -497,7 +499,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         }
     );
 
-    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
+    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](
+                                const Vector3d& aToPositionCoordinates_ITRF
                             ) -> Triple<VectorXd, VectorXd, VectorXd>
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
@@ -530,8 +533,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    const auto computeElevations = [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
-                                   ) -> VectorXd
+    const auto computeElevations =
+        [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
         const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
@@ -1058,12 +1061,12 @@ Instant Generator::FindTimeOfClosestApproach(
 
     const Instant startInstant = anAccessInterval.getStart();
 
-    // Half the derivative of the squared range, d(|dx|^2)/dt / 2 = dx . dv, at `aDurationFromStart` seconds into
-    // the access. It shares its sign and its root with the range rate but needs no division, so it stays finite
-    // when the two trajectories coincide and the range itself is zero.
-    //
-    // A fixed target does not move in the celestial frame, so its coordinates are a constant and its velocity is
-    // zero there: when they are supplied, the target's state needs neither propagating nor transforming.
+    // Range is smooth across an access and has a single minimum, so its time derivative changes sign exactly
+    // once. This solves for that sign change rather than minimizing the range itself: a range minimum is locally
+    // flat, which makes it expensive to localize, whereas the derivative crosses zero once.
+    // ⍴² = r·r
+    // 2·(d⍴/dt)·⍴ = r·(dr/dt)
+    // d⍴/dt = r·v
     const auto squaredRangeRateAt = [&aToTrajectory,
                                      &aFromTrajectory,
                                      &celestialFrameSPtr,
@@ -1072,11 +1075,14 @@ Instant Generator::FindTimeOfClosestApproach(
     {
         const Instant instant = startInstant + Duration::Seconds(aDurationFromStart);
 
+        // TBI: The frame should be selected based on what frames are outputted by the from and to Trajectory
         const State toState = aToTrajectory.getStateAt(instant).inFrame(celestialFrameSPtr);
 
         Vector3d deltaPosition = toState.getPosition().accessCoordinates();
         Vector3d deltaVelocity = toState.getVelocity().accessCoordinates();
 
+        // A fixed target does not move in the celestial frame, so its coordinates are a constant and its velocity is
+        // zero there: when they are supplied, the target's state needs neither propagating nor transforming.
         if (aFixedFromPositionCoordinates.has_value())
         {
             deltaPosition -= aFixedFromPositionCoordinates.value();
