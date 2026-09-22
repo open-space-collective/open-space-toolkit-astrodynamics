@@ -138,6 +138,8 @@ class Tabulated : public virtual Model
     ///
     /// @param anInstant An instant
     /// @return State at the given instant
+    /// @throw trajectory::Model::BeforeStartError If the instant is before the first tabulated state.
+    /// @throw trajectory::Model::AfterEndError If the instant is after the last tabulated state.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
     /// @brief Get the axes at a given instant

@@ -29,6 +29,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
@@ -82,6 +83,7 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using TabulatedOrbitModel = ostk::astrodynamics::trajectory::orbit::model::Tabulated;
+using TrajectoryModel = ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
@@ -1568,14 +1570,86 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing_AngularVelo
             EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), w_B_GCRF_in_B_expected, 1e-9);
         }
 
-        // Outside of the tabulated range, the profile itself is undefined
+        // Outside of the tabulated interval, the profile itself is undefined
 
         EXPECT_THROW(
             profile.getStateAt(tabulatedInterval.accessStart() - Duration::Seconds(1.0)),
-            ostk::core::error::RuntimeError
+            TrajectoryModel::BeforeStartError
         );
         EXPECT_THROW(
-            profile.getStateAt(tabulatedInterval.accessEnd() + Duration::Seconds(1.0)), ostk::core::error::RuntimeError
+            profile.getStateAt(tabulatedInterval.accessEnd() + Duration::Seconds(1.0)), TrajectoryModel::AfterEndError
+        );
+    }
+
+    // Only the out-of-bounds errors of bounded models mark the boundaries of the finite difference: any other error
+    // raised when probing the orientation is propagated
+    {
+        const Instant failureInstant = epoch + Duration::Minutes(5.0);
+
+        const Quaternion q_B_GCRF = Quaternion::RotationVector(RotationVector::Z(Angle::Degrees(45.0)));
+
+        const Profile profile = Profile::CustomPointing(
+            orbit,
+            [failureInstant, q_B_GCRF](const State& aState) -> Quaternion
+            {
+                if (aState.accessInstant() > failureInstant)
+                {
+                    throw ostk::core::error::runtime::Wrong("Instant");
+                }
+
+                return q_B_GCRF;
+            }
+        );
+
+        EXPECT_NO_THROW(profile.getStateAt(failureInstant - Duration::Seconds(1.0)));
+
+        // The forward probe lies beyond the failure instant
+        EXPECT_THROW(profile.getStateAt(failureInstant), ostk::core::error::runtime::Wrong);
+    }
+
+    // An orientation generator that is itself only defined over a bounded interval can signal its bounds with the same
+    // errors, and is then handled with one-sided differences
+    {
+        const Interval generatorInterval = Interval::Closed(epoch, epoch + Duration::Minutes(10.0));
+
+        const Vector3d spinAxis = Vector3d::UnitZ();
+        const Real spinRate_radps = 0.01;
+
+        const auto orientationGenerator = [epoch, generatorInterval, spinAxis, spinRate_radps](const State& aState
+                                          ) -> Quaternion
+        {
+            if (aState.accessInstant() < generatorInterval.accessStart())
+            {
+                throw TrajectoryModel::BeforeStartError(aState.accessInstant(), generatorInterval);
+            }
+
+            if (aState.accessInstant() > generatorInterval.accessEnd())
+            {
+                throw TrajectoryModel::AfterEndError(aState.accessInstant(), generatorInterval);
+            }
+
+            const Real elapsedTime_s = (aState.accessInstant() - epoch).inSeconds();
+
+            return Quaternion::RotationVector(RotationVector(spinAxis, Angle::Radians(spinRate_radps * elapsedTime_s)));
+        };
+
+        const Profile profile = Profile::CustomPointing(orbit, orientationGenerator);
+
+        for (const auto& instant : {generatorInterval.accessStart(), generatorInterval.accessEnd()})
+        {
+            State state = State::Undefined();
+
+            EXPECT_NO_THROW(state = profile.getStateAt(instant)) << "at " << instant.toString();
+
+            EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), spinAxis * spinRate_radps, 1e-12);
+        }
+
+        EXPECT_THROW(
+            profile.getStateAt(generatorInterval.accessStart() - Duration::Seconds(1.0)),
+            TrajectoryModel::BeforeStartError
+        );
+        EXPECT_THROW(
+            profile.getStateAt(generatorInterval.accessEnd() + Duration::Seconds(1.0)), TrajectoryModel::AfterEndError
         );
     }
 }

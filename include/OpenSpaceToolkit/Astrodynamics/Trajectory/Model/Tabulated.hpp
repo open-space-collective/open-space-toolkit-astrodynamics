@@ -235,6 +235,8 @@ class Tabulated : public virtual Model
     ///
     /// @param anInstant An instant at which to calculate the state.
     /// @return The interpolated state at the given instant.
+    /// @throw BeforeStartError If the instant is before the first tabulated state.
+    /// @throw AfterEndError If the instant is after the last tabulated state.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
     /// @brief Calculate the states at a given array of instants.

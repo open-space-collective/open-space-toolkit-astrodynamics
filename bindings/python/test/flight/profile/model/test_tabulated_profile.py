@@ -7,12 +7,14 @@ import pytest
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 from ostk.mathematics.curve_fitting import Interpolator
 
+from ostk.physics.time import Duration
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
+from ostk.astrodynamics.trajectory import Model as TrajectoryModel
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import AngularVelocity
@@ -176,3 +178,18 @@ class TestTabulatedProfile:
         body_frame = tabulated_model.construct_body_frame("test")
 
         assert body_frame is not None
+
+    def test_calculate_state_at_out_of_bounds(
+        self,
+        tabulated_model: TabulatedModel,
+        states: list[State],
+    ):
+        with pytest.raises(TrajectoryModel.BeforeStartError):
+            tabulated_model.calculate_state_at(
+                states[0].get_instant() - Duration.seconds(1.0)
+            )
+
+        with pytest.raises(TrajectoryModel.AfterEndError):
+            tabulated_model.calculate_state_at(
+                states[-1].get_instant() + Duration.seconds(1.0)
+            )

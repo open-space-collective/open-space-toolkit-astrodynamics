@@ -382,7 +382,10 @@ class Profile
     ///
     /// The angular velocity of the body frame is computed by finite difference of the generated orientation: a central
     /// difference is used, falling back to a forward (resp. backward) difference at the start (resp. end) of the time
-    /// range over which the orbit and the orientation generator are defined (e.g. a tabulated orbit).
+    /// interval over which the orbit is defined (e.g. a tabulated orbit). Such a bound is detected through the
+    /// trajectory::Model::BeforeStartError (resp. AfterEndError) thrown when probing the orientation beyond it, so an
+    /// orientation generator that is itself only defined over a bounded time interval can throw these errors to be
+    /// handled the same way. Any other error is propagated.
     ///
     /// @param anOrbit An orbit
     /// @param anOrientationGenerator An orientation generator
@@ -395,7 +398,9 @@ class Profile
     ///
     /// The angular velocity of the body frame is computed by finite difference of the generated orientation: a central
     /// difference is used, falling back to a forward (resp. backward) difference at the start (resp. end) of the time
-    /// range over which the orbit and the targets are defined (e.g. a tabulated orbit or target trajectory).
+    /// interval over which the orbit and the targets are defined (e.g. a tabulated orbit or target trajectory). Such a
+    /// bound is detected through the trajectory::Model::BeforeStartError (resp. AfterEndError) thrown when probing the
+    /// orientation beyond it. Any other error is propagated.
     ///
     /// @param anOrbit An orbit
     /// @param anAlignmentTarget An alignment target

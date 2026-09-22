@@ -12,6 +12,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
 namespace ostk
 {
@@ -34,6 +35,7 @@ using ostk::physics::coordinate::Velocity;
 using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 
 using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
+using TrajectoryModel = ostk::astrodynamics::trajectory::Model;
 
 static const Shared<const Frame> DEFAULT_PROFILE_FRAME = Frame::GCRF();
 
@@ -359,33 +361,43 @@ Profile Profile::CustomPointing(
     // Copy the orbit and orientation generator to avoid dangling references.
     auto dynamicProviderGenerator = [anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
     {
+        const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_PROFILE_FRAME);
+        const Quaternion q_B_GCRF = anOrientationGenerator(state);
+
         const auto orientationAt = [&anOrbit, &anOrientationGenerator](const Instant& anEvaluationInstant) -> Quaternion
         {
             return anOrientationGenerator(anOrbit.getStateAt(anEvaluationInstant).inFrame(DEFAULT_PROFILE_FRAME));
         };
 
-        // The orbit or the orientation generator may only be defined over a bounded time range (e.g. tabulated orbit
-        // or tabulated target trajectory): a failing evaluation marks a boundary of that range.
-        const auto tryOrientationAt = [&orientationAt](const Instant& anEvaluationInstant) -> std::optional<Quaternion>
+        const Duration& step = ANGULAR_VELOCITY_FINITE_DIFFERENCE_STEP;
+
+        // The orbit or the targets may only be defined over a bounded time interval (e.g. tabulated orbit or tabulated
+        // target trajectory), whose models signal its start (resp. end) by throwing a BeforeStartError (resp.
+        // AfterEndError) when probed beyond it. Only these errors mark a boundary: any other error is propagated.
+
+        const std::optional<Quaternion> q_B_GCRF_previous = [&]() -> std::optional<Quaternion>
         {
             try
             {
-                return orientationAt(anEvaluationInstant);
+                return orientationAt(anInstant - step);
             }
-            catch (const std::exception&)
+            catch (const TrajectoryModel::BeforeStartError&)
             {
                 return std::nullopt;
             }
-        };
+        }();
 
-        const Duration& step = ANGULAR_VELOCITY_FINITE_DIFFERENCE_STEP;
-
-        const std::optional<Quaternion> q_B_GCRF_previous = tryOrientationAt(anInstant - step);
-
-        const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_PROFILE_FRAME);
-        const Quaternion q_B_GCRF = anOrientationGenerator(state);
-
-        const std::optional<Quaternion> q_B_GCRF_next = tryOrientationAt(anInstant + step);
+        const std::optional<Quaternion> q_B_GCRF_next = [&]() -> std::optional<Quaternion>
+        {
+            try
+            {
+                return orientationAt(anInstant + step);
+            }
+            catch (const TrajectoryModel::AfterEndError&)
+            {
+                return std::nullopt;
+            }
+        }();
 
         const Vector3d w_B_GCRF_in_B = [&]() -> Vector3d
         {
