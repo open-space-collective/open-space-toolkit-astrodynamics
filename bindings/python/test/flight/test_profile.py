@@ -4,6 +4,8 @@ from datetime import datetime
 
 import pytest
 
+import numpy as np
+
 from ostk.mathematics.geometry.d3.transformation.rotation import Quaternion
 from ostk.mathematics.curve_fitting import Interpolator
 
@@ -291,3 +293,20 @@ class TestProfile:
 
         assert profile is not None
         assert profile.is_defined()
+
+    def test_custom_pointing_angular_velocity(self, orbit: Orbit, instant: Instant):
+        profile = Profile.custom_pointing(
+            orbit=orbit,
+            alignment_target=Profile.Target(
+                Profile.TargetType.GeocentricNadir, Profile.Axis.Z
+            ),
+            clocking_target=Profile.Target(
+                Profile.TargetType.VelocityECI, Profile.Axis.X
+            ),
+        )
+
+        state = profile.get_state_at(instant)
+
+        assert state.is_defined()
+        assert len(state.get_angular_velocity()) == 3
+        assert np.linalg.norm(state.get_angular_velocity()) > 0.0
