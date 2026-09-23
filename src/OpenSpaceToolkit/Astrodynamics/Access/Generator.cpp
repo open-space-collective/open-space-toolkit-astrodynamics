@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <chrono>
-#include <nlopt.hpp>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Triple.hpp>
 
@@ -341,7 +341,7 @@ Array<Array<Access>> Generator::computeAccesses(
         throw ostk::core::error::runtime::Undefined("To Trajectory");
     }
 
-    if (std ::all_of(
+    if (std::all_of(
             someAccessTargets.begin(),
             someAccessTargets.end(),
             [](const auto& accessTarget)
@@ -734,8 +734,13 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
     {
         const Trajectory& fromTrajectory = someAccessTargets[i].accessTrajectory();
-        accesses[i] =
-            this->generateAccessesFromIntervals(accessIntervalsPerTarget[i], anInterval, fromTrajectory, aToTrajectory);
+        accesses[i] = this->generateAccessesFromIntervals(
+            accessIntervalsPerTarget[i],
+            anInterval,
+            fromTrajectory,
+            aToTrajectory,
+            Vector3d(fromPositionCoordinates_ITRF.col(i))
+        );
     }
 
     return accesses;
@@ -745,7 +750,8 @@ Array<Access> Generator::generateAccessesFromIntervals(
     const Array<physics::time::Interval>& someIntervals,
     const physics::time::Interval& anInterval,
     const Trajectory& aFromTrajectory,
-    const Trajectory& aToTrajectory
+    const Trajectory& aToTrajectory,
+    const std::optional<Vector3d>& aFixedFromPositionCoordinates
 ) const
 {
     const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
@@ -754,12 +760,18 @@ Array<Access> Generator::generateAccessesFromIntervals(
 
     return someIntervals
         .map<Access>(
-            [&anInterval, &aFromTrajectory, &aToTrajectory, &celestialSPtr, this](
+            [&anInterval, &aFromTrajectory, &aToTrajectory, &celestialSPtr, &aFixedFromPositionCoordinates, this](
                 const physics::time::Interval& anAccessInterval
             ) -> Access
             {
                 return Generator::GenerateAccess(
-                    anAccessInterval, anInterval, aFromTrajectory, aToTrajectory, this->tolerance_, celestialSPtr
+                    anAccessInterval,
+                    anInterval,
+                    aFromTrajectory,
+                    aToTrajectory,
+                    this->tolerance_,
+                    celestialSPtr,
+                    aFixedFromPositionCoordinates
                 );
             }
         )
@@ -997,7 +1009,8 @@ Access Generator::GenerateAccess(
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
     const Duration& aTolerance,
-    const Shared<const Celestial>& aCelestialSPtr
+    const Shared<const Celestial>& aCelestialSPtr,
+    const std::optional<Vector3d>& aFixedFromPositionCoordinates
 )
 {
     const Access::Type type = ((aGlobalInterval.accessStart() != anAccessInterval.accessStart()) &&
@@ -1008,7 +1021,7 @@ Access Generator::GenerateAccess(
     const Instant acquisitionOfSignal = anAccessInterval.getStart();
 
     const Instant timeOfClosestApproach = Generator::FindTimeOfClosestApproach(
-        anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance, aCelestialSPtr
+        anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance, aCelestialSPtr, aFixedFromPositionCoordinates
     );
 
     const Instant lossOfSignal = anAccessInterval.getEnd();
@@ -1024,7 +1037,9 @@ Access Generator::GenerateAccess(
 
     const Angle maxElevation =
         timeOfClosestApproach.isDefined()
-            ? Generator::CalculateElevationAt(timeOfClosestApproach, aFromTrajectory, aToTrajectory, aCelestialSPtr)
+            ? Generator::CalculateElevationAt(
+                  timeOfClosestApproach, aFromTrajectory, aToTrajectory, aCelestialSPtr, aFixedFromPositionCoordinates
+              )
             : Angle::Undefined();
 
     return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
@@ -1035,114 +1050,98 @@ Instant Generator::FindTimeOfClosestApproach(
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
     const Duration& aTolerance,
-    const Shared<const Celestial>& aCelestialSPtr
+    const Shared<const Celestial>& aCelestialSPtr,
+    const std::optional<Vector3d>& aFixedFromPositionCoordinates
 )
 {
-    struct Context
-    {
-        const Instant& startInstant;
-        const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
-        const Shared<const Celestial>& celestialSPtr;
-    };
+    const Shared<const Frame>& celestialFrameSPtr = aCelestialSPtr->accessFrame();
 
-    // Capture-less, so that it converts to the plain function pointer NLopt expects: everything it
-    // needs travels through the data context.
-    const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
-                                ) -> double
+    const Instant startInstant = anAccessInterval.getStart();
+
+    // Range is smooth across an access and has a single minimum, so its time derivative changes sign exactly
+    // once. This solves for that sign change rather than minimizing the range itself: a range minimum is locally
+    // flat, which makes it expensive to localize, whereas the derivative crosses zero once.
+    // ⍴² = r·r
+    // 2·(d⍴/dt)·⍴ = r·(dr/dt)
+    // d⍴/dt = r·v
+    const auto squaredRangeRateAt = [&aToTrajectory,
+                                     &aFromTrajectory,
+                                     &celestialFrameSPtr,
+                                     &startInstant,
+                                     &aFixedFromPositionCoordinates](const double& aDurationFromStart) -> double
     {
-        (void)aGradient;
-        if (aDataContext == nullptr)
+        const Instant instant = startInstant + Duration::Seconds(aDurationFromStart);
+
+        // TBI: The frame should be selected based on what frames are outputted by the from and to Trajectory
+        const State toState = aToTrajectory.getStateAt(instant).inFrame(celestialFrameSPtr);
+
+        Vector3d deltaPosition = toState.getPosition().accessCoordinates();
+        Vector3d deltaVelocity = toState.getVelocity().accessCoordinates();
+
+        // A fixed target does not move in the celestial frame, so its coordinates are a constant and its velocity is
+        // zero there: when they are supplied, the target's state needs neither propagating nor transforming.
+        if (aFixedFromPositionCoordinates.has_value())
         {
-            throw ostk::core::error::runtime::Wrong("Data context", "nullptr");
+            deltaPosition -= aFixedFromPositionCoordinates.value();
+        }
+        else
+        {
+            const State fromState = aFromTrajectory.getStateAt(instant).inFrame(celestialFrameSPtr);
+
+            deltaPosition -= fromState.getPosition().accessCoordinates();
+            deltaVelocity -= fromState.getVelocity().accessCoordinates();
         }
 
-        const Context* contextPtr = static_cast<const Context*>(aDataContext);
-
-        const Instant queryInstant = contextPtr->startInstant + Duration::Seconds(x[0]);
-
-        const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
-
-        const Shared<const Frame>& celestialFrameSPtr = contextPtr->celestialSPtr->accessFrame();
-
-        const Vector3d deltaPosition =
-            queryFromState.getPosition().inFrame(celestialFrameSPtr, queryInstant).accessCoordinates() -
-            queryToState.getPosition().inFrame(celestialFrameSPtr, queryInstant).accessCoordinates();
-
-        const Real rangeSquared = deltaPosition.squaredNorm();
-
-        return rangeSquared;
+        return deltaPosition.dot(deltaVelocity);
     };
 
-    const std::function<Pair<State, State>(const Instant& anInstant)> getStatesAt =
-        [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State>
+    const double accessDuration_s = anAccessInterval.getDuration().inSeconds();
+
+    // An access captured by a single coarse sample has a zero-length interval and nowhere to search.
+    if (accessDuration_s <= 0.0)
     {
-        return {
-            aFromTrajectory.getStateAt(anInstant),
-            aToTrajectory.getStateAt(anInstant),
-        };
-    };
-
-    Context context = {
-        anAccessInterval.getStart(),
-        getStatesAt,
-        aCelestialSPtr,
-    };
-
-    nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
-
-    const std::vector<double> lowerBound = {0.0};
-    const std::vector<double> upperBound = {anAccessInterval.getDuration().inSeconds()};
-
-    optimizer.set_lower_bounds(lowerBound);
-    optimizer.set_upper_bounds(upperBound);
-
-    optimizer.set_min_objective(calculateRange, &context);
-
-    optimizer.set_xtol_rel(aTolerance.inSeconds());
-
-    std::vector<double> x = {0.0};
-
-    try
-    {
-        double minimumSquaredRange;
-
-        nlopt::result result = optimizer.optimize(x, minimumSquaredRange);
-
-        switch (result)
-        {
-            case nlopt::STOPVAL_REACHED:
-            case nlopt::FTOL_REACHED:
-            case nlopt::XTOL_REACHED:
-            case nlopt::MAXEVAL_REACHED:
-            case nlopt::MAXTIME_REACHED:
-                return anAccessInterval.getStart() + Duration::Seconds(x[0]);
-
-            case nlopt::FAILURE:
-            case nlopt::INVALID_ARGS:
-            case nlopt::OUT_OF_MEMORY:
-            case nlopt::ROUNDOFF_LIMITED:
-            case nlopt::FORCED_STOP:
-            default:
-                return Instant::Undefined();
-        }
+        return startInstant;
     }
-    catch (const std::exception& anException)
+
+    // The access can be clipped by the analysis interval, leaving the satellite already receding at the start or
+    // still approaching at the end. Either way the closest approach sits on the corresponding endpoint, and there
+    // is no sign change to bracket.
+    if (squaredRangeRateAt(0.0) >= 0.0)
     {
-        throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what());
+        return startInstant;
     }
+
+    if (squaredRangeRateAt(accessDuration_s) <= 0.0)
+    {
+        return anAccessInterval.getEnd();
+    }
+
+    const RootSolver rootSolver = {DEFAULT_TCA_MAXIMUM_ITERATION_COUNT, aTolerance.inSeconds()};
+
+    const RootSolver::Solution solution = rootSolver.solve(squaredRangeRateAt, 0.0, accessDuration_s);
+
+    if (!solution.hasConverged)
+    {
+        return Instant::Undefined();
+    }
+
+    return startInstant + Duration::Seconds(solution.root);
 }
 
 Angle Generator::CalculateElevationAt(
     const Instant& anInstant,
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
-    const Shared<const Celestial>& aCelestialSPtr
+    const Shared<const Celestial>& aCelestialSPtr,
+    const std::optional<Vector3d>& aFixedFromPositionCoordinates
 )
 {
-    const Vector3d fromPositionCoordinates_ITRF = aFromTrajectory.getStateAt(anInstant)
-                                                      .getPosition()
-                                                      .inFrame(aCelestialSPtr->accessFrame(), anInstant)
-                                                      .getCoordinates();
+    const Vector3d fromPositionCoordinates_ITRF = aFixedFromPositionCoordinates.has_value()
+                                                    ? aFixedFromPositionCoordinates.value()
+                                                    : aFromTrajectory.getStateAt(anInstant)
+                                                          .getPosition()
+                                                          .inFrame(aCelestialSPtr->accessFrame(), anInstant)
+                                                          .getCoordinates();
     const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(anInstant)
                                                     .getPosition()
                                                     .inFrame(aCelestialSPtr->accessFrame(), anInstant)

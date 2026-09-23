@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 #define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -57,6 +59,10 @@ using ostk::astrodynamics::trajectory::State;
 
 #define DEFAULT_STEP Duration::Minutes(1.0)
 #define DEFAULT_TOLERANCE Duration::Microseconds(1.0)
+
+/// Iteration ceiling for the closest-approach root solve. The bracketed solve converges in roughly a dozen
+/// iterations; this only guards against a pathological bracket.
+#define DEFAULT_TCA_MAXIMUM_ITERATION_COUNT 100
 
 /// @brief Represents the configuration for an Access target, including azimuth, elevation, and range intervals, as well
 /// as position and LLA (Latitude, Longitude, Altitude).
@@ -430,10 +436,35 @@ class Generator
     std::function<bool(const Access&)> accessFilter_;
     std::function<bool(const State&, const State&)> stateFilter_;
 
+    /// @brief Compute accesses between a single trajectory-type access target and a trajectory.
+    ///
+    /// @details Solves the generic visibility condition from getConditionFunction with a TemporalConditionSolver
+    /// configured with this Generator's step and tolerance, then builds Access objects from the resulting intervals.
+    /// Used for targets that move, where the batched fixed-target path does not apply.
+    ///
+    /// @param anInterval The time interval over which to compute accesses.
+    /// @param anAccessTarget The trajectory-type access target to evaluate visibility against.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @return An array of Access objects that pass the access filter.
     Array<Access> computeAccessesForTrajectoryTarget(
         const physics::time::Interval& anInterval, const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
     ) const;
 
+    /// @brief Compute accesses between multiple fixed access targets and a trajectory, in one batched sweep.
+    ///
+    /// @details Precomputes each target's position and SEZ rotation in the central celestial object's frame, then
+    /// samples the analysis interval once at the configured step: at each instant the observer position is
+    /// transformed into that frame a single time and the visibility criterion is evaluated for all targets at once.
+    /// The state filter, if set, is applied per target. Coarse intervals are then refined with
+    /// computePreciseCrossings unless coarse is true.
+    ///
+    /// @param anInterval The time interval over which to compute accesses.
+    /// @param someAccessTargets The fixed access targets. All must share the same VisibilityCriterion type.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param coarse If true, skips precise crossing refinement and returns coarse intervals only.
+    /// Defaults to false.
+    /// @return One array of Access objects per target, in the same order as someAccessTargets.
+    /// @throw ostk::core::error::RuntimeError If the targets do not all share the same VisibilityCriterion type.
     Array<Array<Access>> computeAccessesForFixedTargets(
         const physics::time::Interval& anInterval,
         const Array<AccessTarget>& someAccessTargets,
@@ -441,13 +472,42 @@ class Generator
         const bool& coarse = false
     ) const;
 
+    /// @brief Build Access objects from access intervals and apply the access filter.
+    ///
+    /// @details Calls GenerateAccess on each interval, using the central celestial object of the environment (or
+    /// Earth if none is set), then drops any Access rejected by the access filter.
+    ///
+    /// @param someIntervals The access intervals (from acquisition to loss of signal).
+    /// @param anInterval The overall analysis interval, used to classify each access as complete or partial.
+    /// @param aFromTrajectory The trajectory of the access target.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
+    /// the target is fixed. Supplying them lets the closest-approach search skip re-evaluating a constant.
+    /// @return An array of Access objects that pass the access filter.
     Array<Access> generateAccessesFromIntervals(
         const Array<physics::time::Interval>& someIntervals,
         const physics::time::Interval& anInterval,
         const Trajectory& aFromTrajectory,
-        const Trajectory& aToTrajectory
+        const Trajectory& aToTrajectory,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     ) const;
 
+    /// @brief Refine the endpoints of coarse access intervals of a fixed target to within the configured tolerance.
+    ///
+    /// @details Each coarse interval's start is bracketed between the preceding sample (one step earlier, but never
+    /// before the previous interval's end plus one step) and its first in-access sample, and its end between its last
+    /// in-access sample and the next sample (clamped to the analysis interval). A root solver then locates the
+    /// visibility transition in each bracket. Endpoints whose bracket falls outside the analysis interval are set to
+    /// the corresponding analysis interval bound.
+    ///
+    /// @param accessIntervals The coarse access intervals, as sampled at the configured step.
+    /// @param anAnalysisInterval The overall analysis interval.
+    /// @param fromPositionCoordinate_ITRF The fixed target's coordinates in the central celestial object's frame.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param anAccessTarget The fixed access target, providing the visibility criterion and SEZ rotation.
+    /// @param aCelestialSPtr The central celestial object whose frame the coordinates are expressed in.
+    /// @return The refined access intervals, closed, in the same order as accessIntervals.
+    /// @throw ostk::core::error::RuntimeError If the target's VisibilityCriterion type is not supported.
     Array<physics::time::Interval> computePreciseCrossings(
         const Array<physics::time::Interval>& accessIntervals,
         const physics::time::Interval& anAnalysisInterval,
@@ -457,32 +517,98 @@ class Generator
         const Shared<const Celestial>& aCelestialSPtr
     ) const;
 
+    /// @brief Convert a sampled in-access flag series into contiguous access intervals.
+    ///
+    /// @details Each run of consecutive in-access samples becomes one closed interval spanning its first and last
+    /// in-access instants. A run still open at the last sample ends at that sample.
+    ///
+    /// @param inAccess Per-sample in-access flags (1 when in access, 0 otherwise), aligned with instants.
+    /// @param instants The sampled instants.
+    /// @return The coarse access intervals, in chronological order.
     static Array<physics::time::Interval> ComputeIntervals(const VectorXi& inAccess, const Array<Instant>& instants);
 
+    /// @brief Build a single Access from an access interval.
+    ///
+    /// @details The access is Complete when neither of its endpoints coincides with the corresponding endpoint of the
+    /// global interval, and Partial otherwise. The time of closest approach is found with FindTimeOfClosestApproach,
+    /// and the maximum elevation is the elevation at that instant.
+    ///
+    /// @param anAccessInterval The access interval, from acquisition to loss of signal.
+    /// @param aGlobalInterval The overall analysis interval.
+    /// @param aFromTrajectory The trajectory of the access target.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param aTolerance The temporal tolerance used when solving for the time of closest approach.
+    /// @param aCelestialSPtr The central celestial object whose frame the geometry is computed in.
+    /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
+    /// the target is fixed.
+    /// @return The Access. For a Partial access whose closest approach did not converge, the time of closest approach
+    /// and maximum elevation are undefined.
+    /// @throw ostk::core::error::RuntimeError If the closest approach of a Complete access does not converge.
     static Access GenerateAccess(
         const physics::time::Interval& anAccessInterval,
         const physics::time::Interval& aGlobalInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
         const Duration& aTolerance,
-        const Shared<const Celestial>& aCelestialSPtr
+        const Shared<const Celestial>& aCelestialSPtr,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     );
 
+    /// @brief Find the time of closest approach within an access interval.
+    ///
+    /// @details Range is smooth across an access and has a single minimum, so its time derivative changes sign exactly
+    /// once. This solves for that sign change rather than minimizing the range itself: a range minimum is locally
+    /// flat, which makes it expensive to localize, whereas the derivative crosses zero once. When the range rate
+    /// does not change sign (the access is clipped by the analysis interval), the closest approach is the start or
+    /// end of the interval.
+    ///
+    /// @param anAccessInterval The access interval to search.
+    /// @param aFromTrajectory The trajectory of the access target.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param aTolerance The temporal tolerance of the root solve.
+    /// @param aCelestialSPtr The central celestial object whose frame the range is computed in.
+    /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
+    /// the target is fixed. Supplying them skips evaluating aFromTrajectory at each iteration.
+    /// @return The time of closest approach, or an undefined Instant if the root solve did not converge.
     static Instant FindTimeOfClosestApproach(
         const physics::time::Interval& anAccessInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
         const Duration& aTolerance,
-        const Shared<const Celestial>& aCelestialSPtr
+        const Shared<const Celestial>& aCelestialSPtr,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     );
 
+    /// @brief Calculate the geocentric elevation of the observer as seen from the access target at an instant.
+    ///
+    /// @details Elevation is measured above the plane normal to the target's position vector in the central
+    /// celestial object's frame (i.e. relative to the geocentric, not geodetic, vertical).
+    ///
+    /// @param anInstant The instant at which to evaluate the elevation.
+    /// @param aFromTrajectory The trajectory of the access target.
+    /// @param aToTrajectory The trajectory of the observer (e.g. satellite).
+    /// @param aCelestialSPtr The central celestial object whose frame the geometry is computed in.
+    /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
+    /// the target is fixed. Supplying them skips evaluating aFromTrajectory.
+    /// @return The elevation angle.
     static Angle CalculateElevationAt(
         const Instant& anInstant,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
-        const Shared<const Celestial>& aCelestialSPtr
+        const Shared<const Celestial>& aCelestialSPtr,
+        const std::optional<Vector3d>& aFixedFromPositionCoordinates = std::nullopt
     );
 
+    /// @brief Calculate the azimuth, elevation and range from one position to another.
+    ///
+    /// @details Both positions are expressed in the local NED frame at the geodetic location of aFromPosition on the
+    /// given celestial object.
+    ///
+    /// @param anInstant The instant at which to perform the frame transformations.
+    /// @param aFromPosition The reference position (e.g. the access target).
+    /// @param aToPosition The observed position (e.g. the satellite).
+    /// @param aCelestialSPtr The celestial object defining the geodetic model and NED frame.
+    /// @return The AER of aToPosition relative to aFromPosition.
     static AER CalculateAer(
         const Instant& anInstant,
         const Position& aFromPosition,
