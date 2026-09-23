@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790039827659,
+  "lastUpdate": 1790126254536,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -630,6 +630,138 @@ window.BENCHMARK_DATA = {
             "value": 23.397890763883847,
             "unit": "us/iter",
             "extra": "iterations: 29926\ncpu: 23.397284535186806 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a05b8e66dbd37bb581c43ef1d4634d1c4c7ab9a6",
+          "message": "perf: solve closest approach as a root (#717)\n\n* perf: solve closest approach as a root, not a minimization\n\nFindTimeOfClosestApproach minimized range with NLopt's COBYLA, a\ngeneral-purpose derivative-free simplex method, at a relative x tolerance\nof 1 us. A range minimum is locally flat, so that is a badly conditioned\nthing to search for: profiling put the call at 93% of a 20-target\nelevation run, at about 30 objective evaluations per access, each\npropagating and frame-transforming two full states.\n\nRange is smooth across a pass and has a single minimum, so the derivative\nof its square changes sign exactly once. Solve for that sign change with\nthe existing bracketed RootSolver instead. The residual used is\ndx . dv - half the derivative of the squared range - which shares its sign\nand its root with the range rate but needs no division, so it stays finite\nwhen the two trajectories coincide and the range is zero.\n\nTwo cases that a bracketed solve has to handle explicitly, and a\nminimization did not:\n\n- An access clipped by the analysis interval can begin with the satellite\n  already receding, or end with it still approaching. There is then no sign\n  change, and the closest approach sits on the corresponding endpoint.\n- An access captured by a single coarse sample has a zero-length interval\n  and nowhere to search, so the single sample is the answer. This\n  incidentally fixes coarse mode raising \"Cannot find TCA (solution did not\n  converge)\" on such an access.\n\nAlso thread the fixed target's celestial-frame coordinates down from\ncomputeAccessesForFixedTargets. A fixed target does not move in that frame,\nso its position is constant and its velocity zero there: supplying them\nremoves the second state propagation and transform from every iteration of\nthe search, and from the max-elevation evaluation.\n\nMeasured on the benchmark suite, against the same build before the change:\n\n  100 targets | 1 week  | Elevation    9323 ms -> 500 ms   18.7x\n  100 targets | 1 day   | Elevation    1334 ms ->  78 ms   17.1x\n   10 targets | 1 day   | Elevation     137 ms ->  10 ms   13.4x\n   10 targets | 1 day   | AER           143 ms ->  11 ms   13.2x\n    1 target  | 1 day   | Elevation    19.7 ms -> 3.9 ms    5.0x\n   10 targets | 1 day   | LineOfSight   799 ms -> 656 ms    1.2x\n    1 target  | 2 weeks | GCRF out     2494 ms -> 2355 ms   1.1x\n\nThe line-of-sight and GCRF cases move least because they are dominated by\ncrossing refinement and by the coarse scan respectively, not by TCA. The\nspeedup exceeds what the evaluation count alone predicts because the search\nnow visits far fewer distinct instants, which also relieves the frame\ntransform cache.\n\nNLopt is no longer used anywhere in the library.\n\nAdd a test asserting the property that defines the result: the range at the\nreported instant is smaller than the range one second either side of it.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01T8xLC4jVuShuAQPp81rJ4Y\n\n* chore: Update test/OpenSpaceToolkit/Astrodynamics/Access/Generator.test.cpp\n\n* feat: address feedback\n\n* chore: style\n\n---------\n\nCo-authored-by: Vishwa <vishwa@loftorbital.com>\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-23T00:46:25Z",
+          "tree_id": "09b87b2591fd339b88e7b5fb4fe86c6bb0b0c9af",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/a05b8e66dbd37bb581c43ef1d4634d1c4c7ab9a6"
+        },
+        "date": 1790126252957,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 2351274935.799995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2166458320.600001 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 637.0107093333294,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 636.9432346666671 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 2290.4697986666633,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 2290.210360000001 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 508.8235609999856,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 508.7479076666668 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 2325526333.100026,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2325258087.2999983 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 5428590883.800018,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5427613203.999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 5429166268.200015,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5428556331.599999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 5424474966.200011,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5423550232.600004 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.6822025000000167,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.6821598629999812 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 2.263981274999992,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.263735378000007 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 2.514846683999963,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.5145476489999794 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 3.183025574999988,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 3.1826462719999995 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 8.293785786000058,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 8.292944076999987 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Sequence_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 5.943160905000013,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 5.942497944999985 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 5.933989910000037,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 5.933279674999966 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_FullHorizon/iterations:1",
+            "value": 109.88004334699986,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 109.86909793399997 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_ExtractManeuvers/iterations:1",
+            "value": 0.0320825789999617,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.03208174600001712 s\nthreads: 1"
+          },
+          {
+            "name": "BM_QLaw_CalculateThrustAccelerationAt",
+            "value": 29.113223313904708,
+            "unit": "us/iter",
+            "extra": "iterations: 24020\ncpu: 29.11018263946704 us\nthreads: 1"
           }
         ]
       }
