@@ -110,12 +110,10 @@ AccessTarget AccessTarget::FromLLA(
     return AccessTarget(
         AccessTarget::Type::Fixed,
         aVisibilityCriterion,
-        Trajectory::Position(
-            Position::Meters(
-                anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
-                aCelestialSPtr->accessFrame()
-            )
-        )
+        Trajectory::Position(Position::Meters(
+            anLLA.toCartesian(aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()),
+            aCelestialSPtr->accessFrame()
+        ))
     );
 }
 
@@ -499,8 +497,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         }
     );
 
-    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](
-                                const Vector3d& aToPositionCoordinates_ITRF
+    const auto computeAer = [&SEZRotations, &fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
                             ) -> Triple<VectorXd, VectorXd, VectorXd>
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
@@ -533,8 +530,8 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    const auto computeElevations =
-        [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF) -> VectorXd
+    const auto computeElevations = [&fromPositionCoordinates_ITRF](const Vector3d& aToPositionCoordinates_ITRF
+                                   ) -> VectorXd
     {
         const MatrixXd dx = (-fromPositionCoordinates_ITRF).colwise() + aToPositionCoordinates_ITRF;
         const MatrixXd fromPositionDirection_ITRF = fromPositionCoordinates_ITRF.colwise().normalized();
