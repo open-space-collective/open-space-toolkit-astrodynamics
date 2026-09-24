@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790126254536,
+  "lastUpdate": 1790291362231,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -762,6 +762,138 @@ window.BENCHMARK_DATA = {
             "value": 29.113223313904708,
             "unit": "us/iter",
             "extra": "iterations: 24020\ncpu: 29.11018263946704 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "62d4a6d148e048e4323c59578fd1431ea03d0392",
+          "message": "perf: refine crossings on a continuous residual, not a boolean (#718)\n\n* perf: refine crossings on a continuous residual, not a boolean\n\ncomputePreciseCrossings fed RootSolver a function returning +/-1. TOMS748's\ninterpolation steps are worthless on a step function, so it degenerates to\nbisection: measured at about 29 criterion evaluations per crossing to reach\nthe 1 us tolerance.\n\nReplace the boolean condition with a signed residual - positive while the\ncriterion is satisfied, negative while it is not - so that a crossing is\nstill a sign change, but the solver sees the geometry rather than a step.\n\nOnly the elevation-interval criterion gets a genuine margin here:\nmin(elevation - lower, upper - elevation), which is the distance in radians\nto whichever bound is nearer and handles a crossing of either. The AER\ninterval, AER mask and line-of-sight criteria keep the boolean, expressed\nas +/-1, so their behaviour is unchanged; line-of-sight in particular is an\nintersection test with no natural margin, and would need a separate\nsurrogate such as the segment's perpendicular distance to the ellipsoid.\n\nMeasured against main, this is worth almost nothing on its own - 1.00x to\n1.03x across the suite, and 1.52x on a single-target elevation run - because\ncrossing refinement is only about 5% of an elevation run while closest\napproach is 93% of it. It is worth having once that 93% is addressed.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01T8xLC4jVuShuAQPp81rJ4Y\n\n* refactor: naming\n\n* chore: format\n\n* chore: improve comments\n\n---------\n\nCo-authored-by: Vishwa <vishwa@loftorbital.com>\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-24T22:41:43Z",
+          "tree_id": "d6eca04a0e79e57d9b528697e6f0b2e598ba747f",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/62d4a6d148e048e4323c59578fd1431ea03d0392"
+        },
+        "date": 1790291360407,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 2457850946.999997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2336776521.6000004 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 644.7061513333286,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 644.5665526666661 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 2461.50609833334,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 2461.0796943333344 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 208.73338733332503,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 208.70763333333525 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 2573339286.900006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 2572780593.4000015 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 6045049115.600005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6044254718.4 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 6044868737.900009,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6044214290.700001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 6044753992.599977,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6044068837.600002 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.7137342170000238,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.7136540790000083 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 2.4265378679999685,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.4262535449999802 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 2.658751198999994,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.6584329229999923 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 3.3921553520000316,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 3.391746473000069 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 8.46278858300002,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 8.46174436299998 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Sequence_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 6.316832757000157,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.315910852999991 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 6.299755148999907,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 6.298849345000008 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_FullHorizon/iterations:1",
+            "value": 116.29428914300001,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 116.268994835 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_ExtractManeuvers/iterations:1",
+            "value": 0.03237249900007555,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.03237003200001709 s\nthreads: 1"
+          },
+          {
+            "name": "BM_QLaw_CalculateThrustAccelerationAt",
+            "value": 30.28169261477084,
+            "unit": "us/iter",
+            "extra": "iterations: 23046\ncpu: 30.28014978738213 us\nthreads: 1"
           }
         ]
       }
