@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Data/Provider.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Data(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Data(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     // Create "data" python submodule
     auto data = aModule.def_submodule("data");

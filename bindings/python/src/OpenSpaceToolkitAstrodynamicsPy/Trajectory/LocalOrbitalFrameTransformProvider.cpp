@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -13,16 +13,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
 
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
-    class_<LocalOrbitalFrameTransformProvider, Shared<LocalOrbitalFrameTransformProvider>>
-        localOrbitalFrameTransformProviderClass(
-            aModule,
-            "LocalOrbitalFrameTransformProvider",
-            R"doc(
+    class_<LocalOrbitalFrameTransformProvider> localOrbitalFrameTransformProviderClass(
+        aModule,
+        "LocalOrbitalFrameTransformProvider",
+        R"doc(
                 Local orbital frame transform provider, frame provider.
                 Generates a specific transform based on a State (instant, position, velocity) and a LOF type.
 
             )doc"
-        );
+    );
     // TBI: can't make this linked with Shared<Provider>
 
     enum_<LocalOrbitalFrameTransformProvider::Type>(

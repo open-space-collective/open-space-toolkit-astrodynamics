@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Eclipse/Generator.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -36,9 +36,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(pybind11::module& 
                     search_step_size (Duration): The step size to use during the search. Defaults to Duration.seconds(60.0).
                     search_tolerance (Duration): The tolerance to use during the search. Defaults to Duration.milliseconds(1.0).
             )doc",
-            arg_v("environment", Environment::Default(), "Environment.default()"),
-            arg_v("search_step_size", Duration::Seconds(60.0), "Duration.seconds(60.0)"),
-            arg_v("search_tolerance", Duration::Milliseconds(1.0), "Duration.milliseconds(1.0)")
+            arg("environment").sig("Environment.default()") = Environment::Default(),
+            arg("search_step_size").sig("Duration.seconds(60.0)") = Duration::Seconds(60.0),
+            arg("search_tolerance").sig("Duration.milliseconds(1.0)") = Duration::Milliseconds(1.0)
         )
 
         .def(

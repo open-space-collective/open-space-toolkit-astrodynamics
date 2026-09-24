@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <nanobind/trampoline.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/AngularCondition.cpp>
@@ -11,7 +13,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/OrbitalElementCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/RealCondition.cpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -30,25 +32,25 @@ using ostk::astrodynamics::trajectory::State;
 class PyEventCondition : public EventCondition
 {
    public:
-    using EventCondition::EventCondition;
+    NB_TRAMPOLINE(EventCondition, 2);
 
     // Trampoline (need one for each virtual function)
 
     bool isSatisfied(const State& currentState, const State& previousState) const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(bool, EventCondition, "is_satisfied", isSatisfied, currentState, previousState);
+        NB_OVERRIDE_PURE_NAME("is_satisfied", isSatisfied, currentState, previousState);
     }
 
     EventCondition* clone() const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(EventCondition*, EventCondition, "clone", clone);
+        NB_OVERRIDE_PURE_NAME("clone", clone);
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(nanobind::module_& aModule)
 {
     {
-        class_<EventCondition, PyEventCondition, Shared<EventCondition>> eventCondition(
+        class_<EventCondition, PyEventCondition> eventCondition(
             aModule,
             "EventCondition",
             R"doc(
@@ -143,7 +145,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                 )doc"
             )
 
-            .def_readonly(
+            .def_ro(
                 "value",
                 &EventCondition::Target::value,
                 R"doc(
@@ -152,7 +154,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                     :type: float
                 )doc"
             )
-            .def_readonly(
+            .def_ro(
                 "type",
                 &EventCondition::Target::type,
                 R"doc(
@@ -161,7 +163,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                     :type: Type
                 )doc"
             )
-            .def_readonly(
+            .def_ro(
                 "value_offset",
                 &EventCondition::Target::valueOffset,
                 R"doc(

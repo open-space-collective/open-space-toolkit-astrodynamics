@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::
     using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 
     {
-        class_<ThirdBodyGravity, Dynamics, Shared<ThirdBodyGravity>>(
+        class_<ThirdBodyGravity, Dynamics>(
             aModule,
             "ThirdBodyGravity",
             R"doc(

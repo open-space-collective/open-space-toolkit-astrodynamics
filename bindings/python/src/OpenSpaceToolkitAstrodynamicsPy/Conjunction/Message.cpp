@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Message/CCSDS.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message(nanobind::module_& aModule)
 {
     // Create "message" python submodule
     auto message = aModule.def_submodule("message");
