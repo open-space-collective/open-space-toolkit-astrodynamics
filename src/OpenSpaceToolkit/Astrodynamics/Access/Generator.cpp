@@ -796,7 +796,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
     const Matrix3d SEZRotation = anAccessTarget.computeR_SEZ_ECEF(aCelestialSPtr);
 
-    std::function<bool(const Instant&)> condition;
+    // A signed residual: strictly positive while the criterion is satisfied, negative while it is not, so that a
+    // crossing is a sign change.
+    std::function<double(const Instant&)> condition;
 
     const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, &aCelestialSPtr](
                                 const Instant& instant
@@ -824,11 +826,11 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::AERInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
 
-        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> bool
+        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
         {
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m);
+            return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m) ? +1.0 : -1.0;
         };
     }
     else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::AERMask>())
@@ -836,11 +838,11 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::AERMask visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
 
-        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> bool
+        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
         {
             const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
 
-            return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m);
+            return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m) ? +1.0 : -1.0;
         };
     }
     else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::LineOfSight>())
@@ -850,14 +852,16 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
                         const Instant& instant
-                    ) -> bool
+                    ) -> double
         {
             const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
                                                             .getPosition()
                                                             .inFrame(aCelestialSPtr->accessFrame(), instant)
                                                             .getCoordinates();
 
-            return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF);
+            return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF)
+                     ? +1.0
+                     : -1.0;
         };
     }
     else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::ElevationInterval>())
@@ -865,9 +869,16 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::ElevationInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
+        const double lowerBound_rad = visibilityCriterion.elevation.accessLowerBound();
+        const double upperBound_rad = visibilityCriterion.elevation.accessUpperBound();
+
+        // Distance to whichever elevation bound is nearer, in radians. Positive between the bounds, negative
+        // outside them, and zero exactly on a crossing - so the solver can leverage a continuous function.
+        // For example, if f(t₁) = −0.02 rad and f(t₂) = +0.06 rad, the root is probably about a quarter
+        // of the way in, not halfway.
+        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, lowerBound_rad, upperBound_rad](
                         const Instant& instant
-                    ) -> bool
+                    ) -> double
         {
             const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
                                                             .getPosition()
@@ -878,7 +889,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
             const double elevation_rad = std::asin(dx.dot(fromPositionCoordinate_ITRF.normalized()) / dx.norm());
 
-            return visibilityCriterion.isSatisfied(elevation_rad);
+            return std::min(elevation_rad - lowerBound_rad, upperBound_rad - elevation_rad);
         };
     }
     else
@@ -927,7 +938,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
             const auto startCrossingDurationSeconds = rootSolver.solve(
                 [&lowerBoundPreviousInstant, &condition](double aDurationInSeconds) -> double
                 {
-                    return condition(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds)) ? +1.0 : -1.0;
+                    return condition(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds));
                 },
                 0.0,
                 Duration::Between(lowerBoundPreviousInstant, lowerBoundInstant).inSeconds()
@@ -946,7 +957,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
             const auto endCrossingDurationSeconds = rootSolver.solve(
                 [&upperBoundInstant, &condition](double aDurationInSeconds) -> double
                 {
-                    return condition(upperBoundInstant + Duration::Seconds(aDurationInSeconds)) ? +1.0 : -1.0;
+                    return condition(upperBoundInstant + Duration::Seconds(aDurationInSeconds));
                 },
                 0.0,
                 Duration::Between(upperBoundInstant, upperBoundNextInstant).inSeconds()
