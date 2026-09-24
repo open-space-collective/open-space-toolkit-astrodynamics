@@ -853,8 +853,8 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
 
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
-                       const Instant& instant
-                   ) -> double
+                        const Instant& instant
+                    ) -> double
         {
             const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
                                                             .getPosition()
@@ -877,8 +877,8 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         // Distance to whichever elevation bound is nearer, in radians. Positive between the bounds, negative
         // outside them, and zero exactly on a crossing - so the solver sees the geometry rather than a step.
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, lowerBound_rad, upperBound_rad](
-                       const Instant& instant
-                   ) -> double
+                        const Instant& instant
+                    ) -> double
         {
             const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
                                                             .getPosition()
