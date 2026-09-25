@@ -202,6 +202,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
                 Returns:
                     State: The state.
 
+                Raises:
+                    trajectory.Model.BeforeStartError: If the instant is before the first tabulated state.
+                    trajectory.Model.AfterEndError: If the instant is after the last tabulated state.
+
             )doc",
             arg("instant")
         )

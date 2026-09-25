@@ -39,8 +39,10 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
+using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -275,4 +277,55 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpo
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::SurfaceArea()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::MassFlowRate()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::BallisticCoefficient()), Interpolator::Type::ZeroOrder);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, CalculateStateAt_OutOfBounds)
+{
+    const Tabulated tabulated(states_, Interpolator::Type::Linear);
+
+    const Interval interval = tabulated.getInterval();
+
+    // The bounds of the interval are included
+    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessStart()));
+    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessEnd()));
+
+    // Before the start of the interval
+    {
+        const Instant instant = interval.accessStart() - Duration::Seconds(1.0);
+
+        EXPECT_THROW(tabulated.calculateStateAt(instant), Tabulated::BeforeStartError);
+        EXPECT_THROW(tabulated.calculateStateAt(instant), Model::OutOfBoundsError);
+        EXPECT_THROW(tabulated.calculateStateAt(instant), ostk::core::error::RuntimeError);
+
+        try
+        {
+            tabulated.calculateStateAt(instant);
+            FAIL() << "Expected a BeforeStartError.";
+        }
+        catch (const Model::BeforeStartError& anError)
+        {
+            EXPECT_EQ(anError.getInstant(), instant);
+            EXPECT_EQ(anError.getInterval(), interval);
+        }
+    }
+
+    // After the end of the interval
+    {
+        const Instant instant = interval.accessEnd() + Duration::Seconds(1.0);
+
+        EXPECT_THROW(tabulated.calculateStateAt(instant), Tabulated::AfterEndError);
+        EXPECT_THROW(tabulated.calculateStateAt(instant), Model::OutOfBoundsError);
+        EXPECT_THROW(tabulated.calculateStateAt(instant), ostk::core::error::RuntimeError);
+
+        try
+        {
+            tabulated.calculateStateAt(instant);
+            FAIL() << "Expected an AfterEndError.";
+        }
+        catch (const Model::AfterEndError& anError)
+        {
+            EXPECT_EQ(anError.getInstant(), instant);
+            EXPECT_EQ(anError.getInterval(), interval);
+        }
+    }
 }

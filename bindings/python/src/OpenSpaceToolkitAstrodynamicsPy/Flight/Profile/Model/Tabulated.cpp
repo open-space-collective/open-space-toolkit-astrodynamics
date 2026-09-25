@@ -120,6 +120,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
                 Returns:
                     State: The state of the model at the specified instant.
+
+                Raises:
+                    trajectory.Model.BeforeStartError: If the instant is before the first tabulated state.
+                    trajectory.Model.AfterEndError: If the instant is after the last tabulated state.
              )doc",
             arg("instant")
         )

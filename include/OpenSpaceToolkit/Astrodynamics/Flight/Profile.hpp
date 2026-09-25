@@ -380,6 +380,13 @@ class Profile
 
     /// @brief Construct a flight profile with custom target pointing
     ///
+    /// The angular velocity of the body frame is computed by finite difference of the generated orientation: a central
+    /// difference is used, falling back to a forward (resp. backward) difference at the start (resp. end) of the time
+    /// interval over which the orbit is defined (e.g. a tabulated orbit). Such a bound is detected through the
+    /// trajectory::Model::BeforeStartError (resp. AfterEndError) thrown when probing the orientation beyond it, so an
+    /// orientation generator that is itself only defined over a bounded time interval can throw these errors to be
+    /// handled the same way. Any other error is propagated.
+    ///
     /// @param anOrbit An orbit
     /// @param anOrientationGenerator An orientation generator
     /// @return Flight profile
@@ -388,6 +395,12 @@ class Profile
     );
 
     /// @brief Construct a flight profile with custom target pointing
+    ///
+    /// The angular velocity of the body frame is computed by finite difference of the generated orientation: a central
+    /// difference is used, falling back to a forward (resp. backward) difference at the start (resp. end) of the time
+    /// interval over which the orbit and the targets are defined (e.g. a tabulated orbit or target trajectory). Such a
+    /// bound is detected through the trajectory::Model::BeforeStartError (resp. AfterEndError) thrown when probing the
+    /// orientation beyond it. Any other error is propagated.
     ///
     /// @param anOrbit An orbit
     /// @param anAlignmentTarget An alignment target
@@ -465,6 +478,18 @@ class Profile
     static Vector3d ComputeClockingVector(const Vector3d& anAligmentVector, const Vector3d& aDesiredClockingVector);
 
     static Vector3d AxisToDirection(const Axis& anAxis, const bool& isAntiDirection);
+
+    /// @brief Compute the angular velocity of a body frame with respect to its reference frame, expressed in the body
+    /// frame, by finite difference of two orientations of the body frame.
+    ///
+    /// @param aStartOrientation Orientation of the body frame (q_B_REF) at the start of the time step
+    /// @param anEndOrientation Orientation of the body frame (q_B_REF) at the end of the time step
+    /// @param aTimeStep Time step between the two orientations
+    /// @return Angular velocity of the body frame with respect to the reference frame, expressed in the body frame
+    /// [rad/s]
+    static Vector3d ComputeAngularVelocity(
+        const Quaternion& aStartOrientation, const Quaternion& anEndOrientation, const Duration& aTimeStep
+    );
 };
 
 }  // namespace flight
