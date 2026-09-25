@@ -333,7 +333,84 @@ class TestPropagator:
 
         assert len(propagator.get_dynamics()) == 3
 
-    def test_calculate_state_at(self, propagator: Propagator, state: State):
+    def test_contribution_observation_default_disabled(
+        self,
+        propagator: Propagator,
+        state: State,
+    ):
+        assert propagator.is_contribution_observation_enabled() is False
+
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
+
+        propagator.calculate_state_at(state, instant)
+
+        recorded = propagator.get_recorded_step_contributions()
+
+        assert isinstance(recorded, Propagator.StepContributions)
+        assert len(recorded.instants) == 0
+        assert len(recorded.contributions) == 0
+
+    def test_contribution_recording(
+        self,
+        propagator: Propagator,
+        state: State
+    ):
+        propagator.set_contribution_observation_enabled(True)
+
+        assert propagator.is_contribution_observation_enabled() is True
+
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
+
+        propagator.calculate_state_at(state, instant)
+
+        recorded = propagator.get_recorded_step_contributions()
+
+        assert isinstance(recorded.instants, list)
+        assert len(recorded.instants) > 0
+        assert all(
+            isinstance(recorded_instant, Instant)
+            for recorded_instant in recorded.instants
+        )
+
+        assert isinstance(recorded.contributions, dict)
+        assert set(recorded.contributions.keys()) == set(propagator.get_dynamics())
+
+        for contribution in recorded.contributions.values():
+            assert isinstance(contribution, np.ndarray)
+            assert contribution.shape[0] == len(recorded.instants)
+
+        propagator.set_contribution_observation_enabled(False)
+
+        assert propagator.is_contribution_observation_enabled() is False
+
+    def test_contribution_observation_calculate_states_at(
+        self,
+        propagator: Propagator,
+        state: State,
+    ):
+        propagator.set_contribution_observation_enabled(True)
+
+        instant_array = [
+            Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
+        ]
+
+        propagator.calculate_states_at(state, instant_array)
+
+        recorded = propagator.get_recorded_step_contributions()
+
+        assert len(recorded.instants) == 3
+        assert recorded.instants == instant_array
+
+        for contribution in recorded.contributions.values():
+            assert contribution.shape[0] == 3
+
+    def test_calculate_state_at(
+        self,
+        propagator: Propagator,
+        state: State
+    ):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
         propagator_state = propagator.calculate_state_at(state, instant)

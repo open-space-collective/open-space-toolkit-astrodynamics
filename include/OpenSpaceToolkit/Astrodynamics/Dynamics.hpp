@@ -137,6 +137,23 @@ class Dynamics
         const Array<Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
     );
 
+    /// @brief Compute the contribution of each dynamics context at a given instant and state vector,
+    ///        without accumulating them into a single derivative vector.
+    ///
+    /// @param aContextArray An array of dynamics contexts
+    /// @param anInstant The instant at which the contributions are evaluated
+    /// @param aStateVector The full state vector, following the coordinate broker layout shared by the contexts
+    /// @param aFrameSPtr The reference frame in which the contributions are expressed
+    ///
+    /// @return One contribution vector per context (same order as aContextArray), each following the
+    /// write coordinate subset layout of its dynamics
+    static Array<VectorXd> ComputeContributions(
+        const Array<Context>& aContextArray,
+        const Instant& anInstant,
+        const NumericalSolver::StateVector& aStateVector,
+        const Shared<const Frame>& aFrameSPtr
+    );
+
     /// @brief Get a list of dynamics from the envrionment
     ///
     /// @param anEnvironment An environment
