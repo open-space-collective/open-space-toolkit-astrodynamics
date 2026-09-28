@@ -293,7 +293,7 @@ MatrixXd CovarianceMatrix::extractCoordinates(const Array<Shared<const Coordinat
     return extractedCoordinates;
 }
 
-CovarianceMatrix CovarianceMatrix::inFrame(const Shared<const Frame>& aFrameSPtr) const
+CovarianceMatrix CovarianceMatrix::rotate(const Shared<const Frame>& aFrameSPtr) const
 {
     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
@@ -402,26 +402,6 @@ CovarianceMatrix CovarianceMatrix::scale(const Real& aScalar) const
         this->frameSPtr_,
         this->getCoordinateSubsets(),
     };
-}
-
-MatrixXd CovarianceMatrix::getPositionCoordinates() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
-    return this->extractCoordinate(CartesianPosition::Default());
-}
-
-MatrixXd CovarianceMatrix::getPositionVelocityCoordinates() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
-    return this->extractCoordinates({CartesianPosition::Default(), CartesianVelocity::Default()});
 }
 
 void CovarianceMatrix::print(std::ostream& anOutputStream, bool displayDecorator) const

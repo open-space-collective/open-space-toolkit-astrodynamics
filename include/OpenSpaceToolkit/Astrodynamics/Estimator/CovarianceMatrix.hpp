@@ -165,14 +165,15 @@ class CovarianceMatrix
     /// @return The coordinates for the subsets
     MatrixXd extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const;
 
-    /// @brief Return a new Covariance Matrix expressed in a different reference frame.
+    /// @brief Return a new Covariance Matrix rotated into a different reference frame.
     ///
-    /// @details At the moment, only the following coordinate subsets are rotated: CartesianPosition, CartesianVelocity,
-    /// CartesianAcceleration and AngularVelocity.
+    /// @details This is a pure rotation, only the following coordinate subsets are rotated:
+    /// CartesianPosition, CartesianVelocity, CartesianAcceleration and AngularVelocity. The
+    /// rest are left unchanged.
     ///
-    /// @param aFrameSPtr The reference frame to transform to
-    /// @return A new Covariance Matrix transformed to the given reference frame
-    CovarianceMatrix inFrame(const Shared<const Frame>& aFrameSPtr) const;
+    /// @param aFrameSPtr The reference frame to rotate into
+    /// @return A new Covariance Matrix rotated into the given reference frame
+    CovarianceMatrix rotate(const Shared<const Frame>& aFrameSPtr) const;
 
     /// @brief Return a new diagonalized Covariance Matrix.
     ///
@@ -195,17 +196,6 @@ class CovarianceMatrix
     /// @param aScalar The strictly positive scalar to multiply the covariance coordinates by
     /// @return A new Covariance Matrix with scaled coordinates
     CovarianceMatrix scale(const Real& aScalar) const;
-
-    /// @brief Get the cartesian position covariance coordinates associated with the Covariance Matrix (if present).
-    ///
-    /// @return The cartesian position covariance coordinates
-    MatrixXd getPositionCoordinates() const;
-
-    /// @brief Get the cartesian position-velocity covariance coordinates associated with the Covariance Matrix (if
-    /// present).
-    ///
-    /// @return The cartesian position-velocity covariance coordinates
-    MatrixXd getPositionVelocityCoordinates() const;
 
     /// @brief Print the Covariance Matrix to an output stream.
     ///
