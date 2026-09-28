@@ -159,7 +159,8 @@ State::State(const State& aState)
     : instant_(aState.instant_),
       coordinates_(aState.coordinates_),
       frameSPtr_(aState.frameSPtr_),
-      coordinatesBrokerSPtr_(aState.coordinatesBrokerSPtr_)
+      coordinatesBrokerSPtr_(aState.coordinatesBrokerSPtr_),
+      covarianceMatrix_(aState.covarianceMatrix_)
 {
 }
 
@@ -171,6 +172,7 @@ State& State::operator=(const State& aState)
         coordinates_ = aState.coordinates_;
         frameSPtr_ = aState.frameSPtr_;
         coordinatesBrokerSPtr_ = aState.coordinatesBrokerSPtr_;
+        covarianceMatrix_ = aState.covarianceMatrix_;
     }
     return *this;
 }
@@ -205,6 +207,14 @@ bool State::operator==(const State& aState) const
         }
 
         if (this->extractCoordinate(subset) != aState.extractCoordinate(subset))
+        {
+            return false;
+        }
+    }
+
+    if (this->covarianceMatrix_.isDefined() || aState.covarianceMatrix_.isDefined())
+    {
+        if (this->covarianceMatrix_ != aState.covarianceMatrix_)
         {
             return false;
         }
@@ -361,6 +371,16 @@ const Shared<const CoordinateBroker>& State::accessCoordinateBroker() const
     return this->coordinatesBrokerSPtr_;
 }
 
+const CovarianceMatrix& State::accessCovarianceMatrix() const
+{
+    if (!this->covarianceMatrix_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
+    }
+
+    return this->covarianceMatrix_;
+}
+
 Size State::getSize() const
 {
     if (!this->isDefined())
@@ -379,6 +399,11 @@ Instant State::getInstant() const
 Shared<const Frame> State::getFrame() const
 {
     return this->accessFrame();
+}
+
+CovarianceMatrix State::getCovarianceMatrix() const
+{
+    return this->accessCovarianceMatrix();
 }
 
 Position State::getPosition() const
@@ -453,6 +478,11 @@ bool State::hasSubset(const Shared<const CoordinateSubset>& aSubsetSPtr) const
     return this->coordinatesBrokerSPtr_->hasSubset(aSubsetSPtr);
 }
 
+bool State::hasCovarianceMatrix() const
+{
+    return this->covarianceMatrix_.isDefined();
+}
+
 VectorXd State::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
     return this->coordinatesBrokerSPtr_->extractCoordinate(this->accessCoordinates(), aSubsetSPtr);
@@ -477,7 +507,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 
     if (aFrameSPtr == this->frameSPtr_)
     {
-        return {this->instant_, this->coordinates_, this->frameSPtr_, this->coordinatesBrokerSPtr_};
+        return *this;
     }
 
     VectorXd inFrameCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
@@ -498,6 +528,16 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
         aFrameSPtr,
         this->coordinatesBrokerSPtr_,
     };
+}
+
+void State::setCovarianceMatrix(const CovarianceMatrix& aCovarianceMatrix)
+{
+    if (aCovarianceMatrix.isDefined() && (aCovarianceMatrix.getInstant() != this->instant_))
+    {
+        throw ostk::core::error::runtime::Wrong("Instant");
+    }
+
+    this->covarianceMatrix_ = aCovarianceMatrix;
 }
 
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const

@@ -15,6 +15,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
+from ostk.astrodynamics.estimator import CovarianceMatrix
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -597,6 +598,50 @@ class TestState:
         assert profile_state.get_frame() == frame
         assert profile_state.get_coordinates() is not None
         assert profile_state.get_coordinate_subsets() is not None
+
+    def test_covariance_matrix(
+        self,
+        state: State,
+        instant: Instant,
+        frame: Frame,
+    ):
+        assert state.has_covariance_matrix() is False
+
+        with pytest.raises(RuntimeError, match="Covariance Matrix"):
+            state.access_covariance_matrix()
+
+        with pytest.raises(RuntimeError, match="Covariance Matrix"):
+            state.get_covariance_matrix()
+
+        covariance_matrix = CovarianceMatrix(
+            instant,
+            np.eye(6),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        state.set_covariance_matrix(covariance_matrix)
+
+        assert state.has_covariance_matrix() is True
+        assert state.get_covariance_matrix() == covariance_matrix
+        assert state.access_covariance_matrix() == covariance_matrix
+
+        state.set_covariance_matrix(CovarianceMatrix.undefined())
+
+        assert state.has_covariance_matrix() is False
+
+        other_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 1), Scale.UTC)
+        other_covariance_matrix = CovarianceMatrix(
+            other_instant,
+            np.eye(6),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        with pytest.raises(RuntimeError, match="Instant"):
+            state.set_covariance_matrix(other_covariance_matrix)
+
+        assert state.has_covariance_matrix() is False
 
     def test_in_frame(
         self,
