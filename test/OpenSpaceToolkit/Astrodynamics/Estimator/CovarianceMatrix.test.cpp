@@ -4,6 +4,8 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
@@ -16,6 +18,7 @@ using ostk::core::container::Array;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
+using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
@@ -898,15 +901,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Rotate)
         const CovarianceMatrix rotatedCovarianceMatrix = covarianceMatrix.rotate(Frame::ITRF());
 
         const Transform transform = defaultFrameSPtr_->getTransformTo(Frame::ITRF(), defaultInstant_);
-        const Vector3d rotatedPositionCoordinates = transform.applyToVector(positionCoordinates);
-        const Vector3d rotatedVelocityCoordinates = transform.applyToVector(velocityCoordinates);
+        const Matrix3d rotationMatrix = RotationMatrix::Quaternion(transform.getOrientation()).getMatrix();
 
-        MatrixXd coordinatesExpected = MatrixXd::Zero(7, 7);
-        coordinatesExpected.diagonal() << rotatedPositionCoordinates(0), rotatedPositionCoordinates(1),
-            rotatedPositionCoordinates(2), rotatedVelocityCoordinates(0), rotatedVelocityCoordinates(1),
-            rotatedVelocityCoordinates(2), massCoordinate;
+        MatrixXd transformationMatrix = MatrixXd::Identity(7, 7);
+        transformationMatrix.block(0, 0, 3, 3) = rotationMatrix;
+        transformationMatrix.block(3, 3, 3, 3) = rotationMatrix;
+
+        const MatrixXd coordinatesExpected = transformationMatrix * coordinates * transformationMatrix.transpose();
 
         EXPECT_TRUE(rotatedCovarianceMatrix.getCoordinates().isNear(coordinatesExpected, 1e-12));
+        EXPECT_TRUE(rotatedCovarianceMatrix.getCoordinates().isApprox(
+            rotatedCovarianceMatrix.getCoordinates().transpose(), 1e-12
+        ));
+        EXPECT_NEAR(massCoordinate, rotatedCovarianceMatrix.getCoordinates()(6, 6), 1e-12);
+        EXPECT_NEAR(
+            coordinates.block(0, 0, 3, 3).trace(),
+            rotatedCovarianceMatrix.getCoordinates().block(0, 0, 3, 3).trace(),
+            1e-12
+        );
+        EXPECT_NEAR(
+            coordinates.block(3, 3, 3, 3).trace(),
+            rotatedCovarianceMatrix.getCoordinates().block(3, 3, 3, 3).trace(),
+            1e-12
+        );
     }
 
     // Numerical check (non-diagonal)
@@ -927,10 +944,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Rotate)
 
         const Transform transform = defaultFrameSPtr_->getTransformTo(Frame::ITRF(), defaultInstant_);
 
-        Matrix3d rotationMatrix;
-        rotationMatrix.col(0) = transform.applyToVector(Vector3d::X());
-        rotationMatrix.col(1) = transform.applyToVector(Vector3d::Y());
-        rotationMatrix.col(2) = transform.applyToVector(Vector3d::Z());
+        const Matrix3d rotationMatrix = RotationMatrix::Quaternion(transform.getOrientation()).getMatrix();
 
         MatrixXd transformationMatrix = MatrixXd::Identity(7, 7);
         transformationMatrix.block(0, 0, 3, 3) = rotationMatrix;

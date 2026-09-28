@@ -42,8 +42,9 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Covariance matrix at a given instant in time.
 ///
-/// @details Represents the covariance of an object's state coordinates at a specific instant,
-/// expressed in a given reference frame. The coordinates are defined by a set of coordinate subsets.
+/// @details Represents the covariance of an object's state at a specific instant,
+/// expressed in a given reference frame. The contents of the matrix are identified
+/// an ordered set of coordinate subsets.
 class CovarianceMatrix
 {
    public:
