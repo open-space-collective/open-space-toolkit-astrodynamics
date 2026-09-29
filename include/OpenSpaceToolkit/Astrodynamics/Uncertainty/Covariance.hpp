@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix__
-#define __OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance__
+#define __OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance__
 
 #include <ostream>
 
@@ -23,7 +23,7 @@ namespace ostk
 {
 namespace astrodynamics
 {
-namespace estimator
+namespace uncertainty
 {
 
 using ostk::core::container::Array;
@@ -45,14 +45,14 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 /// @details Represents the covariance of an object's state at a specific instant,
 /// expressed in a given reference frame. The contents of the matrix are identified
 /// an ordered set of coordinate subsets.
-class CovarianceMatrix
+class Covariance
 {
    public:
     /// @brief Constructor. This constructor makes a new Coordinates Broker under the hood for every
-    /// Covariance Matrix.
+    /// Covariance.
     ///
     /// @code{.cpp}
-    ///     CovarianceMatrix covarianceMatrix = {
+    ///     Covariance covariance = {
     ///         Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
     ///         aCoordinates,
     ///         Frame::GCRF(),
@@ -64,8 +64,10 @@ class CovarianceMatrix
     /// @param aCoordinates The coordinates at the instant in International System of Units
     /// @param aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param aCoordinateSubsetsArray The coordinate subsets associated to the coordinates
-    CovarianceMatrix(
+    /// @param aCoordinateSubsetsArray The coordinate subsets associated with the coordinates
+    /// @throw ostk::core::error::runtime::Wrong If the coordinates are not square, do not match the coordinate subsets,
+    /// are not symmetric or are not positive semi-definite (within a tolerance relative to the largest coefficient)
+    Covariance(
         const Instant& anInstant,
         const MatrixXd& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,
@@ -74,85 +76,53 @@ class CovarianceMatrix
 
     /// @brief Copy-assignment operator
     ///
-    /// @param aCovarianceMatrix The Covariance Matrix to copy
-    /// @return The modified Covariance Matrix
-    CovarianceMatrix& operator=(const CovarianceMatrix& aCovarianceMatrix);
+    /// @param aCovariance The Covariance to copy
+    /// @return The modified Covariance
+    Covariance& operator=(const Covariance& aCovariance);
 
-    /// @brief Equality operator.
+    /// @brief Addition operator (element-wise).
     ///
-    /// @param aCovarianceMatrix The Covariance Matrix to compare to
-    /// @return True if the Covariance Matrices are equal, false otherwise
-    bool operator==(const CovarianceMatrix& aCovarianceMatrix) const;
+    /// @param aCovariance The other Covariance
+    /// @return A new Covariance equal to the element-wise sum of the two Covariances
+    Covariance operator+(const Covariance& aCovariance) const;
 
-    /// @brief Inequality operator.
+    /// @brief Subtraction operator (element-wise).
     ///
-    /// @param aCovarianceMatrix The Covariance Matrix to compare to
-    /// @return True if the Covariance Matrices are not equal, false otherwise
-    bool operator!=(const CovarianceMatrix& aCovarianceMatrix) const;
-
-    /// @brief Addition operator.
-    ///
-    /// @param aCovarianceMatrix The other Covariance Matrix
-    /// @return A new Covariance Matrix equal to the sum of the two Covariance Matrices
-    CovarianceMatrix operator+(const CovarianceMatrix& aCovarianceMatrix) const;
-
-    /// @brief Subtraction operator.
-    ///
-    /// @param aCovarianceMatrix The other Covariance Matrix
-    /// @return A new Covariance Matrix equal to the difference between the two Covariance Matrices
-    CovarianceMatrix operator-(const CovarianceMatrix& aCovarianceMatrix) const;
+    /// @param aCovariance The other Covariance
+    /// @return A new Covariance equal to the element-wise difference between the two Covariances
+    Covariance operator-(const Covariance& aCovariance) const;
 
     /// @brief Stream insertion operator.
     ///
     /// @param anOutputStream The output stream to insert into
-    /// @param aCovarianceMatrix The Covariance Matrix to insert
-    /// @return The output stream with the Covariance Matrix inserted
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const CovarianceMatrix& aCovarianceMatrix);
+    /// @param aCovariance The Covariance to insert
+    /// @return The output stream with the Covariance inserted
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Covariance& aCovariance);
 
-    /// @brief Check if the Covariance Matrix is defined.
+    /// @brief Get the size (i.e. number of rows/columns)of the Covariance.
     ///
-    /// @return True if the Covariance Matrix is defined, false otherwise
-    bool isDefined() const;
-
-    /// @brief Accessor for the instant.
-    ///
-    /// @return The instant
-    const Instant& accessInstant() const;
-
-    /// @brief Accessor for the reference frame.
-    ///
-    /// @return The reference frame
-    const Shared<const Frame> accessFrame() const;
-
-    /// @brief Accessor for the coordinates.
-    ///
-    /// @return The coordinates
-    const MatrixXd& accessCoordinates() const;
-
-    /// @brief Get the size (i.e. number of rows/columns)of the Covariance Matrix.
-    ///
-    /// @return The size of the Covariance Matrix
+    /// @return The size of the Covariance
     Size getSize() const;
 
-    /// @brief Get the instant associated with the Covariance Matrix.
+    /// @brief Get the instant associated with the Covariance.
     ///
     /// @return The instant
-    Instant getInstant() const;
+    const Instant& getInstant() const;
 
-    /// @brief Get the reference frame associated with the Covariance Matrix.
+    /// @brief Get the reference frame associated with the Covariance.
     ///
     /// @return The reference frame
-    Shared<const Frame> getFrame() const;
+    const Shared<const Frame>& getFrame() const;
 
-    /// @brief Get the coordinates of the Covariance Matrix.
+    /// @brief Get the coordinates of the Covariance.
     ///
     /// @return The coordinates
-    MatrixXd getCoordinates() const;
+    const MatrixXd& getCoordinates() const;
 
-    /// @brief Get the coordinate subsets of the Covariance Matrix.
+    /// @brief Get the coordinate subsets of the Covariance.
     ///
     /// @return The coordinate subsets
-    const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
+    const Array<Shared<const CoordinateSubset>>& getCoordinateSubsets() const;
 
     /// @brief Extract the coordinates for a single subset.
     ///
@@ -166,54 +136,45 @@ class CovarianceMatrix
     /// @return The coordinates for the subsets
     MatrixXd extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const;
 
-    /// @brief Return a new Covariance Matrix rotated into a different reference frame.
+    /// @brief Return a new Covariance rotated into a different reference frame.
     ///
     /// @details This is a pure rotation, only the following coordinate subsets are rotated:
     /// CartesianPosition, CartesianVelocity, CartesianAcceleration and AngularVelocity. The
     /// rest are left unchanged.
     ///
     /// @param aFrameSPtr The reference frame to rotate into
-    /// @return A new Covariance Matrix rotated into the given reference frame
-    CovarianceMatrix rotate(const Shared<const Frame>& aFrameSPtr) const;
+    /// @return A new Covariance rotated into the given reference frame
+    Covariance rotate(const Shared<const Frame>& aFrameSPtr) const;
 
-    /// @brief Return a new diagonalized Covariance Matrix.
+    /// @brief Return a new diagonalized Covariance.
     ///
-    /// @details Returns a new Covariance Matrix with the same instant, frame, and coordinate subsets,
+    /// @details Returns a new Covariance with the same instant, frame, and coordinate subsets,
     /// whose coordinates retain only the diagonal (variance) terms.
     ///
-    /// @return A diagonalized Covariance Matrix
-    CovarianceMatrix diagonalize() const;
+    /// @return A diagonalized Covariance
+    Covariance diagonalize() const;
 
-    /// @brief Return a new Covariance Matrix reduced to the given coordinate subsets.
+    /// @brief Return a new Covariance reduced to the given coordinate subsets.
     ///
     /// @details This function can also be used to reorder the coordinate subsets.
     ///
     /// @param aCoordinateSubsetsArray The coordinate subsets to retain
-    /// @return A new Covariance Matrix containing only the specified coordinate subsets
-    CovarianceMatrix reduce(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const;
+    /// @return A new Covariance containing only the specified coordinate subsets
+    Covariance reduce(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const;
 
-    /// @brief Return a new Covariance Matrix whose coordinates are multiplied by a scalar.
+    /// @brief Return a new Covariance whose coordinates are multiplied by a scalar.
     ///
     /// @param aScalar The strictly positive scalar to multiply the covariance coordinates by
-    /// @return A new Covariance Matrix with scaled coordinates
-    CovarianceMatrix scale(const Real& aScalar) const;
+    /// @return A new Covariance with scaled coordinates
+    Covariance scale(const Real& aScalar) const;
 
-    /// @brief Print the Covariance Matrix to an output stream.
+    /// @brief Print the Covariance to an output stream.
     ///
     /// @param anOutputStream The output stream to print to
     /// @param displayDecorator Whether or not to display the decorator
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Get an undefined Covariance Matrix.
-    ///
-    /// @code{.cpp}
-    ///     CovarianceMatrix covarianceMatrix = CovarianceMatrix::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined Covariance Matrix
-    static CovarianceMatrix Undefined();
-
-    /// @brief Build a 3x3 Covariance Matrix from cartesian position sigmas.
+    /// @brief Build a 3x3 Covariance from cartesian position sigmas.
     ///
     /// @details The resulting matrix is diagonal, with each diagonal component equal to the square of
     /// the corresponding position sigma.
@@ -221,12 +182,12 @@ class CovarianceMatrix
     /// @param anInstant An instant
     /// @param aPositionSigmas The cartesian position sigmas
     /// @param aFrameSPtr The reference frame in which the covariance is referenced to and resolved in
-    /// @return A Covariance Matrix
-    static CovarianceMatrix FromPositionSigmas(
+    /// @return A Covariance
+    static Covariance FromPositionSigmas(
         const Instant& anInstant, const Vector3d& aPositionSigmas, const Shared<const Frame>& aFrameSPtr
     );
 
-    /// @brief Build a 6x6 Covariance Matrix from cartesian position and velocity sigmas.
+    /// @brief Build a 6x6 Covariance from cartesian position and velocity sigmas.
     ///
     /// @details The resulting matrix is diagonal, with each diagonal component equal to the square of
     /// the corresponding position or velocity sigma.
@@ -235,8 +196,8 @@ class CovarianceMatrix
     /// @param aPositionSigmas The cartesian position sigmas
     /// @param aVelocitySigmas The cartesian velocity sigmas
     /// @param aFrameSPtr The reference frame in which the covariance is referenced to and resolved in
-    /// @return A Covariance Matrix
-    static CovarianceMatrix FromPositionVelocitySigmas(
+    /// @return A Covariance
+    static Covariance FromPositionVelocitySigmas(
         const Instant& anInstant,
         const Vector3d& aPositionSigmas,
         const Vector3d& aVelocitySigmas,
@@ -250,7 +211,7 @@ class CovarianceMatrix
     Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
 };
 
-}  // namespace estimator
+}  // namespace uncertainty
 }  // namespace astrodynamics
 }  // namespace ostk
 
