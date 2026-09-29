@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Estimator/CovarianceMatrix.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Estimator/OrbitDeterminationSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Estimator/TLESolver.cpp>
 
@@ -11,6 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator(pybind11::module& aModule)
     auto estimator = aModule.def_submodule("estimator");
 
     // Add objects to python "estimator" submodules
+    // CovarianceMatrix is registered before Trajectory, so State can expose it.
     OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(estimator);
     OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(estimator);
 }

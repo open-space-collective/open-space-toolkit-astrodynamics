@@ -1,7 +1,10 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Error.hpp>
+
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
@@ -14,6 +17,7 @@ using ostk::core::container::Array;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
@@ -26,6 +30,7 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
+using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -1137,6 +1142,94 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getCoordinateSubsets());
         EXPECT_ANY_THROW(State::Undefined().hasSubset(CartesianPosition::Default()));
         EXPECT_ANY_THROW(State::Undefined().getFrame());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, CovarianceMatrix)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+        const State state = {instant, position, velocity};
+
+        EXPECT_FALSE(state.hasCovarianceMatrix());
+
+        EXPECT_THROW(
+            try { state.accessCovarianceMatrix(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            try { state.getCovarianceMatrix(); } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+        State state = {instant, position, velocity};
+        const State stateWithoutCovariance = {instant, position, velocity};
+
+        const CovarianceMatrix covarianceMatrix = {
+            instant,
+            MatrixXd::Identity(6, 6),
+            Frame::GCRF(),
+            {CartesianPosition::Default(), CartesianVelocity::Default()},
+        };
+
+        EXPECT_NO_THROW(state.setCovarianceMatrix(covarianceMatrix));
+
+        EXPECT_TRUE(state.hasCovarianceMatrix());
+        EXPECT_EQ(covarianceMatrix, state.getCovarianceMatrix());
+        EXPECT_EQ(covarianceMatrix, state.accessCovarianceMatrix());
+        EXPECT_NE(stateWithoutCovariance, state);
+
+        const State copiedState = state;
+
+        EXPECT_EQ(state, copiedState);
+        EXPECT_EQ(covarianceMatrix, copiedState.getCovarianceMatrix());
+
+        State assignedState = State::Undefined();
+        assignedState = state;
+
+        EXPECT_EQ(state, assignedState);
+        EXPECT_EQ(covarianceMatrix, assignedState.getCovarianceMatrix());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+        State state = {instant, position, velocity};
+
+        const CovarianceMatrix covarianceMatrix = {
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+            MatrixXd::Identity(6, 6),
+            Frame::GCRF(),
+            {CartesianPosition::Default(), CartesianVelocity::Default()},
+        };
+
+        EXPECT_THROW(
+            try { state.setCovarianceMatrix(covarianceMatrix); } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Instant"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+
+        EXPECT_FALSE(state.hasCovarianceMatrix());
     }
 }
 
