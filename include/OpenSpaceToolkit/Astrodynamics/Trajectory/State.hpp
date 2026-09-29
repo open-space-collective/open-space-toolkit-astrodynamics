@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
-#include <optional>
-
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -17,7 +15,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
@@ -41,7 +38,6 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
@@ -202,11 +198,6 @@ class State
     /// @return The coordinate broker associated to the State
     const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
 
-    /// @brief Accessor for the Covariance Matrix.
-    ///
-    /// @return The Covariance Matrix
-    const CovarianceMatrix& accessCovarianceMatrix() const;
-
     /// @brief Get the size of the State.
     ///
     /// @return The size of the State
@@ -221,11 +212,6 @@ class State
     ///
     /// @return The reference frame
     Shared<const Frame> getFrame() const;
-
-    /// @brief Get the Covariance Matrix associated with the State.
-    ///
-    /// @return The Covariance Matrix
-    CovarianceMatrix getCovarianceMatrix() const;
 
     /// @brief Get the cartesian position associated with the State (if present).
     ///
@@ -269,11 +255,6 @@ class State
     /// @return True if the coordinate subset is included in the State
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
-    /// @brief Check if the State has a Covariance Matrix.
-    ///
-    /// @return True if a Covariance Matrix is attached to the State
-    bool hasCovarianceMatrix() const;
-
     /// @brief Extract the coordinates for a single subset.
     ///
     /// @code{.cpp}
@@ -302,13 +283,6 @@ class State
     /// @return The transformed State
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
-    /// @brief Attach a Covariance Matrix to the State.
-    ///
-    /// @details Raises a Wrong error when the Covariance Matrix instant differs from the State's instant.
-    ///
-    /// @param aCovarianceMatrix The Covariance Matrix to attach
-    void setCovarianceMatrix(const CovarianceMatrix& aCovarianceMatrix);
-
     /// @brief Print the State to an output stream.
     ///
     /// @param anOutputStream The output stream to print to
@@ -329,7 +303,6 @@ class State
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
     Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
-    std::optional<CovarianceMatrix> covarianceMatrix_ = std::nullopt;
 };
 
 }  // namespace trajectory
