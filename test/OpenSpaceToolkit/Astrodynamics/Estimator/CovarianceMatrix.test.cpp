@@ -132,8 +132,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Constructor)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, CopyAssignmentOperator)
 {
     {
-        CovarianceMatrix aCovarianceMatrix = CovarianceMatrix::Undefined();
-        CovarianceMatrix anotherCovarianceMatrix = CovarianceMatrix::Undefined();
+        CovarianceMatrix aCovarianceMatrix = {
+            defaultInstant_,
+            2.0 * MatrixXd::Identity(6, 6),
+            defaultFrameSPtr_,
+            {CartesianPosition::Default(), CartesianVelocity::Default()},
+        };
+        CovarianceMatrix anotherCovarianceMatrix = aCovarianceMatrix;
 
         EXPECT_NE(defaultCovarianceMatrix_, aCovarianceMatrix);
 
@@ -142,15 +147,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, CopyAssignment
         EXPECT_EQ(defaultCovarianceMatrix_, aCovarianceMatrix);
 
         anotherCovarianceMatrix = aCovarianceMatrix;
-        aCovarianceMatrix = CovarianceMatrix::Undefined();
+        aCovarianceMatrix = {
+            defaultInstant_,
+            3.0 * MatrixXd::Identity(6, 6),
+            defaultFrameSPtr_,
+            {CartesianPosition::Default(), CartesianVelocity::Default()},
+        };
 
         EXPECT_NE(aCovarianceMatrix, anotherCovarianceMatrix);
         EXPECT_EQ(defaultCovarianceMatrix_, anotherCovarianceMatrix);
     }
 
     {
-        CovarianceMatrix covarianceMatrix = CovarianceMatrix::Undefined();
-        covarianceMatrix = defaultCovarianceMatrix_;
+        CovarianceMatrix covarianceMatrix = defaultCovarianceMatrix_;
 
         EXPECT_NO_THROW(covarianceMatrix = covarianceMatrix);
 
@@ -255,12 +264,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, EqualToOperato
 
         EXPECT_FALSE(defaultCovarianceMatrix_ == covarianceMatrix);
     }
-
-    {
-        EXPECT_FALSE(CovarianceMatrix::Undefined() == defaultCovarianceMatrix_);
-        EXPECT_FALSE(defaultCovarianceMatrix_ == CovarianceMatrix::Undefined());
-        EXPECT_FALSE(CovarianceMatrix::Undefined() == CovarianceMatrix::Undefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, NotEqualToOperator)
@@ -358,38 +361,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, NotEqualToOper
 
         EXPECT_TRUE(defaultCovarianceMatrix_ != covarianceMatrix);
     }
-
-    {
-        EXPECT_TRUE(CovarianceMatrix::Undefined() != defaultCovarianceMatrix_);
-        EXPECT_TRUE(defaultCovarianceMatrix_ != CovarianceMatrix::Undefined());
-        EXPECT_TRUE(CovarianceMatrix::Undefined() != CovarianceMatrix::Undefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, AdditionOperator)
 {
-    {
-        EXPECT_THROW(
-            try {
-                defaultCovarianceMatrix_ + CovarianceMatrix::Undefined();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined() + defaultCovarianceMatrix_;
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     {
         const CovarianceMatrix covarianceMatrix = {
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
@@ -482,28 +457,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, AdditionOperat
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, SubtractionOperator)
 {
-    {
-        EXPECT_THROW(
-            try {
-                defaultCovarianceMatrix_ - CovarianceMatrix::Undefined();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined() - defaultCovarianceMatrix_;
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     {
         const CovarianceMatrix covarianceMatrix = {
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
@@ -603,73 +556,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, StreamOperator
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
-
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(std::cout << CovarianceMatrix::Undefined() << std::endl);
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, IsDefined)
-{
-    {
-        EXPECT_TRUE(defaultCovarianceMatrix_.isDefined());
-    }
-
-    {
-        const CovarianceMatrix covarianceMatrix = {defaultInstant_, MatrixXd(0, 0), defaultFrameSPtr_, {}};
-
-        EXPECT_TRUE(covarianceMatrix.isDefined());
-    }
-
-    {
-        const CovarianceMatrix covarianceMatrix = {
-            Instant::Undefined(), MatrixXd::Identity(3, 3), defaultFrameSPtr_, {CartesianPosition::Default()}
-        };
-
-        EXPECT_FALSE(covarianceMatrix.isDefined());
-    }
-
-    {
-        const CovarianceMatrix covarianceMatrix = {
-            defaultInstant_, MatrixXd::Undefined(3, 3), defaultFrameSPtr_, {CartesianPosition::Default()}
-        };
-
-        EXPECT_FALSE(covarianceMatrix.isDefined());
-    }
-
-    {
-        const CovarianceMatrix covarianceMatrix = {
-            defaultInstant_, MatrixXd::Inf(3, 3), defaultFrameSPtr_, {CartesianPosition::Default()}
-        };
-
-        EXPECT_FALSE(covarianceMatrix.isDefined());
-    }
-
-    {
-        const Shared<const Frame> frameSPtr = nullptr;
-
-        const CovarianceMatrix covarianceMatrix = {
-            defaultInstant_, MatrixXd::Identity(3, 3), frameSPtr, {CartesianPosition::Default()}
-        };
-
-        EXPECT_FALSE(covarianceMatrix.isDefined());
-    }
-
-    {
-        const CovarianceMatrix covarianceMatrix = {
-            defaultInstant_, MatrixXd::Identity(3, 3), Frame::Undefined(), {CartesianPosition::Default()}
-        };
-
-        EXPECT_FALSE(covarianceMatrix.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(CovarianceMatrix::Undefined().isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Accessors)
@@ -678,38 +564,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Accessors)
         EXPECT_EQ(defaultInstant_, defaultCovarianceMatrix_.accessInstant());
         EXPECT_EQ(defaultFrameSPtr_, defaultCovarianceMatrix_.accessFrame());
         EXPECT_TRUE(defaultCovarianceMatrix_.accessCoordinates().isNear(MatrixXd::Identity(6, 6), 1e-15));
-    }
-
-    {
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().accessInstant();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().accessFrame();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().accessCoordinates();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -738,52 +592,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Getters)
         EXPECT_EQ(defaultFrameSPtr_, covarianceMatrix.getFrame());
         EXPECT_TRUE(covarianceMatrix.getCoordinates().isNear(coordinates, 1e-15));
         EXPECT_EQ(subsets, covarianceMatrix.getCoordinateSubsets());
-    }
-
-    {
-        EXPECT_THROW(
-            try { CovarianceMatrix::Undefined().getSize(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try { CovarianceMatrix::Undefined().getInstant(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try { CovarianceMatrix::Undefined().getFrame(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().getCoordinates();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().getCoordinateSubsets();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -842,28 +650,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, ExtractCoordin
         EXPECT_THROW(
             try {
                 defaultCovarianceMatrix_.extractCoordinates({CoordinateSubset::Mass()});
-            } catch (const ostk::core::error::RuntimeError& e) {
-                EXPECT_NE(e.getMessage().find("not found"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().extractCoordinate(CartesianPosition::Default());
-            } catch (const ostk::core::error::RuntimeError& e) {
-                EXPECT_NE(e.getMessage().find("not found"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::RuntimeError
-        );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().extractCoordinates({CartesianPosition::Default()});
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_NE(e.getMessage().find("not found"), std::string::npos);
                 throw;
@@ -1008,16 +794,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Rotate)
             },
             ostk::core::error::runtime::Undefined
         );
-
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().rotate(defaultFrameSPtr_);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -1039,18 +815,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Diagonalize)
         EXPECT_EQ(defaultFrameSPtr_, diagonalizedCovarianceMatrix.getFrame());
         EXPECT_EQ(subsets, diagonalizedCovarianceMatrix.getCoordinateSubsets());
         EXPECT_TRUE(diagonalizedCovarianceMatrix.getCoordinates().isNear(coordinatesExpected, 1e-15));
-    }
-
-    {
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().diagonalize();
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -1120,18 +884,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Reduce)
             ostk::core::error::RuntimeError
         );
     }
-
-    {
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().reduce({CartesianPosition::Default()});
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Scale)
@@ -1146,16 +898,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Scale)
     }
 
     {
-        EXPECT_THROW(
-            try {
-                CovarianceMatrix::Undefined().scale(Real(2.0));
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance Matrix"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
         EXPECT_THROW(
             try {
                 defaultCovarianceMatrix_.scale(Real::Undefined());
@@ -1210,26 +952,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Print)
         EXPECT_NE(output.find("GCRF"), std::string::npos);
         EXPECT_NE(output.find("CARTESIAN_POSITION"), std::string::npos);
     }
-
-    {
-        std::stringstream outputStream;
-
-        EXPECT_NO_THROW(CovarianceMatrix::Undefined().print(outputStream, true));
-
-        const std::string output = outputStream.str();
-
-        EXPECT_NE(output.find("Estimator :: Covariance Matrix"), std::string::npos);
-        EXPECT_NE(output.find("Coordinates: Undefined"), std::string::npos);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, Undefined)
-{
-    {
-        EXPECT_NO_THROW(CovarianceMatrix::Undefined());
-
-        EXPECT_FALSE(CovarianceMatrix::Undefined().isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, FromSigmas)
@@ -1243,7 +965,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, FromSigmas)
         const CovarianceMatrix covarianceMatrix =
             CovarianceMatrix::FromPositionSigmas(defaultInstant_, positionSigmas, defaultFrameSPtr_);
 
-        EXPECT_TRUE(covarianceMatrix.isDefined());
         EXPECT_EQ(3, covarianceMatrix.getSize());
         EXPECT_EQ(defaultInstant_, covarianceMatrix.getInstant());
         EXPECT_EQ(defaultFrameSPtr_, covarianceMatrix.getFrame());
@@ -1269,7 +990,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimator_CovarianceMatrix, FromSigmas)
             defaultInstant_, positionSigmas, velocitySigmas, defaultFrameSPtr_
         );
 
-        EXPECT_TRUE(covarianceMatrix.isDefined());
         EXPECT_EQ(6, covarianceMatrix.getSize());
         EXPECT_EQ(defaultInstant_, covarianceMatrix.getInstant());
         EXPECT_EQ(defaultFrameSPtr_, covarianceMatrix.getFrame());

@@ -109,11 +109,6 @@ class CovarianceMatrix
     /// @return The output stream with the Covariance Matrix inserted
     friend std::ostream& operator<<(std::ostream& anOutputStream, const CovarianceMatrix& aCovarianceMatrix);
 
-    /// @brief Check if the Covariance Matrix is defined.
-    ///
-    /// @return True if the Covariance Matrix is defined, false otherwise
-    bool isDefined() const;
-
     /// @brief Accessor for the instant.
     ///
     /// @return The instant
@@ -203,15 +198,6 @@ class CovarianceMatrix
     /// @param anOutputStream The output stream to print to
     /// @param displayDecorator Whether or not to display the decorator
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Get an undefined Covariance Matrix.
-    ///
-    /// @code{.cpp}
-    ///     CovarianceMatrix covarianceMatrix = CovarianceMatrix::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined Covariance Matrix
-    static CovarianceMatrix Undefined();
 
     /// @brief Build a 3x3 Covariance Matrix from cartesian position sigmas.
     ///

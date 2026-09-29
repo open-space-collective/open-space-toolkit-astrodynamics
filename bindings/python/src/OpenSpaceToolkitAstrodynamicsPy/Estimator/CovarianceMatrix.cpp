@@ -62,16 +62,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         .def("__repr__", &(shiftToString<CovarianceMatrix>))
 
         .def(
-            "is_defined",
-            &CovarianceMatrix::isDefined,
-            R"doc(
-                Check if the Covariance Matrix is defined.
-
-                Returns:
-                    bool: True if the Covariance Matrix is defined, False otherwise.
-            )doc"
-        )
-        .def(
             "access_instant",
             &CovarianceMatrix::accessInstant,
             return_value_policy::reference_internal,
@@ -233,16 +223,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
             )doc"
         )
 
-        .def_static(
-            "undefined",
-            &CovarianceMatrix::Undefined,
-            R"doc(
-                Get an undefined Covariance Matrix.
-
-                Returns:
-                    CovarianceMatrix: An undefined Covariance Matrix.
-            )doc"
-        )
         .def_static(
             "from_position_sigmas",
             &CovarianceMatrix::FromPositionSigmas,

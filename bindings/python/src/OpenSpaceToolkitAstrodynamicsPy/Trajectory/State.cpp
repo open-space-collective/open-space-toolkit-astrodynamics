@@ -237,10 +237,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             "has_covariance_matrix",
             &State::hasCovarianceMatrix,
             R"doc(
-                Check if the state has a defined Covariance Matrix.
+                Check if the state has a Covariance Matrix.
 
                 Returns:
-                    bool: True if a defined Covariance Matrix is attached to the state, False otherwise.
+                    bool: True if a Covariance Matrix is attached to the state, False otherwise.
             )doc"
         )
         .def(
@@ -274,7 +274,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                     covariance_matrix (CovarianceMatrix): The Covariance Matrix to attach.
 
                 Raises:
-                    RuntimeError: If the Covariance Matrix is defined and its instant differs from the state's instant.
+                    RuntimeError: If the Covariance Matrix instant differs from the state's instant.
             )doc",
             arg("covariance_matrix")
         )

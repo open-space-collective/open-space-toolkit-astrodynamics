@@ -1205,11 +1205,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, CovarianceMatrix)
 
         EXPECT_EQ(state, assignedState);
         EXPECT_EQ(covarianceMatrix, assignedState.getCovarianceMatrix());
-
-        EXPECT_NO_THROW(state.setCovarianceMatrix(CovarianceMatrix::Undefined()));
-
-        EXPECT_FALSE(state.hasCovarianceMatrix());
-        EXPECT_EQ(stateWithoutCovariance, state);
     }
 
     {

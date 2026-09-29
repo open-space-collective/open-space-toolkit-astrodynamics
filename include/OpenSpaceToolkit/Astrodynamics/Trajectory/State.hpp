@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -267,9 +269,9 @@ class State
     /// @return True if the coordinate subset is included in the State
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
-    /// @brief Check if the State has a defined Covariance Matrix.
+    /// @brief Check if the State has a Covariance Matrix.
     ///
-    /// @return True if a defined Covariance Matrix is attached to the State
+    /// @return True if a Covariance Matrix is attached to the State
     bool hasCovarianceMatrix() const;
 
     /// @brief Extract the coordinates for a single subset.
@@ -302,8 +304,7 @@ class State
 
     /// @brief Attach a Covariance Matrix to the State.
     ///
-    /// @details Raises a Wrong error when the Covariance Matrix is defined and its instant differs from the State's
-    /// instant.
+    /// @details Raises a Wrong error when the Covariance Matrix instant differs from the State's instant.
     ///
     /// @param aCovarianceMatrix The Covariance Matrix to attach
     void setCovarianceMatrix(const CovarianceMatrix& aCovarianceMatrix);
@@ -328,7 +329,7 @@ class State
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
     Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
-    CovarianceMatrix covarianceMatrix_ = CovarianceMatrix::Undefined();
+    std::optional<CovarianceMatrix> covarianceMatrix_ = std::nullopt;
 };
 
 }  // namespace trajectory

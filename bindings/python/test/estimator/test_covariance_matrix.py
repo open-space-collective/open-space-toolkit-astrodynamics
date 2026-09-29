@@ -57,7 +57,6 @@ class TestCovarianceMatrix:
     ):
         assert covariance_matrix is not None
         assert isinstance(covariance_matrix, CovarianceMatrix)
-        assert covariance_matrix.is_defined()
 
     def test_comparators(
         self,
@@ -85,13 +84,6 @@ class TestCovarianceMatrix:
     ):
         assert str(covariance_matrix) is not None
         assert repr(covariance_matrix) is not None
-
-    def test_is_defined(
-        self,
-        covariance_matrix: CovarianceMatrix,
-    ):
-        assert covariance_matrix.is_defined() is True
-        assert CovarianceMatrix.undefined().is_defined() is False
 
     def test_accessors(
         self,
@@ -195,12 +187,6 @@ class TestCovarianceMatrix:
         scaled_covariance_matrix = covariance_matrix.scale(2.0)
 
         assert np.allclose(scaled_covariance_matrix.get_coordinates(), 2.0 * np.eye(6))
-
-    def test_undefined(self):
-        covariance_matrix = CovarianceMatrix.undefined()
-
-        assert isinstance(covariance_matrix, CovarianceMatrix)
-        assert covariance_matrix.is_defined() is False
 
     def test_from_sigmas(
         self,

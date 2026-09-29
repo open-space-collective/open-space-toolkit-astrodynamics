@@ -626,10 +626,6 @@ class TestState:
         assert state.get_covariance_matrix() == covariance_matrix
         assert state.access_covariance_matrix() == covariance_matrix
 
-        state.set_covariance_matrix(CovarianceMatrix.undefined())
-
-        assert state.has_covariance_matrix() is False
-
         other_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 1), Scale.UTC)
         other_covariance_matrix = CovarianceMatrix(
             other_instant,
@@ -641,7 +637,7 @@ class TestState:
         with pytest.raises(RuntimeError, match="Instant"):
             state.set_covariance_matrix(other_covariance_matrix)
 
-        assert state.has_covariance_matrix() is False
+        assert state.has_covariance_matrix() is True
 
     def test_in_frame(
         self,

@@ -70,11 +70,6 @@ CovarianceMatrix& CovarianceMatrix::operator=(const CovarianceMatrix& aCovarianc
 
 bool CovarianceMatrix::operator==(const CovarianceMatrix& aCovarianceMatrix) const
 {
-    if ((!this->isDefined()) || (!aCovarianceMatrix.isDefined()))
-    {
-        return false;
-    }
-
     if (this->instant_ != aCovarianceMatrix.instant_)
     {
         return false;
@@ -114,11 +109,6 @@ bool CovarianceMatrix::operator!=(const CovarianceMatrix& aCovarianceMatrix) con
 
 CovarianceMatrix CovarianceMatrix::operator+(const CovarianceMatrix& aCovarianceMatrix) const
 {
-    if ((!this->isDefined()) || (!aCovarianceMatrix.isDefined()))
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     if (this->instant_ != aCovarianceMatrix.instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
@@ -144,11 +134,6 @@ CovarianceMatrix CovarianceMatrix::operator+(const CovarianceMatrix& aCovariance
 
 CovarianceMatrix CovarianceMatrix::operator-(const CovarianceMatrix& aCovarianceMatrix) const
 {
-    if ((!this->isDefined()) || (!aCovarianceMatrix.isDefined()))
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     if (this->instant_ != aCovarianceMatrix.instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
@@ -179,49 +164,23 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CovarianceMatrix& a
     return anOutputStream;
 }
 
-bool CovarianceMatrix::isDefined() const
-{
-    return this->instant_.isDefined() && this->coordinates_.isDefined() && (this->frameSPtr_ != nullptr) &&
-           this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
-}
-
 const Instant& CovarianceMatrix::accessInstant() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     return this->instant_;
 }
 
 const Shared<const Frame> CovarianceMatrix::accessFrame() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     return this->frameSPtr_;
 }
 
 const MatrixXd& CovarianceMatrix::accessCoordinates() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     return this->coordinates_;
 }
 
 Size CovarianceMatrix::getSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     return this->coordinates_.rows();
 }
 
@@ -242,11 +201,6 @@ MatrixXd CovarianceMatrix::getCoordinates() const
 
 const Array<Shared<const CoordinateSubset>> CovarianceMatrix::getCoordinateSubsets() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
@@ -300,11 +254,6 @@ CovarianceMatrix CovarianceMatrix::rotate(const Shared<const Frame>& aFrameSPtr)
         throw ostk::core::error::runtime::Undefined("Frame");
     }
 
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     if ((aFrameSPtr == this->frameSPtr_) || (*aFrameSPtr == *this->frameSPtr_))
     {
         return {this->instant_, this->coordinates_, this->frameSPtr_, this->getCoordinateSubsets()};
@@ -347,11 +296,6 @@ CovarianceMatrix CovarianceMatrix::rotate(const Shared<const Frame>& aFrameSPtr)
 
 CovarianceMatrix CovarianceMatrix::diagonalize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     const Size size = this->getSize();
     MatrixXd diagonalizedCoordinates = MatrixXd::Zero(size, size);
     diagonalizedCoordinates.diagonal() = this->accessCoordinates().diagonal();
@@ -366,11 +310,6 @@ CovarianceMatrix CovarianceMatrix::diagonalize() const
 
 CovarianceMatrix CovarianceMatrix::reduce(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     return {
         this->instant_,
         this->extractCoordinates(aCoordinateSubsetsArray),
@@ -381,11 +320,6 @@ CovarianceMatrix CovarianceMatrix::reduce(const Array<Shared<const CoordinateSub
 
 CovarianceMatrix CovarianceMatrix::scale(const Real& aScalar) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance Matrix");
-    }
-
     if (!aScalar.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Scalar");
@@ -414,27 +348,15 @@ void CovarianceMatrix::print(std::ostream& anOutputStream, bool displayDecorator
         << "Frame:"
         << ((this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined() ? this->frameSPtr_->getName() : "Undefined");
 
-    if (!this->isDefined())
-    {
-        ostk::core::utils::Print::Line(anOutputStream) << "Coordinates: Undefined";
-    }
-    else
-    {
-        const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 
-        for (const auto& subset : subsets)
-        {
-            ostk::core::utils::Print::Line(anOutputStream)
-                << subset->getName() << this->extractCoordinate(subset).toString(4);
-        }
+    for (const auto& subset : subsets)
+    {
+        ostk::core::utils::Print::Line(anOutputStream)
+            << subset->getName() << this->extractCoordinate(subset).toString(4);
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-CovarianceMatrix CovarianceMatrix::Undefined()
-{
-    return {Instant::Undefined(), MatrixXd(0, 0), Frame::Undefined(), {}};
 }
 
 CovarianceMatrix CovarianceMatrix::FromPositionSigmas(
