@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/stl.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach/Generator.cpp>
@@ -13,6 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
+    using ostk::physics::unit::Derived;
     using ostk::physics::unit::Length;
 
     using ostk::astrodynamics::conjunction::CloseApproach;
@@ -26,7 +29,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             Close approach between two objects.
 
             This class represents a close approach event between two objects, providing access to the states of both
-            objects at the time of closest approach, the miss distance, and the relative state.
+            objects at the time of closest approach, the miss distance, the relative state, and the relative velocity.
+            The covariance matrices of both objects, if any, are carried by their respective states.
         )doc"
     )
 
@@ -106,6 +110,64 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
+            "get_object_1_covariance_matrix",
+            &CloseApproach::getObject1CovarianceMatrix,
+            R"doc(
+                Get the covariance matrix of Object 1.
+
+                Returns:
+                    CovarianceMatrix | None: The covariance matrix of Object 1, or None if the state of Object 1 has no covariance matrix attached.
+            )doc"
+        )
+
+        .def(
+            "get_object_2_covariance_matrix",
+            &CloseApproach::getObject2CovarianceMatrix,
+            R"doc(
+                Get the covariance matrix of Object 2.
+
+                Returns:
+                    CovarianceMatrix | None: The covariance matrix of Object 2, or None if the state of Object 2 has no covariance matrix attached.
+            )doc"
+        )
+
+        .def(
+            "scale",
+            &CloseApproach::scale,
+            R"doc(
+                Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given factors.
+
+                If a scale factor is None, the corresponding covariance matrix is not scaled. This is useful when
+                scaling only one covariance or when a state has no covariance matrix attached.
+
+                Args:
+                    scale_factor_1 (float | None, optional): The scale factor for Object 1 covariance. Defaults to None.
+                    scale_factor_2 (float | None, optional): The scale factor for Object 2 covariance. Defaults to None.
+
+                Returns:
+                    CloseApproach: A new Close Approach with scaled covariance matrices.
+
+                Raises:
+                    RuntimeError: If a scale factor is provided but the corresponding state has no covariance matrix attached.
+            )doc",
+            arg("scale_factor_1") = none(),
+            arg("scale_factor_2") = none()
+        )
+
+        .def(
+            "swap",
+            &CloseApproach::swap,
+            R"doc(
+                Return a new Close Approach with Object 1 and Object 2 swapped.
+
+                The states and covariance matrices of Object 1 and Object 2 are exchanged.
+
+                Returns:
+                    CloseApproach: A new Close Approach with Object 1 and Object 2 swapped.
+            )doc"
+        )
+
+        .def(
             "get_instant",
             &CloseApproach::getInstant,
             R"doc(
@@ -136,6 +198,37 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                 Returns:
                     State: The relative state.
             )doc"
+        )
+
+        .def(
+            "get_relative_velocity",
+            &CloseApproach::getRelativeVelocity,
+            R"doc(
+                Get the relative velocity magnitude.
+
+                Returns:
+                    Derived: The relative velocity magnitude in meters per second.
+            )doc"
+        )
+
+        .def(
+            "get_encounter_frame",
+            &CloseApproach::getEncounterFrame,
+            R"doc(
+                Get the "default" convention of the encounter frame centered on Object 1.
+
+                The encounter frame is a local orbital frame centered on Object 1:
+                - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
+                - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1 position)
+                - x-axis: Completes the right-handed coordinate system
+
+                Args:
+                    frame (Frame, optional): The inertial (or quasi-inertial) frame in which relative position and velocity are computed. Defaults to GCRF.
+
+                Returns:
+                    Frame: The encounter frame.
+            )doc",
+            arg_v("frame", Frame::GCRF(), "GCRF")
         )
 
         .def(

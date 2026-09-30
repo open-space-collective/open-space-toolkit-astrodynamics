@@ -3,13 +3,18 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
@@ -22,12 +27,15 @@ namespace conjunction
 {
 
 using ostk::core::container::Tuple;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
+using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
+using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
@@ -35,7 +43,8 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 /// @brief Close approach between two objects.
 ///
 /// @details This class represents a close approach event between two objects, providing access to the states of both
-/// objects at the time of closest approach, the miss distance, and the relative state.
+/// objects at the time of closest approach, the miss distance, and the relative state. The covariance matrices of
+/// both objects, if any, are carried by their respective states.
 class CloseApproach
 {
    public:
@@ -112,6 +121,65 @@ class CloseApproach
     /// @return The state of Object 2
     State getObject2State() const;
 
+    /// @brief Get the covariance matrix of Object 1
+    ///
+    /// @details Returns std::nullopt if the state of Object 1 has no covariance matrix attached.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              std::optional<CovarianceMatrix> object1CovarianceMatrix =
+    ///              closeApproach.getObject1CovarianceMatrix() ;
+    /// @endcode
+    ///
+    /// @return The covariance matrix of Object 1, if any
+    std::optional<CovarianceMatrix> getObject1CovarianceMatrix() const;
+
+    /// @brief Get the covariance matrix of Object 2
+    ///
+    /// @details Returns std::nullopt if the state of Object 2 has no covariance matrix attached.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              std::optional<CovarianceMatrix> object2CovarianceMatrix =
+    ///              closeApproach.getObject2CovarianceMatrix() ;
+    /// @endcode
+    ///
+    /// @return The covariance matrix of Object 2, if any
+    std::optional<CovarianceMatrix> getObject2CovarianceMatrix() const;
+
+    /// @brief Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given
+    /// factors.
+    ///
+    /// @details If a scale factor is not provided, the corresponding covariance matrix is not scaled. This is useful
+    /// when scaling only one covariance or when a state has no covariance matrix attached. Raises an Undefined error if
+    /// a scale factor is provided but the corresponding state has no covariance matrix attached.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              CloseApproach scaledCloseApproach = closeApproach.scale(2.0, 4.0) ;
+    ///              CloseApproach scaledObject1Only = closeApproach.scale(2.0) ;
+    ///              CloseApproach scaledObject2Only = closeApproach.scale(std::nullopt, 4.0) ;
+    /// @endcode
+    ///
+    /// @param aScaleFactor1 The scale factor for Object 1 covariance. Defaults to std::nullopt
+    /// @param aScaleFactor2 The scale factor for Object 2 covariance. Defaults to std::nullopt
+    /// @return A new Close Approach with scaled covariance matrices
+    CloseApproach scale(
+        const std::optional<Real>& aScaleFactor1 = std::nullopt, const std::optional<Real>& aScaleFactor2 = std::nullopt
+    ) const;
+
+    /// @brief Return a new Close Approach with Object 1 and Object 2 swapped
+    ///
+    /// @details The states and covariance matrices of Object 1 and Object 2 are exchanged.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              CloseApproach swappedCloseApproach = closeApproach.swap() ;
+    /// @endcode
+    ///
+    /// @return A new Close Approach with Object 1 and Object 2 swapped
+    CloseApproach swap() const;
+
     /// @brief Get the instant of the close approach
     ///
     /// @code{.cpp}
@@ -141,6 +209,34 @@ class CloseApproach
     ///
     /// @return The relative state
     State getRelativeState() const;
+
+    /// @brief Get the relative velocity magnitude
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              Derived relativeVelocity = closeApproach.getRelativeVelocity() ;
+    /// @endcode
+    ///
+    /// @return The relative velocity magnitude in meters per second
+    Derived getRelativeVelocity() const;
+
+    /// @brief Get the "default" convention of the encounter frame centered on Object 1.
+    ///
+    /// @details The encounter frame is a local orbital frame centered on Object 1:
+    /// - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
+    /// - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1
+    /// position)
+    /// - x-axis: Completes the right-handed coordinate system
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              Shared<const Frame> encounterFrame = closeApproach.getEncounterFrame() ;
+    /// @endcode
+    ///
+    /// @param aFrameSPtr The inertial (or quasi-inertial) frame in which relative position and velocity are computed.
+    /// Defaults to GCRF.
+    /// @return The encounter frame
+    Shared<const Frame> getEncounterFrame(const Shared<const Frame>& aFrameSPtr = Frame::GCRF()) const;
 
     /// @brief Compute the miss distance components in the desired frame
     ///
