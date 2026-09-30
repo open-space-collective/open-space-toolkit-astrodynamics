@@ -7,6 +7,7 @@
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Axes.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
@@ -34,6 +35,7 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Axes;
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
@@ -904,6 +906,63 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
         EXPECT_NEAR(std::get<0>(missDistanceComponents).inMeters(), -7.0e6, 1e-3);
         EXPECT_NEAR(std::get<1>(missDistanceComponents).inMeters(), 7.0e6, 1e-3);
         EXPECT_NEAR(std::get<2>(missDistanceComponents).inMeters(), 0.0, 1e-3);
+    }
+
+    // Rotating frame (ITRF): the relative position computed in GCRF, rotated into ITRF
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        const Tuple<Length, Length, Length> missDistanceComponents =
+            closeApproach.computeMissDistanceComponentsInFrame(Frame::ITRF());
+
+        // GCRF and ITRF share the same origin, hence the relative position is only rotated
+        const Vector3d relativePositionCoordinatesInGCRF = object2State.getPosition().inMeters().getCoordinates() -
+                                                           object1State.getPosition().inMeters().getCoordinates();
+
+        const Vector3d expectedMissDistanceComponents = Position::Meters(relativePositionCoordinatesInGCRF, gcrfFrame)
+                                                            .inFrame(Frame::ITRF(), instant)
+                                                            .inMeters()
+                                                            .getCoordinates();
+
+        EXPECT_NEAR(std::get<0>(missDistanceComponents).inMeters(), expectedMissDistanceComponents(0), 1e-3);
+        EXPECT_NEAR(std::get<1>(missDistanceComponents).inMeters(), expectedMissDistanceComponents(1), 1e-3);
+        EXPECT_NEAR(std::get<2>(missDistanceComponents).inMeters(), expectedMissDistanceComponents(2), 1e-3);
+    }
+
+    // Frame not centered on the Earth (local orbital frame, centered on Object 1): matches the local orbital frame
+    // components computed from the same factory
+    {
+        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+        const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
+        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
+
+        const CloseApproach closeApproach(object1State, object2State);
+
+        const Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(gcrfFrame);
+        const Shared<const Frame> qswFrameSPtr = qswFactorySPtr->generateFrame(object1State);
+
+        const Tuple<Length, Length, Length> missDistanceComponents =
+            closeApproach.computeMissDistanceComponentsInFrame(qswFrameSPtr);
+        const Tuple<Length, Length, Length> expectedMissDistanceComponents =
+            closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactorySPtr);
+
+        EXPECT_NEAR(
+            std::get<0>(missDistanceComponents).inMeters(), std::get<0>(expectedMissDistanceComponents).inMeters(), 1e-3
+        );
+        EXPECT_NEAR(
+            std::get<1>(missDistanceComponents).inMeters(), std::get<1>(expectedMissDistanceComponents).inMeters(), 1e-3
+        );
+        EXPECT_NEAR(
+            std::get<2>(missDistanceComponents).inMeters(), std::get<2>(expectedMissDistanceComponents).inMeters(), 1e-3
+        );
     }
 
     {

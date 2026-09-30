@@ -322,9 +322,12 @@ Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFram
         throw ostk::core::error::runtime::Undefined("Frame");
     }
 
-    const State relativeStateInFrame = this->getRelativeState().inFrame(aFrame);
-    const Position relativePosition = relativeStateInFrame.getPosition();
-    const Vector3d coordinates = relativePosition.inMeters().getCoordinates();
+    // Both positions are expressed in the frame before being subtracted: transforming the relative position itself
+    // would also apply the frame translation, which is only correct for frames sharing the origin of Object 1's frame
+    const Vector3d object1Position = object1State_.inFrame(aFrame).getPosition().inMeters().getCoordinates();
+    const Vector3d object2Position = object2State_.inFrame(aFrame).getPosition().inMeters().getCoordinates();
+
+    const Vector3d coordinates = object2Position - object1Position;
 
     return {Length::Meters(coordinates[0]), Length::Meters(coordinates[1]), Length::Meters(coordinates[2])};
 }
