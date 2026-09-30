@@ -239,12 +239,11 @@ class TestCloseApproach:
         assert isinstance(covariance_matrix, CovarianceMatrix)
         assert covariance_matrix == object_1_covariance_matrix
 
-    def test_get_object_1_covariance_matrix_failure_no_covariance_matrix(
+    def test_get_object_1_covariance_matrix_success_no_covariance_matrix(
         self,
         close_approach: CloseApproach,
     ):
-        with pytest.raises(RuntimeError):
-            close_approach.get_object_1_covariance_matrix()
+        assert close_approach.get_object_1_covariance_matrix() is None
 
     def test_get_object_2_covariance_matrix_success(
         self,
@@ -259,12 +258,11 @@ class TestCloseApproach:
         assert isinstance(covariance_matrix, CovarianceMatrix)
         assert covariance_matrix == object_2_covariance_matrix
 
-    def test_get_object_2_covariance_matrix_failure_no_covariance_matrix(
+    def test_get_object_2_covariance_matrix_success_no_covariance_matrix(
         self,
         close_approach: CloseApproach,
     ):
-        with pytest.raises(RuntimeError):
-            close_approach.get_object_2_covariance_matrix()
+        assert close_approach.get_object_2_covariance_matrix() is None
 
     def test_scale_success(
         self,
@@ -303,6 +301,21 @@ class TestCloseApproach:
             == object_2_covariance_matrix
         )
 
+        scaled_object_2_only = close_approach_with_covariance_matrices.scale(
+            scale_factor_1=None,
+            scale_factor_2=4.0,
+        )
+
+        assert scaled_object_2_only.is_defined() is True
+        assert (
+            scaled_object_2_only.get_object_1_covariance_matrix()
+            == object_1_covariance_matrix
+        )
+        assert (
+            scaled_object_2_only.get_object_2_covariance_matrix()
+            == object_2_covariance_matrix.scale(4.0)
+        )
+
         unscaled_close_approach = close_approach_with_covariance_matrices.scale()
 
         assert unscaled_close_approach.is_defined() is True
@@ -324,7 +337,7 @@ class TestCloseApproach:
         with pytest.raises(RuntimeError):
             close_approach.scale(scale_factor_1=2.0)
 
-    def test_flip_success(
+    def test_swap_success(
         self,
         close_approach_with_covariance_matrices: CloseApproach,
         object_1_state_with_covariance_matrix: State,
@@ -332,28 +345,28 @@ class TestCloseApproach:
         object_1_covariance_matrix: CovarianceMatrix,
         object_2_covariance_matrix: CovarianceMatrix,
     ):
-        flipped_close_approach = close_approach_with_covariance_matrices.flip()
+        swapped_close_approach = close_approach_with_covariance_matrices.swap()
 
-        assert flipped_close_approach is not None
-        assert isinstance(flipped_close_approach, CloseApproach)
-        assert flipped_close_approach.is_defined() is True
+        assert swapped_close_approach is not None
+        assert isinstance(swapped_close_approach, CloseApproach)
+        assert swapped_close_approach.is_defined() is True
         assert (
-            flipped_close_approach.get_object_1_state()
+            swapped_close_approach.get_object_1_state()
             == object_2_state_with_covariance_matrix
         )
         assert (
-            flipped_close_approach.get_object_2_state()
+            swapped_close_approach.get_object_2_state()
             == object_1_state_with_covariance_matrix
         )
         assert (
-            flipped_close_approach.get_object_1_covariance_matrix()
+            swapped_close_approach.get_object_1_covariance_matrix()
             == object_2_covariance_matrix
         )
         assert (
-            flipped_close_approach.get_object_2_covariance_matrix()
+            swapped_close_approach.get_object_2_covariance_matrix()
             == object_1_covariance_matrix
         )
-        assert flipped_close_approach.flip() == close_approach_with_covariance_matrices
+        assert swapped_close_approach.swap() == close_approach_with_covariance_matrices
 
     def test_get_instant_success(
         self,

@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -121,46 +123,50 @@ class CloseApproach
 
     /// @brief Get the covariance matrix of Object 1
     ///
-    /// @details Raises an Undefined error if the state of Object 1 has no covariance matrix attached.
+    /// @details Returns std::nullopt if the state of Object 1 has no covariance matrix attached.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              CovarianceMatrix object1CovarianceMatrix = closeApproach.getObject1CovarianceMatrix() ;
+    ///              std::optional<CovarianceMatrix> object1CovarianceMatrix =
+    ///              closeApproach.getObject1CovarianceMatrix() ;
     /// @endcode
     ///
-    /// @return The covariance matrix of Object 1
-    CovarianceMatrix getObject1CovarianceMatrix() const;
+    /// @return The covariance matrix of Object 1, if any
+    std::optional<CovarianceMatrix> getObject1CovarianceMatrix() const;
 
     /// @brief Get the covariance matrix of Object 2
     ///
-    /// @details Raises an Undefined error if the state of Object 2 has no covariance matrix attached.
+    /// @details Returns std::nullopt if the state of Object 2 has no covariance matrix attached.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              CovarianceMatrix object2CovarianceMatrix = closeApproach.getObject2CovarianceMatrix() ;
+    ///              std::optional<CovarianceMatrix> object2CovarianceMatrix =
+    ///              closeApproach.getObject2CovarianceMatrix() ;
     /// @endcode
     ///
-    /// @return The covariance matrix of Object 2
-    CovarianceMatrix getObject2CovarianceMatrix() const;
+    /// @return The covariance matrix of Object 2, if any
+    std::optional<CovarianceMatrix> getObject2CovarianceMatrix() const;
 
     /// @brief Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given
     /// factors.
     ///
-    /// @details If a scale factor is undefined, the corresponding covariance matrix is not scaled. This is useful when
-    /// scaling only one covariance or when a state has no covariance matrix attached. Raises an Undefined error if a
-    /// scale factor is defined but the corresponding state has no covariance matrix attached.
+    /// @details If a scale factor is not provided, the corresponding covariance matrix is not scaled. This is useful
+    /// when scaling only one covariance or when a state has no covariance matrix attached. Raises an Undefined error if
+    /// a scale factor is provided but the corresponding state has no covariance matrix attached.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
     ///              CloseApproach scaledCloseApproach = closeApproach.scale(2.0, 4.0) ;
     ///              CloseApproach scaledObject1Only = closeApproach.scale(2.0) ;
+    ///              CloseApproach scaledObject2Only = closeApproach.scale(std::nullopt, 4.0) ;
     /// @endcode
     ///
-    /// @param aScaleFactor1 The scale factor for Object 1 covariance. Defaults to Real::Undefined()
-    /// @param aScaleFactor2 The scale factor for Object 2 covariance. Defaults to Real::Undefined()
+    /// @param aScaleFactor1 The scale factor for Object 1 covariance. Defaults to std::nullopt
+    /// @param aScaleFactor2 The scale factor for Object 2 covariance. Defaults to std::nullopt
     /// @return A new Close Approach with scaled covariance matrices
-    CloseApproach scale(const Real& aScaleFactor1 = Real::Undefined(), const Real& aScaleFactor2 = Real::Undefined())
-        const;
+    CloseApproach scale(
+        const std::optional<Real>& aScaleFactor1 = std::nullopt, const std::optional<Real>& aScaleFactor2 = std::nullopt
+    ) const;
 
     /// @brief Return a new Close Approach with Object 1 and Object 2 swapped
     ///
@@ -168,11 +174,11 @@ class CloseApproach
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              CloseApproach flippedCloseApproach = closeApproach.flip() ;
+    ///              CloseApproach swappedCloseApproach = closeApproach.swap() ;
     /// @endcode
     ///
     /// @return A new Close Approach with Object 1 and Object 2 swapped
-    CloseApproach flip() const;
+    CloseApproach swap() const;
 
     /// @brief Get the instant of the close approach
     ///
