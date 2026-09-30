@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp>
@@ -85,10 +87,20 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
         // We found an extremum "to the right" of our current covariance size. If this extremum is a
         // maximum, it means that we are in the robust region.
         const Real lowerBoundSlope = this->computeProbabilityOfCollisionSlope(
-            aCloseApproach, aCombinedHardBodyRadius, upperIntervalExtremum.lowerBound, slopeStepSize
+            aCloseApproach,
+            aCombinedHardBodyRadius,
+            upperIntervalExtremum.lowerBound,
+            slopeStepSize,
+            scaleObject1Covariance,
+            scaleObject2Covariance
         );
         const Real upperBoundSlope = this->computeProbabilityOfCollisionSlope(
-            aCloseApproach, aCombinedHardBodyRadius, upperIntervalExtremum.upperBound, slopeStepSize
+            aCloseApproach,
+            aCombinedHardBodyRadius,
+            upperIntervalExtremum.upperBound,
+            slopeStepSize,
+            scaleObject1Covariance,
+            scaleObject2Covariance
         );
 
         if ((lowerBoundSlope > 0.0) && (upperBoundSlope < 0.0))
@@ -113,10 +125,20 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
         // We found an extremum "to the left" of our current covariance size. If this extremum is a
         // maximum, it means that we are in the dilution region.
         const Real lowerBoundSlope = this->computeProbabilityOfCollisionSlope(
-            aCloseApproach, aCombinedHardBodyRadius, lowerIntervalExtremum.lowerBound, slopeStepSize
+            aCloseApproach,
+            aCombinedHardBodyRadius,
+            lowerIntervalExtremum.lowerBound,
+            slopeStepSize,
+            scaleObject1Covariance,
+            scaleObject2Covariance
         );
         const Real upperBoundSlope = this->computeProbabilityOfCollisionSlope(
-            aCloseApproach, aCombinedHardBodyRadius, lowerIntervalExtremum.upperBound, slopeStepSize
+            aCloseApproach,
+            aCombinedHardBodyRadius,
+            lowerIntervalExtremum.upperBound,
+            slopeStepSize,
+            scaleObject1Covariance,
+            scaleObject2Covariance
         );
 
         if ((lowerBoundSlope > 0.0) && (upperBoundSlope < 0.0))
@@ -140,13 +162,15 @@ RootSolver::Solution ProbabilityOfCollisionAlgorithm::findProbabilityOfCollision
     const Real& aSlopeStepSize
 ) const
 {
-    (void)scaleObject1Covariance;
-    (void)scaleObject2Covariance;
-
     const auto slopeFunction = [&](const double& aScalingFactor) -> double
     {
         return this->computeProbabilityOfCollisionSlope(
-            aCloseApproach, aCombinedHardBodyRadius, aScalingFactor, aSlopeStepSize
+            aCloseApproach,
+            aCombinedHardBodyRadius,
+            aScalingFactor,
+            aSlopeStepSize,
+            scaleObject1Covariance,
+            scaleObject2Covariance
         );
     };
 
@@ -157,14 +181,22 @@ Real ProbabilityOfCollisionAlgorithm::computeProbabilityOfCollisionSlope(
     const CloseApproach& aCloseApproach,
     const Length& aCombinedHardBodyRadius,
     const Real& aScalingFactor,
-    const Real& aSlopeStepSize
+    const Real& aSlopeStepSize,
+    const bool& scaleObject1Covariance,
+    const bool& scaleObject2Covariance
 ) const
 {
     const Real lowerScalingFactor = aScalingFactor - aSlopeStepSize;
     const Real upperScalingFactor = aScalingFactor + aSlopeStepSize;
 
-    const CloseApproach lowerScaledCloseApproach = aCloseApproach.scale(lowerScalingFactor, lowerScalingFactor);
-    const CloseApproach upperScaledCloseApproach = aCloseApproach.scale(upperScalingFactor, upperScalingFactor);
+    const CloseApproach lowerScaledCloseApproach = aCloseApproach.scale(
+        scaleObject1Covariance ? std::optional<Real>(lowerScalingFactor) : std::nullopt,
+        scaleObject2Covariance ? std::optional<Real>(lowerScalingFactor) : std::nullopt
+    );
+    const CloseApproach upperScaledCloseApproach = aCloseApproach.scale(
+        scaleObject1Covariance ? std::optional<Real>(upperScalingFactor) : std::nullopt,
+        scaleObject2Covariance ? std::optional<Real>(upperScalingFactor) : std::nullopt
+    );
 
     const Real lowerProbabilityOfCollision =
         this->computeProbabilityOfCollision(lowerScaledCloseApproach, aCombinedHardBodyRadius);

@@ -183,13 +183,17 @@ class ProbabilityOfCollisionAlgorithm
     /// @param aCombinedHardBodyRadius A combined hard-body radius
     /// @param aScalingFactor A covariance scaling factor
     /// @param aSlopeStepSize A step around the scaling factor
+    /// @param scaleObject1Covariance Whether to scale Object 1 covariance
+    /// @param scaleObject2Covariance Whether to scale Object 2 covariance
     ///
     /// @return The probability of collision slope
     Real computeProbabilityOfCollisionSlope(
         const CloseApproach& aCloseApproach,
         const Length& aCombinedHardBodyRadius,
         const Real& aScalingFactor,
-        const Real& aSlopeStepSize
+        const Real& aSlopeStepSize,
+        const bool& scaleObject1Covariance,
+        const bool& scaleObject2Covariance
     ) const;
 };
 
