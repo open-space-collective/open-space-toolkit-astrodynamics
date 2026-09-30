@@ -112,27 +112,38 @@ State CloseApproach::getObject2State() const
     return object2State_;
 }
 
-CovarianceMatrix CloseApproach::getObject1CovarianceMatrix() const
+std::optional<CovarianceMatrix> CloseApproach::getObject1CovarianceMatrix() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    if (!object1State_.hasCovarianceMatrix())
+    {
+        return std::nullopt;
     }
 
     return object1State_.accessCovarianceMatrix();
 }
 
-CovarianceMatrix CloseApproach::getObject2CovarianceMatrix() const
+std::optional<CovarianceMatrix> CloseApproach::getObject2CovarianceMatrix() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
+    if (!object2State_.hasCovarianceMatrix())
+    {
+        return std::nullopt;
+    }
+
     return object2State_.accessCovarianceMatrix();
 }
 
-CloseApproach CloseApproach::scale(const Real& aScaleFactor1, const Real& aScaleFactor2) const
+CloseApproach CloseApproach::scale(const std::optional<Real>& aScaleFactor1, const std::optional<Real>& aScaleFactor2)
+    const
 {
     if (!this->isDefined())
     {
@@ -142,20 +153,20 @@ CloseApproach CloseApproach::scale(const Real& aScaleFactor1, const Real& aScale
     State scaledObject1State = object1State_;
     State scaledObject2State = object2State_;
 
-    if (aScaleFactor1.isDefined())
+    if (aScaleFactor1.has_value())
     {
-        scaledObject1State.setCovarianceMatrix(object1State_.accessCovarianceMatrix().scale(aScaleFactor1));
+        scaledObject1State.setCovarianceMatrix(object1State_.accessCovarianceMatrix().scale(aScaleFactor1.value()));
     }
 
-    if (aScaleFactor2.isDefined())
+    if (aScaleFactor2.has_value())
     {
-        scaledObject2State.setCovarianceMatrix(object2State_.accessCovarianceMatrix().scale(aScaleFactor2));
+        scaledObject2State.setCovarianceMatrix(object2State_.accessCovarianceMatrix().scale(aScaleFactor2.value()));
     }
 
     return {scaledObject1State, scaledObject2State};
 }
 
-CloseApproach CloseApproach::flip() const
+CloseApproach CloseApproach::swap() const
 {
     if (!this->isDefined())
     {

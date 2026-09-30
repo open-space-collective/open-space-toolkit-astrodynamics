@@ -125,8 +125,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Constructor)
         const CloseApproach closeApproach(object1State, object2State);
 
         EXPECT_TRUE(closeApproach.isDefined());
-        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
-        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix().value());
         EXPECT_NEAR(
             closeApproach.getRelativeVelocity().in(Derived::Unit::MeterPerSecond()),
             std::sqrt(8.0e3 * 8.0e3 + 8.0e3 * 8.0e3),
@@ -346,7 +346,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject1Covar
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
+        const std::optional<CovarianceMatrix> covarianceMatrix = closeApproach.getObject1CovarianceMatrix();
+
+        EXPECT_TRUE(covarianceMatrix.has_value());
+        EXPECT_EQ(object1CovarianceMatrix, covarianceMatrix.value());
     }
 
     {
@@ -358,13 +361,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject1Covar
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        EXPECT_THROW(
-            try { closeApproach.getObject1CovarianceMatrix(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Covariance Matrix} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
+        EXPECT_FALSE(closeApproach.getObject1CovarianceMatrix().has_value());
+        EXPECT_EQ(std::nullopt, closeApproach.getObject1CovarianceMatrix());
     }
 
     {
@@ -397,7 +395,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject2Covar
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+        const std::optional<CovarianceMatrix> covarianceMatrix = closeApproach.getObject2CovarianceMatrix();
+
+        EXPECT_TRUE(covarianceMatrix.has_value());
+        EXPECT_EQ(object2CovarianceMatrix, covarianceMatrix.value());
     }
 
     {
@@ -409,13 +410,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject2Covar
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        EXPECT_THROW(
-            try { closeApproach.getObject2CovarianceMatrix(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Covariance Matrix} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
+        EXPECT_FALSE(closeApproach.getObject2CovarianceMatrix().has_value());
+        EXPECT_EQ(std::nullopt, closeApproach.getObject2CovarianceMatrix());
     }
 
     {
@@ -459,10 +455,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Scale)
         EXPECT_EQ(object1State.getCoordinates(), scaledCloseApproach.getObject1State().getCoordinates());
         EXPECT_EQ(object2State.getInstant(), scaledCloseApproach.getObject2State().getInstant());
         EXPECT_EQ(object2State.getCoordinates(), scaledCloseApproach.getObject2State().getCoordinates());
-        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledCloseApproach.getObject1CovarianceMatrix());
-        EXPECT_EQ(object2CovarianceMatrix.scale(4.0), scaledCloseApproach.getObject2CovarianceMatrix());
-        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix());
-        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledCloseApproach.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object2CovarianceMatrix.scale(4.0), scaledCloseApproach.getObject2CovarianceMatrix().value());
+        EXPECT_EQ(object1CovarianceMatrix, closeApproach.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object2CovarianceMatrix, closeApproach.getObject2CovarianceMatrix().value());
     }
 
     {
@@ -485,16 +481,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Scale)
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const CloseApproach scaledObject1Only = closeApproach.scale(2.0, Real::Undefined());
-        const CloseApproach scaledObject2Only = closeApproach.scale(Real::Undefined(), 4.0);
+        const CloseApproach scaledObject1Only = closeApproach.scale(2.0, std::nullopt);
+        const CloseApproach scaledObject2Only = closeApproach.scale(std::nullopt, 4.0);
         const CloseApproach unscaledCloseApproach = closeApproach.scale();
 
-        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledObject1Only.getObject1CovarianceMatrix());
-        EXPECT_EQ(object2CovarianceMatrix, scaledObject1Only.getObject2CovarianceMatrix());
-        EXPECT_EQ(object1CovarianceMatrix, scaledObject2Only.getObject1CovarianceMatrix());
-        EXPECT_EQ(object2CovarianceMatrix.scale(4.0), scaledObject2Only.getObject2CovarianceMatrix());
-        EXPECT_EQ(object1CovarianceMatrix, unscaledCloseApproach.getObject1CovarianceMatrix());
-        EXPECT_EQ(object2CovarianceMatrix, unscaledCloseApproach.getObject2CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledObject1Only.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object2CovarianceMatrix, scaledObject1Only.getObject2CovarianceMatrix().value());
+        EXPECT_EQ(object1CovarianceMatrix, scaledObject2Only.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object2CovarianceMatrix.scale(4.0), scaledObject2Only.getObject2CovarianceMatrix().value());
+        EXPECT_EQ(object1CovarianceMatrix, unscaledCloseApproach.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object2CovarianceMatrix, unscaledCloseApproach.getObject2CovarianceMatrix().value());
         EXPECT_EQ(closeApproach, unscaledCloseApproach);
     }
 
@@ -516,8 +512,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Scale)
         // Scaling only the object with a covariance matrix attached works
         const CloseApproach scaledObject1Only = closeApproach.scale(2.0);
 
-        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledObject1Only.getObject1CovarianceMatrix());
+        EXPECT_EQ(object1CovarianceMatrix.scale(2.0), scaledObject1Only.getObject1CovarianceMatrix().value());
         EXPECT_FALSE(scaledObject1Only.getObject2State().hasCovarianceMatrix());
+        EXPECT_FALSE(scaledObject1Only.getObject2CovarianceMatrix().has_value());
 
         // Scaling an object without a covariance matrix attached throws
         EXPECT_THROW(
@@ -558,7 +555,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Scale)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Flip)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Swap)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
@@ -580,18 +577,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Flip)
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const CloseApproach flippedCloseApproach = closeApproach.flip();
+        const CloseApproach swappedCloseApproach = closeApproach.swap();
 
-        EXPECT_TRUE(flippedCloseApproach.isDefined());
-        EXPECT_EQ(object2State, flippedCloseApproach.getObject1State());
-        EXPECT_EQ(object1State, flippedCloseApproach.getObject2State());
-        EXPECT_EQ(object2CovarianceMatrix, flippedCloseApproach.getObject1CovarianceMatrix());
-        EXPECT_EQ(object1CovarianceMatrix, flippedCloseApproach.getObject2CovarianceMatrix());
-        EXPECT_EQ(closeApproach.getInstant(), flippedCloseApproach.getInstant());
-        EXPECT_EQ(closeApproach.getMissDistance(), flippedCloseApproach.getMissDistance());
+        EXPECT_TRUE(swappedCloseApproach.isDefined());
+        EXPECT_EQ(object2State, swappedCloseApproach.getObject1State());
+        EXPECT_EQ(object1State, swappedCloseApproach.getObject2State());
+        EXPECT_EQ(object2CovarianceMatrix, swappedCloseApproach.getObject1CovarianceMatrix().value());
+        EXPECT_EQ(object1CovarianceMatrix, swappedCloseApproach.getObject2CovarianceMatrix().value());
+        EXPECT_EQ(closeApproach.getInstant(), swappedCloseApproach.getInstant());
+        EXPECT_EQ(closeApproach.getMissDistance(), swappedCloseApproach.getMissDistance());
         EXPECT_EQ(object1State, closeApproach.getObject1State());
         EXPECT_EQ(object2State, closeApproach.getObject2State());
-        EXPECT_EQ(closeApproach, flippedCloseApproach.flip());
+        EXPECT_EQ(closeApproach, swappedCloseApproach.swap());
     }
 
     {
@@ -603,19 +600,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Flip)
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const CloseApproach flippedCloseApproach = closeApproach.flip();
+        const CloseApproach swappedCloseApproach = closeApproach.swap();
 
-        EXPECT_EQ(object2State, flippedCloseApproach.getObject1State());
-        EXPECT_EQ(object1State, flippedCloseApproach.getObject2State());
-        EXPECT_FALSE(flippedCloseApproach.getObject1State().hasCovarianceMatrix());
-        EXPECT_FALSE(flippedCloseApproach.getObject2State().hasCovarianceMatrix());
+        EXPECT_EQ(object2State, swappedCloseApproach.getObject1State());
+        EXPECT_EQ(object1State, swappedCloseApproach.getObject2State());
+        EXPECT_FALSE(swappedCloseApproach.getObject1State().hasCovarianceMatrix());
+        EXPECT_FALSE(swappedCloseApproach.getObject2State().hasCovarianceMatrix());
+        EXPECT_FALSE(swappedCloseApproach.getObject1CovarianceMatrix().has_value());
+        EXPECT_FALSE(swappedCloseApproach.getObject2CovarianceMatrix().has_value());
     }
 
     {
         const CloseApproach closeApproach = CloseApproach::Undefined();
 
         EXPECT_THROW(
-            try { closeApproach.flip(); } catch (const ostk::core::error::runtime::Undefined& e) {
+            try { closeApproach.swap(); } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },

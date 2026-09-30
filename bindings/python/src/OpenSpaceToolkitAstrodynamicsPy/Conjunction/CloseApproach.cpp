@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/stl.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach/Generator.cpp>
@@ -9,7 +11,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
     using namespace pybind11;
 
     using ostk::core::container::Tuple;
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
@@ -115,10 +116,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                 Get the covariance matrix of Object 1.
 
                 Returns:
-                    CovarianceMatrix: The covariance matrix of Object 1.
-
-                Raises:
-                    RuntimeError: If the state of Object 1 has no covariance matrix attached.
+                    CovarianceMatrix | None: The covariance matrix of Object 1, or None if the state of Object 1 has no covariance matrix attached.
             )doc"
         )
 
@@ -129,10 +127,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                 Get the covariance matrix of Object 2.
 
                 Returns:
-                    CovarianceMatrix: The covariance matrix of Object 2.
-
-                Raises:
-                    RuntimeError: If the state of Object 2 has no covariance matrix attached.
+                    CovarianceMatrix | None: The covariance matrix of Object 2, or None if the state of Object 2 has no covariance matrix attached.
             )doc"
         )
 
@@ -142,23 +137,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             R"doc(
                 Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given factors.
 
-                If a scale factor is undefined, the corresponding covariance matrix is not scaled. This is useful when
+                If a scale factor is None, the corresponding covariance matrix is not scaled. This is useful when
                 scaling only one covariance or when a state has no covariance matrix attached.
 
                 Args:
-                    scale_factor_1 (float, optional): The scale factor for Object 1 covariance. Defaults to Real.undefined().
-                    scale_factor_2 (float, optional): The scale factor for Object 2 covariance. Defaults to Real.undefined().
+                    scale_factor_1 (float | None, optional): The scale factor for Object 1 covariance. Defaults to None.
+                    scale_factor_2 (float | None, optional): The scale factor for Object 2 covariance. Defaults to None.
 
                 Returns:
                     CloseApproach: A new Close Approach with scaled covariance matrices.
+
+                Raises:
+                    RuntimeError: If a scale factor is provided but the corresponding state has no covariance matrix attached.
             )doc",
-            arg_v("scale_factor_1", Real::Undefined(), "Real.undefined()"),
-            arg_v("scale_factor_2", Real::Undefined(), "Real.undefined()")
+            arg("scale_factor_1") = none(),
+            arg("scale_factor_2") = none()
         )
 
         .def(
-            "flip",
-            &CloseApproach::flip,
+            "swap",
+            &CloseApproach::swap,
             R"doc(
                 Return a new Close Approach with Object 1 and Object 2 swapped.
 
