@@ -9,9 +9,8 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
-using ostk::physics::unit::Length;
-
 using ostk::astrodynamics::conjunction::CloseApproach;
+using ostk::astrodynamics::conjunction::HardBody;
 using ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm;
 using ostk::astrodynamics::RootSolver;
 
@@ -49,8 +48,11 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
         );
     }
 
-    Real computeProbabilityOfCollision(const CloseApproach& aCloseApproach, const Length& aCombinedHardBodyRadius)
-        const override
+    Real computeProbabilityOfCollision(
+        const CloseApproach& aCloseApproach,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr
+    ) const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
             Real,
@@ -58,7 +60,8 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
             "compute_probability_of_collision",
             computeProbabilityOfCollision,
             aCloseApproach,
-            aCombinedHardBodyRadius
+            aHardBody1SPtr,
+            aHardBody2SPtr
         );
     }
 };
@@ -145,7 +148,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
                 unsatisfied_assumptions = algorithm.identify_unsatisfied_assumptions(close_approach)
                 if not unsatisfied_assumptions:
-                    algorithm.compute_probability_of_collision(close_approach, combined_hard_body_radius)
+                    algorithm.compute_probability_of_collision(close_approach, hard_body_1, hard_body_2)
 
                 Args:
                     close_approach (CloseApproach): A close approach.
@@ -164,13 +167,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
                 Args:
                     close_approach (CloseApproach): A close approach.
-                    combined_hard_body_radius (Length): A combined hard-body radius.
+                    hard_body_1 (HardBody): The hard body of Object 1.
+                    hard_body_2 (HardBody): The hard body of Object 2.
 
                 Returns:
                     float: The probability of collision.
             )doc",
             arg("close_approach"),
-            arg("combined_hard_body_radius")
+            arg("hard_body_1"),
+            arg("hard_body_2")
         )
 
         .def(
@@ -183,7 +188,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                 whether the algorithm is applicable, but do not necessarily care about the reasons why.
 
                 if algorithm.is_applicable(close_approach):
-                    algorithm.compute_probability_of_collision(close_approach, combined_hard_body_radius)
+                    algorithm.compute_probability_of_collision(close_approach, hard_body_1, hard_body_2)
 
                 Args:
                     close_approach (CloseApproach): A close approach.
@@ -217,7 +222,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
                 Args:
                     close_approach (CloseApproach): A close approach.
-                    combined_hard_body_radius (Length): A combined hard-body radius.
+                    hard_body_1 (HardBody): The hard body of Object 1.
+                    hard_body_2 (HardBody): The hard body of Object 2.
                     scaling_factor_lower_bound (float, optional): A lower bound for the covariance scaling factor. Defaults to 0.1 (i.e. as low as 0.1x the original covariance).
                     scaling_factor_upper_bound (float, optional): An upper bound for the covariance scaling factor. Defaults to 10.0 (i.e. as high as 10x the original covariance).
                     root_solver (RootSolver, optional): A root solver. Defaults to a Root Solver with 100 iterations and a tolerance of 0.1.
@@ -228,7 +234,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                     ProbabilityRegion: The probability region of the close approach.
             )doc",
             arg("close_approach"),
-            arg("combined_hard_body_radius"),
+            arg("hard_body_1"),
+            arg("hard_body_2"),
             arg_v("scaling_factor_lower_bound", Real(0.1), "0.1"),
             arg_v("scaling_factor_upper_bound", Real(10.0), "10.0"),
             arg_v("root_solver", RootSolver(100, 0.1), "RootSolver(100, 0.1)"),

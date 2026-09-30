@@ -5,11 +5,11 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 namespace ostk
@@ -21,9 +21,8 @@ namespace conjunction
 
 using ostk::core::container::Array;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::String;
-
-using ostk::physics::unit::Length;
 
 using ostk::astrodynamics::RootSolver;
 
@@ -74,7 +73,7 @@ class ProbabilityOfCollisionAlgorithm
     ///     Array<String> unsatisfiedAssumptions = algorithm.identifyUnsatisfiedAssumptions(closeApproach);
     ///     if (unsatisfiedAssumptions.isEmpty())
     ///     {
-    ///         algorithm.computeProbabilityOfCollision(closeApproach, combinedHardBodyRadius);
+    ///         algorithm.computeProbabilityOfCollision(closeApproach, hardBody1SPtr, hardBody2SPtr);
     ///     }
     /// @endcode
     ///
@@ -85,11 +84,14 @@ class ProbabilityOfCollisionAlgorithm
     /// @brief Compute the probability of collision
     ///
     /// @param aCloseApproach A close approach
-    /// @param aCombinedHardBodyRadius A combined hard-body radius
+    /// @param aHardBody1SPtr The hard body of Object 1
+    /// @param aHardBody2SPtr The hard body of Object 2
     ///
     /// @return The probability of collision
     virtual Real computeProbabilityOfCollision(
-        const CloseApproach& aCloseApproach, const Length& aCombinedHardBodyRadius
+        const CloseApproach& aCloseApproach,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr
     ) const = 0;
 
     /// @brief Check if the algorithm is applicable to a close approach
@@ -100,7 +102,7 @@ class ProbabilityOfCollisionAlgorithm
     /// @code{.cpp}
     ///     if (algorithm.isApplicable(closeApproach))
     ///     {
-    ///         algorithm.computeProbabilityOfCollision(closeApproach, combinedHardBodyRadius);
+    ///         algorithm.computeProbabilityOfCollision(closeApproach, hardBody1SPtr, hardBody2SPtr);
     ///     }
     /// @endcode
     ///
@@ -126,7 +128,8 @@ class ProbabilityOfCollisionAlgorithm
     /// - The algorithm is not applicable to the close approach
     ///
     /// @param aCloseApproach A close approach
-    /// @param aCombinedHardBodyRadius A combined hard-body radius
+    /// @param aHardBody1SPtr The hard body of Object 1
+    /// @param aHardBody2SPtr The hard body of Object 2
     /// @param aScalingFactorLowerBound A lower bound for the covariance scaling factor. Defaults to 0.1 (i.e. as low as
     /// 0.1x the original covariance)
     /// @param aScalingFactorUpperBound An upper bound for the covariance scaling factor. Defaults to 10.0 (i.e. as high
@@ -138,7 +141,8 @@ class ProbabilityOfCollisionAlgorithm
     /// @return The probability region of the close approach
     ProbabilityRegion computeProbabilityRegion(
         const CloseApproach& aCloseApproach,
-        const Length& aCombinedHardBodyRadius,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr,
         const Real& aScalingFactorLowerBound = 0.1,
         const Real& aScalingFactorUpperBound = 10.0,
         const RootSolver& aRootSolver = RootSolver(100, 0.1),
@@ -154,7 +158,8 @@ class ProbabilityOfCollisionAlgorithm
     /// `computeProbabilityOfCollisionSlope(k, aSlopeStepSize)`.
     ///
     /// @param aCloseApproach A close approach
-    /// @param aCombinedHardBodyRadius A combined hard-body radius
+    /// @param aHardBody1SPtr The hard body of Object 1
+    /// @param aHardBody2SPtr The hard body of Object 2
     /// @param aScalingFactorLowerBound A lower bound for the covariance scaling factor
     /// @param aScalingFactorUpperBound An upper bound for the covariance scaling factor
     /// @param aRootSolver A root solver
@@ -165,7 +170,8 @@ class ProbabilityOfCollisionAlgorithm
     /// @return The root solver solution
     RootSolver::Solution findProbabilityOfCollisionExtremum(
         const CloseApproach& aCloseApproach,
-        const Length& aCombinedHardBodyRadius,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr,
         const Real& aScalingFactorLowerBound,
         const Real& aScalingFactorUpperBound,
         const RootSolver& aRootSolver,
@@ -180,7 +186,8 @@ class ProbabilityOfCollisionAlgorithm
     /// `(Pc(scalingFactor + step) - Pc(scalingFactor - step)) / (2 * step)`.
     ///
     /// @param aCloseApproach A close approach
-    /// @param aCombinedHardBodyRadius A combined hard-body radius
+    /// @param aHardBody1SPtr The hard body of Object 1
+    /// @param aHardBody2SPtr The hard body of Object 2
     /// @param aScalingFactor A covariance scaling factor
     /// @param aSlopeStepSize A step around the scaling factor
     /// @param scaleObject1Covariance Whether to scale Object 1 covariance
@@ -189,7 +196,8 @@ class ProbabilityOfCollisionAlgorithm
     /// @return The probability of collision slope
     Real computeProbabilityOfCollisionSlope(
         const CloseApproach& aCloseApproach,
-        const Length& aCombinedHardBodyRadius,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr,
         const Real& aScalingFactor,
         const Real& aSlopeStepSize,
         const bool& scaleObject1Covariance,

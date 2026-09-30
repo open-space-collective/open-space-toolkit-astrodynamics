@@ -20,7 +20,8 @@ bool ProbabilityOfCollisionAlgorithm::isApplicable(const CloseApproach& aCloseAp
 
 ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorithm::computeProbabilityRegion(
     const CloseApproach& aCloseApproach,
-    const Length& aCombinedHardBodyRadius,
+    const Shared<const HardBody>& aHardBody1SPtr,
+    const Shared<const HardBody>& aHardBody2SPtr,
     const Real& aScalingFactorLowerBound,
     const Real& aScalingFactorUpperBound,
     const RootSolver& aRootSolver,
@@ -73,7 +74,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
 
     const RootSolver::Solution upperIntervalExtremum = this->findProbabilityOfCollisionExtremum(
         aCloseApproach,
-        aCombinedHardBodyRadius,
+        aHardBody1SPtr,
+        aHardBody2SPtr,
         1.0,
         aScalingFactorUpperBound,
         aRootSolver,
@@ -88,7 +90,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
         // maximum, it means that we are in the robust region.
         const Real lowerBoundSlope = this->computeProbabilityOfCollisionSlope(
             aCloseApproach,
-            aCombinedHardBodyRadius,
+            aHardBody1SPtr,
+            aHardBody2SPtr,
             upperIntervalExtremum.lowerBound,
             slopeStepSize,
             scaleObject1Covariance,
@@ -96,7 +99,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
         );
         const Real upperBoundSlope = this->computeProbabilityOfCollisionSlope(
             aCloseApproach,
-            aCombinedHardBodyRadius,
+            aHardBody1SPtr,
+            aHardBody2SPtr,
             upperIntervalExtremum.upperBound,
             slopeStepSize,
             scaleObject1Covariance,
@@ -111,7 +115,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
 
     const RootSolver::Solution lowerIntervalExtremum = this->findProbabilityOfCollisionExtremum(
         aCloseApproach,
-        aCombinedHardBodyRadius,
+        aHardBody1SPtr,
+        aHardBody2SPtr,
         aScalingFactorLowerBound,
         1.0,
         aRootSolver,
@@ -126,7 +131,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
         // maximum, it means that we are in the dilution region.
         const Real lowerBoundSlope = this->computeProbabilityOfCollisionSlope(
             aCloseApproach,
-            aCombinedHardBodyRadius,
+            aHardBody1SPtr,
+            aHardBody2SPtr,
             lowerIntervalExtremum.lowerBound,
             slopeStepSize,
             scaleObject1Covariance,
@@ -134,7 +140,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
         );
         const Real upperBoundSlope = this->computeProbabilityOfCollisionSlope(
             aCloseApproach,
-            aCombinedHardBodyRadius,
+            aHardBody1SPtr,
+            aHardBody2SPtr,
             lowerIntervalExtremum.upperBound,
             slopeStepSize,
             scaleObject1Covariance,
@@ -153,7 +160,8 @@ ProbabilityOfCollisionAlgorithm::ProbabilityRegion ProbabilityOfCollisionAlgorit
 
 RootSolver::Solution ProbabilityOfCollisionAlgorithm::findProbabilityOfCollisionExtremum(
     const CloseApproach& aCloseApproach,
-    const Length& aCombinedHardBodyRadius,
+    const Shared<const HardBody>& aHardBody1SPtr,
+    const Shared<const HardBody>& aHardBody2SPtr,
     const Real& aScalingFactorLowerBound,
     const Real& aScalingFactorUpperBound,
     const RootSolver& aRootSolver,
@@ -166,7 +174,8 @@ RootSolver::Solution ProbabilityOfCollisionAlgorithm::findProbabilityOfCollision
     {
         return this->computeProbabilityOfCollisionSlope(
             aCloseApproach,
-            aCombinedHardBodyRadius,
+            aHardBody1SPtr,
+            aHardBody2SPtr,
             aScalingFactor,
             aSlopeStepSize,
             scaleObject1Covariance,
@@ -179,7 +188,8 @@ RootSolver::Solution ProbabilityOfCollisionAlgorithm::findProbabilityOfCollision
 
 Real ProbabilityOfCollisionAlgorithm::computeProbabilityOfCollisionSlope(
     const CloseApproach& aCloseApproach,
-    const Length& aCombinedHardBodyRadius,
+    const Shared<const HardBody>& aHardBody1SPtr,
+    const Shared<const HardBody>& aHardBody2SPtr,
     const Real& aScalingFactor,
     const Real& aSlopeStepSize,
     const bool& scaleObject1Covariance,
@@ -199,9 +209,9 @@ Real ProbabilityOfCollisionAlgorithm::computeProbabilityOfCollisionSlope(
     );
 
     const Real lowerProbabilityOfCollision =
-        this->computeProbabilityOfCollision(lowerScaledCloseApproach, aCombinedHardBodyRadius);
+        this->computeProbabilityOfCollision(lowerScaledCloseApproach, aHardBody1SPtr, aHardBody2SPtr);
     const Real upperProbabilityOfCollision =
-        this->computeProbabilityOfCollision(upperScaledCloseApproach, aCombinedHardBodyRadius);
+        this->computeProbabilityOfCollision(upperScaledCloseApproach, aHardBody1SPtr, aHardBody2SPtr);
 
     return (upperProbabilityOfCollision - lowerProbabilityOfCollision) / (2.0 * aSlopeStepSize);
 }
