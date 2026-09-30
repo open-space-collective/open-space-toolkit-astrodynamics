@@ -44,6 +44,101 @@ namespace astrodynamics
 namespace access
 {
 
+namespace
+{
+
+/// Iteration ceiling for a crossing solve. Newton converges in about five iterations and bisection within a 60 s step
+/// to 1 us needs 26; this only guards against a pathological bracket.
+constexpr Size crossingMaximumIterationCount = 100;
+
+/// A margin to a visibility bound together with its rate of change: positive while the bound is satisfied, negative
+/// while it is not.
+using MarginAndRate = std::pair<double, double>;
+
+/// The smaller of two margins, with its rate. A combination of bounds holds exactly while its smallest margin is
+/// positive, so the combined margin changes sign wherever the combination starts or stops holding.
+MarginAndRate SmallerMargin(const MarginAndRate& aMargin, const MarginAndRate& anotherMargin)
+{
+    return aMargin.first <= anotherMargin.first ? aMargin : anotherMargin;
+}
+
+/// Signed angular distance from an azimuth to the nearer bound of [aLowerBound_rad, anUpperBound_rad], with its rate.
+/// Positive inside the interval. Outside it, the distance is measured around the outside arc, so that the margin stays
+/// continuous where the azimuth wraps through north.
+MarginAndRate ComputeAzimuthMargin(
+    const double& anAzimuth_rad,
+    const double& anAzimuthRate_radps,
+    const double& aLowerBound_rad,
+    const double& anUpperBound_rad
+)
+{
+    if ((anAzimuth_rad >= aLowerBound_rad) && (anAzimuth_rad <= anUpperBound_rad))
+    {
+        return SmallerMargin(
+            {anAzimuth_rad - aLowerBound_rad, anAzimuthRate_radps},
+            {anUpperBound_rad - anAzimuth_rad, -anAzimuthRate_radps}
+        );
+    }
+
+    const double pastUpperBound_rad = std::fmod(anAzimuth_rad - anUpperBound_rad + 2.0 * M_PI, 2.0 * M_PI);
+    const double shortOfLowerBound_rad = std::fmod(aLowerBound_rad - anAzimuth_rad + 2.0 * M_PI, 2.0 * M_PI);
+
+    return SmallerMargin({-pastUpperBound_rad, -anAzimuthRate_radps}, {-shortOfLowerBound_rad, anAzimuthRate_radps});
+}
+
+/// Find where a residual changes sign between two bounds, given the sign it has at the lower bound.
+///
+/// Safeguarded Newton: every evaluation tightens the bracket around the sign change, and a step that would leave the
+/// bracket (including one from a zero or non-finite rate) is replaced by a bisection. Where the residual is smooth
+/// this converges quadratically; where it is not (a kink, a residual that is not monotonic across the bracket, or a
+/// rate of zero because none is known) it is never worse than bisection. Newton iterations that infer the bracket
+/// from their own steps, such as Boost's newton_raphson_iterate, can walk out of a non-monotonic bracket instead.
+double SolveCrossing(
+    const std::function<MarginAndRate(const double&)>& aResidualAndRate,
+    const double& aLowerBound,
+    const double& anUpperBound,
+    const bool& isPositiveAtLowerBound,
+    const double& aTolerance,
+    const Size& aMaximumIterationCount
+)
+{
+    double lowerBound = aLowerBound;
+    double upperBound = anUpperBound;
+    double x = lowerBound + (upperBound - lowerBound) / 2.0;
+
+    for (Size i = 0; i < aMaximumIterationCount; ++i)
+    {
+        const auto [residual, rate] = aResidualAndRate(x);
+
+        if (residual == 0.0)
+        {
+            return x;
+        }
+
+        ((residual > 0.0) == isPositiveAtLowerBound ? lowerBound : upperBound) = x;
+
+        double next = x - residual / rate;
+
+        if (!((next > lowerBound) && (next < upperBound)))
+        {
+            next = lowerBound + (upperBound - lowerBound) / 2.0;
+        }
+
+        const double step = std::abs(next - x);
+
+        x = next;
+
+        if ((step <= aTolerance) || ((upperBound - lowerBound) <= aTolerance))
+        {
+            break;
+        }
+    }
+
+    return x;
+}
+
+}  // namespace
+
 const AccessTarget::Type& AccessTarget::accessType() const
 {
     return type_;
@@ -792,33 +887,74 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
     const Shared<const Celestial>& aCelestialSPtr
 ) const
 {
-    const RootSolver rootSolver = RootSolver(100, this->tolerance_.inSeconds());
-
     const Matrix3d SEZRotation = anAccessTarget.computeR_SEZ_ECEF(aCelestialSPtr);
 
-    // A signed residual: strictly positive while the criterion is satisfied, negative while it is not, so that a
-    // crossing is a sign change.
-    std::function<double(const Instant&)> condition;
+    // A signed residual and its rate of change: strictly positive while the criterion is satisfied, negative while it
+    // is not, so that a crossing is a sign change. Where the criterion is a set of bounds on smooth quantities, the
+    // residual is the margin to the nearest bound and its rate follows analytically from the relative position and
+    // velocity, which lets SolveCrossing take Newton steps. Where no rate is known it is zero, and SolveCrossing
+    // bisects.
+    std::function<MarginAndRate(const Instant&)> residualAndRate;
 
-    const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, &aCelestialSPtr](
-                                const Instant& instant
-                            ) -> Triple<Real, Real, Real>
+    // The observer's position and velocity relative to the target, in the celestial frame, where the target is fixed.
+    const auto computeRelativeState = [&fromPositionCoordinate_ITRF,
+                                       &aToTrajectory,
+                                       &aCelestialSPtr](const Instant& instant) -> std::pair<Vector3d, Vector3d>
     {
-        const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
-                                                        .getPosition()
-                                                        .inFrame(aCelestialSPtr->accessFrame(), instant)
-                                                        .getCoordinates();
+        const State toState = aToTrajectory.getStateAt(instant).inFrame(aCelestialSPtr->accessFrame());
 
-        const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
+        return {
+            toState.getPosition().accessCoordinates() - fromPositionCoordinate_ITRF,
+            toState.getVelocity().accessCoordinates(),
+        };
+    };
+
+    struct AERAndRates
+    {
+        double azimuth_rad;
+        double elevation_rad;
+        double range_m;
+        double azimuthRate_radps;
+        double elevationRate_radps;
+        double rangeRate_mps;
+    };
+
+    const auto computeAERAndRates = [&computeRelativeState, &SEZRotation](const Instant& instant) -> AERAndRates
+    {
+        const auto [dx, dv] = computeRelativeState(instant);
 
         const Vector3d dx_SEZ = SEZRotation * dx;
+        const Vector3d dv_SEZ = SEZRotation * dv;
 
+        // ⍴ = |r|, so d⍴/dt = r·v / ⍴
         const double range_m = dx_SEZ.norm();
+        const double rangeRate_mps = dx_SEZ.dot(dv_SEZ) / range_m;
+
+        // el = asin(z / ⍴), so d(el)/dt = (dz/dt - z·(d⍴/dt) / ⍴) / (⍴·cos(el))
         const double elevation_rad = std::asin(dx_SEZ(2) / range_m);
+        const double elevationRate_radps =
+            (dv_SEZ(2) - dx_SEZ(2) * rangeRate_mps / range_m) / (range_m * std::cos(elevation_rad));
+
+        // az = atan2(e, -s), so d(az)/dt = (e·ds/dt - s·de/dt) / (s² + e²)
         double azimuth_rad = std::atan2(dx_SEZ(1), -dx_SEZ(0));
         azimuth_rad = azimuth_rad < 0.0 ? azimuth_rad + 2.0 * M_PI : azimuth_rad;
+        const double azimuthRate_radps =
+            (dx_SEZ(1) * dv_SEZ(0) - dx_SEZ(0) * dv_SEZ(1)) / (dx_SEZ(0) * dx_SEZ(0) + dx_SEZ(1) * dx_SEZ(1));
 
-        return {azimuth_rad, elevation_rad, range_m};
+        return {azimuth_rad, elevation_rad, range_m, azimuthRate_radps, elevationRate_radps, rangeRate_mps};
+    };
+
+    // Range margins are converted from meters at 1 mrad per km, to be commensurate with the angular ones. The scale
+    // only shapes the combined residual away from a crossing: it cannot change its sign.
+    static constexpr double rangeMarginScale_radpm = 1.0e-6;
+
+    const auto computeRangeMargin =
+        [](const AERAndRates& anAER, const double& aLowerBound_m, const double& anUpperBound_m) -> MarginAndRate
+    {
+        return SmallerMargin(
+            {(anAER.range_m - aLowerBound_m) * rangeMarginScale_radpm, anAER.rangeRate_mps * rangeMarginScale_radpm},
+            {(anUpperBound_m - anAER.range_m) * rangeMarginScale_radpm, -anAER.rangeRate_mps * rangeMarginScale_radpm}
+        );
     };
 
     if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::AERInterval>())
@@ -826,11 +962,47 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::AERInterval visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
 
-        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
-        {
-            const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
+        const double azimuthLowerBound_rad = visibilityCriterion.azimuth.accessLowerBound();
+        const double azimuthUpperBound_rad = visibilityCriterion.azimuth.accessUpperBound();
+        const double elevationLowerBound_rad = visibilityCriterion.elevation.accessLowerBound();
+        const double elevationUpperBound_rad = visibilityCriterion.elevation.accessUpperBound();
+        const double rangeLowerBound_m = visibilityCriterion.range.accessLowerBound();
+        const double rangeUpperBound_m = visibilityCriterion.range.accessUpperBound();
 
-            return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m) ? +1.0 : -1.0;
+        // An azimuth interval spanning the full circle never binds. Leaving it out keeps its margin, which would touch
+        // zero at north without changing sign, out of the residual.
+        const bool azimuthBinds = (azimuthLowerBound_rad > 0.0) || (azimuthUpperBound_rad < 2.0 * M_PI);
+
+        residualAndRate = [&computeAERAndRates,
+                           &computeRangeMargin,
+                           azimuthBinds,
+                           azimuthLowerBound_rad,
+                           azimuthUpperBound_rad,
+                           elevationLowerBound_rad,
+                           elevationUpperBound_rad,
+                           rangeLowerBound_m,
+                           rangeUpperBound_m](const Instant& instant) -> MarginAndRate
+        {
+            const AERAndRates aer = computeAERAndRates(instant);
+
+            MarginAndRate margin = SmallerMargin(
+                {aer.elevation_rad - elevationLowerBound_rad, aer.elevationRate_radps},
+                {elevationUpperBound_rad - aer.elevation_rad, -aer.elevationRate_radps}
+            );
+
+            margin = SmallerMargin(margin, computeRangeMargin(aer, rangeLowerBound_m, rangeUpperBound_m));
+
+            if (azimuthBinds)
+            {
+                margin = SmallerMargin(
+                    margin,
+                    ComputeAzimuthMargin(
+                        aer.azimuth_rad, aer.azimuthRate_radps, azimuthLowerBound_rad, azimuthUpperBound_rad
+                    )
+                );
+            }
+
+            return margin;
         };
     }
     else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::AERMask>())
@@ -838,11 +1010,41 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::AERMask visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
 
-        condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
-        {
-            const auto [azimuth_rad, elevation_rad, range_m] = computeAER(instant);
+        // The mask's (azimuth, elevation) points in radians, sorted by azimuth and spanning [0, 2π].
+        const std::vector<std::pair<double, double>> maskPoints(
+            visibilityCriterion.azimuthElevationMask.begin(), visibilityCriterion.azimuthElevationMask.end()
+        );
+        const double rangeLowerBound_m = visibilityCriterion.range.accessLowerBound();
+        const double rangeUpperBound_m = visibilityCriterion.range.accessUpperBound();
 
-            return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m) ? +1.0 : -1.0;
+        residualAndRate = [&computeAERAndRates, &computeRangeMargin, maskPoints, rangeLowerBound_m, rangeUpperBound_m](
+                              const Instant& instant
+                          ) -> MarginAndRate
+        {
+            const AERAndRates aer = computeAERAndRates(instant);
+
+            // The mask is linear in azimuth between consecutive points, as AERMask::isSatisfied interpolates it, so
+            // the elevation above it is el - (el₀ + slope·(az - az₀)), changing at d(el)/dt - slope·d(az)/dt.
+            auto upperPointIt = std::upper_bound(
+                maskPoints.begin(),
+                maskPoints.end(),
+                aer.azimuth_rad,
+                [](const double& anAzimuth_rad, const std::pair<double, double>& aPoint)
+                {
+                    return anAzimuth_rad < aPoint.first;
+                }
+            );
+            upperPointIt = upperPointIt == maskPoints.end() ? std::prev(upperPointIt) : upperPointIt;
+            const auto lowerPointIt = std::prev(upperPointIt);
+
+            const double slope =
+                (upperPointIt->second - lowerPointIt->second) / (upperPointIt->first - lowerPointIt->first);
+            const double maskElevation_rad = lowerPointIt->second + slope * (aer.azimuth_rad - lowerPointIt->first);
+
+            return SmallerMargin(
+                {aer.elevation_rad - maskElevation_rad, aer.elevationRate_radps - slope * aer.azimuthRate_radps},
+                computeRangeMargin(aer, rangeLowerBound_m, rangeUpperBound_m)
+            );
         };
     }
     else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::LineOfSight>())
@@ -850,18 +1052,22 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const VisibilityCriterion::LineOfSight visibilityCriterion =
             anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
 
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
-                        const Instant& instant
-                    ) -> double
+        // An intersection test with no natural margin: the residual is the criterion itself, as +/-1, with no rate.
+        residualAndRate = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
+                              const Instant& instant
+                          ) -> MarginAndRate
         {
             const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
                                                             .getPosition()
                                                             .inFrame(aCelestialSPtr->accessFrame(), instant)
                                                             .getCoordinates();
 
-            return visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF)
-                     ? +1.0
-                     : -1.0;
+            return {
+                visibilityCriterion.isSatisfied(instant, fromPositionCoordinate_ITRF, toPositionCoordinates_ITRF)
+                    ? +1.0
+                    : -1.0,
+                0.0,
+            };
         };
     }
     else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::ElevationInterval>())
@@ -872,24 +1078,28 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         const double lowerBound_rad = visibilityCriterion.elevation.accessLowerBound();
         const double upperBound_rad = visibilityCriterion.elevation.accessUpperBound();
 
-        // Distance to whichever elevation bound is nearer, in radians. Positive between the bounds, negative
-        // outside them, and zero exactly on a crossing - so the solver can leverage a continuous function.
-        // For example, if f(t₁) = −0.02 rad and f(t₂) = +0.06 rad, the root is probably about a quarter
-        // of the way in, not halfway.
-        condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, lowerBound_rad, upperBound_rad](
-                        const Instant& instant
-                    ) -> double
+        const Vector3d fromPositionDirection_ITRF = fromPositionCoordinate_ITRF.normalized();
+
+        // Distance to whichever elevation bound is nearer, in radians, above the geocentric horizon.
+        residualAndRate = [&computeRelativeState, fromPositionDirection_ITRF, lowerBound_rad, upperBound_rad](
+                              const Instant& instant
+                          ) -> MarginAndRate
         {
-            const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
-                                                            .getPosition()
-                                                            .inFrame(aCelestialSPtr->accessFrame(), instant)
-                                                            .getCoordinates();
+            const auto [dx, dv] = computeRelativeState(instant);
 
-            const Vector3d dx = toPositionCoordinates_ITRF - fromPositionCoordinate_ITRF;
+            // sin(el) = r·u / ⍴, so d(sin(el))/dt = v·u / ⍴ - sin(el)·(r·v) / ⍴², and d(el)/dt = that / cos(el)
+            const double range_m = dx.norm();
+            const double sinElevation = dx.dot(fromPositionDirection_ITRF) / range_m;
+            const double sinElevationRate_ps =
+                dv.dot(fromPositionDirection_ITRF) / range_m - sinElevation * dx.dot(dv) / (range_m * range_m);
 
-            const double elevation_rad = std::asin(dx.dot(fromPositionCoordinate_ITRF.normalized()) / dx.norm());
+            const double elevation_rad = std::asin(sinElevation);
+            const double elevationRate_radps = sinElevationRate_ps / std::sqrt(1.0 - sinElevation * sinElevation);
 
-            return std::min(elevation_rad - lowerBound_rad, upperBound_rad - elevation_rad);
+            return SmallerMargin(
+                {elevation_rad - lowerBound_rad, elevationRate_radps},
+                {upperBound_rad - elevation_rad, -elevationRate_radps}
+            );
         };
     }
     else
@@ -932,18 +1142,22 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
         Instant intervalStart = anAnalysisInterval.getStart();
 
-        // Compute start crossing if both bounding instants are within the analysis interval
+        // Compute start crossing if both bounding instants are within the analysis interval. The coarse samples
+        // put the target out of view at the lower bound of the bracket, and in view at the upper bound.
         if (lowerBoundPreviousInstant >= anAnalysisInterval.getStart())
         {
-            const auto startCrossingDurationSeconds = rootSolver.solve(
-                [&lowerBoundPreviousInstant, &condition](double aDurationInSeconds) -> double
+            const double startCrossingDuration_s = SolveCrossing(
+                [&lowerBoundPreviousInstant, &residualAndRate](const double& aDuration_s) -> MarginAndRate
                 {
-                    return condition(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds));
+                    return residualAndRate(lowerBoundPreviousInstant + Duration::Seconds(aDuration_s));
                 },
                 0.0,
-                Duration::Between(lowerBoundPreviousInstant, lowerBoundInstant).inSeconds()
+                Duration::Between(lowerBoundPreviousInstant, lowerBoundInstant).inSeconds(),
+                false,
+                this->tolerance_.inSeconds(),
+                crossingMaximumIterationCount
             );
-            intervalStart = lowerBoundPreviousInstant + Duration::Seconds(startCrossingDurationSeconds.root);
+            intervalStart = lowerBoundPreviousInstant + Duration::Seconds(startCrossingDuration_s);
         }
 
         const Instant upperBoundInstant = interval.getEnd();
@@ -951,18 +1165,22 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
         Instant intervalEnd = anAnalysisInterval.getEnd();
 
-        // Compute end crossing if both bounding instants are within the analysis interval
+        // Compute end crossing if both bounding instants are within the analysis interval. The coarse samples put
+        // the target in view at the lower bound of the bracket, and out of view at the upper bound.
         if (upperBoundNextInstant <= anAnalysisInterval.getEnd() && upperBoundNextInstant != upperBoundInstant)
         {
-            const auto endCrossingDurationSeconds = rootSolver.solve(
-                [&upperBoundInstant, &condition](double aDurationInSeconds) -> double
+            const double endCrossingDuration_s = SolveCrossing(
+                [&upperBoundInstant, &residualAndRate](const double& aDuration_s) -> MarginAndRate
                 {
-                    return condition(upperBoundInstant + Duration::Seconds(aDurationInSeconds));
+                    return residualAndRate(upperBoundInstant + Duration::Seconds(aDuration_s));
                 },
                 0.0,
-                Duration::Between(upperBoundInstant, upperBoundNextInstant).inSeconds()
+                Duration::Between(upperBoundInstant, upperBoundNextInstant).inSeconds(),
+                true,
+                this->tolerance_.inSeconds(),
+                crossingMaximumIterationCount
             );
-            intervalEnd = upperBoundInstant + Duration::Seconds(endCrossingDurationSeconds.root);
+            intervalEnd = upperBoundInstant + Duration::Seconds(endCrossingDuration_s);
         }
 
         preciseAccessIntervals[i] = physics::time::Interval::Closed(intervalStart, intervalEnd);

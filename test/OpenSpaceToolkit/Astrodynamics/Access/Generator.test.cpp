@@ -792,6 +792,95 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsA
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, PreciseCrossingsAreVisibilityTransitions)
+{
+    // Each refined acquisition and loss of signal is solved for as the sign change of a margin to the criterion's
+    // bounds. It sits on a transition of the criterion itself: out of view just before an acquisition and in view
+    // just after it, and the reverse around a loss of signal.
+
+    const TLE tle = {
+        "1 60504U 24149AN  24293.10070306  .00000000  00000-0  58313-3 0    08",
+        "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
+    };
+    const Orbit orbit = {SGP4(tle), defaultEarthSPtr_};
+
+    const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
+    const Interval interval = Interval::Closed(startInstant, startInstant + Duration::Days(1.0));
+
+    const Array<LLA> LLAs = {
+        LLA(Angle::Degrees(53.406), Angle::Degrees(-6.225), Length::Meters(50.5)),
+        LLA(Angle::Degrees(-25.89), Angle::Degrees(27.71), Length::Meters(1562.66)),
+        LLA(Angle::Degrees(78.22702), Angle::Degrees(15.38624), Length::Meters(493.0)),
+    };
+
+    const Duration margin = Duration::Microseconds(10.0);
+
+    const auto expectVisibilityTransitions = [&](const VisibilityCriterion& aVisibilityCriterion)
+    {
+        for (const LLA& lla : LLAs)
+        {
+            const AccessTarget accessTarget = AccessTarget::FromLLA(aVisibilityCriterion, lla, defaultEarthSPtr_);
+
+            const std::function<bool(const Instant&)> isVisible =
+                defaultGenerator_.getConditionFunction(accessTarget, orbit);
+
+            const Array<Access> accesses = defaultGenerator_.computeAccesses(interval, accessTarget, orbit);
+
+            ASSERT_FALSE(accesses.isEmpty());
+
+            for (const Access& access : accesses)
+            {
+                const Instant acquisitionOfSignal = access.getAcquisitionOfSignal();
+                const Instant lossOfSignal = access.getLossOfSignal();
+
+                if (acquisitionOfSignal != interval.getStart())
+                {
+                    EXPECT_FALSE(isVisible(acquisitionOfSignal - margin)) << acquisitionOfSignal.toString();
+                    EXPECT_TRUE(isVisible(acquisitionOfSignal + margin)) << acquisitionOfSignal.toString();
+                }
+
+                if (lossOfSignal != interval.getEnd())
+                {
+                    EXPECT_TRUE(isVisible(lossOfSignal - margin)) << lossOfSignal.toString();
+                    EXPECT_FALSE(isVisible(lossOfSignal + margin)) << lossOfSignal.toString();
+                }
+            }
+        }
+    };
+
+    // AER interval: an azimuth bound at north, where the azimuth wraps, and a range bound
+
+    {
+        expectVisibilityTransitions(VisibilityCriterion::FromAERInterval(
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 180.0),
+            ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0),
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 2500.0e3)
+        ));
+    }
+
+    // AER interval: an azimuth interval away from north, and an upper elevation bound
+
+    {
+        expectVisibilityTransitions(VisibilityCriterion::FromAERInterval(
+            ostk::mathematics::object::Interval<Real>::Closed(30.0, 300.0),
+            ostk::mathematics::object::Interval<Real>::Closed(10.0, 60.0),
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+        ));
+    }
+
+    // AER mask
+
+    {
+        const ostk::core::container::Map<Real, Real> azimuthElevationMask = {
+            {0.0, 5.0}, {90.0, 15.0}, {180.0, 3.0}, {270.0, 20.0}
+        };
+
+        expectVisibilityTransitions(VisibilityCriterion::FromAERMask(
+            azimuthElevationMask, ostk::mathematics::object::Interval<Real>::Closed(0.0, 3000.0e3)
+        ));
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
 {
     const Instant startInstant = Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC);

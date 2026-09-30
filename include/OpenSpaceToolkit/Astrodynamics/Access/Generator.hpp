@@ -496,9 +496,11 @@ class Generator
     ///
     /// @details Each coarse interval's start is bracketed between the preceding sample (one step earlier, but never
     /// before the previous interval's end plus one step) and its first in-access sample, and its end between its last
-    /// in-access sample and the next sample (clamped to the analysis interval). A root solver then locates the
-    /// visibility transition in each bracket. Endpoints whose bracket falls outside the analysis interval are set to
-    /// the corresponding analysis interval bound.
+    /// in-access sample and the next sample (clamped to the analysis interval). The visibility transition in each
+    /// bracket is then located as the sign change of a residual: the margin to the nearest elevation, azimuth, range
+    /// or mask bound, solved by a bracket-safeguarded Newton iteration on its analytic rate. Line of sight has no
+    /// such margin, and is bisected. Endpoints whose bracket falls outside the analysis interval are set to the
+    /// corresponding analysis interval bound.
     ///
     /// @param accessIntervals The coarse access intervals, as sampled at the configured step.
     /// @param anAnalysisInterval The overall analysis interval.
