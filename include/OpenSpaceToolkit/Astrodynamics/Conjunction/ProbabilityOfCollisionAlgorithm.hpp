@@ -6,11 +6,11 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 namespace ostk
 {
@@ -22,25 +22,53 @@ namespace conjunction
 using ostk::core::container::Array;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 using ostk::core::type::String;
-
-using ostk::astrodynamics::RootSolver;
 
 /// @brief Probability of collision algorithm (abstract).
 ///
 /// @details Base class for algorithms that compute the probability of collision for a close approach.
 ///
-/// One should check the algorithm applicability (either via isApplicable() or identifyUnsatisfiedAssumptions())
-/// before computing the probability of collision.
+/// The recommended way to use an algorithm is as follows:
+/// 1. Check if the algorithm is applicable to the close approach.
+/// 2. If the algorithm is applicable, compute the probability of collision analysis,
+/// otherwise fall back to another algorithm.
+/// 3. If the nominal probability of collision is in the robust region, take it,
+/// otherwise take the maximum probability of collision.
+///
+/// @code{.cpp}
+///     if (algorithm.isApplicable(closeApproach))
+///     {
+///         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
+///             algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
+///
+///         if (analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust)
+///         {
+///             return analysis.probabilityOfCollision;
+///         }
+///         else
+///         {
+///             return analysis.maximumProbabilityOfCollision;
+///         }
+///     }
+/// @endcode
 class ProbabilityOfCollisionAlgorithm
 {
    public:
     /// @brief Probability region of a close approach.
     enum class ProbabilityRegion
     {
-        Robust,   ///< The close approach is in the robust region.
-        Diluted,  ///< The close approach is in the diluted region.
-        Unknown   ///< The probability region is unknown.
+        Robust,   ///< The probability of collision is in the robust region.
+        Diluted,  ///< The probability of collision is in the diluted region.
+        Maximum   ///< The probability of collision is at the maximum (upper bound).
+    };
+
+    /// @brief Probability of collision analysis of a close approach.
+    struct Analysis
+    {
+        Real probabilityOfCollision;         ///< The probability of collision.
+        ProbabilityRegion region;            ///< The probability region.
+        Real maximumProbabilityOfCollision;  ///< The maximum probability of collision.
     };
 
     /// @brief Destructor
@@ -49,15 +77,7 @@ class ProbabilityOfCollisionAlgorithm
     /// @brief Get the name of the probability of collision algorithm
     ///
     /// @return The name of the algorithm
-    virtual String getName() const = 0;
-
-    /// @brief Check if the algorithm computes a maximum probability of collision
-    ///
-    /// @details Use this to interpret the produced probability of collision as an
-    /// actual probability or as an upper bound.
-    ///
-    /// @return True if the algorithm computes a maximum probability of collision
-    virtual bool isMaximumProbabilityOfCollisionAlgorithm() const = 0;
+    String getName() const;
 
     /// @brief Identify unsatisfied assumptions for a close approach
     ///
@@ -68,6 +88,17 @@ class ProbabilityOfCollisionAlgorithm
     /// exit early upon encountering an unsatisfied assumption.
     ///
     /// An empty array means that the algorithm is applicable to the close approach.
+    ///
+    /// Use isApplicable() instead if you only want to know if the algorithm is applicable,
+    /// but do not necessarily care about the reasons why.
+    ///
+    /// @code{.cpp}
+    ///     Array<String> unsatisfiedAssumptions = algorithm.identifyUnsatisfiedAssumptions(closeApproach);
+    ///     if (unsatisfiedAssumptions.isEmpty())
+    ///     {
+    ///         algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
+    ///     }
+    /// @endcode
     ///
     /// @code{.cpp}
     ///     Array<String> unsatisfiedAssumptions = algorithm.identifyUnsatisfiedAssumptions(closeApproach);
@@ -102,6 +133,13 @@ class ProbabilityOfCollisionAlgorithm
     /// @code{.cpp}
     ///     if (algorithm.isApplicable(closeApproach))
     ///     {
+    ///         algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
+    ///     }
+    /// @endcode
+    ///
+    /// @code{.cpp}
+    ///     if (algorithm.isApplicable(closeApproach))
+    ///     {
     ///         algorithm.computeProbabilityOfCollision(closeApproach, hardBody1SPtr, hardBody2SPtr);
     ///     }
     /// @endcode
@@ -110,99 +148,63 @@ class ProbabilityOfCollisionAlgorithm
     /// @return True if the algorithm is applicable to the close approach
     bool isApplicable(const CloseApproach& aCloseApproach) const;
 
-    /// @brief Compute the probability region of a close approach
+    /// @brief Compute the probability of collision analysis of a close approach
     ///
-    /// @details This function attempts to locate the maximum probability of collision by
-    /// looking at the differentially-computed slope of the probability of collision as it scales
-    /// the covariance(s) over the scaling interval.
+    /// @details This function computes the probability of collision and locates the maximum probability of
+    /// collision by sampling the probability of collision as it scales the covariance(s) over the scaling interval.
     ///
-    /// If the maximum is found to the "right" (i.e. a scaling factor greater than 1), then the
-    /// close approach is in the robust region (ProbabilityRegion::Robust).
+    /// - If the maximum probability of collision is found to the "right" of the nominal probability of collision
+    /// (i.e. a scaling factor greater than or equal to 1), then the close approach is in the robust region
+    /// (ProbabilityRegion::Robust).
+    /// - If the maximum probability of collision is found to the "left" of the nominal probability of collision
+    /// (i.e. a scaling factor less than 1), then the close approach is in the diluted region
+    /// (ProbabilityRegion::Diluted).
+    /// - If the probability of collision does not change over the scaling interval, then the close approach is in the
+    /// maximum region (ProbabilityRegion::Maximum). This may be the case for some algorithms that work without any
+    /// covariance information and that are not affected by the covariance scaling, residing always in the "maximum"
+    /// region (ProbabilityRegion::Maximum).
     ///
-    /// If the maximum is found to the "left" (i.e. a scaling factor less than 1), then the
-    /// close approach is in the diluted region (ProbabilityRegion::Diluted).
-    ///
-    /// This function may return ProbabilityRegion::Unknown under certain conditions:
-    /// - The root solver did not converge
-    /// - The algorithm is a maximum probability of collision algorithm
-    /// - The algorithm is not applicable to the close approach
+    /// Raises a RuntimeError if the maximum probability of collision has not converged (i.e. the maximum probability of
+    /// collision of two successive passes differ by more than the convergence threshold) within the maximum number of
+    /// passes.
     ///
     /// @param aCloseApproach A close approach
     /// @param aHardBody1SPtr The hard body of Object 1
     /// @param aHardBody2SPtr The hard body of Object 2
-    /// @param aScalingFactorLowerBound A lower bound for the covariance scaling factor. Defaults to 0.1 (i.e. as low as
-    /// 0.1x the original covariance)
-    /// @param aScalingFactorUpperBound An upper bound for the covariance scaling factor. Defaults to 10.0 (i.e. as high
-    /// as 10x the original covariance)
-    /// @param aRootSolver A root solver. Defaults to a Root Solver with 100 iterations and a tolerance of 0.1
     /// @param scaleObject1Covariance Whether to scale Object 1 covariance. Defaults to true
     /// @param scaleObject2Covariance Whether to scale Object 2 covariance. Defaults to true
+    /// @param aSigmaScalingFactorLowerBound A lower bound for the scaling factor of the standard deviations (the
+    /// covariances are scaled by its square). Defaults to 0.01 (i.e. as low as 0.01x the original standard deviations)
+    /// @param aSigmaScalingFactorUpperBound An upper bound for the scaling factor of the standard deviations (the
+    /// covariances are scaled by its square). Defaults to 100.0 (i.e. as high as 100x the original standard
+    /// deviations)
+    /// @param aMaximumPointPerPassCount The maximum number of sampled scaling factors per pass (already sampled
+    /// scaling factors are not sampled again). Defaults to 50
+    /// @param aMaximumPassCount The maximum number of passes. Defaults to 10
+    /// @param aConvergenceThreshold The relative tolerance on the maximum probability of collision between two
+    /// successive passes. Defaults to 0.01 (i.e. 1%)
     ///
-    /// @return The probability region of the close approach
-    ProbabilityRegion computeProbabilityRegion(
+    /// @return The probability of collision analysis of the close approach
+    Analysis computeProbabilityAnalysis(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr,
-        const Real& aScalingFactorLowerBound = 0.1,
-        const Real& aScalingFactorUpperBound = 10.0,
-        const RootSolver& aRootSolver = RootSolver(100, 0.1),
         const bool& scaleObject1Covariance = true,
-        const bool& scaleObject2Covariance = true
+        const bool& scaleObject2Covariance = true,
+        const Real& aSigmaScalingFactorLowerBound = 0.01,
+        const Real& aSigmaScalingFactorUpperBound = 100.0,
+        const Size& aMaximumPointPerPassCount = 50,
+        const Size& aMaximumPassCount = 10,
+        const Real& aConvergenceThreshold = 0.01
     ) const;
 
-   private:
-    /// @brief Find the covariance scaling factor at which the probability of collision slope is zero
+   protected:
+    /// @brief Constructor
     ///
-    /// @details Uses a Root Solver to find the zero of the central-difference slope of the probability of
-    /// collision. For a scaling factor `k` in `[lower, upper]`, the objective is
-    /// `computeProbabilityOfCollisionSlope(k, aSlopeStepSize)`.
-    ///
-    /// @param aCloseApproach A close approach
-    /// @param aHardBody1SPtr The hard body of Object 1
-    /// @param aHardBody2SPtr The hard body of Object 2
-    /// @param aScalingFactorLowerBound A lower bound for the covariance scaling factor
-    /// @param aScalingFactorUpperBound An upper bound for the covariance scaling factor
-    /// @param aRootSolver A root solver
-    /// @param scaleObject1Covariance Whether to scale Object 1 covariance
-    /// @param scaleObject2Covariance Whether to scale Object 2 covariance
-    /// @param aSlopeStepSize A step around the scaling factor
-    ///
-    /// @return The root solver solution
-    RootSolver::Solution findProbabilityOfCollisionExtremum(
-        const CloseApproach& aCloseApproach,
-        const Shared<const HardBody>& aHardBody1SPtr,
-        const Shared<const HardBody>& aHardBody2SPtr,
-        const Real& aScalingFactorLowerBound,
-        const Real& aScalingFactorUpperBound,
-        const RootSolver& aRootSolver,
-        const bool& scaleObject1Covariance,
-        const bool& scaleObject2Covariance,
-        const Real& aSlopeStepSize
-    ) const;
+    /// @param aName The name of the probability of collision algorithm
+    ProbabilityOfCollisionAlgorithm(const String& aName);
 
-    /// @brief Compute the slope of the probability of collision with respect to the covariance scaling factor
-    ///
-    /// @details Uses the central difference formula:
-    /// `(Pc(scalingFactor + step) - Pc(scalingFactor - step)) / (2 * step)`.
-    ///
-    /// @param aCloseApproach A close approach
-    /// @param aHardBody1SPtr The hard body of Object 1
-    /// @param aHardBody2SPtr The hard body of Object 2
-    /// @param aScalingFactor A covariance scaling factor
-    /// @param aSlopeStepSize A step around the scaling factor
-    /// @param scaleObject1Covariance Whether to scale Object 1 covariance
-    /// @param scaleObject2Covariance Whether to scale Object 2 covariance
-    ///
-    /// @return The probability of collision slope
-    Real computeProbabilityOfCollisionSlope(
-        const CloseApproach& aCloseApproach,
-        const Shared<const HardBody>& aHardBody1SPtr,
-        const Shared<const HardBody>& aHardBody2SPtr,
-        const Real& aScalingFactor,
-        const Real& aSlopeStepSize,
-        const bool& scaleObject1Covariance,
-        const bool& scaleObject2Covariance
-    ) const;
+    String name_;
 };
 
 }  // namespace conjunction
