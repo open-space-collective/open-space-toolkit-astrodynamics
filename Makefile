@@ -207,7 +207,7 @@ _build-documentation: ## Build documentation (runs inside container)
 		.. \
 	&& ostk-build \
 	&& ostk-install-python \
-	&& ostk-build-docs --notebooks Astrodynamics
+	&& ostk-build-docs
 
 .PHONY: _build-documentation
 
