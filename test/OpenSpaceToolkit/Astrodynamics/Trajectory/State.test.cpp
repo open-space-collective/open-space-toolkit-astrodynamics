@@ -11,6 +11,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
@@ -1320,6 +1321,149 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 
         EXPECT_ANY_THROW(State::Undefined().inFrame(Frame::GCRF()));
         EXPECT_ANY_THROW(state.inFrame(Frame::Undefined()));
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, isNear)
+{
+    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    Shared<const Frame> frameSPtr = Frame::GCRF();
+    VectorXd coordinates(4);
+    coordinates << 0.0, 0.0, 0.0, 0.0;
+    VectorXd otherCoordinates(4);
+    otherCoordinates << -1.0, 0.0, 0.0, 0.1;
+    const Array<Shared<const CoordinateSubset>> subsets = {CartesianPosition::Default(), CoordinateSubset::Mass()};
+
+    const State state = {instant, coordinates, frameSPtr, subsets};
+    const State otherState = {instant, otherCoordinates, frameSPtr, subsets};
+
+    // Test success
+    {
+        const std::unordered_map<Shared<const CoordinateSubset>, Real> toleranceMap = {
+            {CartesianPosition::Default(), 2.0}, {CoordinateSubset::Mass(), 0.05}
+        };
+
+        const std::unordered_map<Shared<const CoordinateSubset>, bool> isNearMap = {
+            {CartesianPosition::Default(), true}, {CoordinateSubset::Mass(), false}
+        };
+        EXPECT_EQ(state.isNear(otherState, toleranceMap), isNearMap);
+    }
+    // Test failure wrong tolerance map
+    {
+        const std::unordered_map<Shared<const CoordinateSubset>, Real> toleranceMap = {
+            {CartesianPosition::Default(), 2.0}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceMap));
+    }
+
+    // Test failure wrong tolerance map coordinate subset
+    {
+        const std::unordered_map<Shared<const CoordinateSubset>, Real> toleranceMap = {
+            {CartesianPosition::Default(), 2.0}, {CoordinateSubset::SurfaceArea(), 0.05}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceMap));
+    }
+
+    // Test failure negative tolerance
+    {
+        const std::unordered_map<Shared<const CoordinateSubset>, Real> toleranceMap = {
+            {CartesianPosition::Default(), -2.0}, {CoordinateSubset::Mass(), -0.05}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceMap));
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, isNearElementWise)
+{
+    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    Shared<const Frame> frameSPtr = Frame::GCRF();
+    VectorXd coordinates(4);
+    coordinates << 0.0, 0.0, 0.0, 0.0;
+    VectorXd otherCoordinates(4);
+    otherCoordinates << -1.0, 2.0, 0.0, 0.1;
+    const Array<Shared<const CoordinateSubset>> subsets = {CartesianPosition::Default(), CoordinateSubset::Mass()};
+
+    const State state = {instant, coordinates, frameSPtr, subsets};
+    const State otherState = {instant, otherCoordinates, frameSPtr, subsets};
+
+    // Test success
+    {
+        VectorXd positionTolerance(3);
+        positionTolerance << 2.0, 0.5, 0.5;
+
+        VectorXd massTolerance(1);
+        massTolerance << 0.05;
+
+        const std::unordered_map<Shared<const CoordinateSubset>, VectorXd> toleranceArrayMap = {
+            {CartesianPosition::Default(), positionTolerance}, {CoordinateSubset::Mass(), massTolerance}
+        };
+
+        const std::unordered_map<Shared<const CoordinateSubset>, Array<bool>> isNearArrayMap = {
+            {CartesianPosition::Default(), Array<bool>({true, false, true})},
+            {CoordinateSubset::Mass(), Array<bool>({false})}
+        };
+
+        EXPECT_EQ(state.isNear(otherState, toleranceArrayMap), isNearArrayMap);
+    }
+
+    // Test failure wrong tolerance map
+    {
+        VectorXd positionTolerance(3);
+        positionTolerance << 2.0, 0.5, 0.5;
+
+        const std::unordered_map<Shared<const CoordinateSubset>, VectorXd> toleranceArrayMap = {
+            {CartesianPosition::Default(), positionTolerance}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceArrayMap));
+    }
+
+    // Test failure wrong tolerance map coordinate subset
+    {
+        VectorXd positionTolerance(3);
+        positionTolerance << 2.0, 0.5, 0.5;
+
+        VectorXd areaTolerance(1);
+        areaTolerance << 0.05;
+
+        const std::unordered_map<Shared<const CoordinateSubset>, VectorXd> toleranceArrayMap = {
+            {CartesianPosition::Default(), positionTolerance}, {CoordinateSubset::SurfaceArea(), areaTolerance}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceArrayMap));
+    }
+
+    // Test failure wrong tolerance array size
+    {
+        VectorXd positionTolerance(2);
+        positionTolerance << 2.0, 0.5;
+
+        VectorXd massTolerance(1);
+        massTolerance << 0.05;
+
+        const std::unordered_map<Shared<const CoordinateSubset>, VectorXd> toleranceArrayMap = {
+            {CartesianPosition::Default(), positionTolerance}, {CoordinateSubset::Mass(), massTolerance}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceArrayMap));
+    }
+
+    // Test failure negative tolerance
+    {
+        VectorXd positionTolerance(3);
+        positionTolerance << -2.0, 0.5, 0.5;
+
+        VectorXd massTolerance(1);
+        massTolerance << 0.05;
+
+        const std::unordered_map<Shared<const CoordinateSubset>, VectorXd> toleranceArrayMap = {
+            {CartesianPosition::Default(), positionTolerance}, {CoordinateSubset::Mass(), massTolerance}
+        };
+
+        EXPECT_ANY_THROW(state.isNear(otherState, toleranceArrayMap));
     }
 }
 
