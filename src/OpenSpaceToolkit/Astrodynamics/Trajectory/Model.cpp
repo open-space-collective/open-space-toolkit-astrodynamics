@@ -12,52 +12,10 @@ namespace astrodynamics
 namespace trajectory
 {
 
-Model::OutOfBoundsError::OutOfBoundsError(const Instant& anInstant, const Interval& anInterval, const String& aMessage)
-    : ostk::core::error::RuntimeError(aMessage),
-      instant_(anInstant),
-      interval_(anInterval)
+Model::Model()
+    : validityInterval_(std::nullopt)
 {
 }
-
-Instant Model::OutOfBoundsError::getInstant() const
-{
-    return instant_;
-}
-
-Interval Model::OutOfBoundsError::getInterval() const
-{
-    return interval_;
-}
-
-Model::BeforeStartError::BeforeStartError(const Instant& anInstant, const Interval& anInterval)
-    : OutOfBoundsError(
-          anInstant,
-          anInterval,
-          String::Format(
-              "Provided instant [{}] is before the start of the interval [{}, {}].",
-              anInstant.toString(),
-              anInterval.accessStart().toString(),
-              anInterval.accessEnd().toString()
-          )
-      )
-{
-}
-
-Model::AfterEndError::AfterEndError(const Instant& anInstant, const Interval& anInterval)
-    : OutOfBoundsError(
-          anInstant,
-          anInterval,
-          String::Format(
-              "Provided instant [{}] is after the end of the interval [{}, {}].",
-              anInstant.toString(),
-              anInterval.accessStart().toString(),
-              anInterval.accessEnd().toString()
-          )
-      )
-{
-}
-
-Model::Model() {}
 
 Model::~Model() {}
 
@@ -66,6 +24,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel)
     aModel.print(anOutputStream);
 
     return anOutputStream;
+}
+
+std::optional<Interval> Model::getValidityInterval() const
+{
+    return validityInterval_;
 }
 
 Array<State> Model::calculateStatesAt(const Array<Instant>& anInstantArray) const
@@ -80,6 +43,11 @@ Array<State> Model::calculateStatesAt(const Array<Instant>& anInstantArray) cons
     }
 
     return stateArray;
+}
+
+void Model::setValidityInterval(const std::optional<Interval>& anInterval)
+{
+    validityInterval_ = anInterval;
 }
 
 }  // namespace trajectory

@@ -20,6 +20,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
     class_<TargetScan, ostk::astrodynamics::trajectory::Model>(
         aModule,
         "TargetScan",
+        // The model base class is a virtual base: pybind11 must cast to it rather than reinterpret the pointer.
+        multiple_inheritance(),
         R"doc(
             TargetScan trajectory model.
 
@@ -78,10 +80,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
 
                 Returns:
                     State: The state at the given instant.
-
-                Raises:
-                    trajectory.Model.BeforeStartError: If the instant is before the start instant.
-                    trajectory.Model.AfterEndError: If the instant is after the end instant.
             )doc",
             arg("instant")
         )

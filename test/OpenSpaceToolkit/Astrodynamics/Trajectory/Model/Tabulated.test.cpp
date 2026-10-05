@@ -1,8 +1,11 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -29,6 +32,7 @@ using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
+using ostk::core::type::Unique;
 
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::VectorXd;
@@ -262,6 +266,56 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, GetValidityInterval)
+{
+    const Interval expectedInterval =
+        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
+
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
+
+        EXPECT_EQ(tabulated.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(tabulated.getValidityInterval(), tabulated.getInterval());
+
+        // Accessible from the base model
+        const Model& model = tabulated;
+
+        EXPECT_EQ(model.getValidityInterval(), expectedInterval);
+    }
+
+    // Set by every constructor, regardless of the order of the provided states
+    {
+        Array<State> reversedStates = states_;
+        std::reverse(reversedStates.begin(), reversedStates.end());
+
+        EXPECT_EQ(Tabulated(reversedStates, Interpolator::Type::Linear).getValidityInterval(), expectedInterval);
+        EXPECT_EQ(
+            Tabulated(reversedStates, Interpolator::Type::Linear, Frame::ITRF()).getValidityInterval(), expectedInterval
+        );
+        EXPECT_EQ(Tabulated::Default(reversedStates).getValidityInterval(), expectedInterval);
+        EXPECT_EQ(Tabulated::Default(reversedStates, Frame::ITRF()).getValidityInterval(), expectedInterval);
+    }
+
+    // Preserved by copies
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
+
+        const Tabulated copiedTabulated = tabulated;
+        const Unique<Tabulated> clonedTabulatedUPtr(tabulated.clone());
+
+        EXPECT_EQ(copiedTabulated.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(clonedTabulatedUPtr->getValidityInterval(), expectedInterval);
+    }
+
+    // Undefined model
+    {
+        const Tabulated tabulated(Array<State>::Empty(), Interpolator::Type::Linear);
+
+        EXPECT_FALSE(tabulated.isDefined());
+        EXPECT_EQ(tabulated.getValidityInterval(), std::nullopt);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpolationTypes)
 {
     const Map<Shared<const CoordinateSubset>, Interpolator::Type> defaultTypes = Tabulated::DefaultInterpolationTypes();
@@ -277,55 +331,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, DefaultInterpo
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::SurfaceArea()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::MassFlowRate()), Interpolator::Type::ZeroOrder);
     EXPECT_EQ(defaultTypes.at(CoordinateSubset::BallisticCoefficient()), Interpolator::Type::ZeroOrder);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, CalculateStateAt_OutOfBounds)
-{
-    const Tabulated tabulated(states_, Interpolator::Type::Linear);
-
-    const Interval interval = tabulated.getInterval();
-
-    // The bounds of the interval are included
-    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessStart()));
-    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessEnd()));
-
-    // Before the start of the interval
-    {
-        const Instant instant = interval.accessStart() - Duration::Seconds(1.0);
-
-        EXPECT_THROW(tabulated.calculateStateAt(instant), Tabulated::BeforeStartError);
-        EXPECT_THROW(tabulated.calculateStateAt(instant), Model::OutOfBoundsError);
-        EXPECT_THROW(tabulated.calculateStateAt(instant), ostk::core::error::RuntimeError);
-
-        try
-        {
-            tabulated.calculateStateAt(instant);
-            FAIL() << "Expected a BeforeStartError.";
-        }
-        catch (const Model::BeforeStartError& anError)
-        {
-            EXPECT_EQ(anError.getInstant(), instant);
-            EXPECT_EQ(anError.getInterval(), interval);
-        }
-    }
-
-    // After the end of the interval
-    {
-        const Instant instant = interval.accessEnd() + Duration::Seconds(1.0);
-
-        EXPECT_THROW(tabulated.calculateStateAt(instant), Tabulated::AfterEndError);
-        EXPECT_THROW(tabulated.calculateStateAt(instant), Model::OutOfBoundsError);
-        EXPECT_THROW(tabulated.calculateStateAt(instant), ostk::core::error::RuntimeError);
-
-        try
-        {
-            tabulated.calculateStateAt(instant);
-            FAIL() << "Expected an AfterEndError.";
-        }
-        catch (const Model::AfterEndError& anError)
-        {
-            EXPECT_EQ(anError.getInstant(), instant);
-            EXPECT_EQ(anError.getInterval(), interval);
-        }
-    }
 }

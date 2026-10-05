@@ -3,9 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Error/RuntimeError.hpp>
-#include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
@@ -20,7 +20,6 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::String;
 
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
@@ -34,60 +33,6 @@ using ostk::astrodynamics::trajectory::State;
 class Model
 {
    public:
-    /// @brief Error raised when a state is requested at an instant outside of the time interval over which the model is
-    /// defined (e.g. a tabulated model).
-    ///
-    /// @details Models raise the more specific BeforeStartError or AfterEndError, which both derive from this class.
-    class OutOfBoundsError : public ostk::core::error::RuntimeError
-    {
-       public:
-        /// @brief Get the instant at which the state was requested.
-        ///
-        /// @return The instant at which the state was requested.
-        Instant getInstant() const;
-
-        /// @brief Get the time interval over which the model is defined.
-        ///
-        /// @return The time interval over which the model is defined.
-        Interval getInterval() const;
-
-       protected:
-        /// @brief Constructor.
-        ///
-        /// @param anInstant The instant at which the state was requested.
-        /// @param anInterval The time interval over which the model is defined.
-        /// @param aMessage The error message.
-        OutOfBoundsError(const Instant& anInstant, const Interval& anInterval, const String& aMessage);
-
-       private:
-        Instant instant_;
-        Interval interval_;
-    };
-
-    /// @brief Error raised when a state is requested at an instant before the start of the time interval over which
-    /// the model is defined.
-    class BeforeStartError : public OutOfBoundsError
-    {
-       public:
-        /// @brief Constructor.
-        ///
-        /// @param anInstant The instant at which the state was requested.
-        /// @param anInterval The time interval over which the model is defined.
-        BeforeStartError(const Instant& anInstant, const Interval& anInterval);
-    };
-
-    /// @brief Error raised when a state is requested at an instant after the end of the time interval over which the
-    /// model is defined.
-    class AfterEndError : public OutOfBoundsError
-    {
-       public:
-        /// @brief Constructor.
-        ///
-        /// @param anInstant The instant at which the state was requested.
-        /// @param anInterval The time interval over which the model is defined.
-        AfterEndError(const Instant& anInstant, const Interval& anInterval);
-    };
-
     /// @brief Default constructor.
     Model();
 
@@ -148,13 +93,18 @@ class Model
         return *modelPtr;
     }
 
+    /// @brief Get the time interval over which the model is defined.
+    ///
+    /// @details Models that can only be evaluated over a bounded time interval (e.g. tabulated models) provide it, and
+    /// throw when evaluated outside of it. Other models can be evaluated at any instant.
+    ///
+    /// @return The time interval over which the model is defined, or std::nullopt if the model is not bounded in time.
+    std::optional<Interval> getValidityInterval() const;
+
     /// @brief Calculate state at a given instant.
     ///
     /// @param anInstant An instant.
     /// @return State at the given instant.
-    /// @throw BeforeStartError If the model is only defined over a bounded time interval and the instant is before its
-    /// start.
-    /// @throw AfterEndError If the model is only defined over a bounded time interval and the instant is after its end.
     virtual State calculateStateAt(const Instant& anInstant) const = 0;
 
     /// @brief Calculate states at given instants.
@@ -168,6 +118,20 @@ class Model
     /// @param anOutputStream An output stream.
     /// @param displayDecorator If true, display decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
+
+   protected:
+    /// @brief Set the time interval over which the model is defined.
+    ///
+    /// @details Called by models that can only be evaluated over a bounded time interval, typically from their
+    /// constructor. Being a virtual base, the model cannot receive the interval through its constructor, as it is
+    /// constructed by the most derived class.
+    ///
+    /// @param anInterval The time interval over which the model is defined, or std::nullopt if the model is not
+    /// bounded in time.
+    void setValidityInterval(const std::optional<Interval>& anInterval);
+
+   private:
+    std::optional<Interval> validityInterval_;
 };
 
 }  // namespace trajectory

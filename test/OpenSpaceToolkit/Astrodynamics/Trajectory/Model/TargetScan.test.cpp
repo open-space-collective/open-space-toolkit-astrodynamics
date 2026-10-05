@@ -65,12 +65,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, CalculateStat
 
         {
             EXPECT_THROW(
-                targetScan_.calculateStateAt(startInstant_ - Duration::Seconds(1.0)), TargetScan::BeforeStartError
+                targetScan_.calculateStateAt(startInstant_ - Duration::Seconds(1.0)), ostk::core::error::RuntimeError
             );
         }
 
         {
-            EXPECT_THROW(targetScan_.calculateStateAt(endInstant_ + Duration::Seconds(1.0)), TargetScan::AfterEndError);
+            EXPECT_THROW(
+                targetScan_.calculateStateAt(endInstant_ + Duration::Seconds(1.0)), ostk::core::error::RuntimeError
+            );
         }
 
         {
@@ -218,6 +220,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, Getters)
     EXPECT_EQ(targetScan_.getEndInstant(), endInstant_);
     EXPECT_EQ(targetScan_.getCelestial().getName(), earth_.getName());
     EXPECT_EQ(targetScan_.getStepSize(), stepSize_);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, GetValidityInterval)
+{
+    EXPECT_EQ(targetScan_.getValidityInterval(), Interval::Closed(startInstant_, endInstant_));
+
+    {
+        const TargetScan targetScan = TargetScan::FromGroundSpeed(
+            startLLA_, endLLA_, Derived(7000.0, Derived::Unit::MeterPerSecond()), startInstant_
+        );
+
+        EXPECT_EQ(
+            targetScan.getValidityInterval(), Interval::Closed(targetScan.getStartInstant(), targetScan.getEndInstant())
+        );
+    }
+
+    {
+        const TargetScan undefinedTargetScan(
+            LLA::Undefined(), LLA::Undefined(), Instant::Undefined(), Instant::Undefined(), Earth::WGS84()
+        );
+
+        EXPECT_EQ(undefinedTargetScan.getValidityInterval(), std::nullopt);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, FromGroundSpeed)

@@ -464,11 +464,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             R"doc(
                 Create a custom pointing profile.
 
-                The angular velocity of the body frame is computed by finite difference of the generated orientation:
-                a central difference is used, falling back to a forward (resp. backward) difference at the start
-                (resp. end) of the time interval over which the orbit is defined (e.g. a tabulated orbit). Such a bound
-                is detected through the `trajectory.Model.BeforeStartError` (resp. `AfterEndError`) raised when probing
-                the orientation beyond it. Any other error is propagated.
+                The angular velocity of the body frame is computed by central difference of the generated orientation.
+                If the orbit model has a validity interval (e.g. a tabulated orbit), the probes of the difference are
+                kept within it, so that it becomes a forward (resp. backward) difference at its start (resp. end). The
+                profile is then only defined over that interval, and the orientation generator must be defined over it
+                as well.
 
                 Args:
                     orbit (Orbit): The orbit.
@@ -492,11 +492,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             R"doc(
                 Create a custom pointing profile.
 
-                The angular velocity of the body frame is computed by finite difference of the generated orientation:
-                a central difference is used, falling back to a forward (resp. backward) difference at the start
-                (resp. end) of the time interval over which the orbit and the targets are defined (e.g. a tabulated
-                orbit or target trajectory). Such a bound is detected through the `trajectory.Model.BeforeStartError`
-                (resp. `AfterEndError`) raised when probing the orientation beyond it. Any other error is propagated.
+                The angular velocity of the body frame is computed by central difference of the generated orientation.
+                If the orbit or target trajectory models have a validity interval (e.g. a tabulated orbit or target
+                trajectory), the probes of the difference are kept within their intersection, so that it becomes a
+                forward (resp. backward) difference at its start (resp. end). The profile is then only defined over
+                that intersection.
 
                 Args:
                     orbit (Orbit): The orbit.

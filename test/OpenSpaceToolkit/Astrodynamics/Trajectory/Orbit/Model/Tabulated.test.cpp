@@ -4,13 +4,16 @@
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
@@ -30,6 +33,7 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
+using ostk::core::type::Unique;
 
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::VectorXd;
@@ -38,12 +42,13 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
+using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
-using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
+using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::Model;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
@@ -282,6 +287,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
     );
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetValidityInterval)
+{
+    using ostk::physics::time::Interval;
+
+    const Interval expectedInterval =
+        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
+
+    {
+        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+
+        EXPECT_EQ(tabulated.getValidityInterval(), expectedInterval);
+
+        // Accessible from the base models, and from the orbit
+        const Model& orbitModel = tabulated;
+        const ostk::astrodynamics::trajectory::Model& trajectoryModel = tabulated;
+
+        EXPECT_EQ(orbitModel.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(trajectoryModel.getValidityInterval(), expectedInterval);
+
+        const Orbit orbit = {tabulated, std::make_shared<Earth>(Earth::Spherical())};
+
+        EXPECT_EQ(orbit.accessModel().getValidityInterval(), expectedInterval);
+    }
+
+    {
+        EXPECT_EQ(
+            Tabulated(states_, 0, Interpolator::Type::Linear, Frame::ITRF()).getValidityInterval(), expectedInterval
+        );
+        EXPECT_EQ(Tabulated::Default(states_, 0).getValidityInterval(), expectedInterval);
+        EXPECT_EQ(Tabulated::Default(states_, 0, Frame::ITRF()).getValidityInterval(), expectedInterval);
+    }
+
+    // Preserved by copies
+    {
+        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+
+        const Tabulated copiedTabulated = tabulated;
+        const Unique<Tabulated> clonedTabulatedUPtr(tabulated.clone());
+
+        EXPECT_EQ(copiedTabulated.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(clonedTabulatedUPtr->getValidityInterval(), expectedInterval);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, EqualToOperator)
 {
     const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
@@ -377,20 +426,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
             EXPECT_TRUE(states[i].getFrame() == Frame::GCRF());
         }
     }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, CalculateStateAt_OutOfBounds)
-{
-    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
-
-    const Interval interval = tabulated.getInterval();
-
-    // The bounds of the interval are included
-    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessStart()));
-    EXPECT_NO_THROW(tabulated.calculateStateAt(interval.accessEnd()));
-
-    EXPECT_THROW(
-        tabulated.calculateStateAt(interval.accessStart() - Duration::Seconds(1.0)), Tabulated::BeforeStartError
-    );
-    EXPECT_THROW(tabulated.calculateStateAt(interval.accessEnd() + Duration::Seconds(1.0)), Tabulated::AfterEndError);
 }

@@ -29,8 +29,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
@@ -83,7 +83,7 @@ using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::Kepler;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using TabulatedOrbitModel = ostk::astrodynamics::trajectory::orbit::model::Tabulated;
-using TrajectoryModel = ostk::astrodynamics::trajectory::Model;
+using TabulatedTrajectoryModel = ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
@@ -1574,15 +1574,79 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing_AngularVelo
 
         EXPECT_THROW(
             profile.getStateAt(tabulatedInterval.accessStart() - Duration::Seconds(1.0)),
-            TrajectoryModel::BeforeStartError
+            ostk::core::error::RuntimeError
         );
         EXPECT_THROW(
-            profile.getStateAt(tabulatedInterval.accessEnd() + Duration::Seconds(1.0)), TrajectoryModel::AfterEndError
+            profile.getStateAt(tabulatedInterval.accessEnd() + Duration::Seconds(1.0)), ostk::core::error::RuntimeError
         );
     }
 
-    // Only the out-of-bounds errors of bounded models mark the boundaries of the finite difference: any other error
-    // raised when probing the orientation is propagated
+    // Tabulated target trajectory, defined over a narrower interval than the orbit: the one-sided differences are
+    // taken at the bounds of the target trajectory
+    {
+        const Interval targetInterval =
+            Interval::Closed(epoch + Duration::Minutes(2.0), epoch + Duration::Minutes(8.0));
+
+        // Pointing at the center of the Earth is equivalent to geocentric nadir pointing
+        const Trajectory earthCenterTrajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
+
+        const Trajectory tabulatedEarthCenterTrajectory = {TabulatedTrajectoryModel(
+            earthCenterTrajectory.getStatesAt(targetInterval.generateGrid(Duration::Minutes(1.0))),
+            Interpolator::Type::Linear
+        )};
+
+        const Shared<const Profile::Target> earthCenterTargetSPtr = std::make_shared<Profile::TrajectoryTarget>(
+            Profile::TrajectoryTarget::TargetPosition(tabulatedEarthCenterTrajectory, Profile::Axis::Z)
+        );
+
+        const Profile profile = Profile::CustomPointing(orbit, earthCenterTargetSPtr, velocityTargetSPtr);
+
+        const Array<Instant> targetInstants = {
+            targetInterval.accessStart(),                            // Forward difference
+            targetInterval.accessStart() + Duration::Seconds(0.05),  // Forward difference (within one step)
+            targetInterval.accessStart() + Duration::Minutes(3.0),   // Central difference
+            targetInterval.accessEnd() - Duration::Seconds(0.05),    // Backward difference (within one step)
+            targetInterval.accessEnd(),                              // Backward difference
+        };
+
+        for (const auto& instant : targetInstants)
+        {
+            State state = State::Undefined();
+
+            EXPECT_NO_THROW(state = profile.getStateAt(instant)) << "at " << instant.toString();
+
+            EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), w_B_GCRF_in_B_expected, 1e-12);
+        }
+
+        // Outside of the target interval, the profile is undefined even though the orbit is defined
+
+        EXPECT_THROW(
+            profile.getStateAt(targetInterval.accessStart() - Duration::Seconds(1.0)), ostk::core::error::RuntimeError
+        );
+        EXPECT_THROW(
+            profile.getStateAt(targetInterval.accessEnd() + Duration::Seconds(1.0)), ostk::core::error::RuntimeError
+        );
+
+        // The orbit and the target trajectory must be defined over a common interval
+
+        const Orbit disjointTabulatedOrbit = {
+            TabulatedOrbitModel(
+                orbit.getStatesAt(Interval::Closed(epoch + Duration::Minutes(10.0), epoch + Duration::Minutes(20.0))
+                                      .generateGrid(Duration::Seconds(10.0))),
+                1,
+                Interpolator::Type::BarycentricRational
+            ),
+            earthSPtr
+        };
+
+        EXPECT_THROW(
+            Profile::CustomPointing(disjointTabulatedOrbit, earthCenterTargetSPtr, velocityTargetSPtr),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Errors raised when evaluating the orientation are propagated, rather than marking a bound of the finite
+    // difference
     {
         const Instant failureInstant = epoch + Duration::Minutes(5.0);
 
@@ -1605,52 +1669,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing_AngularVelo
 
         // The forward probe lies beyond the failure instant
         EXPECT_THROW(profile.getStateAt(failureInstant), ostk::core::error::runtime::Wrong);
-    }
-
-    // An orientation generator that is itself only defined over a bounded interval can signal its bounds with the same
-    // errors, and is then handled with one-sided differences
-    {
-        const Interval generatorInterval = Interval::Closed(epoch, epoch + Duration::Minutes(10.0));
-
-        const Vector3d spinAxis = Vector3d::UnitZ();
-        const Real spinRate_radps = 0.01;
-
-        const auto orientationGenerator = [epoch, generatorInterval, spinAxis, spinRate_radps](const State& aState
-                                          ) -> Quaternion
-        {
-            if (aState.accessInstant() < generatorInterval.accessStart())
-            {
-                throw TrajectoryModel::BeforeStartError(aState.accessInstant(), generatorInterval);
-            }
-
-            if (aState.accessInstant() > generatorInterval.accessEnd())
-            {
-                throw TrajectoryModel::AfterEndError(aState.accessInstant(), generatorInterval);
-            }
-
-            const Real elapsedTime_s = (aState.accessInstant() - epoch).inSeconds();
-
-            return Quaternion::RotationVector(RotationVector(spinAxis, Angle::Radians(spinRate_radps * elapsedTime_s)));
-        };
-
-        const Profile profile = Profile::CustomPointing(orbit, orientationGenerator);
-
-        for (const auto& instant : {generatorInterval.accessStart(), generatorInterval.accessEnd()})
-        {
-            State state = State::Undefined();
-
-            EXPECT_NO_THROW(state = profile.getStateAt(instant)) << "at " << instant.toString();
-
-            EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), spinAxis * spinRate_radps, 1e-12);
-        }
-
-        EXPECT_THROW(
-            profile.getStateAt(generatorInterval.accessStart() - Duration::Seconds(1.0)),
-            TrajectoryModel::BeforeStartError
-        );
-        EXPECT_THROW(
-            profile.getStateAt(generatorInterval.accessEnd() + Duration::Seconds(1.0)), TrajectoryModel::AfterEndError
-        );
     }
 }
 

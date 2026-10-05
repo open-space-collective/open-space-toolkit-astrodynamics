@@ -226,6 +226,7 @@ State Tabulated::getLastState() const
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
     using ostk::core::type::Index;
+    using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
@@ -239,14 +240,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    if (anInstant < firstState_.accessInstant())
+    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
     {
-        throw Model::BeforeStartError(anInstant, this->getInterval());
-    }
-
-    if (anInstant > lastState_.accessInstant())
-    {
-        throw Model::AfterEndError(anInstant, this->getInterval());
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Provided instant [{}] is outside of interpolation range [{}, {}].",
+            anInstant.toString(),
+            firstState_.accessInstant().toString(),
+            lastState_.accessInstant().toString()
+        ));
     }
 
     VectorXd interpolatedCoordinates(interpolators_.getSize());
@@ -395,6 +396,8 @@ bool Tabulated::computeInterpolationData(
     // frame of the provided states.
     firstState_ = stateArray.accessFirst();
     lastState_ = stateArray.accessLast();
+
+    this->setValidityInterval(Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant()));
 
     aTimestampVector.resize(stateArray.getSize());
     aCoordinateMatrix.resize(stateArray.getSize(), firstState_.getSize());

@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 
+#include <optional>
 #include <set>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
@@ -380,12 +381,10 @@ class Profile
 
     /// @brief Construct a flight profile with custom target pointing
     ///
-    /// The angular velocity of the body frame is computed by finite difference of the generated orientation: a central
-    /// difference is used, falling back to a forward (resp. backward) difference at the start (resp. end) of the time
-    /// interval over which the orbit is defined (e.g. a tabulated orbit). Such a bound is detected through the
-    /// trajectory::Model::BeforeStartError (resp. AfterEndError) thrown when probing the orientation beyond it, so an
-    /// orientation generator that is itself only defined over a bounded time interval can throw these errors to be
-    /// handled the same way. Any other error is propagated.
+    /// The angular velocity of the body frame is computed by central difference of the generated orientation. If the
+    /// orbit model has a validity interval (e.g. a tabulated orbit), the probes of the difference are kept within it,
+    /// so that it becomes a forward (resp. backward) difference at its start (resp. end). The profile is then only
+    /// defined over that interval, and the orientation generator must be defined over it as well.
     ///
     /// @param anOrbit An orbit
     /// @param anOrientationGenerator An orientation generator
@@ -396,11 +395,10 @@ class Profile
 
     /// @brief Construct a flight profile with custom target pointing
     ///
-    /// The angular velocity of the body frame is computed by finite difference of the generated orientation: a central
-    /// difference is used, falling back to a forward (resp. backward) difference at the start (resp. end) of the time
-    /// interval over which the orbit and the targets are defined (e.g. a tabulated orbit or target trajectory). Such a
-    /// bound is detected through the trajectory::Model::BeforeStartError (resp. AfterEndError) thrown when probing the
-    /// orientation beyond it. Any other error is propagated.
+    /// The angular velocity of the body frame is computed by central difference of the generated orientation. If the
+    /// orbit or target trajectory models have a validity interval (e.g. a tabulated orbit or target trajectory), the
+    /// probes of the difference are kept within their intersection, so that it becomes a forward (resp. backward)
+    /// difference at its start (resp. end). The profile is then only defined over that intersection.
     ///
     /// @param anOrbit An orbit
     /// @param anAlignmentTarget An alignment target
@@ -489,6 +487,30 @@ class Profile
     /// [rad/s]
     static Vector3d ComputeAngularVelocity(
         const Quaternion& aStartOrientation, const Quaternion& anEndOrientation, const Duration& aTimeStep
+    );
+
+    /// @brief Get the time interval over which a trajectory is defined.
+    ///
+    /// @param aTrajectory A trajectory
+    /// @return The validity interval of the trajectory model, or std::nullopt if the trajectory is not bounded in time
+    /// (or undefined)
+    static std::optional<Interval> GetValidityInterval(const ostk::astrodynamics::Trajectory& aTrajectory);
+
+    /// @brief Construct a flight profile with custom target pointing, defined over a given time interval.
+    ///
+    /// The angular velocity of the body frame is computed by central difference of the generated orientation, whose
+    /// probes are kept within the validity interval (if any), so that it becomes a forward (resp. backward) difference
+    /// at its start (resp. end).
+    ///
+    /// @param anOrbit An orbit
+    /// @param anOrientationGenerator An orientation generator
+    /// @param aValidityInterval The time interval over which the orbit and the orientation generator are defined, or
+    /// std::nullopt if they are not bounded in time
+    /// @return Flight profile
+    static Profile CustomPointing(
+        const trajectory::Orbit& anOrbit,
+        const std::function<Quaternion(const State&)>& anOrientationGenerator,
+        const std::optional<Interval>& aValidityInterval
     );
 };
 

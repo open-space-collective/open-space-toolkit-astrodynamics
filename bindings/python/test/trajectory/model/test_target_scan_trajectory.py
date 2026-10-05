@@ -8,6 +8,7 @@ from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
 from ostk.physics.time import Duration
+from ostk.physics.time import Interval
 from ostk.physics.unit import Derived
 from ostk.astrodynamics.trajectory.model import TargetScan
 from ostk.astrodynamics.trajectory import State
@@ -104,6 +105,12 @@ class TestTargetScan:
         assert target_scan.get_celestial() is not None
         assert target_scan.get_step_size() is not None
 
+    def test_get_validity_interval(
+        self,
+        target_scan: TargetScan,
+    ):
+        assert isinstance(target_scan.get_validity_interval(), Interval)
+
     def test_from_ground_speed(
         self,
         start_lla: LLA,
@@ -124,15 +131,3 @@ class TestTargetScan:
         )
 
         assert target_scan.is_defined()
-
-    def test_calculate_state_at_out_of_bounds(
-        self,
-        target_scan: TargetScan,
-        start_instant: Instant,
-        end_instant: Instant,
-    ):
-        with pytest.raises(TargetScan.BeforeStartError):
-            target_scan.calculate_state_at(start_instant - Duration.seconds(1.0))
-
-        with pytest.raises(TargetScan.AfterEndError):
-            target_scan.calculate_state_at(end_instant + Duration.seconds(1.0))

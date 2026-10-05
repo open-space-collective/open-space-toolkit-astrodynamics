@@ -138,8 +138,6 @@ class Tabulated : public virtual Model
     ///
     /// @param anInstant An instant
     /// @return State at the given instant
-    /// @throw trajectory::Model::BeforeStartError If the instant is before the first tabulated state.
-    /// @throw trajectory::Model::AfterEndError If the instant is after the last tabulated state.
     virtual State calculateStateAt(const Instant& anInstant) const override;
 
     /// @brief Get the axes at a given instant
@@ -213,8 +211,9 @@ class Tabulated : public virtual Model
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
     );
 
-    /// @brief Sort the provided states, build the (reduced) state builders, and compute the interpolation timestamps
-    /// and reduced coordinate matrix (excluding the attitude quaternion) shared by all constructors.
+    /// @brief Sort the provided states, build the (reduced) state builders, set the validity interval of the model, and
+    /// compute the interpolation timestamps and reduced coordinate matrix (excluding the attitude quaternion) shared by
+    /// all constructors.
     void computeReducedInterpolationData(
         const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aReducedCoordinateMatrix
     );

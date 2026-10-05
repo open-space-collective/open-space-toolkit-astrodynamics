@@ -26,7 +26,6 @@ from ostk.physics.coordinate import Axes
 from ostk.physics.coordinate.frame.provider import Dynamic as DynamicProvider
 
 from ostk.astrodynamics import Trajectory
-from ostk.astrodynamics.trajectory import Model as TrajectoryModel
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.orbit.model import Tabulated as TabulatedOrbitModel
@@ -340,15 +339,15 @@ class TestProfile:
             ),
         )
 
-        # One-sided differences at the bounds of the tabulated orbit
+        # One-sided differences at the bounds of the validity interval of the tabulated orbit
         for evaluation_instant in (interval.get_start(), interval.get_end()):
             state = profile.get_state_at(evaluation_instant)
 
             assert state.is_defined()
             assert np.linalg.norm(state.get_angular_velocity()) > 0.0
 
-        with pytest.raises(TrajectoryModel.BeforeStartError):
+        with pytest.raises(RuntimeError):
             profile.get_state_at(interval.get_start() - Duration.seconds(1.0))
 
-        with pytest.raises(TrajectoryModel.AfterEndError):
+        with pytest.raises(RuntimeError):
             profile.get_state_at(interval.get_end() + Duration.seconds(1.0))

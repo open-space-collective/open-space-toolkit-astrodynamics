@@ -2,7 +2,7 @@
 
 import numpy as np
 import pytest
-from ostk.astrodynamics.trajectory import Model, Orbit, State
+from ostk.astrodynamics.trajectory import Orbit, State
 from ostk.astrodynamics.trajectory.orbit.model import Tabulated
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -12,7 +12,7 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import (
 from ostk.mathematics.curve_fitting import Interpolator
 from ostk.physics import Environment
 from ostk.physics.coordinate import Frame, Position, Velocity
-from ostk.physics.time import DateTime, Duration, Instant, Scale
+from ostk.physics.time import DateTime, Duration, Instant, Interval, Scale
 
 
 @pytest.fixture
@@ -259,6 +259,26 @@ class TestTabulated:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
+
+    def test_get_validity_interval(
+        self,
+        test_states: list[State],
+        earth,
+    ):
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_type=Interpolator.Type.Linear,
+        )
+
+        validity_interval = tabulated.get_validity_interval()
+
+        assert isinstance(validity_interval, Interval)
+        assert validity_interval == tabulated.get_interval()
+        assert (
+            Orbit(tabulated, earth).access_model().get_validity_interval()
+            == validity_interval
+        )
 
     def test_constructor_with_interpolation_types(
         self,
@@ -510,12 +530,12 @@ class TestTabulated:
             interpolation_type=interpolation_type,
         )
 
-        with pytest.raises(Model.BeforeStartError):
+        with pytest.raises(RuntimeError):
             tabulated.calculate_state_at(
                 test_states[0].get_instant() - Duration.seconds(1.0)
             )
 
-        with pytest.raises(Model.AfterEndError):
+        with pytest.raises(RuntimeError):
             tabulated.calculate_state_at(
                 test_states[-1].get_instant() + Duration.seconds(1.0)
             )

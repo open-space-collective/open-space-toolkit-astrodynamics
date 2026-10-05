@@ -9,7 +9,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider/Dynamic.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
@@ -43,7 +42,6 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
-using TrajectoryModel = ostk::astrodynamics::trajectory::Model;
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
     : Model(),
@@ -135,14 +133,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     const Interval interval = this->getInterval();
 
-    if (anInstant < interval.accessStart())
+    if (anInstant < interval.accessStart() || anInstant > interval.accessEnd())
     {
-        throw TrajectoryModel::BeforeStartError(anInstant, interval);
-    }
-
-    if (anInstant > interval.accessEnd())
-    {
-        throw TrajectoryModel::AfterEndError(anInstant, interval);
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Provided instant [{}] is outside of interpolation range [{}, {}].",
+            anInstant.toString(),
+            interval.accessStart().toString(),
+            interval.accessEnd().toString()
+        ));
     }
 
     VectorXd reducedCoordinates(reducedStateBuilder_.getSize());
@@ -426,6 +424,10 @@ void Tabulated::computeReducedInterpolationData(
         {
             return lhs.getInstant() < rhs.getInstant();
         }
+    );
+
+    this->setValidityInterval(
+        Interval::Closed(stateArray_.accessFirst().accessInstant(), stateArray_.accessLast().accessInstant())
     );
 
     aTimestampVector.resize(stateArray_.getSize());

@@ -43,6 +43,10 @@ TargetScan::TargetScan(
       celestialSPtr_(std::make_shared<const Celestial>(aCelestial)),
       stepSize_(aStepSize)
 {
+    if (startInstant_.isDefined() && endInstant_.isDefined())
+    {
+        this->setValidityInterval(Interval::Closed(startInstant_, endInstant_));
+    }
 }
 
 TargetScan* TargetScan::clone() const
@@ -92,14 +96,9 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("TargetScan");
     }
 
-    if (anInstant < startInstant_)
+    if (anInstant < startInstant_ || anInstant > endInstant_)
     {
-        throw Model::BeforeStartError(anInstant, Interval::Closed(startInstant_, endInstant_));
-    }
-
-    if (anInstant > endInstant_)
-    {
-        throw Model::AfterEndError(anInstant, Interval::Closed(startInstant_, endInstant_));
+        throw ostk::core::error::RuntimeError("Instant is outside the interval.");
     }
 
     // interpolate the velocity using polynomial interpolation
