@@ -3,9 +3,9 @@
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::module& aModule)
 {
     using namespace pybind11;
 
@@ -19,12 +19,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
 
-    using ostk::astrodynamics::estimator::CovarianceMatrix;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+    using ostk::astrodynamics::uncertainty::Covariance;
 
-    class_<CovarianceMatrix>(
+    class_<Covariance>(
         aModule,
-        "CovarianceMatrix",
+        "Covariance",
         R"doc(
             Covariance matrix at a given instant in time.
 
@@ -38,75 +38,67 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
                 const Shared<const Frame>&,
                 const Array<Shared<const CoordinateSubset>>&>(),
             R"doc(
-                Construct a Covariance Matrix.
+                Construct a Covariance.
 
                 Args:
                     instant (Instant): An instant.
                     coordinates (np.ndarray): The coordinates at the instant in International System of Units.
                     frame (Frame): The reference frame in which the coordinates are referenced to and resolved in.
-                    coordinate_subsets (list[CoordinateSubset]): The coordinate subsets associated to the coordinates.
+                    coordinate_subsets (list[CoordinateSubset]): The coordinate subsets associated with the coordinates.
+
+                Raises:
+                    RuntimeError: If the coordinates are not square, do not match the coordinate subsets, are not symmetric or are not positive semi-definite.
             )doc",
             arg("instant"),
             arg("coordinates"),
             arg("frame"),
             arg("coordinate_subsets")
         )
-        .def(init<const CovarianceMatrix&>(), arg("covariance_matrix"))
-
-        .def(self == self)
-        .def(self != self)
-        .def(self + self)
-        .def(self - self)
-
-        .def("__str__", &(shiftToString<CovarianceMatrix>))
-        .def("__repr__", &(shiftToString<CovarianceMatrix>))
+        .def(init<const Covariance&>(), arg("covariance"))
 
         .def(
-            "access_instant",
-            &CovarianceMatrix::accessInstant,
-            return_value_policy::reference_internal,
+            self + self,
             R"doc(
-                Access the instant.
+                Add two Covariances element-wise.
+
+                Args:
+                    covariance (Covariance): The other Covariance.
 
                 Returns:
-                    Instant: The instant.
+                    Covariance: The element-wise sum of the two Covariances.
             )doc"
         )
         .def(
-            "access_frame",
-            &CovarianceMatrix::accessFrame,
+            self - self,
             R"doc(
-                Access the reference frame.
+                Subtract two Covariances element-wise.
+
+                Args:
+                    covariance (Covariance): The other Covariance.
 
                 Returns:
-                    Frame: The reference frame.
+                    Covariance: The element-wise difference between the two Covariances.
             )doc"
         )
-        .def(
-            "access_coordinates",
-            &CovarianceMatrix::accessCoordinates,
-            R"doc(
-                Access the coordinates.
 
-                Returns:
-                    np.ndarray: The coordinates.
-            )doc"
-        )
+        .def("__str__", &(shiftToString<Covariance>))
+        .def("__repr__", &(shiftToString<Covariance>))
+
         .def(
             "get_size",
-            &CovarianceMatrix::getSize,
+            &Covariance::getSize,
             R"doc(
-                Get the size of the Covariance Matrix.
+                Get the size of the Covariance.
 
                 Returns:
-                    int: The size of the Covariance Matrix.
+                    int: The size of the Covariance.
             )doc"
         )
         .def(
             "get_instant",
-            &CovarianceMatrix::getInstant,
+            &Covariance::getInstant,
             R"doc(
-                Get the instant associated with the Covariance Matrix.
+                Get the instant associated with the Covariance.
 
                 Returns:
                     Instant: The instant.
@@ -114,9 +106,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         )
         .def(
             "get_frame",
-            &CovarianceMatrix::getFrame,
+            &Covariance::getFrame,
             R"doc(
-                Get the reference frame associated with the Covariance Matrix.
+                Get the reference frame associated with the Covariance.
 
                 Returns:
                     Frame: The reference frame.
@@ -124,9 +116,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         )
         .def(
             "get_coordinates",
-            &CovarianceMatrix::getCoordinates,
+            &Covariance::getCoordinates,
             R"doc(
-                Get the coordinates of the Covariance Matrix.
+                Get the coordinates of the Covariance.
 
                 Returns:
                     np.ndarray: The coordinates.
@@ -134,9 +126,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         )
         .def(
             "get_coordinate_subsets",
-            &CovarianceMatrix::getCoordinateSubsets,
+            &Covariance::getCoordinateSubsets,
             R"doc(
-                Get the coordinate subsets of the Covariance Matrix.
+                Get the coordinate subsets of the Covariance.
 
                 Returns:
                     list[CoordinateSubset]: The coordinate subsets.
@@ -144,7 +136,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         )
         .def(
             "extract_coordinate",
-            &CovarianceMatrix::extractCoordinate,
+            &Covariance::extractCoordinate,
             arg("coordinate_subset"),
             R"doc(
                 Extract the coordinates for a single subset.
@@ -158,7 +150,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         )
         .def(
             "extract_coordinates",
-            &CovarianceMatrix::extractCoordinates,
+            &Covariance::extractCoordinates,
             arg("coordinate_subsets"),
             R"doc(
                 Extract the coordinates for multiple subsets.
@@ -172,65 +164,65 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
         )
         .def(
             "rotate",
-            &CovarianceMatrix::rotate,
+            &Covariance::rotate,
             arg("frame"),
             R"doc(
-                Return a new Covariance Matrix rotated into a different reference frame.
+                Return a new Covariance rotated into a different reference frame.
 
                 Args:
                     frame (Frame): The reference frame to rotate into.
 
                 Returns:
-                    CovarianceMatrix: The rotated Covariance Matrix.
+                    Covariance: The rotated Covariance.
             )doc"
         )
         .def(
             "diagonalize",
-            &CovarianceMatrix::diagonalize,
+            &Covariance::diagonalize,
             R"doc(
-                Return a new Covariance Matrix retaining only the diagonal variance terms.
+                Return a new Covariance retaining only the diagonal variance terms.
 
                 Returns:
-                    CovarianceMatrix: The diagonalized Covariance Matrix.
+                    Covariance: The diagonalized Covariance.
             )doc"
         )
         .def(
             "reduce",
-            &CovarianceMatrix::reduce,
+            &Covariance::reduce,
             arg("coordinate_subsets"),
             R"doc(
-                Return a new Covariance Matrix reduced to the given coordinate subsets.
+                Return a new Covariance reduced to the given coordinate subsets.
 
                 Args:
                     coordinate_subsets (list[CoordinateSubset]): The coordinate subsets to retain.
 
                 Returns:
-                    CovarianceMatrix: The reduced Covariance Matrix.
+                    Covariance: The reduced Covariance.
             )doc"
         )
         .def(
             "scale",
-            &CovarianceMatrix::scale,
+            &Covariance::scale,
             arg("scalar"),
             R"doc(
-                Return a new Covariance Matrix whose coordinates are multiplied by a scalar.
+                Return a new Covariance whose coordinates are multiplied by a scalar.
 
                 Args:
                     scalar (float): The strictly positive scalar to multiply the covariance coordinates by.
 
                 Returns:
-                    CovarianceMatrix: The scaled Covariance Matrix.
+                    Covariance: The scaled Covariance.
             )doc"
         )
 
         .def_static(
             "from_position_sigmas",
-            &CovarianceMatrix::FromPositionSigmas,
+            &Covariance::FromPositionSigmas,
             arg("instant"),
             arg("position_sigmas"),
             arg("frame"),
             R"doc(
-                Build a 3x3 Covariance Matrix from cartesian position sigmas.
+                Build a 3x3 Covariance from cartesian position sigmas.
 
                 Args:
                     instant (Instant): An instant.
@@ -238,18 +230,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
                     frame (Frame): The reference frame in which the covariance is referenced to and resolved in.
 
                 Returns:
-                    CovarianceMatrix: A diagonal Covariance Matrix.
+                    Covariance: A diagonal Covariance.
             )doc"
         )
         .def_static(
             "from_position_velocity_sigmas",
-            &CovarianceMatrix::FromPositionVelocitySigmas,
+            &Covariance::FromPositionVelocitySigmas,
             arg("instant"),
             arg("position_sigmas"),
             arg("velocity_sigmas"),
             arg("frame"),
             R"doc(
-                Build a 6x6 Covariance Matrix from cartesian position and velocity sigmas.
+                Build a 6x6 Covariance from cartesian position and velocity sigmas.
 
                 Args:
                     instant (Instant): An instant.
@@ -258,7 +250,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_CovarianceMatrix(pybind11:
                     frame (Frame): The reference frame in which the covariance is referenced to and resolved in.
 
                 Returns:
-                    CovarianceMatrix: A diagonal Covariance Matrix.
+                    Covariance: A diagonal Covariance.
             )doc"
         )
 

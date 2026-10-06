@@ -15,7 +15,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.estimator import CovarianceMatrix
+from ostk.astrodynamics.uncertainty import Covariance
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -599,35 +599,37 @@ class TestState:
         assert profile_state.get_coordinates() is not None
         assert profile_state.get_coordinate_subsets() is not None
 
-    def test_covariance_matrix(
+    def test_covariance(
         self,
         state: State,
         instant: Instant,
         frame: Frame,
     ):
-        assert state.has_covariance_matrix() is False
+        assert state.has_covariance() is False
 
-        with pytest.raises(RuntimeError, match="Covariance Matrix"):
-            state.access_covariance_matrix()
+        with pytest.raises(RuntimeError, match="Covariance"):
+            state.get_covariance()
 
-        with pytest.raises(RuntimeError, match="Covariance Matrix"):
-            state.get_covariance_matrix()
-
-        covariance_matrix = CovarianceMatrix(
+        covariance = Covariance(
             instant,
             np.eye(6),
             frame,
             [CartesianPosition.default(), CartesianVelocity.default()],
         )
 
-        state.set_covariance_matrix(covariance_matrix)
+        state_with_covariance = state.with_covariance(covariance)
 
-        assert state.has_covariance_matrix() is True
-        assert state.get_covariance_matrix() == covariance_matrix
-        assert state.access_covariance_matrix() == covariance_matrix
+        assert state.has_covariance() is False
+        assert state_with_covariance.has_covariance() is True
+        assert state_with_covariance.get_covariance().get_instant() == instant
+        assert state_with_covariance.get_covariance().get_frame() == frame
+        assert np.allclose(
+            state_with_covariance.get_covariance().get_coordinates(),
+            covariance.get_coordinates(),
+        )
 
         other_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 1), Scale.UTC)
-        other_covariance_matrix = CovarianceMatrix(
+        other_covariance = Covariance(
             other_instant,
             np.eye(6),
             frame,
@@ -635,9 +637,9 @@ class TestState:
         )
 
         with pytest.raises(RuntimeError, match="Instant"):
-            state.set_covariance_matrix(other_covariance_matrix)
+            state.with_covariance(other_covariance)
 
-        assert state.has_covariance_matrix() is True
+        assert state.has_covariance() is False
 
     def test_in_frame(
         self,

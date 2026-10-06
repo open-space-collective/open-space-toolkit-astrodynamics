@@ -6,19 +6,22 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
+// Must come after the OSTk Mathematics headers, which configure the Eigen MatrixBase plugin
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
+
+#include <Eigen/Eigenvalues>
 
 namespace ostk
 {
 namespace astrodynamics
 {
-namespace estimator
+namespace uncertainty
 {
 
 using ostk::core::type::Index;
@@ -34,7 +37,10 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceler
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-CovarianceMatrix::CovarianceMatrix(
+// Relative to the largest absolute coefficient of the matrix
+static const Real Tolerance = 1e-12;
+
+Covariance::Covariance(
     const Instant& anInstant,
     const MatrixXd& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
@@ -54,166 +60,130 @@ CovarianceMatrix::CovarianceMatrix(
     {
         throw ostk::core::error::runtime::Wrong("Subset-matrix size mismatch");
     }
+
+    if (coordinates_.size() == 0)
+    {
+        return;
+    }
+
+    const Real tolerance = Tolerance * coordinates_.cwiseAbs().maxCoeff();
+
+    if ((coordinates_ - coordinates_.transpose()).cwiseAbs().maxCoeff() > tolerance)
+    {
+        throw ostk::core::error::runtime::Wrong("Matrix not symmetric");
+    }
+
+    const Eigen::SelfAdjointEigenSolver<MatrixXd> eigenSolver(coordinates_, Eigen::EigenvaluesOnly);
+
+    if (eigenSolver.eigenvalues().minCoeff() < -tolerance)
+    {
+        throw ostk::core::error::runtime::Wrong("Matrix not positive semi-definite");
+    }
 }
 
-CovarianceMatrix& CovarianceMatrix::operator=(const CovarianceMatrix& aCovarianceMatrix)
+Covariance& Covariance::operator=(const Covariance& aCovariance)
 {
-    if (this != &aCovarianceMatrix)
+    if (this != &aCovariance)
     {
-        instant_ = aCovarianceMatrix.instant_;
-        coordinates_ = aCovarianceMatrix.coordinates_;
-        frameSPtr_ = aCovarianceMatrix.frameSPtr_;
-        coordinatesBrokerSPtr_ = aCovarianceMatrix.coordinatesBrokerSPtr_;
+        instant_ = aCovariance.instant_;
+        coordinates_ = aCovariance.coordinates_;
+        frameSPtr_ = aCovariance.frameSPtr_;
+        coordinatesBrokerSPtr_ = aCovariance.coordinatesBrokerSPtr_;
     }
     return *this;
 }
 
-bool CovarianceMatrix::operator==(const CovarianceMatrix& aCovarianceMatrix) const
+Covariance Covariance::operator+(const Covariance& aCovariance) const
 {
-    if (this->instant_ != aCovarianceMatrix.instant_)
-    {
-        return false;
-    }
-
-    if ((*this->frameSPtr_) != (*aCovarianceMatrix.frameSPtr_))
-    {
-        return false;
-    }
-
-    if (this->getSize() != aCovarianceMatrix.getSize())
-    {
-        return false;
-    }
-
-    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
-    {
-        if (!aCovarianceMatrix.coordinatesBrokerSPtr_->hasSubset(subset))
-        {
-            return false;
-        }
-    }
-
-    if (this->extractCoordinates(this->coordinatesBrokerSPtr_->accessSubsets()) !=
-        aCovarianceMatrix.extractCoordinates(this->coordinatesBrokerSPtr_->accessSubsets()))
-    {
-        return false;
-    }
-
-    return true;
-}
-
-bool CovarianceMatrix::operator!=(const CovarianceMatrix& aCovarianceMatrix) const
-{
-    return !((*this) == aCovarianceMatrix);
-}
-
-CovarianceMatrix CovarianceMatrix::operator+(const CovarianceMatrix& aCovarianceMatrix) const
-{
-    if (this->instant_ != aCovarianceMatrix.instant_)
+    if (this->instant_ != aCovariance.instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
     }
 
-    if ((*this->frameSPtr_) != (*aCovarianceMatrix.frameSPtr_))
+    if ((*this->frameSPtr_) != (*aCovariance.frameSPtr_))
     {
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    if (*this->coordinatesBrokerSPtr_ != *aCovarianceMatrix.coordinatesBrokerSPtr_)
+    if (*this->coordinatesBrokerSPtr_ != *aCovariance.coordinatesBrokerSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Coordinate Subsets");
     }
 
     return {
         this->instant_,
-        this->coordinates_ + aCovarianceMatrix.accessCoordinates(),
+        this->coordinates_ + aCovariance.coordinates_,
         this->frameSPtr_,
         this->getCoordinateSubsets(),
     };
 }
 
-CovarianceMatrix CovarianceMatrix::operator-(const CovarianceMatrix& aCovarianceMatrix) const
+Covariance Covariance::operator-(const Covariance& aCovariance) const
 {
-    if (this->instant_ != aCovarianceMatrix.instant_)
+    if (this->instant_ != aCovariance.instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
     }
 
-    if ((*this->frameSPtr_) != (*aCovarianceMatrix.frameSPtr_))
+    if ((*this->frameSPtr_) != (*aCovariance.frameSPtr_))
     {
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    if (*this->coordinatesBrokerSPtr_ != *aCovarianceMatrix.coordinatesBrokerSPtr_)
+    if (*this->coordinatesBrokerSPtr_ != *aCovariance.coordinatesBrokerSPtr_)
     {
         throw ostk::core::error::runtime::Wrong("Coordinate Subsets");
     }
 
     return {
         this->instant_,
-        this->coordinates_ - aCovarianceMatrix.accessCoordinates(),
+        this->coordinates_ - aCovariance.coordinates_,
         this->frameSPtr_,
         this->getCoordinateSubsets(),
     };
 }
 
-std::ostream& operator<<(std::ostream& anOutputStream, const CovarianceMatrix& aCovarianceMatrix)
+std::ostream& operator<<(std::ostream& anOutputStream, const Covariance& aCovariance)
 {
-    aCovarianceMatrix.print(anOutputStream);
+    aCovariance.print(anOutputStream);
 
     return anOutputStream;
 }
 
-const Instant& CovarianceMatrix::accessInstant() const
-{
-    return this->instant_;
-}
-
-const Shared<const Frame> CovarianceMatrix::accessFrame() const
-{
-    return this->frameSPtr_;
-}
-
-const MatrixXd& CovarianceMatrix::accessCoordinates() const
-{
-    return this->coordinates_;
-}
-
-Size CovarianceMatrix::getSize() const
+Size Covariance::getSize() const
 {
     return this->coordinates_.rows();
 }
 
-Instant CovarianceMatrix::getInstant() const
+const Instant& Covariance::getInstant() const
 {
-    return this->accessInstant();
+    return this->instant_;
 }
 
-Shared<const Frame> CovarianceMatrix::getFrame() const
+const Shared<const Frame>& Covariance::getFrame() const
 {
-    return this->accessFrame();
+    return this->frameSPtr_;
 }
 
-MatrixXd CovarianceMatrix::getCoordinates() const
+const MatrixXd& Covariance::getCoordinates() const
 {
-    return this->accessCoordinates();
+    return this->coordinates_;
 }
 
-const Array<Shared<const CoordinateSubset>> CovarianceMatrix::getCoordinateSubsets() const
+const Array<Shared<const CoordinateSubset>>& Covariance::getCoordinateSubsets() const
 {
-    return this->coordinatesBrokerSPtr_->getSubsets();
+    return this->coordinatesBrokerSPtr_->accessSubsets();
 }
 
-MatrixXd CovarianceMatrix::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
+MatrixXd Covariance::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
     const Index startIndex = this->coordinatesBrokerSPtr_->getSubsetIndex(aSubsetSPtr);
     const Size subsetSize = aSubsetSPtr->getSize();
 
-    return this->accessCoordinates().block(startIndex, startIndex, subsetSize, subsetSize);
+    return this->coordinates_.block(startIndex, startIndex, subsetSize, subsetSize);
 }
 
-MatrixXd CovarianceMatrix::extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
-) const
+MatrixXd Covariance::extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const
 {
     Size extractedSize = 0;
     for (const auto& subset : aCoordinateSubsetsArray)
@@ -236,7 +206,7 @@ MatrixXd CovarianceMatrix::extractCoordinates(const Array<Shared<const Coordinat
             const Size colSubsetSize = colSubset->getSize();
 
             extractedCoordinates.block(outputRowStart, outputColStart, rowSubsetSize, colSubsetSize) =
-                this->accessCoordinates().block(inputRowStart, inputColStart, rowSubsetSize, colSubsetSize);
+                this->coordinates_.block(inputRowStart, inputColStart, rowSubsetSize, colSubsetSize);
 
             outputColStart += colSubsetSize;
         }
@@ -247,7 +217,7 @@ MatrixXd CovarianceMatrix::extractCoordinates(const Array<Shared<const Coordinat
     return extractedCoordinates;
 }
 
-CovarianceMatrix CovarianceMatrix::rotate(const Shared<const Frame>& aFrameSPtr) const
+Covariance Covariance::rotate(const Shared<const Frame>& aFrameSPtr) const
 {
     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
@@ -294,11 +264,11 @@ CovarianceMatrix CovarianceMatrix::rotate(const Shared<const Frame>& aFrameSPtr)
     };
 }
 
-CovarianceMatrix CovarianceMatrix::diagonalize() const
+Covariance Covariance::diagonalize() const
 {
     const Size size = this->getSize();
     MatrixXd diagonalizedCoordinates = MatrixXd::Zero(size, size);
-    diagonalizedCoordinates.diagonal() = this->accessCoordinates().diagonal();
+    diagonalizedCoordinates.diagonal() = this->coordinates_.diagonal();
 
     return {
         this->instant_,
@@ -308,7 +278,7 @@ CovarianceMatrix CovarianceMatrix::diagonalize() const
     };
 }
 
-CovarianceMatrix CovarianceMatrix::reduce(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const
+Covariance Covariance::reduce(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const
 {
     return {
         this->instant_,
@@ -318,7 +288,7 @@ CovarianceMatrix CovarianceMatrix::reduce(const Array<Shared<const CoordinateSub
     };
 }
 
-CovarianceMatrix CovarianceMatrix::scale(const Real& aScalar) const
+Covariance Covariance::scale(const Real& aScalar) const
 {
     if (!aScalar.isDefined())
     {
@@ -338,9 +308,9 @@ CovarianceMatrix CovarianceMatrix::scale(const Real& aScalar) const
     };
 }
 
-void CovarianceMatrix::print(std::ostream& anOutputStream, bool displayDecorator) const
+void Covariance::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Estimator :: Covariance Matrix") : void();
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Uncertainty :: Covariance") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
@@ -359,7 +329,7 @@ void CovarianceMatrix::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-CovarianceMatrix CovarianceMatrix::FromPositionSigmas(
+Covariance Covariance::FromPositionSigmas(
     const Instant& anInstant, const Vector3d& aPositionSigmas, const Shared<const Frame>& aFrameSPtr
 )
 {
@@ -369,7 +339,7 @@ CovarianceMatrix CovarianceMatrix::FromPositionSigmas(
     return {anInstant, coordinates, aFrameSPtr, {CartesianPosition::Default()}};
 }
 
-CovarianceMatrix CovarianceMatrix::FromPositionVelocitySigmas(
+Covariance Covariance::FromPositionVelocitySigmas(
     const Instant& anInstant,
     const Vector3d& aPositionSigmas,
     const Vector3d& aVelocitySigmas,
@@ -391,6 +361,6 @@ CovarianceMatrix CovarianceMatrix::FromPositionVelocitySigmas(
     };
 }
 
-}  // namespace estimator
+}  // namespace uncertainty
 }  // namespace astrodynamics
 }  // namespace ostk

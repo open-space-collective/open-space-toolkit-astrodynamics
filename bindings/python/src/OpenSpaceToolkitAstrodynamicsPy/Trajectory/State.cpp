@@ -234,49 +234,41 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("subset")
         )
         .def(
-            "has_covariance_matrix",
-            &State::hasCovarianceMatrix,
+            "has_covariance",
+            &State::hasCovariance,
             R"doc(
-                Check if the state has a Covariance Matrix.
+                Check if the state has a Covariance.
 
                 Returns:
-                    bool: True if a Covariance Matrix is attached to the state, False otherwise.
+                    bool: True if a Covariance is attached to the state, False otherwise.
             )doc"
         )
         .def(
-            "access_covariance_matrix",
-            &State::accessCovarianceMatrix,
-            return_value_policy::reference_internal,
+            "get_covariance",
+            &State::getCovariance,
             R"doc(
-                Access the Covariance Matrix of the state.
+                Get the Covariance of the state.
 
                 Returns:
-                    CovarianceMatrix: The Covariance Matrix of the state.
+                    Covariance: The Covariance of the state.
             )doc"
         )
         .def(
-            "get_covariance_matrix",
-            &State::getCovarianceMatrix,
+            "with_covariance",
+            &State::withCovariance,
             R"doc(
-                Get the Covariance Matrix of the state.
-
-                Returns:
-                    CovarianceMatrix: The Covariance Matrix of the state.
-            )doc"
-        )
-        .def(
-            "set_covariance_matrix",
-            &State::setCovarianceMatrix,
-            R"doc(
-                Attach a Covariance Matrix to the state.
+                Return a copy of the state with a Covariance attached.
 
                 Args:
-                    covariance_matrix (CovarianceMatrix): The Covariance Matrix to attach.
+                    covariance (Covariance): The Covariance to attach.
+
+                Returns:
+                    State: A copy of the state with the Covariance attached.
 
                 Raises:
-                    RuntimeError: If the Covariance Matrix instant differs from the state's instant.
+                    RuntimeError: If the Covariance instant differs from the state's instant.
             )doc",
-            arg("covariance_matrix")
+            arg("covariance")
         )
         .def(
             "extract_coordinate",
