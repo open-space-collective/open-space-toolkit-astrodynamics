@@ -114,6 +114,11 @@ Real Bai2013::computeProbabilityOfCollision(
     const Shared<const HardBody>& aHardBody2SPtr
 ) const
 {
+    if ((aHardBody1SPtr == nullptr) || (aHardBody2SPtr == nullptr))
+    {
+        throw ostk::core::error::runtime::Undefined("Hard body");
+    }
+
     const State object1State = aCloseApproach.getObject1State();
     const State object2State = aCloseApproach.getObject2State();
 

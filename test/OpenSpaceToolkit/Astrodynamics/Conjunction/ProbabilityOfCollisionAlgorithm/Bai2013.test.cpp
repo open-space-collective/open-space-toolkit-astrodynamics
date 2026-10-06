@@ -351,6 +351,41 @@ TEST_F(
     }
 }
 
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Bai2013,
+    ComputeProbabilityOfCollision_UndefinedHardBody
+)
+{
+    const Bai2013 algorithm = buildBai2013Explicit();
+
+    const CloseApproach closeApproach = buildCaseA(CovarianceFrame::RSW);
+    const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(2.0);
+
+    {
+        EXPECT_THROW(
+            try {
+                algorithm.computeProbabilityOfCollision(closeApproach, nullptr, hardBodySPtr);
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Hard body} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            try {
+                algorithm.computeProbabilityOfCollision(closeApproach, hardBodySPtr, nullptr);
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Hard body} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Bai2013_Parameterized
     : public ::testing::TestWithParam<ComputeProbabilityOfCollisionParams>
 {
