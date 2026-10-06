@@ -1197,6 +1197,39 @@ TEST_F(
     );
 }
 
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005,
+    ComputeProbabilityOfCollision_UndefinedHardBody
+)
+{
+    const CloseApproach closeApproach = buildPoCCase03();
+    const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(2.0);
+
+    {
+        EXPECT_THROW(
+            try {
+                algorithm_.computeProbabilityOfCollision(closeApproach, nullptr, hardBodySPtr);
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Hard body} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            try {
+                algorithm_.computeProbabilityOfCollision(closeApproach, hardBodySPtr, nullptr);
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Hard body} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005_Parameterized
     : public ::testing::TestWithParam<ComputeProbabilityOfCollisionParams>
 {
