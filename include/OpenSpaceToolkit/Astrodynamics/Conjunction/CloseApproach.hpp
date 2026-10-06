@@ -14,10 +14,10 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 namespace ostk
 {
@@ -35,15 +35,15 @@ using ostk::physics::time::Instant;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 /// @brief Close approach between two objects.
 ///
 /// @details This class represents a close approach event between two objects, providing access to the states of both
-/// objects at the time of closest approach, the miss distance, and the relative state. The covariance matrices of
+/// objects at the time of closest approach, the miss distance, and the relative state. The covariances of
 /// both objects, if any, are carried by their respective states.
 class CloseApproach
 {
@@ -57,28 +57,6 @@ class CloseApproach
     /// @param anObject1State The state of Object 1
     /// @param anObject2State The state of Object 2
     CloseApproach(const State& anObject1State, const State& anObject2State);
-
-    /// @brief Equal to operator
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              closeApproach == anotherCloseApproach ;
-    /// @endcode
-    ///
-    /// @param aCloseApproach A close approach
-    /// @return True if close approaches are equal
-    bool operator==(const CloseApproach& aCloseApproach) const;
-
-    /// @brief Not equal to operator
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              closeApproach != anotherCloseApproach ;
-    /// @endcode
-    ///
-    /// @param aCloseApproach A close approach
-    /// @return True if close approaches are not equal
-    bool operator!=(const CloseApproach& aCloseApproach) const;
 
     /// @brief Output stream operator
     ///
@@ -121,38 +99,37 @@ class CloseApproach
     /// @return The state of Object 2
     State getObject2State() const;
 
-    /// @brief Get the covariance matrix of Object 1
+    /// @brief Get the covariance of Object 1
     ///
-    /// @details Returns std::nullopt if the state of Object 1 has no covariance matrix attached.
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              std::optional<CovarianceMatrix> object1CovarianceMatrix =
-    ///              closeApproach.getObject1CovarianceMatrix() ;
-    /// @endcode
-    ///
-    /// @return The covariance matrix of Object 1, if any
-    std::optional<CovarianceMatrix> getObject1CovarianceMatrix() const;
-
-    /// @brief Get the covariance matrix of Object 2
-    ///
-    /// @details Returns std::nullopt if the state of Object 2 has no covariance matrix attached.
+    /// @details Returns std::nullopt if the state of Object 1 has no covariance attached.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              std::optional<CovarianceMatrix> object2CovarianceMatrix =
-    ///              closeApproach.getObject2CovarianceMatrix() ;
+    ///              std::optional<Covariance> object1Covariance =
+    ///              closeApproach.getObject1Covariance() ;
     /// @endcode
     ///
-    /// @return The covariance matrix of Object 2, if any
-    std::optional<CovarianceMatrix> getObject2CovarianceMatrix() const;
+    /// @return The covariance of Object 1, if any
+    std::optional<Covariance> getObject1Covariance() const;
 
-    /// @brief Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given
+    /// @brief Get the covariance of Object 2
+    ///
+    /// @details Returns std::nullopt if the state of Object 2 has no covariance attached.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              std::optional<Covariance> object2Covariance =
+    ///              closeApproach.getObject2Covariance() ;
+    /// @endcode
+    ///
+    /// @return The covariance of Object 2, if any
+    std::optional<Covariance> getObject2Covariance() const;
+
+    /// @brief Return a new Close Approach with the covariances of Object 1 and Object 2 scaled by the given
     /// factors.
     ///
-    /// @details If a scale factor is not provided, the corresponding covariance matrix is not scaled. This is useful
-    /// when scaling only one covariance or when a state has no covariance matrix attached. Raises an Undefined error if
-    /// a scale factor is provided but the corresponding state has no covariance matrix attached.
+    /// @details A covariance is only scaled if its scale factor is provided and the corresponding state has a
+    /// covariance attached; otherwise the corresponding state is left unchanged.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
@@ -163,14 +140,14 @@ class CloseApproach
     ///
     /// @param aScaleFactor1 The scale factor for Object 1 covariance. Defaults to std::nullopt
     /// @param aScaleFactor2 The scale factor for Object 2 covariance. Defaults to std::nullopt
-    /// @return A new Close Approach with scaled covariance matrices
+    /// @return A new Close Approach with scaled covariances
     CloseApproach scale(
         const std::optional<Real>& aScaleFactor1 = std::nullopt, const std::optional<Real>& aScaleFactor2 = std::nullopt
     ) const;
 
     /// @brief Return a new Close Approach with Object 1 and Object 2 swapped
     ///
-    /// @details The states and covariance matrices of Object 1 and Object 2 are exchanged.
+    /// @details The states and covariances of Object 1 and Object 2 are exchanged.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
@@ -210,15 +187,15 @@ class CloseApproach
     /// @return The relative state
     State getRelativeState() const;
 
-    /// @brief Get the relative velocity magnitude
+    /// @brief Get the relative speed (i.e. the magnitude of the relative velocity)
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              Derived relativeVelocity = closeApproach.getRelativeVelocity() ;
+    ///              Derived relativeSpeed = closeApproach.getRelativeSpeed() ;
     /// @endcode
     ///
-    /// @return The relative velocity magnitude in meters per second
-    Derived getRelativeVelocity() const;
+    /// @return The relative speed in meters per second
+    Derived getRelativeSpeed() const;
 
     /// @brief Get the "default" convention of the encounter frame centered on Object 1.
     ///

@@ -29,8 +29,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             Close approach between two objects.
 
             This class represents a close approach event between two objects, providing access to the states of both
-            objects at the time of closest approach, the miss distance, the relative state, and the relative velocity.
-            The covariance matrices of both objects, if any, are carried by their respective states.
+            objects at the time of closest approach, the miss distance, the relative state, and the relative speed.
+            The covariances of both objects, if any, are carried by their respective states.
         )doc"
     )
 
@@ -45,32 +45,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             )doc",
             arg("object_1_state"),
             arg("object_2_state")
-        )
-
-        .def(
-            self == self,
-            R"doc(
-                Equal to operator.
-
-                Args:
-                    other (CloseApproach): Another close approach.
-
-                Returns:
-                    bool: True if close approaches are equal.
-            )doc"
-        )
-
-        .def(
-            self != self,
-            R"doc(
-                Not equal to operator.
-
-                Args:
-                    other (CloseApproach): Another close approach.
-
-                Returns:
-                    bool: True if close approaches are not equal.
-            )doc"
         )
 
         .def("__str__", &(shiftToString<CloseApproach>))
@@ -110,24 +84,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            "get_object_1_covariance_matrix",
-            &CloseApproach::getObject1CovarianceMatrix,
+            "get_object_1_covariance",
+            &CloseApproach::getObject1Covariance,
             R"doc(
-                Get the covariance matrix of Object 1.
+                Get the covariance of Object 1.
 
                 Returns:
-                    CovarianceMatrix | None: The covariance matrix of Object 1, or None if the state of Object 1 has no covariance matrix attached.
+                    Covariance | None: The covariance of Object 1, or None if the state of Object 1 has no covariance attached.
             )doc"
         )
 
         .def(
-            "get_object_2_covariance_matrix",
-            &CloseApproach::getObject2CovarianceMatrix,
+            "get_object_2_covariance",
+            &CloseApproach::getObject2Covariance,
             R"doc(
-                Get the covariance matrix of Object 2.
+                Get the covariance of Object 2.
 
                 Returns:
-                    CovarianceMatrix | None: The covariance matrix of Object 2, or None if the state of Object 2 has no covariance matrix attached.
+                    Covariance | None: The covariance of Object 2, or None if the state of Object 2 has no covariance attached.
             )doc"
         )
 
@@ -135,20 +109,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             "scale",
             &CloseApproach::scale,
             R"doc(
-                Return a new Close Approach with the covariance matrices of Object 1 and Object 2 scaled by the given factors.
+                Return a new Close Approach with the covariances of Object 1 and Object 2 scaled by the given factors.
 
-                If a scale factor is None, the corresponding covariance matrix is not scaled. This is useful when
-                scaling only one covariance or when a state has no covariance matrix attached.
+                A covariance is only scaled if its scale factor is provided and the corresponding state has a
+                covariance attached; otherwise the corresponding state is left unchanged.
 
                 Args:
                     scale_factor_1 (float | None, optional): The scale factor for Object 1 covariance. Defaults to None.
                     scale_factor_2 (float | None, optional): The scale factor for Object 2 covariance. Defaults to None.
 
                 Returns:
-                    CloseApproach: A new Close Approach with scaled covariance matrices.
-
-                Raises:
-                    RuntimeError: If a scale factor is provided but the corresponding state has no covariance matrix attached.
+                    CloseApproach: A new Close Approach with scaled covariances.
             )doc",
             arg("scale_factor_1") = none(),
             arg("scale_factor_2") = none()
@@ -160,7 +131,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             R"doc(
                 Return a new Close Approach with Object 1 and Object 2 swapped.
 
-                The states and covariance matrices of Object 1 and Object 2 are exchanged.
+                The states and covariances of Object 1 and Object 2 are exchanged.
 
                 Returns:
                     CloseApproach: A new Close Approach with Object 1 and Object 2 swapped.
@@ -201,13 +172,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            "get_relative_velocity",
-            &CloseApproach::getRelativeVelocity,
+            "get_relative_speed",
+            &CloseApproach::getRelativeSpeed,
             R"doc(
-                Get the relative velocity magnitude.
+                Get the relative speed (i.e. the magnitude of the relative velocity).
 
                 Returns:
-                    Derived: The relative velocity magnitude in meters per second.
+                    Derived: The relative speed in meters per second.
             )doc"
         )
 

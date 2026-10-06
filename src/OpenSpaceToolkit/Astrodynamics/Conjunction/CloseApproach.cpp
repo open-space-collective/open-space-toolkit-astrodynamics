@@ -65,21 +65,6 @@ CloseApproach::CloseApproach(const State& anObject1State, const State& anObject2
     }
 }
 
-bool CloseApproach::operator==(const CloseApproach& aCloseApproach) const
-{
-    if ((!this->isDefined()) || (!aCloseApproach.isDefined()))
-    {
-        return false;
-    }
-
-    return (object1State_ == aCloseApproach.object1State_) && (object2State_ == aCloseApproach.object2State_);
-}
-
-bool CloseApproach::operator!=(const CloseApproach& aCloseApproach) const
-{
-    return !((*this) == aCloseApproach);
-}
-
 std::ostream& operator<<(std::ostream& anOutputStream, const CloseApproach& aCloseApproach)
 {
     aCloseApproach.print(anOutputStream);
@@ -112,34 +97,34 @@ State CloseApproach::getObject2State() const
     return object2State_;
 }
 
-std::optional<CovarianceMatrix> CloseApproach::getObject1CovarianceMatrix() const
+std::optional<Covariance> CloseApproach::getObject1Covariance() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    if (!object1State_.hasCovarianceMatrix())
+    if (!object1State_.hasCovariance())
     {
         return std::nullopt;
     }
 
-    return object1State_.accessCovarianceMatrix();
+    return object1State_.getCovariance();
 }
 
-std::optional<CovarianceMatrix> CloseApproach::getObject2CovarianceMatrix() const
+std::optional<Covariance> CloseApproach::getObject2Covariance() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    if (!object2State_.hasCovarianceMatrix())
+    if (!object2State_.hasCovariance())
     {
         return std::nullopt;
     }
 
-    return object2State_.accessCovarianceMatrix();
+    return object2State_.getCovariance();
 }
 
 CloseApproach CloseApproach::scale(const std::optional<Real>& aScaleFactor1, const std::optional<Real>& aScaleFactor2)
@@ -150,18 +135,14 @@ CloseApproach CloseApproach::scale(const std::optional<Real>& aScaleFactor1, con
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    State scaledObject1State = object1State_;
-    State scaledObject2State = object2State_;
-
-    if (aScaleFactor1.has_value())
-    {
-        scaledObject1State.setCovarianceMatrix(object1State_.accessCovarianceMatrix().scale(aScaleFactor1.value()));
-    }
-
-    if (aScaleFactor2.has_value())
-    {
-        scaledObject2State.setCovarianceMatrix(object2State_.accessCovarianceMatrix().scale(aScaleFactor2.value()));
-    }
+    const State scaledObject1State =
+        (aScaleFactor1.has_value() && object1State_.hasCovariance())
+            ? object1State_.withCovariance(object1State_.getCovariance().scale(aScaleFactor1.value()))
+            : object1State_;
+    const State scaledObject2State =
+        (aScaleFactor2.has_value() && object2State_.hasCovariance())
+            ? object2State_.withCovariance(object2State_.getCovariance().scale(aScaleFactor2.value()))
+            : object2State_;
 
     return {scaledObject1State, scaledObject2State};
 }
@@ -213,7 +194,7 @@ State CloseApproach::getRelativeState() const
     return reducedObject2State - reducedObject1State;
 }
 
-Derived CloseApproach::getRelativeVelocity() const
+Derived CloseApproach::getRelativeSpeed() const
 {
     if (!this->isDefined())
     {

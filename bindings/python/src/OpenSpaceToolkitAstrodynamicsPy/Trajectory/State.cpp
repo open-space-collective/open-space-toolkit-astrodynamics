@@ -234,7 +234,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("subset")
         )
         .def(
-<<<<<<< HEAD
             "has_covariance",
             &State::hasCovariance,
             R"doc(
@@ -270,51 +269,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                     RuntimeError: If the Covariance instant differs from the state's instant.
             )doc",
             arg("covariance")
-=======
-            "has_covariance_matrix",
-            &State::hasCovarianceMatrix,
-            R"doc(
-                Check if the state has a Covariance Matrix.
-
-                Returns:
-                    bool: True if a Covariance Matrix is attached to the state, False otherwise.
-            )doc"
-        )
-        .def(
-            "access_covariance_matrix",
-            &State::accessCovarianceMatrix,
-            return_value_policy::reference_internal,
-            R"doc(
-                Access the Covariance Matrix of the state.
-
-                Returns:
-                    CovarianceMatrix: The Covariance Matrix of the state.
-            )doc"
-        )
-        .def(
-            "get_covariance_matrix",
-            &State::getCovarianceMatrix,
-            R"doc(
-                Get the Covariance Matrix of the state.
-
-                Returns:
-                    CovarianceMatrix: The Covariance Matrix of the state.
-            )doc"
-        )
-        .def(
-            "set_covariance_matrix",
-            &State::setCovarianceMatrix,
-            R"doc(
-                Attach a Covariance Matrix to the state.
-
-                Args:
-                    covariance_matrix (CovarianceMatrix): The Covariance Matrix to attach.
-
-                Raises:
-                    RuntimeError: If the Covariance Matrix instant differs from the state's instant.
-            )doc",
-            arg("covariance_matrix")
->>>>>>> 6ef70876 (feat: enrich Close Approach with Covariance Matrices)
         )
         .def(
             "extract_coordinate",

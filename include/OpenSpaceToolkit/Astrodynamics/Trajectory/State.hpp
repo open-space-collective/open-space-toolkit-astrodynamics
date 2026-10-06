@@ -17,7 +17,6 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Estimator/CovarianceMatrix.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
@@ -42,7 +41,6 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astrodynamics::estimator::CovarianceMatrix;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::uncertainty::Covariance;
@@ -203,11 +201,6 @@ class State
     ///
     /// @return The coordinate broker associated to the State
     const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
-
-    /// @brief Accessor for the Covariance Matrix.
-    ///
-    /// @return The Covariance Matrix
-    const CovarianceMatrix& accessCovarianceMatrix() const;
 
     /// @brief Get the size of the State.
     ///
