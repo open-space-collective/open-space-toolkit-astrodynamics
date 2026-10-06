@@ -135,6 +135,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Constructor)
         );
     }
 
+    // Symmetry is checked exactly: even a rounding-level asymmetry is rejected
+    {
+        MatrixXd coordinates(3, 3);
+        coordinates << 1.0, 0.2, 0.0, 0.2 + 1e-15, 2.0, 0.0, 0.0, 0.0, 3.0;
+
+        EXPECT_THROW(
+            try {
+                Covariance covariance(defaultInstant_, coordinates, defaultFrameSPtr_, {CartesianPosition::Default()});
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Matrix not symmetric"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
     {
         MatrixXd coordinates(3, 3);
         coordinates << 1.0, 2.0, 0.0, 2.0, 1.0, 0.0, 0.0, 0.0, 1.0;
@@ -529,7 +545,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Rotate)
         const MatrixXd coordinatesExpected = transformationMatrix * coordinates * transformationMatrix.transpose();
 
         EXPECT_TRUE(rotatedCovariance.getCoordinates().isNear(coordinatesExpected, 1e-12));
-        EXPECT_TRUE(rotatedCovariance.getCoordinates().isApprox(rotatedCovariance.getCoordinates().transpose(), 1e-12));
+        EXPECT_TRUE(rotatedCovariance.getCoordinates() == rotatedCovariance.getCoordinates().transpose());
         EXPECT_NEAR(massCoordinate, rotatedCovariance.getCoordinates()(6, 6), 1e-12);
         EXPECT_NEAR(
             coordinates.block(0, 0, 3, 3).trace(), rotatedCovariance.getCoordinates().block(0, 0, 3, 3).trace(), 1e-12
@@ -566,7 +582,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Rotate)
         const MatrixXd coordinatesExpected = transformationMatrix * coordinates * transformationMatrix.transpose();
 
         EXPECT_TRUE(rotatedCovariance.getCoordinates().isNear(coordinatesExpected, 1e-12));
-        EXPECT_TRUE(rotatedCovariance.getCoordinates().isApprox(rotatedCovariance.getCoordinates().transpose(), 1e-12));
+        EXPECT_TRUE(rotatedCovariance.getCoordinates() == rotatedCovariance.getCoordinates().transpose());
         EXPECT_NEAR(7.0, rotatedCovariance.getCoordinates()(6, 6), 1e-12);
     }
 

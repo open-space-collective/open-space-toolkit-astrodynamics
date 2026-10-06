@@ -37,9 +37,6 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceler
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-// Relative to the largest absolute coefficient of the matrix
-static const Real Tolerance = 1e-12;
-
 Covariance::Covariance(
     const Instant& anInstant,
     const MatrixXd& aCoordinates,
@@ -61,17 +58,19 @@ Covariance::Covariance(
         throw ostk::core::error::runtime::Wrong("Subset-matrix size mismatch");
     }
 
+    if (coordinates_ != coordinates_.transpose())
+    {
+        throw ostk::core::error::runtime::Wrong("Matrix not symmetric");
+    }
+
     if (coordinates_.size() == 0)
     {
         return;
     }
 
-    const Real tolerance = Tolerance * coordinates_.cwiseAbs().maxCoeff();
-
-    if ((coordinates_ - coordinates_.transpose()).cwiseAbs().maxCoeff() > tolerance)
-    {
-        throw ostk::core::error::runtime::Wrong("Matrix not symmetric");
-    }
+    // Computed eigenvalues are only accurate up to rounding errors (relative to the matrix norm), so a tolerance is
+    // required to accept singular (positive semi-definite) matrices
+    const Real tolerance = 1e-12 * coordinates_.cwiseAbs().maxCoeff();
 
     const Eigen::SelfAdjointEigenSolver<MatrixXd> eigenSolver(coordinates_, Eigen::EigenvaluesOnly);
 
@@ -256,9 +255,13 @@ Covariance Covariance::rotate(const Shared<const Frame>& aFrameSPtr) const
     const MatrixXd transformedCoordinates =
         transformationMatrix * this->coordinates_ * transformationMatrix.transpose();
 
+    // The product is only symmetric up to rounding errors: average it with its transpose to make it exactly symmetric
+    const MatrixXd symmetricTransformedCoordinates =
+        0.5 * (transformedCoordinates + transformedCoordinates.transpose());
+
     return {
         this->instant_,
-        transformedCoordinates,
+        symmetricTransformedCoordinates,
         aFrameSPtr,
         this->getCoordinateSubsets(),
     };

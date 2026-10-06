@@ -66,7 +66,8 @@ class Covariance
     /// resolved in
     /// @param aCoordinateSubsetsArray The coordinate subsets associated with the coordinates
     /// @throw ostk::core::error::runtime::Wrong If the coordinates are not square, do not match the coordinate subsets,
-    /// are not symmetric or are not positive semi-definite (within a tolerance relative to the largest coefficient)
+    /// are not exactly symmetric or are not positive semi-definite (within a tolerance relative to the largest
+    /// coefficient)
     Covariance(
         const Instant& anInstant,
         const MatrixXd& aCoordinates,

@@ -47,7 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
                     coordinate_subsets (list[CoordinateSubset]): The coordinate subsets associated with the coordinates.
 
                 Raises:
-                    RuntimeError: If the coordinates are not square, do not match the coordinate subsets, are not symmetric or are not positive semi-definite.
+                    RuntimeError: If the coordinates are not square, do not match the coordinate subsets, are not exactly symmetric or are not positive semi-definite.
             )doc",
             arg("instant"),
             arg("coordinates"),
