@@ -34,5 +34,6 @@ Python API Documentation
    ostk.astrodynamics.trajectory.orbit.model.sgp4
    ostk.astrodynamics.trajectory.state
    ostk.astrodynamics.trajectory.state.coordinate_subset
+   ostk.astrodynamics.uncertainty
    ostk.astrodynamics.utilities
    ostk.astrodynamics.viewer

@@ -15,6 +15,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
+from ostk.astrodynamics.uncertainty import Covariance
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateBroker
 from ostk.astrodynamics.trajectory.state.coordinate_subset import (
@@ -597,6 +598,51 @@ class TestState:
         assert profile_state.get_frame() == frame
         assert profile_state.get_coordinates() is not None
         assert profile_state.get_coordinate_subsets() is not None
+
+    def test_covariance(
+        self,
+        state: State,
+        instant: Instant,
+        frame: Frame,
+    ):
+        assert state.has_covariance() is False
+        assert state.get_covariance() is None
+
+        covariance = Covariance(
+            instant,
+            np.eye(6),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        state_with_covariance = state.with_covariance(covariance)
+
+        assert state.has_covariance() is False
+        assert state_with_covariance.has_covariance() is True
+        assert state_with_covariance.get_covariance().get_instant() == instant
+        assert state_with_covariance.get_covariance().get_frame() == frame
+        assert np.allclose(
+            state_with_covariance.get_covariance().get_coordinates(),
+            covariance.get_coordinates(),
+        )
+
+        state_with_covariance_removed = state_with_covariance.with_covariance(None)
+
+        assert state_with_covariance_removed.has_covariance() is False
+        assert state_with_covariance_removed.get_covariance() is None
+
+        other_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 1), Scale.UTC)
+        other_covariance = Covariance(
+            other_instant,
+            np.eye(6),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        with pytest.raises(RuntimeError, match="Instant"):
+            state.with_covariance(other_covariance)
+
+        assert state.has_covariance() is False
 
     def test_in_frame(
         self,

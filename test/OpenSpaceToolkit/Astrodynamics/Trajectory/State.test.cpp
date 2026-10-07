@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Error.hpp>
+
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -7,6 +9,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 #include <Global.test.hpp>
 
@@ -14,6 +17,7 @@ using ostk::core::container::Array;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
+using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
@@ -33,6 +37,7 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AngularVelocity;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaternion;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 {
@@ -1137,6 +1142,102 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getCoordinateSubsets());
         EXPECT_ANY_THROW(State::Undefined().hasSubset(CartesianPosition::Default()));
         EXPECT_ANY_THROW(State::Undefined().getFrame());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Covariance)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+        const State state = {instant, position, velocity};
+
+        EXPECT_FALSE(state.hasCovariance());
+        EXPECT_FALSE(state.getCovariance().has_value());
+        EXPECT_EQ(std::nullopt, state.getCovariance());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+        const State stateWithoutCovariance = {instant, position, velocity};
+
+        const Covariance covariance = {
+            instant,
+            MatrixXd::Identity(6, 6),
+            Frame::GCRF(),
+            {CartesianPosition::Default(), CartesianVelocity::Default()},
+        };
+
+        EXPECT_NO_THROW(stateWithoutCovariance.withCovariance(covariance));
+
+        const State state = stateWithoutCovariance.withCovariance(covariance);
+
+        EXPECT_FALSE(stateWithoutCovariance.hasCovariance());
+        EXPECT_TRUE(state.hasCovariance());
+        EXPECT_TRUE(state.getCovariance().has_value());
+        EXPECT_EQ(instant, state.getCovariance()->getInstant());
+        EXPECT_EQ(Frame::GCRF(), state.getCovariance()->getFrame());
+        EXPECT_TRUE(state.getCovariance()->getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+
+        // State equality ignores the Covariance
+        EXPECT_EQ(stateWithoutCovariance, state);
+
+        const State copiedState = state;
+
+        EXPECT_EQ(state, copiedState);
+        EXPECT_EQ(instant, copiedState.getCovariance()->getInstant());
+        EXPECT_EQ(Frame::GCRF(), copiedState.getCovariance()->getFrame());
+        EXPECT_TRUE(copiedState.getCovariance()->getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+
+        State assignedState = State::Undefined();
+        assignedState = state;
+
+        EXPECT_EQ(state, assignedState);
+        EXPECT_EQ(instant, assignedState.getCovariance()->getInstant());
+        EXPECT_EQ(Frame::GCRF(), assignedState.getCovariance()->getFrame());
+        EXPECT_TRUE(assignedState.getCovariance()->getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+
+        const State stateWithCovarianceRemoved = state.withCovariance(std::nullopt);
+
+        EXPECT_FALSE(stateWithCovarianceRemoved.hasCovariance());
+        EXPECT_EQ(std::nullopt, stateWithCovarianceRemoved.getCovariance());
+        EXPECT_EQ(state, stateWithCovarianceRemoved);
+        EXPECT_TRUE(state.hasCovariance());
+
+        const State stateWithoutCovarianceUnchanged = stateWithoutCovariance.withCovariance(std::nullopt);
+
+        EXPECT_FALSE(stateWithoutCovarianceUnchanged.hasCovariance());
+        EXPECT_EQ(stateWithoutCovariance, stateWithoutCovarianceUnchanged);
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+        const State state = {instant, position, velocity};
+
+        const Covariance covariance = {
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+            MatrixXd::Identity(6, 6),
+            Frame::GCRF(),
+            {CartesianPosition::Default(), CartesianVelocity::Default()},
+        };
+
+        EXPECT_THROW(
+            try { state.withCovariance(covariance); } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Instant"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+
+        EXPECT_FALSE(state.hasCovariance());
     }
 }
 

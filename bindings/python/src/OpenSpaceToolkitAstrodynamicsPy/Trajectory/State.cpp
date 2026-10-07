@@ -234,6 +234,45 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("subset")
         )
         .def(
+            "has_covariance",
+            &State::hasCovariance,
+            R"doc(
+                Check if the state has a Covariance.
+
+                Returns:
+                    bool: True if a Covariance is attached to the state, False otherwise.
+            )doc"
+        )
+        .def(
+            "get_covariance",
+            &State::getCovariance,
+            R"doc(
+                Get the Covariance of the state.
+
+                Returns:
+                    Covariance | None: The Covariance of the state, or None if no Covariance is attached.
+            )doc"
+        )
+        .def(
+            "with_covariance",
+            &State::withCovariance,
+            R"doc(
+                Return a copy of the state with a Covariance attached.
+
+                Passing None returns a copy of the state without a Covariance.
+
+                Args:
+                    covariance (Covariance | None): The Covariance to attach, or None to remove it.
+
+                Returns:
+                    State: A copy of the state with the Covariance attached.
+
+                Raises:
+                    RuntimeError: If the Covariance instant differs from the state's instant.
+            )doc",
+            arg("covariance")
+        )
+        .def(
             "extract_coordinate",
             &State::extractCoordinate,
             R"doc(
