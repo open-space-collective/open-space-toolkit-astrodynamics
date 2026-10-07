@@ -28,6 +28,21 @@ class TestStatic:
         assert isinstance(static, Model)
         assert static.is_defined()
 
+    def test_constructor_with_output_frame(
+        self,
+        position: Position,
+    ):
+        static: Static = Static(position, Frame.GCRF())
+
+        assert isinstance(static, Static)
+        assert static.is_defined()
+
+    def test_get_frame(
+        self,
+        static: Static,
+    ):
+        assert isinstance(static.get_frame(), Frame)
+
     def test_is_defined(
         self,
         static: Static,
@@ -37,6 +52,7 @@ class TestStatic:
     def test_calculate_state_at(
         self,
         static: Static,
+        position: Position,
     ):
         instant: Instant = Instant.J2000()
 

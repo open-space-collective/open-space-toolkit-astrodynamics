@@ -6,6 +6,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::mo
 {
     using namespace pybind11;
 
+    using ostk::core::type::Shared;
+
+    using ostk::physics::coordinate::Frame;
     using ostk::physics::coordinate::Position;
 
     using ostk::astrodynamics::trajectory::model::Static;
@@ -25,6 +28,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::mo
             R"doc(
                 Construct a `Static` object from a position.
 
+                The computed states are expressed in the frame of the provided position.
+
                 Args:
                     position (Position): The position. Must be in a non quasi-inertial frame (e.g. ITRF).
 
@@ -32,6 +37,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::mo
                     Static: The `Static` object.
             )doc",
             arg("position")
+        )
+
+        .def(
+            init<const Position&, const Shared<const Frame>&>(),
+            R"doc(
+                Construct a `Static` object from a position, with an explicit output frame.
+
+                Args:
+                    position (Position): The position. Must be in a non quasi-inertial frame (e.g. ITRF).
+                    output_frame (Frame): The reference frame in which the computed states are expressed. The fixed position (with zero velocity in its own frame) is converted to this frame at each requested instant.
+
+                Returns:
+                    Static: The `Static` object.
+            )doc",
+            arg("position"),
+            arg("output_frame")
         )
 
         .def(self == self)
@@ -51,10 +72,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::mo
             )doc"
         )
         .def(
+            "get_frame",
+            &Static::getFrame,
+            R"doc(
+                Get the reference frame in which the computed states are expressed.
+
+                Returns:
+                    Frame: The output reference frame.
+            )doc"
+        )
+        .def(
             "calculate_state_at",
             &Static::calculateStateAt,
             R"doc(
-                Calculate the state at a given instant, expressed in the frame of the position.
+                Calculate the state at a given instant, expressed in the output frame of the model.
+
+                The output frame is the frame of the position unless an explicit output frame was provided at construction.
 
                 Args:
                     instant (Instant): The instant.

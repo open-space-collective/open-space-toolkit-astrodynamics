@@ -15,14 +15,25 @@ namespace model
 {
 
 Static::Static(const Position& aPosition)
+    : Static(aPosition, aPosition.accessFrame())
+{
+}
+
+Static::Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr)
     : Model(),
-      position_(aPosition)
+      position_(aPosition),
+      outputFrameSPtr_(aFrameSPtr)
 {
     if (aPosition.accessFrame()->isQuasiInertial())
     {
         throw ostk::core::error::runtime::Wrong(
             "Position Frame Quasi Inertial", aPosition.accessFrame()->isQuasiInertial()
         );
+    }
+
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
     }
 }
 
@@ -38,7 +49,7 @@ bool Static::operator==(const Static& aStaticModel) const
         return false;
     }
 
-    return position_ == aStaticModel.position_;
+    return (position_ == aStaticModel.position_) && ((*outputFrameSPtr_) == (*aStaticModel.outputFrameSPtr_));
 }
 
 bool Static::operator!=(const Static& aStaticModel) const
@@ -58,6 +69,11 @@ bool Static::isDefined() const
     return position_.isDefined();
 }
 
+Shared<const Frame> Static::getFrame() const
+{
+    return outputFrameSPtr_;
+}
+
 State Static::calculateStateAt(const Instant& anInstant) const
 {
     using ostk::physics::coordinate::Position;
@@ -72,7 +88,8 @@ State Static::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Static");
     }
 
-    return State(anInstant, position_, Velocity::MetersPerSecond({0.0, 0.0, 0.0}, position_.accessFrame()));
+    return State(anInstant, position_, Velocity::MetersPerSecond({0.0, 0.0, 0.0}, position_.accessFrame()))
+        .inFrame(outputFrameSPtr_);
 }
 
 void Static::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -83,6 +100,8 @@ void Static::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Position:" << (position_.isDefined() ? position_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Output Frame:" << ((outputFrameSPtr_ != nullptr) ? outputFrameSPtr_->getName() : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
