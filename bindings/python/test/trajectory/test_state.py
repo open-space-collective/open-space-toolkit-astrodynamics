@@ -606,9 +606,7 @@ class TestState:
         frame: Frame,
     ):
         assert state.has_covariance() is False
-
-        with pytest.raises(RuntimeError, match="Covariance"):
-            state.get_covariance()
+        assert state.get_covariance() is None
 
         covariance = Covariance(
             instant,
@@ -627,6 +625,11 @@ class TestState:
             state_with_covariance.get_covariance().get_coordinates(),
             covariance.get_coordinates(),
         )
+
+        state_with_covariance_removed = state_with_covariance.with_covariance(None)
+
+        assert state_with_covariance_removed.has_covariance() is False
+        assert state_with_covariance_removed.get_covariance() is None
 
         other_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 1), Scale.UTC)
         other_covariance = Covariance(

@@ -250,7 +250,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                 Get the Covariance of the state.
 
                 Returns:
-                    Covariance: The Covariance of the state.
+                    Covariance | None: The Covariance of the state, or None if no Covariance is attached.
             )doc"
         )
         .def(
@@ -259,8 +259,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             R"doc(
                 Return a copy of the state with a Covariance attached.
 
+                Passing None returns a copy of the state without a Covariance.
+
                 Args:
-                    covariance (Covariance): The Covariance to attach.
+                    covariance (Covariance | None): The Covariance to attach, or None to remove it.
 
                 Returns:
                     State: A copy of the state with the Covariance attached.

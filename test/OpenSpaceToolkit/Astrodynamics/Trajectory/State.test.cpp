@@ -1155,14 +1155,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Covariance)
         const State state = {instant, position, velocity};
 
         EXPECT_FALSE(state.hasCovariance());
-
-        EXPECT_THROW(
-            try { state.getCovariance(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Covariance"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
+        EXPECT_FALSE(state.getCovariance().has_value());
+        EXPECT_EQ(std::nullopt, state.getCovariance());
     }
 
     {
@@ -1185,9 +1179,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Covariance)
 
         EXPECT_FALSE(stateWithoutCovariance.hasCovariance());
         EXPECT_TRUE(state.hasCovariance());
-        EXPECT_EQ(instant, state.getCovariance().getInstant());
-        EXPECT_EQ(Frame::GCRF(), state.getCovariance().getFrame());
-        EXPECT_TRUE(state.getCovariance().getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+        EXPECT_TRUE(state.getCovariance().has_value());
+        EXPECT_EQ(instant, state.getCovariance()->getInstant());
+        EXPECT_EQ(Frame::GCRF(), state.getCovariance()->getFrame());
+        EXPECT_TRUE(state.getCovariance()->getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
 
         // State equality ignores the Covariance
         EXPECT_EQ(stateWithoutCovariance, state);
@@ -1195,17 +1190,29 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Covariance)
         const State copiedState = state;
 
         EXPECT_EQ(state, copiedState);
-        EXPECT_EQ(instant, copiedState.getCovariance().getInstant());
-        EXPECT_EQ(Frame::GCRF(), copiedState.getCovariance().getFrame());
-        EXPECT_TRUE(copiedState.getCovariance().getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+        EXPECT_EQ(instant, copiedState.getCovariance()->getInstant());
+        EXPECT_EQ(Frame::GCRF(), copiedState.getCovariance()->getFrame());
+        EXPECT_TRUE(copiedState.getCovariance()->getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
 
         State assignedState = State::Undefined();
         assignedState = state;
 
         EXPECT_EQ(state, assignedState);
-        EXPECT_EQ(instant, assignedState.getCovariance().getInstant());
-        EXPECT_EQ(Frame::GCRF(), assignedState.getCovariance().getFrame());
-        EXPECT_TRUE(assignedState.getCovariance().getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+        EXPECT_EQ(instant, assignedState.getCovariance()->getInstant());
+        EXPECT_EQ(Frame::GCRF(), assignedState.getCovariance()->getFrame());
+        EXPECT_TRUE(assignedState.getCovariance()->getCoordinates().isNear(covariance.getCoordinates(), 1e-15));
+
+        const State stateWithCovarianceRemoved = state.withCovariance(std::nullopt);
+
+        EXPECT_FALSE(stateWithCovarianceRemoved.hasCovariance());
+        EXPECT_EQ(std::nullopt, stateWithCovarianceRemoved.getCovariance());
+        EXPECT_EQ(state, stateWithCovarianceRemoved);
+        EXPECT_TRUE(state.hasCovariance());
+
+        const State stateWithoutCovarianceUnchanged = stateWithoutCovariance.withCovariance(std::nullopt);
+
+        EXPECT_FALSE(stateWithoutCovarianceUnchanged.hasCovariance());
+        EXPECT_EQ(stateWithoutCovariance, stateWithoutCovarianceUnchanged);
     }
 
     {

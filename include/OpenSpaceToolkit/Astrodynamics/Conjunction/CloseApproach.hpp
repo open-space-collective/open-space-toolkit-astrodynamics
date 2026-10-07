@@ -99,32 +99,6 @@ class CloseApproach
     /// @return The state of Object 2
     State getObject2State() const;
 
-    /// @brief Get the covariance of Object 1
-    ///
-    /// @details Returns std::nullopt if the state of Object 1 has no covariance attached.
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              std::optional<Covariance> object1Covariance =
-    ///              closeApproach.getObject1Covariance() ;
-    /// @endcode
-    ///
-    /// @return The covariance of Object 1, if any
-    std::optional<Covariance> getObject1Covariance() const;
-
-    /// @brief Get the covariance of Object 2
-    ///
-    /// @details Returns std::nullopt if the state of Object 2 has no covariance attached.
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              std::optional<Covariance> object2Covariance =
-    ///              closeApproach.getObject2Covariance() ;
-    /// @endcode
-    ///
-    /// @return The covariance of Object 2, if any
-    std::optional<Covariance> getObject2Covariance() const;
-
     /// @brief Return a new Close Approach with the covariances of Object 1 and Object 2 scaled by the given
     /// factors.
     ///

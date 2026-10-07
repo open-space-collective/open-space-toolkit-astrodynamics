@@ -383,14 +383,9 @@ Shared<const Frame> State::getFrame() const
     return this->accessFrame();
 }
 
-const Covariance& State::getCovariance() const
+const std::optional<Covariance>& State::getCovariance() const
 {
-    if (!this->covariance_.has_value())
-    {
-        throw ostk::core::error::runtime::Undefined("Covariance");
-    }
-
-    return *this->covariance_;
+    return this->covariance_;
 }
 
 Position State::getPosition() const
@@ -517,9 +512,9 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
     };
 }
 
-State State::withCovariance(const Covariance& aCovariance) const
+State State::withCovariance(const std::optional<Covariance>& aCovariance) const
 {
-    if (aCovariance.getInstant() != this->instant_)
+    if (aCovariance.has_value() && aCovariance->getInstant() != this->instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
     }

@@ -219,8 +219,8 @@ class State
 
     /// @brief Get the Covariance associated with the State.
     ///
-    /// @return The Covariance
-    const Covariance& getCovariance() const;
+    /// @return The Covariance, or std::nullopt if no Covariance is attached to the State
+    const std::optional<Covariance>& getCovariance() const;
 
     /// @brief Get the cartesian position associated with the State (if present).
     ///
@@ -299,11 +299,12 @@ class State
 
     /// @brief Return a copy of the State with a Covariance attached.
     ///
-    /// @details Raises a Wrong error when the Covariance instant differs from the State's instant.
+    /// @details Passing std::nullopt returns a copy of the State without a Covariance.
+    /// Raises a Wrong error when the Covariance instant differs from the State's instant.
     ///
-    /// @param aCovariance The Covariance to attach
+    /// @param aCovariance The Covariance to attach, or std::nullopt to remove it
     /// @return A copy of the State with the Covariance attached
-    State withCovariance(const Covariance& aCovariance) const;
+    State withCovariance(const std::optional<Covariance>& aCovariance) const;
 
     /// @brief Print the State to an output stream.
     ///

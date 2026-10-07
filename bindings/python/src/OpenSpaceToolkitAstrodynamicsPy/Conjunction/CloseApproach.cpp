@@ -84,28 +84,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            "get_object_1_covariance",
-            &CloseApproach::getObject1Covariance,
-            R"doc(
-                Get the covariance of Object 1.
-
-                Returns:
-                    Covariance | None: The covariance of Object 1, or None if the state of Object 1 has no covariance attached.
-            )doc"
-        )
-
-        .def(
-            "get_object_2_covariance",
-            &CloseApproach::getObject2Covariance,
-            R"doc(
-                Get the covariance of Object 2.
-
-                Returns:
-                    Covariance | None: The covariance of Object 2, or None if the state of Object 2 has no covariance attached.
-            )doc"
-        )
-
-        .def(
             "scale",
             &CloseApproach::scale,
             R"doc(

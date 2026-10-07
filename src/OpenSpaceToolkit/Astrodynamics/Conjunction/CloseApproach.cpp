@@ -97,36 +97,6 @@ State CloseApproach::getObject2State() const
     return object2State_;
 }
 
-std::optional<Covariance> CloseApproach::getObject1Covariance() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if (!object1State_.hasCovariance())
-    {
-        return std::nullopt;
-    }
-
-    return object1State_.getCovariance();
-}
-
-std::optional<Covariance> CloseApproach::getObject2Covariance() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if (!object2State_.hasCovariance())
-    {
-        return std::nullopt;
-    }
-
-    return object2State_.getCovariance();
-}
-
 CloseApproach CloseApproach::scale(const std::optional<Real>& aScaleFactor1, const std::optional<Real>& aScaleFactor2)
     const
 {
@@ -137,11 +107,11 @@ CloseApproach CloseApproach::scale(const std::optional<Real>& aScaleFactor1, con
 
     const State scaledObject1State =
         (aScaleFactor1.has_value() && object1State_.hasCovariance())
-            ? object1State_.withCovariance(object1State_.getCovariance().scale(aScaleFactor1.value()))
+            ? object1State_.withCovariance(object1State_.getCovariance().value().scale(aScaleFactor1.value()))
             : object1State_;
     const State scaledObject2State =
         (aScaleFactor2.has_value() && object2State_.hasCovariance())
-            ? object2State_.withCovariance(object2State_.getCovariance().scale(aScaleFactor2.value()))
+            ? object2State_.withCovariance(object2State_.getCovariance().value().scale(aScaleFactor2.value()))
             : object2State_;
 
     return {scaledObject1State, scaledObject2State};

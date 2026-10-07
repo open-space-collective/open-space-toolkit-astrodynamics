@@ -226,46 +226,6 @@ class TestCloseApproach:
         assert isinstance(state, State)
         assert state.get_instant() == object_2_state.get_instant()
 
-    def test_get_object_1_covariance_success(
-        self,
-        close_approach_with_covariances: CloseApproach,
-        object_1_covariance: Covariance,
-    ):
-        covariance = close_approach_with_covariances.get_object_1_covariance()
-
-        assert covariance is not None
-        assert isinstance(covariance, Covariance)
-        assert np.allclose(
-            covariance.get_coordinates(),
-            object_1_covariance.get_coordinates(),
-        )
-
-    def test_get_object_1_covariance_success_no_covariance(
-        self,
-        close_approach: CloseApproach,
-    ):
-        assert close_approach.get_object_1_covariance() is None
-
-    def test_get_object_2_covariance_success(
-        self,
-        close_approach_with_covariances: CloseApproach,
-        object_2_covariance: Covariance,
-    ):
-        covariance = close_approach_with_covariances.get_object_2_covariance()
-
-        assert covariance is not None
-        assert isinstance(covariance, Covariance)
-        assert np.allclose(
-            covariance.get_coordinates(),
-            object_2_covariance.get_coordinates(),
-        )
-
-    def test_get_object_2_covariance_success_no_covariance(
-        self,
-        close_approach: CloseApproach,
-    ):
-        assert close_approach.get_object_2_covariance() is None
-
     def test_scale_success(
         self,
         close_approach_with_covariances: CloseApproach,
@@ -281,11 +241,11 @@ class TestCloseApproach:
         assert isinstance(scaled_close_approach, CloseApproach)
         assert scaled_close_approach.is_defined() is True
         assert np.allclose(
-            scaled_close_approach.get_object_1_covariance().get_coordinates(),
+            scaled_close_approach.get_object_1_state().get_covariance().get_coordinates(),
             object_1_covariance.scale(2.0).get_coordinates(),
         )
         assert np.allclose(
-            scaled_close_approach.get_object_2_covariance().get_coordinates(),
+            scaled_close_approach.get_object_2_state().get_covariance().get_coordinates(),
             object_2_covariance.scale(4.0).get_coordinates(),
         )
 
@@ -293,11 +253,11 @@ class TestCloseApproach:
 
         assert scaled_object_1_only.is_defined() is True
         assert np.allclose(
-            scaled_object_1_only.get_object_1_covariance().get_coordinates(),
+            scaled_object_1_only.get_object_1_state().get_covariance().get_coordinates(),
             object_1_covariance.scale(2.0).get_coordinates(),
         )
         assert np.allclose(
-            scaled_object_1_only.get_object_2_covariance().get_coordinates(),
+            scaled_object_1_only.get_object_2_state().get_covariance().get_coordinates(),
             object_2_covariance.get_coordinates(),
         )
 
@@ -308,11 +268,11 @@ class TestCloseApproach:
 
         assert scaled_object_2_only.is_defined() is True
         assert np.allclose(
-            scaled_object_2_only.get_object_1_covariance().get_coordinates(),
+            scaled_object_2_only.get_object_1_state().get_covariance().get_coordinates(),
             object_1_covariance.get_coordinates(),
         )
         assert np.allclose(
-            scaled_object_2_only.get_object_2_covariance().get_coordinates(),
+            scaled_object_2_only.get_object_2_state().get_covariance().get_coordinates(),
             object_2_covariance.scale(4.0).get_coordinates(),
         )
 
@@ -364,11 +324,15 @@ class TestCloseApproach:
             swapped_close_approach.get_object_2_state() == object_1_state_with_covariance
         )
         assert np.allclose(
-            swapped_close_approach.get_object_1_covariance().get_coordinates(),
+            swapped_close_approach.get_object_1_state()
+            .get_covariance()
+            .get_coordinates(),
             object_2_covariance.get_coordinates(),
         )
         assert np.allclose(
-            swapped_close_approach.get_object_2_covariance().get_coordinates(),
+            swapped_close_approach.get_object_2_state()
+            .get_covariance()
+            .get_coordinates(),
             object_1_covariance.get_coordinates(),
         )
         assert (
