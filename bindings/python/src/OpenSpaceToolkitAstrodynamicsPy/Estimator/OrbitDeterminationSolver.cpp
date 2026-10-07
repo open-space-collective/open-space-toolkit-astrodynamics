@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -49,7 +49,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         )
         .def("__str__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
         .def("__repr__", &(shiftToString<OrbitDeterminationSolver::Analysis>))
-        .def_readonly(
+        .def_ro(
             "estimated_state",
             &OrbitDeterminationSolver::Analysis::estimatedState,
             R"doc(
@@ -58,7 +58,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
                 :type: State
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "solver_analysis",
             &OrbitDeterminationSolver::Analysis::solverAnalysis,
             R"doc(
@@ -73,10 +73,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
     orbitDeterminationSolver
         .def(
             init<const Environment&, const NumericalSolver&, const LeastSquaresSolver&, const Shared<Frame>&>(),
-            arg_v("environment", DEFAULT_ENVIRONMENT, "Environment.default()"),
-            arg_v("numerical_solver", DEFAULT_NUMERICAL_SOLVER, "NumericalSolver.default()"),
-            arg_v("solver", DEFAULT_LEAST_SQUARES_SOLVER, "LeastSquaresSolver.default()"),
-            arg_v("estimation_frame", DEFAULT_ESTIMATION_FRAME, "Frame.GCRF()"),
+            arg("environment").sig("Environment.default()") = DEFAULT_ENVIRONMENT,
+            arg("numerical_solver").sig("NumericalSolver.default()") = DEFAULT_NUMERICAL_SOLVER,
+            arg("solver").sig("LeastSquaresSolver.default()") = DEFAULT_LEAST_SQUARES_SOLVER,
+            arg("estimation_frame").sig("Frame.GCRF()") = DEFAULT_ESTIMATION_FRAME,
             R"doc(
                 Construct a new OrbitDeterminationSolver object.
 
@@ -90,7 +90,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         .def(
             "access_environment",
             &OrbitDeterminationSolver::accessEnvironment,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the environment.
 
@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         .def(
             "access_propagator",
             &OrbitDeterminationSolver::accessPropagator,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the propagator.
 
@@ -112,7 +112,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         .def(
             "access_solver",
             &OrbitDeterminationSolver::accessSolver,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the solver.
 
@@ -123,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
         .def(
             "access_estimation_frame",
             &OrbitDeterminationSolver::accessEstimationFrame,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the estimation frame.
 
@@ -136,9 +136,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             &OrbitDeterminationSolver::estimate,
             arg("initial_guess"),
             arg("observations"),
-            arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
-            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
-            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
+            arg("estimation_coordinate_subsets").sig("[]") = Array<Shared<const CoordinateSubset>>::Empty(),
+            arg("initial_guess_sigmas").sig("{}") = DEFAULT_INITIAL_GUESS_SIGMAS,
+            arg("observation_sigmas").sig("{}") = DEFAULT_OBSERVATION_SIGMAS,
             R"doc(
                 Estimate state from observations.
 
@@ -158,9 +158,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             &OrbitDeterminationSolver::estimateOrbit,
             arg("initial_guess"),
             arg("observations"),
-            arg_v("estimation_coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
-            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
-            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
+            arg("estimation_coordinate_subsets").sig("[]") = Array<Shared<const CoordinateSubset>>::Empty(),
+            arg("initial_guess_sigmas").sig("{}") = DEFAULT_INITIAL_GUESS_SIGMAS,
+            arg("observation_sigmas").sig("{}") = DEFAULT_OBSERVATION_SIGMAS,
             R"doc(
                 Estimate Propagated Orbit from observations.
 

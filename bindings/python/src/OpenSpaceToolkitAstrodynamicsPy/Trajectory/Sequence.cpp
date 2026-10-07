@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -57,7 +57,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         .def("__str__", &(shiftToString<Sequence::Solution>))
         .def("__repr__", &(shiftToString<Sequence::Solution>))
 
-        .def_readonly(
+        .def_ro(
             "segment_solutions",
             &Sequence::Solution::segmentSolutions,
             R"doc(
@@ -66,7 +66,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 :type: list[SegmentSolution]
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "execution_is_complete",
             &Sequence::Solution::executionIsComplete,
             R"doc(
@@ -237,10 +237,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                         Sequence: The new `Sequence` object.
 
                 )doc",
-                arg_v("segments", Array<Segment>::Empty(), "[]"),
-                arg_v("numerical_solver", NumericalSolver::Default(), "NumericalSolver.default()"),
-                arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
-                arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
+                arg("segments").sig("[]") = Array<Segment>::Empty(),
+                arg("numerical_solver").sig("NumericalSolver.default()") = NumericalSolver::Default(),
+                arg("dynamics").sig("[]") = Array<Shared<Dynamics>>::Empty(),
+                arg("maximum_propagation_duration").sig("Duration.days(30.0)") = Duration::Days(30.0),
                 arg("verbosity") = 1
             )
 
@@ -380,7 +380,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                 )doc",
                 arg("state"),
                 arg("event_condition"),
-                arg_v("maximum_propagation_duration_limit", Duration::Days(30.0), "Duration.days(30.0)")
+                arg("maximum_propagation_duration_limit").sig("Duration.days(30.0)") = Duration::Days(30.0)
             )
 
             ;

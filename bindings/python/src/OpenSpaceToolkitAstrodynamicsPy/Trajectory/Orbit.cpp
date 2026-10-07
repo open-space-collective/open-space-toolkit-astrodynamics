@@ -10,9 +10,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Integer;
@@ -30,7 +30,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::astrodynamics::trajectory::State;
 
     {
-        class_<Orbit, ostk::astrodynamics::Trajectory, Shared<Orbit>> orbit_class(
+        class_<Orbit, ostk::astrodynamics::Trajectory> orbit_class(
             aModule,
             "Orbit",
             R"doc(
@@ -91,8 +91,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const Orbit& self, const Orbit& other)
+                {
+                    return self == other;
+                },
+                nanobind::is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const Orbit& self, const Orbit& other)
+                {
+                    return self != other;
+                },
+                nanobind::is_operator()
+            )
 
             .def("__str__", &(shiftToString<Orbit>))
             .def("__repr__", &(shiftToString<Orbit>))
@@ -112,7 +126,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             .def(
                 "access_celestial_object",
                 &Orbit::accessCelestialObject,
-                return_value_policy::reference,
+                rv_policy::reference,
                 R"doc(
                     Access the celestial object.
 
@@ -125,7 +139,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             .def(
                 "access_model",
                 &Orbit::accessModel,
-                return_value_policy::reference,
+                rv_policy::reference,
                 R"doc(
                     Access the orbit model.
 
@@ -140,7 +154,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 {
                     return anOrbit.accessModel().as<Kepler>();
                 },
-                return_value_policy::reference,
+                rv_policy::reference,
                 R"doc(
                     Access the Kepler orbit model.
 
@@ -155,7 +169,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 {
                     return anOrbit.accessModel().as<SGP4>();
                 },
-                return_value_policy::reference,
+                rv_policy::reference,
                 R"doc(
                     Access the SGP4 orbit model.
 
@@ -170,7 +184,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 {
                     return anOrbit.accessModel().as<Propagated>();
                 },
-                return_value_policy::reference,
+                rv_policy::reference,
                 R"doc(
                     Access the propagated orbit model.
 
@@ -185,7 +199,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 {
                     return anOrbit.accessModel().as<Tabulated>();
                 },
-                return_value_policy::reference,
+                rv_policy::reference,
                 R"doc(
                     Access the tabulated orbit model.
 
@@ -240,7 +254,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                 )doc",
                 arg("revolution_number"),
-                arg_v("step_duration", Duration::Minutes(10.0), "Duration.minutes(10.0)")
+                arg("step_duration").sig("Duration.minutes(10.0)") = Duration::Minutes(10.0)
             )
             .def(
                 "get_passes_within_interval",
@@ -372,7 +386,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("altitude"),
                 arg("local_time_at_descending_node"),
                 arg("celestial_object"),
-                arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()"),
+                arg("argument_of_latitude").sig("Angle.zero()") = Angle::Zero(),
                 R"doc(
                     Create a sun-synchronous `Orbit` object.
 
@@ -394,11 +408,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("epoch"),
                 arg("altitude"),
                 arg("celestial_object"),
-                arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
-                arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
-                arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
-                arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
-                arg_v("true_anomaly", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
+                arg("eccentricity").sig("Real.undefined()") = Real::Undefined(),
+                arg("inclination").sig("Angle.undefined()") = Angle::Undefined(),
+                arg("raan").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
+                arg("aop").sig("Angle.undefined()") = Angle::Undefined(),
+                arg("true_anomaly").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
                 R"doc(
                     Create a frozen `Orbit` object.
 

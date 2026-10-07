@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -47,12 +47,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
             arg("end_lla"),
             arg("start_instant"),
             arg("end_instant"),
-            arg_v("celestial", Earth::WGS84(), "Earth.WGS84()"),
-            arg_v("step_size", Duration::Seconds(1e-2), "Duration.seconds(1e-2)")
+            arg("celestial").sig("Earth.WGS84()") = Earth::WGS84(),
+            arg("step_size").sig("Duration.seconds(1e-2)") = Duration::Seconds(1e-2)
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const TargetScan& self, const TargetScan& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const TargetScan& self, const TargetScan& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<TargetScan>))
         .def("__repr__", &(shiftToString<TargetScan>))
@@ -163,8 +177,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
             arg("end_lla"),
             arg("ground_speed"),
             arg("start_instant"),
-            arg_v("celestial", Earth::WGS84(), "Earth.WGS84()"),
-            arg_v("step_size", Duration::Seconds(1e-2), "Duration.seconds(1e-2)")
+            arg("celestial").sig("Earth.WGS84()") = Earth::WGS84(),
+            arg("step_size").sig("Duration.seconds(1e-2)") = Duration::Seconds(1e-2)
         )
 
         ;

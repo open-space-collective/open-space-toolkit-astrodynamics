@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
 
@@ -47,11 +47,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                 arg("inertia_tensor"),
                 arg("cross_sectional_surface_area"),
                 arg("drag_coefficient"),
-                arg_v("propulsion_system", PropulsionSystem::Undefined(), "undefined")
+                arg("propulsion_system").sig("undefined") = PropulsionSystem::Undefined()
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const SatelliteSystem& self, const SatelliteSystem& other)
+                {
+                    return self == other;
+                },
+                nanobind::is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const SatelliteSystem& self, const SatelliteSystem& other)
+                {
+                    return self != other;
+                },
+                nanobind::is_operator()
+            )
 
             .def("__str__", &(shiftToString<SatelliteSystem>))
             .def("__repr__", &(shiftToString<SatelliteSystem>))

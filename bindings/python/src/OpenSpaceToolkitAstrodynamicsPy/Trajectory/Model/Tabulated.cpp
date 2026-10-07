@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Map;
@@ -38,7 +38,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                     interpolation_type (Interpolator.Type): The type of interpolation to use. Defaults to Linear.
             )doc",
             arg("states"),
-            arg_v("interpolation_type", Interpolator::Type::Linear, "Interpolator.Type.Linear")
+            arg("interpolation_type").sig("Interpolator.Type.Linear") = Interpolator::Type::Linear
         )
 
         .def(

@@ -5,9 +5,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model/Tabulated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model/Transform.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::module &aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(nanobind::module_ &aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::astrodynamics::flight::profile::Model;
 

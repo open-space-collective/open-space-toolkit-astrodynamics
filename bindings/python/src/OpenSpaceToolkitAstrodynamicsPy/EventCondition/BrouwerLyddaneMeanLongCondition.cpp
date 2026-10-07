@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Pair;
 using ostk::core::type::Shared;
@@ -15,7 +15,7 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLongCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BrouwerLyddaneMeanLongCondition(nanobind::module_& aModule)
 {
     {
         class_<BrouwerLyddaneMeanLongCondition>(

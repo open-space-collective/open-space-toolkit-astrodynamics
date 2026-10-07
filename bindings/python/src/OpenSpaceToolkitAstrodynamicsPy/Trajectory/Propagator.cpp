@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -34,7 +34,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def(
             init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
             arg("numerical_solver"),
-            arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
+            arg("dynamics").sig("[]") = Array<Shared<Dynamics>>::Empty(),
             R"doc(
                 Construct a new `Propagator` object.
 
@@ -57,11 +57,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             arg("numerical_solver"),
             arg("dynamics"),
             arg("maneuvers"),
-            arg_v(
-                "interpolation_type",
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
                 DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
             R"doc(
                 Construct a new `Propagator` object with maneuvers.
 
@@ -76,8 +73,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Propagator& self, const Propagator& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Propagator& self, const Propagator& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))
@@ -165,11 +176,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             "add_maneuver",
             &Propagator::addManeuver,
             arg("maneuver"),
-            arg_v(
-                "interpolation_type",
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
                 DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
             R"doc(
                 Add a maneuver.
 

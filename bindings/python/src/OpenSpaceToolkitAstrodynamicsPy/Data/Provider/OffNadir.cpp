@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Data_Provider_OffNadir(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Data_Provider_OffNadir(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::astrodynamics::data::provider::ComputeOffNadirAngles;
 

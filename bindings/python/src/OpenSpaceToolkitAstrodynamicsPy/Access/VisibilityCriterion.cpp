@@ -1,7 +1,19 @@
 // VisibilityCriterion.cpp
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
+#include <nanobind/nanobind.h>
+#include <nanobind/stl/array.h>
+#include <nanobind/stl/complex.h>
+#include <nanobind/stl/map.h>
+#include <nanobind/stl/optional.h>
+#include <nanobind/stl/pair.h>
+#include <nanobind/stl/set.h>
+#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/tuple.h>
+#include <nanobind/stl/unique_ptr.h>
+#include <nanobind/stl/unordered_map.h>
+#include <nanobind/stl/unordered_set.h>
+#include <nanobind/stl/vector.h>
 
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -14,9 +26,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
-void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module& aModule)
+void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Map;
     using ostk::core::type::Real;
@@ -58,7 +70,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                     range_interval (RealInterval): Range interval in meters.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "azimuth",
             &VisibilityCriterion::AERInterval::azimuth,
             R"doc(
@@ -67,7 +79,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                 :type: RealInterval
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "elevation",
             &VisibilityCriterion::AERInterval::elevation,
             R"doc(
@@ -76,7 +88,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                 :type: RealInterval
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "range",
             &VisibilityCriterion::AERInterval::range,
             R"doc(
@@ -139,7 +151,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                     range_interval (RealInterval): Range interval in meters.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "azimuth_elevation_mask",
             &VisibilityCriterion::AERMask::azimuthElevationMask,
             R"doc(
@@ -148,7 +160,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                 :type: dict
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "range",
             &VisibilityCriterion::AERMask::range,
             R"doc(
@@ -243,7 +255,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
                     elevation_interval (RealInterval): The elevation interval in degrees.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "elevation",
             &VisibilityCriterion::ElevationInterval::elevation,
             R"doc(

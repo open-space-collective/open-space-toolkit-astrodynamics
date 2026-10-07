@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Shared;
 
@@ -11,10 +11,10 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(nanobind::module_& aModule)
 {
     {
-        class_<InstantCondition, RealCondition, Shared<InstantCondition>>(
+        class_<InstantCondition, RealCondition>(
             aModule,
             "InstantCondition",
             R"doc(

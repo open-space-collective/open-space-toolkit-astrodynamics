@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::mathematics::curvefitting::Interpolator;
 
@@ -32,8 +32,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Maneuver& self, const Maneuver& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Maneuver& self, const Maneuver& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<Maneuver>))
         .def("__repr__", &(shiftToString<Maneuver>))
@@ -119,8 +133,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         .def(
             "to_tabulated_dynamics",
             &Maneuver::toTabulatedDynamics,
-            arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
-            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
+            arg("frame").sig("GCRF") = Maneuver::DefaultAccelFrameSPtr,
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
+                DEFAULT_MANEUVER_INTERPOLATION_TYPE,
             R"doc(
                 Convert the maneuver to tabulated dynamics.
 
@@ -150,7 +165,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             "to_constant_local_orbital_frame_direction_maneuver",
             &Maneuver::toConstantLocalOrbitalFrameDirectionManeuver,
             arg("local_orbital_frame_factory"),
-            arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()"),
+            arg("maximum_allowed_angular_offset").sig("Angle.Undefined()") = Angle::Undefined(),
             R"doc(
                 Create a maneuver with a constant thrust acceleration direction in the Local Orbital Frame.
 

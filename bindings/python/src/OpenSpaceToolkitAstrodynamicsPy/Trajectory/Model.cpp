@@ -6,9 +6,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/Tabulated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/TargetScan.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(nanobind::module_ &aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using BaseModel = ostk::astrodynamics::trajectory::Model;
 

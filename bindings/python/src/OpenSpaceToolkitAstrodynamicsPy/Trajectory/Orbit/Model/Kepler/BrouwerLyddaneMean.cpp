@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <nanobind/trampoline.h>
+
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp>
@@ -7,7 +9,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/BrouwerLyddaneMeanLong.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/BrouwerLyddaneMeanShort.cpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Real;
 using ostk::physics::unit::Angle;
@@ -20,32 +22,32 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 class PyBrouwerLyddaneMean : public BrouwerLyddaneMean
 {
    public:
-    using BrouwerLyddaneMean::BrouwerLyddaneMean;
+    NB_TRAMPOLINE(BrouwerLyddaneMean, 4);
 
     // Trampoline (need one for each virtual function)
 
     Angle getMeanAnomaly() const
     {
-        PYBIND11_OVERRIDE_NAME(Angle, BrouwerLyddaneMean, "get_mean_anomaly", getMeanAnomaly);
+        NB_OVERRIDE_NAME("get_mean_anomaly", getMeanAnomaly);
     }
 
     Angle getTrueAnomaly() const
     {
-        PYBIND11_OVERRIDE_NAME(Angle, BrouwerLyddaneMean, "get_true_anomaly", getTrueAnomaly);
+        NB_OVERRIDE_NAME("get_true_anomaly", getTrueAnomaly);
     }
 
     Angle getEccentricAnomaly() const
     {
-        PYBIND11_OVERRIDE_NAME(Angle, BrouwerLyddaneMean, "get_eccentric_anomaly", getEccentricAnomaly);
+        NB_OVERRIDE_NAME("get_eccentric_anomaly", getEccentricAnomaly);
     }
 
     COE toCOE() const
     {
-        PYBIND11_OVERRIDE_PURE_NAME(COE, BrouwerLyddaneMean, "to_coe", toCOE);
+        NB_OVERRIDE_PURE_NAME("to_coe", toCOE);
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean(nanobind::module_& aModule)
 {
     {
         class_<BrouwerLyddaneMean, PyBrouwerLyddaneMean, COE> brouwerLyddaneMean(
