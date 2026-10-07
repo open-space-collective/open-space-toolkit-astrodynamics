@@ -95,7 +95,7 @@ class Static : public virtual Model
     /// @return True if the model is defined, false otherwise
     virtual bool isDefined() const override;
 
-    /// @brief Calculate the state at a given instant
+    /// @brief Calculate the state at a given instant, expressed in the frame of the position
     ///
     /// @code{.cpp}
     ///              Static staticModel = { ... };
