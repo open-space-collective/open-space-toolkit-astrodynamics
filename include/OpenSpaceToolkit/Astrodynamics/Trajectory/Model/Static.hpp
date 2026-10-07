@@ -3,6 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static__
 
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
@@ -18,6 +21,9 @@ namespace trajectory
 namespace model
 {
 
+using ostk::core::type::Shared;
+
+using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
@@ -31,13 +37,29 @@ class Static : public virtual Model
    public:
     /// @brief Constructor
     ///
+    ///                      The computed states are expressed in the frame of the provided position.
+    ///
     /// @code{.cpp}
     ///              Position position = { ... };
     ///              Static staticModel(position);
     /// @endcode
     ///
-    /// @param aPosition The position of the static model. Must be provided in the ITRF frame.
+    /// @param aPosition The position of the static model. Must be provided in a non quasi-inertial frame (e.g.
+    /// ITRF).
     Static(const Position& aPosition);
+
+    /// @brief Constructor with an explicit output frame.
+    ///
+    /// @code{.cpp}
+    ///              Position position = { ... };
+    ///              Static staticModel(position, Frame::GCRF());
+    /// @endcode
+    ///
+    /// @param aPosition The position of the static model. Must be provided in a non quasi-inertial frame (e.g.
+    /// ITRF).
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. The fixed position (with
+    /// zero velocity in its own frame) is converted to this frame at each requested instant.
+    Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr);
 
     /// @brief Clone the static model
     ///
@@ -95,7 +117,20 @@ class Static : public virtual Model
     /// @return True if the model is defined, false otherwise
     virtual bool isDefined() const override;
 
-    /// @brief Calculate the state at a given instant, expressed in the frame of the position
+    /// @brief Get the reference frame in which the computed states are expressed.
+    ///
+    /// @code{.cpp}
+    ///              Static staticModel = { ... };
+    ///              Shared<const Frame> frame = staticModel.getFrame();
+    /// @endcode
+    ///
+    /// @return The output reference frame.
+    Shared<const Frame> getFrame() const;
+
+    /// @brief Calculate the state at a given instant, expressed in the output frame of the model
+    ///
+    ///                      The output frame is the frame of the position unless an explicit output frame was
+    ///                      provided at construction.
     ///
     /// @code{.cpp}
     ///              Static staticModel = { ... };
@@ -145,6 +180,7 @@ class Static : public virtual Model
 
    private:
     Position position_;
+    Shared<const Frame> outputFrameSPtr_;
 };
 
 }  // namespace model
