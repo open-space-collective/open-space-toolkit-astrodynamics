@@ -504,36 +504,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "align_and_constrain",
-            [](const Shared<const Profile::Target>& anAlignmentTargetSPtr,
-               const Shared<const Profile::Target>& aClockingTargetSPtr,
-               const Angle& anAngularOffset) -> std::function<Quaternion(const State&)>
-            {
-                PyErr_WarnEx(
-                    PyExc_DeprecationWarning,
-                    "Use align_and_constrain(alignment_target, clocking_target, celestial, angular_offset) instead.",
-                    1
-                );
-                return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, anAngularOffset);
-            },
-            R"doc(
-                Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
-
-                Args:
-                    alignment_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The alignment target.
-                    clocking_target (Profile.Target | Profile.TrajectoryTarget | Profile.OrientationProfileTarget | Profile.CustomTarget): The clocking target.
-                    angular_offset (Angle): The angular offset. Defaults to `Angle.Zero()`.
-
-                Returns:
-                    callable[Quaternion, State]: The custom orientation.
-
-            )doc",
-            arg("alignment_target"),
-            arg("clocking_target"),
-            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
-        )
-
-        .def_static(
-            "align_and_constrain",
             overload_cast<
                 const Shared<const Profile::Target>&,
                 const Shared<const Profile::Target>&,

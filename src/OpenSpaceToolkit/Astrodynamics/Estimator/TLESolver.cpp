@@ -80,8 +80,7 @@ TLESolver::TLESolver(
     const Integer& aSatelliteNumber,
     const String& anInternationalDesignator,
     const Integer& aRevolutionNumber,
-    const bool anEstimateBStar,
-    const Shared<const Frame>& anEstimationFrameSPtr
+    const bool anEstimateBStar
 )
     : solver_(aSolver),
       satelliteNumber_(aSatelliteNumber),
@@ -95,12 +94,6 @@ TLESolver::TLESolver(
       elementSetNumber_(0),
       tleStateBuilder_(StateBuilder::Undefined())
 {
-    if ((*anEstimationFrameSPtr) != (*Frame::TEME()))
-    {
-        std::cerr
-            << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. Solving is done natively in TEME."
-            << std::endl;
-    }
     // Setup coordinate subsets for TLE state
     Array<Shared<const CoordinateSubset>> coordinateSubsets = {
         SemiLatusRectumSubset,
@@ -142,13 +135,6 @@ const Integer& TLESolver::accessRevolutionNumber() const
 const bool& TLESolver::accessEstimateBStar() const
 {
     return estimateBStar_;
-}
-
-const Shared<const Frame>& TLESolver::accessEstimationFrame() const
-{
-    std::cerr << "[TLESolver] Warning: The 'estimationFrame' parameter is deprecated. Solving is done natively in TEME."
-              << std::endl;
-    return estimationFrameSPtr_;
 }
 
 const Real& TLESolver::accessDefaultBStar() const

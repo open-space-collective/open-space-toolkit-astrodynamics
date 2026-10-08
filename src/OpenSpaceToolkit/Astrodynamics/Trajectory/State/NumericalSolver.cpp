@@ -305,40 +305,6 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
     };
 }
 
-NumericalSolver NumericalSolver::DefaultConditional(const std::function<void(const State&)>& stateLogger)
-{
-    return {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        5.0,
-        1.0e-12,
-        1.0e-12,
-        RootSolver::Default(),
-        stateLogger,
-    };
-}
-
-NumericalSolver NumericalSolver::Conditional(
-    const Real& aTimeStep,
-    const Real& aRelativeTolerance,
-    const Real& anAbsoluteTolerance,
-    const std::function<void(const State&)>& stateLogger
-)
-{
-    const NumericalSolver::LogType logType =
-        stateLogger != nullptr ? NumericalSolver::LogType::LogAdaptive : NumericalSolver::LogType::NoLog;
-
-    return {
-        logType,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        aTimeStep,
-        aRelativeTolerance,
-        anAbsoluteTolerance,
-        RootSolver::Default(),
-        stateLogger,
-    };
-}
-
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
     const NumericalSolver::StepperType& aStepperType,

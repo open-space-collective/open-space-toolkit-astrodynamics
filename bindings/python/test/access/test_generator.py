@@ -148,11 +148,8 @@ class TestAccessTarget:
         access_target: AccessTarget,
         earth: Earth,
     ):
-        assert access_target.get_position() is not None
-        assert isinstance(access_target.get_position(), Position)
-
         assert access_target.get_position(earth) is not None
-        assert isinstance(access_target.get_position(), Position)
+        assert isinstance(access_target.get_position(earth), Position)
 
     def test_get_lla_success(
         self,

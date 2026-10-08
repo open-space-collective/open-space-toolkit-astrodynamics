@@ -23,7 +23,7 @@ from ostk.physics.unit import Derived
 from ostk.physics.unit import Length
 from ostk.physics.unit import Mass
 
-from ostk.astrodynamics.event_condition import COECondition
+from ostk.astrodynamics.event_condition import OrbitalElementCondition
 from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import RealCondition
 from ostk.astrodynamics import Dynamics
@@ -201,7 +201,7 @@ def dynamics(environment: Environment) -> list:
 
 @pytest.fixture
 def numerical_solver() -> NumericalSolver:
-    return NumericalSolver.default_conditional()
+    return NumericalSolver.default()
 
 
 @pytest.fixture
@@ -254,8 +254,9 @@ def sma_target(sma: Length) -> EventCondition.Target:
 @pytest.fixture
 def sma_condition(
     sma_target: EventCondition.Target, gravitational_parameter: Derived
-) -> COECondition:
-    return COECondition.semi_major_axis(
+) -> RealCondition:
+    return OrbitalElementCondition.semi_major_axis(
+        theory=OrbitalElementCondition.Theory.Osculating,
         criterion=RealCondition.Criterion.AnyCrossing,
         frame=Frame.GCRF(),
         semi_major_axis=sma_target,
@@ -279,7 +280,7 @@ def coast_duration_segment(
 
 @pytest.fixture
 def coast_sma_segment(
-    sma_condition: COECondition,
+    sma_condition: RealCondition,
     dynamics: list[Dynamics],
     numerical_solver: NumericalSolver,
 ):
