@@ -40,12 +40,29 @@ class LocalOrbitalFrameFactory
 {
    public:
     typedef std::function<Transform(const State&)> TransformGenerator;
+
+    /// @brief Equal to operator
+    ///
+    /// @details Two factories are equal if they are both defined, have the same type and the same parent frame.
+    /// Custom factories hold an opaque transform generator that cannot be compared, so they are only equal to
+    /// themselves.
+    ///
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory
+    /// @return True if local orbital frame factories are equal
+    bool operator==(const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory) const;
+
+    /// @brief Not equal to operator
+    ///
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory
+    /// @return True if local orbital frame factories are not equal
+    bool operator!=(const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory) const;
+
     /// @brief Generate a frame shared pointer based on current state input.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory factory = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
     ///     State state = { ... } ;
-    ///     Shared<const Frame> frame = factorySPtr->generateFrame(state) ;
+    ///     Shared<const Frame> frame = factory.generateFrame(state) ;
     /// @endcode
     ///
     /// @param aState A State.
@@ -55,8 +72,8 @@ class LocalOrbitalFrameFactory
     /// @brief Check if local orbital frame factory is defined.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = { ... } ;
-    ///     bool defined = factorySPtr->isDefined() ;
+    ///     LocalOrbitalFrameFactory factory = { ... } ;
+    ///     bool defined = factory.isDefined() ;
     /// @endcode
     ///
     /// @return True if local orbital frame factory is defined.
@@ -75,79 +92,79 @@ class LocalOrbitalFrameFactory
     /// @brief Construct a NED (North-East-Down) local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> nedFactorySPtr = LocalOrbitalFrameFactory::NED(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory nedFactory = LocalOrbitalFrameFactory::NED(Frame::GCRF()) ;
     /// @endcode
     ///
     /// @param aParentFrame A parent frame.
-    /// @return A shared pointer to a LocalOrbitalFrameFactory.
-    static Shared<const LocalOrbitalFrameFactory> NED(const Shared<const Frame>& aParentFrame);
+    /// @return A LocalOrbitalFrameFactory.
+    static LocalOrbitalFrameFactory NED(const Shared<const Frame>& aParentFrame);
 
     /// @brief Construct a LVLH (Local Vertical Local Horizontal) local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> lvlhFactorySPtr = LocalOrbitalFrameFactory::LVLH(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory lvlhFactory = LocalOrbitalFrameFactory::LVLH(Frame::GCRF()) ;
     /// @endcode
     ///
     /// @param aParentFrame A parent frame.
-    /// @return A shared pointer to a LocalOrbitalFrameFactory.
-    static Shared<const LocalOrbitalFrameFactory> LVLH(const Shared<const Frame>& aParentFrame);
+    /// @return A LocalOrbitalFrameFactory.
+    static LocalOrbitalFrameFactory LVLH(const Shared<const Frame>& aParentFrame);
 
     /// @brief Construct a VVLH (Vehicle Velocity Local Horizontal) local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> vvlhFactorySPtr = LocalOrbitalFrameFactory::VVLH(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory vvlhFactory = LocalOrbitalFrameFactory::VVLH(Frame::GCRF()) ;
     /// @endcode
     ///
     /// @param aParentFrame A parent frame.
-    /// @return A shared pointer to a LocalOrbitalFrameFactory.
-    static Shared<const LocalOrbitalFrameFactory> VVLH(const Shared<const Frame>& aParentFrame);
+    /// @return A LocalOrbitalFrameFactory.
+    static LocalOrbitalFrameFactory VVLH(const Shared<const Frame>& aParentFrame);
 
     /// @brief Construct a QSW local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory qswFactory = LocalOrbitalFrameFactory::QSW(Frame::GCRF()) ;
     /// @endcode
     ///
     /// @param aParentFrame A parent frame.
-    /// @return A shared pointer to a LocalOrbitalFrameFactory.
-    static Shared<const LocalOrbitalFrameFactory> QSW(const Shared<const Frame>& aParentFrame);
+    /// @return A LocalOrbitalFrameFactory.
+    static LocalOrbitalFrameFactory QSW(const Shared<const Frame>& aParentFrame);
 
     /// @brief Construct a TNW (Tangent-Normal-Wideband) local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
     /// @endcode
     ///
     /// @param aParentFrame A parent frame.
-    /// @return A shared pointer to a LocalOrbitalFrameFactory.
-    static Shared<const LocalOrbitalFrameFactory> TNW(const Shared<const Frame>& aParentFrame);
+    /// @return A LocalOrbitalFrameFactory.
+    static LocalOrbitalFrameFactory TNW(const Shared<const Frame>& aParentFrame);
 
     /// @brief Construct a VNC (Velocity-Normal-Co-normal) local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> vncFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameFactory vncFactory = LocalOrbitalFrameFactory::VNC(Frame::GCRF()) ;
     /// @endcode
     ///
     /// @param aParentFrame A parent frame.
-    /// @return A shared pointer to a LocalOrbitalFrameFactory.
-    static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
+    /// @return A LocalOrbitalFrameFactory.
+    static LocalOrbitalFrameFactory VNC(const Shared<const Frame>& aParentFrame);
 
     /// @brief Construct an undefined local orbital frame factory.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = LocalOrbitalFrameFactory::Undefined() ;
+    ///     LocalOrbitalFrameFactory factory = LocalOrbitalFrameFactory::Undefined() ;
     /// @endcode
     ///
-    /// @return Undefined local orbital frame factory shared pointer.
-    static Shared<const LocalOrbitalFrameFactory> Undefined();
+    /// @return Undefined local orbital frame factory.
+    static LocalOrbitalFrameFactory Undefined();
 
     /// @brief Construct function
     ///
     /// @param aType The type of local orbital frame transform provider
     /// @param aParentFrame The parent frame of the local orbital frame factory
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
-    static Shared<const LocalOrbitalFrameFactory> Construct(
+    /// @return A LocalOrbitalFrameFactory
+    static LocalOrbitalFrameFactory Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
 
@@ -156,8 +173,8 @@ class LocalOrbitalFrameFactory
     /// @param aTransformGenerator A function to generate the transform
     /// @param aParentFrame The parent frame of the local orbital frame factory
     ///
-    /// @return A shared pointer to a LocalOrbitalFrameFactory
-    static Shared<const LocalOrbitalFrameFactory> Construct(
+    /// @return A LocalOrbitalFrameFactory
+    static LocalOrbitalFrameFactory Construct(
         const TransformGenerator& aTransformGenerator, const Shared<const Frame>& aParentFrame
     );
 

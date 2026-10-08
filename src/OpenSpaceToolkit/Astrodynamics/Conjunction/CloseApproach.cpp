@@ -284,7 +284,7 @@ Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFram
 }
 
 Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLocalOrbitalFrame(
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 ) const
 {
     if (!this->isDefined())
@@ -292,12 +292,12 @@ Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLoca
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    if ((aLocalOrbitalFrameFactorySPtr == nullptr) || (!aLocalOrbitalFrameFactorySPtr->isDefined()))
+    if (!aLocalOrbitalFrameFactory.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("LocalOrbitalFrameFactory");
     }
 
-    const Shared<const Frame> localOrbitalFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(object1State_);
+    const Shared<const Frame> localOrbitalFrame = aLocalOrbitalFrameFactory.generateFrame(object1State_);
     const State relativeStateInFrame = object2State_.inFrame(localOrbitalFrame);
     const Position relativePosition = relativeStateInFrame.getPosition();
     const Vector3d coordinates = relativePosition.inMeters().getCoordinates();
