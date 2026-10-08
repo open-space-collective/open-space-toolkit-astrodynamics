@@ -11,7 +11,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
-from ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean import (
+from ostk.astrodynamics.trajectory.orbit.model.brouwer_lyddane_mean import (
     BrouwerLyddaneMeanLong,
 )
 
