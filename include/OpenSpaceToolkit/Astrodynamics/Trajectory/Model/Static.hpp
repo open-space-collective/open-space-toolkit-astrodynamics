@@ -37,29 +37,21 @@ class Static : public virtual Model
    public:
     /// @brief Constructor
     ///
-    ///                      The computed states are expressed in the frame of the provided position.
+    ///                      The computed states are expressed in the provided output frame if any, or in the frame
+    ///                      of the provided position otherwise.
     ///
     /// @code{.cpp}
     ///              Position position = { ... };
-    ///              Static staticModel(position);
+    ///              Static staticModel(position);                 // States expressed in the frame of the position
+    ///              Static staticModel(position, Frame::GCRF());  // States expressed in GCRF
     /// @endcode
     ///
     /// @param aPosition The position of the static model. Must be provided in a non quasi-inertial frame (e.g.
     /// ITRF).
-    Static(const Position& aPosition);
-
-    /// @brief Constructor with an explicit output frame.
-    ///
-    /// @code{.cpp}
-    ///              Position position = { ... };
-    ///              Static staticModel(position, Frame::GCRF());
-    /// @endcode
-    ///
-    /// @param aPosition The position of the static model. Must be provided in a non quasi-inertial frame (e.g.
-    /// ITRF).
-    /// @param aFrameSPtr The reference frame in which the computed states are expressed. The fixed position (with
-    /// zero velocity in its own frame) is converted to this frame at each requested instant.
-    Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr);
+    /// @param aFrameSPtr (optional) The reference frame in which the computed states are expressed. The fixed position
+    /// (with zero velocity in its own frame) is converted to this frame at each requested instant. Defaults to the
+    /// frame of the provided position.
+    Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr = nullptr);
 
     /// @brief Clone the static model
     ///
@@ -130,7 +122,7 @@ class Static : public virtual Model
     /// @brief Calculate the state at a given instant, expressed in the output frame of the model
     ///
     ///                      The output frame is the frame of the position unless an explicit output frame was
-    ///                      provided at construction.
+    ///                      provided at construction (see `getFrame`).
     ///
     /// @code{.cpp}
     ///              Static staticModel = { ... };
