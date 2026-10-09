@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 namespace ostk
 {
@@ -44,6 +45,7 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 #define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
@@ -87,15 +89,15 @@ class LeastSquaresSolver
         ///
         /// @param aTerminationCriteria Termination criteria description.
         /// @param anEstimatedState Estimated state.
-        /// @param anEstimatedCovariance Estimated covariance matrix.
-        /// @param anEstimatedFrisbeeCovariance Estimated Frisbee covariance matrix.
+        /// @param anEstimatedCovariance Estimated covariance.
+        /// @param anEstimatedFrisbeeCovariance Estimated Frisbee covariance.
         /// @param aComputedObservationsStateArray Array of computed observation states.
         /// @param aStepArray Array of solver iteration steps.
         Analysis(
             const String& aTerminationCriteria,
             const State& anEstimatedState,
-            const MatrixXd& anEstimatedCovariance,
-            const MatrixXd& anEstimatedFrisbeeCovariance,
+            const Covariance& anEstimatedCovariance,
+            const Covariance& anEstimatedFrisbeeCovariance,
             const Array<State>& aComputedObservationsStateArray,
             const Array<Step>& aStepArray
         );
@@ -114,8 +116,8 @@ class LeastSquaresSolver
         Size iterationCount;                     ///< Number of iterations performed.
         String terminationCriteria;              ///< Description of why the solver terminated.
         State estimatedState;                    ///< Estimated state at the solution.
-        MatrixXd estimatedCovariance;            ///< Estimated covariance matrix of the solution.
-        MatrixXd estimatedFrisbeeCovariance;     ///< Estimated Frisbee covariance matrix of the solution.
+        Covariance estimatedCovariance;          ///< Estimated covariance of the solution.
+        Covariance estimatedFrisbeeCovariance;   ///< Estimated Frisbee covariance of the solution.
         Array<State> computedObservationStates;  ///< Array of computed observation states at the solution.
         Array<Step> steps;                       ///< Array of solver iteration steps.
     };
