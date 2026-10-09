@@ -20,6 +20,7 @@ from ostk.astrodynamics.trajectory.state import CoordinateSubset
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
 from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
 from ostk.astrodynamics.estimator import OrbitDeterminationSolver
+from ostk.astrodynamics.uncertainty import Covariance
 from ostk.astrodynamics.dataframe import generate_states_from_dataframe
 
 
@@ -138,13 +139,23 @@ def estimated_state() -> State:
 
 
 @pytest.fixture
-def estimated_covariance() -> np.ndarray:
-    return np.array([[1.0, 0.0], [0.0, 1.0]])
+def estimated_covariance(estimated_state: State) -> Covariance:
+    return Covariance(
+        estimated_state.get_instant(),
+        np.array([[1.0, 0.0], [0.0, 1.0]]),
+        estimated_state.get_frame(),
+        estimated_state.get_coordinate_subsets(),
+    )
 
 
 @pytest.fixture
-def estimated_frisbee_covariance() -> np.ndarray:
-    return np.array([[1.0, 0.0], [0.0, 1.0]])
+def estimated_frisbee_covariance(estimated_state: State) -> Covariance:
+    return Covariance(
+        estimated_state.get_instant(),
+        np.array([[1.0, 0.0], [0.0, 1.0]]),
+        estimated_state.get_frame(),
+        estimated_state.get_coordinate_subsets(),
+    )
 
 
 @pytest.fixture
@@ -163,8 +174,8 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 def solver_analysis(
     termination_criteria: str,
     estimated_state: State,
-    estimated_covariance: np.ndarray,
-    estimated_frisbee_covariance: np.ndarray,
+    estimated_covariance: Covariance,
+    estimated_frisbee_covariance: Covariance,
     computed_observations: list[State],
     steps: list[LeastSquaresSolver.Step],
 ) -> LeastSquaresSolver.Analysis:
