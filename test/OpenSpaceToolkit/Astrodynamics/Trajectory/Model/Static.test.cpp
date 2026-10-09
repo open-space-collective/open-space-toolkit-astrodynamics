@@ -44,6 +44,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, Constructor)
     }
 
     {
+        EXPECT_NO_THROW(Static staticModel(position_, nullptr));
+    }
+
+    {
         EXPECT_THROW(
             Static staticModel(Position::Meters({7000000.0, 0.0, 0.0}, Frame::GCRF())),
             ostk::core::error::runtime::Wrong
@@ -58,7 +62,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, Constructor)
     }
 
     {
-        EXPECT_THROW(Static staticModel(position_, nullptr), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Static staticModel(position_, Frame::Undefined()), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -67,6 +71,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, EqualToOperator)
     {
         EXPECT_TRUE(Static(position_) == Static(position_));
         EXPECT_TRUE(Static(position_) == Static(position_, Frame::ITRF()));
+        EXPECT_TRUE(Static(position_) == Static(position_, nullptr));
         EXPECT_TRUE(Static(position_, Frame::GCRF()) == Static(position_, Frame::GCRF()));
     }
 
@@ -99,6 +104,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, GetFrame)
 {
     {
         EXPECT_EQ(Static(position_).getFrame(), Frame::ITRF());
+    }
+
+    {
+        EXPECT_EQ(Static(position_, nullptr).getFrame(), Frame::ITRF());
     }
 
     {

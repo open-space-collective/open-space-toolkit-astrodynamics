@@ -14,15 +14,10 @@ namespace trajectory
 namespace model
 {
 
-Static::Static(const Position& aPosition)
-    : Static(aPosition, aPosition.accessFrame())
-{
-}
-
 Static::Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr)
     : Model(),
       position_(aPosition),
-      outputFrameSPtr_(aFrameSPtr)
+      outputFrameSPtr_((aFrameSPtr != nullptr) ? aFrameSPtr : aPosition.accessFrame())
 {
     if (aPosition.accessFrame()->isQuasiInertial())
     {
@@ -31,7 +26,7 @@ Static::Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr)
         );
     }
 
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (!outputFrameSPtr_->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }
@@ -100,8 +95,7 @@ void Static::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Position:" << (position_.isDefined() ? position_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Output Frame:" << ((outputFrameSPtr_ != nullptr) ? outputFrameSPtr_->getName() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Output Frame:" << outputFrameSPtr_->getName();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

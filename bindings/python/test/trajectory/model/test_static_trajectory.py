@@ -37,6 +37,16 @@ class TestStatic:
         assert isinstance(static, Static)
         assert static.is_defined()
 
+    def test_constructor_with_none_output_frame(
+        self,
+        position: Position,
+    ):
+        static: Static = Static(position, None)
+
+        assert isinstance(static, Static)
+        assert static.is_defined()
+        assert static == Static(position)
+
     def test_get_frame(
         self,
         static: Static,

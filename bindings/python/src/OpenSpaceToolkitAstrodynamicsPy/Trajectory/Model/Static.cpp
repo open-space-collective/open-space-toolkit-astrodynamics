@@ -24,35 +24,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::mo
     )
 
         .def(
-            init<const Position&>(),
+            init<const Position&, const Shared<const Frame>&>(),
             R"doc(
                 Construct a `Static` object from a position.
 
-                The computed states are expressed in the frame of the provided position.
+                The computed states are expressed in the provided output frame if any, or in the frame of the provided position otherwise.
 
                 Args:
                     position (Position): The position. Must be in a non quasi-inertial frame (e.g. ITRF).
-
-                Returns:
-                    Static: The `Static` object.
-            )doc",
-            arg("position")
-        )
-
-        .def(
-            init<const Position&, const Shared<const Frame>&>(),
-            R"doc(
-                Construct a `Static` object from a position, with an explicit output frame.
-
-                Args:
-                    position (Position): The position. Must be in a non quasi-inertial frame (e.g. ITRF).
-                    output_frame (Frame): The reference frame in which the computed states are expressed. The fixed position (with zero velocity in its own frame) is converted to this frame at each requested instant.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The fixed position (with zero velocity in its own frame) is converted to this frame at each requested instant. Defaults to None, in which case the frame of the position is used.
 
                 Returns:
                     Static: The `Static` object.
             )doc",
             arg("position"),
-            arg("output_frame")
+            arg("output_frame") = none()
         )
 
         .def(self == self)
