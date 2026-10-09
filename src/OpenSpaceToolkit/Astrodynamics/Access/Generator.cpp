@@ -1038,12 +1038,12 @@ Access Generator::GenerateAccess(
         );
     }
 
-    const Angle maxElevation =
+    const std::optional<Angle> maxElevation =
         timeOfClosestApproach.isDefined()
-            ? Generator::CalculateElevationAt(
+            ? std::optional<Angle>(Generator::CalculateElevationAt(
                   timeOfClosestApproach, aFromTrajectory, aToTrajectory, aCelestialSPtr, aFixedFromPositionCoordinates
-              )
-            : Angle::Undefined();
+              ))
+            : std::nullopt;
 
     return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
 }
