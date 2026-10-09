@@ -150,8 +150,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddan
             ;
     }
 
-    // Create "brouwerLyddaneMean" python submodule
-    auto brouwerLyddaneMean = aModule.def_submodule("brouwerLyddaneMean");
+    // Create "brouwer_lyddane_mean" python submodule
+    auto brouwerLyddaneMean = aModule.def_submodule("brouwer_lyddane_mean");
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean_BrouwerLyddaneMeanShort(brouwerLyddaneMean
     );
