@@ -44,8 +44,8 @@ void LeastSquaresSolver::Step::print(std::ostream& anOutputStream) const
 LeastSquaresSolver::Analysis::Analysis(
     const String& aTerminationCriteria,
     const State& anEstimatedState,
-    const MatrixXd& anEstimatedCovariance,
-    const MatrixXd& anEstimatedFrisbeeCovariance,
+    const Covariance& anEstimatedCovariance,
+    const Covariance& anEstimatedFrisbeeCovariance,
     const Array<State>& aComputedObservationsStateArray,
     const Array<Step>& aStepArray
 )
@@ -450,7 +450,21 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         }
     }
 
-    return Analysis(terminationCriteria, currentEstimatedState, PHat, PHatFrisbee, computedObservationStates, steps);
+    // Enforce exact symmetry, lost to rounding errors in the matrix products above
+    // P = (P + Pᵀ) / 2
+    PHat = (0.5 * (PHat + PHat.transpose())).eval();
+    PHatFrisbee = (0.5 * (PHatFrisbee + PHatFrisbee.transpose())).eval();
+
+    const Array<Shared<const CoordinateSubset>> estimatedStateSubsets = currentEstimatedState.getCoordinateSubsets();
+
+    return Analysis(
+        terminationCriteria,
+        currentEstimatedState,
+        Covariance(estimatedStateInstant, PHat, currentEstimatedState.accessFrame(), estimatedStateSubsets),
+        Covariance(estimatedStateInstant, PHatFrisbee, currentEstimatedState.accessFrame(), estimatedStateSubsets),
+        computedObservationStates,
+        steps
+    );
 }
 
 MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aResidualStateArray)
