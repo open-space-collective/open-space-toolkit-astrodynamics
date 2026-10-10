@@ -15,8 +15,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -67,8 +67,8 @@ using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -142,12 +142,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         1.0e-12,
     };
 
-    const Shared<AngularCondition> defaultCondition_ = std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
-        AngularCondition::Criterion::AnyCrossing,
-        Frame::GCRF(),
-        Angle::Degrees(0.0),
-        EarthGravitationalModel::EGM2008.gravitationalParameter_
-    ));
+    const Shared<AngularCondition> defaultCondition_ =
+        std::make_shared<AngularCondition>(OrbitalElementCondition::TrueAnomaly(
+            OrbitalElementCondition::Theory::Osculating,
+            AngularCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            Angle::Degrees(0.0),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
 
     const Segment coastSegment_ = Segment::Coast("Coast", defaultCondition_, defaultDynamics_, defaultNumericalSolver_);
 
@@ -675,7 +677,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddCoastSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
-        defaultSequence_.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+        defaultSequence_.addCoastSegment(std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::Osculating,
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
             Length::Kilometers(6999.5),
@@ -698,7 +701,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
             std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr);
 
         defaultSequence_.addManeuverSegment(
-            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+                OrbitalElementCondition::Theory::Osculating,
                 RealCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
                 Length::Kilometers(7000.0),
@@ -892,7 +896,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         defaultMaximumPropagationDuration_,
     };
 
-    sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+    sequence.addCoastSegment(std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::Osculating,
         RealCondition::Criterion::AnyCrossing,
         Frame::GCRF(),
         Length::Kilometers(6999.5),
@@ -900,7 +905,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     )));
 
     sequence.addManeuverSegment(
-        std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+        std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::Osculating,
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
             Length::Kilometers(7000.0),
@@ -965,7 +971,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 
     {
         const Shared<AngularCondition> relativeTrueAnomalyCondition =
-            std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
+            std::make_shared<AngularCondition>(OrbitalElementCondition::TrueAnomaly(
+                OrbitalElementCondition::Theory::Osculating,
                 AngularCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
                 EventCondition::Target(Angle::Degrees(5.0), EventCondition::Target::Type::Relative),
@@ -1797,7 +1804,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
             defaultMaximumPropagationDuration_,
         };
 
-        sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+        sequence.addCoastSegment(std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::Osculating,
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
             Length::Kilometers(6999.5),
@@ -1805,7 +1813,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
         )));
 
         sequence.addManeuverSegment(
-            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+                OrbitalElementCondition::Theory::Osculating,
                 RealCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
                 Length::Kilometers(7000.0),

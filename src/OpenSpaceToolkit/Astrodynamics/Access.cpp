@@ -20,13 +20,6 @@ Access::Access(
       lossOfSignal_(aLossOfSignal),
       maxElevation_(aMaxElevation)
 {
-    if (aType == Access::Type::Undefined)
-    {
-        std::cerr
-            << "[Access] Warning: Access Type [Undefined] is deprecated. Accesses can only be Complete or Partial."
-            << std::endl;
-    }
-
     if (this->isDefined())
     {
         if (type_ == Access::Type::Complete)
@@ -120,7 +113,7 @@ bool Access::isDefined() const
         return acquisitionOfSignal_.isDefined() && lossOfSignal_.isDefined();
     }
 
-    return false;  // TBM: Throw an error after the deprecation of Undefined type
+    return false;
 }
 
 bool Access::isComplete() const
@@ -214,12 +207,6 @@ String Access::StringFromType(const Access::Type& aType)
 {
     switch (aType)
     {
-        case Access::Type::Undefined:
-            std::cerr
-                << "[Access] Warning: Access Type [Undefined] is deprecated. Accesses can only be Complete or Partial."
-                << std::endl;
-            return "Undefined";
-
         case Access::Type::Complete:
             return "Complete";
 

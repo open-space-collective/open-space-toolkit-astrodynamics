@@ -45,7 +45,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
@@ -90,7 +90,7 @@ using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::Thruster;
-using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
+using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
@@ -281,10 +281,13 @@ static void BM_Segment_ConstantThrust_Intrack_550_to_580(benchmark::State& state
     const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
     const Segment::ManeuverConstraints constraints = BuildConstantThrustConstraints();
 
-    const Shared<RealCondition> condition =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing, gcrfSPtr, Length::Meters(TARGET_SMA_580_M), mu
-        ));
+    const Shared<RealCondition> condition = std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
+        RealCondition::Criterion::AnyCrossing,
+        gcrfSPtr,
+        Length::Meters(TARGET_SMA_580_M),
+        mu
+    ));
 
     const Shared<const ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
 
@@ -322,10 +325,13 @@ static void BM_Segment_QLaw_Analytical_SMA_550_to_580(benchmark::State& state)
     const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
     const Segment::ManeuverConstraints constraints = BuildQLawConstraints();
 
-    const Shared<RealCondition> condition =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing, gcrfSPtr, Length::Meters(TARGET_SMA_580_M), mu
-        ));
+    const Shared<RealCondition> condition = std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
+        RealCondition::Criterion::AnyCrossing,
+        gcrfSPtr,
+        Length::Meters(TARGET_SMA_580_M),
+        mu
+    ));
 
     const COE targetCOE = {
         Length::Meters(TARGET_SMA_580_M),
@@ -389,10 +395,13 @@ static void BM_Segment_QLaw_FiniteDifference_SMA_550_to_580(benchmark::State& st
     const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
     const Segment::ManeuverConstraints constraints = BuildQLawConstraints();
 
-    const Shared<RealCondition> condition =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing, gcrfSPtr, Length::Meters(TARGET_SMA_580_M), mu
-        ));
+    const Shared<RealCondition> condition = std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
+        RealCondition::Criterion::AnyCrossing,
+        gcrfSPtr,
+        Length::Meters(TARGET_SMA_580_M),
+        mu
+    ));
 
     const COE targetCOE = {
         Length::Meters(TARGET_SMA_580_M),
@@ -456,10 +465,13 @@ static void BM_Segment_QLaw_Analytical_Frozen_550_to_580(benchmark::State& state
     const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
     const Segment::ManeuverConstraints constraints = BuildQLawConstraints();
 
-    const Shared<RealCondition> condition =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing, gcrfSPtr, Length::Meters(TARGET_SMA_580_M), mu
-        ));
+    const Shared<RealCondition> condition = std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
+        RealCondition::Criterion::AnyCrossing,
+        gcrfSPtr,
+        Length::Meters(TARGET_SMA_580_M),
+        mu
+    ));
 
     // Frozen SSO target: a = 6958 km, e ~ 0.0011, AoP = 90 deg
     const COE frozenTargetCOE = {
@@ -540,10 +552,13 @@ static void BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580(benchmark::St
         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Days(1.0))
     );
 
-    const Shared<RealCondition> condition =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
-            RealCondition::Criterion::AnyCrossing, gcrfSPtr, Length::Meters(TARGET_SMA_580_M), mu
-        ));
+    const Shared<RealCondition> condition = std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
+        RealCondition::Criterion::AnyCrossing,
+        gcrfSPtr,
+        Length::Meters(TARGET_SMA_580_M),
+        mu
+    ));
 
     const Shared<const ConstantThrust> constantThrustSPtr = std::make_shared<ConstantThrust>(ConstantThrust::Intrack());
 

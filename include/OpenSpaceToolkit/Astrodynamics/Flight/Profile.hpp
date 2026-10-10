@@ -405,22 +405,6 @@ class Profile
     ///
     /// @param anAlignmentTargetSPtr An alignment target
     /// @param aClockingTargetSPtr A clocking target
-    /// @param anAngularOffset An angular offset applied to the clocking axis
-    [[deprecated(
-        "Use AlignAndConstrain(const Shared<const Target>& anAlignmentTargetSPtr, const Shared<const Target>& "
-        "aClockingTargetSPtr, const Shared<const Celestial>& aCelestialSPtr, const Angle& anAngularOffset = "
-        "Angle::Zero()) instead."
-    )]]
-    static std::function<Quaternion(const State&)> AlignAndConstrain(
-        const Shared<const Target>& anAlignmentTargetSPtr,
-        const Shared<const Target>& aClockingTargetSPtr,
-        const Angle& anAngularOffset = Angle::Zero()
-    );
-
-    /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.
-    ///
-    /// @param anAlignmentTargetSPtr An alignment target
-    /// @param aClockingTargetSPtr A clocking target
     /// @param aCelestialSPtr A celestial object. Its body frame will be used for geodetic nadir and
     /// sliding ground velocity calculations
     /// @param anAngularOffset An angular offset applied to the clocking axis
