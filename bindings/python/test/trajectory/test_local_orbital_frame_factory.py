@@ -73,8 +73,12 @@ class TestLocalOrbitalFrameFactory:
         assert LocalOrbitalFrameFactory.VVLH(Frame.GCRF()) is not None
 
     def test_comparators(self):
-        assert LocalOrbitalFrameFactory.VNC(Frame.GCRF()) == LocalOrbitalFrameFactory.VNC(Frame.GCRF())
-        assert LocalOrbitalFrameFactory.VNC(Frame.GCRF()) != LocalOrbitalFrameFactory.TNW(Frame.GCRF())
+        assert LocalOrbitalFrameFactory.VNC(Frame.GCRF()) == LocalOrbitalFrameFactory.VNC(
+            Frame.GCRF()
+        )
+        assert LocalOrbitalFrameFactory.VNC(Frame.GCRF()) != LocalOrbitalFrameFactory.TNW(
+            Frame.GCRF()
+        )
 
     def test_accessors(
         self,
