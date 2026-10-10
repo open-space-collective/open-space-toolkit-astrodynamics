@@ -32,7 +32,7 @@ using ostk::physics::unit::Angle;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 
-static const Shared<const LocalOrbitalFrameFactory> VVLHFrameFactory = LocalOrbitalFrameFactory::VVLH(Frame::GCRF());
+static const LocalOrbitalFrameFactory VVLHFrameFactory = LocalOrbitalFrameFactory::VVLH(Frame::GCRF());
 
 Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Position& aTargetPosition)
 {
@@ -48,7 +48,7 @@ Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Posi
 
     const Instant instant = aState.getInstant();
 
-    const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory->generateFrame(aState);
+    const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory.generateFrame(aState);
 
     // Calculate satellite to target direction vector in GCRF frame
     const Vector3d satelliteToTargetDirection =

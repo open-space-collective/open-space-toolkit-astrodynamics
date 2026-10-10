@@ -757,7 +757,7 @@ Segment::Segment(
     const Array<Shared<Dynamics>>& aFreeDynamicsArray,
     const Shared<Thruster>& aThrusterDynamics,
     const NumericalSolver& aNumericalSolver,
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
     const Angle& aMaximumAllowedAngularOffset,
     const ManeuverConstraints& aManeuverConstraints
 )
@@ -1027,8 +1027,7 @@ Segment::Solution Segment::solve(
     const auto constructLOFCompliantManeuverSolution = [&](const Segment::Solution& maneuverSolution,
                                                            const FlightManeuver& maneuver) -> Segment::Solution
     {
-        if (this->constantManeuverDirectionLocalOrbitalFrameFactory_ == nullptr ||
-            !this->constantManeuverDirectionLocalOrbitalFrameFactory_->isDefined())
+        if (!this->constantManeuverDirectionLocalOrbitalFrameFactory_.isDefined())
         {
             return maneuverSolution;
         }
@@ -1640,7 +1639,7 @@ Segment Segment::Maneuver(
         aDynamicsArray,
         aThrusterDynamics,
         aNumericalSolver,
-        nullptr,
+        LocalOrbitalFrameFactory::Undefined(),
         Angle::Undefined(),
         aManeuverConstraints,
     };
@@ -1652,7 +1651,7 @@ Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
     const Shared<Thruster>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver,
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
     const Angle& aMaximumAllowedAngularOffset,
     const ManeuverConstraints& aManeuverConstraints
 )

@@ -359,10 +359,10 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
 }
 
 Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDirectionAndMaximumAngularOffset(
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 ) const
 {
-    if ((aLocalOrbitalFrameFactorySPtr == nullptr) || !aLocalOrbitalFrameFactorySPtr->isDefined())
+    if (!aLocalOrbitalFrameFactory.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
     }
@@ -374,7 +374,7 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
 
     for (const auto& state : states_)
     {
-        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
 
         const Vector3d thrustAcceleration = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr);
         const Transform transform = state.accessFrame()->getTransformTo(lofFrame, state.accessInstant());
@@ -413,17 +413,16 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
     }
 
     const LocalOrbitalFrameDirection meanLocalOrbitalFrameDirection =
-        LocalOrbitalFrameDirection(meanThrustDirectionInLof, aLocalOrbitalFrameFactorySPtr);
+        LocalOrbitalFrameDirection(meanThrustDirectionInLof, aLocalOrbitalFrameFactory);
     return {meanLocalOrbitalFrameDirection, maximumAngularOffset};
 }
 
 Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
-    const Angle& aMaximumAllowedAngularOffset
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory, const Angle& aMaximumAllowedAngularOffset
 ) const
 {
     const MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-        this->calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);
+        this->calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactory);
 
     if (aMaximumAllowedAngularOffset.isDefined() && meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0) >
                                                         aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0))
@@ -443,7 +442,7 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
     for (const auto& state : states_)
     {
         const Instant& instant = state.accessInstant();
-        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
         const Shared<const Frame>& stateFrame = state.accessFrame();
 
         const Real originalMagnitude = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();

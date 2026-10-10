@@ -784,13 +784,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(gcrfFrame);
-        const Shared<const Frame> qswFrameSPtr = qswFactorySPtr->generateFrame(object1State);
+        const LocalOrbitalFrameFactory qswFactory = LocalOrbitalFrameFactory::QSW(gcrfFrame);
+        const Shared<const Frame> qswFrameSPtr = qswFactory.generateFrame(object1State);
 
         const Tuple<Length, Length, Length> missDistanceComponents =
             closeApproach.computeMissDistanceComponentsInFrame(qswFrameSPtr);
         const Tuple<Length, Length, Length> expectedMissDistanceComponents =
-            closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactorySPtr);
+            closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactory);
 
         EXPECT_NEAR(
             std::get<0>(missDistanceComponents).inMeters(), std::get<0>(expectedMissDistanceComponents).inMeters(), 1e-3
@@ -849,10 +849,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(gcrfFrame);
+        const LocalOrbitalFrameFactory qswFactory = LocalOrbitalFrameFactory::QSW(gcrfFrame);
 
         const Tuple<Length, Length, Length> missDistanceComponents =
-            closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactorySPtr);
+            closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactory);
 
         EXPECT_NEAR(std::get<0>(missDistanceComponents).inMeters(), -7.0e6, 1e-3);
         EXPECT_NEAR(std::get<1>(missDistanceComponents).inMeters(), 7.0e6, 1e-3);
@@ -862,11 +862,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
     {
         const CloseApproach closeApproach = CloseApproach::Undefined();
 
-        const Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(Frame::GCRF());
+        const LocalOrbitalFrameFactory qswFactory = LocalOrbitalFrameFactory::QSW(Frame::GCRF());
 
         EXPECT_THROW(
             try {
-                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactorySPtr);
+                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactory);
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
@@ -884,31 +884,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const Shared<const LocalOrbitalFrameFactory> undefinedFactorySPtr = LocalOrbitalFrameFactory::Undefined();
+        const LocalOrbitalFrameFactory undefinedFactory = LocalOrbitalFrameFactory::Undefined();
 
         EXPECT_THROW(
             try {
-                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(undefinedFactorySPtr);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{LocalOrbitalFrameFactory} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
-        const Shared<const Frame> gcrfFrame = Frame::GCRF();
-
-        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
-        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
-
-        const CloseApproach closeApproach(object1State, object2State);
-
-        EXPECT_THROW(
-            try {
-                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(nullptr);
+                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(undefinedFactory);
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{LocalOrbitalFrameFactory} is undefined.", e.getMessage());
                 throw;
