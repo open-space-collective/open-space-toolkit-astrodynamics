@@ -1,8 +1,11 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -29,6 +32,7 @@ using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
+using ostk::core::type::Unique;
 
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::VectorXd;
@@ -39,8 +43,10 @@ using ostk::physics::coordinate::Velocity;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
+using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -257,6 +263,56 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
             { const Tabulated tabulated(states_, interpolationTypes, nullFrameSPtr); },
             ostk::core::error::runtime::Undefined
         );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, GetValidityInterval)
+{
+    const Interval expectedInterval =
+        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
+
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
+
+        EXPECT_EQ(tabulated.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(tabulated.getValidityInterval(), tabulated.getInterval());
+
+        // Accessible from the base model
+        const Model& model = tabulated;
+
+        EXPECT_EQ(model.getValidityInterval(), expectedInterval);
+    }
+
+    // Set by every constructor, regardless of the order of the provided states
+    {
+        Array<State> reversedStates = states_;
+        std::reverse(reversedStates.begin(), reversedStates.end());
+
+        EXPECT_EQ(Tabulated(reversedStates, Interpolator::Type::Linear).getValidityInterval(), expectedInterval);
+        EXPECT_EQ(
+            Tabulated(reversedStates, Interpolator::Type::Linear, Frame::ITRF()).getValidityInterval(), expectedInterval
+        );
+        EXPECT_EQ(Tabulated::Default(reversedStates).getValidityInterval(), expectedInterval);
+        EXPECT_EQ(Tabulated::Default(reversedStates, Frame::ITRF()).getValidityInterval(), expectedInterval);
+    }
+
+    // Preserved by copies
+    {
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
+
+        const Tabulated copiedTabulated = tabulated;
+        const Unique<Tabulated> clonedTabulatedUPtr(tabulated.clone());
+
+        EXPECT_EQ(copiedTabulated.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(clonedTabulatedUPtr->getValidityInterval(), expectedInterval);
+    }
+
+    // Undefined model
+    {
+        const Tabulated tabulated(Array<State>::Empty(), Interpolator::Type::Linear);
+
+        EXPECT_FALSE(tabulated.isDefined());
+        EXPECT_EQ(tabulated.getValidityInterval(), std::nullopt);
     }
 }
 

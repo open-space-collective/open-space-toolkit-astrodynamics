@@ -9,6 +9,7 @@ from ostk.mathematics.curve_fitting import Interpolator
 
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
+from ostk.physics.time import Interval
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
@@ -139,6 +140,15 @@ class TestTabulatedProfile:
         interval = tabulated_model.get_interval()
 
         assert interval is not None
+
+    def test_get_validity_interval(
+        self,
+        tabulated_model: TabulatedModel,
+    ):
+        validity_interval = tabulated_model.get_validity_interval()
+
+        assert isinstance(validity_interval, Interval)
+        assert validity_interval == tabulated_model.get_interval()
 
     def test_get_interpolator_type(
         self,

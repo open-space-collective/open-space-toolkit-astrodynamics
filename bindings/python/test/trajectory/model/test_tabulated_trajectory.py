@@ -11,7 +11,7 @@ from ostk.astrodynamics.trajectory.state.coordinate_subset import (
 )
 from ostk.mathematics.curve_fitting import Interpolator
 from ostk.physics.coordinate import Frame, Position, Velocity
-from ostk.physics.time import DateTime, Instant, Scale
+from ostk.physics.time import DateTime, Instant, Interval, Scale
 
 
 @pytest.fixture
@@ -254,6 +254,15 @@ class TestTabulatedTrajectory:
             )
             is not None
         )
+
+    def test_get_validity_interval(
+        self,
+        tabulated: Tabulated,
+    ):
+        validity_interval = tabulated.get_validity_interval()
+
+        assert isinstance(validity_interval, Interval)
+        assert validity_interval == tabulated.get_interval()
 
     def test_constructor_with_interpolation_types(
         self,
