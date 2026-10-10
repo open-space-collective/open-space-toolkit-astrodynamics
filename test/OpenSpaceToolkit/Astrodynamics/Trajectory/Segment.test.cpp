@@ -42,10 +42,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -114,10 +113,9 @@ using ostk::astrodynamics::dynamics::PositionDerivative;
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
-using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::eventcondition::LogicalCondition;
+using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -1913,12 +1911,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
     }
 
     {
-        const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
-            RealCondition::Criterion::AnyCrossing,
-            defaultFrameSPtr_,
-            Real(0.5),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        ));
+        const Shared<RealCondition> eventCondition =
+            std::make_shared<RealCondition>(OrbitalElementCondition::Eccentricity(
+                OrbitalElementCondition::Theory::Osculating,
+                RealCondition::Criterion::AnyCrossing,
+                defaultFrameSPtr_,
+                Real(0.5),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
 
         const Segment segment =
             Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
@@ -2011,12 +2011,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
     }
 
     {
-        const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
-            RealCondition::Criterion::AnyCrossing,
-            defaultFrameSPtr_,
-            Real(0.5),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        ));
+        const Shared<RealCondition> eventCondition =
+            std::make_shared<RealCondition>(OrbitalElementCondition::Eccentricity(
+                OrbitalElementCondition::Theory::Osculating,
+                RealCondition::Criterion::AnyCrossing,
+                defaultFrameSPtr_,
+                Real(0.5),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
 
         const Segment segment =
             Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
@@ -4784,7 +4786,7 @@ TEST_F(
 
     const Environment environment(initialInstant, {earthSPtr});
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
-    const NumericalSolver numericalSolver = NumericalSolver::DefaultConditional();
+    const NumericalSolver numericalSolver = NumericalSolver::Default();
 
     const COE initialBLMAsCOE = initialBLM.toCOE();
     const COE targetCOE = {
@@ -4973,14 +4975,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     const Duration maximumSimulationDuration = Duration::Hours(2.0);
 
     const Shared<RealCondition> smaLowerBoundConditionSPtr =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+        std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
             RealCondition::Criterion::StrictlyPositive,
             Frame::GCRF(),
             targetSMA,
             EarthGravitationalModel::EGM2008.gravitationalParameter_
         ));
     const Shared<RealCondition> smaUpperBoundConditionSPtr =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+        std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
             RealCondition::Criterion::StrictlyNegative,
             Frame::GCRF(),
             2.0 * targetSMA,

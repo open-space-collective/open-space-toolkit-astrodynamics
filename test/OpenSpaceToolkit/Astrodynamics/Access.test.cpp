@@ -683,7 +683,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, StringFromType)
     using ostk::astrodynamics::Access;
 
     {
-        EXPECT_EQ("Undefined", Access::StringFromType(Access::Type::Undefined));
         EXPECT_EQ("Complete", Access::StringFromType(Access::Type::Complete));
         EXPECT_EQ("Partial", Access::StringFromType(Access::Type::Partial));
     }

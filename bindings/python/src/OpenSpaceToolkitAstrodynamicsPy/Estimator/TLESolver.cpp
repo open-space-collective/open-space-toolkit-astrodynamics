@@ -79,19 +79,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
     tleSolver
         .def(
-            init<
-                const LeastSquaresSolver&,
-                const Integer&,
-                const String&,
-                const Integer&,
-                const bool,
-                const Shared<const Frame>&>(),
+            init<const LeastSquaresSolver&, const Integer&, const String&, const Integer&, const bool>(),
             arg_v("solver", LeastSquaresSolver::Default(), "LeastSquaresSolver.default()"),
             arg("satellite_number") = 0,
             arg("international_designator") = "00001A",
             arg("revolution_number") = 0,
             arg("estimate_b_star") = true,
-            arg_v("estimation_frame", Frame::TEME(), "Frame.TEME()"),
             R"doc(
                 Construct a new TLESolver object.
 
@@ -101,7 +94,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                     international_designator (str, optional): International designator for TLE. Defaults to "00001A".
                     revolution_number (int, optional): Revolution number. Defaults to 0.
                     estimate_b_star (bool, optional): Whether to also estimate the B* parameter. Defaults to True.
-                    estimation_frame (Frame, optional): (Deprecated) Solving is done natively in TEME. This field will be removed in a future version.
             )doc"
         )
         .def(

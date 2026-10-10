@@ -252,6 +252,7 @@ class TestProfile:
         orientation = Profile.align_and_constrain(
             alignment_target=alignment_target,
             clocking_target=clocking_target,
+            celestial=orbit.access_celestial_object(),
         )
 
         assert orientation is not None
@@ -266,7 +267,7 @@ class TestProfile:
         profile = Profile.custom_pointing(
             orbit=orbit,
             orientation_generator=Profile.align_and_constrain(
-                alignment_target, clocking_target
+                alignment_target, clocking_target, orbit.access_celestial_object()
             ),
         )
 

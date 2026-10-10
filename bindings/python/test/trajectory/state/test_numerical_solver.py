@@ -1,6 +1,5 @@
 # Apache License 2.0
 
-from typing import Callable
 
 import pytest
 
@@ -102,14 +101,6 @@ def absolute_tolerance() -> float:
 
 
 @pytest.fixture
-def state_logger() -> Callable:
-    def log_state(state: State) -> None:
-        print(state.get_coordinates())
-
-    return log_state
-
-
-@pytest.fixture
 def numerical_solver(
     log_type: NumericalSolver.LogType,
     variable_size_stepper_type: NumericalSolver.StepperType,
@@ -128,7 +119,7 @@ def numerical_solver(
 
 @pytest.fixture
 def numerical_solver_conditional() -> NumericalSolver:
-    return NumericalSolver.default_conditional()
+    return NumericalSolver.default()
 
 
 class TestNumericalSolver:
@@ -265,29 +256,6 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
-    def test_integrate_conditional_with_logger(
-        self,
-        initial_state: State,
-        state_logger: Callable,
-        custom_condition: RealCondition,
-        capsys,
-    ):
-        numerical_solver: NumericalSolver = NumericalSolver.conditional(
-            5.0,
-            1.0e-15,
-            1.0e-15,
-            state_logger,
-        )
-        end_time: float = initial_state.get_instant() + Duration.seconds(10.0)
-
-        numerical_solver.integrate_time(
-            initial_state, end_time, oscillator, custom_condition
-        )
-
-        captured = capsys.readouterr()
-
-        assert captured.out != ""
-
     def test_default(self):
         assert NumericalSolver.default() is not None
 
@@ -307,21 +275,3 @@ class TestNumericalSolver:
         )
         with pytest.raises(Exception):
             NumericalSolver.fixed_step_size(variable_size_stepper_type, initial_time_step)
-
-    def test_default_conditional(self, state_logger):
-        assert NumericalSolver.default_conditional() is not None
-        assert NumericalSolver.default_conditional(state_logger) is not None
-
-    def test_conditional(
-        self,
-        initial_time_step: float,
-        relative_tolerance: float,
-        absolute_tolerance: float,
-        state_logger,
-    ):
-        assert (
-            NumericalSolver.conditional(
-                initial_time_step, relative_tolerance, absolute_tolerance, state_logger
-            )
-            is not None
-        )

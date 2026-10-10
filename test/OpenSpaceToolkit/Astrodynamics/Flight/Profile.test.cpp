@@ -1253,23 +1253,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             );
         }
 
-        // Trajectory (test interface without celestial)
-        {
-            const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
-            const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::TrajectoryTarget>(
-                    Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X())
-                ),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y())
-            );
-
-            const Quaternion q_B_GCRF = orientation(state);
-
-            EXPECT_VECTORS_ALMOST_EQUAL(
-                q_B_GCRF * -state.getPosition().getCoordinates().normalized(), Vector3d::X(), 1e-12
-            );
-        }
-
         // Orientation profile
         {
             const Array<Pair<Instant, Vector3d>> orientationProfile = {

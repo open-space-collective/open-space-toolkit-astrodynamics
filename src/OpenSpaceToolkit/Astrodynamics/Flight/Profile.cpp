@@ -374,16 +374,6 @@ Profile Profile::CustomPointing(
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
     const Shared<const Target>& anAlignmentTargetSPtr,
     const Shared<const Target>& aClockingTargetSPtr,
-    const Angle& anAngularOffset
-)
-{
-    const Shared<const Celestial> celestialSPtr = std::make_shared<Earth>(Earth::Default());
-    return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, celestialSPtr, anAngularOffset);
-}
-
-std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
-    const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr,
     const Shared<const Celestial>& aCelestialSPtr,
     const Angle& anAngularOffset
 )
