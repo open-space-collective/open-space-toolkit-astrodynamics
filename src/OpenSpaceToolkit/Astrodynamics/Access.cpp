@@ -12,7 +12,7 @@ Access::Access(
     const Instant& anAcquisitionOfSignal,
     const Instant& aTimeOfClosestApproach,
     const Instant& aLossOfSignal,
-    const Angle& aMaxElevation
+    const std::optional<Angle>& aMaxElevation
 )
     : type_(aType),
       acquisitionOfSignal_(anAcquisitionOfSignal),
@@ -93,7 +93,9 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Access& anAccess)
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Maximum Elevation:"
-        << (anAccess.maxElevation_.isDefined() ? anAccess.maxElevation_.toString() : "Undefined");
+        << ((anAccess.maxElevation_.has_value() && anAccess.maxElevation_->isDefined())
+                ? anAccess.maxElevation_->toString()
+                : "Undefined");
 
     ostk::core::utils::Print::Footer(anOutputStream);
 
@@ -105,7 +107,7 @@ bool Access::isDefined() const
     if (type_ == Access::Type::Complete)
     {
         return acquisitionOfSignal_.isDefined() && timeOfClosestApproach_.isDefined() && lossOfSignal_.isDefined() &&
-               maxElevation_.isDefined();
+               (!maxElevation_.has_value() || maxElevation_->isDefined());
     }
 
     if (type_ == Access::Type::Partial)
@@ -186,7 +188,7 @@ Duration Access::getDuration() const
     return Duration::Between(acquisitionOfSignal_, lossOfSignal_);
 }
 
-Angle Access::getMaxElevation() const
+std::optional<Angle> Access::getMaxElevation() const
 {
     if (!this->isDefined())
     {
@@ -199,7 +201,7 @@ Angle Access::getMaxElevation() const
 Access Access::Undefined()
 {
     return Access(
-        Access::Type::Partial, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), Angle::Undefined()
+        Access::Type::Partial, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), std::nullopt
     );
 }
 

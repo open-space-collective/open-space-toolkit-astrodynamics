@@ -641,7 +641,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
             defaultEarthSPtr_
         );
 
-        EXPECT_LT(access.getMaxElevation().inDegrees() - aerAtTCA.getElevation().inDegrees(), 1e-6);
+        EXPECT_LT(access.getMaxElevation().value().inDegrees() - aerAtTCA.getElevation().inDegrees(), 1e-6);
     }
 }
 
