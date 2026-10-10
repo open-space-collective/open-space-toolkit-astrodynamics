@@ -861,12 +861,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(5.0))
     );
 
-    const Shared<const LocalOrbitalFrameFactory> defaultLocalOrbitalFrameFactorySPtr_ =
-        LocalOrbitalFrameFactory::VNC(defaultFrameSPtr_);
+    const LocalOrbitalFrameFactory defaultLocalOrbitalFrameFactory_ = LocalOrbitalFrameFactory::VNC(defaultFrameSPtr_);
 
-    const Shared<const ConstantThrust> constantThrustSPtr_ = std::make_shared<ConstantThrust>(
-        LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, defaultLocalOrbitalFrameFactorySPtr_)
-    );
+    const Shared<const ConstantThrust> constantThrustSPtr_ =
+        std::make_shared<ConstantThrust>(LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, defaultLocalOrbitalFrameFactory_));
 
     const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
 
@@ -1811,7 +1809,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ConstantLocalOrbitalFr
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_
+            defaultLocalOrbitalFrameFactory_
         ));
     }
 }
@@ -2135,7 +2133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
 
         const Maneuver maneuver = maneuveringSegment.solve(currentState).extractManeuvers(defaultFrameSPtr_)[0];
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(defaultLocalOrbitalFrameFactorySPtr_);
+            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(defaultLocalOrbitalFrameFactory_);
 
         // Maximum allowed angular offset is not provided
         {
@@ -2147,7 +2145,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
-                defaultLocalOrbitalFrameFactorySPtr_
+                defaultLocalOrbitalFrameFactory_
             );
 
             const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
@@ -2167,7 +2165,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
-                defaultLocalOrbitalFrameFactorySPtr_,
+                defaultLocalOrbitalFrameFactory_,
                 Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
             );
 
@@ -2188,7 +2186,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
-                defaultLocalOrbitalFrameFactorySPtr_,
+                defaultLocalOrbitalFrameFactory_,
                 Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
             );
 
@@ -2225,7 +2223,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_
+            defaultLocalOrbitalFrameFactory_
         );
 
         const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
@@ -2279,7 +2277,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         {
             heterogeneousGuidanceLaw->addGuidanceLaw(
                 std::make_shared<ConstantThrust>(
-                    ConstantThrust::FromManeuver(maneuvers[i], defaultLocalOrbitalFrameFactorySPtr_)
+                    ConstantThrust::FromManeuver(maneuvers[i], defaultLocalOrbitalFrameFactory_)
                 ),
                 maneuvers[i].getInterval()
             );
@@ -2354,7 +2352,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_,
+            defaultLocalOrbitalFrameFactory_,
             Angle::Undefined(),
             constraints
         );
@@ -2527,7 +2525,7 @@ TEST_F(
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_,
+            defaultLocalOrbitalFrameFactory_,
             Angle::Undefined(),
             constraints
         );
@@ -4709,14 +4707,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Singl
         Segment::MaximumManeuverDurationViolationStrategy::Center  // center strategy
     );
 
-    const Shared<const LocalOrbitalFrameFactory> lofFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
+    const LocalOrbitalFrameFactory lofFactory = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
     const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         "Constant LOF Maneuver Segment",
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
         defaultNumericalSolver_,
-        lofFactorySPtr,
+        lofFactory,
         Angle::Undefined(),
         constraints
     );
@@ -4832,7 +4830,7 @@ TEST_F(
         InstantCondition::Criterion::PositiveCrossing, initialInstant + maximumSimulationDuration
     );
 
-    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+    const LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
 
     const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         "QLaw Maneuver Segment",
@@ -4840,7 +4838,7 @@ TEST_F(
         thrusterSPtr,
         dynamics,
         numericalSolver,
-        tnwFactorySPtr,
+        tnwFactory,
         Angle::Undefined(),
         {Duration::Minutes(20.0),
          Duration::Minutes(40.0),
@@ -4861,7 +4859,7 @@ TEST_F(
     for (const auto& maneuver : maneuvers)
     {
         const Maneuver::MeanDirectionAndMaximumAngularOffset result =
-            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(tnwFactorySPtr);
+            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(tnwFactory);
 
         const Angle maximumAngularOffset = result.second;
         EXPECT_NEAR(maximumAngularOffset.inDegrees(), 0.0, 1e-6);
@@ -4994,7 +4992,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
         Array<Shared<EventCondition>> {smaLowerBoundConditionSPtr, smaUpperBoundConditionSPtr}
     );
 
-    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+    const LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
 
     const Segment maneuverSegment = Segment::Maneuver(
         "QLaw Maneuver Segment",
@@ -5110,7 +5108,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         InstantCondition::Criterion::PositiveCrossing, initialInstant + maximumSimulationDuration
     );
 
-    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+    const LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
 
     const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         "QLaw Maneuver Segment",
@@ -5118,7 +5116,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         thrusterSPtr,
         dynamics,
         defaultNumericalSolver_,
-        tnwFactorySPtr,
+        tnwFactory,
         Angle::Undefined(),
         {Duration::Minutes(10.0),
          Duration::Minutes(60.0),

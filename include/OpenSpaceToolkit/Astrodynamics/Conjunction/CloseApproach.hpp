@@ -205,15 +205,15 @@ class CloseApproach
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              Shared<const LocalOrbitalFrameFactory> lofFactorySPtr = { ... } ;
+    ///              LocalOrbitalFrameFactory lofFactory = { ... } ;
     ///              Tuple<Length, Length, Length> missDistanceComponents =
-    ///                  closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(lofFactorySPtr) ;
+    ///                  closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(lofFactory) ;
     /// @endcode
     ///
-    /// @param aLocalOrbitalFrameFactorySPtr The local orbital frame factory (generated from Object 1 state)
+    /// @param aLocalOrbitalFrameFactory The local orbital frame factory (generated from Object 1 state)
     /// @return The miss distance components (radial, in-track, cross-track or similar depending on the factory)
     Tuple<Length, Length, Length> computeMissDistanceComponentsInLocalOrbitalFrame(
-        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
     ) const;
 
     /// @brief Print the close approach
