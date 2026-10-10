@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access__
 #define __OpenSpaceToolkit_Astrodynamics_Access__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -27,10 +29,11 @@ using ostk::physics::unit::Angle;
 
 /// @brief Object-to-object visibility.
 ///
-/// @details Represents a visibility window between two objects, defined by an Acquisition of Signal (AOS),
-/// a Time of Closest Approach (TCA), and a Loss of Signal (LOS). Also stores the maximum elevation
-/// angle reached during the access and whether the access window is complete or partial (i.e., truncated
-/// by the analysis interval boundaries).
+/// @details Represents a visibility window between two objects (e.g., ground station to satellite, or satellite
+/// to satellite), defined by an Acquisition of Signal (AOS), a Time of Closest Approach (TCA), and a Loss of
+/// Signal (LOS). Also stores the (optional) maximum elevation angle reached during the access and whether the
+/// access window is complete or partial (i.e., truncated by the analysis interval boundaries). The maximum
+/// elevation angle is not defined for satellite to satellite accesses.
 class Access
 {
    public:
@@ -57,13 +60,14 @@ class Access
     /// @param anAcquisitionOfSignal An acquisition of signal instant.
     /// @param aTimeOfClosestApproach A time of closest approach instant.
     /// @param aLossOfSignal A loss of signal instant.
-    /// @param aMaxElevation A maximum elevation angle.
+    /// @param aMaxElevation A maximum elevation angle (optional), not defined for satellite to satellite accesses.
+    /// Defaults to std::nullopt.
     Access(
         const Access::Type& aType,
         const Instant& anAcquisitionOfSignal,
         const Instant& aTimeOfClosestApproach,
         const Instant& aLossOfSignal,
-        const Angle& aMaxElevation
+        const std::optional<Angle>& aMaxElevation = std::nullopt
     );
 
     /// @brief Equality operator.
@@ -186,11 +190,11 @@ class Access
     ///
     /// @code{.cpp}
     ///     Access access = { ... } ;
-    ///     Angle maxElevation = access.getMaxElevation() ;
+    ///     std::optional<Angle> maxElevation = access.getMaxElevation() ;
     /// @endcode
     ///
-    /// @return The maximum elevation angle.
-    Angle getMaxElevation() const;
+    /// @return The maximum elevation angle, or std::nullopt if not set (e.g., for satellite to satellite accesses).
+    std::optional<Angle> getMaxElevation() const;
 
     /// @brief Construct an undefined access.
     ///
@@ -217,7 +221,7 @@ class Access
     Instant acquisitionOfSignal_;
     Instant timeOfClosestApproach_;
     Instant lossOfSignal_;
-    Angle maxElevation_;
+    std::optional<Angle> maxElevation_;
 };
 
 }  // namespace astrodynamics
