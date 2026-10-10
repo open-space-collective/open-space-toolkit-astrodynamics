@@ -736,16 +736,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirectionAndMaximumAngularOffset)
 {
     const Shared<const Frame> inertialFrameSPtr = Frame::GCRF();
-    const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactorySPtr =
-        LocalOrbitalFrameFactory::TNW(inertialFrameSPtr);
+    const LocalOrbitalFrameFactory localOrbitalFrameFactory = LocalOrbitalFrameFactory::TNW(inertialFrameSPtr);
 
     {
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
         EXPECT_TRUE(meanDirection.isDefined());
-        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr);
+        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
         EXPECT_TRUE(maximumAngularOffset.isDefined());
@@ -756,7 +755,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             {
                 try
                 {
-                    defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(nullptr);
+                    defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(
+                        LocalOrbitalFrameFactory::Undefined()
+                    );
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
@@ -796,7 +797,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
 
         EXPECT_THROW(
             maneuverWithZeroThrustAcceleration.calculateMeanThrustDirectionAndMaximumAngularOffset(
-                localOrbitalFrameFactorySPtr
+                localOrbitalFrameFactory
             ),
             ostk::core::error::RuntimeError
         );
@@ -826,11 +827,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
 
         const Maneuver originalManeuver = {originalStates};
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
         EXPECT_TRUE(meanDirection.isDefined());
-        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr);
+        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.0, -1.0, 3.0).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
@@ -862,11 +863,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
         const Maneuver originalManeuver = {originalStates};
 
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
         EXPECT_TRUE(meanDirection.isDefined());
-        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr);
+        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.5, 0.0, 0.5).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
@@ -904,11 +905,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
         const Maneuver originalManeuver = {originalStates};
 
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
         EXPECT_TRUE(meanDirection.isDefined());
-        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr);
+        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(3.5, -0.5, 2.0).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
@@ -937,11 +938,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
 
         const Maneuver originalManeuver = {originalStates};
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
         EXPECT_TRUE(meanDirection.isDefined());
-        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr);
+        EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.0, -1.0, 3.0).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
@@ -953,13 +954,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFrameDirectionManeuver)
 {
     const Shared<const Frame> inertialFrameSPtr = Frame::GCRF();
-    const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactorySPtr =
-        LocalOrbitalFrameFactory::TNW(inertialFrameSPtr);
+    const LocalOrbitalFrameFactory localOrbitalFrameFactory = LocalOrbitalFrameFactory::TNW(inertialFrameSPtr);
 
     // Ignore maximum angular offset
     {
         const Maneuver newManeuver =
-            defaultManeuver_.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr);
+            defaultManeuver_.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
 
         EXPECT_TRUE(newManeuver.isDefined());
         EXPECT_EQ(newManeuver.getStates().getSize(), defaultStates_.getSize());
@@ -980,10 +980,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
     // Consider maximum allowed angular offset, but it's not violated
     {
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const Maneuver newManeuver = defaultManeuver_.toConstantLocalOrbitalFrameDirectionManeuver(
-            localOrbitalFrameFactorySPtr,
+            localOrbitalFrameFactory,
             Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
         );
 
@@ -995,12 +995,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
     // Consider maximum allowed angular offset, and it's violated
     {
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr);
+            defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         EXPECT_THROW(
             try {
                 defaultManeuver_.toConstantLocalOrbitalFrameDirectionManeuver(
-                    localOrbitalFrameFactorySPtr,
+                    localOrbitalFrameFactory,
                     Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
                 );
             } catch (const ostk::core::error::RuntimeError& e) {
@@ -1029,8 +1029,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Maneuver maneuverWithZeroThrustAcceleration = {statesWithZeroThrustAcceleration};
         EXPECT_THROW(
-            maneuverWithZeroThrustAcceleration.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr
-            ),
+            maneuverWithZeroThrustAcceleration.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory),
             ostk::core::error::RuntimeError
         );
     }
@@ -1059,7 +1058,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Maneuver originalManeuver = {originalStates};
         const Maneuver newManeuver =
-            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr);
+            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
         const Array<State> newStates = newManeuver.getStates();
 
         const Vector3d expectedThrustAccelerationInLof = {2.0, -1.0, 3.0};
@@ -1067,16 +1066,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         const Vector3d state0ThrustAccelerationInLof =
             newStates[0]
                 .accessFrame()
-                ->getTransformTo(
-                    localOrbitalFrameFactorySPtr->generateFrame(newStates[0]), newStates[0].accessInstant()
-                )
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].accessInstant())
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
         const Vector3d state1ThrustAccelerationInLof =
             newStates[1]
                 .accessFrame()
-                ->getTransformTo(
-                    localOrbitalFrameFactorySPtr->generateFrame(newStates[1]), newStates[1].accessInstant()
-                )
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[1]), newStates[1].accessInstant())
                 .applyToVector(newStates[1].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(0.8 * expectedThrustAccelerationInLof, 1e-12));
@@ -1106,7 +1101,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Maneuver originalManeuver = {originalStates};
         const Maneuver newManeuver =
-            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr);
+            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
         const Array<State> newStates = newManeuver.getStates();
 
         const Vector3d expectedThrustAccelerationInLof =
@@ -1115,16 +1110,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         const Vector3d state0ThrustAccelerationInLof =
             newStates[0]
                 .accessFrame()
-                ->getTransformTo(
-                    localOrbitalFrameFactorySPtr->generateFrame(newStates[0]), newStates[0].accessInstant()
-                )
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].accessInstant())
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
         const Vector3d state1ThrustAccelerationInLof =
             newStates[1]
                 .accessFrame()
-                ->getTransformTo(
-                    localOrbitalFrameFactorySPtr->generateFrame(newStates[1]), newStates[1].accessInstant()
-                )
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[1]), newStates[1].accessInstant())
                 .applyToVector(newStates[1].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(expectedThrustAccelerationInLof, 1e-12));
@@ -1146,7 +1137,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Maneuver originalManeuver = {originalStates};
         const Maneuver newManeuver =
-            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr);
+            originalManeuver.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
         const Array<State> newStates = newManeuver.getStates();
 
         const Vector3d expectedThrustAccelerationInLof = {2.0, -1.0, 3.0};
@@ -1154,9 +1145,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         const Vector3d state0ThrustAccelerationInLof =
             newStates[0]
                 .accessFrame()
-                ->getTransformTo(
-                    localOrbitalFrameFactorySPtr->generateFrame(newStates[0]), newStates[0].accessInstant()
-                )
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].accessInstant())
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(0.8 * expectedThrustAccelerationInLof, 1e-12));

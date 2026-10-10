@@ -106,11 +106,10 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testi
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
-    const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactorySPtr_ =
-        LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
+    const LocalOrbitalFrameFactory localOrbitalFrameFactory_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
     LocalOrbitalFrameDirection localOrbitalFrameDirection_ = {
         {1.0, 0.0, 0.0},
-        localOrbitalFrameFactorySPtr_,
+        localOrbitalFrameFactory_,
     };
 
     const ConstantThrust defaultConstantThrust_ = {localOrbitalFrameDirection_};
@@ -178,7 +177,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
 {
     {
         // Test Case (thrust direction, local orbital frame, reference data)
-        const Array<Tuple<Shared<const LocalOrbitalFrameFactory>, Vector3d, String>> testCases = {
+        const Array<Tuple<LocalOrbitalFrameFactory, Vector3d, String>> testCases = {
             {LocalOrbitalFrameFactory::VNC(gcrfSPtr_),
              Vector3d({1.0, 0.0, 0.0}),
              "Orekit_ConstantThrustManeuver_VNC_inclined_1hr_run.csv"},
@@ -200,7 +199,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
         for (const auto& testCase : testCases)
         {
             // Extract test case input data
-            const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactory = std::get<0>(testCase);
+            const LocalOrbitalFrameFactory localOrbitalFrameFactory = std::get<0>(testCase);
             const Vector3d localOrbitalFrameThrustVector = std::get<1>(testCase);
             const String referenceDataFileName = std::get<2>(testCase);
 
@@ -307,7 +306,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Intrack)
         Vector3d direction = {1.0, 0.0, 0.0};
         EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
         EXPECT_TRUE(
-            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory()->getProviderType() ==
+            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory().getProviderType() ==
             LocalOrbitalFrameTransformProvider::Type::VNC
         );
     }
@@ -317,7 +316,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Intrack)
         ConstantThrust constantThrust = ConstantThrust::Intrack(false);
         EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
         EXPECT_TRUE(
-            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory()->getProviderType() ==
+            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory().getProviderType() ==
             LocalOrbitalFrameTransformProvider::Type::VNC
         );
     }
@@ -337,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
         ),
     });
     const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-        maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactorySPtr_);
+        maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory_);
 
     {
         EXPECT_THROW(
@@ -353,28 +352,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
 
     // Not considering maximum allowed angular offset for now
     {
-        ConstantThrust constantThrust = ConstantThrust::FromManeuver(maneuver, localOrbitalFrameFactorySPtr_);
+        ConstantThrust constantThrust = ConstantThrust::FromManeuver(maneuver, localOrbitalFrameFactory_);
         EXPECT_EQ(
             constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
         );
-        EXPECT_EQ(
-            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr_
-        );
+        EXPECT_EQ(constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
     }
 
     // Considering a maximum allowed angular offset, but it's not violated
     {
         ConstantThrust constantThrust = ConstantThrust::FromManeuver(
             maneuver,
-            localOrbitalFrameFactorySPtr_,
+            localOrbitalFrameFactory_,
             Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
         );
         EXPECT_EQ(
             constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
         );
-        EXPECT_EQ(
-            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactorySPtr_
-        );
+        EXPECT_EQ(constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
     }
 
     // Considering a maximum allowed angular offset, and it's violated
@@ -383,7 +378,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
             try {
                 ConstantThrust::FromManeuver(
                     maneuver,
-                    localOrbitalFrameFactorySPtr_,
+                    localOrbitalFrameFactory_,
                     Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
                 );
             } catch (const ostk::core::error::RuntimeError& e) {
