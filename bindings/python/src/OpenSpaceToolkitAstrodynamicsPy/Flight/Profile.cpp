@@ -504,11 +504,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "align_and_constrain",
-            overload_cast<
-                const Shared<const Profile::Target>&,
-                const Shared<const Profile::Target>&,
-                const Shared<const Celestial>&,
-                const Angle&>(&Profile::AlignAndConstrain),
+            &Profile::AlignAndConstrain,
             R"doc(
                 Generate a function that provides a quaternion that aligns to the `alignment_target` and constrains to the `clocking_target` for a given state.
 

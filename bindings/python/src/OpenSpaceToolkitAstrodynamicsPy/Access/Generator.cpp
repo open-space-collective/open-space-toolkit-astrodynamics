@@ -74,7 +74,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         )
         .def(
             "get_position",
-            overload_cast<const Shared<const Celestial>&>(&AccessTarget::getPosition, const_),
+            &AccessTarget::getPosition,
             R"doc(
                 Get the fixed position associated with the access target.
 
