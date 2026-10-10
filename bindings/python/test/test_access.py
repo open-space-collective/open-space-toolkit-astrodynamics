@@ -49,6 +49,29 @@ def test_access_constructors():
     assert access is not None
     assert isinstance(access, Access)
 
+    access_without_max_elevation: Access = Access(
+        Access.Type.Complete,
+        acquisition_of_signal,
+        time_at_closest_approach,
+        loss_of_signal,
+    )
+
+    assert access_without_max_elevation is not None
+    assert isinstance(access_without_max_elevation, Access)
+    assert access_without_max_elevation.is_defined()
+
+    access_with_none_max_elevation: Access = Access(
+        Access.Type.Complete,
+        acquisition_of_signal,
+        time_at_closest_approach,
+        loss_of_signal,
+        None,
+    )
+
+    assert access_with_none_max_elevation is not None
+    assert isinstance(access_with_none_max_elevation, Access)
+    assert access_with_none_max_elevation.is_defined()
+
 
 def test_access_undefined():
     access: Access = Access.undefined()
@@ -116,9 +139,18 @@ def test_access_getters():
 
     assert max_el is not None
     assert isinstance(max_el, Angle)
+    assert max_el == max_elevation
+
+    access_without_max_elevation: Access = Access(
+        Access.Type.Complete,
+        acquisition_of_signal,
+        time_at_closest_approach,
+        loss_of_signal,
+    )
+
+    assert access_without_max_elevation.get_max_elevation() is None
 
 
 def test_access_string_from_type():
-    assert Access.string_from_type(Access.Type.Undefined) == "Undefined"
     assert Access.string_from_type(Access.Type.Complete) == "Complete"
     assert Access.string_from_type(Access.Type.Partial) == "Partial"

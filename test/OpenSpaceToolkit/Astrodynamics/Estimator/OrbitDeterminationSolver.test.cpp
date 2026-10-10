@@ -25,6 +25,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 #include <Global.test.hpp>
 
@@ -61,6 +62,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis : public ::testing::Test
 {
@@ -73,8 +75,13 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis : 
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
         Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
     );
-    const MatrixXd estimatedCovariance_ = MatrixXd::Identity(6, 6);
-    const MatrixXd estimatedFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
+    const Covariance estimatedCovariance_ = Covariance(
+        Instant::J2000(),
+        MatrixXd::Identity(6, 6),
+        Frame::GCRF(),
+        {CartesianPosition::Default(), CartesianVelocity::Default()}
+    );
+    const Covariance estimatedFrisbeeCovariance_ = estimatedCovariance_;
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };

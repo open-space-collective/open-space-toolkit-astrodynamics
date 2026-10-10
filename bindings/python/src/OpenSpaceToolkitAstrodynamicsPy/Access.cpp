@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/stl.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
@@ -21,7 +23,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             R"doc(
                 Object-to-object visibility
 
-                This class encapsulates the concept of visibility access between two trajectories.
+                This class encapsulates the concept of visibility access between two trajectories
+                (e.g., ground station to satellite, or satellite to satellite). The maximum elevation
+                angle is not defined for satellite to satellite accesses.
 
             )doc"
         );
@@ -34,11 +38,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             )doc"
         )
 
-            .value(
-                "Undefined",
-                Access::Type::Undefined,
-                "Undefined (Deprecated, Accesses can only be Complete or Partial.)"
-            )
             .value("Complete", Access::Type::Complete, "Complete")
             .value("Partial", Access::Type::Partial, "Partial")
 
@@ -47,7 +46,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
         access_class
 
             .def(
-                init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
+                init<const Access::Type&, const Instant&, const Instant&, const Instant&, const std::optional<Angle>&>(
+                ),
                 R"doc(
                     Constructs an Access object.
 
@@ -56,13 +56,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                         acquisition_of_signal (Instant): The instant when the signal is first acquired
                         time_of_closest_approach (Instant): The time of closest approach between objects
                         loss_of_signal (Instant): The instant when the signal is lost
-                        max_elevation (Angle): The maximum elevation angle during the access
+                        max_elevation (Angle | None, optional): The maximum elevation angle during the access, not defined for satellite to satellite accesses. Defaults to None.
                 )doc",
                 arg("type"),
                 arg("acquisition_of_signal"),
                 arg("time_of_closest_approach"),
                 arg("loss_of_signal"),
-                arg("max_elevation")
+                arg("max_elevation") = none()
             )
 
             .def(self == self)
@@ -166,7 +166,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the maximum elevation of the access.
 
                     Returns:
-                      Angle: The maximum elevation of the access.
+                      Angle | None: The maximum elevation of the access, or None if not set (e.g., for satellite to satellite accesses).
                 )doc"
             )
 

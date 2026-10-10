@@ -471,47 +471,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, FixedSte
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, DefaultConditional)
-{
-    {
-        EXPECT_NO_THROW(NumericalSolver::DefaultConditional());
-    }
-
-    {
-        const auto stateLogger = [](const State &aState) -> void
-        {
-            std::cout << aState << std::endl;
-        };
-
-        EXPECT_NO_THROW(NumericalSolver::DefaultConditional(stateLogger));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Conditional)
-{
-    {
-        const auto stateLogger = [](const State &aState) -> void
-        {
-            std::cout << aState << std::endl;
-        };
-
-        testing::internal::CaptureStdout();
-
-        NumericalSolver numericalSolver = NumericalSolver::Conditional(5.0, 1e-12, 1e-12, stateLogger);
-
-        const NumericalSolver::ConditionSolution conditionSolution = numericalSolver.integrateTime(
-            defaultState_,
-            defaultState_.accessInstant() + Duration::Hours(1.0),
-            systemOfEquations_,
-            InstantCondition(
-                RealCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(1.0)
-            )
-        );
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_LogicalCondition)
 {
     const State state = getStateVector(defaultStartInstant_);

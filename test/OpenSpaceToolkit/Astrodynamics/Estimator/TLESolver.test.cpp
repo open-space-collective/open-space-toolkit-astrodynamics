@@ -26,6 +26,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 #include <Global.test.hpp>
 
@@ -64,7 +67,10 @@ using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrameSPtr = Frame::ITRF())
 {
@@ -128,8 +134,13 @@ class OpenSpaceToolkit_Astrodynamics_Solver_TLESolver_Analysis : public ::testin
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
         Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
     );
-    const MatrixXd estimatedCovariance_ = MatrixXd::Identity(6, 6);
-    const MatrixXd estimatedFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
+    const Covariance estimatedCovariance_ = Covariance(
+        Instant::J2000(),
+        MatrixXd::Identity(6, 6),
+        Frame::GCRF(),
+        {CartesianPosition::Default(), CartesianVelocity::Default()}
+    );
+    const Covariance estimatedFrisbeeCovariance_ = estimatedCovariance_;
     const Array<State> computedObservationStates_ = {State(
         Instant::J2000(),
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
@@ -210,7 +221,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Accessors)
         EXPECT_EQ(tleSolver_.accessInternationalDesignator(), "00001A");
         EXPECT_EQ(tleSolver_.accessRevolutionNumber(), 0);
         EXPECT_EQ(tleSolver_.accessEstimateBStar(), true);
-        EXPECT_EQ(tleSolver_.accessEstimationFrame(), Frame::TEME());
         EXPECT_EQ(tleSolver_.accessDefaultBStar(), 0.0);
         EXPECT_EQ(tleSolver_.accessFirstDerivativeMeanMotionDividedBy2(), 0.0);
         EXPECT_EQ(tleSolver_.accessSecondDerivativeMeanMotionDividedBy6(), 0.0);
@@ -598,8 +608,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
             LeastSquaresSolver::Analysis(
                 "",
                 State::Undefined(),
-                MatrixXd::Identity(6, 6),
-                MatrixXd::Identity(6, 6),
+                Covariance::FromPositionVelocitySigmas(
+                    Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()
+                ),
+                Covariance::FromPositionVelocitySigmas(
+                    Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()
+                ),
                 {observations[0]},
                 {LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))}
             )
@@ -659,8 +673,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
         LeastSquaresSolver::Analysis(
             "",
             State::Undefined(),
-            MatrixXd::Identity(6, 6),
-            MatrixXd::Identity(6, 6),
+            Covariance::FromPositionVelocitySigmas(Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()),
+            Covariance::FromPositionVelocitySigmas(Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()),
             {observations[0]},
             {LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))}
         )

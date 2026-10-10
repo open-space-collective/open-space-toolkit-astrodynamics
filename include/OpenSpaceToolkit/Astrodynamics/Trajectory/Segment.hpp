@@ -457,7 +457,7 @@ class Segment
         const Shared<Thruster>& aThrusterDynamics,
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver,
-        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
         const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
         const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );
@@ -477,7 +477,7 @@ class Segment
     Array<Shared<Dynamics>> freeDynamicsArray_;
     Shared<Thruster> thrusterDynamicsSPtr_;
     NumericalSolver numericalSolver_;
-    Shared<const LocalOrbitalFrameFactory> constantManeuverDirectionLocalOrbitalFrameFactory_;
+    LocalOrbitalFrameFactory constantManeuverDirectionLocalOrbitalFrameFactory_;
     Angle constantManeuverDirectionMaximumAllowedAngularOffset_;
     ManeuverConstraints maneuverConstraints_;
 
@@ -500,7 +500,7 @@ class Segment
         const Array<Shared<Dynamics>>& aFreeDynamicsArray,
         const Shared<Thruster>& aThrusterDynamics,
         const NumericalSolver& aNumericalSolver,
-        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory = nullptr,
+        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory = LocalOrbitalFrameFactory::Undefined(),
         const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
         const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
     );

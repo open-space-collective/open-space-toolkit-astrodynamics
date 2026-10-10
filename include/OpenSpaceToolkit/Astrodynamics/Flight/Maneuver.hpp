@@ -194,11 +194,11 @@ class Maneuver
     /// @brief Calculate the mean thrust direction in the Local Orbital Frame and its maximum angular offset w.r.t. the
     /// maneuver's thrust acceleration directions.
     ///
-    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory
     ///
     /// @return The mean thrust direction and its maximum angular offset
     Maneuver::MeanDirectionAndMaximumAngularOffset calculateMeanThrustDirectionAndMaximumAngularOffset(
-        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
     ) const;
 
     /// @brief Create a new maneuver with a constant thrust acceleration direction in the Local Orbital
@@ -217,13 +217,13 @@ class Maneuver
     ///                  maneuver.toConstantLocalOrbitalFrameDirectionManeuver(LocalOrbitalFrameFactory::TNW(Frame::GCRF()));
     /// @endcode
     ///
-    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory
     /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults to
     /// Undefined.
     ///
     /// @return A new maneuver
     Maneuver toConstantLocalOrbitalFrameDirectionManeuver(
-        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
+        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
         const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
     ) const;
 

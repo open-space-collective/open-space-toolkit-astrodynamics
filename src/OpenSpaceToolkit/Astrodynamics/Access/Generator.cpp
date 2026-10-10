@@ -59,16 +59,6 @@ const Trajectory& AccessTarget::accessTrajectory() const
     return trajectory_;
 }
 
-Position AccessTarget::getPosition() const
-{
-    if (type_ != Type::Fixed)
-    {
-        throw ostk::core::error::RuntimeError("Position is only defined for fixed targets.");
-    }
-
-    return trajectory_.getStateAt(Instant::J2000()).inFrame(Frame::ITRF()).getPosition();
-}
-
 Position AccessTarget::getPosition(const Shared<const Celestial>& aCelestialSPtr) const
 {
     if (type_ != Type::Fixed)
@@ -82,7 +72,9 @@ Position AccessTarget::getPosition(const Shared<const Celestial>& aCelestialSPtr
 LLA AccessTarget::getLLA(const Shared<const Celestial>& aCelestialSPtr) const
 {
     return LLA::Cartesian(
-        getPosition().accessCoordinates(), aCelestialSPtr->getEquatorialRadius(), aCelestialSPtr->getFlattening()
+        getPosition(aCelestialSPtr).accessCoordinates(),
+        aCelestialSPtr->getEquatorialRadius(),
+        aCelestialSPtr->getFlattening()
     );
 }
 
@@ -1046,12 +1038,12 @@ Access Generator::GenerateAccess(
         );
     }
 
-    const Angle maxElevation =
+    const std::optional<Angle> maxElevation =
         timeOfClosestApproach.isDefined()
-            ? Generator::CalculateElevationAt(
+            ? std::optional<Angle>(Generator::CalculateElevationAt(
                   timeOfClosestApproach, aFromTrajectory, aToTrajectory, aCelestialSPtr, aFixedFromPositionCoordinates
-              )
-            : Angle::Undefined();
+              ))
+            : std::nullopt;
 
     return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
 }

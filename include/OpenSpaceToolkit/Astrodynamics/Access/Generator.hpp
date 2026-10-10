@@ -112,17 +112,6 @@ class AccessTarget
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              Position position = accessTarget.getPosition();
-    /// @endcode
-    ///
-    /// @return The position
-    [[deprecated("Use getPosition(getPosition(const Shared<const Celestial>& aCelestialSPtr) instead.")]]
-    Position getPosition() const;
-
-    /// @brief Get the position
-    ///
-    /// @code{.cpp}
-    ///              AccessTarget accessTarget = { ... } ;
     ///              Shared<const Celestial> celestialSPtr = ...;
     ///              Position position = accessTarget.getPosition(celestialSPtr);
     /// @endcode
