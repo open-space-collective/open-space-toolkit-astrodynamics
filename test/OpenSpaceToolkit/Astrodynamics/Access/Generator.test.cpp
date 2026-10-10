@@ -201,20 +201,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
 {
     {
         EXPECT_VECTORS_ALMOST_EQUAL(
-            defaultAccessTarget_.getPosition().accessCoordinates(),
-            Position::Meters(
-                defaultLLA_.toCartesian(
-                    EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
-                ),
-                Frame::ITRF()
-            )
-                .accessCoordinates(),
-            1e-13
-        );
-    }
-
-    {
-        EXPECT_VECTORS_ALMOST_EQUAL(
             defaultAccessTarget_.getPosition(defaultEarthSPtr_).accessCoordinates(),
             Position::Meters(
                 defaultLLA_.toCartesian(
@@ -229,9 +215,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
 
     {
         const AccessTarget nonFixedAccessTarget = AccessTarget::FromTrajectory(
-            defaultVisibilityCriterion_, Trajectory::Position(defaultAccessTarget_.getPosition())
+            defaultVisibilityCriterion_, Trajectory::Position(defaultAccessTarget_.getPosition(defaultEarthSPtr_))
         );
-        EXPECT_THROW(nonFixedAccessTarget.getPosition(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(nonFixedAccessTarget.getPosition(defaultEarthSPtr_), ostk::core::error::RuntimeError);
     }
 }
 

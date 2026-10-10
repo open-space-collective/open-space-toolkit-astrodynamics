@@ -34,11 +34,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
             )doc"
         )
 
-            .value(
-                "Undefined",
-                Access::Type::Undefined,
-                "Undefined (Deprecated, Accesses can only be Complete or Partial.)"
-            )
             .value("Complete", Access::Type::Complete, "Complete")
             .value("Partial", Access::Type::Partial, "Partial")
 
