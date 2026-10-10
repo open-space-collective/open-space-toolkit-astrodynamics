@@ -114,14 +114,14 @@ class ConstantThrust : public GuidanceLaw
     /// @endcode
     ///
     /// @param aManeuver A maneuver
-    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory
     /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults to
     /// Undefined.
     ///
     /// @return Constant Thrust guidance law
     static ConstantThrust FromManeuver(
         const Maneuver& aManeuver,
-        const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
+        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
         const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
     );
 

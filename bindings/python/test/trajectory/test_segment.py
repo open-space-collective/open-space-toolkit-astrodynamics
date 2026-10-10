@@ -109,7 +109,7 @@ def local_orbital_frame_factory() -> LocalOrbitalFrameFactory:
 
 @pytest.fixture
 def numerical_solver() -> NumericalSolver:
-    return NumericalSolver.default_conditional()
+    return NumericalSolver.default()
 
 
 @pytest.fixture
@@ -332,7 +332,7 @@ class TestSegmentSolution:
                 [
                     segment_solution.states[0].get_instant(),
                 ],
-                NumericalSolver.default_conditional(),
+                NumericalSolver.default(),
             )
             is not None
         )

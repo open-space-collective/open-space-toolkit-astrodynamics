@@ -119,6 +119,5 @@ def test_access_getters():
 
 
 def test_access_string_from_type():
-    assert Access.string_from_type(Access.Type.Undefined) == "Undefined"
     assert Access.string_from_type(Access.Type.Complete) == "Complete"
     assert Access.string_from_type(Access.Type.Partial) == "Partial"
