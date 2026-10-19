@@ -10,11 +10,10 @@
 
 /// @brief                      Accept any python sequence where a dense Eigen vector or matrix is expected.
 ///
-///                             pybind11's Eigen support converted lists and tuples on the caller's behalf.
-///                             nanobind's only accepts objects exposing DLPack or the buffer protocol, so
-///                             `Position.meters([1.0, 2.0, 3.0], frame)` would stop working. These casters
-///                             run nanobind's own conversion first and fall back to `numpy.asarray` for
-///                             anything else, restoring the previous behaviour.
+///                             nanobind's Eigen caster only accepts objects exposing DLPack or the buffer
+///                             protocol, so `Position.meters([1.0, 2.0, 3.0], frame)` would be rejected.
+///                             These casters run nanobind's own conversion first and fall back to
+///                             `numpy.asarray` for anything else.
 ///
 ///                             This header must be included before any binding code that mentions one of
 ///                             the types below, since a specialization may not follow its first use.
