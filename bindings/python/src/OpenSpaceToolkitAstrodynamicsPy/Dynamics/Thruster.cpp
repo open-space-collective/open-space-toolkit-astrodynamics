@@ -26,7 +26,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class PyThruster : public Thruster
 {
    public:
-    NB_TRAMPOLINE(Thruster, 5);
+    NB_TRAMPOLINE(Thruster);
 
     // Trampoline (need one for each virtual function)
 

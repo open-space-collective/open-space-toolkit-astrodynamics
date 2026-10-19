@@ -23,7 +23,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class PyCoordinateSubset : public CoordinateSubset
 {
    public:
-    NB_TRAMPOLINE(CoordinateSubset, 3);
+    NB_TRAMPOLINE(CoordinateSubset);
 
     // Trampoline (need one for each virtual function)
 

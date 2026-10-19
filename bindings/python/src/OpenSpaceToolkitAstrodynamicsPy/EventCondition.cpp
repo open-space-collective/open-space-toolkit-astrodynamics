@@ -32,7 +32,7 @@ using ostk::astrodynamics::trajectory::State;
 class PyEventCondition : public EventCondition
 {
    public:
-    NB_TRAMPOLINE(EventCondition, 2);
+    NB_TRAMPOLINE(EventCondition);
 
     // Trampoline (need one for each virtual function)
 

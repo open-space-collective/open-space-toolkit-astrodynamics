@@ -22,7 +22,7 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 class PyBrouwerLyddaneMean : public BrouwerLyddaneMean
 {
    public:
-    NB_TRAMPOLINE(BrouwerLyddaneMean, 4);
+    NB_TRAMPOLINE(BrouwerLyddaneMean);
 
     // Trampoline (need one for each virtual function)
 

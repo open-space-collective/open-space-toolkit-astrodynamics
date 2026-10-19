@@ -13,9 +13,8 @@
 ///                             nanobind's bool caster takes `True` and `False` and nothing else, so a
 ///                             callback such as `lambda state: state.get_coordinates()[0] > 0.0`,
 ///                             which yields `numpy.bool_`, would fail where C++ expects a
-///                             `std::function<bool(...)>`. pybind11 accepted it, and predicates are
-///                             the toolkit's main extension point (access filters, event condition
-///                             evaluators), so the behaviour is restored here.
+///                             `std::function<bool(...)>`. Predicates are the toolkit's main extension point
+///                             (access filters, event condition evaluators), so any number is accepted here.
 ///
 ///                             Only objects implementing the number protocol are converted, which
 ///                             leaves strings, containers and None rejected. This specialization is
@@ -32,7 +31,7 @@ struct type_caster<std::function<bool(Args...)>>
 {
     NB_TYPE_CASTER(
         std::function<bool(Args...)>,
-        const_name(NB_TYPING_CALLABLE "[[") + concat(make_caster<Args>::Name...) + const_name("], bool]")
+        const_name("collections.abc.Callable[[") + concat(make_caster<Args>::Name...) + const_name("], bool]")
     )
 
     struct PredicateWrapper : pyfunc_wrapper

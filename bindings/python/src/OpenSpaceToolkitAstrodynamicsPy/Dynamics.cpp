@@ -30,7 +30,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class PyDynamics : public Dynamics
 {
    public:
-    NB_TRAMPOLINE(Dynamics, 5);
+    NB_TRAMPOLINE(Dynamics);
 
     // Trampoline (need one for each virtual function)
 

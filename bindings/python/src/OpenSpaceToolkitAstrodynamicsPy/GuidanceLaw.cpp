@@ -25,7 +25,7 @@ using ostk::astrodynamics::GuidanceLaw;
 class PyGuidanceLaw : public GuidanceLaw
 {
    public:
-    NB_TRAMPOLINE(GuidanceLaw, 3);
+    NB_TRAMPOLINE(GuidanceLaw);
 
     // Trampoline (need one for each virtual function)
 
@@ -120,8 +120,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(nanobind::module_& aModule)
 
         .def(
             "construct_ungated_guidance_law",
-            // `self` is taken as a Shared<> so that `shared_from_this()` has an owner under
-            // nanobind, which does not hold bound instances in a shared_ptr the way pybind11 did.
+            // `self` is taken as a Shared<> so that `shared_from_this()` has an owner.
             [](const Shared<GuidanceLaw>& aGuidanceLawSPtr) -> Shared<GuidanceLaw>
             {
                 return aGuidanceLawSPtr->constructUngatedGuidanceLaw();
