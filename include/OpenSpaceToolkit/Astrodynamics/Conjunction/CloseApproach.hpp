@@ -48,6 +48,20 @@ using ostk::astrodynamics::uncertainty::Covariance;
 class CloseApproach
 {
    public:
+    /// @brief Miss distance and combined position uncertainty in the rotated encounter frame
+    ///
+    /// @details The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis is
+    /// along the major principal axis, and its y-axis along the minor principal axis, of the combined position
+    /// covariance projected onto the encounter plane.
+    struct RotatedEncounterFrameParameters
+    {
+        Shared<const Frame> rotatedEncounterFrameSPtr;  ///< Rotated encounter frame (child of the encounter frame)
+        Length xM;      ///< Miss distance component along the major principal axis (absolute value)
+        Length yM;      ///< Miss distance component along the minor principal axis (absolute value)
+        Length sigmaX;  ///< Combined position standard deviation along the major principal axis
+        Length sigmaY;  ///< Combined position standard deviation along the minor principal axis
+    };
+
     /// @brief Constructor
     ///
     /// @code{.cpp}
@@ -141,37 +155,37 @@ class CloseApproach
     /// @return The instant
     Instant getInstant() const;
 
-    /// @brief Get the miss distance
+    /// @brief Compute the miss distance
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              Length missDistance = closeApproach.getMissDistance() ;
+    ///              Length missDistance = closeApproach.computeMissDistance() ;
     /// @endcode
     ///
     /// @return The miss distance
-    Length getMissDistance() const;
+    Length computeMissDistance() const;
 
-    /// @brief Get the relative state (Object 2 relative to Object 1)
+    /// @brief Compute the relative state (Object 2 relative to Object 1)
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              State relativeState = closeApproach.getRelativeState() ;
+    ///              State relativeState = closeApproach.computeRelativeState() ;
     /// @endcode
     ///
     /// @return The relative state
-    State getRelativeState() const;
+    State computeRelativeState() const;
 
-    /// @brief Get the relative speed (i.e. the magnitude of the relative velocity)
+    /// @brief Compute the relative speed (i.e. the magnitude of the relative velocity)
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              Derived relativeSpeed = closeApproach.getRelativeSpeed() ;
+    ///              Derived relativeSpeed = closeApproach.computeRelativeSpeed() ;
     /// @endcode
     ///
     /// @return The relative speed in meters per second
-    Derived getRelativeSpeed() const;
+    Derived computeRelativeSpeed() const;
 
-    /// @brief Get the "default" convention of the encounter frame centered on Object 1.
+    /// @brief Compute the "default" convention of the encounter frame centered on Object 1.
     ///
     /// @details The encounter frame is a local orbital frame centered on Object 1:
     /// - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
@@ -181,13 +195,13 @@ class CloseApproach
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              Shared<const Frame> encounterFrame = closeApproach.getEncounterFrame() ;
+    ///              Shared<const Frame> encounterFrame = closeApproach.computeEncounterFrame() ;
     /// @endcode
     ///
     /// @param aFrameSPtr The inertial (or quasi-inertial) frame in which relative position and velocity are computed.
     /// Defaults to GCRF.
     /// @return The encounter frame
-    Shared<const Frame> getEncounterFrame(const Shared<const Frame>& aFrameSPtr = Frame::GCRF()) const;
+    Shared<const Frame> computeEncounterFrame(const Shared<const Frame>& aFrameSPtr = Frame::GCRF()) const;
 
     /// @brief Compute the miss distance components in the desired frame
     ///
@@ -214,6 +228,28 @@ class CloseApproach
     /// @return The miss distance components (radial, in-track, cross-track or similar depending on the factory)
     Tuple<Length, Length, Length> computeMissDistanceComponentsInLocalOrbitalFrame(
         const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
+    ) const;
+
+    /// @brief Compute the miss distance and combined position uncertainty in the rotated encounter frame
+    ///
+    /// @details The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis is
+    /// along the major principal axis, and its y-axis along the minor principal axis, of the combined position
+    /// covariance projected onto the encounter plane.
+    ///
+    /// Raises an Undefined error if the close approach or the encounter frame is undefined, or if a state has no
+    /// position covariance.
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              CloseApproach::RotatedEncounterFrameParameters parameters =
+    ///                  closeApproach.computeRotatedEncounterFrameParameters(closeApproach.computeEncounterFrame()) ;
+    /// @endcode
+    ///
+    /// @param anEncounterFrameSPtr An encounter frame, whose x-y plane is the encounter plane (see
+    /// computeEncounterFrame)
+    /// @return The rotated encounter frame parameters
+    RotatedEncounterFrameParameters computeRotatedEncounterFrameParameters(
+        const Shared<const Frame>& anEncounterFrameSPtr
     ) const;
 
     /// @brief Print the close approach

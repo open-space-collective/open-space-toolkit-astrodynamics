@@ -30,6 +30,7 @@ using ostk::core::container::Tuple;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
+using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
@@ -135,7 +136,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Constructor)
         expectCovarianceEq(object1Covariance, closeApproach.getObject1State().getCovariance().value());
         expectCovarianceEq(object2Covariance, closeApproach.getObject2State().getCovariance().value());
         EXPECT_NEAR(
-            closeApproach.getRelativeSpeed().in(Derived::Unit::MeterPerSecond()),
+            closeApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond()),
             std::sqrt(8.0e3 * 8.0e3 + 8.0e3 * 8.0e3),
             1e-6
         );
@@ -426,7 +427,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Swap)
         expectCovarianceEq(object2Covariance, swappedCloseApproach.getObject1State().getCovariance().value());
         expectCovarianceEq(object1Covariance, swappedCloseApproach.getObject2State().getCovariance().value());
         EXPECT_EQ(closeApproach.getInstant(), swappedCloseApproach.getInstant());
-        EXPECT_EQ(closeApproach.getMissDistance(), swappedCloseApproach.getMissDistance());
+        EXPECT_EQ(closeApproach.computeMissDistance(), swappedCloseApproach.computeMissDistance());
         EXPECT_EQ(object1State, closeApproach.getObject1State());
         EXPECT_EQ(object2State, closeApproach.getObject2State());
         EXPECT_EQ(closeApproach.getObject1State(), swappedCloseApproach.swap().getObject1State());
@@ -490,7 +491,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetInstant)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetMissDistance)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDistance)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
@@ -501,7 +502,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetMissDistance
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const Length missDistance = closeApproach.getMissDistance();
+        const Length missDistance = closeApproach.computeMissDistance();
 
         // Expected miss distance: sqrt((7.0e6)^2 + (7.0e6)^2) = 9899494.936611665 m
         const double expectedMissDistance = std::sqrt(7.0e6 * 7.0e6 + 7.0e6 * 7.0e6);
@@ -513,7 +514,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetMissDistance
         const CloseApproach closeApproach = CloseApproach::Undefined();
 
         EXPECT_THROW(
-            try { closeApproach.getMissDistance(); } catch (const ostk::core::error::runtime::Undefined& e) {
+            try { closeApproach.computeMissDistance(); } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },
@@ -522,7 +523,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetMissDistance
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeState)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRelativeState)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
@@ -535,7 +536,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeStat
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const State relativeState = closeApproach.getRelativeState();
+        const State relativeState = closeApproach.computeRelativeState();
 
         EXPECT_EQ(instant, relativeState.getInstant());
         EXPECT_EQ(gcrfFrame, relativeState.accessFrame());
@@ -564,7 +565,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeStat
         const CloseApproach closeApproach = CloseApproach::Undefined();
 
         EXPECT_THROW(
-            try { closeApproach.getRelativeState(); } catch (const ostk::core::error::runtime::Undefined& e) {
+            try { closeApproach.computeRelativeState(); } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },
@@ -573,7 +574,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeStat
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeSpeed)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRelativeSpeed)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
@@ -584,7 +585,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeSpee
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const Derived relativeSpeed = closeApproach.getRelativeSpeed();
+        const Derived relativeSpeed = closeApproach.computeRelativeSpeed();
 
         // Expected relative speed: sqrt(0^2 + (-8e3)^2 + (8e3)^2) = 11313.708498984761 m/s
         const double expectedRelativeSpeed = std::sqrt(8.0e3 * 8.0e3 + 8.0e3 * 8.0e3);
@@ -597,7 +598,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeSpee
         const CloseApproach closeApproach = CloseApproach::Undefined();
 
         EXPECT_THROW(
-            try { closeApproach.getRelativeSpeed(); } catch (const ostk::core::error::runtime::Undefined& e) {
+            try { closeApproach.computeRelativeSpeed(); } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },
@@ -606,7 +607,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetRelativeSpee
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFrame)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeEncounterFrame)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
@@ -622,7 +623,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFra
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        const Shared<const Frame> encounterFrame = closeApproach.getEncounterFrame();
+        const Shared<const Frame> encounterFrame = closeApproach.computeEncounterFrame();
 
         EXPECT_TRUE(encounterFrame != nullptr);
         EXPECT_TRUE(encounterFrame->isDefined());
@@ -647,8 +648,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFra
 
         EXPECT_NEAR(object1PositionInEncounterFrame.norm(), 0.0, 1e-6);
 
-        const Shared<const Frame> defaultEncounterFrame = closeApproach.getEncounterFrame();
-        const Shared<const Frame> explicitGcrfEncounterFrame = closeApproach.getEncounterFrame(gcrfFrame);
+        const Shared<const Frame> defaultEncounterFrame = closeApproach.computeEncounterFrame();
+        const Shared<const Frame> explicitGcrfEncounterFrame = closeApproach.computeEncounterFrame(gcrfFrame);
 
         EXPECT_EQ(defaultEncounterFrame, explicitGcrfEncounterFrame);
     }
@@ -663,16 +664,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFra
         const CloseApproach closeApproach(object1State, object2State);
 
         EXPECT_THROW(
-            try { closeApproach.getEncounterFrame(nullptr); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
             try {
-                closeApproach.getEncounterFrame(Frame::Undefined());
+                closeApproach.computeEncounterFrame(nullptr);
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Frame} is undefined.", e.getMessage());
                 throw;
@@ -681,7 +674,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFra
         );
 
         EXPECT_THROW(
-            try { closeApproach.getEncounterFrame(Frame::ITRF()); } catch (const ostk::core::error::runtime::Wrong& e) {
+            try {
+                closeApproach.computeEncounterFrame(Frame::Undefined());
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            try {
+                closeApproach.computeEncounterFrame(Frame::ITRF());
+            } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("Frame = ITRF is wrong.", e.getMessage());
                 throw;
             },
@@ -698,7 +703,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFra
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        EXPECT_THROW(closeApproach.getEncounterFrame(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(closeApproach.computeEncounterFrame(), ostk::core::error::RuntimeError);
     }
 
     {
@@ -711,14 +716,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetEncounterFra
 
         const CloseApproach closeApproach(object1State, object2State);
 
-        EXPECT_THROW(closeApproach.getEncounterFrame(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(closeApproach.computeEncounterFrame(), ostk::core::error::RuntimeError);
     }
 
     {
         const CloseApproach closeApproach = CloseApproach::Undefined();
 
         EXPECT_THROW(
-            try { closeApproach.getEncounterFrame(); } catch (const ostk::core::error::runtime::Undefined& e) {
+            try { closeApproach.computeEncounterFrame(); } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },
@@ -891,6 +896,187 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
                 closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(undefinedFactory);
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{LocalOrbitalFrameFactory} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedEncounterFrameParameters)
+{
+    // Head-on encounter: the relative velocity is along the GCRF -Y axis, hence the encounter plane is the GCRF X-Z
+    // plane, and Object 2 is 60 m along X and 80 m along Z from Object 1 (a 100 m miss distance). The GCRF Y position
+    // standard deviations (along the relative velocity) do not contribute.
+    const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
+    const Shared<const Frame> gcrfFrame = Frame::GCRF();
+
+    const auto buildCloseApproach = [&](const Vector3d& anObject1PositionSigmas,
+                                        const Vector3d& anObject2PositionSigmas) -> CloseApproach
+    {
+        return {
+            buildStateWithCovariance(
+                instant,
+                gcrfFrame,
+                Vector3d(7.0e6, 0.0, 0.0),
+                Vector3d(0.0, 7.5e3, 0.0),
+                Covariance::FromPositionVelocitySigmas(
+                    instant, anObject1PositionSigmas, Vector3d(0.01, 0.01, 0.01), gcrfFrame
+                )
+            ),
+            buildStateWithCovariance(
+                instant,
+                gcrfFrame,
+                Vector3d(7.0e6 + 60.0, 0.0, 80.0),
+                Vector3d(0.0, -7.5e3, 0.0),
+                Covariance::FromPositionVelocitySigmas(
+                    instant, anObject2PositionSigmas, Vector3d(0.01, 0.01, 0.01), gcrfFrame
+                )
+            ),
+        };
+    };
+
+    // Combined standard deviations: 10 m along X (6 m and 8 m), 5 m along Z (3 m and 4 m). The major principal axis is
+    // along X, hence the 60 m miss distance component is along the major principal axis.
+    {
+        const CloseApproach closeApproach = buildCloseApproach({6.0, 50.0, 3.0}, {8.0, 50.0, 4.0});
+        const Shared<const Frame> encounterFrameSPtr = closeApproach.computeEncounterFrame();
+
+        const CloseApproach::RotatedEncounterFrameParameters parameters =
+            closeApproach.computeRotatedEncounterFrameParameters(encounterFrameSPtr);
+
+        EXPECT_NEAR(parameters.xM.inMeters(), 60.0, 1e-6);
+        EXPECT_NEAR(parameters.yM.inMeters(), 80.0, 1e-6);
+        EXPECT_NEAR(parameters.sigmaX.inMeters(), 10.0, 1e-6);
+        EXPECT_NEAR(parameters.sigmaY.inMeters(), 5.0, 1e-6);
+
+        // The rotated encounter frame is a child of the encounter frame, centered on Object 1
+        const Shared<const Frame> rotatedEncounterFrameSPtr = parameters.rotatedEncounterFrameSPtr;
+
+        ASSERT_TRUE(rotatedEncounterFrameSPtr != nullptr);
+        EXPECT_TRUE(rotatedEncounterFrameSPtr->isDefined());
+        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->accessParent());
+
+        // In the rotated encounter frame, the miss distance lies in the x-y plane, with the 60 m component along x
+        const Tuple<Length, Length, Length> missDistanceComponents =
+            closeApproach.computeMissDistanceComponentsInFrame(rotatedEncounterFrameSPtr);
+
+        EXPECT_NEAR(std::abs(std::get<0>(missDistanceComponents).inMeters()), 60.0, 1e-6);
+        EXPECT_NEAR(std::abs(std::get<1>(missDistanceComponents).inMeters()), 80.0, 1e-6);
+        EXPECT_NEAR(std::get<2>(missDistanceComponents).inMeters(), 0.0, 1e-6);
+
+        // In the rotated encounter frame, the combined position covariance is diagonal in the x-y plane
+        const Covariance combinedCovariance = Covariance(
+            instant,
+            closeApproach.getObject1State().getCovariance()->reduce({CartesianPosition::Default()}).getCoordinates() +
+                closeApproach.getObject2State()
+                    .getCovariance()
+                    ->reduce({CartesianPosition::Default()})
+                    .getCoordinates(),
+            gcrfFrame,
+            {CartesianPosition::Default()}
+        );
+        const MatrixXd combinedCovarianceInRotatedEncounterFrame =
+            combinedCovariance.rotate(rotatedEncounterFrameSPtr).getCoordinates();
+
+        EXPECT_NEAR(combinedCovarianceInRotatedEncounterFrame(0, 0), 100.0, 1e-6);
+        EXPECT_NEAR(combinedCovarianceInRotatedEncounterFrame(1, 1), 25.0, 1e-6);
+        EXPECT_NEAR(combinedCovarianceInRotatedEncounterFrame(0, 1), 0.0, 1e-6);
+
+        // The same rotated encounter frame is returned for the same close approach
+        EXPECT_EQ(
+            rotatedEncounterFrameSPtr,
+            closeApproach.computeRotatedEncounterFrameParameters(encounterFrameSPtr).rotatedEncounterFrameSPtr
+        );
+    }
+
+    // Combined standard deviations: 5 m along X, 10 m along Z. The major principal axis is now along Z, hence the 80 m
+    // miss distance component is along the major principal axis.
+    {
+        const CloseApproach closeApproach = buildCloseApproach({3.0, 50.0, 6.0}, {4.0, 50.0, 8.0});
+
+        const CloseApproach::RotatedEncounterFrameParameters parameters =
+            closeApproach.computeRotatedEncounterFrameParameters(closeApproach.computeEncounterFrame());
+
+        EXPECT_NEAR(parameters.xM.inMeters(), 80.0, 1e-6);
+        EXPECT_NEAR(parameters.yM.inMeters(), 60.0, 1e-6);
+        EXPECT_NEAR(parameters.sigmaX.inMeters(), 10.0, 1e-6);
+        EXPECT_NEAR(parameters.sigmaY.inMeters(), 5.0, 1e-6);
+    }
+
+    // Undefined encounter frame
+    {
+        const CloseApproach closeApproach = buildCloseApproach({6.0, 50.0, 3.0}, {8.0, 50.0, 4.0});
+
+        EXPECT_THROW(
+            try {
+                closeApproach.computeRotatedEncounterFrameParameters(nullptr);
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Encounter frame} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+
+        EXPECT_THROW(
+            try {
+                closeApproach.computeRotatedEncounterFrameParameters(Frame::Undefined());
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Encounter frame} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    // Missing position covariances
+    {
+        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 7.5e3, 0.0));
+        const State object2State =
+            buildState(instant, gcrfFrame, Vector3d(7.0e6 + 60.0, 0.0, 80.0), Vector3d(0.0, -7.5e3, 0.0));
+
+        const Covariance covariance = Covariance::FromPositionVelocitySigmas(
+            instant, Vector3d(1.0, 1.0, 1.0), Vector3d(0.01, 0.01, 0.01), gcrfFrame
+        );
+
+        {
+            const CloseApproach closeApproach = {object1State, object2State.withCovariance(covariance)};
+
+            EXPECT_THROW(
+                try {
+                    closeApproach.computeRotatedEncounterFrameParameters(closeApproach.computeEncounterFrame());
+                } catch (const ostk::core::error::runtime::Undefined& e) {
+                    EXPECT_EQ("{Object 1 position covariance} is undefined.", e.getMessage());
+                    throw;
+                },
+                ostk::core::error::runtime::Undefined
+            );
+        }
+
+        {
+            const CloseApproach closeApproach = {object1State.withCovariance(covariance), object2State};
+
+            EXPECT_THROW(
+                try {
+                    closeApproach.computeRotatedEncounterFrameParameters(closeApproach.computeEncounterFrame());
+                } catch (const ostk::core::error::runtime::Undefined& e) {
+                    EXPECT_EQ("{Object 2 position covariance} is undefined.", e.getMessage());
+                    throw;
+                },
+                ostk::core::error::runtime::Undefined
+            );
+        }
+    }
+
+    // Undefined close approach
+    {
+        const CloseApproach closeApproach = CloseApproach::Undefined();
+
+        EXPECT_THROW(
+            try {
+                closeApproach.computeRotatedEncounterFrameParameters(gcrfFrame);
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
                 throw;
             },
             ostk::core::error::runtime::Undefined
