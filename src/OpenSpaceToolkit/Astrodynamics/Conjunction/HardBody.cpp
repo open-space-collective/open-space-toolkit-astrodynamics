@@ -79,11 +79,6 @@ HardBody::CrossSection HardBody::CrossSection::combine(
     return {Polygon(vertexSums).getConvexHull().getVertices(), radius};
 }
 
-HardBody::CrossSection HardBody::createCrossSection(const Array<Point>& aConvexHull, const Real& aRadius)
-{
-    return {aConvexHull, aRadius};
-}
-
 }  // namespace conjunction
 }  // namespace astrodynamics
 }  // namespace ostk

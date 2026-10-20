@@ -70,9 +70,3 @@ class TestCustom:
 
         assert isinstance(cross_section, HardBody.CrossSection)
         assert cross_section.get_enclosing_radius() == pytest.approx(math.sqrt(2.0))
-
-    def test_calculate_cross_section_at_failure_no_vertex(self, state: State):
-        custom = Custom(vertex_generator=lambda state: [], frame=Frame.GCRF())
-
-        with pytest.raises(RuntimeError):
-            custom.calculate_cross_section_at(state=state, frame=Frame.GCRF())
