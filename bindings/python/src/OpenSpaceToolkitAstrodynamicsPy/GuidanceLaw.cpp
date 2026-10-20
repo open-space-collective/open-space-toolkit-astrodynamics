@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ConstantThrust.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/HeterogeneousGuidanceLaw.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/QLaw.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ROETargeting.cpp>
 
 using namespace pybind11;
 
@@ -142,4 +143,5 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(guidance_law);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(guidance_law);
     OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw(guidance_law);
+    OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(guidance_law);
 }
