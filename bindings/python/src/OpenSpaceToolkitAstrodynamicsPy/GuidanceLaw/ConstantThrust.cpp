@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
     using ostk::core::type::String;
@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
 
     {
-        class_<ConstantThrust, GuidanceLaw, Shared<ConstantThrust>>(
+        class_<ConstantThrust, GuidanceLaw>(
             aModule,
             "ConstantThrust",
             R"doc(
@@ -86,7 +86,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
                     Returns:
                         ConstantThrust: The constant thrust guidance law in the in-track direction.
                 )doc",
-                arg_v("velocity_direction", true, "True")
+                arg("velocity_direction").sig("True") = true
             )
 
             .def_static(
@@ -111,7 +111,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(pybind11:
                 )doc",
                 arg("maneuver"),
                 arg("local_orbital_frame_factory"),
-                arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()")
+                arg("maximum_allowed_angular_offset").sig("Angle.Undefined()") = Angle::Undefined()
             )
 
             ;

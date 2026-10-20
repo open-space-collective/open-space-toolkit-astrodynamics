@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianAcceleration.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Shared;
 using ostk::core::type::String;
@@ -13,10 +13,10 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPositio
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset_CartesianAcceleration(
-    pybind11::module& aModule
+    nanobind::module_& aModule
 )
 {
-    class_<CartesianAcceleration, Shared<CartesianAcceleration>, CoordinateSubset>(
+    class_<CartesianAcceleration, CoordinateSubset>(
         aModule,
         "CartesianAcceleration",
         R"doc(

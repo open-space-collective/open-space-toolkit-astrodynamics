@@ -10,9 +10,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -79,7 +79,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                         output_frame (Frame): The output frame for state calculations. Defaults to TEME.
                 )doc",
                 arg("tles"),
-                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+                arg("output_frame").sig("Frame.TEME()") = Frame::TEME()
             )
 
             .def(
@@ -95,7 +95,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                         output_frame (Frame): The output frame for state calculations. Defaults to TEME.
                 )doc",
                 arg("tles_with_intervals"),
-                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+                arg("output_frame").sig("Frame.TEME()") = Frame::TEME()
             )
 
             .def(
@@ -115,7 +115,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                 &SGP4::getTle,
                 R"doc(
                     Get the TLE of the `SGP4` model.
-
 
                     Returns:
                         TLE: The TLE.

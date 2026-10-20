@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Message/SpaceX.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message(nanobind::module_& aModule)
 {
     // Create "message" python submodule
     auto message = aModule.def_submodule("message");

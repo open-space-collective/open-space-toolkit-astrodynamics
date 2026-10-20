@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
 

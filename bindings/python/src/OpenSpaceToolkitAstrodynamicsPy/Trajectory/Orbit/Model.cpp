@@ -7,9 +7,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Tabulated.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::astrodynamics::trajectory::orbit::Model;
     using ostk::astrodynamics::trajectory::orbit::model::Kepler;
@@ -103,7 +103,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
             {
                 return aModel.as<Kepler>();
             },
-            return_value_policy::reference,
+            rv_policy::reference,
             R"doc(
                 Cast the orbit model to a Kepler model.
 
@@ -118,7 +118,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
             {
                 return aModel.as<SGP4>();
             },
-            return_value_policy::reference,
+            rv_policy::reference,
             R"doc(
                 Cast the orbit model to an SGP4 model.
 
@@ -133,7 +133,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
             {
                 return aModel.as<Propagated>();
             },
-            return_value_policy::reference,
+            rv_policy::reference,
             R"doc(
                 Cast the orbit model to a propagated model.
 

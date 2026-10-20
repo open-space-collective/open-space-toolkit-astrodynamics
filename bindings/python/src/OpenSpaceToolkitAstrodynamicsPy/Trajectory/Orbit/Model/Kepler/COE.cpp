@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
 
@@ -102,8 +102,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("true_anomaly")
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const COE& self, const COE& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const COE& self, const COE& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<COE>))
         .def("__repr__", &(shiftToString<COE>))
@@ -467,11 +481,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("semi_major_axis"),
             arg("celestial_object"),
-            arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
-            arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
-            arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
-            arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
-            arg_v("true_anomaly", Angle::Degrees(0.0), "Angle.degrees(0.0)")
+            arg("eccentricity").sig("Real.undefined()") = Real::Undefined(),
+            arg("inclination").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("raan").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
+            arg("aop").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("true_anomaly").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0)
         )
 
         .def_static(
@@ -526,11 +540,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("equatorial_radius"),
             arg("j2"),
             arg("j3"),
-            arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
-            arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
-            arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
-            arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
-            arg_v("true_anomaly", Angle::Degrees(0.0), "Angle.degrees(0.0)")
+            arg("eccentricity").sig("Real.undefined()") = Real::Undefined(),
+            arg("inclination").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("raan").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
+            arg("aop").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("true_anomaly").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0)
         )
 
         .def_static(
@@ -831,7 +845,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg("sun").sig("Sun.default()") = ostk::physics::environment::object::celestial::Sun::Default()
         )
 
         .def_static(
@@ -853,7 +867,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg("sun").sig("Sun.default()") = ostk::physics::environment::object::celestial::Sun::Default()
         )
 
         .def_static(
@@ -875,7 +889,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg("sun").sig("Sun.default()") = ostk::physics::environment::object::celestial::Sun::Default()
         )
 
         .def_static(
@@ -897,7 +911,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg("sun").sig("Sun.default()") = ostk::physics::environment::object::celestial::Sun::Default()
         )
 
         .def_static(
@@ -937,7 +951,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("local_time_at_ascending_node"),
             arg("epoch"),
             arg("celestial_object"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg("sun").sig("Sun.default()") = ostk::physics::environment::object::celestial::Sun::Default()
         )
 
         .def_static(
@@ -961,8 +975,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("local_time_at_ascending_node"),
             arg("epoch"),
             arg("celestial_object"),
-            arg_v("eccentricity", 0.0, "0.0"),
-            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
+            arg("eccentricity").sig("0.0") = 0.0,
+            arg("argument_of_latitude").sig("Angle.zero()") = Angle::Zero()
         )
 
         .def_static(
@@ -1004,8 +1018,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     COE: The Circular COE.
             )doc",
             arg("semi_major_axis"),
-            arg_v("inclination", Angle::Zero(), "Angle.zero()"),
-            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
+            arg("inclination").sig("Angle.zero()") = Angle::Zero(),
+            arg("argument_of_latitude").sig("Angle.zero()") = Angle::Zero()
         )
 
         .def_static(
@@ -1027,7 +1041,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("semi_major_axis"),
             arg("eccentricity") = 0.0,
-            arg_v("true_anomaly", Angle::Zero(), "Angle.zero()")
+            arg("true_anomaly").sig("Angle.zero()") = Angle::Zero()
         )
 
         .def_static(

@@ -4,7 +4,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Array;
 using ostk::core::type::Shared;
@@ -13,10 +13,10 @@ using ostk::core::type::String;
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::LogicalCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(nanobind::module_& aModule)
 {
     {
-        class_<LogicalCondition, EventCondition, Shared<LogicalCondition>> logicalCondition(
+        class_<LogicalCondition, EventCondition> logicalCondition(
             aModule,
             "LogicalCondition",
             R"doc(

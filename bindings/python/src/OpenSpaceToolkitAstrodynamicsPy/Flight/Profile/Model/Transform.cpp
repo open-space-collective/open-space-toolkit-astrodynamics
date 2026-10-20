@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;

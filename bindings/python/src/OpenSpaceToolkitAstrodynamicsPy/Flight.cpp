@@ -4,7 +4,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight(nanobind::module_& aModule)
 {
     // Create "flight" python submodule
     auto flight = aModule.def_submodule("flight");

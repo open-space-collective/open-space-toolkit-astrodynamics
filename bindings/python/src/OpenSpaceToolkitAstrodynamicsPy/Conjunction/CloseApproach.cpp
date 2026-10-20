@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach/Generator.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Tuple;
     using ostk::core::type::Shared;
@@ -44,7 +44,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            self == self,
+            "__eq__",
+            [](const CloseApproach& self, const CloseApproach& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator(),
             R"doc(
                 Equal to operator.
 
@@ -57,7 +62,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            self != self,
+            "__ne__",
+            [](const CloseApproach& self, const CloseApproach& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator(),
             R"doc(
                 Not equal to operator.
 

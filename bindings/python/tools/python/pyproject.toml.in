@@ -19,7 +19,7 @@ classifiers = [
 	"Programming Language :: Python :: 3",
 	"Operating System :: POSIX :: Linux",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 dependencies = [
     "open-space-toolkit-core~=5.0",
@@ -34,7 +34,7 @@ dependencies = [
 
 [project.optional-dependencies]
 prebuild = [
-	"pybind11-stubgen"
+	"nanobind==3.1.0"
 ]
 test = [
 	"pytest"
@@ -53,5 +53,5 @@ ext-modules = [
 include = ["ostk.astrodynamics", "ostk.astrodynamics.*"]
 
 [tool.setuptools.package-data]
-"ostk.astrodynamics" = ["${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}", "${LIBRARY_TARGET}.*${EXTENSION}*.so"]
+"ostk.astrodynamics" = ["${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}", "${LIBRARY_TARGET}.*${EXTENSION}*.so", "*.pyi", "py.typed"]
 "*" = ["*/data/*"]

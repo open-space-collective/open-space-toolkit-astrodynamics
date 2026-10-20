@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/FiniteDifferenceSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Size;

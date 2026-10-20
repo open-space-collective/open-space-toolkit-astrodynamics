@@ -4,7 +4,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -16,10 +16,10 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(nanobind::module_& aModule)
 {
     {
-        class_<RealCondition, EventCondition, Shared<RealCondition>> realCondition(
+        class_<RealCondition, EventCondition> realCondition(
             aModule,
             "RealCondition",
             R"doc(

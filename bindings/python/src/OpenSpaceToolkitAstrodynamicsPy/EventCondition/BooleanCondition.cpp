@@ -4,7 +4,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
@@ -16,9 +16,9 @@ using ostk::astrodynamics::eventcondition::BooleanCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::trajectory::State;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(nanobind::module_& aModule)
 {
-    class_<BooleanCondition, RealCondition, Shared<BooleanCondition>>(
+    class_<BooleanCondition, RealCondition>(
         aModule,
         "BooleanCondition",
         R"doc(

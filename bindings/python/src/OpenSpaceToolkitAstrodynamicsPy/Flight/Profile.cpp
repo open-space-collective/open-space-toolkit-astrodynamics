@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -24,7 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<Profile, Shared<Profile>> profileClass(
+    class_<Profile> profileClass(
         aModule,
         "Profile",
         R"doc(
@@ -73,7 +73,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::Target, Shared<Profile::Target>>(
+    class_<Profile::Target>(
         profileClass,
         "Target",
         R"doc(
@@ -110,12 +110,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("anti_direction") = false
         )
 
-        .def_readonly("type", &Profile::Target::type, "The type of the target.")
-        .def_readonly("direction", &Profile::Target::direction, "The direction of the target.")
+        .def_ro("type", &Profile::Target::type, "The type of the target.")
+        .def_ro("direction", &Profile::Target::direction, "The direction of the target.")
 
         ;
 
-    class_<Profile::TrajectoryTarget, Profile::Target, Shared<Profile::TrajectoryTarget>>(
+    class_<Profile::TrajectoryTarget, Profile::Target>(
         profileClass,
         "TrajectoryTarget",
         R"doc(
@@ -210,7 +210,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("anti_direction") = false
         )
 
-        .def_readonly(
+        .def_ro(
             "trajectory",
             &Profile::TrajectoryTarget::trajectory,
             "The trajectory of the target. Used to compute the target position or velocity."
@@ -218,7 +218,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::OrientationProfileTarget, Profile::Target, Shared<Profile::OrientationProfileTarget>>(
+    class_<Profile::OrientationProfileTarget, Profile::Target>(
         profileClass,
         "OrientationProfileTarget",
         R"doc(
@@ -239,7 +239,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             )doc",
             arg("orientation_profile"),
             arg("direction"),
-            arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
+            arg("interpolator_type").sig("Interpolator.Type.BarycentricRational") =
+                Interpolator::Type::BarycentricRational
         )
 
         .def(
@@ -256,10 +257,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("orientation_profile"),
             arg("axis"),
             arg("anti_direction") = false,
-            arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
+            arg("interpolator_type").sig("Interpolator.Type.BarycentricRational") =
+                Interpolator::Type::BarycentricRational
         )
 
-        .def_readonly(
+        .def_ro(
             "orientation_profile",
             &Profile::OrientationProfileTarget::orientationProfile,
             "The orientation profile of the target."
@@ -267,7 +269,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::CustomTarget, Profile::Target, Shared<Profile::CustomTarget>>(
+    class_<Profile::CustomTarget, Profile::Target>(
         profileClass,
         "CustomTarget",
         R"doc(
@@ -304,7 +306,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("anti_direction") = false
         )
 
-        .def_readonly(
+        .def_ro(
             "orientation_generator",
             &Profile::CustomTarget::orientationGenerator,
             "The orientation generator of the target."
@@ -342,7 +344,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         .def(
             "access_model",
             &Profile::accessModel,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the profile model.
 
@@ -499,7 +501,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("orbit"),
             arg("alignment_target"),
             arg("clocking_target"),
-            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+            arg("angular_offset").sig("Angle.Zero()") = Angle::Zero()
         )
 
         .def_static(
@@ -529,7 +531,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             )doc",
             arg("alignment_target"),
             arg("clocking_target"),
-            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+            arg("angular_offset").sig("Angle.Zero()") = Angle::Zero()
         )
 
         .def_static(
@@ -555,7 +557,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("alignment_target"),
             arg("clocking_target"),
             arg("celestial"),
-            arg_v("angular_offset", Angle::Zero(), "Angle.Zero()")
+            arg("angular_offset").sig("Angle.Zero()") = Angle::Zero()
         )
 
         ;

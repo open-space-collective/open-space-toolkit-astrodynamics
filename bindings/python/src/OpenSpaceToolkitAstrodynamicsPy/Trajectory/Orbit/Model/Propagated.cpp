@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Integer;
@@ -63,9 +63,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
                 arg("initial_revolution_number") = 1
             )
 
-            .def(self == self)
+            .def(
+                "__eq__",
+                [](const Propagated& self, const Propagated& other)
+                {
+                    return self == other;
+                },
+                nanobind::is_operator()
+            )
 
-            .def(self != self)
+            .def(
+                "__ne__",
+                [](const Propagated& self, const Propagated& other)
+                {
+                    return self != other;
+                },
+                nanobind::is_operator()
+            )
 
             .def("__str__", &(shiftToString<Propagated>))
 

@@ -3,9 +3,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Estimator/OrbitDeterminationSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Estimator/TLESolver.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Estimator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Estimator(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     // Create "estimator" python submodule
     auto estimator = aModule.def_submodule("estimator");
