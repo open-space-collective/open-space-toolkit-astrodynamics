@@ -44,7 +44,7 @@ HardBody::CrossSection Spherical::calculateCrossSectionAt(
     [[maybe_unused]] const State& aState, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    return {Array<Point>({Point::Origin()}), radius_};
+    return createCrossSection(Array<Point>({Point::Origin()}), radius_);
 }
 
 }  // namespace hardbody

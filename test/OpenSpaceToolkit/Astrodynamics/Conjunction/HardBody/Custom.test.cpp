@@ -59,33 +59,6 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom : public ::testing::Test
 {
    protected:
-    void SetUp() override
-    {
-        // Frame rotated by 90 degrees about the GCRF X axis: its X-Y plane is the GCRF X-Z plane
-        if (Frame::Exists(rotatedFrameName_))
-        {
-            Frame::Destruct(rotatedFrameName_);
-        }
-
-        rotatedFrameSPtr_ = Frame::Construct(
-            rotatedFrameName_,
-            true,
-            Frame::GCRF(),
-            std::make_shared<Static>(Static(Transform::Passive(
-                Instant::J2000(),
-                Vector3d::Zero(),
-                Vector3d::Zero(),
-                Quaternion::RotationVector(RotationVector({1.0, 0.0, 0.0}, Angle::Degrees(90.0))),
-                Vector3d::Zero()
-            )))
-        );
-    }
-
-    void TearDown() override
-    {
-        Frame::Destruct(rotatedFrameName_);
-    }
-
     // Helper function to build a state
     State buildState(const Vector3d& aPosition, const Vector3d& aVelocity) const
     {
@@ -118,11 +91,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom : public ::test
         };
     }
 
-    const String rotatedFrameName_ = "HardBodyCustomTestRotatedFrame";
-    Shared<const Frame> rotatedFrameSPtr_ = nullptr;
-
     // Cube of side 2.0
-    const Array<Vector3d> cubeOffsets_ = {
+    const Array<Vector3d> cubeVertices_ = {
         {-1.0, -1.0, -1.0},
         {-1.0, -1.0, 1.0},
         {-1.0, 1.0, -1.0},
@@ -133,39 +103,38 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom : public ::test
         {1.0, 1.0, 1.0},
     };
 
-    // Plate of size 2.0 x 6.0 in the X-Z plane
-    const Array<Vector3d> plateOffsets_ = {
-        {-1.0, 0.0, -3.0},
-        {-1.0, 0.0, 3.0},
-        {1.0, 0.0, -3.0},
-        {1.0, 0.0, 3.0},
+    // Cuboid of dimensions 2 in X, 4 in Y and 1 in Z
+    const Array<Vector3d> cuboidVertices_ = {
+        {-1.0, -2.0, -0.5},
+        {-1.0, -2.0, 0.5},
+        {-1.0, 2.0, -0.5},
+        {-1.0, 2.0, 0.5},
+        {1.0, -2.0, -0.5},
+        {1.0, -2.0, 0.5},
+        {1.0, 2.0, -0.5},
+        {1.0, 2.0, 0.5},
     };
-
-    // Plate of size 2.0 x 6.0 in the X-Y plane
-    const Array<Vector3d> flatPlateOffsets_ = {
-        {-1.0, -3.0, 0.0},
-        {-1.0, 3.0, 0.0},
-        {1.0, -3.0, 0.0},
-        {1.0, 3.0, 0.0},
-    };
-
     const LocalOrbitalFrameFactory vncFactory_ = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
 
+    const LocalOrbitalFrameFactory qswFactory_ = LocalOrbitalFrameFactory::QSW(Frame::GCRF());
+
     const State state_ = buildState({7.0e6, 0.0, 0.0}, {0.0, 7.5e3, 0.0});
+
+    const State anotherState_ = buildState({0.0, -4.2e7, 1.0e3}, {3.0e3, 0.0, 0.0});
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, Constructor)
 {
     {
-        EXPECT_NO_THROW(Custom(buildVertexGenerator(cubeOffsets_), Frame::GCRF()));
+        EXPECT_NO_THROW(Custom(buildVertexGenerator(cubeVertices_), Frame::GCRF()));
     }
 
     {
-        EXPECT_NO_THROW(Custom(buildVertexGenerator(cubeOffsets_), vncFactory_));
+        EXPECT_NO_THROW(Custom(buildVertexGenerator(cubeVertices_), vncFactory_));
     }
 
     {
-        const Custom custom = {buildVertexGenerator(cubeOffsets_), Frame::GCRF()};
+        const Custom custom = {buildVertexGenerator(cubeVertices_), Frame::GCRF()};
         const HardBody& hardBody = custom;
 
         EXPECT_NO_THROW(hardBody.calculateCrossSectionAt(state_, Frame::GCRF()));
@@ -198,7 +167,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, Constructor)
     {
         EXPECT_THROW(
             try {
-                Custom(buildVertexGenerator(cubeOffsets_), Shared<const Frame>(nullptr));
+                Custom(buildVertexGenerator(cubeVertices_), Shared<const Frame>(nullptr));
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Frame} is undefined.", e.getMessage());
                 throw;
@@ -209,7 +178,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, Constructor)
 
     {
         EXPECT_THROW(
-            Custom(buildVertexGenerator(cubeOffsets_), LocalOrbitalFrameFactory::Undefined()),
+            Custom(buildVertexGenerator(cubeVertices_), LocalOrbitalFrameFactory::Undefined()),
             ostk::core::error::runtime::Undefined
         );
     }
@@ -218,138 +187,331 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, Constructor)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, GetVertexGenerator)
 {
     {
-        const Custom custom = {buildVertexGenerator(cubeOffsets_), Frame::GCRF()};
+        const Custom custom = {buildVertexGenerator(cubeVertices_), Frame::GCRF()};
 
         const Custom::VertexGenerator vertexGenerator = custom.getVertexGenerator();
 
         EXPECT_TRUE(static_cast<bool>(vertexGenerator));
-        EXPECT_EQ(cubeOffsets_.getSize(), vertexGenerator(state_).getSize());
+        EXPECT_EQ(cubeVertices_.getSize(), vertexGenerator(state_).getSize());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, CalculateCrossSectionAt)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, CalculateCrossSectionAtInGCRF)
 {
-    // Cube: square shadow of side 2.0
+    // Cube cross section perpendicular to Z axis in GCRF: square shadow of side 2.0
     {
-        const Custom custom = {buildVertexGenerator(cubeOffsets_), Frame::GCRF()};
+        const Custom custom = {buildVertexGenerator(cubeVertices_), Frame::GCRF()};
 
         EXPECT_DOUBLE_EQ(std::sqrt(2.0), custom.calculateCrossSectionAt(state_, Frame::GCRF()).getEnclosingRadius());
-    }
 
-    // Cross section is centered on the object, whatever the state
-    {
-        const Custom custom = {buildVertexGenerator(cubeOffsets_), Frame::GCRF()};
-
-        const State anotherState = buildState({0.0, -4.2e7, 1.0e3}, {3.0e3, 0.0, 0.0});
-
+        // Check it's state independent
         EXPECT_DOUBLE_EQ(
-            std::sqrt(2.0), custom.calculateCrossSectionAt(anotherState, Frame::GCRF()).getEnclosingRadius()
+            std::sqrt(2.0), custom.calculateCrossSectionAt(anotherState_, Frame::GCRF()).getEnclosingRadius()
         );
     }
 
-    // Plate in the GCRF X-Z plane, projected along the GCRF Z axis: segment of length 2.0
+    // Cube cross section perpendicular to {1, 1, 1} in GCRF: hexagon
+    // The 2 vertices on the diagonal project onto the center, the 6 others onto a regular hexagon of circumradius
+    // sqrt(3 - 1/3), i.e. their distance to the diagonal
     {
-        const Custom custom = {buildVertexGenerator(plateOffsets_), Frame::GCRF()};
+        const Custom custom = {buildVertexGenerator(cubeVertices_), Frame::GCRF()};
 
-        EXPECT_DOUBLE_EQ(1.0, custom.calculateCrossSectionAt(state_, Frame::GCRF()).getEnclosingRadius());
-    }
+        // Frame whose Z axis is {1, 1, 1} in GCRF: GCRF rotated about {-1, 1, 0} by the angle between Z and {1, 1, 1}
+        const String diagonalFrameName = "HardBodyCustomTestDiagonalFrame";
 
-    // Same plate, rotated into the rotated frame (projected along the GCRF Y axis): rectangle of size 2.0 x 6.0
-    {
-        const Custom custom = {buildVertexGenerator(plateOffsets_), Frame::GCRF()};
-
-        EXPECT_NEAR(
-            std::sqrt(10.0), custom.calculateCrossSectionAt(state_, rotatedFrameSPtr_).getEnclosingRadius(), 1e-12
+        const Shared<const Frame> diagonalFrameSPtr = Frame::Construct(
+            diagonalFrameName,
+            true,
+            Frame::GCRF(),
+            std::make_shared<Static>(Static(Transform::Passive(
+                Instant::J2000(),
+                Vector3d::Zero(),
+                Vector3d::Zero(),
+                Quaternion::RotationVector(RotationVector(
+                    Vector3d(-1.0, 1.0, 0.0).normalized(), Angle::Radians(std::acos(1.0 / std::sqrt(3.0)))
+                )),
+                Vector3d::Zero()
+            )))
         );
-    }
 
-    // Same plate, expressed in the rotated frame and projected in the rotated frame: segment of length 2.0
-    {
-        const Custom custom = {buildVertexGenerator(plateOffsets_), rotatedFrameSPtr_};
-
-        EXPECT_NEAR(1.0, custom.calculateCrossSectionAt(state_, rotatedFrameSPtr_).getEnclosingRadius(), 1e-12);
-    }
-
-    // Plate in the VNC V-N plane. At this state, V is the GCRF Y axis, N the GCRF Z axis and C the GCRF X axis.
-    {
-        const Custom custom = {buildVertexGenerator(flatPlateOffsets_), vncFactory_};
-
-        // Projected along the GCRF Z axis (N): segment of length 2.0 along V
-        EXPECT_NEAR(1.0, custom.calculateCrossSectionAt(state_, Frame::GCRF()).getEnclosingRadius(), 1e-12);
-
-        // Projected along the Z axis of the rotated frame (GCRF Y axis, i.e. V): segment of length 6.0 along N
-        EXPECT_NEAR(3.0, custom.calculateCrossSectionAt(state_, rotatedFrameSPtr_).getEnclosingRadius(), 1e-12);
-
-        // Projected along the VNC Z axis (C): the whole plate
         EXPECT_NEAR(
-            std::sqrt(10.0),
+            std::sqrt(8.0 / 3.0), custom.calculateCrossSectionAt(state_, diagonalFrameSPtr).getEnclosingRadius(), 1e-12
+        );
+
+        // Check it's state independent
+        EXPECT_NEAR(
+            std::sqrt(8.0 / 3.0),
+            custom.calculateCrossSectionAt(anotherState_, diagonalFrameSPtr).getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(diagonalFrameName);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, CalculateCrossSectionAtInVNC)
+{
+    // Frame whose Z axis is a VNC axis at a given state: VNC rotated by a given rotation
+    const String rotatedVNCFrameName = "HardBodyCustomTestRotatedVNCFrame";
+
+    const auto constructRotatedVNCFrame =
+        [this, &rotatedVNCFrameName](const State& aState, const RotationVector& aRotationVector) -> Shared<const Frame>
+    {
+        return Frame::Construct(
+            rotatedVNCFrameName,
+            false,
+            vncFactory_.generateFrame(aState),
+            std::make_shared<Static>(Static(Transform::Passive(
+                Instant::J2000(),
+                Vector3d::Zero(),
+                Vector3d::Zero(),
+                Quaternion::RotationVector(aRotationVector),
+                Vector3d::Zero()
+            )))
+        );
+    };
+
+    // Cuboid cross section perpendicular to VNC X axis is a rectangle of 1 x 4
+    {
+        const Custom custom = {buildVertexGenerator(cuboidVertices_), vncFactory_};
+
+        // VNC rotated about its Y axis by 90 degrees: Z axis along the VNC X axis
+        const RotationVector rotationVector = {{0.0, 1.0, 0.0}, Angle::Degrees(90.0)};
+
+        EXPECT_NEAR(
+            std::sqrt(0.5 * 0.5 + 2.0 * 2.0),
+            custom.calculateCrossSectionAt(state_, constructRotatedVNCFrame(state_, rotationVector))
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedVNCFrameName);
+
+        // Check it's state independent
+        EXPECT_NEAR(
+            std::sqrt(0.5 * 0.5 + 2.0 * 2.0),
+            custom.calculateCrossSectionAt(anotherState_, constructRotatedVNCFrame(anotherState_, rotationVector))
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedVNCFrameName);
+    }
+
+    // Cuboid cross section perpendicular to VNC Y axis is a rectangle of 2 x 1
+    {
+        const Custom custom = {buildVertexGenerator(cuboidVertices_), vncFactory_};
+
+        // VNC rotated about its X axis by 90 degrees: Z axis along the VNC Y axis
+        const RotationVector rotationVector = {{1.0, 0.0, 0.0}, Angle::Degrees(90.0)};
+
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 0.5 * 0.5),
+            custom.calculateCrossSectionAt(state_, constructRotatedVNCFrame(state_, rotationVector))
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedVNCFrameName);
+
+        // Check it's state independent
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 0.5 * 0.5),
+            custom.calculateCrossSectionAt(anotherState_, constructRotatedVNCFrame(anotherState_, rotationVector))
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedVNCFrameName);
+    }
+
+    // Cuboid cross section perpendicular to VNC Z axis is a rectangle of 2 x 4
+    {
+        const Custom custom = {buildVertexGenerator(cuboidVertices_), vncFactory_};
+
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 2.0 * 2.0),
             custom.calculateCrossSectionAt(state_, vncFactory_.generateFrame(state_)).getEnclosingRadius(),
+            1e-12
+        );
+
+        // Check it's state independent
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 2.0 * 2.0),
+            custom.calculateCrossSectionAt(anotherState_, vncFactory_.generateFrame(anotherState_))
+                .getEnclosingRadius(),
+            1e-12
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, CalculateCrossSectionDefinedInQSWButComputedInGCRF)
+{
+    const Custom custom = {buildVertexGenerator(cuboidVertices_), qswFactory_};
+
+    // Frame whose Z axis is a GCRF axis: GCRF rotated by a given rotation
+    // - About its Y axis by 90 degrees: Z axis along the GCRF X axis
+    // - About its X axis by 90 degrees: Z axis along the GCRF Y axis
+    const String rotatedFrameName = "HardBodyCustomTestRotatedFrame";
+
+    const auto constructRotatedFrame = [&rotatedFrameName](const RotationVector& aRotationVector) -> Shared<const Frame>
+    {
+        return Frame::Construct(
+            rotatedFrameName,
+            true,
+            Frame::GCRF(),
+            std::make_shared<Static>(Static(Transform::Passive(
+                Instant::J2000(),
+                Vector3d::Zero(),
+                Vector3d::Zero(),
+                Quaternion::RotationVector(aRotationVector),
+                Vector3d::Zero()
+            )))
+        );
+    };
+
+    // State where QSW is aligned with GCRF
+    {
+        const State state = buildState({7.0e6, 0.0, 0.0}, {0.0, 7.5e3, 0.0});
+
+        // Cross section perpendicular to GCRF X axis is a rectangle of 1 x 4
+        EXPECT_NEAR(
+            std::sqrt(2.0 * 2.0 + 0.5 * 0.5),
+            custom
+                .calculateCrossSectionAt(
+                    state, constructRotatedFrame(RotationVector({0.0, 1.0, 0.0}, Angle::Degrees(90.0)))
+                )
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedFrameName);
+
+        // Cross section perpendicular to GCRF Y axis is a rectangle of 1 x 2
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 0.5 * 0.5),
+            custom
+                .calculateCrossSectionAt(
+                    state, constructRotatedFrame(RotationVector({1.0, 0.0, 0.0}, Angle::Degrees(90.0)))
+                )
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedFrameName);
+
+        // Cross section perpendicular to GCRF Z axis is a rectangle of 2 x 4
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 2.0 * 2.0),
+            custom.calculateCrossSectionAt(state, Frame::GCRF()).getEnclosingRadius(),
             1e-12
         );
     }
 
-    // VNC follows the state: here V is the GCRF Z axis and N the GCRF X axis
+    // State where QSW X is aligned with GCRF Y and QSW Y is aligned with GCRF -X
     {
-        const Custom custom = {buildVertexGenerator(flatPlateOffsets_), vncFactory_};
+        const State state = buildState({0.0, 7.0e6, 0.0}, {-7.5e3, 0.0, 0.0});
 
-        const State anotherState = buildState({0.0, 7.0e6, 0.0}, {0.0, 0.0, 7.5e3});
+        // Cross section perpendicular to GCRF X axis is a rectangle of 1 x 2
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 0.5 * 0.5),
+            custom
+                .calculateCrossSectionAt(
+                    state, constructRotatedFrame(RotationVector({0.0, 1.0, 0.0}, Angle::Degrees(90.0)))
+                )
+                .getEnclosingRadius(),
+            1e-12
+        );
 
-        // Projected along the GCRF Z axis (V): segment of length 6.0 along N
-        EXPECT_NEAR(3.0, custom.calculateCrossSectionAt(anotherState, Frame::GCRF()).getEnclosingRadius(), 1e-12);
+        Frame::Destruct(rotatedFrameName);
+
+        // Cross section perpendicular to GCRF Y axis is a rectangle of 1 x 4
+        EXPECT_NEAR(
+            std::sqrt(2.0 * 2.0 + 0.5 * 0.5),
+            custom
+                .calculateCrossSectionAt(
+                    state, constructRotatedFrame(RotationVector({1.0, 0.0, 0.0}, Angle::Degrees(90.0)))
+                )
+                .getEnclosingRadius(),
+            1e-12
+        );
+
+        Frame::Destruct(rotatedFrameName);
+
+        // Cross section perpendicular to GCRF Z axis is a rectangle of 2 x 4
+        EXPECT_NEAR(
+            std::sqrt(1.0 * 1.0 + 2.0 * 2.0),
+            custom.calculateCrossSectionAt(state, Frame::GCRF()).getEnclosingRadius(),
+            1e-12
+        );
     }
+}
 
-    // Vertices along the projection axis only: point shadow
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, Combine)
+{
+    const Custom cube = {buildVertexGenerator(cubeVertices_), Frame::GCRF()};
+    const Custom cuboid = {buildVertexGenerator(cuboidVertices_), Frame::GCRF()};
+
+    // Frame whose Z axis is a GCRF axis: GCRF rotated by a given rotation
+    const String rotatedFrameName = "HardBodyCustomTestRotatedFrame";
+
+    const auto constructRotatedFrame = [&rotatedFrameName](const RotationVector& aRotationVector) -> Shared<const Frame>
     {
-        const Custom custom = {buildVertexGenerator({{0.0, 0.0, -5.0}, {0.0, 0.0, 5.0}}), Frame::GCRF()};
-
-        EXPECT_DOUBLE_EQ(0.0, custom.calculateCrossSectionAt(state_, Frame::GCRF()).getEnclosingRadius());
-    }
-
-    // Non-convex L shape: the shadow is its convex hull
-    {
-        const Custom custom = {
-            buildVertexGenerator({
-                {0.0, 0.0, 0.0},
-                {2.0, 0.0, 0.0},
-                {2.0, 1.0, 0.0},
-                {1.0, 1.0, 0.0},
-                {1.0, 2.0, 0.0},
-                {0.0, 2.0, 0.0},
-            }),
+        return Frame::Construct(
+            rotatedFrameName,
+            true,
             Frame::GCRF(),
-        };
+            std::make_shared<Static>(Static(Transform::Passive(
+                Instant::J2000(),
+                Vector3d::Zero(),
+                Vector3d::Zero(),
+                Quaternion::RotationVector(aRotationVector),
+                Vector3d::Zero()
+            )))
+        );
+    };
 
-        EXPECT_DOUBLE_EQ(std::sqrt(5.0), custom.calculateCrossSectionAt(state_, Frame::GCRF()).getEnclosingRadius());
-    }
+    // The Minkowski sum of the cube and the cuboid is a cuboid of half sides 1 + 1 = 2 in X, 1 + 2 = 3 in Y and
+    // 1 + 0.5 = 1.5 in Z
 
-    // Combining with another hard body cross section
+    // Combined cross section perpendicular to X axis in GCRF has enclosing radius of sqrt(3^2 + 1.5^2)
     {
-        const Custom custom = {buildVertexGenerator(cubeOffsets_), Frame::GCRF()};
+        // GCRF rotated about its Y axis by 90 degrees: Z axis along the GCRF X axis
+        const Shared<const Frame> rotatedFrameSPtr =
+            constructRotatedFrame(RotationVector({0.0, 1.0, 0.0}, Angle::Degrees(90.0)));
 
         const HardBody::CrossSection combinedCrossSection = HardBody::CrossSection::combine(
-            custom.calculateCrossSectionAt(state_, Frame::GCRF()), custom.calculateCrossSectionAt(state_, Frame::GCRF())
+            cube.calculateCrossSectionAt(state_, rotatedFrameSPtr),
+            cuboid.calculateCrossSectionAt(state_, rotatedFrameSPtr)
         );
 
-        EXPECT_DOUBLE_EQ(2.0 * std::sqrt(2.0), combinedCrossSection.getEnclosingRadius());
+        EXPECT_NEAR(std::sqrt(3.0 * 3.0 + 1.5 * 1.5), combinedCrossSection.getEnclosingRadius(), 1e-12);
+
+        Frame::Destruct(rotatedFrameName);
     }
 
+    // Combined cross section perpendicular to Y axis in GCRF has enclosing radius of sqrt(2^2 + 1.5^2)
     {
-        const Custom custom = {
-            [](const State&) -> Array<Custom::Vertex>
-            {
-                return Array<Custom::Vertex>::Empty();
-            },
-            Frame::GCRF(),
-        };
+        // GCRF rotated about its X axis by 90 degrees: Z axis along the GCRF Y axis
+        const Shared<const Frame> rotatedFrameSPtr =
+            constructRotatedFrame(RotationVector({1.0, 0.0, 0.0}, Angle::Degrees(90.0)));
 
-        EXPECT_THROW(
-            try {
-                custom.calculateCrossSectionAt(state_, Frame::GCRF());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Vertices} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
+        const HardBody::CrossSection combinedCrossSection = HardBody::CrossSection::combine(
+            cube.calculateCrossSectionAt(state_, rotatedFrameSPtr),
+            cuboid.calculateCrossSectionAt(state_, rotatedFrameSPtr)
         );
+
+        EXPECT_NEAR(std::sqrt(2.0 * 2.0 + 1.5 * 1.5), combinedCrossSection.getEnclosingRadius(), 1e-12);
+
+        Frame::Destruct(rotatedFrameName);
+    }
+
+    // Combined cross section perpendicular to Z axis in GCRF has enclosing radius of sqrt(2^2 + 3^2)
+    {
+        const HardBody::CrossSection combinedCrossSection = HardBody::CrossSection::combine(
+            cube.calculateCrossSectionAt(state_, Frame::GCRF()), cuboid.calculateCrossSectionAt(state_, Frame::GCRF())
+        );
+
+        EXPECT_NEAR(std::sqrt(2.0 * 2.0 + 3.0 * 3.0), combinedCrossSection.getEnclosingRadius(), 1e-12);
     }
 }

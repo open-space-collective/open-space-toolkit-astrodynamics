@@ -96,11 +96,11 @@ HardBody::CrossSection Custom::calculateCrossSectionAt(const State& aState, cons
     // A polygon requires at least 3 points: fewer distinct points already form a point or a segment
     if (projectedPoints.getSize() < 3)
     {
-        return {projectedPoints, 0.0};
+        return createCrossSection(projectedPoints, 0.0);
     }
 
     // The polygon convex hull is sorted clockwise and drops duplicate, interior and collinear points
-    return {Polygon(projectedPoints).getConvexHull().getVertices(), 0.0};
+    return createCrossSection(Polygon(projectedPoints).getConvexHull().getVertices(), 0.0);
 }
 
 }  // namespace hardbody

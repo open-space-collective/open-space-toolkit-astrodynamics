@@ -49,28 +49,10 @@ class HardBody
     ///
     /// One or two vertices are also allowed (point or segment).
     ///
-    /// @code{.cpp}
-    ///              // Circle of radius 1.0 m
-    ///              HardBody::CrossSection circle = { Array<Point>({ { 0.0, 0.0 } }), 1.0 } ;
-    ///
-    ///              // Square of side 1.0 m
-    ///              HardBody::CrossSection square = {
-    ///                  Array<Point>({ { 0.5, 0.5 }, { 0.5, -0.5 }, { -0.5, -0.5 }, { -0.5, 0.5 } }), 0.0
-    ///              } ;
-    ///
-    ///              // Stadium: segment of length 2.0 m dilated by a radius of 0.5 m (total size 3.0 m x 1.0 m)
-    ///              HardBody::CrossSection stadium = { Array<Point>({ { -1.0, 0.0 }, { 1.0, 0.0 } }), 0.5 } ;
-    /// @endcode
+    /// Can only be constructed by hard bodies (see HardBody::createCrossSection), e.g. in calculateCrossSectionAt.
     class CrossSection
     {
        public:
-        /// @brief Constructor
-        ///
-        /// @param aConvexHull The convex hull vertices [m], relative to the object position (see class
-        /// documentation)
-        /// @param aRadius The radius [m] by which the convex hull is dilated
-        CrossSection(const Array<Point>& aConvexHull, const Real& aRadius);
-
         /// @brief Get the enclosing radius of the cross section
         ///
         /// @details Radius of the smallest circle centered on the object position enclosing the cross section:
@@ -87,8 +69,10 @@ class HardBody
         /// empty.
         ///
         /// @code{.cpp}
-        ///              // Square of side 1.0 m with corners rounded by 1.0 m
-        ///              HardBody::CrossSection combinedCrossSection = HardBody::CrossSection::combine(circle, square) ;
+        ///              HardBody::CrossSection combinedCrossSection = HardBody::CrossSection::combine(
+        ///                  hardBody1.calculateCrossSectionAt(state1, encounterFrame),
+        ///                  hardBody2.calculateCrossSectionAt(state2, encounterFrame)
+        ///              ) ;
         /// @endcode
         ///
         /// @ref https://en.wikipedia.org/wiki/Minkowski_addition
@@ -100,8 +84,12 @@ class HardBody
         static CrossSection combine(const CrossSection& aCrossSection, const CrossSection& anotherCrossSection);
 
        private:
+        friend class HardBody;
+
         Array<Point> convexHull_;
         Real radius_;
+
+        CrossSection(const Array<Point>& aConvexHull, const Real& aRadius);
     };
 
     /// @brief Destructor
@@ -123,6 +111,32 @@ class HardBody
     /// @param aFrameSPtr A frame whose axes define the projection
     /// @return The cross section
     virtual CrossSection calculateCrossSectionAt(const State& aState, const Shared<const Frame>& aFrameSPtr) const = 0;
+
+   protected:
+    /// @brief Create a cross section
+    ///
+    /// @details Only accessible to hard body children, to construct the cross section they calculate.
+    ///
+    /// @code{.cpp}
+    ///              // Circle of radius 1.0 m
+    ///              HardBody::CrossSection circle = createCrossSection(Array<Point>({ { 0.0, 0.0 } }), 1.0) ;
+    ///
+    ///              // Square of side 1.0 m
+    ///              HardBody::CrossSection square = createCrossSection(
+    ///                  Array<Point>({ { 0.5, 0.5 }, { 0.5, -0.5 }, { -0.5, -0.5 }, { -0.5, 0.5 } }), 0.0
+    ///              ) ;
+    ///
+    ///              // Stadium: segment of length 2.0 m dilated by a radius of 0.5 m (total size 3.0 m x 1.0 m)
+    ///              HardBody::CrossSection stadium = createCrossSection(
+    ///                  Array<Point>({ { -1.0, 0.0 }, { 1.0, 0.0 } }), 0.5
+    ///              ) ;
+    /// @endcode
+    ///
+    /// @param aConvexHull The convex hull vertices [m], relative to the object position (see CrossSection
+    /// documentation)
+    /// @param aRadius The radius [m] by which the convex hull is dilated
+    /// @return The cross section
+    static CrossSection createCrossSection(const Array<Point>& aConvexHull, const Real& aRadius);
 };
 
 }  // namespace conjunction

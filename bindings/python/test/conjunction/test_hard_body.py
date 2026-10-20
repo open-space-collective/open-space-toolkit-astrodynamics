@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from ostk.mathematics.geometry.d2.object import Point
+from ostk.mathematics.geometry.d3.object import Point
 
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate import Position
@@ -15,6 +15,7 @@ from ostk.physics.time import Scale
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.conjunction import HardBody
+from ostk.astrodynamics.conjunction.hard_body import Custom
 
 
 @pytest.fixture
@@ -24,23 +25,6 @@ def state() -> State:
         Position.meters([7.0e6, 0.0, 0.0], Frame.GCRF()),
         Velocity.meters_per_second([0.0, 7.5e3, 0.0], Frame.GCRF()),
     )
-
-
-@pytest.fixture
-def circle() -> HardBody.CrossSection:
-    return HardBody.CrossSection([Point(0.0, 0.0)], 1.0)
-
-
-@pytest.fixture
-def square() -> HardBody.CrossSection:
-    return HardBody.CrossSection(
-        [Point(0.5, 0.5), Point(0.5, -0.5), Point(-0.5, -0.5), Point(-0.5, 0.5)], 0.0
-    )
-
-
-@pytest.fixture
-def stadium() -> HardBody.CrossSection:
-    return HardBody.CrossSection([Point(-1.0, 0.0), Point(1.0, 0.0)], 0.5)
 
 
 class Rectangle(HardBody):
@@ -55,59 +39,15 @@ class Rectangle(HardBody):
         half_length = self._length / 2.0
         half_width = self._width / 2.0
 
-        return HardBody.CrossSection(
-            [
-                Point(half_length, half_width),
-                Point(half_length, -half_width),
-                Point(-half_length, -half_width),
-                Point(-half_length, half_width),
+        # Cross sections cannot be constructed directly: delegate to a hard body
+        return Custom(
+            vertex_generator=lambda state: [
+                Point(x, y, 0.0)
+                for x in (-half_length, half_length)
+                for y in (-half_width, half_width)
             ],
-            0.0,
-        )
-
-
-class TestCrossSection:
-    def test_constructor_success(self):
-        cross_section = HardBody.CrossSection(convex_hull=[Point(0.0, 0.0)], radius=1.0)
-
-        assert cross_section is not None
-        assert isinstance(cross_section, HardBody.CrossSection)
-
-    def test_get_enclosing_radius_success(
-        self,
-        circle: HardBody.CrossSection,
-        square: HardBody.CrossSection,
-        stadium: HardBody.CrossSection,
-    ):
-        assert circle.get_enclosing_radius() == pytest.approx(1.0)
-        assert square.get_enclosing_radius() == pytest.approx(math.sqrt(0.5))
-        assert stadium.get_enclosing_radius() == pytest.approx(1.5)
-
-    def test_get_enclosing_radius_failure_empty_convex_hull(self):
-        with pytest.raises(RuntimeError):
-            HardBody.CrossSection([], 1.0).get_enclosing_radius()
-
-    def test_combine_success(
-        self,
-        circle: HardBody.CrossSection,
-        square: HardBody.CrossSection,
-    ):
-        combined_cross_section = HardBody.CrossSection.combine(
-            cross_section=circle,
-            another_cross_section=square,
-        )
-
-        assert isinstance(combined_cross_section, HardBody.CrossSection)
-        assert combined_cross_section.get_enclosing_radius() == pytest.approx(
-            math.sqrt(0.5) + 1.0
-        )
-
-    def test_combine_failure_empty_convex_hull(
-        self,
-        circle: HardBody.CrossSection,
-    ):
-        with pytest.raises(RuntimeError):
-            HardBody.CrossSection.combine(HardBody.CrossSection([], 1.0), circle)
+            frame=frame,
+        ).calculate_cross_section_at(state=state, frame=frame)
 
 
 class TestHardBody:

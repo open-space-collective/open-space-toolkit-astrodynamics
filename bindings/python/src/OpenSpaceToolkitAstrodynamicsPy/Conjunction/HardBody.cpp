@@ -35,11 +35,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody(pybind11::modul
 {
     using namespace pybind11;
 
-    using ostk::core::container::Array;
-    using ostk::core::type::Real;
-
-    using ostk::mathematics::geometry::d2::object::Point;
-
     class_<HardBody, PyHardBody, Shared<HardBody>> hardBody(
         aModule,
         "HardBody",
@@ -71,27 +66,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody(pybind11::modul
 
             One or two vertices are also allowed (point or segment).
 
-            Examples:
-                >>> circle = HardBody.CrossSection([Point(0.0, 0.0)], 1.0)
-                >>> square = HardBody.CrossSection(
-                ...     [Point(0.5, 0.5), Point(0.5, -0.5), Point(-0.5, -0.5), Point(-0.5, 0.5)], 0.0
-                ... )
-                >>> stadium = HardBody.CrossSection([Point(-1.0, 0.0), Point(1.0, 0.0)], 0.5)
+            Cannot be constructed directly: obtained from a hard body (see HardBody.calculate_cross_section_at).
         )doc"
     )
-
-        .def(
-            init<const Array<Point>&, const Real&>(),
-            R"doc(
-                Constructor.
-
-                Args:
-                    convex_hull (list[Point]): The convex hull vertices [m], relative to the object position.
-                    radius (float): The radius [m] by which the convex hull is dilated.
-            )doc",
-            arg("convex_hull"),
-            arg("radius")
-        )
 
         .def(
             "get_enclosing_radius",

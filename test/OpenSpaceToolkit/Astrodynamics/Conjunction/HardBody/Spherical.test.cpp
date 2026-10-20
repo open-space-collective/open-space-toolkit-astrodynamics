@@ -135,7 +135,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Spherical, CalculateC
     {
         EXPECT_DOUBLE_EQ(0.0, Spherical(0.0).calculateCrossSectionAt(state_, Frame::GCRF()).getEnclosingRadius());
     }
+}
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Spherical, Combine)
+{
     // Combining two spherical cross sections gives a circle with the sum of the radii
     {
         const Spherical anotherSpherical = {3.0};

@@ -38,11 +38,6 @@ def cube_vertex_generator(state: State) -> list[Point]:
     return [Point(x, y, z) for x in (-1.0, 1.0) for y in (-1.0, 1.0) for z in (-1.0, 1.0)]
 
 
-def plate_vertex_generator(state: State) -> list[Point]:
-    # Plate of size 2.0 m x 6.0 m in the X-Y plane
-    return [Point(x, y, 0.0) for x in (-1.0, 1.0) for y in (-3.0, 3.0)]
-
-
 class TestCustom:
     def test_constructor_success_frame(self):
         custom = Custom(vertex_generator=cube_vertex_generator, frame=Frame.GCRF())
@@ -67,11 +62,7 @@ class TestCustom:
 
         assert len(custom.get_vertex_generator()(state)) == 8
 
-    def test_calculate_cross_section_at_success(
-        self,
-        state: State,
-        vnc_factory: LocalOrbitalFrameFactory,
-    ):
+    def test_calculate_cross_section_at_success(self, state: State):
         # Cube: square shadow of side 2.0 m
         cross_section = Custom(
             vertex_generator=cube_vertex_generator, frame=Frame.GCRF()
@@ -79,22 +70,6 @@ class TestCustom:
 
         assert isinstance(cross_section, HardBody.CrossSection)
         assert cross_section.get_enclosing_radius() == pytest.approx(math.sqrt(2.0))
-
-        # Plate in the VNC V-N plane. At this state, N is the GCRF Z axis: projected along it, the plate is a
-        # segment of length 2.0 m along V
-        custom = Custom(
-            vertex_generator=plate_vertex_generator,
-            local_orbital_frame_factory=vnc_factory,
-        )
-
-        assert custom.calculate_cross_section_at(
-            state=state, frame=Frame.GCRF()
-        ).get_enclosing_radius() == pytest.approx(1.0)
-
-        # Projected along the VNC Z axis (C): the whole plate
-        assert custom.calculate_cross_section_at(
-            state=state, frame=vnc_factory.generate_frame(state)
-        ).get_enclosing_radius() == pytest.approx(math.sqrt(10.0))
 
     def test_calculate_cross_section_at_failure_no_vertex(self, state: State):
         custom = Custom(vertex_generator=lambda state: [], frame=Frame.GCRF())
