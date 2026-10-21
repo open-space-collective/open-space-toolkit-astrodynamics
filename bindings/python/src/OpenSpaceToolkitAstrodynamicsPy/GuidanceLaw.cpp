@@ -16,6 +16,7 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::GuidanceLaw;
@@ -54,6 +55,25 @@ class PyGuidanceLaw : public GuidanceLaw
         );
     }
 
+    std::optional<CommittedManeuver> commitManeuverAt(
+        const Instant& anInstant,
+        const Vector3d& aPositionCoordinates,
+        const Vector3d& aVelocityCoordinates,
+        const Shared<const Frame>& aFrameSPtr
+    ) const override
+    {
+        PYBIND11_OVERRIDE_NAME(
+            std::optional<CommittedManeuver>,
+            GuidanceLaw,
+            "commit_maneuver_at",
+            commitManeuverAt,
+            anInstant,
+            aPositionCoordinates,
+            aVelocityCoordinates,
+            aFrameSPtr
+        );
+    }
+
     Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
     {
         PYBIND11_OVERRIDE_NAME(
@@ -64,7 +84,7 @@ class PyGuidanceLaw : public GuidanceLaw
 
 void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
 {
-    class_<GuidanceLaw, PyGuidanceLaw, Shared<GuidanceLaw>>(
+    class_<GuidanceLaw, PyGuidanceLaw, Shared<GuidanceLaw>> guidanceLaw(
         aModule,
         "GuidanceLaw",
         R"doc(
@@ -74,7 +94,50 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             based on specific guidance law logic.
 
         )doc"
+    );
+
+    class_<GuidanceLaw::CommittedManeuver>(
+        guidanceLaw,
+        "CommittedManeuver",
+        R"doc(
+            A maneuver that a guidance law commits to when it starts.
+        )doc"
     )
+        .def(
+            init<const Shared<const GuidanceLaw>&, const Duration&>(),
+            R"doc(
+                Constructor.
+
+                Args:
+                    guidance_law (GuidanceLaw): The guidance law to follow during the maneuver.
+                    duration (Duration): The maneuver duration.
+            )doc",
+            arg("guidance_law"),
+            arg("duration")
+        )
+        .def_readonly(
+            "guidance_law",
+            &GuidanceLaw::CommittedManeuver::guidanceLaw,
+            R"doc(
+                The guidance law to follow during the maneuver.
+
+                Type:
+                    GuidanceLaw
+            )doc"
+        )
+        .def_readonly(
+            "duration",
+            &GuidanceLaw::CommittedManeuver::duration,
+            R"doc(
+                The maneuver duration.
+
+                Type:
+                    Duration
+            )doc"
+        );
+
+    guidanceLaw
+
         .def(
             init<const String&>(),
             R"doc(
@@ -119,6 +182,35 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
             arg("velocity_coordinates"),
             arg("thrust_acceleration"),
             arg("output_frame")
+        )
+
+        .def(
+            "commit_maneuver_at",
+            &GuidanceLaw::commitManeuverAt,
+            R"doc(
+                Commit to a maneuver starting at the provided coordinates.
+
+                Guidance laws that plan discrete maneuvers (e.g. with model predictive control) decide at every
+                evaluation whether a maneuver is worth starting. Re-evaluated along a maneuver, they would change their
+                decision, as the maneuver itself erodes the reasons to perform it. When such a guidance law starts a
+                maneuver, a maneuvering Segment asks it for the guidance law to follow during the whole maneuver and
+                for the maneuver duration, instead of re-evaluating it along the maneuver.
+
+                The default implementation does not commit.
+
+                Args:
+                    instant (Instant): The start instant of the maneuver.
+                    position_coordinates (np.array): The position coordinates at the start of the maneuver.
+                    velocity_coordinates (np.array): The velocity coordinates at the start of the maneuver.
+                    frame (Frame): The frame of the coordinates.
+
+                Returns:
+                    GuidanceLaw.CommittedManeuver | None: The committed maneuver, if any.
+            )doc",
+            arg("instant"),
+            arg("position_coordinates"),
+            arg("velocity_coordinates"),
+            arg("frame")
         )
 
         .def(

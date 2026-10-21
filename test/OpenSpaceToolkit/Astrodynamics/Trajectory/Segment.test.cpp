@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -170,6 +172,60 @@ class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
 
    private:
     Array<Interval> intervals_;
+};
+
+// Thrusts within a short interval only, and commits to another guidance law for a longer duration when a maneuver
+// starts
+class CommittingGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
+{
+   public:
+    CommittingGuidanceLaw(
+        const Interval& aThrustInterval,
+        const Shared<const GuidanceLaw>& aCommittedGuidanceLawSPtr,
+        const Duration& aCommittedDuration
+    )
+        : GuidanceLaw("Committing Guidance Law"),
+          thrustInterval_(aThrustInterval),
+          committedGuidanceLawSPtr_(aCommittedGuidanceLawSPtr),
+          committedDuration_(aCommittedDuration)
+    {
+    }
+
+    ostk::mathematics::object::Vector3d calculateThrustAccelerationAt(
+        const Instant& anInstant,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
+        const Real& aThrustAcceleration,
+        [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
+    ) const override
+    {
+        if (thrustInterval_.contains(anInstant))
+        {
+            return {1.0 * aThrustAcceleration, 0.0, 0.0};
+        }
+
+        return {0.0, 0.0, 0.0};
+    }
+
+    std::optional<CommittedManeuver> commitManeuverAt(
+        [[maybe_unused]] const Instant& anInstant,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
+        [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
+        [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    ) const override
+    {
+        if (committedGuidanceLawSPtr_ == nullptr)
+        {
+            return std::nullopt;
+        }
+
+        return CommittedManeuver {committedGuidanceLawSPtr_, committedDuration_};
+    }
+
+   private:
+    Interval thrustInterval_;
+    Shared<const GuidanceLaw> committedGuidanceLawSPtr_;
+    Duration committedDuration_;
 };
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Constructor)
@@ -3126,6 +3182,85 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_NoManeuversFound
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
     EXPECT_EQ(0, maneuvers.getSize());
     EXPECT_TRUE(solution.states.getSize() > 0);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_CommittedManeuver)
+{
+    // The guidance law thrusts for 120 s only, but commits to a constant thrust for 240 s when the maneuver starts
+    const Instant startInstant = initialStateWithMass_.accessInstant() + Duration::Minutes(1.0);
+    const Interval thrustInterval = Interval::Closed(startInstant, startInstant + Duration::Seconds(120.0));
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(8.0))
+    );
+
+    const auto solve = [&](const Shared<const ostk::astrodynamics::GuidanceLaw>& aCommittedGuidanceLawSPtr,
+                           const Segment::ManeuverConstraints& aManeuverConstraints) -> Segment::Solution
+    {
+        const Shared<Thruster> thrusterDynamicsSPtr = std::make_shared<Thruster>(
+            defaultSatelliteSystem_,
+            std::make_shared<CommittingGuidanceLaw>(thrustInterval, aCommittedGuidanceLawSPtr, Duration::Seconds(240.0))
+        );
+
+        const Segment maneuverSegment = Segment::Maneuver(
+            defaultName_,
+            durationCondition,
+            thrusterDynamicsSPtr,
+            defaultDynamics_,
+            defaultNumericalSolver_,
+            aManeuverConstraints
+        );
+
+        return maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(10.0));
+    };
+
+    // The committed guidance law is followed for the committed duration
+    {
+        const Segment::Solution solution = solve(constantThrustSPtr_, Segment::ManeuverConstraints());
+
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+        ASSERT_EQ(1, solution.maneuverIntervals.getSize());
+        EXPECT_TRUE(solution.maneuverIntervals[0].getStart().isNear(startInstant, Duration::Milliseconds(1.0)));
+        EXPECT_TRUE(
+            solution.maneuverIntervals[0].getDuration().isNear(Duration::Seconds(240.0), Duration::Milliseconds(1.0))
+        );
+
+        const Array<Maneuver> maneuvers = solution.extractManeuvers(defaultFrameSPtr_);
+
+        ASSERT_EQ(1, maneuvers.getSize());
+        EXPECT_TRUE(
+            maneuvers[0].getInterval().getDuration().isNear(Duration::Seconds(240.0), Duration::Milliseconds(1.0))
+        );
+    }
+
+    // The maximum duration constraint applies to the committed maneuver, re-solved with the committed guidance law
+    {
+        const Segment::Solution solution = solve(
+            constantThrustSPtr_,
+            Segment::ManeuverConstraints(
+                Duration::Undefined(),
+                Duration::Seconds(180.0),
+                Duration::Minutes(1.0),
+                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+            )
+        );
+
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.states);
+        ASSERT_EQ(1, solution.maneuverIntervals.getSize());
+        EXPECT_TRUE(
+            solution.maneuverIntervals[0].getDuration().isNear(Duration::Seconds(180.0), Duration::Milliseconds(1.0))
+        );
+    }
+
+    // Without commitment, the guidance law is followed along the maneuver
+    {
+        const Segment::Solution solution = solve(nullptr, Segment::ManeuverConstraints());
+
+        ASSERT_EQ(1, solution.maneuverIntervals.getSize());
+        EXPECT_TRUE(
+            solution.maneuverIntervals[0].getDuration().isNear(Duration::Seconds(120.0), Duration::Milliseconds(1.0))
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDurationMeetsMinimum)

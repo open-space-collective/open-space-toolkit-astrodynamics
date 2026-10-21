@@ -93,6 +93,23 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
+    /// @brief Commit to a maneuver starting at the provided coordinates.
+    ///
+    /// Forwards to the guidance law of the interval containing the instant, and ends the committed maneuver at the end
+    /// of that interval at the latest.
+    ///
+    /// @param anInstant The start instant of the maneuver
+    /// @param aPositionCoordinates The position coordinates at the start of the maneuver
+    /// @param aVelocityCoordinates The velocity coordinates at the start of the maneuver
+    /// @param aFrameSPtr The frame of the coordinates
+    /// @return The committed maneuver, if any.
+    virtual std::optional<CommittedManeuver> commitManeuverAt(
+        const Instant& anInstant,
+        const Vector3d& aPositionCoordinates,
+        const Vector3d& aVelocityCoordinates,
+        const Shared<const Frame>& aFrameSPtr
+    ) const override;
+
     /// @brief Construct an ungated heterogeneous guidance law from this instance.
     ///
     /// The new instance contains the same intervals paired with the ungated versions of the underlying guidance laws.

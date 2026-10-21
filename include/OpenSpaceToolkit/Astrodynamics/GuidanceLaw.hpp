@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw__
 
 #include <memory>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -12,6 +13,7 @@
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
@@ -27,6 +29,7 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Frame;
 
+using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 /// @brief An interface for a Guidance Law that can compute an acceleration contribution. To be
@@ -34,6 +37,16 @@ using ostk::physics::time::Instant;
 class GuidanceLaw : public std::enable_shared_from_this<GuidanceLaw>
 {
    public:
+    /// @brief A maneuver that a guidance law commits to when it starts.
+    struct CommittedManeuver
+    {
+        /// @brief The guidance law to follow during the maneuver.
+        Shared<const GuidanceLaw> guidanceLaw;
+
+        /// @brief The maneuver duration.
+        Duration duration;
+    };
+
     /// @brief Constructor
     ///
     /// @param aName A name
@@ -86,6 +99,28 @@ class GuidanceLaw : public std::enable_shared_from_this<GuidanceLaw>
         const Real& aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
+
+    /// @brief Commit to a maneuver starting at the provided coordinates.
+    ///
+    /// Guidance laws that plan discrete maneuvers (e.g. with model predictive control) decide at every evaluation
+    /// whether a maneuver is worth starting. Re-evaluated along a maneuver, they would change their decision, as the
+    /// maneuver itself erodes the reasons to perform it. When such a guidance law starts a maneuver, a maneuvering
+    /// Segment asks it for the guidance law to follow during the whole maneuver and for the maneuver duration, instead
+    /// of re-evaluating it along the maneuver.
+    ///
+    /// The default implementation does not commit.
+    ///
+    /// @param anInstant The start instant of the maneuver
+    /// @param aPositionCoordinates The position coordinates at the start of the maneuver
+    /// @param aVelocityCoordinates The velocity coordinates at the start of the maneuver
+    /// @param aFrameSPtr The frame of the coordinates
+    /// @return The committed maneuver, if any.
+    virtual std::optional<CommittedManeuver> commitManeuverAt(
+        const Instant& anInstant,
+        const Vector3d& aPositionCoordinates,
+        const Vector3d& aVelocityCoordinates,
+        const Shared<const Frame>& aFrameSPtr
+    ) const;
 
     /// @brief Construct an ungated version of the instance.
     ///

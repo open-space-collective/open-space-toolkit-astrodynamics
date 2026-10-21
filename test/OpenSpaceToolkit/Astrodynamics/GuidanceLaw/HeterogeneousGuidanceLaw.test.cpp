@@ -46,6 +46,16 @@ class MockGuidanceLaw1 : public GuidanceLaw
     {
         return Vector3d(1.0, 2.0, 3.0);
     }
+
+    std::optional<CommittedManeuver> commitManeuverAt(
+        [[maybe_unused]] const Instant& anInstant,
+        [[maybe_unused]] const Vector3d& aPositionCoordinates,
+        [[maybe_unused]] const Vector3d& aVelocityCoordinates,
+        [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    ) const override
+    {
+        return CommittedManeuver {shared_from_this(), Duration::Seconds(500.0)};
+    }
 };
 
 class MockGuidanceLaw2 : public GuidanceLaw
@@ -297,4 +307,41 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, Cons
     EXPECT_EQ(lawsWithIntervals[1].second, interval2_);
     EXPECT_EQ(lawsWithIntervals[0].first, guidanceLaw1_->constructUngatedGuidanceLaw());
     EXPECT_EQ(lawsWithIntervals[1].first, guidanceLaw2_->constructUngatedGuidanceLaw());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw, CommitManeuverAt)
+{
+    // Forwarded to the guidance law of the interval, and ended at the end of the interval at the latest
+    {
+        const std::optional<GuidanceLaw::CommittedManeuver> committedManeuver =
+            heterogeneousGuidanceLaw_.commitManeuverAt(
+                Instant::J2000() + Duration::Seconds(40.0), Vector3d::Zero(), Vector3d::Zero(), Frame::GCRF()
+            );
+
+        ASSERT_TRUE(committedManeuver.has_value());
+        EXPECT_EQ(guidanceLaw1_, committedManeuver->guidanceLaw);
+        EXPECT_EQ(Duration::Seconds(60.0), committedManeuver->duration);
+    }
+
+    // The guidance law of the interval does not commit
+    {
+        EXPECT_FALSE(
+            heterogeneousGuidanceLaw_
+                .commitManeuverAt(
+                    Instant::J2000() + Duration::Seconds(250.0), Vector3d::Zero(), Vector3d::Zero(), Frame::GCRF()
+                )
+                .has_value()
+        );
+    }
+
+    // Outside of the intervals
+    {
+        EXPECT_FALSE(
+            heterogeneousGuidanceLaw_
+                .commitManeuverAt(
+                    Instant::J2000() + Duration::Seconds(150.0), Vector3d::Zero(), Vector3d::Zero(), Frame::GCRF()
+                )
+                .has_value()
+        );
+    }
 }

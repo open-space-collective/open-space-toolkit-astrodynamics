@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -113,6 +115,32 @@ Vector3d HeterogeneousGuidanceLaw::calculateThrustAccelerationAt(
     }
 
     return Vector3d {0.0, 0.0, 0.0};
+}
+
+std::optional<GuidanceLaw::CommittedManeuver> HeterogeneousGuidanceLaw::commitManeuverAt(
+    const Instant& anInstant,
+    const Vector3d& aPositionCoordinates,
+    const Vector3d& aVelocityCoordinates,
+    const Shared<const Frame>& aFrameSPtr
+) const
+{
+    for (Size i = 0; i < intervals_.getSize(); ++i)
+    {
+        if (intervals_[i].contains(anInstant))
+        {
+            std::optional<CommittedManeuver> committedManeuver =
+                guidanceLaws_[i]->commitManeuverAt(anInstant, aPositionCoordinates, aVelocityCoordinates, aFrameSPtr);
+
+            if (committedManeuver.has_value())
+            {
+                committedManeuver->duration = std::min(committedManeuver->duration, intervals_[i].getEnd() - anInstant);
+            }
+
+            return committedManeuver;
+        }
+    }
+
+    return std::nullopt;
 }
 
 }  // namespace guidancelaw

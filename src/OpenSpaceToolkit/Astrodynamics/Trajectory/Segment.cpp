@@ -931,11 +931,14 @@ Segment::Solution Segment::solve(
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
     const Shared<const GuidanceLaw> originalGuidanceLaw = segmentThrusterDynamics->getGuidanceLaw();
 
+    // Guidance law of the current maneuver: the original one, or the one it committed to when the maneuver started
+    Shared<const GuidanceLaw> maneuverGuidanceLaw = originalGuidanceLaw;
+
     const auto buildThrusterDynamicsWithinInterval =
-        [&originalGuidanceLaw, &segmentThrusterDynamics](const Interval& aManeuverInterval) -> Shared<Thruster>
+        [&maneuverGuidanceLaw, &segmentThrusterDynamics](const Interval& aManeuverInterval) -> Shared<Thruster>
     {
         const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw = std::make_shared<HeterogeneousGuidanceLaw>();
-        heterogeneousGuidanceLaw->addGuidanceLaw(originalGuidanceLaw, aManeuverInterval);
+        heterogeneousGuidanceLaw->addGuidanceLaw(maneuverGuidanceLaw, aManeuverInterval);
 
         return std::make_shared<Thruster>(
             segmentThrusterDynamics->getSatelliteSystem(), heterogeneousGuidanceLaw, segmentThrusterDynamics->getName()
@@ -1006,8 +1009,33 @@ Segment::Solution Segment::solve(
                 std::min(segmentStates.accessLast().accessInstant() + optimizedTriming, maximumManeuverSolutionInstant);
         }
 
+        // A guidance law that commits to its maneuvers is not re-evaluated along them (it would erode its own
+        // decision): follow the committed guidance law for the committed duration instead
+        maneuverGuidanceLaw = thrusterDynamics->getGuidanceLaw();
+        Shared<Thruster> maneuverThrusterDynamics = thrusterDynamics;
+
+        const State& maneuverStartState = segmentStates.accessLast();
+
+        const std::optional<GuidanceLaw::CommittedManeuver> committedManeuver = maneuverGuidanceLaw->commitManeuverAt(
+            maneuverStartState.accessInstant(),
+            maneuverStartState.getPosition().inMeters().accessCoordinates(),
+            maneuverStartState.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates(),
+            maneuverStartState.accessFrame()
+        );
+
+        if (committedManeuver.has_value() && committedManeuver->duration.isStrictlyPositive())
+        {
+            maneuverGuidanceLaw = committedManeuver->guidanceLaw;
+            maneuverThrusterDynamics = std::make_shared<Thruster>(
+                thrusterDynamics->getSatelliteSystem(), maneuverGuidanceLaw, thrusterDynamics->getName()
+            );
+            maximumManeuverSolutionInstant = std::min(
+                maneuverStartState.accessInstant() + committedManeuver->duration, maximumManeuverSolutionInstant
+            );
+        }
+
         const Segment::Solution maneuverSolution =
-            solveUntilThrusterOff_(segmentStates.accessLast(), maximumManeuverSolutionInstant, thrusterDynamics);
+            solveUntilThrusterOff_(maneuverStartState, maximumManeuverSolutionInstant, maneuverThrusterDynamics);
 
         if (maneuverSolution.states.getSize() <= 2)
         {

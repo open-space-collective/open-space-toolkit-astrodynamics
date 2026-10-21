@@ -35,6 +35,16 @@ void GuidanceLaw::print(std::ostream& anOutputStream, bool displayDecorator) con
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+std::optional<GuidanceLaw::CommittedManeuver> GuidanceLaw::commitManeuverAt(
+    [[maybe_unused]] const Instant& anInstant,
+    [[maybe_unused]] const Vector3d& aPositionCoordinates,
+    [[maybe_unused]] const Vector3d& aVelocityCoordinates,
+    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+) const
+{
+    return std::nullopt;
+}
+
 Shared<GuidanceLaw> GuidanceLaw::constructUngatedGuidanceLaw() const
 {
     return std::const_pointer_cast<GuidanceLaw>(shared_from_this());

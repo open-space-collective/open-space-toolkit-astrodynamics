@@ -4,6 +4,7 @@ import numpy as np
 
 import pytest
 
+from ostk.physics.time import Duration
 from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
 from ostk.astrodynamics import GuidanceLaw
@@ -69,3 +70,30 @@ class TestGuidanceLaw:
         ungated_guidance_law: GuidanceLaw = guidance_law.construct_ungated_guidance_law()
 
         assert type(ungated_guidance_law) is type(guidance_law)
+
+    def test_commit_maneuver_at(
+        self,
+        guidance_law: GuidanceLaw,
+    ):
+        assert (
+            guidance_law.commit_maneuver_at(
+                instant=Instant.J2000(),
+                position_coordinates=np.array([7000.0e3, 0.0, 0.0]),
+                velocity_coordinates=np.array([0.0, 7.5e3, 0.0]),
+                frame=Frame.GCRF(),
+            )
+            is None
+        )
+
+    def test_committed_maneuver(
+        self,
+        guidance_law: GuidanceLaw,
+    ):
+        committed_maneuver = GuidanceLaw.CommittedManeuver(
+            guidance_law=guidance_law,
+            duration=Duration.minutes(5.0),
+        )
+
+        assert isinstance(committed_maneuver, GuidanceLaw.CommittedManeuver)
+        assert committed_maneuver.guidance_law is not None
+        assert committed_maneuver.duration == Duration.minutes(5.0)

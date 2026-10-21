@@ -75,3 +75,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, GetName)
 {
     EXPECT_EQ(defaultGuidanceLaw_.getName(), defaultName_);
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw, CommitManeuverAt)
+{
+    EXPECT_FALSE(defaultGuidanceLaw_
+                     .commitManeuverAt(Instant::J2000(), Vector3d::Zero(), Vector3d::Zero(), Frame::GCRF())
+                     .has_value());
+}
