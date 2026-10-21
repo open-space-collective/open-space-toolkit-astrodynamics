@@ -496,6 +496,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Position)
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
         const State state = trajectory.getStateAt(Instant::J2000());
-        EXPECT_TRUE(state.accessFrame() == Frame::GCRF());
+        EXPECT_TRUE(state.accessFrame() == Frame::ITRF());
+        EXPECT_EQ(state.getInstant(), Instant::J2000());
+        EXPECT_EQ(state.getPosition(), Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
+        EXPECT_EQ(state.getVelocity(), Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()));
     }
 }

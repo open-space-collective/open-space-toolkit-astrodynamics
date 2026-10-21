@@ -1,20 +1,13 @@
 # Apache License 2.0
 
 import pytest
-
-from ostk.physics.environment.object.celestial import Earth
-from ostk.physics.coordinate.spherical import LLA
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Frame
-from ostk.physics.time import Instant
-from ostk.physics.time import Duration
-from ostk.physics.unit import Derived
-from ostk.physics.unit import Length
-from ostk.physics.unit import Angle
-
 from ostk.astrodynamics import Trajectory
-from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import Orbit, State
+from ostk.physics.coordinate import Frame, Position
+from ostk.physics.coordinate.spherical import LLA
+from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.time import Duration, Instant
+from ostk.physics.unit import Angle, Derived, Length
 
 
 @pytest.fixture
