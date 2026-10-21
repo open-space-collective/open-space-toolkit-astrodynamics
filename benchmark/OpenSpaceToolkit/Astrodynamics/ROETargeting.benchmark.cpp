@@ -4,11 +4,14 @@
 ///
 /// Benchmarks a maneuvering segment steered by the ROETargeting guidance law under a 20x20 EGM96 gravity model, on the
 /// 550 km SSO of the Segment benchmark. The spacecraft starts about 5 km behind (T), 2 km below (R) and 1 km away (N)
-/// from a reference spacecraft and must converge onto it, with at most one maneuver per day lasting at most 10 minutes.
+/// from a reference spacecraft and must converge onto it. Operationally, a maneuver lasts at most 10 minutes and cannot
+/// start before 24 hours after the end of the previous one: the Segment enforces these constraints. The guidance law,
+/// without memory, decides when within the orbit to start a burn, and commits to it: the Segment then follows a
+/// constant thrust along the planned direction for the planned duration.
 /// Reports:
 ///   - elapsed wall-clock runtime (per iteration)
 ///   - number of propagated states and maneuvers
-///   - longest maneuver and shortest time between the starts of two consecutive maneuvers
+///   - longest maneuver and shortest time between the end of a maneuver and the start of the next one
 ///   - time to converge, convergence status and delta-v
 ///   - initial and final RTN offsets, and final ROE, with respect to the reference
 ///
@@ -142,26 +145,21 @@ static const Vector6d ROE_TOLERANCE_M = (Vector6d() << 10.0, 100.0, 10.0, 10.0, 
 
 static const Duration MAX_PROPAGATION_DURATION = Duration::Days(14.0);
 
-static const Duration FIRST_BURN_WINDOW_OFFSET = Duration::Hours(1.0);
+// Operational constraints, enforced by the Segment: a maneuver lasts at most 10 minutes, and cannot start before
+// 24 hours after the end of the previous one
 static const Duration MAX_MANEUVER_DURATION = Duration::Minutes(10.0);
 static const Duration MIN_MANEUVER_SEPARATION = Duration::Days(1.0);
+
 static const Duration MIN_BURN_DURATION = Duration::Seconds(5.0);  // Segment skips maneuvers shorter than 5 s
 
-// Burn windows every 15.25 orbits (about 24.3 hours): at most one maneuver per day, and the burn argument of latitude
-// advances by a quarter orbit from one window to the next. A radial (normal) burn moves the relative eccentricity
-// (inclination) vector along a single direction set by the burn argument of latitude, and tangential burns cannot be
-// used for it as the δa they leave for a day drifts δλ by about 140 m per meter. With exactly daily windows, the burn
-// argument of latitude advances by only 12 degrees per window, which leaves some ROE directions uncontrollable for
-// days (δe still about 150 m after 12 days).
-static const Real BURN_WINDOW_PERIOD_ORBIT_COUNT = 15.25;
+// The guidance law burns when burning now achieves at least 99% of the best improvement over not burning, among start
+// times every 10 degrees of argument of latitude over the next orbit: as it commits to the whole burn, it can wait for
+// the best start time (thresholds of 0.9 and 0.95 converge 1 day later)
+static const Real EFFECTIVITY_THRESHOLD = 0.99;
+static const Size BURN_START_CANDIDATE_COUNT = 36;
 
 // Cubic spline interpolation error at 30 s: 2 cm, 2e-5 m/s
 static const Duration REFERENCE_TABULATION_STEP = Duration::Seconds(30.0);
-
-// Segment detects thrust switches at integrator step ends only (steps of up to 120 s, about 93 s here), so a burn
-// shorter than a step can be skipped entirely: cap the step so that every burn of at least 30 s is detected. Uncapped,
-// most of the 10-90 s burns planned near convergence are skipped and the segment does not converge within 14 days.
-static const Real SEGMENT_MAX_STEP_SIZE_S = 30.0;
 
 // ---------------------------------------------------------------------------
 // Shared builders
@@ -176,19 +174,11 @@ static Array<Shared<Dynamics>> BuildDynamics()
     };
 }
 
-static NumericalSolver BuildSolver(const Real& aMaxStepSize = Real::Undefined())
+static NumericalSolver BuildSolver()
 {
-    NumericalSolver solver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        5.0,
-        1.0e-12,
-        1.0e-12,
-    };
-
-    solver.setMaxStepSize(aMaxStepSize);
-
-    return solver;
+    return NumericalSolver(
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
+    );
 }
 
 static SatelliteSystem BuildSatelliteSystem()
@@ -204,26 +194,6 @@ static SatelliteSystem BuildSatelliteSystem()
         2.5466188571658566,
         PropulsionSystem(THRUST_N, SPECIFIC_IMPULSE_S),
     };
-}
-
-// Mean argument of latitude period of the reference: Keplerian mean motion plus secular J2 drift
-static Duration ComputeArgumentOfLatitudePeriod()
-{
-    const double mu =
-        EarthGravitationalModel::EGM96.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared());
-    const double J2 = EarthGravitationalModel::EGM96.J2_;
-    const double a = REFERENCE_SMA_M;
-    const double eta = std::sqrt(1.0 - REFERENCE_ECCENTRICITY * REFERENCE_ECCENTRICITY);
-    const double cosInclinationSquared = std::pow(std::cos(REFERENCE_INCLINATION.inRadians()), 2);
-
-    const double meanMotion = std::sqrt(mu / (a * a * a));
-    const double kappa = 0.75 * J2 * EARTH_EQUATORIAL_RADIUS_M * EARTH_EQUATORIAL_RADIUS_M * std::sqrt(mu) /
-                         (std::pow(a, 3.5) * std::pow(eta, 4.0));
-
-    return Duration::Seconds(
-        2.0 * M_PI /
-        (meanMotion + kappa * (eta * (3.0 * cosInclinationSquared - 1.0) + (5.0 * cosInclinationSquared - 1.0)))
-    );
 }
 
 // Natural (thrust-free) motion of the reference in the same gravity field, tabulated
@@ -335,11 +305,12 @@ static void RecordCounters(
     state.counters["min_step_s"] = (aSolution.states.getSize() >= 2) ? minStepSec : 0.0;
     state.counters["max_step_s"] = maxStepSec;
 
-    // Maneuver constraints: one maneuver per day at most, each 10 minutes at most
+    // Maneuver constraints: each maneuver lasts at most 10 minutes, and starts at least 24 hours after the end of the
+    // previous one
     const Array<Interval>& maneuverIntervals = aSolution.maneuverIntervals;
 
     double longestManeuverSec = 0.0;
-    double shortestManeuverSpacingHours = std::numeric_limits<double>::quiet_NaN();
+    double shortestManeuverGapHours = std::numeric_limits<double>::quiet_NaN();
 
     for (Size i = 0; i < maneuverIntervals.getSize(); ++i)
     {
@@ -347,17 +318,15 @@ static void RecordCounters(
 
         if (i > 0)
         {
-            const double spacingHours =
-                (maneuverIntervals[i].getStart() - maneuverIntervals[i - 1].getStart()).inHours();
+            const double gapHours = (maneuverIntervals[i].getStart() - maneuverIntervals[i - 1].getEnd()).inHours();
 
-            shortestManeuverSpacingHours =
-                (i == 1) ? spacingHours : std::min(shortestManeuverSpacingHours, spacingHours);
+            shortestManeuverGapHours = (i == 1) ? gapHours : std::min(shortestManeuverGapHours, gapHours);
         }
     }
 
     state.counters["maneuvers"] = static_cast<double>(maneuverIntervals.getSize());
     state.counters["longest_maneuver_s"] = longestManeuverSec;
-    state.counters["shortest_maneuver_spacing_h"] = shortestManeuverSpacingHours;
+    state.counters["shortest_maneuver_gap_h"] = shortestManeuverGapHours;
 
     state.counters["duration_d"] = static_cast<double>(aSolution.getPropagationDuration().inDays());
     state.counters["converged"] = aSolution.conditionIsSatisfied ? 1.0 : 0.0;
@@ -399,20 +368,21 @@ static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
 
     const Array<Shared<Dynamics>> dynamics = BuildDynamics();
     const NumericalSolver solver = BuildSolver();
-    const NumericalSolver segmentSolver = BuildSolver(SEGMENT_MAX_STEP_SIZE_S);
     const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
 
     const Trajectory referenceTrajectory = BuildReferenceTrajectory(dynamics, solver, gcrfSPtr, mu);
 
     const ROETargeting::Parameters parameters = {
-        EPOCH + FIRST_BURN_WINDOW_OFFSET,
-        ComputeArgumentOfLatitudePeriod() * BURN_WINDOW_PERIOD_ORBIT_COUNT,
+        MIN_MANEUVER_SEPARATION + MAX_MANEUVER_DURATION,  // Burn spacing assumed by the predictions
         MAX_MANEUVER_DURATION,
         THRUST_N / INITIAL_MASS_KG,
         5,
         ROE_TOLERANCE_M,
         1.0,
         MIN_BURN_DURATION,
+        0.0,
+        EFFECTIVITY_THRESHOLD,
+        BURN_START_CANDIDATE_COUNT,
     };
 
     const Shared<const ROETargeting> roeTargetingSPtr = std::make_shared<ROETargeting>(referenceTrajectory, parameters);
@@ -440,7 +410,7 @@ static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
     };
 
     const Segment segment =
-        Segment::Maneuver("ROE Targeting rendezvous", condition, thruster, dynamics, segmentSolver, constraints);
+        Segment::Maneuver("ROE Targeting rendezvous", condition, thruster, dynamics, solver, constraints);
 
     const State initialState = BuildInitialState(gcrfSPtr, mu);
 

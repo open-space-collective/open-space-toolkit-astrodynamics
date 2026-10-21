@@ -11,7 +11,6 @@ using ostk::core::type::Size;
 using ostk::mathematics::object::Vector6d;
 
 using ostk::physics::time::Duration;
-using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::guidancelaw::ROETargeting;
@@ -34,20 +33,27 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             semi-major axis rate (typically differential drag). Burns enter the model through the near-circular Gauss
             variational equations, averaged over the burn arc.
 
-            Burns may only happen in periodic windows of duration `maximum_burn_duration`, starting every
-            `burn_window_period` from `burn_window_epoch`. A window holds at most one burn, starting at the window
-            start, at constant thrust, along a constant direction in the spacecraft RTN frame.
+            A plan optimizes `horizon_burn_count` burns at constant thrust, each along a constant direction in the
+            spacecraft RTN frame and lasting at most `maximum_burn_duration`, consecutive burns starting
+            `burn_spacing` apart, by minimizing the mean tolerance-weighted ROE error at the samples (halfway through
+            and at the end of each burn spacing after the planning instant) plus `fuel_weight` times the sum of the
+            delta-v norms (normalized by the maximum delta-v of a burn). The burn arcs are re-linearized about the
+            previous burn durations (sequential convex programming).
 
-            At the start of every window, the burns of the next `horizon_window_count` windows are optimized by
-            minimizing the mean tolerance-weighted ROE error at the samples (halfway through and at the end of each
-            window period) plus `fuel_weight` times the sum of the delta-v norms (normalized by the maximum delta-v of
-            a burn), subject to the maximum burn duration. The burn arcs are re-linearized about the previous burn
-            durations (sequential convex programming). Only the first burn is executed; the next window re-plans
-            from the then-current state.
+            Like the Q-Law, the guidance law decides at every evaluation whether burning now is worth it compared to
+            burning at other points of the orbit: it compares the cost J of the plan whose first burn starts now, of
+            the plans whose first burn starts at `burn_start_candidate_count` times spread over the next orbit, and of
+            the plan without the first burn, and computes the effectivity of burning now:
+            η = (J_none - J_now) / (J_none - J_best). The spacecraft thrusts along the first burn direction of the plan
+            starting now when η >= `effectivity_threshold` and that burn lasts at least `minimum_burn_duration`.
 
-            The plan of a window is computed at the first evaluation within that window and held until its end. A new
-            propagation starting inside a window that was already planned reuses the held plan: use a new instance in
-            that case. Start each burn window propagation exactly at the window start for deterministic results.
+            The guidance law has no memory: the thrust only depends on the instant and the state. A burn should not be
+            re-evaluated along its course though: it removes the error that made it worth starting, so that the
+            effectivity drops below the threshold before the planned burn is complete. Instead, when a burn starts, the
+            guidance law commits to it (see `commit_maneuver_at`): a constant thrust along the planned direction in the
+            RTN (QSW) frame, for the planned duration. A maneuvering Segment follows the committed burn, and enforces
+            the constraints between burns (minimum separation between maneuvers, maximum maneuver duration);
+            `burn_spacing` only models them in the predictions.
 
             The model assumes a near-circular reference orbit around the Earth (EGM2008 constants).
 
@@ -65,7 +71,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
     )
         .def(
             init<
-                const Instant&,
                 const Duration&,
                 const Duration&,
                 const Real&,
@@ -73,49 +78,43 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
                 const Vector6d&,
                 const Real&,
                 const Duration&,
-                const Real&>(),
+                const Real&,
+                const Real&,
+                const Size&>(),
             R"doc(
                 Constructor.
 
                 Args:
-                    burn_window_epoch (Instant): The start of the first burn window.
-                    burn_window_period (Duration): The time between the starts of two consecutive burn windows.
-                    maximum_burn_duration (Duration): The maximum duration of a burn, which is also the duration of a burn window.
+                    burn_spacing (Duration): The time between the starts of two consecutive burns assumed by the predictions, typically the minimum separation between maneuvers plus the maximum burn duration.
+                    maximum_burn_duration (Duration): The maximum duration of a burn.
                     thrust_acceleration (float): The thrust acceleration used for planning, in m/s^2.
-                    horizon_window_count (int, optional): The number of burn windows optimized at each planning. Defaults to 5.
+                    horizon_burn_count (int, optional): The number of burns optimized by each plan. Defaults to 5.
                     tolerance_vector (np.ndarray, optional): The tolerance on each ROE component [δa, δλ, δex, δey, δix, δiy], scaled by the reference semi-major axis, in m. Defaults to 10 m on every component.
                     fuel_weight (float, optional): The weight of the delta-v term of the cost, relative to the tracking error term. Defaults to 1.
                     minimum_burn_duration (Duration, optional): Planned burns shorter than this duration are not executed. Defaults to 1 s.
                     relative_semi_major_axis_rate (float, optional): The rate of change of the semi-major axis of the spacecraft relative to the reference, not modeled by J2 (typically differential drag), in m/s. Defaults to 0.
+                    effectivity_threshold (float, optional): The effectivity of burning now above which the spacecraft burns, between 0 and 1. Defaults to 0.9.
+                    burn_start_candidate_count (int, optional): The number of first burn start times, evenly spread over one orbit starting now, compared with each other. Defaults to 36.
 
                 Raises:
                     RuntimeError: If a parameter is undefined or out of range.
             )doc",
-            arg("burn_window_epoch"),
-            arg("burn_window_period"),
+            arg("burn_spacing"),
             arg("maximum_burn_duration"),
             arg("thrust_acceleration"),
-            arg("horizon_window_count") = 5,
+            arg("horizon_burn_count") = 5,
             arg_v("tolerance_vector", Vector6d::Constant(10.0), "np.full(6, 10.0)"),
             arg("fuel_weight") = 1.0,
             arg_v("minimum_burn_duration", Duration::Seconds(1.0), "Duration.seconds(1.0)"),
-            arg("relative_semi_major_axis_rate") = 0.0
+            arg("relative_semi_major_axis_rate") = 0.0,
+            arg("effectivity_threshold") = 0.9,
+            arg("burn_start_candidate_count") = 36
         )
         .def_readonly(
-            "burn_window_epoch",
-            &ROETargeting::Parameters::burnWindowEpoch,
+            "burn_spacing",
+            &ROETargeting::Parameters::burnSpacing,
             R"doc(
-                The start of the first burn window.
-
-                Type:
-                    Instant
-            )doc"
-        )
-        .def_readonly(
-            "burn_window_period",
-            &ROETargeting::Parameters::burnWindowPeriod,
-            R"doc(
-                The time between the starts of two consecutive burn windows.
+                The time between the starts of two consecutive burns assumed by the predictions.
 
                 Type:
                     Duration
@@ -142,10 +141,10 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             )doc"
         )
         .def_readonly(
-            "horizon_window_count",
-            &ROETargeting::Parameters::horizonWindowCount,
+            "horizon_burn_count",
+            &ROETargeting::Parameters::horizonBurnCount,
             R"doc(
-                The number of burn windows optimized at each planning.
+                The number of burns optimized by each plan.
 
                 Type:
                     int
@@ -190,6 +189,26 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
                 Type:
                     float
             )doc"
+        )
+        .def_readonly(
+            "effectivity_threshold",
+            &ROETargeting::Parameters::effectivityThreshold,
+            R"doc(
+                The effectivity of burning now above which the spacecraft burns.
+
+                Type:
+                    float
+            )doc"
+        )
+        .def_readonly(
+            "burn_start_candidate_count",
+            &ROETargeting::Parameters::burnStartCandidateCount,
+            R"doc(
+                The number of first burn start times, evenly spread over one orbit, compared with each other.
+
+                Type:
+                    int
+            )doc"
         );
 
     class_<ROETargeting::Plan>(
@@ -233,7 +252,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             "burn_intervals",
             &ROETargeting::Plan::burnIntervals,
             R"doc(
-                The burn interval of each window of the horizon. Windows without a burn have a zero duration.
+                The interval of each burn of the horizon. Burns that are not executed have a zero duration.
 
                 Type:
                     list[Interval]
@@ -243,7 +262,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             "delta_velocities",
             &ROETargeting::Plan::deltaVelocities,
             R"doc(
-                The delta-v of each window of the horizon, in the RTN frame of the spacecraft, in m/s.
+                The delta-v of each burn of the horizon, in the RTN frame of the spacecraft, in m/s.
 
                 Type:
                     list[np.ndarray]
@@ -267,6 +286,16 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
 
                 Type:
                     list[np.ndarray]
+            )doc"
+        )
+        .def_readonly(
+            "cost",
+            &ROETargeting::Plan::cost,
+            R"doc(
+                The cost of the plan (tracking error term plus delta-v term).
+
+                Type:
+                    float
             )doc"
         )
         .def_readonly(
@@ -332,20 +361,6 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             )doc"
         )
         .def(
-            "get_burn_window_at",
-            &ROETargeting::getBurnWindowAt,
-            arg("instant"),
-            R"doc(
-                Get the burn window containing an instant, or the next one if the instant is between windows.
-
-                Args:
-                    instant (Instant): An instant.
-
-                Returns:
-                    Interval: The burn window.
-            )doc"
-        )
-        .def(
             "calculate_thrust_acceleration_at",
             &ROETargeting::calculateThrustAccelerationAt,
             arg("instant"),
@@ -356,8 +371,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             R"doc(
                 Compute the thrust acceleration.
 
-                Within a burn window, thrust along the planned direction until the planned burn duration has elapsed;
-                zero otherwise.
+                Along the first burn direction of the plan starting now, if burning now is effective enough and that
+                burn lasts at least the minimum burn duration; zero otherwise.
 
                 Args:
                     instant (Instant): An instant.
@@ -388,16 +403,30 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             "compute_plan",
             &ROETargeting::computePlan,
             arg("state"),
+            arg_v("first_burn_delay", Duration::Zero(), "Duration.zero()"),
             R"doc(
                 Compute the burn plan from a state.
 
-                The planning horizon starts with the first burn window starting at or after the state instant.
+                Args:
+                    state (State): A state, in an inertial frame.
+                    first_burn_delay (Duration, optional): The delay of the first burn with respect to the state instant. Defaults to zero.
+
+                Returns:
+                    ROETargeting.Plan: The plan.
+            )doc"
+        )
+        .def(
+            "compute_effectivity",
+            &ROETargeting::computeEffectivity,
+            arg("state"),
+            R"doc(
+                Compute the effectivity of burning now.
 
                 Args:
                     state (State): A state, in an inertial frame.
 
                 Returns:
-                    ROETargeting.Plan: The plan.
+                    float: The effectivity, between 0 and 1 (0 if no burn of the next orbit improves on not burning).
             )doc"
         )
 

@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -23,13 +24,16 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ROETargeting.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
@@ -45,6 +49,7 @@ using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
 using ostk::mathematics::object::Matrix3d;
@@ -73,6 +78,7 @@ using ostk::physics::unit::Mass;
 
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::Thruster;
+using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::guidancelaw::Matrix63d;
@@ -81,7 +87,9 @@ using ostk::astrodynamics::guidancelaw::ROETargeting;
 using ostk::astrodynamics::Trajectory;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
+using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::Propagator;
+using ostk::astrodynamics::trajectory::Segment;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -152,7 +160,6 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting : public ::testing
     const Real wetMass_ = 200.0;
 
     const ROETargeting::Parameters parameters_ = {
-        epoch_,
         Duration::Days(1.0),
         Duration::Minutes(10.0),
         thrustAcceleration_,
@@ -173,7 +180,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ParametersConstr
 {
     {
         const ROETargeting::Parameters parameters = {
-            epoch_,
             Duration::Days(1.0),
             Duration::Minutes(10.0),
             1e-4,
@@ -182,77 +188,69 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ParametersConstr
             0.5,
             Duration::Seconds(2.0),
             -1e-4,
+            0.8,
+            12,
         };
 
-        EXPECT_EQ(epoch_, parameters.burnWindowEpoch);
-        EXPECT_EQ(Duration::Days(1.0), parameters.burnWindowPeriod);
+        EXPECT_EQ(Duration::Days(1.0), parameters.burnSpacing);
         EXPECT_EQ(Duration::Minutes(10.0), parameters.maximumBurnDuration);
         EXPECT_EQ(1e-4, parameters.thrustAcceleration);
-        EXPECT_EQ(3, parameters.horizonWindowCount);
+        EXPECT_EQ(3, parameters.horizonBurnCount);
         EXPECT_EQ(Vector6d::Constant(5.0), parameters.toleranceVector);
         EXPECT_EQ(0.5, parameters.fuelWeight);
         EXPECT_EQ(Duration::Seconds(2.0), parameters.minimumBurnDuration);
         EXPECT_EQ(-1e-4, parameters.relativeSemiMajorAxisRate);
+        EXPECT_EQ(0.8, parameters.effectivityThreshold);
+        EXPECT_EQ(12, parameters.burnStartCandidateCount);
     }
 
     {
-        const ROETargeting::Parameters parameters = {epoch_, Duration::Days(1.0), Duration::Minutes(10.0), 1e-4};
+        const ROETargeting::Parameters parameters = {Duration::Days(1.0), Duration::Minutes(10.0), 1e-4};
 
-        EXPECT_EQ(5, parameters.horizonWindowCount);
+        EXPECT_EQ(5, parameters.horizonBurnCount);
         EXPECT_EQ(Vector6d::Constant(10.0), parameters.toleranceVector);
         EXPECT_EQ(1.0, parameters.fuelWeight);
         EXPECT_EQ(Duration::Seconds(1.0), parameters.minimumBurnDuration);
         EXPECT_EQ(0.0, parameters.relativeSemiMajorAxisRate);
+        EXPECT_EQ(0.9, parameters.effectivityThreshold);
+        EXPECT_EQ(36, parameters.burnStartCandidateCount);
     }
 
     {
+        const Duration day = Duration::Days(1.0);
+        const Duration tenMinutes = Duration::Minutes(10.0);
+        const Vector6d tolerances = Vector6d::Constant(10.0);
+        const Duration second = Duration::Seconds(1.0);
+
         EXPECT_THROW(
-            ROETargeting::Parameters(Instant::Undefined(), Duration::Days(1.0), Duration::Minutes(10.0), 1e-4),
-            ostk::core::error::runtime::Undefined
+            ROETargeting::Parameters(Duration::Undefined(), tenMinutes, 1e-4), ostk::core::error::runtime::Undefined
+        );
+        EXPECT_THROW(ROETargeting::Parameters(day, Duration::Zero(), 1e-4), ostk::core::error::RuntimeError);
+        EXPECT_THROW(
+            ROETargeting::Parameters(Duration::Minutes(15.0), tenMinutes, 1e-4), ostk::core::error::RuntimeError
+        );
+        EXPECT_THROW(ROETargeting::Parameters(day, tenMinutes, 0.0), ostk::core::error::RuntimeError);
+        EXPECT_THROW(ROETargeting::Parameters(day, tenMinutes, 1e-4, 0), ostk::core::error::RuntimeError);
+        EXPECT_THROW(
+            ROETargeting::Parameters(day, tenMinutes, 1e-4, 5, Vector6d::Constant(0.0)), ostk::core::error::RuntimeError
         );
         EXPECT_THROW(
-            ROETargeting::Parameters(epoch_, Duration::Undefined(), Duration::Minutes(10.0), 1e-4),
-            ostk::core::error::runtime::Undefined
+            ROETargeting::Parameters(day, tenMinutes, 1e-4, 5, tolerances, -1.0), ostk::core::error::RuntimeError
         );
         EXPECT_THROW(
-            ROETargeting::Parameters(epoch_, Duration::Days(1.0), Duration::Zero(), 1e-4),
+            ROETargeting::Parameters(day, tenMinutes, 1e-4, 5, tolerances, 1.0, Duration::Minutes(11.0)),
             ostk::core::error::RuntimeError
         );
         EXPECT_THROW(
-            ROETargeting::Parameters(epoch_, Duration::Minutes(15.0), Duration::Minutes(10.0), 1e-4),
+            ROETargeting::Parameters(day, tenMinutes, 1e-4, 5, tolerances, 1.0, second, 0.0, 1.5),
             ostk::core::error::RuntimeError
         );
         EXPECT_THROW(
-            ROETargeting::Parameters(epoch_, Duration::Days(1.0), Duration::Minutes(10.0), 0.0),
+            ROETargeting::Parameters(day, tenMinutes, 1e-4, 5, tolerances, 1.0, second, 0.0, -0.1),
             ostk::core::error::RuntimeError
         );
         EXPECT_THROW(
-            ROETargeting::Parameters(epoch_, Duration::Days(1.0), Duration::Minutes(10.0), 1e-4, 0),
-            ostk::core::error::RuntimeError
-        );
-        EXPECT_THROW(
-            ROETargeting::Parameters(
-                epoch_, Duration::Days(1.0), Duration::Minutes(10.0), 1e-4, 5, Vector6d::Constant(0.0)
-            ),
-            ostk::core::error::RuntimeError
-        );
-        EXPECT_THROW(
-            ROETargeting::Parameters(
-                epoch_, Duration::Days(1.0), Duration::Minutes(10.0), 1e-4, 5, Vector6d::Constant(10.0), -1.0
-            ),
-            ostk::core::error::RuntimeError
-        );
-        EXPECT_THROW(
-            ROETargeting::Parameters(
-                epoch_,
-                Duration::Days(1.0),
-                Duration::Minutes(10.0),
-                1e-4,
-                5,
-                Vector6d::Constant(10.0),
-                1.0,
-                Duration::Minutes(11.0)
-            ),
+            ROETargeting::Parameters(day, tenMinutes, 1e-4, 5, tolerances, 1.0, second, 0.0, 0.9, 0),
             ostk::core::error::RuntimeError
         );
     }
@@ -295,25 +293,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, Getters)
     const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_, target};
 
     EXPECT_EQ(referenceTrajectory_, guidanceLaw.accessReferenceTrajectory());
-    EXPECT_EQ(parameters_.burnWindowEpoch, guidanceLaw.getParameters().burnWindowEpoch);
+    EXPECT_EQ(parameters_.burnSpacing, guidanceLaw.getParameters().burnSpacing);
     EXPECT_EQ(parameters_.thrustAcceleration, guidanceLaw.getParameters().thrustAcceleration);
     EXPECT_EQ(target, guidanceLaw.getTargetRelativeOrbitalElements());
     EXPECT_EQ("ROE Targeting", guidanceLaw.getName());
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, GetBurnWindowAt)
-{
-    const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
-
-    const Interval firstWindow = Interval::Closed(epoch_, epoch_ + Duration::Minutes(10.0));
-    const Interval secondWindow =
-        Interval::Closed(epoch_ + Duration::Days(1.0), epoch_ + Duration::Days(1.0) + Duration::Minutes(10.0));
-
-    EXPECT_EQ(firstWindow, guidanceLaw.getBurnWindowAt(epoch_ - Duration::Hours(1.0)));
-    EXPECT_EQ(firstWindow, guidanceLaw.getBurnWindowAt(epoch_));
-    EXPECT_EQ(firstWindow, guidanceLaw.getBurnWindowAt(epoch_ + Duration::Minutes(5.0)));
-    EXPECT_EQ(secondWindow, guidanceLaw.getBurnWindowAt(epoch_ + Duration::Minutes(11.0)));
-    EXPECT_EQ(secondWindow, guidanceLaw.getBurnWindowAt(epoch_ + Duration::Days(1.0)));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputeRelativeOrbitalElements_Static)
@@ -520,37 +503,79 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputePlan)
 {
     const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
 
-    const ROETargeting::Plan plan = guidanceLaw.computePlan(trailingState(Length::Meters(1000.0)));
+    const State state = trailingState(Length::Meters(1000.0));
 
-    const Size windowCount = parameters_.horizonWindowCount;
-
-    EXPECT_EQ(epoch_, plan.epoch);
-    EXPECT_NEAR(referenceCOE_.getSemiMajorAxis().inMeters(), plan.referenceSemiMajorAxis, 1e4);
-    EXPECT_NEAR(-1000.0, plan.relativeOrbitalElements[1], 5.0);
-    EXPECT_EQ(windowCount, plan.burnIntervals.getSize());
-    EXPECT_EQ(windowCount, plan.deltaVelocities.getSize());
-    EXPECT_EQ(2 * windowCount, plan.predictionInstants.getSize());
-    EXPECT_EQ(2 * windowCount, plan.predictedRelativeOrbitalElements.getSize());
-    EXPECT_GE(plan.iterationCount, 1);
-
+    const Size burnCount = parameters_.horizonBurnCount;
+    const Duration& burnSpacing = parameters_.burnSpacing;
     const double maximumDeltaVelocity = thrustAcceleration_ * parameters_.maximumBurnDuration.inSeconds();
 
-    for (Size windowIndex = 0; windowIndex < windowCount; ++windowIndex)
     {
-        const Interval& burnInterval = plan.burnIntervals[windowIndex];
-        const double deltaVelocity = plan.deltaVelocities[windowIndex].norm();
+        const ROETargeting::Plan plan = guidanceLaw.computePlan(state);
 
-        EXPECT_EQ(epoch_ + parameters_.burnWindowPeriod * double(windowIndex), burnInterval.accessStart());
-        EXPECT_LE(burnInterval.getDuration(), parameters_.maximumBurnDuration);
-        EXPECT_LE(deltaVelocity, maximumDeltaVelocity * (1.0 + 1e-9));
-        EXPECT_NEAR(deltaVelocity / thrustAcceleration_, burnInterval.getDuration().inSeconds(), 1e-6);
+        EXPECT_EQ(epoch_, plan.epoch);
+        EXPECT_NEAR(referenceCOE_.getSemiMajorAxis().inMeters(), plan.referenceSemiMajorAxis, 1e4);
+        EXPECT_NEAR(-1000.0, plan.relativeOrbitalElements[1], 5.0);
+        EXPECT_EQ(burnCount, plan.burnIntervals.getSize());
+        EXPECT_EQ(burnCount, plan.deltaVelocities.getSize());
+        EXPECT_EQ(2 * burnCount, plan.predictionInstants.getSize());
+        EXPECT_EQ(2 * burnCount, plan.predictedRelativeOrbitalElements.getSize());
+        EXPECT_GT(plan.cost, 0.0);
+        EXPECT_GE(plan.iterationCount, 1);
+
+        for (Size burnIndex = 0; burnIndex < burnCount; ++burnIndex)
+        {
+            const Interval& burnInterval = plan.burnIntervals[burnIndex];
+            const double deltaVelocity = plan.deltaVelocities[burnIndex].norm();
+
+            EXPECT_EQ(epoch_ + burnSpacing * double(burnIndex), burnInterval.accessStart());
+            EXPECT_LE(burnInterval.getDuration(), parameters_.maximumBurnDuration);
+            EXPECT_LE(deltaVelocity, maximumDeltaVelocity * (1.0 + 1e-9));
+            EXPECT_NEAR(deltaVelocity / thrustAcceleration_, burnInterval.getDuration().inSeconds(), 1e-6);
+        }
+
+        EXPECT_EQ(epoch_ + burnSpacing * 0.5, plan.predictionInstants.accessFirst());
+        EXPECT_EQ(epoch_ + burnSpacing * double(burnCount), plan.predictionInstants.accessLast());
+
+        // The first burn is used, and the along-track error is removed by the end of the horizon
+        EXPECT_GT(plan.deltaVelocities.accessFirst().norm(), 0.0);
+        EXPECT_LT(std::abs(plan.predictedRelativeOrbitalElements.accessLast()[1]), 50.0);
     }
 
-    EXPECT_EQ(epoch_ + parameters_.burnWindowPeriod * double(windowCount), plan.predictionInstants.accessLast());
+    // Delayed first burn: the following burns are delayed too, the predictions are not
+    {
+        const Duration delay = Duration::Minutes(30.0);
 
-    // The first burn is used, and the along-track error is removed by the end of the horizon
-    EXPECT_GT(plan.deltaVelocities.accessFirst().norm(), 0.0);
-    EXPECT_LT(std::abs(plan.predictedRelativeOrbitalElements.accessLast()[1]), 50.0);
+        const ROETargeting::Plan plan = guidanceLaw.computePlan(state, delay);
+
+        for (Size burnIndex = 0; burnIndex < burnCount; ++burnIndex)
+        {
+            EXPECT_EQ(epoch_ + delay + burnSpacing * double(burnIndex), plan.burnIntervals[burnIndex].accessStart());
+        }
+
+        EXPECT_EQ(epoch_ + burnSpacing * 0.5, plan.predictionInstants.accessFirst());
+        EXPECT_EQ(epoch_ + burnSpacing * double(burnCount), plan.predictionInstants.accessLast());
+    }
+
+    {
+        EXPECT_THROW(guidanceLaw.computePlan(state, Duration::Seconds(-1.0)), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputeEffectivity)
+{
+    const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
+
+    // On the reference, no burn improves on not burning
+    {
+        EXPECT_EQ(0.0, guidanceLaw.computeEffectivity(referenceState_));
+    }
+
+    {
+        const Real effectivity = guidanceLaw.computeEffectivity(trailingState(Length::Meters(1000.0)));
+
+        EXPECT_GE(effectivity, 0.0);
+        EXPECT_LE(effectivity, 1.0);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, CalculateThrustAccelerationAt)
@@ -559,26 +584,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, CalculateThrustA
     const Vector3d position = state.getPosition().accessCoordinates();
     const Vector3d velocity = state.getVelocity().accessCoordinates();
 
-    const ROETargeting::Plan plan = ROETargeting(referenceTrajectory_, parameters_).computePlan(state);
-    const Interval burnInterval = plan.burnIntervals.accessFirst();
-
-    ASSERT_TRUE(burnInterval.getDuration().isStrictlyPositive());
-
-    // Before the first window
+    const auto parametersWithThreshold = [this](const Real& anEffectivityThreshold) -> ROETargeting::Parameters
     {
-        const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
+        ROETargeting::Parameters parameters = parameters_;
+        parameters.effectivityThreshold = anEffectivityThreshold;
+        return parameters;
+    };
+
+    const ROETargeting::Plan plan = ROETargeting(referenceTrajectory_, parameters_).computePlan(state);
+    const Real effectivity = ROETargeting(referenceTrajectory_, parameters_).computeEffectivity(state);
+
+    ASSERT_TRUE(plan.burnIntervals.accessFirst().getDuration().isStrictlyPositive());
+
+    // On the reference, no burn
+    {
+        const ROETargeting guidanceLaw = {referenceTrajectory_, parametersWithThreshold(0.0)};
 
         EXPECT_EQ(
             Vector3d::Zero(),
             guidanceLaw.calculateThrustAccelerationAt(
-                epoch_ - Duration::Seconds(1.0), position, velocity, thrustAcceleration_, Frame::GCRF()
+                epoch_,
+                referenceState_.getPosition().accessCoordinates(),
+                referenceState_.getVelocity().accessCoordinates(),
+                thrustAcceleration_,
+                Frame::GCRF()
             )
         );
     }
 
-    // At the window start: thrust along the planned RTN direction
+    // Effective enough: thrust along the first burn direction of the plan starting now
     {
-        const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
+        const ROETargeting guidanceLaw = {referenceTrajectory_, parametersWithThreshold(0.0)};
 
         const Vector3d acceleration =
             guidanceLaw.calculateThrustAccelerationAt(epoch_, position, velocity, thrustAcceleration_, Frame::GCRF());
@@ -596,43 +632,80 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, CalculateThrustA
         EXPECT_NEAR(
             1.0, guidanceLaw.calculateThrustAccelerationAt(epoch_, position, velocity, 1.0, Frame::GCRF()).norm(), 1e-12
         );
+    }
 
-        // At the burn end (closed interval)
-        EXPECT_NEAR(
-            thrustAcceleration_,
-            guidanceLaw
-                .calculateThrustAccelerationAt(
-                    burnInterval.accessEnd(), position, velocity, thrustAcceleration_, Frame::GCRF()
-                )
-                .norm(),
-            1e-15
-        );
+    // The threshold gates the thrust
+    {
+        const ROETargeting belowThreshold = {referenceTrajectory_, parametersWithThreshold(effectivity * 0.99)};
 
-        // After the burn, within the window
-        EXPECT_EQ(
-            Vector3d::Zero(),
-            guidanceLaw.calculateThrustAccelerationAt(
-                burnInterval.accessEnd() + Duration::Seconds(1.0),
-                position,
-                velocity,
-                thrustAcceleration_,
-                Frame::GCRF()
-            )
-        );
+        EXPECT_FALSE(belowThreshold
+                         .calculateThrustAccelerationAt(epoch_, position, velocity, thrustAcceleration_, Frame::GCRF())
+                         .isZero());
 
-        // After the window
-        EXPECT_EQ(
-            Vector3d::Zero(),
-            guidanceLaw.calculateThrustAccelerationAt(
-                epoch_ + Duration::Hours(1.0), position, velocity, thrustAcceleration_, Frame::GCRF()
-            )
-        );
+        if (effectivity < 0.999)
+        {
+            const ROETargeting aboveThreshold = {
+                referenceTrajectory_, parametersWithThreshold(std::min(1.0, double(effectivity) + 1e-3))
+            };
+
+            EXPECT_TRUE(
+                aboveThreshold
+                    .calculateThrustAccelerationAt(epoch_, position, velocity, thrustAcceleration_, Frame::GCRF())
+                    .isZero()
+            );
+        }
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, Propagation)
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, CommitManeuverAt)
 {
-    // A spacecraft trailing the reference by 1 km reaches it with one burn of at most 10 minutes per day
+    const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
+
+    // On the reference, no burn to commit to
+    {
+        EXPECT_FALSE(guidanceLaw
+                         .commitManeuverAt(
+                             epoch_,
+                             referenceState_.getPosition().accessCoordinates(),
+                             referenceState_.getVelocity().accessCoordinates(),
+                             Frame::GCRF()
+                         )
+                         .has_value());
+    }
+
+    // The first burn of the plan starting now: a constant thrust along its RTN direction, for its duration
+    {
+        const State state = trailingState(Length::Meters(1000.0));
+        const Vector3d position = state.getPosition().accessCoordinates();
+        const Vector3d velocity = state.getVelocity().accessCoordinates();
+
+        const ROETargeting::Plan plan = guidanceLaw.computePlan(state);
+
+        const std::optional<ROETargeting::CommittedManeuver> committedManeuver =
+            guidanceLaw.commitManeuverAt(epoch_, position, velocity, Frame::GCRF());
+
+        ASSERT_TRUE(committedManeuver.has_value());
+        EXPECT_EQ(plan.burnIntervals.accessFirst().getDuration(), committedManeuver->duration);
+
+        Matrix3d rtnToGCRF;
+        rtnToGCRF.col(0) = position.normalized();
+        rtnToGCRF.col(2) = position.cross(velocity).normalized();
+        rtnToGCRF.col(1) = rtnToGCRF.col(2).cross(rtnToGCRF.col(0));
+
+        const Vector3d acceleration = committedManeuver->guidanceLaw->calculateThrustAccelerationAt(
+            epoch_, position, velocity, thrustAcceleration_, Frame::GCRF()
+        );
+
+        EXPECT_NEAR(thrustAcceleration_, acceleration.norm(), 1e-15);
+        EXPECT_TRUE((rtnToGCRF.transpose() * acceleration / thrustAcceleration_)
+                        .isApprox(plan.deltaVelocities.accessFirst().normalized(), 1e-9));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, Segment)
+{
+    // A spacecraft trailing the reference by 1 km, in a maneuvering Segment with at most 10 minutes per maneuver and
+    // at least one day between the end of a maneuver and the start of the next one
     const Composite satelliteGeometry(Cuboid(
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 1.0, 1.0}
     ));
@@ -646,43 +719,63 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, Propagation)
         PropulsionSystem(0.0151, 1016.0),
     };
 
-    const Shared<ROETargeting> guidanceLawSPtr = std::make_shared<ROETargeting>(referenceTrajectory_, parameters_);
-
     const Propagator coastPropagator = {numericalSolver_, freeDynamics_};
-    const Propagator burnPropagator = {
+
+    // The guidance law queries the reference at every evaluation: tabulate it
+    const Duration duration = Duration::Days(2.2);
+    const Array<State> referenceStates = coastPropagator.calculateStatesAt(
+        referenceState_,
+        Interval::Closed(epoch_, epoch_ + duration + Duration::Hours(1.0)).generateGrid(Duration::Seconds(30.0))
+    );
+    const Trajectory referenceTrajectory = Trajectory(Tabulated(referenceStates, 1, Interpolator::Type::CubicSpline));
+
+    ROETargeting::Parameters parameters = parameters_;
+    parameters.burnSpacing = Duration::Days(1.0) + Duration::Minutes(10.0);
+    parameters.horizonBurnCount = 3;
+    parameters.burnStartCandidateCount = 12;
+    parameters.minimumBurnDuration = Duration::Seconds(5.0);
+
+    const Shared<ROETargeting> guidanceLawSPtr = std::make_shared<ROETargeting>(referenceTrajectory, parameters);
+
+    const Segment segment = Segment::Maneuver(
+        "ROE Targeting",
+        std::make_shared<InstantCondition>(InstantCondition::Criterion::AnyCrossing, epoch_ + duration),
+        std::make_shared<Thruster>(satelliteSystem, guidanceLawSPtr),
+        freeDynamics_,
         numericalSolver_,
-        freeDynamics_ + Array<Shared<Dynamics>> {std::make_shared<Thruster>(satelliteSystem, guidanceLawSPtr)}
-    };
+        Segment::ManeuverConstraints(
+            Duration::Undefined(),
+            Duration::Minutes(10.0),
+            Duration::Days(1.0),
+            Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+        )
+    );
 
-    State state = trailingState(Length::Meters(1000.0));
+    const State initialState = trailingState(Length::Meters(1000.0));
 
-    const Size windowCount = 4;
+    const Segment::Solution solution = segment.solve(initialState, duration);
 
-    for (Size windowIndex = 0; windowIndex < windowCount; ++windowIndex)
+    const Array<Interval>& maneuverIntervals = solution.maneuverIntervals;
+
+    ASSERT_GE(maneuverIntervals.getSize(), 2);
+
+    for (Size maneuverIndex = 0; maneuverIndex < maneuverIntervals.getSize(); ++maneuverIndex)
     {
-        const Interval burnWindow =
-            guidanceLawSPtr->getBurnWindowAt(epoch_ + parameters_.burnWindowPeriod * double(windowIndex));
+        EXPECT_LE(maneuverIntervals[maneuverIndex].getDuration(), Duration::Minutes(10.0));
 
-        state = coastPropagator.calculateStateAt(state, burnWindow.accessStart());
-
-        // Propagate the burn on its own, so that the integrator does not step over the thrust switch-off
-        const Interval burnInterval = guidanceLawSPtr->computePlan(state).burnIntervals.accessFirst();
-
-        if (burnInterval.getDuration().isStrictlyPositive())
+        if (maneuverIndex > 0)
         {
-            state = burnPropagator.calculateStateAt(state, burnInterval.accessEnd());
+            EXPECT_GE(
+                maneuverIntervals[maneuverIndex].getStart() - maneuverIntervals[maneuverIndex - 1].getEnd(),
+                Duration::Days(1.0)
+            );
         }
     }
 
-    state = coastPropagator.calculateStateAt(state, epoch_ + Duration::Days(double(windowCount)));
+    // Closer to the reference than when coasting
+    const State coastState = coastPropagator.calculateStateAt(initialState, epoch_ + duration);
 
-    const Vector6d relativeOrbitalElements = guidanceLawSPtr->computeRelativeOrbitalElements(state);
-
-    EXPECT_LT(std::abs(relativeOrbitalElements[0]), 5.0) << relativeOrbitalElements.transpose();
-    EXPECT_LT(std::abs(relativeOrbitalElements[1]), 50.0) << relativeOrbitalElements.transpose();
-    EXPECT_LT(relativeOrbitalElements.segment<2>(2).norm(), 30.0) << relativeOrbitalElements.transpose();
-    EXPECT_LT(relativeOrbitalElements.segment<2>(4).norm(), 10.0) << relativeOrbitalElements.transpose();
-
-    // Some propellant was used
-    EXPECT_LT(state.extractCoordinate(CoordinateSubset::Mass())[0], wetMass_);
+    EXPECT_LT(
+        guidanceLawSPtr->computePlan(solution.states.accessLast()).cost, guidanceLawSPtr->computePlan(coastState).cost
+    );
 }

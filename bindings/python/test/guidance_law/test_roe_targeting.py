@@ -48,17 +48,18 @@ def reference_trajectory(coe: COE, epoch: Instant) -> Orbit:
 
 
 @pytest.fixture
-def parameters(epoch: Instant) -> ROETargeting.Parameters:
+def parameters() -> ROETargeting.Parameters:
     return ROETargeting.Parameters(
-        burn_window_epoch=epoch,
-        burn_window_period=Duration.days(1.0),
+        burn_spacing=Duration.days(1.0),
         maximum_burn_duration=Duration.minutes(10.0),
         thrust_acceleration=7.5e-5,
-        horizon_window_count=3,
+        horizon_burn_count=3,
         tolerance_vector=np.full(6, 20.0),
         fuel_weight=2.0,
         minimum_burn_duration=Duration.seconds(5.0),
         relative_semi_major_axis_rate=-1.0e-4,
+        effectivity_threshold=0.8,
+        burn_start_candidate_count=6,
     )
 
 
@@ -86,40 +87,49 @@ def state(reference_trajectory: Orbit, epoch: Instant) -> State:
 
 
 class TestROETargetingParameters:
-    def test_constructors(self, epoch: Instant):
+    def test_constructors(self):
         parameters = ROETargeting.Parameters(
-            burn_window_epoch=epoch,
-            burn_window_period=Duration.days(1.0),
+            burn_spacing=Duration.days(1.0),
             maximum_burn_duration=Duration.minutes(10.0),
             thrust_acceleration=7.5e-5,
         )
 
         assert isinstance(parameters, ROETargeting.Parameters)
-        assert parameters.horizon_window_count == 5
+        assert parameters.horizon_burn_count == 5
         assert np.array_equal(parameters.tolerance_vector, np.full(6, 10.0))
         assert parameters.fuel_weight == 1.0
         assert parameters.minimum_burn_duration == Duration.seconds(1.0)
         assert parameters.relative_semi_major_axis_rate == 0.0
+        assert parameters.effectivity_threshold == 0.9
+        assert parameters.burn_start_candidate_count == 36
 
-    def test_constructors_failure(self, epoch: Instant):
+    def test_constructors_failure(self):
         with pytest.raises(RuntimeError):
             ROETargeting.Parameters(
-                burn_window_epoch=epoch,
-                burn_window_period=Duration.minutes(15.0),
+                burn_spacing=Duration.minutes(15.0),
                 maximum_burn_duration=Duration.minutes(10.0),
                 thrust_acceleration=7.5e-5,
             )
 
-    def test_getters(self, parameters: ROETargeting.Parameters, epoch: Instant):
-        assert parameters.burn_window_epoch == epoch
-        assert parameters.burn_window_period == Duration.days(1.0)
+        with pytest.raises(RuntimeError):
+            ROETargeting.Parameters(
+                burn_spacing=Duration.days(1.0),
+                maximum_burn_duration=Duration.minutes(10.0),
+                thrust_acceleration=7.5e-5,
+                effectivity_threshold=1.5,
+            )
+
+    def test_getters(self, parameters: ROETargeting.Parameters):
+        assert parameters.burn_spacing == Duration.days(1.0)
         assert parameters.maximum_burn_duration == Duration.minutes(10.0)
         assert parameters.thrust_acceleration == 7.5e-5
-        assert parameters.horizon_window_count == 3
+        assert parameters.horizon_burn_count == 3
         assert np.array_equal(parameters.tolerance_vector, np.full(6, 20.0))
         assert parameters.fuel_weight == 2.0
         assert parameters.minimum_burn_duration == Duration.seconds(5.0)
         assert parameters.relative_semi_major_axis_rate == -1.0e-4
+        assert parameters.effectivity_threshold == 0.8
+        assert parameters.burn_start_candidate_count == 6
 
 
 class TestROETargeting:
@@ -144,7 +154,6 @@ class TestROETargeting:
         self,
         roe_targeting: ROETargeting,
         target_relative_orbital_elements: np.ndarray,
-        epoch: Instant,
     ):
         assert isinstance(roe_targeting.access_reference_trajectory(), Trajectory)
         assert isinstance(roe_targeting.get_parameters(), ROETargeting.Parameters)
@@ -152,7 +161,6 @@ class TestROETargeting:
             roe_targeting.get_target_relative_orbital_elements(),
             target_relative_orbital_elements,
         )
-        assert isinstance(roe_targeting.get_burn_window_at(epoch), Interval)
 
     def test_calculate_thrust_acceleration_at(
         self,
@@ -201,7 +209,39 @@ class TestROETargeting:
         )
         assert len(plan.prediction_instants) == 6
         assert len(plan.predicted_relative_orbital_elements) == 6
+        assert float(plan.cost) >= 0.0
         assert plan.iteration_count >= 1
+
+        delayed_plan: ROETargeting.Plan = roe_targeting.compute_plan(
+            state=state, first_burn_delay=Duration.minutes(30.0)
+        )
+
+        assert isinstance(delayed_plan, ROETargeting.Plan)
+
+    def test_commit_maneuver_at(
+        self,
+        roe_targeting: ROETargeting,
+        state: State,
+    ):
+        committed_maneuver = roe_targeting.commit_maneuver_at(
+            instant=state.get_instant(),
+            position_coordinates=state.get_position().get_coordinates(),
+            velocity_coordinates=state.get_velocity().get_coordinates(),
+            frame=Frame.GCRF(),
+        )
+
+        assert committed_maneuver is None or isinstance(
+            committed_maneuver, GuidanceLaw.CommittedManeuver
+        )
+
+    def test_compute_effectivity(
+        self,
+        roe_targeting: ROETargeting,
+        state: State,
+    ):
+        effectivity: float = roe_targeting.compute_effectivity(state)
+
+        assert 0.0 <= float(effectivity) <= 1.0
 
     def test_compute_relative_orbital_elements_from_coe(self, coe: COE):
         relative_orbital_elements: np.ndarray = (

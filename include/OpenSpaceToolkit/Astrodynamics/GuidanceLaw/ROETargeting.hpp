@@ -3,10 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting__
 
-#include <mutex>
-
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -32,7 +29,6 @@ namespace guidancelaw
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -65,37 +61,38 @@ using ostk::astrodynamics::trajectory::State;
 /// augmented with an optional constant relative semi-major axis rate (typically differential drag). Burns enter the
 /// model through the near-circular Gauss variational equations, averaged over the burn arc.
 ///
-/// Burns may only happen in periodic windows: window k spans
-///     [burnWindowEpoch + k * burnWindowPeriod, burnWindowEpoch + k * burnWindowPeriod + maximumBurnDuration]
-/// and holds at most one burn, starting at the window start, at constant thrust, along a constant direction in the
-/// spacecraft RTN frame.
-///
-/// At the start of every window, the burns of the next horizonWindowCount windows are optimized by solving
+/// A plan optimizes horizonBurnCount burns at constant thrust, each along a constant direction in the spacecraft RTN
+/// frame and lasting at most maximumBurnDuration, consecutive burns starting burnSpacing apart, by solving
 ///     minimize   mean_j || W (x_j - x_target) ||^2  +  fuelWeight * sum_k || Δv_k || / Δv_max
 ///     subject to || Δv_k || <= Δv_max = thrustAcceleration * maximumBurnDuration
-/// where x_j are the ROE predicted halfway through and at the end of each window period of the horizon, and W
-/// divides each ROE component by its tolerance. The fuel term leaves errors that are not worth a burn uncorrected
-/// (dead band): increase the fuel weight to save delta-v, decrease it to converge faster. Since the burn duration
-/// changes the burn arc, the problem is solved by sequential convex programming: each convex sub-problem (solved with
-/// ADMM) is re-linearized about the previous burn durations. Only the first burn is executed; the next window re-plans
-/// from the then-current state (receding horizon).
+/// where x_j are the ROE predicted halfway through and at the end of each burn spacing after the planning instant,
+/// and W divides each ROE component by its tolerance. The fuel term leaves errors that are not worth a burn
+/// uncorrected (dead band): increase the fuel weight to save delta-v, decrease it to converge faster. Since the burn
+/// duration changes the burn arc, the problem is solved by sequential convex programming: each convex sub-problem
+/// (solved with ADMM) is re-linearized about the previous burn durations.
 ///
-/// Choosing the window period: a tangential burn also kicks the relative eccentricity vector along the burn
-/// argument of latitude, and radial thrust cannot cancel that kick. With windows a whole number of days apart, the
-/// burn argument of latitude barely moves from one window to the next, so recurring drag make-up burns build up a
-/// relative eccentricity of a few tens of meters. A period of a half-integer number of orbits (e.g. 15.5 orbits,
-/// about 24.7 hours, in LEO) alternates the burns between opposite sides of the orbit and cancels these kicks.
+/// Like the Q-Law, the guidance law decides at every evaluation whether burning now is worth it compared to burning
+/// at other points of the orbit. It compares the cost J of:
+///   - the plan whose first burn starts now,
+///   - the plans whose first burn starts later, at burnStartCandidateCount start times evenly spread over one orbit
+///     (one period of the mean argument of latitude), the following burns being delayed accordingly,
+///   - the plan without the first burn,
+/// and computes the effectivity of burning now, the fraction of the best improvement over not burning that burning
+/// now achieves:
+///     η = (J_none - J_now) / (J_none - J_best)
+/// The spacecraft thrusts along the first burn direction of the plan starting now when η >= effectivityThreshold and
+/// that burn lasts at least minimumBurnDuration.
 ///
-/// The plan of a window is computed at the first evaluation within that window, from the state at that evaluation
-/// propagated back to the window start, and held until the end of the window. Evaluations before the start of the
-/// window discard the held plan, so that a new propagation re-plans it. A new propagation starting inside a window
-/// that was already planned reuses the held plan: use a new instance in that case.
+/// The guidance law has no memory: the thrust only depends on the instant and the state. A burn should not be
+/// re-evaluated along its course though: it removes the error that made it worth starting, so that the effectivity
+/// drops below the threshold before the planned burn is complete, and the thrust would switch on and off at the
+/// threshold. Instead, when a burn starts, the guidance law commits to it (see commitManeuverAt): a constant thrust
+/// along the planned direction in the RTN (QSW) frame, for the planned duration. A maneuvering Segment follows the
+/// committed burn, and enforces the constraints between burns (minimum separation between maneuvers, maximum maneuver
+/// duration); burnSpacing only models them in the predictions (typically the minimum separation plus the maximum burn
+/// duration).
 ///
-/// Thrust switches on and off discontinuously. Embedded Runge-Kutta error estimates may not detect a switch inside
-/// a step (Runge-Kutta-Fehlberg 7(8) only compares end-point stages), which mis-integrates the burn duration by
-/// seconds. Either let a Segment detect the switches, or propagate each burn on its own, with the thruster, from the
-/// window start (see getBurnWindowAt) to the burn end (see computePlan, which returns the held plan when given the
-/// state at the window start), and coast without the thruster otherwise.
+/// Each evaluation solves up to burnStartCandidateCount + 2 small convex problems (a few milliseconds in total).
 ///
 /// The model assumes a near-circular reference orbit around the Earth (EGM2008 constants) and separations small
 /// with respect to the semi-major axis.
@@ -112,11 +109,11 @@ class ROETargeting : public GuidanceLaw
     {
         /// @brief Constructor.
         ///
-        /// @param aBurnWindowEpoch The start of the first burn window.
-        /// @param aBurnWindowPeriod The time between the starts of two consecutive burn windows.
-        /// @param aMaximumBurnDuration The maximum duration of a burn, which is also the duration of a burn window.
+        /// @param aBurnSpacing The time between the starts of two consecutive burns assumed by the predictions,
+        /// typically the minimum separation between maneuvers plus the maximum burn duration.
+        /// @param aMaximumBurnDuration The maximum duration of a burn.
         /// @param aThrustAcceleration The thrust acceleration used for planning, in m/s^2.
-        /// @param aHorizonWindowCount The number of burn windows optimized at each planning. Defaults to 5.
+        /// @param aHorizonBurnCount The number of burns optimized by each plan. Defaults to 5.
         /// @param aToleranceVector The tolerance on each ROE component [δa, δλ, δex, δey, δix, δiy], scaled by the
         /// reference semi-major axis, in m. Defaults to 10 m on every component.
         /// @param aFuelWeight The weight of the delta-v term of the cost, relative to the tracking error term.
@@ -124,27 +121,33 @@ class ROETargeting : public GuidanceLaw
         /// @param aMinimumBurnDuration Planned burns shorter than this duration are not executed. Defaults to 1 s.
         /// @param aRelativeSemiMajorAxisRate The rate of change of the semi-major axis of the spacecraft relative to
         /// the reference, not modeled by J2 (typically differential drag), in m/s. Defaults to 0.
+        /// @param anEffectivityThreshold The effectivity of burning now above which the spacecraft burns, between 0
+        /// and 1. Defaults to 0.9.
+        /// @param aBurnStartCandidateCount The number of first burn start times, evenly spread over one orbit
+        /// starting now, compared with each other. Defaults to 36.
         Parameters(
-            const Instant& aBurnWindowEpoch,
-            const Duration& aBurnWindowPeriod,
+            const Duration& aBurnSpacing,
             const Duration& aMaximumBurnDuration,
             const Real& aThrustAcceleration,
-            const Size& aHorizonWindowCount = 5,
+            const Size& aHorizonBurnCount = 5,
             const Vector6d& aToleranceVector = Vector6d::Constant(10.0),
             const Real& aFuelWeight = 1.0,
             const Duration& aMinimumBurnDuration = Duration::Seconds(1.0),
-            const Real& aRelativeSemiMajorAxisRate = 0.0
+            const Real& aRelativeSemiMajorAxisRate = 0.0,
+            const Real& anEffectivityThreshold = 0.9,
+            const Size& aBurnStartCandidateCount = 36
         );
 
-        Instant burnWindowEpoch;
-        Duration burnWindowPeriod;
+        Duration burnSpacing;
         Duration maximumBurnDuration;
         Real thrustAcceleration;
-        Size horizonWindowCount;
+        Size horizonBurnCount;
         Vector6d toleranceVector;
         Real fuelWeight;
         Duration minimumBurnDuration;
         Real relativeSemiMajorAxisRate;
+        Real effectivityThreshold;
+        Size burnStartCandidateCount;
     };
 
     /// @brief A burn plan over the planning horizon.
@@ -160,10 +163,10 @@ class ROETargeting : public GuidanceLaw
         /// reference semi-major axis, in m.
         Vector6d relativeOrbitalElements;
 
-        /// @brief The burn interval of each window of the horizon. Windows without a burn have a zero duration.
+        /// @brief The interval of each burn of the horizon. Burns that are not executed have a zero duration.
         Array<Interval> burnIntervals;
 
-        /// @brief The delta-v of each window of the horizon, in the RTN frame of the spacecraft, in m/s.
+        /// @brief The delta-v of each burn of the horizon, in the RTN frame of the spacecraft, in m/s.
         Array<Vector3d> deltaVelocities;
 
         /// @brief The instants at which the ROE are predicted.
@@ -171,6 +174,9 @@ class ROETargeting : public GuidanceLaw
 
         /// @brief The predicted ROE with respect to the reference, scaled by the reference semi-major axis, in m.
         Array<Vector6d> predictedRelativeOrbitalElements;
+
+        /// @brief The cost of the plan (tracking error term plus delta-v term).
+        Real cost;
 
         /// @brief The number of sequential convex programming iterations.
         Size iterationCount;
@@ -180,7 +186,7 @@ class ROETargeting : public GuidanceLaw
     ///
     /// @code{.cpp}
     ///     const ROETargeting::Parameters parameters = {
-    ///         Instant::J2000(), Duration::Days(1.0), Duration::Minutes(10.0), 7.5e-5
+    ///         Duration::Days(1.0) + Duration::Minutes(10.0), Duration::Minutes(10.0), 7.5e-5
     ///     };
     ///     ROETargeting guidanceLaw = {referenceOrbit, parameters};
     /// @endcode
@@ -220,12 +226,6 @@ class ROETargeting : public GuidanceLaw
     /// @return The target ROE, scaled by the reference semi-major axis, in m.
     Vector6d getTargetRelativeOrbitalElements() const;
 
-    /// @brief Get the burn window containing an instant, or the next one if the instant is between windows.
-    ///
-    /// @param anInstant An instant
-    /// @return The burn window.
-    Interval getBurnWindowAt(const Instant& anInstant) const;
-
     /// @brief Print the guidance law.
     ///
     /// @param anOutputStream An output stream
@@ -234,8 +234,8 @@ class ROETargeting : public GuidanceLaw
 
     /// @brief Compute the thrust acceleration.
     ///
-    /// Within the planned burn interval of the current burn window (closed interval), thrust along the planned
-    /// direction; zero otherwise.
+    /// Along the first burn direction of the plan starting now, if burning now is effective enough and that burn
+    /// lasts at least the minimum burn duration; zero otherwise.
     ///
     /// @param anInstant An instant
     /// @param aPositionCoordinates The position coordinates, in an inertial frame
@@ -251,6 +251,23 @@ class ROETargeting : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
+    /// @brief Commit to the burn starting at the provided coordinates.
+    ///
+    /// The first burn of the plan starting now: a constant thrust along its direction in the RTN (QSW) frame, for its
+    /// duration.
+    ///
+    /// @param anInstant The start instant of the burn
+    /// @param aPositionCoordinates The position coordinates at the start of the burn
+    /// @param aVelocityCoordinates The velocity coordinates at the start of the burn
+    /// @param aFrameSPtr The frame of the coordinates
+    /// @return The committed burn, or nothing if the plan has no burn starting now.
+    virtual std::optional<CommittedManeuver> commitManeuverAt(
+        const Instant& anInstant,
+        const Vector3d& aPositionCoordinates,
+        const Vector3d& aVelocityCoordinates,
+        const Shared<const Frame>& aFrameSPtr
+    ) const override;
+
     /// @brief Compute the ROE of a state with respect to the reference.
     ///
     /// @param aState A state, in an inertial frame
@@ -259,11 +276,16 @@ class ROETargeting : public GuidanceLaw
 
     /// @brief Compute the burn plan from a state.
     ///
-    /// The planning horizon starts with the first burn window starting at or after the state instant.
+    /// @param aState A state, in an inertial frame
+    /// @param aFirstBurnDelay The delay of the first burn with respect to the state instant. Defaults to zero.
+    /// @return The plan.
+    Plan computePlan(const State& aState, const Duration& aFirstBurnDelay = Duration::Zero()) const;
+
+    /// @brief Compute the effectivity of burning now.
     ///
     /// @param aState A state, in an inertial frame
-    /// @return The plan.
-    Plan computePlan(const State& aState) const;
+    /// @return The effectivity, between 0 and 1 (0 if no burn of the next orbit improves on not burning).
+    Real computeEffectivity(const State& aState) const;
 
     /// @brief Compute the quasi-nonsingular ROE between two sets of mean orbital elements.
     ///
@@ -295,21 +317,7 @@ class ROETargeting : public GuidanceLaw
     const Parameters parameters_;
     const Vector6d targetRelativeOrbitalElements_;
 
-    mutable std::mutex burnCacheMutex_;
-    mutable Integer cachedBurnWindowIndex_;
-    mutable Interval cachedBurnInterval_;
-    mutable Vector3d cachedBurnDirection_;
-
-    Integer getBurnWindowIndexAt_(const Instant& anInstant) const;
-
     Vector6d computeMeanCOEVector_(const State& aState) const;
-
-    Plan computePlan_(
-        const Instant& anEpoch,
-        const Vector6d& aReferenceMeanCOEVector,
-        const Vector6d& aRelativeOrbitalElements,
-        const Real& aMeanArgumentOfLatitude
-    ) const;
 };
 
 }  // namespace guidancelaw
