@@ -105,15 +105,12 @@ class TLESolver
     /// @param anInternationalDesignator International designator for TLE, defaults to "00001A"
     /// @param aRevolutionNumber Revolution number, defaults to 0
     /// @param anEstimateBStar Whether to also estimate the B* parameter, defaults to true
-    /// @param anEstimationFrameSPtr (Deprecated) Solving is done natively in TEME. This field will be removed in a
-    /// future version.
     TLESolver(
         const LeastSquaresSolver& aSolver = LeastSquaresSolver::Default(),
         const Integer& aSatelliteNumber = 0,
         const String& anInternationalDesignator = "00001A",
         const Integer& aRevolutionNumber = 0,
-        const bool anEstimateBStar = true,
-        const Shared<const Frame>& anEstimationFrameSPtr = Frame::TEME()
+        const bool anEstimateBStar = true
     );
 
     /// @brief Access solver
@@ -140,11 +137,6 @@ class TLESolver
     ///
     /// @return Whether to also estiamte B*
     const bool& accessEstimateBStar() const;
-
-    /// @brief Access estimation frame
-    ///
-    /// @return Estimation frame
-    const Shared<const Frame>& accessEstimationFrame() const;
 
     /// @brief Access default B* value
     ///
@@ -213,7 +205,6 @@ class TLESolver
     String internationalDesignator_;
     Integer revolutionNumber_;
     bool estimateBStar_;
-    const Shared<const Frame> estimationFrameSPtr_ = Frame::TEME();
 
     mutable Real defaultBStar_;
     Real firstDerivativeMeanMotionDividedBy2_;

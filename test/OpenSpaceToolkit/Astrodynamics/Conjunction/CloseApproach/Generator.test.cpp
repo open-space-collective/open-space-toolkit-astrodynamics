@@ -522,10 +522,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator_CDM, C
     const CloseApproach& closeApproach = closeApproaches[0];
 
     EXPECT_TRUE(closeApproach.getInstant().isNear(tca, Duration::Seconds(1.0e-3)));
-    EXPECT_NEAR(closeApproach.getMissDistance().inMeters(), expectedMissDistance, expectedMissDistance * 0.01);
+    EXPECT_NEAR(closeApproach.computeMissDistance().inMeters(), expectedMissDistance, expectedMissDistance * 0.01);
 
-    const Shared<const LocalOrbitalFrameFactory> qswFactorySPtr = LocalOrbitalFrameFactory::QSW(Frame::GCRF());
-    const auto missDistanceComponents = closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactorySPtr);
+    const LocalOrbitalFrameFactory qswFactory = LocalOrbitalFrameFactory::QSW(Frame::GCRF());
+    const auto missDistanceComponents = closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactory);
 
     // Test it doesn't find a close approach before the TCA
     const Array<CloseApproach> closeApproachesBeforeTCA = generator.computeCloseApproaches(

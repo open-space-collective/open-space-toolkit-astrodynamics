@@ -34,16 +34,14 @@ class LocalOrbitalFrameDirection
     /// @brief Constructor.
     ///
     /// @code{.cpp}
-    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
-    ///     LocalOrbitalFrameDirection direction = { Vector3d::UnitX(), factorySPtr } ;
+    ///     LocalOrbitalFrameFactory factory = LocalOrbitalFrameFactory::TNW(Frame::GCRF()) ;
+    ///     LocalOrbitalFrameDirection direction = { Vector3d::UnitX(), factory } ;
     /// @endcode
     ///
     /// @param aValue A vector value (will be normalized).
-    /// @param aLocalOrbitalFrameFactorySPtr A local orbital frame factory shared pointer.
+    /// @param aLocalOrbitalFrameFactory A local orbital frame factory.
     /// @return Local orbital frame direction.
-    LocalOrbitalFrameDirection(
-        const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
-    );
+    LocalOrbitalFrameDirection(const Vector3d& aValue, const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory);
 
     /// @brief Equal to operator
     ///
@@ -87,7 +85,7 @@ class LocalOrbitalFrameDirection
     /// @brief Access local orbital frame factory
     ///
     /// @return The local orbital frame factory
-    const Shared<const LocalOrbitalFrameFactory>& accessLocalOrbitalFrameFactory() const;
+    const LocalOrbitalFrameFactory& accessLocalOrbitalFrameFactory() const;
 
     /// @brief Get the unit direction vector value.
     ///
@@ -103,11 +101,11 @@ class LocalOrbitalFrameDirection
     ///
     /// @code{.cpp}
     ///     LocalOrbitalFrameDirection direction = { ... } ;
-    ///     Shared<const LocalOrbitalFrameFactory> factorySPtr = direction.getLocalOrbitalFrameFactory() ;
+    ///     LocalOrbitalFrameFactory factory = direction.getLocalOrbitalFrameFactory() ;
     /// @endcode
     ///
     /// @return The local orbital frame factory.
-    Shared<const LocalOrbitalFrameFactory> getLocalOrbitalFrameFactory() const;
+    LocalOrbitalFrameFactory getLocalOrbitalFrameFactory() const;
 
     /// @brief Construct an undefined local orbital frame direction.
     ///
@@ -120,7 +118,7 @@ class LocalOrbitalFrameDirection
 
    private:
     Vector3d value_;
-    Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactorySPtr_;
+    LocalOrbitalFrameFactory localOrbitalFrameFactory_;
 };
 
 }  // namespace trajectory

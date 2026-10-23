@@ -42,10 +42,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BrouwerLyddaneMeanLongCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
@@ -114,10 +113,9 @@ using ostk::astrodynamics::dynamics::PositionDerivative;
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
-using ostk::astrodynamics::eventcondition::BrouwerLyddaneMeanLongCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
 using ostk::astrodynamics::eventcondition::LogicalCondition;
+using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -861,12 +859,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
         RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(5.0))
     );
 
-    const Shared<const LocalOrbitalFrameFactory> defaultLocalOrbitalFrameFactorySPtr_ =
-        LocalOrbitalFrameFactory::VNC(defaultFrameSPtr_);
+    const LocalOrbitalFrameFactory defaultLocalOrbitalFrameFactory_ = LocalOrbitalFrameFactory::VNC(defaultFrameSPtr_);
 
-    const Shared<const ConstantThrust> constantThrustSPtr_ = std::make_shared<ConstantThrust>(
-        LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, defaultLocalOrbitalFrameFactorySPtr_)
-    );
+    const Shared<const ConstantThrust> constantThrustSPtr_ =
+        std::make_shared<ConstantThrust>(LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, defaultLocalOrbitalFrameFactory_));
 
     const SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Default();
 
@@ -1811,7 +1807,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, ConstantLocalOrbitalFr
             defaultThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_
+            defaultLocalOrbitalFrameFactory_
         ));
     }
 }
@@ -1915,12 +1911,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
     }
 
     {
-        const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
-            RealCondition::Criterion::AnyCrossing,
-            defaultFrameSPtr_,
-            Real(0.5),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        ));
+        const Shared<RealCondition> eventCondition =
+            std::make_shared<RealCondition>(OrbitalElementCondition::Eccentricity(
+                OrbitalElementCondition::Theory::Osculating,
+                RealCondition::Criterion::AnyCrossing,
+                defaultFrameSPtr_,
+                Real(0.5),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
 
         const Segment segment =
             Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
@@ -2013,12 +2011,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
     }
 
     {
-        const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
-            RealCondition::Criterion::AnyCrossing,
-            defaultFrameSPtr_,
-            Real(0.5),
-            EarthGravitationalModel::EGM2008.gravitationalParameter_
-        ));
+        const Shared<RealCondition> eventCondition =
+            std::make_shared<RealCondition>(OrbitalElementCondition::Eccentricity(
+                OrbitalElementCondition::Theory::Osculating,
+                RealCondition::Criterion::AnyCrossing,
+                defaultFrameSPtr_,
+                Real(0.5),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            ));
 
         const Segment segment =
             Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
@@ -2135,7 +2135,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
 
         const Maneuver maneuver = maneuveringSegment.solve(currentState).extractManeuvers(defaultFrameSPtr_)[0];
         const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(defaultLocalOrbitalFrameFactorySPtr_);
+            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(defaultLocalOrbitalFrameFactory_);
 
         // Maximum allowed angular offset is not provided
         {
@@ -2147,7 +2147,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
-                defaultLocalOrbitalFrameFactorySPtr_
+                defaultLocalOrbitalFrameFactory_
             );
 
             const Segment::Solution constantLofDirectionManeuveringSegmentSolution =
@@ -2167,7 +2167,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
-                defaultLocalOrbitalFrameFactorySPtr_,
+                defaultLocalOrbitalFrameFactory_,
                 Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
             );
 
@@ -2188,7 +2188,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultQLawThrusterDynamicsSPtr_,
                 defaultDynamics_,
                 defaultNumericalSolver_,
-                defaultLocalOrbitalFrameFactorySPtr_,
+                defaultLocalOrbitalFrameFactory_,
                 Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
             );
 
@@ -2225,7 +2225,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_
+            defaultLocalOrbitalFrameFactory_
         );
 
         const COE::CartesianState cartesianStatePair = defaultCurrentCOE_.getCartesianState(
@@ -2279,7 +2279,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
         {
             heterogeneousGuidanceLaw->addGuidanceLaw(
                 std::make_shared<ConstantThrust>(
-                    ConstantThrust::FromManeuver(maneuvers[i], defaultLocalOrbitalFrameFactorySPtr_)
+                    ConstantThrust::FromManeuver(maneuvers[i], defaultLocalOrbitalFrameFactory_)
                 ),
                 maneuvers[i].getInterval()
             );
@@ -2354,7 +2354,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_,
+            defaultLocalOrbitalFrameFactory_,
             Angle::Undefined(),
             constraints
         );
@@ -2527,7 +2527,7 @@ TEST_F(
             defaultQLawThrusterDynamicsSPtr_,
             defaultDynamics_,
             defaultNumericalSolver_,
-            defaultLocalOrbitalFrameFactorySPtr_,
+            defaultLocalOrbitalFrameFactory_,
             Angle::Undefined(),
             constraints
         );
@@ -4709,14 +4709,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Singl
         Segment::MaximumManeuverDurationViolationStrategy::Center  // center strategy
     );
 
-    const Shared<const LocalOrbitalFrameFactory> lofFactorySPtr = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
+    const LocalOrbitalFrameFactory lofFactory = LocalOrbitalFrameFactory::VNC(Frame::GCRF());
     const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         "Constant LOF Maneuver Segment",
         endConditionSPtr,
         thrusterSPtr,
         dynamics,
         defaultNumericalSolver_,
-        lofFactorySPtr,
+        lofFactory,
         Angle::Undefined(),
         constraints
     );
@@ -4786,7 +4786,7 @@ TEST_F(
 
     const Environment environment(initialInstant, {earthSPtr});
     const Array<Shared<Dynamics>> dynamics = Dynamics::FromEnvironment(environment);
-    const NumericalSolver numericalSolver = NumericalSolver::DefaultConditional();
+    const NumericalSolver numericalSolver = NumericalSolver::Default();
 
     const COE initialBLMAsCOE = initialBLM.toCOE();
     const COE targetCOE = {
@@ -4832,7 +4832,7 @@ TEST_F(
         InstantCondition::Criterion::PositiveCrossing, initialInstant + maximumSimulationDuration
     );
 
-    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+    const LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
 
     const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         "QLaw Maneuver Segment",
@@ -4840,7 +4840,7 @@ TEST_F(
         thrusterSPtr,
         dynamics,
         numericalSolver,
-        tnwFactorySPtr,
+        tnwFactory,
         Angle::Undefined(),
         {Duration::Minutes(20.0),
          Duration::Minutes(40.0),
@@ -4861,7 +4861,7 @@ TEST_F(
     for (const auto& maneuver : maneuvers)
     {
         const Maneuver::MeanDirectionAndMaximumAngularOffset result =
-            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(tnwFactorySPtr);
+            maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(tnwFactory);
 
         const Angle maximumAngularOffset = result.second;
         EXPECT_NEAR(maximumAngularOffset.inDegrees(), 0.0, 1e-6);
@@ -4975,14 +4975,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     const Duration maximumSimulationDuration = Duration::Hours(2.0);
 
     const Shared<RealCondition> smaLowerBoundConditionSPtr =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+        std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
             RealCondition::Criterion::StrictlyPositive,
             Frame::GCRF(),
             targetSMA,
             EarthGravitationalModel::EGM2008.gravitationalParameter_
         ));
     const Shared<RealCondition> smaUpperBoundConditionSPtr =
-        std::make_shared<RealCondition>(BrouwerLyddaneMeanLongCondition::SemiMajorAxis(
+        std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::BrouwerLyddaneMeanLong,
             RealCondition::Criterion::StrictlyNegative,
             Frame::GCRF(),
             2.0 * targetSMA,
@@ -4994,7 +4996,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
         Array<Shared<EventCondition>> {smaLowerBoundConditionSPtr, smaUpperBoundConditionSPtr}
     );
 
-    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+    const LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
 
     const Segment maneuverSegment = Segment::Maneuver(
         "QLaw Maneuver Segment",
@@ -5110,7 +5112,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         InstantCondition::Criterion::PositiveCrossing, initialInstant + maximumSimulationDuration
     );
 
-    const Shared<const LocalOrbitalFrameFactory> tnwFactorySPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
+    const LocalOrbitalFrameFactory tnwFactory = LocalOrbitalFrameFactory::TNW(Frame::GCRF());
 
     const Segment maneuverSegment = Segment::ConstantLocalOrbitalFrameDirectionManeuver(
         "QLaw Maneuver Segment",
@@ -5118,7 +5120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         thrusterSPtr,
         dynamics,
         defaultNumericalSolver_,
-        tnwFactorySPtr,
+        tnwFactory,
         Angle::Undefined(),
         {Duration::Minutes(10.0),
          Duration::Minutes(60.0),
