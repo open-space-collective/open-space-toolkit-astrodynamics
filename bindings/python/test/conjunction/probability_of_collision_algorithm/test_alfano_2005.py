@@ -86,6 +86,9 @@ class TestAlfano2005:
     def test_get_name_success(self, algorithm: Alfano2005):
         assert algorithm.get_name() == "Alfano 2005"
 
+    def test_is_maximum_success(self, algorithm: Alfano2005):
+        assert algorithm.is_maximum() is False
+
     def test_identify_unsatisfied_assumptions_success(
         self, algorithm: Alfano2005, close_approach: CloseApproach
     ):
