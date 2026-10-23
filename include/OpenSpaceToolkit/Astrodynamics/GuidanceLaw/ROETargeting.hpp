@@ -62,23 +62,35 @@ using ostk::astrodynamics::trajectory::State;
 /// model through the near-circular Gauss variational equations, averaged over the burn arc.
 ///
 /// A plan optimizes horizonBurnCount burns at constant thrust, each along a constant direction in the spacecraft RTN
-/// frame and lasting at most maximumBurnDuration, consecutive burns starting burnSpacing apart, by solving
+/// frame and lasting at most maximumBurnDuration, by solving
 ///     minimize   mean_j || W (x_j - x_target) ||^2  +  fuelWeight * sum_k || Δv_k || / Δv_max
 ///     subject to || Δv_k || <= Δv_max = thrustAcceleration * maximumBurnDuration
-/// where x_j are the ROE predicted halfway through and at the end of each burn spacing after the planning instant,
-/// and W divides each ROE component by its tolerance. The fuel term leaves errors that are not worth a burn
-/// uncorrected (dead band): increase the fuel weight to save delta-v, decrease it to converge faster. Since the burn
-/// duration changes the burn arc, the problem is solved by sequential convex programming: each convex sub-problem
-/// (solved with ADMM) is re-linearized about the previous burn durations.
+///                t_{k-1} + burnSpacing <= t_k < t_{k-1} + burnSpacing + T
+/// over the delta-v Δv_k and the middles t_k of the burns after the first (t_0 being the middle of the first burn),
+/// where x_j are the ROE predicted halfway through and at the end of each burn spacing after the planning instant, W
+/// divides each ROE component by its tolerance, and T is one orbit (one period of the mean argument of latitude). Each
+/// burn is thus centered within one orbit after the earliest middle allowed by the previous burn: its middle sets the
+/// argument of latitude of the burn arc, which sets how much of each ROE component its delta-v can correct (the
+/// eccentricity and inclination vectors each have a best argument of latitude). As the middles of consecutive burns are
+/// at least burnSpacing apart, a burn spacing of at least the minimum separation between maneuvers plus the maximum
+/// burn duration keeps the planned burns at least the minimum separation apart. The fuel term leaves errors that are
+/// not worth a burn uncorrected (dead band): increase the fuel weight to save delta-v, decrease it to converge faster.
+///
+/// The burn middles are optimized by block coordinate descent: in turn, the middle of each burn is searched among
+/// burnStartCandidateCount times evenly spread over its window, then refined, the delta-v of that burn being solved
+/// exactly for each candidate, the other burns being fixed. When a burn moves, the following burns keep their argument
+/// of latitude (and move by whole orbits if needed to stay within their windows). After each sweep over the burns, the
+/// delta-v of all the burns are optimized jointly: since the burn duration changes the burn arc, by sequential convex
+/// programming, each convex sub-problem (solved with ADMM) being re-linearized about the previous burn durations, the
+/// burn middles being kept.
 ///
 /// Like the Q-Law, the guidance law decides at every evaluation whether burning now is worth it compared to burning
 /// at other points of the orbit. It compares the cost J of:
 ///   - the plan whose first burn starts now,
-///   - the plans whose first burn starts later, at burnStartCandidateCount start times evenly spread over one orbit
-///     (one period of the mean argument of latitude), the following burns being delayed accordingly,
+///   - the best plan, whose first burn starts at its best time within one orbit,
 ///   - the plan without the first burn,
-/// and computes the effectivity of burning now, the fraction of the best improvement over not burning that burning
-/// now achieves:
+/// the following burns being at their best arguments of latitude in each plan, and computes the effectivity of burning
+/// now, the fraction of the best improvement over not burning that burning now achieves:
 ///     η = (J_none - J_now) / (J_none - J_best)
 /// The spacecraft thrusts along the first burn direction of the plan starting now when η >= effectivityThreshold and
 /// that burn lasts at least minimumBurnDuration.
@@ -92,7 +104,7 @@ using ostk::astrodynamics::trajectory::State;
 /// duration); burnSpacing only models them in the predictions (typically the minimum separation plus the maximum burn
 /// duration).
 ///
-/// Each evaluation solves up to burnStartCandidateCount + 2 small convex problems (a few milliseconds in total).
+/// Each evaluation optimizes up to three plans (several milliseconds in total).
 ///
 /// The model assumes a near-circular reference orbit around the Earth (EGM2008 constants) and separations small
 /// with respect to the semi-major axis.
@@ -109,8 +121,9 @@ class ROETargeting : public GuidanceLaw
     {
         /// @brief Constructor.
         ///
-        /// @param aBurnSpacing The time between the starts of two consecutive burns assumed by the predictions,
-        /// typically the minimum separation between maneuvers plus the maximum burn duration.
+        /// @param aBurnSpacing The minimum time between the middles of two consecutive burns assumed by the
+        /// predictions, typically the minimum separation between maneuvers plus the maximum burn duration. Each burn
+        /// is centered within one orbit after the earliest middle allowed by the previous burn.
         /// @param aMaximumBurnDuration The maximum duration of a burn.
         /// @param aThrustAcceleration The thrust acceleration used for planning, in m/s^2.
         /// @param aHorizonBurnCount The number of burns optimized by each plan. Defaults to 5.
@@ -123,8 +136,8 @@ class ROETargeting : public GuidanceLaw
         /// the reference, not modeled by J2 (typically differential drag), in m/s. Defaults to 0.
         /// @param anEffectivityThreshold The effectivity of burning now above which the spacecraft burns, between 0
         /// and 1. Defaults to 0.9.
-        /// @param aBurnStartCandidateCount The number of first burn start times, evenly spread over one orbit
-        /// starting now, compared with each other. Defaults to 36.
+        /// @param aBurnStartCandidateCount The number of times, evenly spread over one orbit, among which the timing
+        /// of each burn is searched before being refined. Defaults to 36.
         Parameters(
             const Duration& aBurnSpacing,
             const Duration& aMaximumBurnDuration,
@@ -276,10 +289,22 @@ class ROETargeting : public GuidanceLaw
 
     /// @brief Compute the burn plan from a state.
     ///
+    /// The following burns are centered at their best arguments of latitude, each within one orbit after the earliest
+    /// middle allowed by the previous burn.
+    ///
     /// @param aState A state, in an inertial frame
     /// @param aFirstBurnDelay The delay of the first burn with respect to the state instant. Defaults to zero.
     /// @return The plan.
     Plan computePlan(const State& aState, const Duration& aFirstBurnDelay = Duration::Zero()) const;
+
+    /// @brief Compute the best burn plan from a state, whose first burn starts at its best time within one orbit.
+    ///
+    /// The following burns are centered at their best arguments of latitude, each within one orbit after the earliest
+    /// middle allowed by the previous burn.
+    ///
+    /// @param aState A state, in an inertial frame
+    /// @return The plan.
+    Plan computeBestPlan(const State& aState) const;
 
     /// @brief Compute the effectivity of burning now.
     ///

@@ -152,9 +152,9 @@ static const Duration MIN_MANEUVER_SEPARATION = Duration::Days(1.0);
 
 static const Duration MIN_BURN_DURATION = Duration::Seconds(5.0);  // Segment skips maneuvers shorter than 5 s
 
-// The guidance law burns when burning now achieves at least 99% of the best improvement over not burning, among start
-// times every 10 degrees of argument of latitude over the next orbit: as it commits to the whole burn, it can wait for
-// the best start time (thresholds of 0.9 and 0.95 converge 1 day later)
+// The guidance law burns when burning now achieves at least 99% of the improvement over not burning of the best start
+// time of the next orbit (searched every 10 degrees of argument of latitude, then refined): as it commits to the whole
+// burn, it can wait for the best start time (thresholds of 0.9 and 0.95 converge 1.3 days later)
 static const Real EFFECTIVITY_THRESHOLD = 0.99;
 static const Size BURN_START_CANDIDATE_COUNT = 36;
 

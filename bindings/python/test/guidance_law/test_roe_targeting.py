@@ -218,6 +218,20 @@ class TestROETargeting:
 
         assert isinstance(delayed_plan, ROETargeting.Plan)
 
+    def test_compute_best_plan(
+        self,
+        roe_targeting: ROETargeting,
+        state: State,
+    ):
+        plan: ROETargeting.Plan = roe_targeting.compute_best_plan(state)
+
+        assert isinstance(plan, ROETargeting.Plan)
+        assert isinstance(plan.epoch, Instant)
+        assert len(plan.burn_intervals) == 3
+        assert all(isinstance(interval, Interval) for interval in plan.burn_intervals)
+        assert len(plan.delta_velocities) == 3
+        assert float(plan.cost) >= 0.0
+
     def test_commit_maneuver_at(
         self,
         roe_targeting: ROETargeting,

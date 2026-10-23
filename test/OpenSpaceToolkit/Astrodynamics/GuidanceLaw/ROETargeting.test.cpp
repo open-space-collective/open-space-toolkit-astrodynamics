@@ -29,6 +29,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ROETargeting.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
@@ -85,6 +86,7 @@ using ostk::astrodynamics::guidancelaw::Matrix63d;
 using ostk::astrodynamics::guidancelaw::Matrix6d;
 using ostk::astrodynamics::guidancelaw::ROETargeting;
 using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
@@ -134,6 +136,66 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting : public ::testing
         coordinates << cartesianState.first.accessCoordinates(), cartesianState.second.accessCoordinates(), wetMass_;
 
         return {epoch_, coordinates, Frame::GCRF(), coordinateBrokerSPtr_};
+    }
+
+    // State whose ROE with respect to the reference (computed from Brouwer-Lyddane mean elements) are provided, in m
+    State offsetState(const Vector6d& aRelativeOrbitalElements) const
+    {
+        const BrouwerLyddaneMeanLong referenceMeanCOE = BrouwerLyddaneMeanLong::Cartesian(
+            {referenceState_.getPosition(), referenceState_.getVelocity()}, gravitationalParameter_
+        );
+
+        const double a = referenceMeanCOE.getSemiMajorAxis().inMeters();
+        const double e = referenceMeanCOE.getEccentricity();
+        const double inclination = referenceMeanCOE.getInclination().inRadians();
+        const double raan = referenceMeanCOE.getRaan().inRadians();
+        const double aop = referenceMeanCOE.getAop().inRadians();
+        const double meanAnomaly = referenceMeanCOE.getMeanAnomaly().inRadians();
+
+        const Vector6d roe = aRelativeOrbitalElements / a;
+
+        const double eccentricityX = e * std::cos(aop) + roe[2];
+        const double eccentricityY = e * std::sin(aop) + roe[3];
+        const double offsetAop = std::atan2(eccentricityY, eccentricityX);
+        const double raanOffset = roe[5] / std::sin(inclination);
+        const double meanArgumentOfLatitude = aop + meanAnomaly + roe[1] - raanOffset * std::cos(inclination);
+
+        const BrouwerLyddaneMeanLong meanCOE = {
+            Length::Meters(a * (1.0 + roe[0])),
+            std::hypot(eccentricityX, eccentricityY),
+            Angle::Radians(inclination + roe[4]),
+            Angle::Radians(raan + raanOffset),
+            Angle::Radians(offsetAop),
+            Angle::Radians(meanArgumentOfLatitude - offsetAop),
+        };
+
+        const COE::CartesianState cartesianState = meanCOE.getCartesianState(gravitationalParameter_, Frame::GCRF());
+
+        VectorXd coordinates(7);
+        coordinates << cartesianState.first.accessCoordinates(), cartesianState.second.accessCoordinates(), wetMass_;
+
+        return {epoch_, coordinates, Frame::GCRF(), coordinateBrokerSPtr_};
+    }
+
+    // Mean argument of latitude of the reference at an instant, in rad
+    double referenceMeanArgumentOfLatitudeAt(const Instant& anInstant) const
+    {
+        const State state = referenceTrajectory_.getStateAt(anInstant);
+
+        const BrouwerLyddaneMeanLong meanCOE =
+            BrouwerLyddaneMeanLong::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter_);
+
+        return meanCOE.getAop().inRadians() + meanCOE.getMeanAnomaly().inRadians();
+    }
+
+    // Upper bound of the period of the mean argument of latitude of the reference (its Keplerian period)
+    Duration orbitalPeriod() const
+    {
+        const double a = referenceCOE_.getSemiMajorAxis().inMeters();
+
+        return Duration::Seconds(
+            2.0 * M_PI * std::sqrt(a * a * a / gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared()))
+        );
     }
 
     const Instant epoch_ = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
@@ -507,6 +569,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputePlan)
 
     const Size burnCount = parameters_.horizonBurnCount;
     const Duration& burnSpacing = parameters_.burnSpacing;
+    const Duration instantTolerance = Duration::Microseconds(1.0);
     const double maximumDeltaVelocity = thrustAcceleration_ * parameters_.maximumBurnDuration.inSeconds();
 
     {
@@ -522,12 +585,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputePlan)
         EXPECT_GT(plan.cost, 0.0);
         EXPECT_GE(plan.iterationCount, 1);
 
+        EXPECT_EQ(epoch_, plan.burnIntervals.accessFirst().accessStart());
+
         for (Size burnIndex = 0; burnIndex < burnCount; ++burnIndex)
         {
             const Interval& burnInterval = plan.burnIntervals[burnIndex];
             const double deltaVelocity = plan.deltaVelocities[burnIndex].norm();
 
-            EXPECT_EQ(epoch_ + burnSpacing * double(burnIndex), burnInterval.accessStart());
+            // Each burn is centered within one orbit after the earliest middle allowed by the previous one, which
+            // keeps the burns at least the burn spacing minus the maximum burn duration apart
+            if (burnIndex > 0)
+            {
+                const Interval& previousBurnInterval = plan.burnIntervals[burnIndex - 1];
+                const Instant earliestCenter = previousBurnInterval.getCenter() + burnSpacing;
+
+                EXPECT_GE(burnInterval.getCenter(), earliestCenter - instantTolerance);
+                EXPECT_LT(burnInterval.getCenter(), earliestCenter + orbitalPeriod());
+                EXPECT_GE(
+                    burnInterval.accessStart() - previousBurnInterval.accessEnd(),
+                    burnSpacing - parameters_.maximumBurnDuration - instantTolerance
+                );
+            }
+
             EXPECT_LE(burnInterval.getDuration(), parameters_.maximumBurnDuration);
             EXPECT_LE(deltaVelocity, maximumDeltaVelocity * (1.0 + 1e-9));
             EXPECT_NEAR(deltaVelocity / thrustAcceleration_, burnInterval.getDuration().inSeconds(), 1e-6);
@@ -547,9 +626,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputePlan)
 
         const ROETargeting::Plan plan = guidanceLaw.computePlan(state, delay);
 
-        for (Size burnIndex = 0; burnIndex < burnCount; ++burnIndex)
+        EXPECT_EQ(epoch_ + delay, plan.burnIntervals.accessFirst().accessStart());
+
+        for (Size burnIndex = 1; burnIndex < burnCount; ++burnIndex)
         {
-            EXPECT_EQ(epoch_ + delay + burnSpacing * double(burnIndex), plan.burnIntervals[burnIndex].accessStart());
+            EXPECT_GE(
+                plan.burnIntervals[burnIndex].getCenter(),
+                plan.burnIntervals[burnIndex - 1].getCenter() + burnSpacing - instantTolerance
+            );
         }
 
         EXPECT_EQ(epoch_ + burnSpacing * 0.5, plan.predictionInstants.accessFirst());
@@ -558,6 +642,117 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputePlan)
 
     {
         EXPECT_THROW(guidanceLaw.computePlan(state, Duration::Seconds(-1.0)), ostk::core::error::RuntimeError);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputeBestPlan)
+{
+    const ROETargeting guidanceLaw = {referenceTrajectory_, parameters_};
+
+    const Duration& burnSpacing = parameters_.burnSpacing;
+    const Duration instantTolerance = Duration::Microseconds(1.0);
+
+    // Mean argument of latitude at the middle of a burn
+    const auto burnMeanArgumentOfLatitude = [this](const ROETargeting::Plan& aPlan, const Size& aBurnIndex) -> double
+    {
+        return referenceMeanArgumentOfLatitudeAt(aPlan.burnIntervals[aBurnIndex].getCenter());
+    };
+
+    // The first burn starts within one orbit, and improves on the plan whose first burn starts now
+    {
+        const State state = trailingState(Length::Meters(1000.0));
+
+        const ROETargeting::Plan bestPlan = guidanceLaw.computeBestPlan(state);
+        const ROETargeting::Plan plan = guidanceLaw.computePlan(state);
+
+        EXPECT_EQ(epoch_, bestPlan.epoch);
+        EXPECT_LE(bestPlan.cost, plan.cost);
+
+        EXPECT_GE(bestPlan.burnIntervals.accessFirst().accessStart(), epoch_);
+        EXPECT_LT(bestPlan.burnIntervals.accessFirst().accessStart(), epoch_ + orbitalPeriod());
+
+        for (Size burnIndex = 1; burnIndex < bestPlan.burnIntervals.getSize(); ++burnIndex)
+        {
+            const Instant earliestCenter = bestPlan.burnIntervals[burnIndex - 1].getCenter() + burnSpacing;
+
+            EXPECT_GE(bestPlan.burnIntervals[burnIndex].getCenter(), earliestCenter - instantTolerance);
+            EXPECT_LT(bestPlan.burnIntervals[burnIndex].getCenter(), earliestCenter + orbitalPeriod());
+        }
+
+        EXPECT_EQ(bestPlan.predictionInstants, plan.predictionInstants);
+    }
+
+    // Inclination vector error: a normal burn changes the inclination vector along (cos u, sin u), so that it is the
+    // most effective at u = atan2(δiy, δix) + π (positive normal delta-v) or atan2(δiy, δix) (negative)
+    {
+        Vector6d relativeOrbitalElements = Vector6d::Zero();
+        relativeOrbitalElements[5] = -30.0;
+
+        const State state = offsetState(relativeOrbitalElements);
+
+        ASSERT_LT(
+            (guidanceLaw.computeRelativeOrbitalElements(state) - relativeOrbitalElements).cwiseAbs().maxCoeff(), 1.0
+        );
+
+        const ROETargeting::Plan plan = guidanceLaw.computeBestPlan(state);
+
+        const Vector3d& deltaVelocity = plan.deltaVelocities.accessFirst();
+        const double meanArgumentOfLatitude = burnMeanArgumentOfLatitude(plan, 0);
+
+        // A single burn removes the error
+        EXPECT_GT(deltaVelocity.norm(), 0.0);
+        EXPECT_GT(std::abs(deltaVelocity[2]), 0.99 * deltaVelocity.norm());
+        EXPECT_GT(deltaVelocity[2] * std::sin(meanArgumentOfLatitude), 0.0);
+        EXPECT_LT(std::abs(std::cos(meanArgumentOfLatitude)), std::sin(Angle::Degrees(2.0).inRadians()));
+        EXPECT_LT(plan.predictedRelativeOrbitalElements.accessLast().cwiseAbs().maxCoeff(), 2.0);
+    }
+
+    // An error larger than a burn can correct: each burn is centered where it is the most effective on the error left
+    // by the previous burns (predicted at the end of the previous burn spacing), although the window of each burn
+    // after the first starts at an arbitrary argument of latitude
+    {
+        Vector6d relativeOrbitalElements = Vector6d::Zero();
+        relativeOrbitalElements[5] = -100.0;
+
+        const ROETargeting::Plan plan = guidanceLaw.computeBestPlan(offsetState(relativeOrbitalElements));
+
+        Size burnCount = 0;
+
+        for (Size burnIndex = 0; burnIndex < plan.burnIntervals.getSize(); ++burnIndex)
+        {
+            const Vector3d& deltaVelocity = plan.deltaVelocities[burnIndex];
+
+            if (deltaVelocity.norm() == 0.0)
+            {
+                continue;
+            }
+
+            ++burnCount;
+
+            if (burnIndex > 0)
+            {
+                ASSERT_LT(plan.predictionInstants[2 * burnIndex - 1], plan.burnIntervals[burnIndex].getCenter());
+            }
+
+            const Vector6d& previousRelativeOrbitalElements =
+                (burnIndex == 0) ? plan.relativeOrbitalElements
+                                 : plan.predictedRelativeOrbitalElements[2 * burnIndex - 1];
+
+            const double bestMeanArgumentOfLatitude =
+                std::atan2(previousRelativeOrbitalElements[5], previousRelativeOrbitalElements[4]);
+            const double meanArgumentOfLatitude = burnMeanArgumentOfLatitude(plan, burnIndex);
+
+            EXPECT_GT(std::abs(deltaVelocity[2]), 0.99 * deltaVelocity.norm()) << burnIndex;
+            EXPECT_LT(deltaVelocity[2] * std::cos(meanArgumentOfLatitude - bestMeanArgumentOfLatitude), 0.0)
+                << burnIndex;
+            EXPECT_LT(
+                std::abs(std::sin(meanArgumentOfLatitude - bestMeanArgumentOfLatitude)),
+                std::sin(Angle::Degrees(2.0).inRadians())
+            ) << burnIndex;
+        }
+
+        EXPECT_GE(burnCount, 3);
+        EXPECT_LT(plan.predictedRelativeOrbitalElements.accessLast().cwiseAbs().maxCoeff(), 5.0);
     }
 }
 

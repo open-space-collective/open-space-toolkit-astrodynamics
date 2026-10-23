@@ -1,7 +1,9 @@
 /// Apache License 2.0
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
+#include <utility>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -16,6 +18,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 
+#include <Eigen/Eigenvalues>
+
 namespace ostk
 {
 namespace astrodynamics
@@ -26,6 +30,7 @@ namespace guidancelaw
 using ostk::core::type::Index;
 
 using ostk::mathematics::object::MatrixXd;
+using ostk::mathematics::object::Vector2d;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Position;
@@ -122,33 +127,25 @@ J2Quantities ComputeJ2Quantities(const Vector6d& aMeanCOEVector)
     return quantities;
 }
 
-// Propagate mean orbital elements [a, e, i, Ω, ω, M] with the secular J2 rates
-Vector6d PropagateMeanCOEVector(const Vector6d& aMeanCOEVector, const J2Quantities& aJ2Quantities, const double& aTau)
+// The J2 quantities only depend on the semi-major axis, the eccentricity and the inclination, which have no secular J2
+// rate: they are shared by all the transitions from a propagated reference. The eccentricity vector of the reference
+// at the start and at the end of the transition, and the cosine and sine of its rotation over the transition, are
+// provided.
+Matrix6d ComputeStateTransitionMatrix_(
+    const J2Quantities& aJ2Quantities,
+    const Vector2d& anInitialEccentricityVector,
+    const Vector2d& aFinalEccentricityVector,
+    const double& aCosRotation,
+    const double& aSinRotation,
+    const double& aTau
+)
 {
-    Vector6d meanCOEVector = aMeanCOEVector;
+    const J2Quantities& q = aJ2Quantities;
 
-    meanCOEVector[3] += aJ2Quantities.raanRate * aTau;
-    meanCOEVector[4] += aJ2Quantities.aopRate * aTau;
-    meanCOEVector[5] += aJ2Quantities.meanAnomalyRate * aTau;
-
-    return meanCOEVector;
-}
-
-Matrix6d ComputeStateTransitionMatrix_(const Vector6d& aMeanCOEVector, const double& aTau)
-{
-    const J2Quantities q = ComputeJ2Quantities(aMeanCOEVector);
-
-    const double e = aMeanCOEVector[1];
-    const double aopInitial = aMeanCOEVector[4];
-    const double aopFinal = aopInitial + q.aopRate * aTau;
-
-    const double exi = e * std::cos(aopInitial);
-    const double eyi = e * std::sin(aopInitial);
-    const double exf = e * std::cos(aopFinal);
-    const double eyf = e * std::sin(aopFinal);
-
-    const double cosRotation = std::cos(q.aopRate * aTau);
-    const double sinRotation = std::sin(q.aopRate * aTau);
+    const double exi = anInitialEccentricityVector[0];
+    const double eyi = anInitialEccentricityVector[1];
+    const double exf = aFinalEccentricityVector[0];
+    const double eyf = aFinalEccentricityVector[1];
 
     const double kt = q.kappa * aTau;
 
@@ -160,13 +157,13 @@ Matrix6d ComputeStateTransitionMatrix_(const Vector6d& aMeanCOEVector, const dou
     stm(1, 4) = -kt * q.F * q.S;
 
     stm(2, 0) = 3.5 * kt * eyf * q.Q;
-    stm(2, 2) = cosRotation - 4.0 * kt * exi * eyf * q.G * q.Q;
-    stm(2, 3) = -sinRotation - 4.0 * kt * eyi * eyf * q.G * q.Q;
+    stm(2, 2) = aCosRotation - 4.0 * kt * exi * eyf * q.G * q.Q;
+    stm(2, 3) = -aSinRotation - 4.0 * kt * eyi * eyf * q.G * q.Q;
     stm(2, 4) = 5.0 * kt * eyf * q.S;
 
     stm(3, 0) = -3.5 * kt * exf * q.Q;
-    stm(3, 2) = sinRotation + 4.0 * kt * exi * exf * q.G * q.Q;
-    stm(3, 3) = cosRotation + 4.0 * kt * eyi * exf * q.G * q.Q;
+    stm(3, 2) = aSinRotation + 4.0 * kt * exi * exf * q.G * q.Q;
+    stm(3, 3) = aCosRotation + 4.0 * kt * eyi * exf * q.G * q.Q;
     stm(3, 4) = -5.0 * kt * exf * q.S;
 
     stm(5, 0) = 3.5 * kt * q.S;
@@ -175,6 +172,29 @@ Matrix6d ComputeStateTransitionMatrix_(const Vector6d& aMeanCOEVector, const dou
     stm(5, 4) = 2.0 * kt * q.T;
 
     return stm;
+}
+
+// Eccentricity vector of mean orbital elements [a, e, i, Ω, ω, M]
+Vector2d EccentricityVector(const Vector6d& aMeanCOEVector)
+{
+    return aMeanCOEVector[1] * Vector2d(std::cos(aMeanCOEVector[4]), std::sin(aMeanCOEVector[4]));
+}
+
+Matrix6d ComputeStateTransitionMatrix_(const Vector6d& aMeanCOEVector, const double& aTau)
+{
+    const J2Quantities q = ComputeJ2Quantities(aMeanCOEVector);
+
+    Vector6d finalMeanCOEVector = aMeanCOEVector;
+    finalMeanCOEVector[4] += q.aopRate * aTau;
+
+    return ComputeStateTransitionMatrix_(
+        q,
+        EccentricityVector(aMeanCOEVector),
+        EccentricityVector(finalMeanCOEVector),
+        std::cos(q.aopRate * aTau),
+        std::sin(q.aopRate * aTau),
+        aTau
+    );
 }
 
 // Effect on the ROE of a constant relative semi-major axis rate (dimensionless, per second), obtained by integrating
@@ -279,6 +299,88 @@ VectorXd SolveGroupLasso(const MatrixXd& A, const VectorXd& b, const double& aWe
     return z;
 }
 
+// Solve
+//     minimize u^T M u + 2 g^T u + w ||u||   subject to ||u|| <= 1
+// for a single 3-vector u, M being symmetric positive semi-definite: the single group version of SolveGroupLasso
+// (with M = A^T A and g = -A^T b), solved exactly. The minimizer is u(λ) = -(M + λ I)^-1 g, with λ = w / (2 ||u||)
+// when the norm constraint is inactive, and ||u(λ)|| = 1 otherwise. Both equations are solved by Newton iterations on
+// 1 / ||u(λ)||, concave and increasing with λ, so that the iterations converge monotonically.
+Vector3d SolveSingleGroupLasso(const Matrix3d& M, const Vector3d& g, const double& aWeight)
+{
+    static const Size maximumIterationCount = 50;
+    static const double relativeTolerance = 1e-12;
+
+    const double gradientNorm = g.norm();
+
+    // Zero is optimal when the gradient at zero lies within the subdifferential of the weight term
+    if (!(2.0 * gradientNorm > aWeight))
+    {
+        return Vector3d::Zero();
+    }
+
+    Eigen::SelfAdjointEigenSolver<Matrix3d> eigenSolver;
+    eigenSolver.computeDirect(M);
+
+    const Eigen::Array3d eigenvalues = eigenSolver.eigenvalues().array().max(0.0);
+    const Eigen::Array3d projectedGradient = (eigenSolver.eigenvectors().transpose() * g).array();
+
+    // 1 / ||u(λ)||, and its derivative
+    const auto computeInverseNorm = [&eigenvalues,
+                                     &projectedGradient](const double& aLambda, double& aDerivative) -> double
+    {
+        const Eigen::Array3d inverse = (eigenvalues + aLambda).inverse();
+        const double squaredNorm = (projectedGradient * inverse).square().sum();
+        const double norm = std::sqrt(squaredNorm);
+
+        aDerivative = (projectedGradient.square() * inverse.cube()).sum() / (squaredNorm * norm);
+
+        return 1.0 / norm;
+    };
+
+    // Newton iterations on f(λ) = 1 / ||u(λ)|| - h(λ), concave, from a side of the root where f <= 0
+    const auto solve = [&computeInverseNorm](double lambda, const double& aSlope, const double& anOffset) -> double
+    {
+        for (Size iteration = 0; iteration < maximumIterationCount; ++iteration)
+        {
+            double derivative;
+            const double value = computeInverseNorm(lambda, derivative) - (aSlope * lambda + anOffset);
+            const double step = value / (derivative - aSlope);
+
+            if (!std::isfinite(step) || (std::abs(step) <= (relativeTolerance * lambda)))
+            {
+                break;
+            }
+
+            lambda = std::max(lambda - step, std::numeric_limits<double>::min());
+        }
+
+        return lambda;
+    };
+
+    // λ ||u(λ)|| = w / 2, i.e. 1 / ||u(λ)|| = 2 λ / w: from the right of the root (decreasing iterates)
+    const double lambdaUpperBound =
+        std::max(eigenvalues.maxCoeff() * aWeight / (2.0 * gradientNorm - aWeight), std::numeric_limits<double>::min());
+
+    double lambda = (aWeight > 0.0) ? solve(lambdaUpperBound, 2.0 / aWeight, 0.0) : std::numeric_limits<double>::min();
+
+    // ||u(λ)|| = 1: from the left of the root (increasing iterates)
+    double derivative;
+    if (computeInverseNorm(lambda, derivative) < 1.0)
+    {
+        lambda = solve(lambda, 0.0, 1.0);
+    }
+
+    return -eigenSolver.eigenvectors() * (projectedGradient / (eigenvalues + lambda)).matrix();
+}
+
+// Remainder of the division of x by y > 0, in [0, y)
+double PositiveRemainder(const double& x, const double& y)
+{
+    const double remainder = std::fmod(x, y);
+
+    return (remainder < 0.0) ? (remainder + y) : remainder;
+}
+
 Matrix3d RTNToFrame(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates)
 {
     const Vector3d radial = aPositionCoordinates.normalized();
@@ -294,13 +396,20 @@ Matrix3d RTNToFrame(const Vector3d& aPositionCoordinates, const Vector3d& aVeloc
 }
 
 // Burn planning from a planning instant. The prediction samples, the weights and the free motion are shared by all
-// the first burn delays compared by the effectivity.
+// the plans compared by the effectivity.
+//
+// A burn is placed by its middle, which sets the argument of latitude of the burn arc. The middle of each burn after
+// the first lies within one orbit (one period of the mean argument of latitude) after the earliest middle allowed by
+// the previous burn, one burn spacing after its middle. The first burn starts within a window (fixed start when the
+// window is empty). When the duration of a burn changes, its middle does not move, except when its start is fixed.
+// When a burn moves, the following burns keep their argument of latitude, and move by whole orbits if needed to stay
+// within their windows.
 class BurnPlanner
 {
    public:
     struct Solution
     {
-        double firstBurnDelay;
+        VectorXd burnMidpointOffsets;
         VectorXd burnDurations;
         VectorXd normalizedDeltaVelocities;
         double cost;
@@ -319,6 +428,8 @@ class BurnPlanner
           relativeOrbitalElements_(aRelativeOrbitalElements),
           meanArgumentOfLatitude_(aMeanArgumentOfLatitude),
           j2Quantities_(ComputeJ2Quantities(aReferenceMeanCOEVector)),
+          meanArgumentOfLatitudeRate_(j2Quantities_.aopRate + j2Quantities_.meanAnomalyRate),
+          meanArgumentOfLatitudePeriod_(2.0 * M_PI / meanArgumentOfLatitudeRate_),
           burnCount_(aParameters.horizonBurnCount),
           sampleCount_(2 * aParameters.horizonBurnCount),
           burnSpacing_(aParameters.burnSpacing.inSeconds()),
@@ -328,12 +439,25 @@ class BurnPlanner
         const double semiMajorAxis = referenceMeanCOEVector_[0];
 
         // Samples halfway through and at the end of each burn spacing after the planning instant, common to all the
-        // first burn delays
+        // plans
         sampleOffsets_.resize(sampleCount_);
         for (Index burnIndex = 0; burnIndex < burnCount_; ++burnIndex)
         {
             sampleOffsets_[2 * burnIndex] = (burnIndex + 0.5) * burnSpacing_;
             sampleOffsets_[2 * burnIndex + 1] = (burnIndex + 1.0) * burnSpacing_;
+        }
+
+        // Eccentricity vector of the reference at the samples, and its rotation since the planning instant
+        eccentricityVector_ = EccentricityVector(referenceMeanCOEVector_);
+        sampleEccentricityVectors_.resize(2, sampleCount_);
+        sampleRotations_.resize(2, sampleCount_);
+        for (Index sampleIndex = 0; sampleIndex < sampleCount_; ++sampleIndex)
+        {
+            const double rotation = j2Quantities_.aopRate * sampleOffsets_[sampleIndex];
+
+            sampleRotations_.col(sampleIndex) << std::cos(rotation), std::sin(rotation);
+            sampleEccentricityVectors_.col(sampleIndex) =
+                Rotation2D(sampleRotations_.col(sampleIndex)) * eccentricityVector_;
         }
 
         // Weights: tolerance-normalized errors, averaged over the samples
@@ -359,76 +483,51 @@ class BurnPlanner
         }
     }
 
-    // Period of the mean argument of latitude of the reference
-    double getMeanArgumentOfLatitudePeriod() const
+    // The plan whose first burn starts after a delay, the following burns at their best arguments of latitude
+    Solution solve(const double& aFirstBurnDelay) const
     {
-        return 2.0 * M_PI / (j2Quantities_.aopRate + j2Quantities_.meanAnomalyRate);
-    }
-
-    // Sequential convex programming: re-linearize the burn arcs about the previous burn durations. The plan is
-    // recomputed at every evaluation, so the iterations are damped: undamped, they can cycle, and the burn durations
-    // of the last iteration then jump between nearby states.
-    Solution solve(const double& aFirstBurnDelay, const bool& includeFirstBurn) const
-    {
-        static const Size maximumIterationCount = 20;
-        static const Size undampedIterationCount = 2;
-        static const double burnDurationTolerance = 1.0;  // [s]
-
         Solution solution = {
-            aFirstBurnDelay,
+            VectorXd::Zero(burnCount_),
             VectorXd::Zero(burnCount_),
             VectorXd::Zero(3 * burnCount_),
-            0.0,
+            std::numeric_limits<double>::infinity(),
             0,
         };
 
-        while (solution.iterationCount < maximumIterationCount)
-        {
-            const VectorXd previousBurnDurations = solution.burnDurations;
-
-            solveConvexSubProblem_(includeFirstBurn, solution);
-
-            const double burnDurationChange = (solution.burnDurations - previousBurnDurations).cwiseAbs().maxCoeff();
-
-            if (burnDurationChange < burnDurationTolerance)
-            {
-                break;
-            }
-
-            if (solution.iterationCount >= undampedIterationCount)
-            {
-                solution.burnDurations = 0.5 * (solution.burnDurations + previousBurnDurations);
-            }
-        }
-
-        // The burn durations follow the delta-v of the last sub-problem
+        // Start from the earliest burns, without any delta-v: the first sweep then adds the burns one at a time
         for (Index burnIndex = 0; burnIndex < burnCount_; ++burnIndex)
         {
-            solution.burnDurations[burnIndex] =
-                solution.normalizedDeltaVelocities.segment<3>(3 * burnIndex).norm() * maximumBurnDuration_;
+            solution.burnMidpointOffsets[burnIndex] = aFirstBurnDelay + burnIndex * burnSpacing_;
         }
 
-        finalize_(includeFirstBurn, solution);
+        optimize_(true, {aFirstBurnDelay, 0.0}, -std::numeric_limits<double>::infinity(), solution);
 
         return solution;
     }
 
-    // Single convex sub-problem, linearized about the burn durations of another solution and warm-started from it
-    Solution solveOnce(const double& aFirstBurnDelay, const bool& includeFirstBurn, const Solution& aSolution) const
+    // The plan of a solution whose first burn also starts at its best start time, within one orbit after the start of
+    // the first burn of that solution. Stops as soon as the cost drops below the provided one.
+    Solution solveFirstBurnStart(const Solution& aSolution, const double& aStopCost) const
     {
         Solution solution = aSolution;
-        solution.firstBurnDelay = aFirstBurnDelay;
-        solution.iterationCount = 0;
 
-        // Without the first burn, start from zero rather than from the first burn of the warm start
-        if (!includeFirstBurn)
-        {
-            solution.burnDurations[0] = 0.0;
-            solution.normalizedDeltaVelocities.segment<3>(0).setZero();
-        }
+        optimize_(true, {computeBurnStartOffset_(aSolution, 0), meanArgumentOfLatitudePeriod_}, aStopCost, solution);
 
-        solveConvexSubProblem_(includeFirstBurn, solution);
-        finalize_(includeFirstBurn, solution);
+        return solution;
+    }
+
+    // The plan of a solution without its first burn
+    Solution solveWithoutFirstBurn(const Solution& aSolution) const
+    {
+        const FirstBurnWindow firstBurnWindow = {computeBurnStartOffset_(aSolution, 0), 0.0};
+
+        Solution solution = aSolution;
+        solution.normalizedDeltaVelocities.segment<3>(0).setZero();
+        solution.cost = std::numeric_limits<double>::infinity();
+
+        setBurnDuration_(0, 0.0, firstBurnWindow, solution);
+
+        optimize_(false, firstBurnWindow, -std::numeric_limits<double>::infinity(), solution);
 
         return solution;
     }
@@ -438,8 +537,7 @@ class BurnPlanner
         const double semiMajorAxis = referenceMeanCOEVector_[0];
 
         const VectorXd predictedResponse =
-            computeResponseMatrix_(aSolution.firstBurnDelay, true, aSolution.burnDurations) *
-            aSolution.normalizedDeltaVelocities;
+            computeWeightedResponseMatrix_(true, aSolution) * aSolution.normalizedDeltaVelocities;
 
         ROETargeting::Plan plan = {
             anEpoch,
@@ -469,7 +567,9 @@ class BurnPlanner
         {
             plan.predictionInstants.add(anEpoch + Duration::Seconds(sampleOffsets_[sampleIndex]));
             plan.predictedRelativeOrbitalElements.add(
-                (freeMotion_.col(sampleIndex) + predictedResponse.segment<6>(6 * sampleIndex)) * semiMajorAxis
+                (freeMotion_.col(sampleIndex) +
+                 weights_.cwiseInverse().cwiseProduct(predictedResponse.segment<6>(6 * sampleIndex))) *
+                semiMajorAxis
             );
         }
 
@@ -477,11 +577,22 @@ class BurnPlanner
     }
 
    private:
+    using BurnResponse = Eigen::Matrix<double, Eigen::Dynamic, 3>;
+
+    // The first burn starts between start and start + length
+    struct FirstBurnWindow
+    {
+        double start;
+        double length;
+    };
+
     const ROETargeting::Parameters& parameters_;
     const Vector6d referenceMeanCOEVector_;
     const Vector6d relativeOrbitalElements_;
     const double meanArgumentOfLatitude_;
     const J2Quantities j2Quantities_;
+    const double meanArgumentOfLatitudeRate_;
+    const double meanArgumentOfLatitudePeriod_;
     const Index burnCount_;
     const Index sampleCount_;
     const double burnSpacing_;
@@ -489,114 +600,407 @@ class BurnPlanner
     const double maximumDeltaVelocity_;
 
     VectorXd sampleOffsets_;
+    Vector2d eccentricityVector_;
+    Eigen::Matrix2Xd sampleEccentricityVectors_;
+    Eigen::Matrix2Xd sampleRotations_;
     Vector6d weights_;
     MatrixXd freeMotion_;
     VectorXd weightedTarget_;
 
-    double computeBurnStartOffset_(const Solution& aSolution, const Index& aBurnIndex) const
+    // Rotation matrix from its cosine and sine
+    static Eigen::Matrix2d Rotation2D(const Vector2d& aCosineSine)
     {
-        return aSolution.firstBurnDelay + aBurnIndex * burnSpacing_;
+        Eigen::Matrix2d rotation;
+        rotation << aCosineSine[0], -aCosineSine[1], aCosineSine[1], aCosineSine[0];
+
+        return rotation;
     }
 
-    // Response at the samples to the normalized delta-v (delta-v / maximum delta-v) of a burn
-    MatrixXd computeBurnResponse_(const double& aBurnStart, const double& aBurnDuration) const
+    double computeBurnStartOffset_(const Solution& aSolution, const Index& aBurnIndex) const
     {
-        const double meanArgumentOfLatitudeRate = j2Quantities_.aopRate + j2Quantities_.meanAnomalyRate;
-        const double burnMidpoint = aBurnStart + 0.5 * aBurnDuration;
+        return aSolution.burnMidpointOffsets[aBurnIndex] - 0.5 * aSolution.burnDurations[aBurnIndex];
+    }
+
+    // Weighted response at the samples to the normalized delta-v (delta-v / maximum delta-v) of a burn
+    void computeWeightedBurnResponse_(
+        const double& aBurnMidpoint, const double& aBurnDuration, BurnResponse& aBurnResponse
+    ) const
+    {
+        const double burnMeanArgumentOfLatitude = meanArgumentOfLatitude_ + meanArgumentOfLatitudeRate_ * aBurnMidpoint;
+        const double halfBurnArc = 0.5 * meanArgumentOfLatitudeRate_ * aBurnDuration;
 
         const Matrix63d controlInputMatrix = ROETargeting::ComputeControlInputMatrix(
-            referenceMeanCOEVector_[0],
-            meanArgumentOfLatitude_ + meanArgumentOfLatitudeRate * aBurnStart,
-            meanArgumentOfLatitude_ + meanArgumentOfLatitudeRate * (aBurnStart + aBurnDuration)
-        );
+                                                 referenceMeanCOEVector_[0],
+                                                 burnMeanArgumentOfLatitude - halfBurnArc,
+                                                 burnMeanArgumentOfLatitude + halfBurnArc
+                                             ) *
+                                             maximumDeltaVelocity_;
 
-        const Vector6d midpointReferenceMeanCOEVector =
-            PropagateMeanCOEVector(referenceMeanCOEVector_, j2Quantities_, burnMidpoint);
+        // Rotation of the eccentricity vector of the reference from the planning instant to the burn
+        const double rotation = j2Quantities_.aopRate * aBurnMidpoint;
+        const Vector2d burnRotation = {std::cos(rotation), std::sin(rotation)};
+        const Vector2d burnEccentricityVector = Rotation2D(burnRotation) * eccentricityVector_;
 
-        MatrixXd burnResponse = MatrixXd::Zero(6 * sampleCount_, 3);
+        aBurnResponse.setZero(6 * sampleCount_, 3);
 
         for (Index sampleIndex = 0; sampleIndex < sampleCount_; ++sampleIndex)
         {
-            if (sampleOffsets_[sampleIndex] < burnMidpoint)
+            if (sampleOffsets_[sampleIndex] < aBurnMidpoint)
             {
                 continue;
             }
 
-            burnResponse.middleRows<6>(6 * sampleIndex) =
-                ComputeStateTransitionMatrix_(
-                    midpointReferenceMeanCOEVector, sampleOffsets_[sampleIndex] - burnMidpoint
-                ) *
-                controlInputMatrix * maximumDeltaVelocity_;
+            // Rotation from the burn to the sample
+            const Vector2d sampleRotation = Rotation2D(burnRotation).transpose() * sampleRotations_.col(sampleIndex);
+
+            aBurnResponse.middleRows<6>(6 * sampleIndex) = weights_.asDiagonal() *
+                                                           ComputeStateTransitionMatrix_(
+                                                               j2Quantities_,
+                                                               burnEccentricityVector,
+                                                               sampleEccentricityVectors_.col(sampleIndex),
+                                                               sampleRotation[0],
+                                                               sampleRotation[1],
+                                                               sampleOffsets_[sampleIndex] - aBurnMidpoint
+                                                           ) *
+                                                           controlInputMatrix;
         }
+    }
+
+    BurnResponse computeWeightedBurnResponse_(const double& aBurnMidpoint, const double& aBurnDuration) const
+    {
+        BurnResponse burnResponse;
+        computeWeightedBurnResponse_(aBurnMidpoint, aBurnDuration, burnResponse);
 
         return burnResponse;
     }
 
-    // Response at the samples to the normalized delta-v (delta-v / maximum delta-v) of each burn
-    MatrixXd computeResponseMatrix_(
-        const double& aFirstBurnDelay, const bool& includeFirstBurn, const VectorXd& aBurnDurationArray
-    ) const
+    // Weighted response at the samples to the normalized delta-v (delta-v / maximum delta-v) of each burn
+    MatrixXd computeWeightedResponseMatrix_(const bool& includeFirstBurn, const Solution& aSolution) const
     {
         MatrixXd responseMatrix = MatrixXd::Zero(6 * sampleCount_, 3 * burnCount_);
 
         for (Index burnIndex = (includeFirstBurn ? 0 : 1); burnIndex < burnCount_; ++burnIndex)
         {
-            responseMatrix.middleCols<3>(3 * burnIndex) =
-                computeBurnResponse_(aFirstBurnDelay + burnIndex * burnSpacing_, aBurnDurationArray[burnIndex]);
+            responseMatrix.middleCols<3>(3 * burnIndex) = computeWeightedBurnResponse_(
+                aSolution.burnMidpointOffsets[burnIndex], aSolution.burnDurations[burnIndex]
+            );
         }
 
         return responseMatrix;
     }
 
-    MatrixXd computeWeightedResponseMatrix_(
-        const double& aFirstBurnDelay, const bool& includeFirstBurn, const VectorXd& aBurnDurationArray
+    // Window of the middle of a burn: [start, start + length]
+    std::pair<double, double> computeBurnMidpointWindow_(
+        const Index& aBurnIndex, const FirstBurnWindow& aFirstBurnWindow, const Solution& aSolution
     ) const
     {
-        MatrixXd weightedResponseMatrix = computeResponseMatrix_(aFirstBurnDelay, includeFirstBurn, aBurnDurationArray);
-
-        for (Index sampleIndex = 0; sampleIndex < sampleCount_; ++sampleIndex)
+        if (aBurnIndex == 0)
         {
-            weightedResponseMatrix.middleRows<6>(6 * sampleIndex) =
-                weights_.asDiagonal() * weightedResponseMatrix.middleRows<6>(6 * sampleIndex);
+            return {aFirstBurnWindow.start + 0.5 * aSolution.burnDurations[0], aFirstBurnWindow.length};
         }
 
-        return weightedResponseMatrix;
+        return {aSolution.burnMidpointOffsets[aBurnIndex - 1] + burnSpacing_, meanArgumentOfLatitudePeriod_};
     }
 
-    // Solve the convex sub-problem linearized about the current burn durations, and update them
-    void solveConvexSubProblem_(const bool& includeFirstBurn, Solution& aSolution) const
+    // Change the duration of a burn, keeping its middle, or its start when the start is fixed (first burn with an
+    // empty window). The first burn still starts within its window.
+    void setBurnDuration_(
+        const Index& aBurnIndex,
+        const double& aBurnDuration,
+        const FirstBurnWindow& aFirstBurnWindow,
+        Solution& aSolution
+    ) const
     {
-        ++aSolution.iterationCount;
+        if (aBurnIndex == 0)
+        {
+            const double burnStart = std::clamp(
+                aSolution.burnMidpointOffsets[0] - 0.5 * aBurnDuration,
+                aFirstBurnWindow.start,
+                aFirstBurnWindow.start + aFirstBurnWindow.length
+            );
 
-        aSolution.normalizedDeltaVelocities = SolveGroupLasso(
-            computeWeightedResponseMatrix_(aSolution.firstBurnDelay, includeFirstBurn, aSolution.burnDurations),
-            weightedTarget_,
-            parameters_.fuelWeight,
-            aSolution.normalizedDeltaVelocities
-        );
+            aSolution.burnMidpointOffsets[0] = burnStart + 0.5 * aBurnDuration;
+        }
+
+        aSolution.burnDurations[aBurnIndex] = aBurnDuration;
+    }
+
+    // Move the burns following a burn by whole orbits, if needed to keep them within their windows. Returns whether a
+    // burn moved.
+    bool keepFollowingBurnsInWindows_(const Index& aBurnIndex, Solution& aSolution) const
+    {
+        bool burnMoved = false;
+
+        for (Index burnIndex = aBurnIndex + 1; burnIndex < burnCount_; ++burnIndex)
+        {
+            const double windowStart = aSolution.burnMidpointOffsets[burnIndex - 1] + burnSpacing_;
+            const double midpoint = aSolution.burnMidpointOffsets[burnIndex];
+
+            if ((midpoint >= windowStart) && (midpoint < (windowStart + meanArgumentOfLatitudePeriod_)))
+            {
+                continue;
+            }
+
+            aSolution.burnMidpointOffsets[burnIndex] =
+                windowStart + PositiveRemainder(midpoint - windowStart, meanArgumentOfLatitudePeriod_);
+
+            burnMoved = true;
+        }
+
+        return burnMoved;
+    }
+
+    // Alternate sweeps over the burn arguments of latitude with joint delta-v optimizations, keeping the best solution
+    void optimize_(
+        const bool& includeFirstBurn,
+        const FirstBurnWindow& aFirstBurnWindow,
+        const double& aStopCost,
+        Solution& aSolution
+    ) const
+    {
+        static const Size maximumSweepCount = 4;
+
+        Solution bestSolution = aSolution;
+
+        for (Size sweepIndex = 0; sweepIndex < maximumSweepCount; ++sweepIndex)
+        {
+            const bool burnsMoved = sweepBurns_(includeFirstBurn, aFirstBurnWindow, aSolution);
+
+            // Without moved burns, the joint optimization would return the current solution
+            if (!burnsMoved && std::isfinite(bestSolution.cost))
+            {
+                break;
+            }
+
+            optimizeDeltaVelocities_(includeFirstBurn, aFirstBurnWindow, aSolution);
+
+            Solution finalizedSolution = aSolution;
+            finalize_(includeFirstBurn, aFirstBurnWindow, finalizedSolution);
+
+            if (finalizedSolution.cost < bestSolution.cost)
+            {
+                bestSolution = finalizedSolution;
+            }
+
+            if (!burnsMoved || (bestSolution.cost < aStopCost))
+            {
+                break;
+            }
+        }
+
+        bestSolution.iterationCount = aSolution.iterationCount;
+
+        aSolution = bestSolution;
+    }
+
+    // Block coordinate descent over the burns: in turn, the middle and the delta-v of each burn are optimized, the
+    // other burns being fixed. The middle is searched among candidates evenly spread over the window of the burn, then
+    // refined by golden section search, the delta-v being solved exactly for each candidate. The burn durations, which
+    // set the burn arcs, are frozen. Returns whether a burn moved.
+    bool sweepBurns_(const bool& includeFirstBurn, const FirstBurnWindow& aFirstBurnWindow, Solution& aSolution) const
+    {
+        static const double midpointTolerance = 1.0;  // [s]
+        static const Size refinementIterationCount = 12;
+        static const double goldenRatio = 0.5 * (std::sqrt(5.0) - 1.0);
+
+        bool burnsMoved = false;
+
+        VectorXd residual =
+            computeWeightedResponseMatrix_(includeFirstBurn, aSolution) * aSolution.normalizedDeltaVelocities -
+            weightedTarget_;
+
+        for (Index burnIndex = (includeFirstBurn ? 0 : 1); burnIndex < burnCount_; ++burnIndex)
+        {
+            const double burnDuration = aSolution.burnDurations[burnIndex];
+            const double currentMidpoint = aSolution.burnMidpointOffsets[burnIndex];
+
+            const std::pair<double, double> window = computeBurnMidpointWindow_(burnIndex, aFirstBurnWindow, aSolution);
+            const double windowStart = window.first;
+            const double windowLength = window.second;
+
+            const VectorXd otherResidual = residual - computeWeightedBurnResponse_(currentMidpoint, burnDuration) *
+                                                          aSolution.normalizedDeltaVelocities.segment<3>(3 * burnIndex);
+
+            double bestMidpoint = currentMidpoint;
+            double bestCost = std::numeric_limits<double>::infinity();
+            Vector3d bestNormalizedDeltaVelocity = Vector3d::Zero();
+
+            BurnResponse burnResponse(6 * sampleCount_, 3);
+
+            // Cost of the burn at a candidate middle with its best delta-v, up to a constant
+            const auto evaluate = [&](const double& aMidpoint) -> double
+            {
+                computeWeightedBurnResponse_(aMidpoint, burnDuration, burnResponse);
+
+                const Matrix3d hessian = burnResponse.transpose() * burnResponse;
+                const Vector3d gradient = burnResponse.transpose() * otherResidual;
+
+                const Vector3d normalizedDeltaVelocity =
+                    SolveSingleGroupLasso(hessian, gradient, parameters_.fuelWeight);
+
+                const double cost = normalizedDeltaVelocity.dot(hessian * normalizedDeltaVelocity) +
+                                    2.0 * gradient.dot(normalizedDeltaVelocity) +
+                                    parameters_.fuelWeight * normalizedDeltaVelocity.norm();
+
+                if (cost < bestCost)
+                {
+                    bestCost = cost;
+                    bestMidpoint = aMidpoint;
+                    bestNormalizedDeltaVelocity = normalizedDeltaVelocity;
+                }
+
+                return cost;
+            };
+
+            evaluate(currentMidpoint);
+
+            if (windowLength > 0.0)
+            {
+                const double candidateSpacing = windowLength / static_cast<double>(parameters_.burnStartCandidateCount);
+
+                for (Size candidateIndex = 0; candidateIndex < parameters_.burnStartCandidateCount; ++candidateIndex)
+                {
+                    evaluate(windowStart + candidateIndex * candidateSpacing);
+                }
+
+                // Refine around the best candidate
+                double lower = std::max(windowStart, bestMidpoint - candidateSpacing);
+                double upper = std::min(windowStart + windowLength, bestMidpoint + candidateSpacing);
+
+                double left = upper - goldenRatio * (upper - lower);
+                double right = lower + goldenRatio * (upper - lower);
+                double leftCost = evaluate(left);
+                double rightCost = evaluate(right);
+
+                for (Size iteration = 0; iteration < refinementIterationCount; ++iteration)
+                {
+                    if (leftCost < rightCost)
+                    {
+                        upper = right;
+                        right = left;
+                        rightCost = leftCost;
+                        left = upper - goldenRatio * (upper - lower);
+                        leftCost = evaluate(left);
+                    }
+                    else
+                    {
+                        lower = left;
+                        left = right;
+                        leftCost = rightCost;
+                        right = lower + goldenRatio * (upper - lower);
+                        rightCost = evaluate(right);
+                    }
+                }
+            }
+
+            if (std::abs(bestMidpoint - currentMidpoint) > midpointTolerance)
+            {
+                burnsMoved = true;
+            }
+
+            aSolution.burnMidpointOffsets[burnIndex] = bestMidpoint;
+            aSolution.normalizedDeltaVelocities.segment<3>(3 * burnIndex) = bestNormalizedDeltaVelocity;
+
+            if (keepFollowingBurnsInWindows_(burnIndex, aSolution))
+            {
+                residual =
+                    computeWeightedResponseMatrix_(includeFirstBurn, aSolution) * aSolution.normalizedDeltaVelocities -
+                    weightedTarget_;
+            }
+            else
+            {
+                residual = otherResidual +
+                           computeWeightedBurnResponse_(bestMidpoint, burnDuration) * bestNormalizedDeltaVelocity;
+            }
+        }
+
+        return burnsMoved;
+    }
+
+    // Sequential convex programming over the delta-v of all the burns, at fixed burn middles: re-linearize the burn
+    // arcs about the previous burn durations. The plan is recomputed at every evaluation, so the iterations are damped:
+    // undamped, they can cycle, and the burn durations of the last iteration then jump between nearby states.
+    void optimizeDeltaVelocities_(
+        const bool& includeFirstBurn, const FirstBurnWindow& aFirstBurnWindow, Solution& aSolution
+    ) const
+    {
+        static const Size maximumIterationCount = 20;
+        static const Size undampedIterationCount = 2;
+        static const double burnDurationTolerance = 1.0;  // [s]
+
+        for (Size iteration = 0; iteration < maximumIterationCount; ++iteration)
+        {
+            const VectorXd previousBurnDurations = aSolution.burnDurations;
+
+            ++aSolution.iterationCount;
+
+            aSolution.normalizedDeltaVelocities = SolveGroupLasso(
+                computeWeightedResponseMatrix_(includeFirstBurn, aSolution),
+                weightedTarget_,
+                parameters_.fuelWeight,
+                aSolution.normalizedDeltaVelocities
+            );
+
+            const VectorXd burnDurations = computeBurnDurations_(aSolution);
+
+            if ((burnDurations - previousBurnDurations).cwiseAbs().maxCoeff() < burnDurationTolerance)
+            {
+                break;
+            }
+
+            const bool isDamped = (iteration + 1) >= undampedIterationCount;
+
+            for (Index burnIndex = 0; burnIndex < burnCount_; ++burnIndex)
+            {
+                setBurnDuration_(
+                    burnIndex,
+                    isDamped ? (0.5 * (burnDurations[burnIndex] + previousBurnDurations[burnIndex]))
+                             : burnDurations[burnIndex],
+                    aFirstBurnWindow,
+                    aSolution
+                );
+            }
+        }
+
+        // The burn durations follow the delta-v of the last sub-problem
+        const VectorXd burnDurations = computeBurnDurations_(aSolution);
 
         for (Index burnIndex = 0; burnIndex < burnCount_; ++burnIndex)
         {
-            aSolution.burnDurations[burnIndex] =
+            setBurnDuration_(burnIndex, burnDurations[burnIndex], aFirstBurnWindow, aSolution);
+        }
+
+        keepFollowingBurnsInWindows_(0, aSolution);
+    }
+
+    VectorXd computeBurnDurations_(const Solution& aSolution) const
+    {
+        VectorXd burnDurations(burnCount_);
+
+        for (Index burnIndex = 0; burnIndex < burnCount_; ++burnIndex)
+        {
+            burnDurations[burnIndex] =
                 aSolution.normalizedDeltaVelocities.segment<3>(3 * burnIndex).norm() * maximumBurnDuration_;
         }
+
+        return burnDurations;
     }
 
     // Drop the burns that are too short to be executed, and evaluate the cost
-    void finalize_(const bool& includeFirstBurn, Solution& aSolution) const
+    void finalize_(const bool& includeFirstBurn, const FirstBurnWindow& aFirstBurnWindow, Solution& aSolution) const
     {
         for (Index burnIndex = 0; burnIndex < burnCount_; ++burnIndex)
         {
             if (aSolution.burnDurations[burnIndex] < parameters_.minimumBurnDuration.inSeconds())
             {
-                aSolution.burnDurations[burnIndex] = 0.0;
                 aSolution.normalizedDeltaVelocities.segment<3>(3 * burnIndex).setZero();
+
+                setBurnDuration_(burnIndex, 0.0, aFirstBurnWindow, aSolution);
             }
         }
 
         const VectorXd residual =
-            computeWeightedResponseMatrix_(aSolution.firstBurnDelay, includeFirstBurn, aSolution.burnDurations) *
-                aSolution.normalizedDeltaVelocities -
+            computeWeightedResponseMatrix_(includeFirstBurn, aSolution) * aSolution.normalizedDeltaVelocities -
             weightedTarget_;
 
         double deltaVelocityTerm = 0.0;
@@ -609,17 +1013,15 @@ class BurnPlanner
     }
 };
 
-// Effectivity of the first burn of a solution starting now: the fraction of the best improvement over not burning,
-// among the first burn start times spread over one orbit, that burning now achieves. When a threshold is provided,
-// the comparison stops as soon as the effectivity is known to be below it (and an effectivity of 0 is returned).
+// Effectivity of the first burn of a solution starting now: the fraction of the improvement over not burning of the
+// best plan, whose first burn starts at its best start time within one orbit, that burning now achieves. When a
+// threshold is provided, the optimization of the best plan stops as soon as the effectivity is known to be below it
+// (and an effectivity of 0 is returned).
 double ComputeEffectivity(
-    const BurnPlanner& aBurnPlanner,
-    const BurnPlanner::Solution& aSolution,
-    const Size& aBurnStartCandidateCount,
-    const double& aThreshold = 0.0
+    const BurnPlanner& aBurnPlanner, const BurnPlanner::Solution& aSolution, const double& aThreshold = 0.0
 )
 {
-    const double noBurnCost = aBurnPlanner.solveOnce(0.0, false, aSolution).cost;
+    const double noBurnCost = aBurnPlanner.solveWithoutFirstBurn(aSolution).cost;
     const double improvement = noBurnCost - aSolution.cost;
 
     if (!(improvement > 1e-12 * std::max(1.0, noBurnCost)))
@@ -627,23 +1029,15 @@ double ComputeEffectivity(
         return 0.0;
     }
 
-    // Burning now is below the threshold as soon as another start time reaches this cost
+    // Burning now is below the threshold as soon as a plan reaches this cost
     const double costBelowThreshold =
         (aThreshold > 0.0) ? (noBurnCost - improvement / aThreshold) : -std::numeric_limits<double>::infinity();
 
-    double bestCost = aSolution.cost;
+    const double bestCost = aBurnPlanner.solveFirstBurnStart(aSolution, costBelowThreshold).cost;
 
-    const double candidateSpacing =
-        aBurnPlanner.getMeanArgumentOfLatitudePeriod() / static_cast<double>(aBurnStartCandidateCount);
-
-    for (Size candidateIndex = 1; candidateIndex < aBurnStartCandidateCount; ++candidateIndex)
+    if (bestCost < costBelowThreshold)
     {
-        bestCost = std::min(bestCost, aBurnPlanner.solveOnce(candidateIndex * candidateSpacing, true, aSolution).cost);
-
-        if (bestCost < costBelowThreshold)
-        {
-            return 0.0;
-        }
+        return 0.0;
     }
 
     return std::clamp(improvement / (noBurnCost - bestCost), 0.0, 1.0);
@@ -814,7 +1208,7 @@ Vector3d ROETargeting::calculateThrustAccelerationAt(
         targetRelativeOrbitalElements_,
     };
 
-    const BurnPlanner::Solution solution = burnPlanner.solve(0.0, true);
+    const BurnPlanner::Solution solution = burnPlanner.solve(0.0);
 
     // No burn worth executing now: no need to compare with the rest of the orbit
     if (solution.burnDurations[0] <= 0.0)
@@ -822,9 +1216,7 @@ Vector3d ROETargeting::calculateThrustAccelerationAt(
         return Vector3d::Zero();
     }
 
-    if (ComputeEffectivity(
-            burnPlanner, solution, parameters_.burnStartCandidateCount, parameters_.effectivityThreshold
-        ) < parameters_.effectivityThreshold)
+    if (ComputeEffectivity(burnPlanner, solution, parameters_.effectivityThreshold) < parameters_.effectivityThreshold)
     {
         return Vector3d::Zero();
     }
@@ -889,7 +1281,27 @@ ROETargeting::Plan ROETargeting::computePlan(const State& aState, const Duration
         targetRelativeOrbitalElements_,
     };
 
-    return burnPlanner.toPlan(aState.accessInstant(), burnPlanner.solve(aFirstBurnDelay.inSeconds(), true));
+    return burnPlanner.toPlan(aState.accessInstant(), burnPlanner.solve(aFirstBurnDelay.inSeconds()));
+}
+
+ROETargeting::Plan ROETargeting::computeBestPlan(const State& aState) const
+{
+    const Vector6d meanCOEVector = this->computeMeanCOEVector_(aState);
+    const Vector6d referenceMeanCOEVector =
+        this->computeMeanCOEVector_(referenceTrajectory_.getStateAt(aState.accessInstant()));
+
+    const BurnPlanner burnPlanner = {
+        parameters_,
+        referenceMeanCOEVector,
+        ComputeRelativeOrbitalElements_(meanCOEVector, referenceMeanCOEVector),
+        meanCOEVector[4] + meanCOEVector[5],
+        targetRelativeOrbitalElements_,
+    };
+
+    return burnPlanner.toPlan(
+        aState.accessInstant(),
+        burnPlanner.solveFirstBurnStart(burnPlanner.solve(0.0), -std::numeric_limits<double>::infinity())
+    );
 }
 
 Real ROETargeting::computeEffectivity(const State& aState) const
@@ -906,7 +1318,7 @@ Real ROETargeting::computeEffectivity(const State& aState) const
         targetRelativeOrbitalElements_,
     };
 
-    return ComputeEffectivity(burnPlanner, burnPlanner.solve(0.0, true), parameters_.burnStartCandidateCount);
+    return ComputeEffectivity(burnPlanner, burnPlanner.solve(0.0));
 }
 
 Vector6d ROETargeting::ComputeRelativeOrbitalElements(const COE& aCOE, const COE& aReferenceCOE)
