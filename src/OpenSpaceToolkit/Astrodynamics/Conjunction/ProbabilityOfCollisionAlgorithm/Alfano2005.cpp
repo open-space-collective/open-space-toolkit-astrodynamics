@@ -26,14 +26,18 @@ using ostk::astrodynamics::uncertainty::Covariance;
 
 const Shared<const CoordinateSubset> Alfano2005::CartesianPositionSubsetSPtr = CartesianPosition::Default();
 
-// As per the original paper, the lower limit is set to 10 and the upper limit is set to 50;
-// "sufficient for combined object radii up to 100 meters, miss distances up to 100 kilometers, and covariance aspect
-// ratios up to 500".
+// As per the original paper, the lower limit is set to 10.
+//
+// The original paper sets the upper limit to 50, as "sufficient for combined object radii up to 100 meters, miss
+// distances up to 100 kilometers, and covariance aspect ratios up to 500". However, the upper limit is set to 10,000
+// here, in order not to lose precision when the ratio of the standard deviation (along the minor principal axis) to the
+// combined hard-body radius becomes small (e.g. when scaling down the covariances while locating the maximum
+// probability of collision): Simpson's rule then needs more interval pairs to resolve the narrow Gaussian density.
 const Size Alfano2005::LowerIntervalPairCount = 10;
-const Size Alfano2005::UpperIntervalPairCount = 50;
+const Size Alfano2005::UpperIntervalPairCount = 10000;
 
 Alfano2005::Alfano2005(const Derived& aRelativeSpeedThreshold, const Shared<const Frame>& aFrameSPtr)
-    : ProbabilityOfCollisionAlgorithm("Alfano 2005"),
+    : ProbabilityOfCollisionAlgorithm("Alfano 2005", false),
       relativeSpeedThreshold_(aRelativeSpeedThreshold),
       frameSPtr_(aFrameSPtr)
 {
@@ -98,9 +102,13 @@ Real Alfano2005::computeProbabilityOfCollision(
     // Encounter frame (centered on Object 1, z-axis along the relative velocity, x-y plane is the encounter plane)
     const Shared<const Frame> encounterFrameSPtr = aCloseApproach.computeEncounterFrame(frameSPtr_);
 
-    // Miss distance and combined position uncertainty along the principal axes of the combined covariance
+    // Miss distance and combined position uncertainty along the principal axes of the combined covariance, with the
+    // x-axis along the minor principal axis and the y-axis along the major principal axis (i.e. sigma_x is along the
+    // minor principal axis and sigma_y is along the major principal axis), as per the original paper: "The minor and
+    // major axes of the projected covariance are equivalent to the standard deviations sigma_x and sigma_y
+    // respectively"
     const CloseApproach::RotatedEncounterFrameParameters rotatedEncounterFrameParameters =
-        aCloseApproach.computeRotatedEncounterFrameParameters(encounterFrameSPtr);
+        aCloseApproach.computeRotatedEncounterFrameParameters(encounterFrameSPtr, false);
 
     // Compute the combined hard-body radius (enclosing radius of the combined cross section in the rotated encounter
     // plane)
