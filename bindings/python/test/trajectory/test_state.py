@@ -644,6 +644,32 @@ class TestState:
 
         assert state.has_covariance() is False
 
+    def test_compute_mahalanobis_distance_analysis(
+        self,
+        state: State,
+        instant: Instant,
+        frame: Frame,
+    ):
+        state_with_covariance = state.with_covariance(
+            Covariance(
+                instant,
+                np.eye(6),
+                frame,
+                [CartesianPosition.default(), CartesianVelocity.default()],
+            )
+        )
+
+        analysis = state_with_covariance.compute_mahalanobis_distance_analysis(state)
+
+        assert isinstance(analysis, Covariance.MahalanobisDistanceAnalysis)
+
+        analysis = state_with_covariance.compute_mahalanobis_distance_analysis(
+            state,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        assert isinstance(analysis, Covariance.MahalanobisDistanceAnalysis)
+
     def test_in_frame(
         self,
         state: State,

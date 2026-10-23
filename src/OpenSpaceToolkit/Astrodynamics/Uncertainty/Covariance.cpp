@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
 
 // Must come after the OSTk Mathematics headers, which configure the Eigen MatrixBase plugin
+#include <boost/math/distributions/chi_squared.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
@@ -15,6 +17,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
+#include <Eigen/Cholesky>
 #include <Eigen/Eigenvalues>
 
 namespace ostk
@@ -28,7 +31,6 @@ using ostk::core::type::Index;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Matrix3d;
-using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Transform;
 
@@ -307,6 +309,41 @@ Covariance Covariance::scale(const Real& aScalar) const
         this->instant_,
         this->coordinates_ * aScalar,
         this->frameSPtr_,
+        this->getCoordinateSubsets(),
+    };
+}
+
+Covariance::MahalanobisDistanceAnalysis Covariance::computeMahalanobisDistanceAnalysis(const VectorXd& aResiduals) const
+{
+    const Size size = this->getSize();
+
+    if ((Size)aResiduals.size() != size)
+    {
+        throw ostk::core::error::runtime::Wrong("Residuals size");
+    }
+
+    if (size == 0)
+    {
+        throw ostk::core::error::runtime::Wrong("Covariance size");
+    }
+
+    const Eigen::LLT<MatrixXd> llt(this->coordinates_);
+
+    if (llt.info() != Eigen::Success)
+    {
+        throw ostk::core::error::runtime::Wrong("Matrix not positive definite");
+    }
+
+    // With P = L Lᵀ, rᵀ P⁻¹ r = |L⁻¹ r|², which is guaranteed to be non-negative
+    const double mahalanobisDistanceSquared = llt.matrixL().solve(aResiduals).squaredNorm();
+
+    const boost::math::chi_squared_distribution<double> chiSquaredDistribution(static_cast<double>(size));
+    const double pValue = boost::math::cdf(boost::math::complement(chiSquaredDistribution, mahalanobisDistanceSquared));
+
+    return {
+        mahalanobisDistanceSquared,
+        pValue,
+        size,
         this->getCoordinateSubsets(),
     };
 }

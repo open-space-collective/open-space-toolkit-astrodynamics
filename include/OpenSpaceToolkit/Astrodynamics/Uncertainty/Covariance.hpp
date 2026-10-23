@@ -33,6 +33,7 @@ using ostk::core::type::Size;
 
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
@@ -48,6 +49,17 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class Covariance
 {
    public:
+    /// @brief Result of a Mahalanobis distance analysis.
+    ///
+    /// @ref https://en.wikipedia.org/wiki/Mahalanobis_distance
+    struct MahalanobisDistanceAnalysis
+    {
+        Real mahalanobisDistanceSquared;  ///< The squared Mahalanobis distance of the residuals
+        Real pValue;              ///< The probability of a point in the distribution lying at least that far out
+        Size numberOfDimensions;  ///< The number of dimensions of the residual vector
+        Array<Shared<const CoordinateSubset>> coordinateSubsets;  ///< The coordinate subsets of the analysis
+    };
+
     /// @brief Constructor. This constructor makes a new Coordinates Broker under the hood for every
     /// Covariance.
     ///
@@ -168,6 +180,20 @@ class Covariance
     /// @param aScalar The strictly positive scalar to multiply the covariance coordinates by
     /// @return A new Covariance with scaled coordinates
     Covariance scale(const Real& aScalar) const;
+
+    /// @brief Compute the Mahalanobis distance analysis of residuals with respect to the Covariance.
+    ///
+    /// @details The squared Mahalanobis distance is d² = rᵀ P⁻¹ r, where r are the residuals and P the
+    /// Covariance coordinates. The p-value is the survival function of the chi-squared distribution with as
+    /// many degrees of freedom as the Covariance size, evaluated at d².
+    ///
+    /// @ref https://en.wikipedia.org/wiki/Mahalanobis_distance
+    ///
+    /// @param aResiduals The residuals, expressed in the Covariance frame and ordered as its coordinate subsets
+    /// @return The Mahalanobis distance analysis
+    /// @throw ostk::core::error::runtime::Wrong If the residuals size does not match the Covariance size, or if the
+    /// Covariance is empty or not positive definite
+    MahalanobisDistanceAnalysis computeMahalanobisDistanceAnalysis(const VectorXd& aResiduals) const;
 
     /// @brief Print the Covariance to an output stream.
     ///

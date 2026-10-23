@@ -15,6 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
 
     using ostk::mathematics::object::MatrixXd;
     using ostk::mathematics::object::Vector3d;
+    using ostk::mathematics::object::VectorXd;
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
@@ -22,14 +23,67 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
     using ostk::astrodynamics::uncertainty::Covariance;
 
-    class_<Covariance>(
+    class_<Covariance> covariance(
         aModule,
         "Covariance",
         R"doc(
             Covariance matrix at a given instant in time.
 
         )doc"
+    );
+
+    class_<Covariance::MahalanobisDistanceAnalysis>(
+        covariance,
+        "MahalanobisDistanceAnalysis",
+        R"doc(
+            Result of a Mahalanobis distance analysis.
+
+        )doc"
     )
+        .def_readonly(
+            "mahalanobis_distance_squared",
+            &Covariance::MahalanobisDistanceAnalysis::mahalanobisDistanceSquared,
+            R"doc(
+                The squared Mahalanobis distance of the residuals.
+
+                Type:
+                    float
+            )doc"
+        )
+        .def_readonly(
+            "p_value",
+            &Covariance::MahalanobisDistanceAnalysis::pValue,
+            R"doc(
+                The probability of a point in the distribution lying at least that far out.
+
+                Type:
+                    float
+            )doc"
+        )
+        .def_readonly(
+            "number_of_dimensions",
+            &Covariance::MahalanobisDistanceAnalysis::numberOfDimensions,
+            R"doc(
+                The number of dimensions of the residual vector.
+
+                Type:
+                    int
+            )doc"
+        )
+        .def_readonly(
+            "coordinate_subsets",
+            &Covariance::MahalanobisDistanceAnalysis::coordinateSubsets,
+            R"doc(
+                The coordinate subsets of the analysis.
+
+                Type:
+                    list[CoordinateSubset]
+            )doc"
+        )
+
+        ;
+
+    covariance
 
         .def(
             init<
@@ -212,6 +266,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
 
                 Returns:
                     Covariance: The scaled Covariance.
+            )doc"
+        )
+
+        .def(
+            "compute_mahalanobis_distance_analysis",
+            &Covariance::computeMahalanobisDistanceAnalysis,
+            arg("residuals"),
+            R"doc(
+                Compute the Mahalanobis distance analysis of residuals with respect to the Covariance.
+
+                The p-value is the survival function of the chi-squared distribution with as many degrees of freedom
+                as the Covariance size, evaluated at the squared Mahalanobis distance.
+
+                Args:
+                    residuals (np.ndarray): The residuals, expressed in the Covariance frame and ordered as its coordinate subsets.
+
+                Returns:
+                    Covariance.MahalanobisDistanceAnalysis: The Mahalanobis distance analysis.
+
+                Raises:
+                    RuntimeError: If the residuals size does not match the Covariance size, or if the Covariance is empty or not positive definite.
             )doc"
         )
 

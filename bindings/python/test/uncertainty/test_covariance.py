@@ -163,6 +163,18 @@ class TestCovariance:
 
         assert np.allclose(scaled_covariance.get_coordinates(), 2.0 * np.eye(6))
 
+    def test_compute_mahalanobis_distance_analysis(
+        self,
+        covariance: Covariance,
+    ):
+        analysis = covariance.compute_mahalanobis_distance_analysis(np.ones(6))
+
+        assert isinstance(analysis, Covariance.MahalanobisDistanceAnalysis)
+        assert analysis.mahalanobis_distance_squared is not None
+        assert analysis.p_value is not None
+        assert analysis.number_of_dimensions is not None
+        assert analysis.coordinate_subsets is not None
+
     def test_from_sigmas(
         self,
         instant: Instant,

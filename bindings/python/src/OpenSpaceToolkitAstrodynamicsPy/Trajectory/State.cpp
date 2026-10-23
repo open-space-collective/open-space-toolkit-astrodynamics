@@ -273,6 +273,53 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("covariance")
         )
         .def(
+            "compute_mahalanobis_distance_analysis",
+            [](const State& aState, const State& anotherState)
+            {
+                return aState.computeMahalanobisDistanceAnalysis(anotherState);
+            },
+            R"doc(
+                Compute the Mahalanobis distance analysis of another state's position with respect to this state's
+                Covariance.
+
+                Both states are expressed in the Covariance frame and reduced to their cartesian position. The
+                residuals (other - this) are then analyzed against the Covariance reduced to the cartesian position.
+
+                Args:
+                    state (State): The state to analyze.
+
+                Returns:
+                    Covariance.MahalanobisDistanceAnalysis: The Mahalanobis distance analysis.
+
+                Raises:
+                    RuntimeError: If this state has no Covariance.
+            )doc",
+            arg("state")
+        )
+        .def(
+            "compute_mahalanobis_distance_analysis",
+            &State::computeMahalanobisDistanceAnalysis,
+            R"doc(
+                Compute the Mahalanobis distance analysis of another state with respect to this state's Covariance.
+
+                Both states are expressed in the Covariance frame and reduced to the given coordinate subsets, which
+                must be present in both states. The residuals (other - this) are then analyzed against the Covariance
+                reduced to the same coordinate subsets.
+
+                Args:
+                    state (State): The state to analyze.
+                    coordinate_subsets (list[CoordinateSubset]): The coordinate subsets to compute the analysis for.
+
+                Returns:
+                    Covariance.MahalanobisDistanceAnalysis: The Mahalanobis distance analysis.
+
+                Raises:
+                    RuntimeError: If this state has no Covariance or the coordinate subsets are empty.
+            )doc",
+            arg("state"),
+            arg("coordinate_subsets")
+        )
+        .def(
             "extract_coordinate",
             &State::extractCoordinate,
             R"doc(
