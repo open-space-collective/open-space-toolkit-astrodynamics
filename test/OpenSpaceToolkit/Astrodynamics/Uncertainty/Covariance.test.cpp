@@ -22,6 +22,7 @@ using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
 using ostk::mathematics::object::Matrix3d;
 using ostk::mathematics::object::MatrixXd;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Transform;
@@ -764,6 +765,142 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Scale)
             },
             ostk::core::error::runtime::Wrong
         );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, ComputeMahalanobisDistanceAnalysis)
+{
+    {
+        EXPECT_THROW(
+            try {
+                defaultCovariance_.computeMahalanobisDistanceAnalysis(VectorXd::Zero(3));
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Residuals size"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        const Covariance emptyCovariance = {defaultInstant_, MatrixXd(0, 0), defaultFrameSPtr_, {}};
+
+        EXPECT_THROW(
+            try {
+                emptyCovariance.computeMahalanobisDistanceAnalysis(VectorXd(0));
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Covariance size"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        const Covariance singularCovariance = {
+            defaultInstant_, MatrixXd::Zero(3, 3), defaultFrameSPtr_, {CartesianPosition::Default()}
+        };
+
+        EXPECT_THROW(
+            try {
+                singularCovariance.computeMahalanobisDistanceAnalysis(VectorXd::Zero(3));
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("not positive definite"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // One dimension: residuals of 1, 2 and 3 sigmas must match the 68-95-99.7 rule
+    {
+        const Shared<const CoordinateSubset> coordinateSubsetSPtr =
+            std::make_shared<CoordinateSubset>("1D_COORDINATE_SUBSET", 1);
+
+        const Real sigma = 2.0;
+
+        const Covariance covariance = {
+            defaultInstant_, MatrixXd::Constant(1, 1, sigma * sigma), defaultFrameSPtr_, {coordinateSubsetSPtr}
+        };
+
+        const Array<std::tuple<Real, Real, Real>> testCases = {
+            {1.0 * sigma, 1.0, 1.0 - 0.6827},
+            {2.0 * sigma, 4.0, 1.0 - 0.9545},
+            {3.0 * sigma, 9.0, 1.0 - 0.9973},
+        };
+
+        for (const auto& [residual, expectedMahalanobisDistanceSquared, expectedPValue] : testCases)
+        {
+            const Covariance::MahalanobisDistanceAnalysis analysis =
+                covariance.computeMahalanobisDistanceAnalysis(VectorXd::Constant(1, residual));
+
+            EXPECT_NEAR(expectedMahalanobisDistanceSquared, analysis.mahalanobisDistanceSquared, 1e-12);
+            EXPECT_NEAR(expectedPValue, analysis.pValue, 1e-4);
+            EXPECT_EQ(1, analysis.numberOfDimensions);
+            EXPECT_EQ(Array<Shared<const CoordinateSubset>>({coordinateSubsetSPtr}), analysis.coordinateSubsets);
+        }
+    }
+
+    // Two dimensions: residuals spread equally over both coordinates, with Mahalanobis distances of 1, 2 and 3
+    {
+        const Shared<const CoordinateSubset> coordinateSubsetSPtr =
+            std::make_shared<CoordinateSubset>("2D_COORDINATE_SUBSET", 2);
+
+        const Real sigma = 2.0;
+
+        const Covariance covariance = {
+            defaultInstant_, sigma * sigma * MatrixXd::Identity(2, 2), defaultFrameSPtr_, {coordinateSubsetSPtr}
+        };
+
+        const Array<std::tuple<Real, Real, Real>> testCases = {
+            {1.0, 1.0, 1.0 - 0.3935},
+            {2.0, 4.0, 1.0 - 0.8647},
+            {3.0, 9.0, 1.0 - 0.9889},
+        };
+
+        for (const auto& [mahalanobisDistance, expectedMahalanobisDistanceSquared, expectedPValue] : testCases)
+        {
+            const VectorXd residuals = VectorXd::Constant(2, mahalanobisDistance * sigma / std::sqrt(2.0));
+
+            const Covariance::MahalanobisDistanceAnalysis analysis =
+                covariance.computeMahalanobisDistanceAnalysis(residuals);
+
+            EXPECT_NEAR(expectedMahalanobisDistanceSquared, analysis.mahalanobisDistanceSquared, 1e-12);
+            EXPECT_NEAR(expectedPValue, analysis.pValue, 1e-4);
+            EXPECT_EQ(2, analysis.numberOfDimensions);
+            EXPECT_EQ(Array<Shared<const CoordinateSubset>>({coordinateSubsetSPtr}), analysis.coordinateSubsets);
+        }
+    }
+
+    // Three dimensions: residuals spread equally over all coordinates, with Mahalanobis distances of 1, 2 and 3
+    {
+        const Shared<const CoordinateSubset> coordinateSubsetSPtr =
+            std::make_shared<CoordinateSubset>("3D_COORDINATE_SUBSET", 3);
+
+        const Real sigma = 2.0;
+
+        const Covariance covariance = {
+            defaultInstant_, sigma * sigma * MatrixXd::Identity(3, 3), defaultFrameSPtr_, {coordinateSubsetSPtr}
+        };
+
+        const Array<std::tuple<Real, Real, Real>> testCases = {
+            {1.0, 1.0, 1.0 - 0.1987},
+            {2.0, 4.0, 1.0 - 0.7385},
+            {3.0, 9.0, 1.0 - 0.9707},
+        };
+
+        for (const auto& [mahalanobisDistance, expectedMahalanobisDistanceSquared, expectedPValue] : testCases)
+        {
+            const VectorXd residuals = VectorXd::Constant(3, mahalanobisDistance * sigma / std::sqrt(3.0));
+
+            const Covariance::MahalanobisDistanceAnalysis analysis =
+                covariance.computeMahalanobisDistanceAnalysis(residuals);
+
+            EXPECT_NEAR(expectedMahalanobisDistanceSquared, analysis.mahalanobisDistanceSquared, 1e-12);
+            EXPECT_NEAR(expectedPValue, analysis.pValue, 1e-4);
+            EXPECT_EQ(3, analysis.numberOfDimensions);
+            EXPECT_EQ(Array<Shared<const CoordinateSubset>>({coordinateSubsetSPtr}), analysis.coordinateSubsets);
+        }
     }
 }
 
