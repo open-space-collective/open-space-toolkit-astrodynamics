@@ -4,6 +4,7 @@
 
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AngularVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/AttitudeQuaternion.hpp>
@@ -30,6 +31,7 @@ using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 
+using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -1238,6 +1240,134 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Covariance)
         );
 
         EXPECT_FALSE(state.hasCovariance());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ComputeMahalanobisDistanceAnalysis)
+{
+    const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+    const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+
+    const State state = {instant, position, velocity};
+
+    {
+        EXPECT_THROW(
+            try {
+                state.computeMahalanobisDistanceAnalysis(state);
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Covariance"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        const State stateWithCovariance =
+            state.withCovariance(Covariance::FromPositionSigmas(instant, {1.0, 1.0, 1.0}, Frame::GCRF()));
+
+        EXPECT_THROW(
+            try {
+                stateWithCovariance.computeMahalanobisDistanceAnalysis(state, {});
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_NE(e.getMessage().find("Coordinate Subsets"), std::string::npos);
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    // Scenario: a velocity / position Covariance in a TNW frame
+    const State firstState = {
+        instant,
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({0.0, 8.0e3, 0.0}, Frame::GCRF()),
+    };
+
+    const Shared<const Frame> tnwFrameSPtr = LocalOrbitalFrameFactory::TNW(Frame::GCRF()).generateFrame(firstState);
+
+    MatrixXd velocityPositionCovarianceMatrix(6, 6);
+    velocityPositionCovarianceMatrix << 1.0, 0.1, 0.0, 0.1, 0.05, 0.05,  //
+        0.1, 2.0, 0.2, 0.05, 0.1, 0.05,                                  //
+        0.0, 0.2, 3.0, 0.05, 0.05, 0.1,                                  //
+        0.1, 0.05, 0.05, 4.0, 1.0, 0.5,                                  //
+        0.05, 0.1, 0.05, 1.0, 9.0, 2.0,                                  //
+        0.05, 0.05, 0.1, 0.5, 2.0, 16.0;
+
+    // Velocity first, position second to test reduction and sorting logic
+    const Covariance covariance = {
+        instant,
+        velocityPositionCovarianceMatrix,
+        tnwFrameSPtr,
+        {CartesianVelocity::Default(), CartesianPosition::Default()},
+    };
+
+    const State firstStateWithCovariance = firstState.withCovariance(covariance);
+
+    // Position (default coordinate subsets)
+    {
+        const State secondState = {
+            instant,
+            VectorXd((VectorXd(3) << 7.0e6 + 10.0, 20.0, 30.0).finished()),
+            Frame::GCRF(),
+            {CartesianPosition::Default()},
+        };
+
+        // GCRF offset {10, 20, 30} expressed in TNW, with T = +Y, N = -X and W = +Z
+        const Covariance positionCovariance = {
+            instant,
+            velocityPositionCovarianceMatrix.bottomRightCorner(3, 3),
+            tnwFrameSPtr,
+            {CartesianPosition::Default()},
+        };
+        const Covariance::MahalanobisDistanceAnalysis expectedAnalysis =
+            positionCovariance.computeMahalanobisDistanceAnalysis(Vector3d(20.0, -10.0, 30.0));
+
+        const Covariance::MahalanobisDistanceAnalysis analysis =
+            firstStateWithCovariance.computeMahalanobisDistanceAnalysis(secondState);
+
+        EXPECT_NEAR(
+            expectedAnalysis.mahalanobisDistanceSquared,
+            analysis.mahalanobisDistanceSquared,
+            1e-10 * expectedAnalysis.mahalanobisDistanceSquared
+        );
+        EXPECT_NEAR(expectedAnalysis.pValue, analysis.pValue, 1e-10 * expectedAnalysis.pValue);
+        EXPECT_EQ(3, analysis.numberOfDimensions);
+        EXPECT_EQ(Array<Shared<const CoordinateSubset>>({CartesianPosition::Default()}), analysis.coordinateSubsets);
+    }
+
+    // Velocity and position
+    {
+        const State secondState = {
+            instant,
+            Position::Meters({7.0e6 + 10.0, 20.0, 30.0}, Frame::GCRF()),
+            Velocity::MetersPerSecond({5.0, 8.0e3 - 15.0, 25.0}, Frame::GCRF()),
+        };
+
+        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
+            CartesianVelocity::Default(), CartesianPosition::Default()
+        };
+
+        // GCRF offsets {5, -15, 25} (velocity) and {10, 20, 30} (position) expressed in TNW, with T = +Y, N = -X and
+        // W = +Z
+        VectorXd expectedResiduals(6);
+        expectedResiduals << -15.0, -5.0, 25.0, 20.0, -10.0, 30.0;
+
+        const Covariance::MahalanobisDistanceAnalysis expectedAnalysis =
+            covariance.computeMahalanobisDistanceAnalysis(expectedResiduals);
+
+        const Covariance::MahalanobisDistanceAnalysis analysis =
+            firstStateWithCovariance.computeMahalanobisDistanceAnalysis(secondState, coordinateSubsets);
+
+        EXPECT_NEAR(
+            expectedAnalysis.mahalanobisDistanceSquared,
+            analysis.mahalanobisDistanceSquared,
+            1e-10 * expectedAnalysis.mahalanobisDistanceSquared
+        );
+        EXPECT_NEAR(expectedAnalysis.pValue, analysis.pValue, 1e-10 * expectedAnalysis.pValue);
+        EXPECT_EQ(6, analysis.numberOfDimensions);
+        EXPECT_EQ(coordinateSubsets, analysis.coordinateSubsets);
     }
 }
 
