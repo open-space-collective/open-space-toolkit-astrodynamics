@@ -1117,6 +1117,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005, IsMaximum)
+{
+    EXPECT_FALSE(algorithm_.isMaximum());
+}
+
 TEST_F(
     OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005,
     IdentifyUnsatisfiedAssumptions
@@ -1354,7 +1359,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
     : public ::testing::TestWithParam<ComputeProbabilityAnalysisParams>
 {
    protected:
-    const Alfano2005 algorithm_ = {};
+    const Shared<const Alfano2005> algorithmSPtr_ = std::make_shared<Alfano2005>();
     const Real relativeTolerance_ = 0.01;
 };
 
@@ -1430,7 +1435,9 @@ TEST_P(
     const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(params.combinedHardBodyRadius / 2.0);
 
     const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-        algorithm_.computeProbabilityAnalysis(params.closeApproach, hardBodySPtr, hardBodySPtr, true, true);
+        ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+            algorithmSPtr_, params.closeApproach, hardBodySPtr, hardBodySPtr, true, true
+        );
 
     EXPECT_EQ(analysis.region, params.expectedRegion);
     ASSERT_TRUE(analysis.maximumProbabilityOfCollision.has_value());
@@ -1451,7 +1458,7 @@ TEST_P(
 
     // Scaling the covariances by the covariance scaling factor yields the maximum probability of collision
     EXPECT_DOUBLE_EQ(
-        algorithm_.computeProbabilityOfCollision(
+        algorithmSPtr_->computeProbabilityOfCollision(
             params.closeApproach.scale(
                 analysis.maximumProbabilityOfCollisionScalingFactor.value(),
                 analysis.maximumProbabilityOfCollisionScalingFactor.value()

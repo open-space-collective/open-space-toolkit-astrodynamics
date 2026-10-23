@@ -85,6 +85,16 @@ bool CloseApproach::isDefined() const
     return object1State_.isDefined() && object2State_.isDefined() && stateBuilder_.isDefined();
 }
 
+Instant CloseApproach::getInstant() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    return object1State_.getInstant();
+}
+
 State CloseApproach::getObject1State() const
 {
     if (!this->isDefined())
@@ -135,14 +145,17 @@ CloseApproach CloseApproach::swap() const
     return {object2State_, object1State_};
 }
 
-Instant CloseApproach::getInstant() const
+State CloseApproach::computeRelativeState() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CloseApproach");
     }
 
-    return object1State_.getInstant();
+    const State reducedObject1State = stateBuilder_.reduce(object1State_);
+    const State reducedObject2State = stateBuilder_.reduce(object2State_.inFrame(object1State_.accessFrame()));
+
+    return reducedObject2State - reducedObject1State;
 }
 
 Length CloseApproach::computeMissDistance() const
@@ -159,19 +172,6 @@ Length CloseApproach::computeMissDistance() const
     return Length::Meters(relativePositionCoordinates.norm());
 }
 
-State CloseApproach::computeRelativeState() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    const State reducedObject1State = stateBuilder_.reduce(object1State_);
-    const State reducedObject2State = stateBuilder_.reduce(object2State_.inFrame(object1State_.accessFrame()));
-
-    return reducedObject2State - reducedObject1State;
-}
-
 Derived CloseApproach::computeRelativeSpeed() const
 {
     if (!this->isDefined())
@@ -185,6 +185,51 @@ Derived CloseApproach::computeRelativeSpeed() const
         relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
     return Derived(relativeVelocityCoordinates.norm(), Derived::Unit::MeterPerSecond());
+}
+
+Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFrame(const Shared<const Frame>& aFrame
+) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    if ((aFrame == nullptr) || (!aFrame->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
+    // Both positions are expressed in the frame before being subtracted: transforming the relative position itself
+    // would also apply the frame translation, which is only correct for frames sharing the origin of Object 1's frame
+    const Vector3d object1Position = object1State_.inFrame(aFrame).getPosition().inMeters().getCoordinates();
+    const Vector3d object2Position = object2State_.inFrame(aFrame).getPosition().inMeters().getCoordinates();
+
+    const Vector3d coordinates = object2Position - object1Position;
+
+    return {Length::Meters(coordinates[0]), Length::Meters(coordinates[1]), Length::Meters(coordinates[2])};
+}
+
+Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLocalOrbitalFrame(
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
+) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CloseApproach");
+    }
+
+    if (!aLocalOrbitalFrameFactory.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("LocalOrbitalFrameFactory");
+    }
+
+    const Shared<const Frame> localOrbitalFrame = aLocalOrbitalFrameFactory.generateFrame(object1State_);
+    const State relativeStateInFrame = object2State_.inFrame(localOrbitalFrame);
+    const Position relativePosition = relativeStateInFrame.getPosition();
+    const Vector3d coordinates = relativePosition.inMeters().getCoordinates();
+
+    return {Length::Meters(coordinates[0]), Length::Meters(coordinates[1]), Length::Meters(coordinates[2])};
 }
 
 Shared<const Frame> CloseApproach::computeEncounterFrame(const Shared<const Frame>& aFrameSPtr) const
@@ -268,53 +313,8 @@ Shared<const Frame> CloseApproach::computeEncounterFrame(const Shared<const Fram
     return Frame::Construct(frameName, false, aFrameSPtr, providerSPtr);
 }
 
-Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFrame(const Shared<const Frame>& aFrame
-) const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if ((aFrame == nullptr) || (!aFrame->isDefined()))
-    {
-        throw ostk::core::error::runtime::Undefined("Frame");
-    }
-
-    // Both positions are expressed in the frame before being subtracted: transforming the relative position itself
-    // would also apply the frame translation, which is only correct for frames sharing the origin of Object 1's frame
-    const Vector3d object1Position = object1State_.inFrame(aFrame).getPosition().inMeters().getCoordinates();
-    const Vector3d object2Position = object2State_.inFrame(aFrame).getPosition().inMeters().getCoordinates();
-
-    const Vector3d coordinates = object2Position - object1Position;
-
-    return {Length::Meters(coordinates[0]), Length::Meters(coordinates[1]), Length::Meters(coordinates[2])};
-}
-
-Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLocalOrbitalFrame(
-    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
-) const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if (!aLocalOrbitalFrameFactory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("LocalOrbitalFrameFactory");
-    }
-
-    const Shared<const Frame> localOrbitalFrame = aLocalOrbitalFrameFactory.generateFrame(object1State_);
-    const State relativeStateInFrame = object2State_.inFrame(localOrbitalFrame);
-    const Position relativePosition = relativeStateInFrame.getPosition();
-    const Vector3d coordinates = relativePosition.inMeters().getCoordinates();
-
-    return {Length::Meters(coordinates[0]), Length::Meters(coordinates[1]), Length::Meters(coordinates[2])};
-}
-
 CloseApproach::RotatedEncounterFrameParameters CloseApproach::computeRotatedEncounterFrameParameters(
-    const Shared<const Frame>& anEncounterFrameSPtr
+    const Shared<const Frame>& anEncounterFrameSPtr, const bool& xAlongMajorPrincipalAxis
 ) const
 {
     if (!this->isDefined())
@@ -360,16 +360,25 @@ CloseApproach::RotatedEncounterFrameParameters CloseApproach::computeRotatedEnco
         (object1EncounterPositionUncertainty.getCoordinates() + object2EncounterPositionUncertainty.getCoordinates())
             .topLeftCorner<2, 2>();
 
-    // Diagonalize the combined covariance: x-axis along the major principal axis, y-axis along the minor principal axis
-    // (eigenvalues are sorted in increasing order)
+    // Diagonalize the combined covariance (eigenvalues are sorted in increasing order)
     const Eigen::SelfAdjointEigenSolver<Matrix2d> eigenSolver(combinedEncounterPlaneCovariance);
 
     const Vector2d majorPrincipalAxis = eigenSolver.eigenvectors().col(1);
     const Vector2d minorPrincipalAxis = eigenSolver.eigenvectors().col(0);
 
-    // Rotated encounter frame: the encounter frame rotated about its z-axis, its x-axis along the major principal axis
-    // and its y-axis completing the right-handed coordinate system (hence along the minor principal axis)
-    const Vector3d rotatedXAxis = {majorPrincipalAxis.x(), majorPrincipalAxis.y(), 0.0};
+    const Real majorPrincipalAxisSigma = std::sqrt(eigenSolver.eigenvalues()(1));
+    const Real minorPrincipalAxisSigma = std::sqrt(eigenSolver.eigenvalues()(0));
+
+    // x-axis along the major (resp. minor) principal axis, y-axis along the minor (resp. major) principal axis
+    const Vector2d xPrincipalAxis = xAlongMajorPrincipalAxis ? majorPrincipalAxis : minorPrincipalAxis;
+    const Vector2d yPrincipalAxis = xAlongMajorPrincipalAxis ? minorPrincipalAxis : majorPrincipalAxis;
+
+    const Real xPrincipalAxisSigma = xAlongMajorPrincipalAxis ? majorPrincipalAxisSigma : minorPrincipalAxisSigma;
+    const Real yPrincipalAxisSigma = xAlongMajorPrincipalAxis ? minorPrincipalAxisSigma : majorPrincipalAxisSigma;
+
+    // Rotated encounter frame: the encounter frame rotated about its z-axis, its x-axis along the x principal axis and
+    // its y-axis completing the right-handed coordinate system (hence along the y principal axis)
+    const Vector3d rotatedXAxis = {xPrincipalAxis.x(), xPrincipalAxis.y(), 0.0};
     const Vector3d rotatedZAxis = {0.0, 0.0, 1.0};
     const Vector3d rotatedYAxis = rotatedZAxis.cross(rotatedXAxis);
 
@@ -399,10 +408,10 @@ CloseApproach::RotatedEncounterFrameParameters CloseApproach::computeRotatedEnco
     // Compute miss distance components along the principal axes (absolute values, as the axes orientation is arbitrary)
     return {
         rotatedEncounterFrameSPtr,
-        Length::Meters(std::abs(majorPrincipalAxis.dot(missDistanceInEncounterPlane))),
-        Length::Meters(std::abs(minorPrincipalAxis.dot(missDistanceInEncounterPlane))),
-        Length::Meters(std::sqrt(eigenSolver.eigenvalues()(1))),
-        Length::Meters(std::sqrt(eigenSolver.eigenvalues()(0))),
+        Length::Meters(std::abs(xPrincipalAxis.dot(missDistanceInEncounterPlane))),
+        Length::Meters(std::abs(yPrincipalAxis.dot(missDistanceInEncounterPlane))),
+        Length::Meters(xPrincipalAxisSigma),
+        Length::Meters(yPrincipalAxisSigma),
     };
 }
 

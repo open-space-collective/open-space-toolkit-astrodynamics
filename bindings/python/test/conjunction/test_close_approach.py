@@ -204,6 +204,17 @@ class TestCloseApproach:
         assert isinstance(close_approach, CloseApproach)
         assert close_approach.is_defined() is False
 
+    def test_get_instant_success(
+        self,
+        close_approach: CloseApproach,
+        instant: Instant,
+    ):
+        ca_instant = close_approach.get_instant()
+
+        assert ca_instant is not None
+        assert isinstance(ca_instant, Instant)
+        assert ca_instant == instant
+
     def test_get_object_1_state_success(
         self,
         close_approach: CloseApproach,
@@ -344,16 +355,14 @@ class TestCloseApproach:
             == close_approach_with_covariances.get_object_2_state()
         )
 
-    def test_get_instant_success(
+    def test_compute_relative_state_success(
         self,
         close_approach: CloseApproach,
-        instant: Instant,
     ):
-        ca_instant = close_approach.get_instant()
+        relative_state = close_approach.compute_relative_state()
 
-        assert ca_instant is not None
-        assert isinstance(ca_instant, Instant)
-        assert ca_instant == instant
+        assert relative_state is not None
+        assert isinstance(relative_state, State)
 
     def test_compute_miss_distance_success(
         self,
@@ -365,15 +374,6 @@ class TestCloseApproach:
         assert isinstance(miss_distance, Length)
         assert miss_distance.in_meters() > 0.0
 
-    def test_compute_relative_state_success(
-        self,
-        close_approach: CloseApproach,
-    ):
-        relative_state = close_approach.compute_relative_state()
-
-        assert relative_state is not None
-        assert isinstance(relative_state, State)
-
     def test_compute_relative_speed_success(
         self,
         close_approach: CloseApproach,
@@ -383,19 +383,6 @@ class TestCloseApproach:
         assert relative_speed is not None
         assert isinstance(relative_speed, Derived)
         assert relative_speed.in_unit(Derived.Unit.meter_per_second()) > 0.0
-
-    def test_compute_encounter_frame_success(
-        self,
-        close_approach: CloseApproach,
-        gcrf_frame: Frame,
-    ):
-        encounter_frame = close_approach.compute_encounter_frame()
-
-        assert encounter_frame is not None
-        assert isinstance(encounter_frame, Frame)
-        assert encounter_frame.is_defined() is True
-        assert encounter_frame.access_parent() == gcrf_frame
-        assert close_approach.compute_encounter_frame(frame=gcrf_frame) == encounter_frame
 
     def test_compute_miss_distance_components_in_frame_success(
         self,
@@ -435,6 +422,19 @@ class TestCloseApproach:
         for component in components:
             assert isinstance(component, Length)
 
+    def test_compute_encounter_frame_success(
+        self,
+        close_approach: CloseApproach,
+        gcrf_frame: Frame,
+    ):
+        encounter_frame = close_approach.compute_encounter_frame()
+
+        assert encounter_frame is not None
+        assert isinstance(encounter_frame, Frame)
+        assert encounter_frame.is_defined() is True
+        assert encounter_frame.access_parent() == gcrf_frame
+        assert close_approach.compute_encounter_frame(frame=gcrf_frame) == encounter_frame
+
     def test_compute_rotated_encounter_frame_parameters_success(
         self,
         close_approach_with_covariances: CloseApproach,
@@ -451,6 +451,19 @@ class TestCloseApproach:
         assert isinstance(parameters.y_m, Length)
         assert isinstance(parameters.sigma_x, Length)
         assert isinstance(parameters.sigma_y, Length)
+
+    def test_compute_rotated_encounter_frame_parameters_success_x_along_minor_principal_axis(
+        self,
+        close_approach_with_covariances: CloseApproach,
+    ):
+        parameters = (
+            close_approach_with_covariances.compute_rotated_encounter_frame_parameters(
+                encounter_frame=close_approach_with_covariances.compute_encounter_frame(),
+                x_along_major_principal_axis=False,
+            )
+        )
+
+        assert isinstance(parameters, CloseApproach.RotatedEncounterFrameParameters)
 
     def test_compute_rotated_encounter_frame_parameters_failure_no_covariance(
         self,

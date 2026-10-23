@@ -50,16 +50,16 @@ class CloseApproach
    public:
     /// @brief Miss distance and combined position uncertainty in the rotated encounter frame
     ///
-    /// @details The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis is
-    /// along the major principal axis, and its y-axis along the minor principal axis, of the combined position
-    /// covariance projected onto the encounter plane.
+    /// @details The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis and
+    /// y-axis are along the principal axes of the combined position covariance projected onto the encounter plane
+    /// (see computeRotatedEncounterFrameParameters).
     struct RotatedEncounterFrameParameters
     {
         Shared<const Frame> rotatedEncounterFrameSPtr;  ///< Rotated encounter frame (child of the encounter frame)
-        Length xM;      ///< Miss distance component along the major principal axis (absolute value)
-        Length yM;      ///< Miss distance component along the minor principal axis (absolute value)
-        Length sigmaX;  ///< Combined position standard deviation along the major principal axis
-        Length sigmaY;  ///< Combined position standard deviation along the minor principal axis
+        Length xM;                                      ///< Miss distance component along the x-axis (absolute value)
+        Length yM;                                      ///< Miss distance component along the y-axis (absolute value)
+        Length sigmaX;                                  ///< Combined position standard deviation along the x-axis
+        Length sigmaY;                                  ///< Combined position standard deviation along the y-axis
     };
 
     /// @brief Constructor
@@ -92,6 +92,16 @@ class CloseApproach
     ///
     /// @return True if close approach is defined
     bool isDefined() const;
+
+    /// @brief Get the instant of the close approach
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              Instant instant = closeApproach.getInstant() ;
+    /// @endcode
+    ///
+    /// @return The instant
+    Instant getInstant() const;
 
     /// @brief Get the state of Object 1
     ///
@@ -145,15 +155,15 @@ class CloseApproach
     /// @return A new Close Approach with Object 1 and Object 2 swapped
     CloseApproach swap() const;
 
-    /// @brief Get the instant of the close approach
+    /// @brief Compute the relative state (Object 2 relative to Object 1)
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
-    ///              Instant instant = closeApproach.getInstant() ;
+    ///              State relativeState = closeApproach.computeRelativeState() ;
     /// @endcode
     ///
-    /// @return The instant
-    Instant getInstant() const;
+    /// @return The relative state
+    State computeRelativeState() const;
 
     /// @brief Compute the miss distance
     ///
@@ -165,16 +175,6 @@ class CloseApproach
     /// @return The miss distance
     Length computeMissDistance() const;
 
-    /// @brief Compute the relative state (Object 2 relative to Object 1)
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              State relativeState = closeApproach.computeRelativeState() ;
-    /// @endcode
-    ///
-    /// @return The relative state
-    State computeRelativeState() const;
-
     /// @brief Compute the relative speed (i.e. the magnitude of the relative velocity)
     ///
     /// @code{.cpp}
@@ -184,24 +184,6 @@ class CloseApproach
     ///
     /// @return The relative speed in meters per second
     Derived computeRelativeSpeed() const;
-
-    /// @brief Compute the "default" convention of the encounter frame centered on Object 1.
-    ///
-    /// @details The encounter frame is a local orbital frame centered on Object 1:
-    /// - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
-    /// - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1
-    /// position)
-    /// - x-axis: Completes the right-handed coordinate system
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              Shared<const Frame> encounterFrame = closeApproach.computeEncounterFrame() ;
-    /// @endcode
-    ///
-    /// @param aFrameSPtr The inertial (or quasi-inertial) frame in which relative position and velocity are computed.
-    /// Defaults to GCRF.
-    /// @return The encounter frame
-    Shared<const Frame> computeEncounterFrame(const Shared<const Frame>& aFrameSPtr = Frame::GCRF()) const;
 
     /// @brief Compute the miss distance components in the desired frame
     ///
@@ -230,26 +212,53 @@ class CloseApproach
         const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
     ) const;
 
+    /// @brief Compute the "default" convention of the encounter frame centered on Object 1.
+    ///
+    /// @details The encounter frame is a local orbital frame centered on Object 1:
+    /// - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
+    /// - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1
+    /// position)
+    /// - x-axis: Completes the right-handed coordinate system
+    ///
+    /// @code{.cpp}
+    ///              CloseApproach closeApproach = { ... } ;
+    ///              Shared<const Frame> encounterFrame = closeApproach.computeEncounterFrame() ;
+    /// @endcode
+    ///
+    /// @param aFrameSPtr The inertial (or quasi-inertial) frame in which relative position and velocity are computed.
+    /// Defaults to GCRF.
+    /// @return The encounter frame
+    Shared<const Frame> computeEncounterFrame(const Shared<const Frame>& aFrameSPtr = Frame::GCRF()) const;
+
     /// @brief Compute the miss distance and combined position uncertainty in the rotated encounter frame
     ///
-    /// @details The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis is
-    /// along the major principal axis, and its y-axis along the minor principal axis, of the combined position
-    /// covariance projected onto the encounter plane.
+    /// @details The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis and
+    /// y-axis are along the principal axes of the combined position covariance projected onto the encounter plane:
+    /// - If xAlongMajorPrincipalAxis is true, the x-axis is along the major principal axis and the y-axis along the
+    /// minor principal axis.
+    /// - If xAlongMajorPrincipalAxis is false, the x-axis is along the minor principal axis and the y-axis along the
+    /// major principal axis.
     ///
     /// Raises an Undefined error if the close approach or the encounter frame is undefined, or if a state has no
     /// position covariance.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
+    ///              Shared<const Frame> encounterFrameSPtr = closeApproach.computeEncounterFrame() ;
     ///              CloseApproach::RotatedEncounterFrameParameters parameters =
-    ///                  closeApproach.computeRotatedEncounterFrameParameters(closeApproach.computeEncounterFrame()) ;
+    ///                  closeApproach.computeRotatedEncounterFrameParameters(encounterFrameSPtr) ;
+    ///              CloseApproach::RotatedEncounterFrameParameters parameters =
+    ///                  closeApproach.computeRotatedEncounterFrameParameters(encounterFrameSPtr, false) ;
     /// @endcode
     ///
     /// @param anEncounterFrameSPtr An encounter frame, whose x-y plane is the encounter plane (see
     /// computeEncounterFrame)
+    /// @param xAlongMajorPrincipalAxis Whether to align the x-axis along the major principal axis (and the y-axis along
+    /// the minor principal axis), or along the minor principal axis (and the y-axis along the major principal axis).
+    /// Defaults to true
     /// @return The rotated encounter frame parameters
     RotatedEncounterFrameParameters computeRotatedEncounterFrameParameters(
-        const Shared<const Frame>& anEncounterFrameSPtr
+        const Shared<const Frame>& anEncounterFrameSPtr, const bool& xAlongMajorPrincipalAxis = true
     ) const;
 
     /// @brief Print the close approach

@@ -58,7 +58,7 @@ class AlwaysApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
     AlwaysApplicableAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Always Applicable")
+        : ProbabilityOfCollisionAlgorithm("Always Applicable", false)
     {
     }
 
@@ -88,7 +88,7 @@ class NeverApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
     NeverApplicableAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Never Applicable")
+        : ProbabilityOfCollisionAlgorithm("Never Applicable", false)
     {
     }
 
@@ -119,7 +119,42 @@ class ConstantProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlg
 {
    public:
     ConstantProbabilityOfCollisionAlgorithm(const Real& aProbabilityOfCollision)
-        : ProbabilityOfCollisionAlgorithm("Constant"),
+        : ProbabilityOfCollisionAlgorithm("Constant", false),
+          probabilityOfCollision_(aProbabilityOfCollision)
+    {
+    }
+
+    virtual Array<String> identifyUnsatisfiedAssumptions(const CloseApproach& aCloseApproach) const override
+    {
+        (void)aCloseApproach;
+
+        return Array<String>::Empty();
+    }
+
+    virtual Real computeProbabilityOfCollision(
+        const CloseApproach& aCloseApproach,
+        const Shared<const HardBody>& aHardBody1SPtr,
+        const Shared<const HardBody>& aHardBody2SPtr
+    ) const override
+    {
+        (void)aCloseApproach;
+        (void)aHardBody1SPtr;
+        (void)aHardBody2SPtr;
+
+        return probabilityOfCollision_;
+    }
+
+   private:
+    Real probabilityOfCollision_;
+};
+
+/// @brief Mock probability of collision algorithm computing a maximum probability of collision (i.e. an upper bound),
+/// returning a constant value whatever the close approach.
+class MaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
+{
+   public:
+    MaximumProbabilityOfCollisionAlgorithm(const Real& aProbabilityOfCollision)
+        : ProbabilityOfCollisionAlgorithm("Maximum", true),
           probabilityOfCollision_(aProbabilityOfCollision)
     {
     }
@@ -157,7 +192,7 @@ class IncreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
 {
    public:
     IncreasingProbabilityOfCollisionAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Increasing")
+        : ProbabilityOfCollisionAlgorithm("Increasing", false)
     {
     }
 
@@ -190,7 +225,7 @@ class DecreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
 {
    public:
     DecreasingProbabilityOfCollisionAlgorithm()
-        : ProbabilityOfCollisionAlgorithm("Decreasing")
+        : ProbabilityOfCollisionAlgorithm("Decreasing", false)
     {
     }
 
@@ -222,7 +257,7 @@ class SingleMaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisi
 {
    public:
     SingleMaximumProbabilityOfCollisionAlgorithm(const Real& aMaximumProbabilityOfCollisionSigma)
-        : ProbabilityOfCollisionAlgorithm("Single Maximum"),
+        : ProbabilityOfCollisionAlgorithm("Single Maximum", false),
           maximumProbabilityOfCollisionSigma_(aMaximumProbabilityOfCollisionSigma)
     {
     }
@@ -320,6 +355,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, IsMaximum)
+{
+    {
+        EXPECT_FALSE(AlwaysApplicableAlgorithm().isMaximum());
+        EXPECT_TRUE(MaximumProbabilityOfCollisionAlgorithm(0.01).isMaximum());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, Applicability)
 {
     const CloseApproach closeApproach = buildCloseApproach();
@@ -347,14 +390,49 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm, ComputeProbabilityAnalysisInputs)
 {
-    const AlwaysApplicableAlgorithm algorithm = {};
+    const Shared<const AlwaysApplicableAlgorithm> algorithmSPtr = std::make_shared<AlwaysApplicableAlgorithm>();
     const CloseApproach closeApproach = buildCloseApproach();
+
+    // Undefined algorithm
+    {
+        EXPECT_THROW(
+            try {
+                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                    nullptr, closeApproach, hardBody1SPtr_, hardBody2SPtr_
+                );
+            } catch (const ostk::core::error::runtime::Undefined& e) {
+                EXPECT_EQ("{Probability of collision algorithm} is undefined.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    // Algorithm computing a maximum probability of collision (i.e. an upper bound)
+    {
+        EXPECT_THROW(
+            try {
+                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                    std::make_shared<MaximumProbabilityOfCollisionAlgorithm>(0.01),
+                    closeApproach,
+                    hardBody1SPtr_,
+                    hardBody2SPtr_
+                );
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_EQ("Probability of collision algorithm = Maximum is wrong.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
 
     // No covariance to scale
     {
         EXPECT_THROW(
             try {
-                algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr_, hardBody2SPtr_, false, false);
+                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                    algorithmSPtr, closeApproach, hardBody1SPtr_, hardBody2SPtr_, false, false
+                );
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_EQ("At least one covariance must be scalable to find the probability region.", e.getMessage());
                 throw;
@@ -370,42 +448,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     // region is unknown and the maximum probability of collision is empty
     {
         // Constant probability of collision (zero slope): the bracketing never finds a sign change
-        const ConstantProbabilityOfCollisionAlgorithm constantAlgorithm = {0.01};
+        const Shared<const ProbabilityOfCollisionAlgorithm> constantAlgorithmSPtr =
+            std::make_shared<ConstantProbabilityOfCollisionAlgorithm>(0.01);
 
         // Increasing probability of collision (positive slope): the bracketing walks upwards without end
-        const IncreasingProbabilityOfCollisionAlgorithm increasingAlgorithm = {};
+        const Shared<const ProbabilityOfCollisionAlgorithm> increasingAlgorithmSPtr =
+            std::make_shared<IncreasingProbabilityOfCollisionAlgorithm>();
 
         // Decreasing probability of collision (negative slope): the bracketing walks downwards without end
-        const DecreasingProbabilityOfCollisionAlgorithm decreasingAlgorithm = {};
+        const Shared<const ProbabilityOfCollisionAlgorithm> decreasingAlgorithmSPtr =
+            std::make_shared<DecreasingProbabilityOfCollisionAlgorithm>();
 
-        for (const auto& [algorithmPtr, expectedProbabilityOfCollision] :
-             std::vector<std::pair<const ProbabilityOfCollisionAlgorithm*, Real>> {
-                 {&constantAlgorithm, 0.01},
-                 {&increasingAlgorithm, std::log(10.0)},
-                 {&decreasingAlgorithm, 1.0 / 10.0},
+        for (const auto& [algorithmSPtr, expectedProbabilityOfCollision] :
+             std::vector<std::pair<Shared<const ProbabilityOfCollisionAlgorithm>, Real>> {
+                 {constantAlgorithmSPtr, 0.01},
+                 {increasingAlgorithmSPtr, std::log(10.0)},
+                 {decreasingAlgorithmSPtr, 1.0 / 10.0},
              })
         {
             const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-                algorithmPtr->computeProbabilityAnalysis(buildCloseApproach(), hardBody1SPtr_, hardBody2SPtr_);
+                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                    algorithmSPtr, buildCloseApproach(), hardBody1SPtr_, hardBody2SPtr_
+                );
 
             EXPECT_EQ(analysis.region, ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Unknown)
-                << algorithmPtr->getName();
+                << algorithmSPtr->getName();
             EXPECT_DOUBLE_EQ(analysis.probabilityOfCollision, expectedProbabilityOfCollision)
-                << algorithmPtr->getName();
-            EXPECT_FALSE(analysis.maximumProbabilityOfCollision.has_value()) << algorithmPtr->getName();
-            EXPECT_FALSE(analysis.maximumProbabilityOfCollisionScalingFactor.has_value()) << algorithmPtr->getName();
+                << algorithmSPtr->getName();
+            EXPECT_FALSE(analysis.maximumProbabilityOfCollision.has_value()) << algorithmSPtr->getName();
+            EXPECT_FALSE(analysis.maximumProbabilityOfCollisionScalingFactor.has_value()) << algorithmSPtr->getName();
             EXPECT_FALSE(analysis.maximumProbabilityOfCollisionSigmaScalingFactor.has_value())
-                << algorithmPtr->getName();
+                << algorithmSPtr->getName();
         }
     }
 
     // Single maximum to the right of the unscaled covariance (sigma of 10 m, maximum at a sigma of 100 m), hence the
     // close approach is in the robust region
     {
-        const SingleMaximumProbabilityOfCollisionAlgorithm algorithm = {100.0};
-
         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-            algorithm.computeProbabilityAnalysis(buildCloseApproach(), hardBody1SPtr_, hardBody2SPtr_);
+            ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                std::make_shared<SingleMaximumProbabilityOfCollisionAlgorithm>(100.0),
+                buildCloseApproach(),
+                hardBody1SPtr_,
+                hardBody2SPtr_
+            );
 
         EXPECT_EQ(analysis.region, ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust);
         EXPECT_DOUBLE_EQ(analysis.probabilityOfCollision, 0.05 * 10.0 / 100.0);
@@ -427,10 +513,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     // Single maximum to the left of the unscaled covariance (sigma of 10 m, maximum at a sigma of 1 m), hence the close
     // approach is in the dilution region
     {
-        const SingleMaximumProbabilityOfCollisionAlgorithm algorithm = {1.0};
-
         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-            algorithm.computeProbabilityAnalysis(buildCloseApproach(), hardBody1SPtr_, hardBody2SPtr_);
+            ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                std::make_shared<SingleMaximumProbabilityOfCollisionAlgorithm>(1.0),
+                buildCloseApproach(),
+                hardBody1SPtr_,
+                hardBody2SPtr_
+            );
 
         EXPECT_EQ(analysis.region, ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Diluted);
         EXPECT_DOUBLE_EQ(
