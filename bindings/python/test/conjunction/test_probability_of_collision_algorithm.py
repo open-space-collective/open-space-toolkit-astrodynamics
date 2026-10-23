@@ -18,10 +18,10 @@ from ostk.astrodynamics.trajectory import State
 
 
 class ConstantProbabilityOfCollisionAlgorithm(ProbabilityOfCollisionAlgorithm):
-    """Mock algorithm returning a constant (maximum) probability of collision."""
+    """Mock algorithm returning a constant probability of collision."""
 
-    def __init__(self, probability_of_collision: float = 0.01):
-        super().__init__("Constant", True)
+    def __init__(self, probability_of_collision: float = 0.01, is_maximum: bool = True):
+        super().__init__("Constant", is_maximum)
         self._probability_of_collision: float = probability_of_collision
 
     def identify_unsatisfied_assumptions(
@@ -102,7 +102,6 @@ class TestProbabilityOfCollisionAlgorithm:
     def test_probability_region_success(self):
         assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Robust is not None
         assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Diluted is not None
-        assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Maximum is not None
         assert ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Unknown is not None
 
     def test_identify_unsatisfied_assumptions_success(
@@ -145,11 +144,13 @@ class TestProbabilityOfCollisionAlgorithm:
 
     def test_compute_probability_analysis_success(
         self,
-        algorithm: ConstantProbabilityOfCollisionAlgorithm,
         close_approach: CloseApproach,
         hard_body: Spherical,
     ):
-        analysis = algorithm.compute_probability_analysis(
+        analysis = ProbabilityOfCollisionAlgorithm.compute_probability_analysis(
+            probability_of_collision_algorithm=ConstantProbabilityOfCollisionAlgorithm(
+                is_maximum=False
+            ),
             close_approach=close_approach,
             hard_body_1=hard_body,
             hard_body_2=hard_body,
@@ -160,21 +161,16 @@ class TestProbabilityOfCollisionAlgorithm:
             analysis.region, ProbabilityOfCollisionAlgorithm.ProbabilityRegion
         )
         assert 0.0 <= analysis.probability_of_collision <= 1.0
-        # The probability of collision is already an upper bound: the region is maximum
-        assert (
-            analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Maximum
-        )
-        assert analysis.maximum_probability_of_collision is None
-        assert analysis.maximum_probability_of_collision_scaling_factor is None
-        assert analysis.maximum_probability_of_collision_sigma_scaling_factor is None
 
     def test_compute_probability_analysis_success_with_arguments(
         self,
-        algorithm: ConstantProbabilityOfCollisionAlgorithm,
         close_approach: CloseApproach,
         hard_body: Spherical,
     ):
-        analysis = algorithm.compute_probability_analysis(
+        analysis = ProbabilityOfCollisionAlgorithm.compute_probability_analysis(
+            probability_of_collision_algorithm=ConstantProbabilityOfCollisionAlgorithm(
+                is_maximum=False
+            ),
             close_approach=close_approach,
             hard_body_1=hard_body,
             hard_body_2=hard_body,
@@ -183,6 +179,20 @@ class TestProbabilityOfCollisionAlgorithm:
         )
 
         assert isinstance(analysis, ProbabilityOfCollisionAlgorithm.Analysis)
+
+    def test_compute_probability_analysis_failure_maximum(
+        self,
+        algorithm: ConstantProbabilityOfCollisionAlgorithm,
+        close_approach: CloseApproach,
+        hard_body: Spherical,
+    ):
+        with pytest.raises(RuntimeError):
+            ProbabilityOfCollisionAlgorithm.compute_probability_analysis(
+                probability_of_collision_algorithm=algorithm,
+                close_approach=close_approach,
+                hard_body_1=hard_body,
+                hard_body_2=hard_body,
+            )
 
     def test_compute_probability_of_collision_failure_not_implemented(
         self,

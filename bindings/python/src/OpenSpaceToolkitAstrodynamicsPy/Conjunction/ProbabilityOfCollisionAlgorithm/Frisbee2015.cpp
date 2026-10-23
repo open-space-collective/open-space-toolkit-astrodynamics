@@ -14,6 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     using ostk::physics::unit::Derived;
 
     using ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm;
+    using ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005;
     using ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015;
 
     class_<Frisbee2015, ProbabilityOfCollisionAlgorithm, Shared<Frisbee2015>>(
@@ -43,46 +44,51 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
         .def(
             init<
-                const std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>&,
                 const bool&,
                 const bool&,
                 const Derived&,
-                const Shared<const Frame>&>(),
+                const Shared<const Frame>&,
+                const std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>&>(),
             R"doc(
                 Constructor.
 
-                Frisbee's closed-form solution degrades when the combined hard-body radius is large compared to the
-                smaller standard deviation of the critical combined covariance (sigma_min). In such cases, using a 2D
-                probability of collision algorithm (e.g. Alfano2005) is recommended.
-
                 Args:
-                    probability_of_collision_algorithm (ProbabilityOfCollisionAlgorithm, optional): A probability of
-                        collision algorithm used to compute the probability of collision from the critical
-                        (degenerate) combined covariance. If None, Frisbee's closed-form solution is used. Defaults to
-                        None.
                     consider_object_2_covariance (bool, optional): Whether to use the Object 2 covariance when Object 1
                         has no position uncertainty. If False, only the Object 1 covariance is used. Defaults to True.
-                    consider_worst_case_when_both_covariance_are_present (bool, optional): Whether to use the worst
+                    consider_worst_case_when_both_covariances_are_present (bool, optional): Whether to use the worst
                         case (i.e. the covariance yielding the highest probability of collision) when both covariances
                         are present and the Object 2 covariance can be considered. Defaults to True.
                     relative_speed_threshold (Derived, optional): A relative speed threshold below which the close
                         approach is considered a low relative speed encounter and the algorithm is not applicable.
                         Defaults to 100 m/s.
                     frame (Frame, optional): An inertial (or quasi-inertial) frame to use. Defaults to Frame.GCRF().
+                    probability_of_collision_algorithm (ProbabilityOfCollisionAlgorithm, optional): A probability of
+                        collision algorithm used to compute the probability of collision from the critical
+                        (degenerate) combined covariance. If None, Frisbee's closed-form solution is used (see note
+                        below). Defaults to Alfano2005().
 
                 Raises:
                     RuntimeError: If the probability of collision algorithm is undefined, or if the frame is undefined
                         or not quasi-inertial.
+
+                Note:
+                    Frisbee's closed-form solution degrades when the combined hard-body radius is large compared to
+                    the smaller standard deviation of the critical combined covariance (sigma_min). In such cases,
+                    using a 2D probability of collision algorithm (e.g. Alfano2005) is recommended.
             )doc",
-            arg("probability_of_collision_algorithm") = none(),
             arg("consider_object_2_covariance") = true,
-            arg("consider_worst_case_when_both_covariance_are_present") = true,
+            arg("consider_worst_case_when_both_covariances_are_present") = true,
             arg_v(
                 "relative_speed_threshold",
                 Derived(100.0, Derived::Unit::MeterPerSecond()),
                 "Derived(100.0, Derived.Unit.meter_per_second())"
             ),
-            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()"),
+            arg_v(
+                "probability_of_collision_algorithm",
+                std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>(std::make_shared<Alfano2005>()),
+                "Alfano2005()"
+            )
         )
 
         .def(

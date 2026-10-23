@@ -38,23 +38,25 @@ bool ProbabilityOfCollisionAlgorithm::isApplicable(const CloseApproach& aCloseAp
 }
 
 ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+    const Shared<const ProbabilityOfCollisionAlgorithm>& aProbabilityOfCollisionAlgorithmSPtr,
     const CloseApproach& aCloseApproach,
     const Shared<const HardBody>& aHardBody1SPtr,
     const Shared<const HardBody>& aHardBody2SPtr,
     const bool& scaleObject1Covariance,
     const bool& scaleObject2Covariance
-) const
+)
 {
-    // The probability of collision is already an upper bound: no need to locate the maximum
-    if (isMaximum_)
+    if (aProbabilityOfCollisionAlgorithmSPtr == nullptr)
     {
-        return {
-            this->computeProbabilityOfCollision(aCloseApproach, aHardBody1SPtr, aHardBody2SPtr),
-            ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum,
-            std::nullopt,
-            std::nullopt,
-            std::nullopt,
-        };
+        throw ostk::core::error::runtime::Undefined("Probability of collision algorithm");
+    }
+
+    // The probability of collision is already an upper bound: the analysis is not applicable
+    if (aProbabilityOfCollisionAlgorithmSPtr->isMaximum())
+    {
+        throw ostk::core::error::runtime::Wrong(
+            "Probability of collision algorithm", aProbabilityOfCollisionAlgorithmSPtr->getName()
+        );
     }
 
     if (!scaleObject1Covariance && !scaleObject2Covariance)
@@ -63,8 +65,9 @@ ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::compu
         );
     }
 
-    const Real probabilityOfCollision =
-        this->computeProbabilityOfCollision(aCloseApproach, aHardBody1SPtr, aHardBody2SPtr);
+    const Real probabilityOfCollision = aProbabilityOfCollisionAlgorithmSPtr->computeProbabilityOfCollision(
+        aCloseApproach, aHardBody1SPtr, aHardBody2SPtr
+    );
 
     // Compute the probability of collision with scaled covariance(s)
     const auto computeScaledProbabilityOfCollision = [&](const double& aScalingFactor) -> Real
@@ -74,7 +77,9 @@ ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::compu
             scaleObject2Covariance ? std::optional<Real>(aScalingFactor) : std::nullopt
         );
 
-        return this->computeProbabilityOfCollision(scaledCloseApproach, aHardBody1SPtr, aHardBody2SPtr);
+        return aProbabilityOfCollisionAlgorithmSPtr->computeProbabilityOfCollision(
+            scaledCloseApproach, aHardBody1SPtr, aHardBody2SPtr
+        );
     };
 
     // Central difference ratio on the covariance scaling factor (+/- 0.1%): multiplying and dividing by the same ratio
@@ -91,7 +96,7 @@ ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::compu
 
     // Locate the maximum, starting from the unscaled covariance(s). The root solver may also fail by throwing (e.g. no
     // sign change found, or the scaled covariance(s) overflowing while bracketing), which is also a non-convergence:
-    // the inputs have already been validated by the nominal probability of collision computation.
+    // the inputs have already been validated by the unscaled probability of collision computation.
     std::optional<RootSolver::Solution> solution = std::nullopt;
 
     try

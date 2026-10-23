@@ -71,14 +71,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
             Base class for algorithms that compute the probability of collision for a close approach.
 
-            The recommended way to use an algorithm is as follows:
-            1. Check if the algorithm is applicable to the close approach.
-            2. If the algorithm is applicable, compute the probability of collision analysis,
-            otherwise fall back to another algorithm.
-            3. If the nominal probability of collision is in the robust region, take it, if it is in the diluted region,
-            take the maximum probability of collision, if it is in the maximum region (i.e. the algorithm already
-            computes an upper bound), take it, otherwise (unknown region) the maximum probability of collision could
-            not be located.
+            The recommended way to use the algorithms is as follows:
+            1. List the algorithms to use, in order of preference.
+            2. Loop over the list and pick the first algorithm applicable to the close approach (see is_applicable),
+            then check whether it computes a maximum probability of collision (see is_maximum).
+            3. If the algorithm does not compute a maximum probability of collision, compute the probability of
+            collision analysis (see compute_probability_analysis) and check its region:
+                - ProbabilityRegion.Robust: use the probability of collision.
+                - ProbabilityRegion.Diluted: use the maximum probability of collision as an upper bound.
+                - ProbabilityRegion.Unknown: try the next applicable algorithm in the list.
+            4. If the algorithm computes a maximum probability of collision, compute the probability of collision (see
+            compute_probability_of_collision) and use it as an upper bound.
 
             Can inherit (calling the constructor with the algorithm name and whether it computes a maximum probability
             of collision) and provide the virtual methods:
@@ -87,15 +90,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             to create a custom probability of collision algorithm.
 
             Examples:
-                >>> if algorithm.is_applicable(close_approach):
-                ...     analysis = algorithm.compute_probability_analysis(close_approach, hard_body_1, hard_body_2)
-                ...     if analysis.region in (
-                ...         ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Robust,
-                ...         ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Maximum,
-                ...     ):
+                >>> algorithms = [Alfano2005(), Frisbee2015()]
+                >>> for algorithm in algorithms:
+                ...     if not algorithm.is_applicable(close_approach):
+                ...         continue
+                ...     if algorithm.is_maximum():
+                ...         # Upper bound
+                ...         probability_of_collision = algorithm.compute_probability_of_collision(
+                ...             close_approach, hard_body_1, hard_body_2
+                ...         )
+                ...         break
+                ...     analysis = ProbabilityOfCollisionAlgorithm.compute_probability_analysis(
+                ...         algorithm, close_approach, hard_body_1, hard_body_2
+                ...     )
+                ...     if analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Robust:
                 ...         probability_of_collision = analysis.probability_of_collision
-                ...     elif analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Diluted:
+                ...         break
+                ...     if analysis.region == ProbabilityOfCollisionAlgorithm.ProbabilityRegion.Diluted:
+                ...         # Upper bound
                 ...         probability_of_collision = analysis.maximum_probability_of_collision
+                ...         break
+                ...     # ProbabilityRegion.Unknown: try the next algorithm
         )doc"
         );
 
@@ -118,14 +133,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             "The probability of collision is in the diluted region."
         )
         .value(
-            "Maximum",
-            ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum,
-            "The probability of collision is already an upper bound."
-        )
-        .value(
             "Unknown",
             ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Unknown,
-            "The maximum probability of collision could not be located."
+            "The maximum probability of collision could not be computed."
         )
 
         ;
@@ -147,19 +157,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
         .def_readonly(
             "maximum_probability_of_collision",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollision,
-            "The maximum probability of collision (None in the maximum and unknown regions)."
+            "The maximum probability of collision (None in the unknown region)."
         )
         .def_readonly(
             "maximum_probability_of_collision_scaling_factor",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionScalingFactor,
-            "The covariance scaling factor yielding the maximum probability of collision (None in the maximum and "
-            "unknown regions)."
+            "The covariance scaling factor yielding the maximum probability of collision (None in the unknown "
+            "region)."
         )
         .def_readonly(
             "maximum_probability_of_collision_sigma_scaling_factor",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionSigmaScalingFactor,
             "The sigma scaling factor (i.e. the square root of the covariance scaling factor) yielding the maximum "
-            "probability of collision (None in the maximum and unknown regions)."
+            "probability of collision (None in the unknown region)."
         )
 
         ;
@@ -229,8 +239,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                 Examples:
                     >>> unsatisfied_assumptions = algorithm.identify_unsatisfied_assumptions(close_approach)
                     >>> if not unsatisfied_assumptions:
-                    ...     analysis = algorithm.compute_probability_analysis(close_approach, hard_body_1, hard_body_2)
-                    >>> if not unsatisfied_assumptions:
                     ...     probability_of_collision = algorithm.compute_probability_of_collision(
                     ...         close_approach, hard_body_1, hard_body_2
                     ...     )
@@ -274,8 +282,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
                 Examples:
                     >>> if algorithm.is_applicable(close_approach):
-                    ...     analysis = algorithm.compute_probability_analysis(close_approach, hard_body_1, hard_body_2)
-                    >>> if algorithm.is_applicable(close_approach):
                     ...     probability_of_collision = algorithm.compute_probability_of_collision(
                     ...         close_approach, hard_body_1, hard_body_2
                     ...     )
@@ -283,27 +289,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             arg("close_approach")
         )
 
-        .def(
+        .def_static(
             "compute_probability_analysis",
             &ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis,
             R"doc(
-                Compute the probability of collision analysis of a close approach.
+                Compute the probability of collision analysis of a close approach using a probability of collision
+                algorithm.
 
-                If the algorithm computes a maximum probability of collision (see is_maximum), the probability of
-                collision is computed once and is already an upper bound: the region is ProbabilityRegion.Maximum and
-                the maximum probability of collision and its scaling factors are None.
+                The analysis is not applicable to algorithms computing a maximum probability of collision (see
+                is_maximum), as their probability of collision is already an upper bound.
 
-                Otherwise, this function computes the probability of collision and locates the maximum probability of
+                This function computes the probability of collision and locates the maximum probability of
                 collision as it scales the covariance(s): starting from the unscaled covariance(s), a root solver
                 (bracket and solve) locates where the slope of the probability of collision with respect to the
                 (logarithmic) scaling factor changes sign. The probability of collision is assumed to have a single
                 maximum.
 
-                - If the maximum probability of collision is found to the "right" of the nominal probability of
-                collision (i.e. a scaling factor greater than or equal to 1), then the close approach is in the robust
-                region (ProbabilityRegion.Robust).
-                - If the maximum probability of collision is found to the "left" of the nominal probability of
-                collision (i.e. a scaling factor less than 1), then the close approach is in the diluted region
+                - If the maximum probability of collision is found to the "right" of the probability of collision
+                (i.e. a scaling factor greater than or equal to 1), then the close approach is in the robust region
+                (ProbabilityRegion.Robust).
+                - If the maximum probability of collision is found to the "left" of the probability of collision
+                (i.e. a scaling factor less than 1), then the close approach is in the diluted region
                 (ProbabilityRegion.Diluted).
                 - If the root solver does not converge (e.g. the probability of collision does not change with the
                 covariance scaling, or has no maximum), then the region is unknown (ProbabilityRegion.Unknown).
@@ -313,6 +319,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                 (ProbabilityRegion.Unknown), the maximum probability of collision and its scaling factors are None.
 
                 Args:
+                    probability_of_collision_algorithm (ProbabilityOfCollisionAlgorithm): A probability of collision
+                        algorithm (not computing a maximum probability of collision).
                     close_approach (CloseApproach): A close approach.
                     hard_body_1 (HardBody): The hard body of Object 1.
                     hard_body_2 (HardBody): The hard body of Object 2.
@@ -324,9 +332,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         approach.
 
                 Raises:
-                    RuntimeError: If neither covariance is to be scaled (unless the algorithm computes a maximum
-                        probability of collision).
+                    RuntimeError: If the probability of collision algorithm is undefined or computes a maximum
+                        probability of collision, or if neither covariance is to be scaled.
             )doc",
+            arg("probability_of_collision_algorithm"),
             arg("close_approach"),
             arg("hard_body_1"),
             arg("hard_body_2"),

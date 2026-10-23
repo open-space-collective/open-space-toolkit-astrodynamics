@@ -72,22 +72,30 @@ class TestFrisbee2015:
         assert isinstance(algorithm, Frisbee2015)
         assert isinstance(algorithm, ProbabilityOfCollisionAlgorithm)
 
-        assert isinstance(Frisbee2015(Alfano2005()), Frisbee2015)
+        assert isinstance(
+            Frisbee2015(probability_of_collision_algorithm=Alfano2005()), Frisbee2015
+        )
+        assert isinstance(
+            Frisbee2015(probability_of_collision_algorithm=None), Frisbee2015
+        )
 
         assert isinstance(
             Frisbee2015(
-                probability_of_collision_algorithm=Alfano2005(),
                 consider_object_2_covariance=False,
-                consider_worst_case_when_both_covariance_are_present=False,
+                consider_worst_case_when_both_covariances_are_present=False,
                 relative_speed_threshold=Derived(100.0, Derived.Unit.meter_per_second()),
                 frame=Frame.GCRF(),
+                probability_of_collision_algorithm=Alfano2005(),
             ),
             Frisbee2015,
         )
 
     def test_get_name_success(self, algorithm: Frisbee2015):
-        assert algorithm.get_name() == "Frisbee 2015 (Closed-form)"
-        assert Frisbee2015(Alfano2005()).get_name() == "Frisbee 2015 (Alfano 2005)"
+        assert algorithm.get_name() == "Frisbee 2015 (Alfano 2005)"
+        assert (
+            Frisbee2015(probability_of_collision_algorithm=None).get_name()
+            == "Frisbee 2015 (Closed-form)"
+        )
 
     def test_is_maximum_success(self, algorithm: Frisbee2015):
         assert algorithm.is_maximum() is True
@@ -116,14 +124,12 @@ class TestFrisbee2015:
 
         assert 0.0 <= probability_of_collision <= 1.0
 
-    def test_compute_probability_of_collision_with_probability_of_collision_algorithm_success(
+    def test_compute_probability_of_collision_closed_form_success(
         self,
         close_approach: CloseApproach,
         hard_body: Spherical,
     ):
-        algorithm: Frisbee2015 = Frisbee2015(
-            probability_of_collision_algorithm=Alfano2005()
-        )
+        algorithm: Frisbee2015 = Frisbee2015(probability_of_collision_algorithm=None)
 
         probability_of_collision = algorithm.compute_probability_of_collision(
             close_approach=close_approach,

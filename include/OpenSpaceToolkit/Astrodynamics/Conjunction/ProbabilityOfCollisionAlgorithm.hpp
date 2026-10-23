@@ -31,30 +31,54 @@ using ostk::core::type::String;
 ///
 /// @details Base class for algorithms that compute the probability of collision for a close approach.
 ///
-/// The recommended way to use an algorithm is as follows:
-/// 1. Check if the algorithm is applicable to the close approach.
-/// 2. If the algorithm is applicable, compute the probability of collision analysis,
-/// otherwise fall back to another algorithm.
-/// 3. If the nominal probability of collision is in the robust region, take it, if it is in the diluted region, take
-/// the maximum probability of collision, if it is in the maximum region (i.e. the algorithm already computes an upper
-/// bound), take it, otherwise (unknown region) the maximum probability of collision could not be located.
+/// The recommended way to use the algorithms is as follows:
+/// 1. List the algorithms to use, in order of preference.
+/// 2. Loop over the list and pick the first algorithm applicable to the close approach (see isApplicable()), then
+/// check whether it computes a maximum probability of collision (see isMaximum()).
+/// 3. If the algorithm does not compute a maximum probability of collision, compute the probability of collision
+/// analysis (see computeProbabilityAnalysis) and check its region:
+///     - ProbabilityRegion::Robust: use the probability of collision.
+///     - ProbabilityRegion::Diluted: use the maximum probability of collision as an upper bound.
+///     - ProbabilityRegion::Unknown: try the next applicable algorithm in the list.
+/// 4. If the algorithm computes a maximum probability of collision, compute the probability of collision (see
+/// computeProbabilityOfCollision()) and use it as an upper bound.
 ///
 /// @code{.cpp}
-///     if (algorithm.isApplicable(closeApproach))
-///     {
-///         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-///             algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
+///     const Array<Shared<const ProbabilityOfCollisionAlgorithm>> algorithms = {
+///         std::make_shared<Alfano2005>(),
+///         std::make_shared<Frisbee2015>(),
+///     };
 ///
-///         if ((analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust) ||
-///             (analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum))
+///     for (const auto& algorithmSPtr : algorithms)
+///     {
+///         if (!algorithmSPtr->isApplicable(closeApproach))
+///         {
+///             continue;
+///         }
+///
+///         if (algorithmSPtr->isMaximum())
+///         {
+///             // Upper bound
+///             return algorithmSPtr->computeProbabilityOfCollision(closeApproach, hardBody1SPtr, hardBody2SPtr);
+///         }
+///
+///         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
+///             ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+///                 algorithmSPtr, closeApproach, hardBody1SPtr, hardBody2SPtr
+///             );
+///
+///         if (analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust)
 ///         {
 ///             return analysis.probabilityOfCollision;
 ///         }
 ///
 ///         if (analysis.region == ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Diluted)
 ///         {
+///             // Upper bound
 ///             return analysis.maximumProbabilityOfCollision.value();
 ///         }
+///
+///         // ProbabilityRegion::Unknown: try the next algorithm
 ///     }
 /// @endcode
 class ProbabilityOfCollisionAlgorithm
@@ -65,8 +89,7 @@ class ProbabilityOfCollisionAlgorithm
     {
         Robust,   ///< The probability of collision is in the robust region.
         Diluted,  ///< The probability of collision is in the diluted region.
-        Maximum,  ///< The probability of collision is already an upper bound.
-        Unknown   ///< The maximum probability of collision could not be located.
+        Unknown   ///< The maximum probability of collision could not be computed.
     };
 
     /// @brief Probability of collision analysis of a close approach.
@@ -75,15 +98,15 @@ class ProbabilityOfCollisionAlgorithm
         Real probabilityOfCollision;                        ///< The probability of collision.
         ProbabilityRegion region;                           ///< The probability region.
         std::optional<Real> maximumProbabilityOfCollision;  ///< The maximum probability of collision (empty in the
-                                                            ///< maximum and unknown regions).
+                                                            ///< unknown region).
         std::optional<Real> maximumProbabilityOfCollisionScalingFactor;  ///< The covariance scaling factor yielding the
                                                                          ///< maximum probability of collision (empty
-                                                                         ///< in the maximum and unknown regions).
+                                                                         ///< in the unknown region).
         std::optional<Real> maximumProbabilityOfCollisionSigmaScalingFactor;  ///< The sigma scaling factor (i.e. the
                                                                               ///< square root of the covariance
                                                                               ///< scaling factor) yielding the maximum
                                                                               ///< probability of collision (empty in
-                                                                              ///< the maximum and unknown regions).
+                                                                              ///< the unknown region).
     };
 
     /// @brief Destructor
@@ -112,14 +135,6 @@ class ProbabilityOfCollisionAlgorithm
     ///
     /// Use isApplicable() instead if you only want to know if the algorithm is applicable,
     /// but do not necessarily care about the reasons why.
-    ///
-    /// @code{.cpp}
-    ///     Array<String> unsatisfiedAssumptions = algorithm.identifyUnsatisfiedAssumptions(closeApproach);
-    ///     if (unsatisfiedAssumptions.isEmpty())
-    ///     {
-    ///         algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
-    ///     }
-    /// @endcode
     ///
     /// @code{.cpp}
     ///     Array<String> unsatisfiedAssumptions = algorithm.identifyUnsatisfiedAssumptions(closeApproach);
@@ -154,13 +169,6 @@ class ProbabilityOfCollisionAlgorithm
     /// @code{.cpp}
     ///     if (algorithm.isApplicable(closeApproach))
     ///     {
-    ///         algorithm.computeProbabilityAnalysis(closeApproach, hardBody1SPtr, hardBody2SPtr);
-    ///     }
-    /// @endcode
-    ///
-    /// @code{.cpp}
-    ///     if (algorithm.isApplicable(closeApproach))
-    ///     {
     ///         algorithm.computeProbabilityOfCollision(closeApproach, hardBody1SPtr, hardBody2SPtr);
     ///     }
     /// @endcode
@@ -169,23 +177,22 @@ class ProbabilityOfCollisionAlgorithm
     /// @return True if the algorithm is applicable to the close approach
     bool isApplicable(const CloseApproach& aCloseApproach) const;
 
-    /// @brief Compute the probability of collision analysis of a close approach
+    /// @brief Compute the probability of collision analysis of a close approach using a probability of collision
+    /// algorithm
     ///
-    /// @details If the algorithm computes a maximum probability of collision (see isMaximum()), the probability of
-    /// collision is computed once and is already an upper bound: the region is ProbabilityRegion::Maximum and the
-    /// maximum probability of collision and its scaling factors are empty.
+    /// @details The analysis is not applicable to algorithms computing a maximum probability of collision (see
+    /// isMaximum()), as their probability of collision is already an upper bound.
     ///
-    /// Otherwise, this function computes the probability of collision and locates the maximum probability of
+    /// This function computes the probability of collision and locates the maximum probability of
     /// collision as it scales the covariance(s): starting from the unscaled covariance(s), a root solver (bracket and
     /// solve) locates where the slope of the probability of collision with respect to the (logarithmic) scaling factor
     /// changes sign. The probability of collision is assumed to have a single maximum.
     ///
-    /// - If the maximum probability of collision is found to the "right" of the nominal probability of collision
-    /// (i.e. a scaling factor greater than or equal to 1), then the close approach is in the robust region
+    /// - If the maximum probability of collision is found to the "right" of the probability of collision (i.e. a
+    /// scaling factor greater than or equal to 1), then the close approach is in the robust region
     /// (ProbabilityRegion::Robust).
-    /// - If the maximum probability of collision is found to the "left" of the nominal probability of collision
-    /// (i.e. a scaling factor less than 1), then the close approach is in the diluted region
-    /// (ProbabilityRegion::Diluted).
+    /// - If the maximum probability of collision is found to the "left" of the probability of collision (i.e. a
+    /// scaling factor less than 1), then the close approach is in the diluted region (ProbabilityRegion::Diluted).
     /// - If the root solver does not converge (e.g. the probability of collision does not change with the covariance
     /// scaling, or has no maximum), then the region is unknown (ProbabilityRegion::Unknown).
     ///
@@ -193,12 +200,14 @@ class ProbabilityOfCollisionAlgorithm
     /// scaling factor and as a sigma scaling factor. In the unknown region (ProbabilityRegion::Unknown), the maximum
     /// probability of collision and its scaling factors are empty.
     ///
-    /// Raises a RuntimeError if neither covariance is to be scaled (unless the algorithm computes a maximum probability
-    /// of collision).
+    /// Raises an Undefined error if the probability of collision algorithm is undefined, a Wrong error if it computes a
+    /// maximum probability of collision, and a RuntimeError if neither covariance is to be scaled.
     ///
     /// @ref Alfano, Salvatore. (2020). Relating Position Uncertainty to Maximum Conjunction Probability.
     /// The Journal of the Astronautical Sciences. 53. 193-205. 10.1007/BF03546350.
     ///
+    /// @param aProbabilityOfCollisionAlgorithmSPtr A probability of collision algorithm (not computing a maximum
+    /// probability of collision)
     /// @param aCloseApproach A close approach
     /// @param aHardBody1SPtr The hard body of Object 1
     /// @param aHardBody2SPtr The hard body of Object 2
@@ -206,13 +215,14 @@ class ProbabilityOfCollisionAlgorithm
     /// @param scaleObject2Covariance Whether to scale Object 2 covariance. Defaults to true
     ///
     /// @return The probability of collision analysis of the close approach
-    Analysis computeProbabilityAnalysis(
+    static Analysis computeProbabilityAnalysis(
+        const Shared<const ProbabilityOfCollisionAlgorithm>& aProbabilityOfCollisionAlgorithmSPtr,
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr,
         const bool& scaleObject1Covariance = true,
         const bool& scaleObject2Covariance = true
-    ) const;
+    );
 
    protected:
     /// @brief Constructor

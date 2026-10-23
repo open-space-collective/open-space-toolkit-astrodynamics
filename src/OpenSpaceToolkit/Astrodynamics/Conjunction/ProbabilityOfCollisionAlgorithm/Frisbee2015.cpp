@@ -32,17 +32,17 @@ using ostk::astrodynamics::uncertainty::Covariance;
 const Shared<const CoordinateSubset> Frisbee2015::CartesianPositionSubsetSPtr = CartesianPosition::Default();
 
 Frisbee2015::Frisbee2015(
-    const std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>& aProbabilityOfCollisionAlgorithmSPtr,
     const bool& considerObject2Covariance,
-    const bool& considerWorstCaseWhenBothCovarianceArePresent,
+    const bool& considerWorstCaseWhenBothCovariancesArePresent,
     const Derived& aRelativeSpeedThreshold,
-    const Shared<const Frame>& aFrameSPtr
+    const Shared<const Frame>& aFrameSPtr,
+    const std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>& aProbabilityOfCollisionAlgorithmSPtr
 )
     : ProbabilityOfCollisionAlgorithm("Frisbee 2015 (Closed-form)", true),
       relativeSpeedThreshold_(aRelativeSpeedThreshold),
       frameSPtr_(aFrameSPtr),
       considerObject2Covariance_(considerObject2Covariance),
-      considerWorstCaseWhenBothCovarianceArePresent_(considerWorstCaseWhenBothCovarianceArePresent),
+      considerWorstCaseWhenBothCovariancesArePresent_(considerWorstCaseWhenBothCovariancesArePresent),
       probabilityOfCollisionAlgorithmSPtr_(aProbabilityOfCollisionAlgorithmSPtr)
 {
     if (aProbabilityOfCollisionAlgorithmSPtr.has_value())
@@ -139,7 +139,7 @@ Real Frisbee2015::computeProbabilityOfCollision(
 
     // Only Object 1 has position uncertainty, or both covariances are present but the worst case is not considered:
     // use the Object 1 covariance
-    if (!object2HasPositionUncertainty || !considerWorstCaseWhenBothCovarianceArePresent_)
+    if (!object2HasPositionUncertainty || !considerWorstCaseWhenBothCovariancesArePresent_)
     {
         return this->computeProbabilityOfCollision_(aCloseApproach, aHardBody1SPtr, aHardBody2SPtr);
     }

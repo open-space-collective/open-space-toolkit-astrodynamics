@@ -531,7 +531,8 @@ struct ComputeProbabilityOfCollisionParams
 class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Frisbee2015 : public ::testing::Test
 {
    protected:
-    const Frisbee2015 algorithm_ = {};
+    const Derived relativeSpeedThreshold_ = Derived(100.0, Derived::Unit::MeterPerSecond());
+    const Frisbee2015 algorithm_ = {true, true, relativeSpeedThreshold_, Frame::GCRF(), std::nullopt};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Frisbee2015, Constructor)
@@ -541,22 +542,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 
     {
+        EXPECT_NO_THROW(Frisbee2015(true, true, relativeSpeedThreshold_, Frame::GCRF(), std::make_shared<Alfano2005>())
+        );
+    }
+
+    {
+        EXPECT_NO_THROW(Frisbee2015(true, true, relativeSpeedThreshold_, Frame::GCRF(), std::nullopt));
+    }
+
+    {
         EXPECT_NO_THROW(Frisbee2015(
-            std::nullopt, true, true, Derived(10.0, Derived::Unit::MeterPerSecond()), Frame::J2000(Theory::IAU_2006)
+            true, true, Derived(10.0, Derived::Unit::MeterPerSecond()), Frame::J2000(Theory::IAU_2006), std::nullopt
         ));
     }
 
     {
         for (const bool considerObject2Covariance : {true, false})
         {
-            for (const bool considerWorstCaseWhenBothCovarianceArePresent : {true, false})
+            for (const bool considerWorstCaseWhenBothCovariancesArePresent : {true, false})
             {
                 EXPECT_NO_THROW(Frisbee2015(
-                    std::nullopt,
                     considerObject2Covariance,
-                    considerWorstCaseWhenBothCovarianceArePresent,
+                    considerWorstCaseWhenBothCovariancesArePresent,
                     Derived(10.0, Derived::Unit::MeterPerSecond()),
-                    Frame::J2000(Theory::IAU_2006)
+                    Frame::J2000(Theory::IAU_2006),
+                    std::nullopt
                 ));
             }
         }
@@ -565,7 +575,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                Frisbee2015(std::nullopt, true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), nullptr);
+                Frisbee2015(true, true, relativeSpeedThreshold_, nullptr);
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Frame} is undefined.", e.getMessage());
                 throw;
@@ -577,9 +587,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                Frisbee2015(
-                    std::nullopt, true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::Undefined()
-                );
+                Frisbee2015(true, true, relativeSpeedThreshold_, Frame::Undefined());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Frame} is undefined.", e.getMessage());
                 throw;
@@ -591,7 +599,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                Frisbee2015(std::nullopt, true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::ITRF());
+                Frisbee2015(true, true, relativeSpeedThreshold_, Frame::ITRF());
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("Frame = ITRF is wrong.", e.getMessage());
                 throw;
@@ -608,7 +616,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 
     {
-        const Frisbee2015 algorithm = {std::make_shared<Alfano2005>()};
+        const Frisbee2015 algorithm = {};
 
         EXPECT_EQ("Frisbee 2015 (Alfano 2005)", algorithm.getName());
     }
@@ -621,7 +629,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     }
 
     {
-        const Frisbee2015 algorithm = {std::make_shared<Alfano2005>()};
+        const Frisbee2015 algorithm = {};
 
         EXPECT_TRUE(algorithm.isMaximum());
     }
@@ -632,8 +640,8 @@ TEST_F(
     IdentifyUnsatisfiedAssumptions
 )
 {
-    const Frisbee2015 algorithmWithoutObject2Covariance = {std::nullopt, false};
-    const Frisbee2015 algorithmWithoutWorstCase = {std::nullopt, true, false};
+    const Frisbee2015 algorithmWithoutObject2Covariance = {false};
+    const Frisbee2015 algorithmWithoutWorstCase = {true, false};
 
     // The Frisbee example is a high relative speed encounter (~14 km/s)
     const CloseApproach closeApproach = buildFrisbeeExample();
@@ -684,7 +692,7 @@ TEST_F(
 
     // Relative speed below the threshold
     {
-        const Frisbee2015 algorithm = {std::nullopt, true, true, Derived(20000.0, Derived::Unit::MeterPerSecond())};
+        const Frisbee2015 algorithm = {true, true, Derived(20000.0, Derived::Unit::MeterPerSecond())};
 
         const Array<String> unsatisfiedAssumptions = algorithm.identifyUnsatisfiedAssumptions(closeApproach);
 
@@ -749,7 +757,7 @@ TEST_F(
 
     // Both covariances, but only the Object 1 covariance is used
     {
-        const Frisbee2015 algorithm = {std::nullopt, true, false};
+        const Frisbee2015 algorithm = {true, false, relativeSpeedThreshold_, Frame::GCRF(), std::nullopt};
 
         EXPECT_EQ(
             algorithm.computeProbabilityOfCollision(closeApproach, hardBodySPtr, hardBodySPtr), probabilityOfCollision1
@@ -758,7 +766,7 @@ TEST_F(
 
     // Both covariances, and the worst case is used
     {
-        const Frisbee2015 algorithm = {std::nullopt, true, true};
+        const Frisbee2015 algorithm = {true, true, relativeSpeedThreshold_, Frame::GCRF(), std::nullopt};
 
         EXPECT_EQ(
             algorithm.computeProbabilityOfCollision(closeApproach, hardBodySPtr, hardBodySPtr), probabilityOfCollision2
@@ -767,7 +775,7 @@ TEST_F(
 
     // Only the Object 2 covariance, which is allowed to be used
     {
-        const Frisbee2015 algorithm = {std::nullopt, true, false};
+        const Frisbee2015 algorithm = {true, false, relativeSpeedThreshold_, Frame::GCRF(), std::nullopt};
 
         EXPECT_EQ(
             algorithm.computeProbabilityOfCollision(removeObject1Covariance(closeApproach), hardBodySPtr, hardBodySPtr),
@@ -777,7 +785,7 @@ TEST_F(
 
     // Only the Object 2 covariance, which is allowed to be used, and the worst case is used
     {
-        const Frisbee2015 algorithm = {std::nullopt, true, true};
+        const Frisbee2015 algorithm = {true, true, relativeSpeedThreshold_, Frame::GCRF(), std::nullopt};
 
         EXPECT_EQ(
             algorithm.computeProbabilityOfCollision(removeObject1Covariance(closeApproach), hardBodySPtr, hardBodySPtr),
@@ -825,6 +833,38 @@ TEST_F(
             << "Combined hard-body radius: " << combinedHardBodyRadius;
         EXPECT_NEAR(probabilityOfCollision, tableProbabilityOfCollision, 5.0e-7)
             << "Combined hard-body radius: " << combinedHardBodyRadius;
+    }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Frisbee2015, ComputeProbabilityAnalysis
+)
+{
+    // The probability of collision is already an upper bound: the analysis is not applicable
+    const CloseApproach closeApproach = buildFrisbeeExample();
+    const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(2.0);
+
+    {
+        EXPECT_THROW(
+            try {
+                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                    std::make_shared<Frisbee2015>(algorithm_), closeApproach, hardBodySPtr, hardBodySPtr
+                );
+            } catch (const ostk::core::error::runtime::Wrong& e) {
+                EXPECT_EQ("Probability of collision algorithm = Frisbee 2015 (Closed-form) is wrong.", e.getMessage());
+                throw;
+            },
+            ostk::core::error::runtime::Wrong
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                std::make_shared<Frisbee2015>(), closeApproach, hardBodySPtr, hardBodySPtr
+            ),
+            ostk::core::error::runtime::Wrong
+        );
     }
 }
 
@@ -1348,7 +1388,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST_P(
     OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Frisbee2015_Parameterized,
-    ComputeProbabilityAnalysis
+    ComputeProbabilityOfCollision
 )
 {
     const ComputeProbabilityOfCollisionParams& params = GetParam();
@@ -1356,44 +1396,30 @@ TEST_P(
     // The combined hard-body radius is split evenly between both objects
     const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(params.combinedHardBodyRadius / 2.0);
 
-    // The probability of collision is already an upper bound: the region is maximum and the maximum probability of
-    // collision and its scaling factors are empty
-    const auto expectMaximumRegion = [](const ProbabilityOfCollisionAlgorithm::Analysis& anAnalysis)
-    {
-        EXPECT_EQ(anAnalysis.region, ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Maximum);
-        EXPECT_FALSE(anAnalysis.maximumProbabilityOfCollision.has_value());
-        EXPECT_FALSE(anAnalysis.maximumProbabilityOfCollisionScalingFactor.has_value());
-        EXPECT_FALSE(anAnalysis.maximumProbabilityOfCollisionSigmaScalingFactor.has_value());
-    };
-
     // Closed form (Frisbee 2015, Equation 5)
     if (params.closedFormRelativeTolerance.has_value())
     {
-        const Frisbee2015 algorithm = {};
-
-        const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-            algorithm.computeProbabilityAnalysis(params.closeApproach, hardBodySPtr, hardBodySPtr);
+        const Frisbee2015 algorithm = {
+            true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), std::nullopt
+        };
 
         EXPECT_NEAR(
-            analysis.probabilityOfCollision,
+            algorithm.computeProbabilityOfCollision(params.closeApproach, hardBodySPtr, hardBodySPtr),
             params.expectedProbabilityOfCollision,
             params.expectedProbabilityOfCollision * params.closedFormRelativeTolerance.value()
         ) << "Closed form";
-        expectMaximumRegion(analysis);
     }
 
     // Alfano 2005 numerical integration of the critical degenerate covariance
     {
-        const Frisbee2015 algorithm = {std::make_shared<Alfano2005>()};
-
-        const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-            algorithm.computeProbabilityAnalysis(params.closeApproach, hardBodySPtr, hardBodySPtr);
+        const Frisbee2015 algorithm = {
+            true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), std::make_shared<Alfano2005>()
+        };
 
         EXPECT_NEAR(
-            analysis.probabilityOfCollision,
+            algorithm.computeProbabilityOfCollision(params.closeApproach, hardBodySPtr, hardBodySPtr),
             params.expectedProbabilityOfCollision,
             params.expectedProbabilityOfCollision * params.alfano2005RelativeTolerance
         ) << "Alfano 2005";
-        expectMaximumRegion(analysis);
     }
 }

@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 
 namespace ostk
@@ -38,6 +39,7 @@ using ostk::physics::unit::Derived;
 using ostk::astrodynamics::conjunction::CloseApproach;
 using ostk::astrodynamics::conjunction::HardBody;
 using ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm;
+using ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 /// @brief Frisbee 2015 maximum probability of collision algorithm as described in:
@@ -65,34 +67,40 @@ class Frisbee2015 : public ProbabilityOfCollisionAlgorithm
     ///
     /// @code{.cpp}
     ///     Frisbee2015 algorithm = {} ;
-    ///     Frisbee2015 algorithm = { std::make_shared<Alfano2005>() } ;
     ///     Frisbee2015 algorithm = {
-    ///         std::nullopt, true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF()
+    ///         true,
+    ///         true,
+    ///         Derived(100.0, Derived::Unit::MeterPerSecond()),
+    ///         Frame::GCRF(),
+    ///         std::make_shared<Alfano2005>()
+    ///     } ;
+    ///     Frisbee2015 algorithm = {
+    ///         true, true, Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), std::nullopt
     ///     } ;
     /// @endcode
     ///
-    /// @param aProbabilityOfCollisionAlgorithmSPtr A probability of collision algorithm used to compute the probability
-    /// of collision from the critical (degenerate) combined covariance. If std::nullopt, Frisbee's closed-form solution
-    /// is used. Defaults to std::nullopt.
     /// @param considerObject2Covariance Whether to use the Object 2 covariance when Object 1 has no position
     /// uncertainty. If false, only the Object 1 covariance is used. Defaults to true.
-    /// @param considerWorstCaseWhenBothCovarianceArePresent Whether to use the worst case (i.e. the covariance yielding
-    /// the highest probability of collision) when both covariances are present and the Object 2 covariance can be
-    /// considered. Defaults to true.
+    /// @param considerWorstCaseWhenBothCovariancesArePresent Whether to use the worst case (i.e. the covariance
+    /// yielding the highest probability of collision) when both covariances are present and the Object 2 covariance
+    /// can be considered. Defaults to true.
     /// @param aRelativeSpeedThreshold A relative speed threshold below which the close approach is considered a low
     /// relative speed encounter and the algorithm is not applicable. Defaults to 100 m/s.
     /// @param aFrameSPtr An inertial (or quasi-inertial) frame to use. Defaults to Frame::GCRF().
+    /// @param aProbabilityOfCollisionAlgorithmSPtr A probability of collision algorithm used to compute the probability
+    /// of collision from the critical (degenerate) combined covariance. If std::nullopt, Frisbee's closed-form solution
+    /// is used (see note below). Defaults to Alfano2005.
     ///
     /// @note Frisbee's closed-form solution degrades when the combined hard-body radius is large compared to the
     /// smaller standard deviation of the critical combined covariance (sigma_min). In such cases, using a 2D
     /// probability of collision algorithm (e.g. Alfano2005) is recommended.
     Frisbee2015(
-        const std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>& aProbabilityOfCollisionAlgorithmSPtr =
-            std::nullopt,
         const bool& considerObject2Covariance = true,
-        const bool& considerWorstCaseWhenBothCovarianceArePresent = true,
+        const bool& considerWorstCaseWhenBothCovariancesArePresent = true,
         const Derived& aRelativeSpeedThreshold = Derived(100.0, Derived::Unit::MeterPerSecond()),
-        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF(),
+        const std::optional<Shared<const ProbabilityOfCollisionAlgorithm>>& aProbabilityOfCollisionAlgorithmSPtr =
+            std::make_shared<Alfano2005>()
     );
 
     /// @brief Destructor
@@ -139,7 +147,7 @@ class Frisbee2015 : public ProbabilityOfCollisionAlgorithm
     Derived relativeSpeedThreshold_;
     Shared<const Frame> frameSPtr_;
     bool considerObject2Covariance_;
-    bool considerWorstCaseWhenBothCovarianceArePresent_;
+    bool considerWorstCaseWhenBothCovariancesArePresent_;
     std::optional<Shared<const ProbabilityOfCollisionAlgorithm>> probabilityOfCollisionAlgorithmSPtr_;
 };
 
