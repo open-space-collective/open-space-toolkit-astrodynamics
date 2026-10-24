@@ -71,186 +71,150 @@ using ostk::astrodynamics::trajectory::State;
 class Profile
 {
    public:
-    enum class Axis
-    {
-        X,
-        Y,
-        Z
-    };
-
+    /// @brief Represents the type of target to point towards.
     enum class TargetType
     {
-        GeocentricNadir,              /// Negative of the position vector of the satellite in the ECI frame
-        GeodeticNadir,                /// Negative of the geodetic normal of the satellite in the ECI frame
-        TargetPosition,               /// Points towards the provided target position
-        TargetVelocity,               /// Points along the provided target's velocity vector
-        TargetSlidingGroundVelocity,  /// Points along the provided target's ground velocity vector (aka the scan
-                                      /// direction of the point sliding across the ground)
-        Sun,                          /// The position of the Sun
-        Moon,                         /// The position of the Moon
-        VelocityECI,                  /// The velocity vector in the ECI frame
-        OrbitalMomentum,              /// The orbital momentum vector of the satellite in the ECI frame
-        OrientationProfile,           /// Points towards a profile of orientations in the ECI frame
-        Custom,                       /// Custom target
+        // Simple pre-defined targets
+        GeocentricNadir,  /// Negative of the position vector of the satellite in the ECI frame
+        GeodeticNadir,    /// Negative of the geodetic normal of the satellite in the ECI frame
+        VelocityECI,      /// The velocity vector of the satellite in the ECI frame
+        VelocityECEF,     /// The velocity vector of the satellite in the ECEF frame
+        OrbitalMomentum,  /// The orbital momentum vector of the satellite in the ECI frame
+        Sun,              /// The position of the Sun
+        Moon,             /// The position of the Moon
+
+        // Pointing relative to a provided trajectory (inertial or earth-fixed)
+        TrajectoryPosition,               /// Points towards the provided trajectory's position
+        TrajectoryVelocity,               /// Points along the provided trajectory's velocity vector
+        TrajectorySlidingGroundVelocity,  /// Points along the provided trajectory's ground velocity vector (aka the
+                                          /// scan direction of the point sliding across the ground)
+
+        // Custom pointing
+        CustomProfileECI,           /// Pointing pre-defined via a profile of vectors in the ECI frame
+        CustomProfileGeneratorECI,  /// Pointing generated at each timestep by a function of that returns a vector in
+                                    /// the ECI frame
     };
 
-    /// @brief Represents a target for alignment or pointing purposes.
-    class Target
+    /// @brief Represents pointing of one axis of your spacecraft towards a target.
+    class Pointing
     {
        public:
-        /// @brief Constructs a Target object.
+        /// @brief Constructs a Pointing object.
         ///
         /// @param aType The type of the target.
-        /// @param aDirection The direction (unit vector) of the target.
-        Target(const TargetType& aType, const Vector3d& aDirection);
-
-        /// @brief Constructs a Target object from an axis.
-        ///
-        /// @param aType The type of the target.
-        /// @param anAxis The axis to convert to a direction vector.
-        /// @param isAntiDirection If true, use the negative direction (default: false).
-        Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection = false);
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
+        Pointing(const TargetType& aType, const Vector3d& aDirectionInBodyFrame);
 
         TargetType type;     ///< The type of the target.
         Vector3d direction;  ///< The direction (unit vector) of the target.
     };
 
-    /// @brief Represents a target that points towards a trajectory.
-    class TrajectoryTarget : public Target
+    /// @brief Represents pointing of one axis of your spacecraft towards a trajectory.
+    class TrajectoryPointing : public Pointing
     {
        public:
-        /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
+        /// @brief Constructs a TrajectoryPointing object, pointing towards the provided trajectory's position.
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param aDirection The direction (unit vector) of the target.
-        static TrajectoryTarget TargetPosition(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
+        static TrajectoryPointing TargetPosition(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
         );
 
-        /// @brief Constructs a TrajectoryTarget object of type Trajectory, pointing towards a specific position.
+        /// @brief Constructs a TrajectoryPointing object, pointing towards the provided trajectory's velocity vector.
+        /// @note When choosing this as a clocking target, the resulting profile will not compensate for the rotation of
+        /// the referenced celestial body (yaw compensation).
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis to convert to a direction vector.
-        /// @param isAntiDirection If true, use the negative direction (default: false).
-        static TrajectoryTarget TargetPosition(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
+        static TrajectoryPointing TargetVelocity(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
         );
 
-        /// @brief Constructs a TrajectoryTarget object of type TargetVelocity, pointing along the scan direction. When
-        /// choosing this as a clocking target, the resulting profile will not be yaw compensated.
+        /// @brief Constructs a TrajectoryPointing object, pointing along the provided trajectory's ground velocity
+        /// vector (aka the scan direction of the point sliding across the ground).
+        /// @note When choosing this as a clocking target, the resulting profile will compensate for the rotation of the
+        /// referenced celestial body (yaw compensation).
         ///
         /// @param aTrajectory The trajectory to point towards.
-        /// @param aDirection The direction (unit vector) of the target.
-        static TrajectoryTarget TargetVelocity(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
-        );
-
-        /// @brief Constructs a TrajectoryTarget object of type TargetVelocity, pointing along the scan direction. When
-        /// choosing this as a clocking target, the resulting profile will not be yaw compensated.
-        ///
-        /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis to convert to a direction vector.
-        /// @param isAntiDirection If true, use the negative direction (default: false).
-        static TrajectoryTarget TargetVelocity(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
-        );
-
-        /// @brief Constructs a TrajectoryTarget object of type TargetSlidingGroundVelocity, pointing along the ground
-        /// velocity vector (aka the scan direction of the point sliding across the ground). This will compensate for
-        /// the rotation of the referenced celestial body.
-        ///
-        /// @param aTrajectory The trajectory to point towards.
-        /// @param aDirection The direction (unit vector) of the target.
-        static TrajectoryTarget TargetSlidingGroundVelocity(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
-        );
-
-        /// @brief Constructs a TrajectoryTarget object of type TargetSlidingGroundVelocity, pointing along the ground
-        /// velocity vector (aka the scan direction of the point sliding across the ground). This will compensate for
-        /// the rotation of the referenced celestial body.
-        ///
-        /// @param aTrajectory The trajectory to point towards.
-        /// @param anAxis The axis to convert to a direction vector.
-        /// @param isAntiDirection If true, use the negative direction (default: false).
-        static TrajectoryTarget TargetSlidingGroundVelocity(
-            const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection = false
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
+        static TrajectoryPointing TargetSlidingGroundVelocity(
+            const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
         );
 
         ostk::astrodynamics::Trajectory trajectory;  ///< The trajectory to point towards.
 
        private:
-        /// @brief Constructs a TrajectoryTarget object.
+        /// @brief Constructs a TrajectoryPointing object.
         ///
         /// @param aType The type of the target.
         /// @param aTrajectory The trajectory to point towards.
-        /// @param aDirection The direction (unit vector) of the target.
-        TrajectoryTarget(
-            const TargetType& aType, const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
+        TrajectoryPointing(
+            const TargetType& aType,
+            const ostk::astrodynamics::Trajectory& aTrajectory,
+            const Vector3d& aDirectionInBodyFrame
         );
     };
 
-    /// @brief Represents a target that points towards a profile of orientations.
-    class OrientationProfileTarget : public Target
+    /// @brief Represents pointing of one axis of your spacecraft towards a custom pointing profile in the ECI frame.
+    /// @note The profile is provided up front (must be known beforehand).
+    class CustomProfilePointing : public Pointing
     {
        public:
-        /// @brief Constructs an OrientationProfileTarget object.
+        /// @brief Constructs a CustomProfilePointing object.
         ///
-        /// @param anOrientationProfile The profile of orientations.
-        /// @param aDirection The direction (unit vector) of the target.
+        /// @param aPointingProfileECI The profile of pointing vectors in the ECI frame.
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
         /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
-        OrientationProfileTarget(
-            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
-            const Vector3d& aDirection,
+        CustomProfilePointing(
+            const Array<Pair<Instant, Vector3d>>& aPointingProfileECI,
+            const Vector3d& aDirectionInBodyFrame,
             const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
         );
 
-        /// @brief Constructs an OrientationProfileTarget object from an axis.
+        /// @brief Interpolates the pointing vector in ECI at a specified instant using the profile.
         ///
-        /// @param anOrientationProfile The profile of orientations.
-        /// @param anAxis The axis to convert to a direction vector.
-        /// @param isAntiDirection If true, use the negative direction (default: false).
-        /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
-        OrientationProfileTarget(
-            const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false,
-            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
-        );
+        /// @param anInstant The instant at which to interpolate the pointing vector.
+        /// @return The pointing vector in ECI at the specified instant.
+        Vector3d interpolatePointingVectorAt(const Instant& anInstant) const;
 
-        /// @brief Gets the alignment vector at a specific instant.
-        ///
-        /// @param anInstant The instant at which to get the alignment vector.
-        /// @return The alignment vector at the specified instant.
-        Vector3d getAlignmentVectorAt(const Instant& anInstant) const;
-
-        Array<Pair<Instant, Vector3d>> orientationProfile;  ///< The profile of orientations.
+        Array<Pair<Instant, Vector3d>> pointingProfileECI;
 
        private:
-        Array<Shared<const Interpolator>> interpolators_;  ///< Interpolators for the orientation profile.
+        Array<Shared<const Interpolator>> interpolators_;
     };
 
-    class CustomTarget : public Target
+    /// @brief Represents pointing of one axis of your spacecraft towards a custom pointing profile generator.
+    /// @note The pointing vector is generated at each timestep by a function of that returns a vector in the ECI frame
+    /// (does not need to be known beforehand).
+    class CustomProfileGeneratorPointing : public Pointing
     {
        public:
-        /// @brief Constructs a CustomTarget object.
+        /// @brief Constructs a CustomProfileGeneratorPointing object.
         ///
-        /// @param anOrientationGenerator The orientation generator.
-        /// @param aDirection The direction (unit vector) of the target.
-        CustomTarget(std::function<Vector3d(const State&)> anOrientationGenerator, const Vector3d& aDirection);
-
-        /// @brief Constructs a CustomTarget object from an axis.
-        ///
-        /// @param anOrientationGenerator The orientation generator.
-        /// @param anAxis The axis to convert to a direction vector.
-        /// @param isAntiDirection If true, use the negative direction (default: false).
-        CustomTarget(
-            std::function<Vector3d(const State&)> anOrientationGenerator,
-            const Axis& anAxis,
-            const bool& isAntiDirection = false
+        /// @param aPointingProfileGeneratorECI The function that generates the pointing vector in the ECI frame from
+        /// the state at a given instant.
+        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
+        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
+        /// for the Z axis).
+        CustomProfileGeneratorPointing(
+            std::function<Vector3d(const State&)> aPointingProfileGeneratorECI, const Vector3d& aDirectionInBodyFrame
         );
 
-        /// @brief The orientation generator.
-        std::function<Vector3d(const State&)> orientationGenerator;
+        std::function<Vector3d(const State&)> pointingProfileGeneratorECI;
     };
 
     /// @brief Constructor
@@ -299,7 +263,7 @@ class Profile
     /// @return Const reference to the profile model
     const Model& accessModel() const;
 
-    /// @brief Get state at a given instant
+    /// @brief Get the spacecraft state at a given instant
     ///
     /// @code{.cpp}
     ///              Profile profile = { ... };
@@ -311,7 +275,7 @@ class Profile
     /// @return State
     State getStateAt(const Instant& anInstant) const;
 
-    /// @brief Get states at a given instants
+    /// @brief Get spacecraft states at given instants
     ///
     /// @code{.cpp}
     ///              Profile profile = { ... };
@@ -323,7 +287,7 @@ class Profile
     /// @return Array of states
     Array<State> getStatesAt(const Array<Instant>& anInstantArray) const;
 
-    /// @brief Get axes at a given instant
+    /// @brief Get the spacecraft axes at a given instant
     ///
     /// @code{.cpp}
     ///              Profile profile = { ... };
@@ -362,23 +326,37 @@ class Profile
     /// @return Undefined profile
     static Profile Undefined();
 
-    /// @brief Constructs a flight profile with inertial pointing
+    /// @brief Constructs a flight profile with constant inertial pointing
     ///
     /// @param aTrajectory A trajectory
     /// @param aQuaternion A pointing in GCRF
     /// @return Flight profile
-    static Profile InertialPointing(const ostk::astrodynamics::Trajectory& aTrajectory, const Quaternion& aQuaternion);
+    static Profile ConstantInertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion);
 
-    /// @brief Constructs a flight profile with local orbital frame pointing
+    /// @brief Constructs a flight profile with a constant local orbital frame pointing
     ///
     /// @param anOrbit An orbit
     /// @param anOrbitalFrameType An orbital frame type
     /// @return Flight profile
-    static Profile LocalOrbitalFramePointing(
+    static Profile ConstantLocalOrbitalFramePointing(
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );
 
-    /// @brief Construct a flight profile with custom target pointing
+    /// @brief Construct a flight profile with constrained (alignment vector + clocking vector) pointing
+    ///
+    /// @param anOrbit An orbit
+    /// @param anAlignmentPointingSPtr An alignment pointing vector
+    /// @param aClockingPointingSPtr A clocking pointing vector
+    /// @param anAngularClockingOffset An angular offset applied to the clocking pointing vector
+    /// @return Flight profile
+    static Profile ConstrainedPointing(
+        const trajectory::Orbit& anOrbit,
+        const Shared<const Pointing>& anAlignmentPointingSPtr,
+        const Shared<const Pointing>& aClockingPointingSPtr,
+        const Angle& anAngularClockingOffset = Angle::Zero()
+    );
+
+    /// @brief Construct a flight profile with fully custom pointing
     ///
     /// @param anOrbit An orbit
     /// @param anOrientationGenerator An orientation generator
@@ -387,32 +365,19 @@ class Profile
         const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
     );
 
-    /// @brief Construct a flight profile with custom target pointing
+    /// @brief Generate a function that returns a quaternion constrained by alignment and clocking pointing vectors for
+    /// each given state.
     ///
-    /// @param anOrbit An orbit
-    /// @param anAlignmentTarget An alignment target
-    /// @param aClockingTarget A clocking target
-    /// @param anAngularOffset An angular offset
-    /// @return Flight profile
-    static Profile CustomPointing(
-        const trajectory::Orbit& anOrbit,
-        const Shared<const Target>& anAlignmentTargetSPtr,
-        const Shared<const Target>& aClockingTargetSPtr,
-        const Angle& anAngularOffset = Angle::Zero()
-    );
-
-    /// @brief Generate a function that provides a quaternion that aligns and constrains for a given state.
-    ///
-    /// @param anAlignmentTargetSPtr An alignment target
-    /// @param aClockingTargetSPtr A clocking target
+    /// @param anAlignmentPointingSPtr An alignment pointing vector
+    /// @param aClockingPointingSPtr A clocking pointing vector
     /// @param aCelestialSPtr A celestial object. Its body frame will be used for geodetic nadir and
     /// sliding ground velocity calculations
-    /// @param anAngularOffset An angular offset applied to the clocking axis
+    /// @param anAngularClockingOffset An angular offset applied to the clocking pointing vector
     static std::function<Quaternion(const State&)> AlignAndConstrain(
-        const Shared<const Target>& anAlignmentTargetSPtr,
-        const Shared<const Target>& aClockingTargetSPtr,
+        const Shared<const Pointing>& anAlignmentPointingSPtr,
+        const Shared<const Pointing>& aClockingPointingSPtr,
         const Shared<const Celestial>& aCelestialSPtr,
-        const Angle& anAngularOffset = Angle::Zero()
+        const Angle& anAngularClockingOffset = Angle::Zero()
     );
 
    private:
@@ -444,11 +409,13 @@ class Profile
 
     static Vector3d ComputeVelocityDirectionVector_ECI(const State& aState);
 
+    static Vector3d ComputeVelocityDirectionVector_ECEF(
+        const State& aState, const Shared<const Frame>& aCelestialFrameSPtr
+    );
+
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 
     static Vector3d ComputeClockingVector(const Vector3d& anAligmentVector, const Vector3d& aDesiredClockingVector);
-
-    static Vector3d AxisToDirection(const Axis& anAxis, const bool& isAntiDirection);
 };
 
 }  // namespace flight

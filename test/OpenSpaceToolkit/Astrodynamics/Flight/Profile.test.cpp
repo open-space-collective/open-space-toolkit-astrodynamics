@@ -110,7 +110,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 
         this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        this->profile_ = Profile::LocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
+        this->profile_ = Profile::ConstantLocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
     }
 
     Orbit orbit_ = Orbit::Undefined();
@@ -293,7 +293,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
 {
     {
         const Environment environment = Environment::Default();
@@ -319,7 +319,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::InertialPointing(orbit, Quaternion::Unit());
+        const Profile profile = Profile::ConstantInertialPointing(orbit, Quaternion::Unit());
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -405,7 +405,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 }
 
 // TBI: Should move these tests to the Transform test suite and only test interface here
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_VVLH)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFramePointing_VVLH)
 {
     // VVLH #1
 
@@ -433,7 +433,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::LocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
+        const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -544,7 +544,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::LocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
+        const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -655,7 +655,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, LocalOrbitalFramePointing_
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
-        const Profile profile = Profile::LocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
+        const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
         const Real positionTolerance_m = 1e-3;
         const Real velocityTolerance_meterPerSec = 1e-6;
@@ -848,248 +848,118 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Target)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Pointing)
 {
-    // Test constructor with Vector3d direction
     {
-        EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::Pointing(Profile::TargetType::GeocentricNadir, Vector3d::X()));
 
         EXPECT_THROW(
-            Profile::Target(Profile::TargetType::GeocentricNadir, Vector3d::X() * 2.0), ostk::core::error::RuntimeError
+            Profile::Pointing(Profile::TargetType::GeocentricNadir, Vector3d::X() * 2.0),
+            ostk::core::error::RuntimeError
         );
     }
 
-    // Test constructor with Axis
-    {
-        EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::Target(Profile::TargetType::GeocentricNadir, Profile::Axis::Y, true));
-    }
-
-    // Verify that direction is correctly set for Axis-based constructors
-    {
-        Profile::Target targetXPositive(Profile::TargetType::GeocentricNadir, Profile::Axis::X, false);
-        EXPECT_TRUE(targetXPositive.direction.isNear(Vector3d::X(), 1e-12));
-
-        Profile::Target targetXNegative(Profile::TargetType::GeocentricNadir, Profile::Axis::X, true);
-        EXPECT_TRUE(targetXNegative.direction.isNear(-Vector3d::X(), 1e-12));
-
-        Profile::Target targetYPositive(Profile::TargetType::GeocentricNadir, Profile::Axis::Y, false);
-        EXPECT_TRUE(targetYPositive.direction.isNear(Vector3d::Y(), 1e-12));
-
-        Profile::Target targetYNegative(Profile::TargetType::GeocentricNadir, Profile::Axis::Y, true);
-        EXPECT_TRUE(targetYNegative.direction.isNear(-Vector3d::Y(), 1e-12));
-
-        Profile::Target targetZPositive(Profile::TargetType::GeocentricNadir, Profile::Axis::Z, false);
-        EXPECT_TRUE(targetZPositive.direction.isNear(Vector3d::Z(), 1e-12));
-
-        Profile::Target targetZNegative(Profile::TargetType::GeocentricNadir, Profile::Axis::Z, true);
-        EXPECT_TRUE(targetZNegative.direction.isNear(-Vector3d::Z(), 1e-12));
-    }
-
-    // Verify that direction is correctly set for Vector3d-based constructors
     {
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
-        Profile::Target target(Profile::TargetType::GeocentricNadir, customDirection);
-        EXPECT_TRUE(target.direction.isNear(customDirection, 1e-12));
+        Profile::Pointing pointing(Profile::TargetType::GeocentricNadir, customDirection);
+        EXPECT_TRUE(pointing.direction.isNear(customDirection, 1e-12));
+        EXPECT_EQ(pointing.type, Profile::TargetType::GeocentricNadir);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryTarget)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryPointing)
 {
-    // Test undefined trajectory throws for Vector3d-based static factory methods
+    // Test undefined trajectory throws
     {
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetPosition(Trajectory::Undefined(), Vector3d::X()),
+            Profile::TrajectoryPointing::TargetPosition(Trajectory::Undefined(), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Vector3d::X()),
+            Profile::TrajectoryPointing::TargetVelocity(Trajectory::Undefined(), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(Trajectory::Undefined(), Vector3d::X()),
+            Profile::TrajectoryPointing::TargetSlidingGroundVelocity(Trajectory::Undefined(), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
     }
 
-    // Test undefined trajectory throws for Axis-based static factory methods
-    {
-        EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetPosition(Trajectory::Undefined(), Profile::Axis::X),
-            ostk::core::error::runtime::Undefined
-        );
-        EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetVelocity(Trajectory::Undefined(), Profile::Axis::X),
-            ostk::core::error::runtime::Undefined
-        );
-        EXPECT_THROW(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(Trajectory::Undefined(), Profile::Axis::X),
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    // Test valid trajectory with Vector3d direction
+    // Test valid trajectory
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
 
-        // Testing static factory methods with Vector3d
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X()));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetVelocity(trajectory, Vector3d::Y()));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Vector3d::Z()));
-
-        // Testing static factory methods with Axis
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::Y, true));
+        EXPECT_NO_THROW(Profile::TrajectoryPointing::TargetPosition(trajectory, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::TrajectoryPointing::TargetVelocity(trajectory, Vector3d::Y()));
+        EXPECT_NO_THROW(Profile::TrajectoryPointing::TargetSlidingGroundVelocity(trajectory, Vector3d::Z()));
     }
 
-    // Verify direction is correctly set for Vector3d-based methods
+    // Verify direction and type are correctly set
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
 
-        Profile::TrajectoryTarget targetPosition =
-            Profile::TrajectoryTarget::TargetPosition(trajectory, customDirection);
-        EXPECT_TRUE(targetPosition.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(targetPosition.type, Profile::TargetType::TargetPosition);
+        Profile::TrajectoryPointing trajectoryPosition =
+            Profile::TrajectoryPointing::TargetPosition(trajectory, customDirection);
+        EXPECT_TRUE(trajectoryPosition.direction.isNear(customDirection, 1e-12));
+        EXPECT_EQ(trajectoryPosition.type, Profile::TargetType::TrajectoryPosition);
 
-        Profile::TrajectoryTarget targetVelocity =
-            Profile::TrajectoryTarget::TargetVelocity(trajectory, customDirection);
-        EXPECT_TRUE(targetVelocity.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(targetVelocity.type, Profile::TargetType::TargetVelocity);
+        Profile::TrajectoryPointing trajectoryVelocity =
+            Profile::TrajectoryPointing::TargetVelocity(trajectory, customDirection);
+        EXPECT_TRUE(trajectoryVelocity.direction.isNear(customDirection, 1e-12));
+        EXPECT_EQ(trajectoryVelocity.type, Profile::TargetType::TrajectoryVelocity);
 
-        Profile::TrajectoryTarget targetSlidingGroundVelocity =
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, customDirection);
-        EXPECT_TRUE(targetSlidingGroundVelocity.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(targetSlidingGroundVelocity.type, Profile::TargetType::TargetSlidingGroundVelocity);
-    }
-
-    // Verify direction is correctly set for Axis-based methods
-    {
-        const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
-
-        Profile::TrajectoryTarget targetPositionX =
-            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X, false);
-        EXPECT_TRUE(targetPositionX.direction.isNear(Vector3d::X(), 1e-12));
-
-        Profile::TrajectoryTarget targetPositionXNeg =
-            Profile::TrajectoryTarget::TargetPosition(trajectory, Profile::Axis::X, true);
-        EXPECT_TRUE(targetPositionXNeg.direction.isNear(-Vector3d::X(), 1e-12));
-
-        Profile::TrajectoryTarget targetVelocityY =
-            Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::Y, false);
-        EXPECT_TRUE(targetVelocityY.direction.isNear(Vector3d::Y(), 1e-12));
-
-        Profile::TrajectoryTarget targetVelocityYNeg =
-            Profile::TrajectoryTarget::TargetVelocity(trajectory, Profile::Axis::Y, true);
-        EXPECT_TRUE(targetVelocityYNeg.direction.isNear(-Vector3d::Y(), 1e-12));
-
-        Profile::TrajectoryTarget targetSlidingGroundVelocityZ =
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::Z, false);
-        EXPECT_TRUE(targetSlidingGroundVelocityZ.direction.isNear(Vector3d::Z(), 1e-12));
-
-        Profile::TrajectoryTarget targetSlidingGroundVelocityZNeg =
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(trajectory, Profile::Axis::Z, true);
-        EXPECT_TRUE(targetSlidingGroundVelocityZNeg.direction.isNear(-Vector3d::Z(), 1e-12));
+        Profile::TrajectoryPointing trajectorySlidingGroundVelocity =
+            Profile::TrajectoryPointing::TargetSlidingGroundVelocity(trajectory, customDirection);
+        EXPECT_TRUE(trajectorySlidingGroundVelocity.direction.isNear(customDirection, 1e-12));
+        EXPECT_EQ(trajectorySlidingGroundVelocity.type, Profile::TargetType::TrajectorySlidingGroundVelocity);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomTarget)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfileGeneratorPointing)
 {
-    std::function<Vector3d(const State&)> orientationGenerator = [](const State&) -> Vector3d
+    std::function<Vector3d(const State&)> pointingProfileGeneratorECI = [](const State&) -> Vector3d
     {
         return Vector3d::X();
     };
 
-    // Test constructor with Vector3d direction
     {
-        EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Vector3d::X()));
-        EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Vector3d::Y()));
+        EXPECT_NO_THROW(Profile::CustomProfileGeneratorPointing(pointingProfileGeneratorECI, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::CustomProfileGeneratorPointing(pointingProfileGeneratorECI, Vector3d::Y()));
     }
 
-    // Test constructor with Axis
-    {
-        EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::CustomTarget(orientationGenerator, Profile::Axis::Y, false));
-    }
-
-    // Verify direction is correctly set for Vector3d-based constructor
     {
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
-        const Profile::CustomTarget target = Profile::CustomTarget(orientationGenerator, customDirection);
-        EXPECT_TRUE(target.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(target.type, Profile::TargetType::Custom);
-    }
-
-    // Verify direction is correctly set for Axis-based constructor
-    {
-        Profile::CustomTarget targetXPositive(orientationGenerator, Profile::Axis::X, false);
-        EXPECT_TRUE(targetXPositive.direction.isNear(Vector3d::X(), 1e-12));
-
-        Profile::CustomTarget targetXNegative(orientationGenerator, Profile::Axis::X, true);
-        EXPECT_TRUE(targetXNegative.direction.isNear(-Vector3d::X(), 1e-12));
-
-        Profile::CustomTarget targetYPositive(orientationGenerator, Profile::Axis::Y, false);
-        EXPECT_TRUE(targetYPositive.direction.isNear(Vector3d::Y(), 1e-12));
-
-        Profile::CustomTarget targetYNegative(orientationGenerator, Profile::Axis::Y, true);
-        EXPECT_TRUE(targetYNegative.direction.isNear(-Vector3d::Y(), 1e-12));
-
-        Profile::CustomTarget targetZPositive(orientationGenerator, Profile::Axis::Z, false);
-        EXPECT_TRUE(targetZPositive.direction.isNear(Vector3d::Z(), 1e-12));
-
-        Profile::CustomTarget targetZNegative(orientationGenerator, Profile::Axis::Z, true);
-        EXPECT_TRUE(targetZNegative.direction.isNear(-Vector3d::Z(), 1e-12));
+        const Profile::CustomProfileGeneratorPointing pointing =
+            Profile::CustomProfileGeneratorPointing(pointingProfileGeneratorECI, customDirection);
+        EXPECT_TRUE(pointing.direction.isNear(customDirection, 1e-12));
+        EXPECT_EQ(pointing.type, Profile::TargetType::CustomProfileGeneratorECI);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfilePointing)
 {
-    // Test empty orientation profile throws with Vector3d
+    // Test empty pointing profile throws
     {
-        EXPECT_THROW(Profile::OrientationProfileTarget({}, Vector3d::X()), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Profile::CustomProfilePointing({}, Vector3d::X()), ostk::core::error::runtime::Undefined);
     }
 
-    // Test empty orientation profile throws with Axis
+    // Test valid pointing profile
     {
-        EXPECT_THROW(Profile::OrientationProfileTarget({}, Profile::Axis::X), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(
-            Profile::OrientationProfileTarget({}, Profile::Axis::X, false), ostk::core::error::runtime::Undefined
-        );
-    }
-
-    // Test valid orientation profile with Vector3d direction
-    {
-        const Array<Pair<Instant, Vector3d>> orientationProfile = {
+        const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
-        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Vector3d::X()));
-        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Vector3d::X(), Interpolator::Type::Linear)
-        );
+        EXPECT_NO_THROW(Profile::CustomProfilePointing(pointingProfileECI, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::CustomProfilePointing(pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear));
     }
 
-    // Test valid orientation profile with Axis
+    // Verify direction and type are correctly set
     {
-        const Array<Pair<Instant, Vector3d>> orientationProfile = {
-            {Instant::J2000(), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
-        };
-        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X));
-        EXPECT_NO_THROW(Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X, false));
-        EXPECT_NO_THROW(
-            Profile::OrientationProfileTarget(orientationProfile, Profile::Axis::X, false, Interpolator::Type::Linear)
-        );
-    }
-
-    // Verify direction is correctly set for Vector3d-based constructor
-    {
-        const Array<Pair<Instant, Vector3d>> orientationProfile = {
+        const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
@@ -1097,38 +967,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, OrientationProfileTarget)
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
-        Profile::OrientationProfileTarget target(orientationProfile, customDirection);
-        EXPECT_TRUE(target.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(target.type, Profile::TargetType::OrientationProfile);
+        Profile::CustomProfilePointing pointing(pointingProfileECI, customDirection);
+        EXPECT_TRUE(pointing.direction.isNear(customDirection, 1e-12));
+        EXPECT_EQ(pointing.type, Profile::TargetType::CustomProfileECI);
     }
 
-    // Verify direction is correctly set for Axis-based constructor
+    // Verify pointing vector interpolation
     {
-        const Array<Pair<Instant, Vector3d>> orientationProfile = {
+        const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
             {Instant::J2000(), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
-            {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
+            {Instant::J2000() + Duration::Seconds(10.0), Vector3d::Y()},
         };
+        const Profile::CustomProfilePointing pointing(pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear);
 
-        Profile::OrientationProfileTarget targetXPositive(orientationProfile, Profile::Axis::X, false);
-        EXPECT_TRUE(targetXPositive.direction.isNear(Vector3d::X(), 1e-12));
-
-        Profile::OrientationProfileTarget targetXNegative(orientationProfile, Profile::Axis::X, true);
-        EXPECT_TRUE(targetXNegative.direction.isNear(-Vector3d::X(), 1e-12));
-
-        Profile::OrientationProfileTarget targetYPositive(orientationProfile, Profile::Axis::Y, false);
-        EXPECT_TRUE(targetYPositive.direction.isNear(Vector3d::Y(), 1e-12));
-
-        Profile::OrientationProfileTarget targetYNegative(orientationProfile, Profile::Axis::Y, true);
-        EXPECT_TRUE(targetYNegative.direction.isNear(-Vector3d::Y(), 1e-12));
-
-        Profile::OrientationProfileTarget targetZPositive(orientationProfile, Profile::Axis::Z, false);
-        EXPECT_TRUE(targetZPositive.direction.isNear(Vector3d::Z(), 1e-12));
-
-        Profile::OrientationProfileTarget targetZNegative(orientationProfile, Profile::Axis::Z, true);
-        EXPECT_TRUE(targetZNegative.direction.isNear(-Vector3d::Z(), 1e-12));
+        EXPECT_VECTORS_ALMOST_EQUAL(pointing.interpolatePointingVectorAt(Instant::J2000()), Vector3d::X(), 1e-12);
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            pointing.interpolatePointingVectorAt(Instant::J2000() + Duration::Seconds(5.0)),
+            Vector3d(0.5, 0.5, 0.0),
+            1e-12
+        );
+        EXPECT_VECTORS_ALMOST_EQUAL(
+            pointing.interpolatePointingVectorAt(Instant::J2000() + Duration::Seconds(10.0)), Vector3d::Y(), 1e-12
+        );
     }
 }
 
@@ -1158,33 +1018,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Trajectory targetTrajectory = Trajectory(Nadir(orbit));
 
     // Yaw compensated clocking profile
-    const Profile targetSlidingGroundVelocityClockedProfile = Profile::CustomPointing(
+    const Profile targetSlidingGroundVelocityClockedProfile = Profile::ConstrainedPointing(
         orbit,
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetPosition(targetTrajectory, Vector3d::Z())
         ),
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Profile::Axis::X)
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetSlidingGroundVelocity(targetTrajectory, Vector3d::X())
         )
     );
 
     // Non-yaw compensated clocking profile
-    const Profile targetVelocityClockedProfile = Profile::CustomPointing(
+    const Profile targetVelocityClockedProfile = Profile::ConstrainedPointing(
         orbit,
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetPosition(targetTrajectory, Vector3d::Z())
         ),
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Profile::Axis::X)
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetVelocity(targetTrajectory, Vector3d::X())
         )
     );
 
-    const Profile satelliteVelocityClockedProfile = Profile::CustomPointing(
+    const Profile satelliteVelocityClockedProfile = Profile::ConstrainedPointing(
         orbit,
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Profile::Axis::Z)
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetPosition(targetTrajectory, Vector3d::Z())
         ),
-        std::make_shared<const Profile::Target>(Profile::TargetType::VelocityECI, Profile::Axis::X)
+        std::make_shared<const Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::X())
     );
 
     const State targetSlidingGroundVelocityClockedState = targetSlidingGroundVelocityClockedProfile.getStateAt(instant);
@@ -1239,10 +1099,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         {
             const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::TrajectoryTarget>(
-                    Profile::TrajectoryTarget::TargetPosition(trajectory, Vector3d::X())
+                std::make_shared<Profile::TrajectoryPointing>(
+                    Profile::TrajectoryPointing::TargetPosition(trajectory, Vector3d::X())
                 ),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y()),
+                std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::Y()),
                 earthSPtr
             );
 
@@ -1253,9 +1113,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             );
         }
 
-        // Orientation profile
+        // Custom profile
         {
-            const Array<Pair<Instant, Vector3d>> orientationProfile = {
+            const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
                 {Instant::J2000(), Vector3d::X()},
                 {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
                 {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
@@ -1264,8 +1124,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             };
 
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::OrientationProfileTarget>(orientationProfile, Vector3d::X()),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y()),
+                std::make_shared<Profile::CustomProfilePointing>(pointingProfileECI, Vector3d::X()),
+                std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::Y()),
                 earthSPtr
             );
 
@@ -1274,16 +1134,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
             EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
         }
 
-        // Custom profile
+        // Custom profile generator
         {
-            std::function<Vector3d(const State&)> orientationGenerator = [](const State&) -> Vector3d
+            std::function<Vector3d(const State&)> pointingProfileGeneratorECI = [](const State&) -> Vector3d
             {
                 return Vector3d::X();
             };
 
             const auto orientation = Profile::AlignAndConstrain(
-                std::make_shared<Profile::CustomTarget>(orientationGenerator, Vector3d::X()),
-                std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y()),
+                std::make_shared<Profile::CustomProfileGeneratorPointing>(pointingProfileGeneratorECI, Vector3d::X()),
+                std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::Y()),
                 earthSPtr
             );
 
@@ -1291,21 +1151,47 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
 
             EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
         }
+
+        // Velocity ECEF
+        {
+            const auto orientation = Profile::AlignAndConstrain(
+                std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECEF, Vector3d::X()),
+                std::make_shared<Profile::Pointing>(Profile::TargetType::GeocentricNadir, Vector3d::Z()),
+                earthSPtr
+            );
+
+            const Quaternion q_B_GCRF = orientation(state);
+
+            const Vector3d expectedVelocityDirection_ECEF_in_GCRF =
+                Frame::ITRF()
+                    ->getTransformTo(Frame::GCRF(), epoch)
+                    .applyToVector(state.inFrame(Frame::ITRF()).getVelocity().getCoordinates())
+                    .normalized();
+
+            EXPECT_VECTORS_ALMOST_EQUAL(
+                q_B_GCRF.toInverse() * Vector3d::X(), expectedVelocityDirection_ECEF_in_GCRF, 1e-12
+            );
+            EXPECT_GT(
+                Angle::Between(expectedVelocityDirection_ECEF_in_GCRF, state.getVelocity().getCoordinates())
+                    .inDegrees(),
+                1.0
+            );
+        }
     }
 
     {
-        // Test angular offset: verify that a 90 degree offset results in a 90 degree angle
+        // Test angular clocking offset: verify that a 90 degree offset results in a 90 degree angle
         // between the VelocityECI direction and the clocking axis
-        const Shared<const Profile::Target> alignmentTargetSPtr =
-            std::make_shared<Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::X());
+        const Shared<const Profile::Pointing> alignmentPointingSPtr =
+            std::make_shared<Profile::Pointing>(Profile::TargetType::GeocentricNadir, Vector3d::X());
 
-        const Shared<const Profile::Target> clockingTargetSPtr =
-            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y());
+        const Shared<const Profile::Pointing> clockingPointingSPtr =
+            std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::Y());
 
-        // Apply 90 degree angular offset
-        const Angle angularOffset = Angle::Degrees(90.0);
+        // Apply 90 degree angular clocking offset
+        const Angle angularClockingOffset = Angle::Degrees(90.0);
         const auto orientation =
-            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr, angularOffset);
+            Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr, angularClockingOffset);
 
         const Quaternion q_B_GCRF = orientation(state);
 
@@ -1319,7 +1205,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrain)
         const Angle angleBetween = Angle::Between(clockingAxisInECI, velocityECIDirection);
 
         // Verify that the angle is 90 degrees (within tolerance)
-        EXPECT_NEAR(angleBetween.inRadians(), angularOffset.inRadians(), 1e-6);
+        EXPECT_NEAR(angleBetween.inRadians(), angularClockingOffset.inRadians(), 1e-6);
     }
 }
 
@@ -1331,22 +1217,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
 
     const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
-    const Shared<const Profile::Target> alignmentTargetSPtr =
-        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::X());
+    const Shared<const Profile::Pointing> alignmentPointingSPtr =
+        std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::X());
 
-    const Shared<const Profile::Target> clockingTargetSPtr =
-        std::make_shared<Profile::Target>(Profile::TargetType::OrbitalMomentum, Vector3d::Y());
+    const Shared<const Profile::Pointing> clockingPointingSPtr =
+        std::make_shared<Profile::Pointing>(Profile::TargetType::OrbitalMomentum, Vector3d::Y());
 
     {
         // VNC frame
 
-        const auto orientation = Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr);
+        const auto orientation = Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr);
 
         const Profile calculatedProfile = Profile::CustomPointing(orbit, orientation);
 
         // Compare against Orbit VNC frame which has been validated
 
-        const Profile expectedProfile = Profile::LocalOrbitalFramePointing(orbit, Orbit::FrameType::VNC);
+        const Profile expectedProfile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VNC);
 
         for (const auto instant :
              Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
@@ -1363,14 +1249,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
             EXPECT_TRUE(calculatedState.getAttitude().isNear(expectedState.getAttitude(), Angle::Arcseconds(1e-12)));
         }
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstrainedPointing)
+{
+    const Instant epoch = Instant::J2000();
+
+    const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::Default());
+
+    const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
+
+    const Shared<const Profile::Pointing> alignmentPointingSPtr =
+        std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::X());
+
+    const Shared<const Profile::Pointing> clockingPointingSPtr =
+        std::make_shared<Profile::Pointing>(Profile::TargetType::OrbitalMomentum, Vector3d::Y());
 
     // Self consistent test for the interface function
     {
-        const auto orientation = Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr);
+        const auto orientation = Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr);
 
         const Profile expectedProfile = Profile::CustomPointing(orbit, orientation);
 
-        const Profile calculatedProfile = Profile::CustomPointing(orbit, alignmentTargetSPtr, clockingTargetSPtr);
+        const Profile calculatedProfile =
+            Profile::ConstrainedPointing(orbit, alignmentPointingSPtr, clockingPointingSPtr);
 
         for (const auto instant :
              Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(5.0)))
@@ -1388,30 +1290,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
         }
     }
 
-    // Regression test for dangling orbit reference when a custom pointing profile
+    // Regression test for dangling orbit reference when a constrained pointing profile
     {
         Profile profile = Profile::Undefined();
         {
             const Orbit anotherOrbit =
                 Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
 
-            profile = Profile::CustomPointing(anotherOrbit, alignmentTargetSPtr, clockingTargetSPtr);
+            profile = Profile::ConstrainedPointing(anotherOrbit, alignmentPointingSPtr, clockingPointingSPtr);
         }
 
         EXPECT_NO_THROW(profile.getStateAt(epoch));
     }
 
     {
-        const Angle angularOffset = Angle::Degrees(90.0);
+        const Angle angularClockingOffset = Angle::Degrees(90.0);
 
-        const Shared<const Profile::Target> anotherAlignmentTargetSPtr =
-            std::make_shared<Profile::Target>(Profile::TargetType::GeocentricNadir, Vector3d::Z());
+        const Shared<const Profile::Pointing> anotherAlignmentPointingSPtr =
+            std::make_shared<Profile::Pointing>(Profile::TargetType::GeocentricNadir, Vector3d::Z());
 
-        const Shared<const Profile::Target> anotherClockingTargetSPtr =
-            std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y());
+        const Shared<const Profile::Pointing> anotherClockingPointingSPtr =
+            std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::Y());
 
-        const Profile calculatedProfile =
-            Profile::CustomPointing(orbit, anotherAlignmentTargetSPtr, anotherClockingTargetSPtr, angularOffset);
+        const Profile calculatedProfile = Profile::ConstrainedPointing(
+            orbit, anotherAlignmentPointingSPtr, anotherClockingPointingSPtr, angularClockingOffset
+        );
 
         const State state = calculatedProfile.getStateAt(epoch);
 
@@ -1424,7 +1327,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomPointing)
         const Vector3d velocityECIDirection = state.getVelocity().getCoordinates().normalized();
 
         EXPECT_NEAR(
-            Angle::Between(clockingAxisInECI, velocityECIDirection).inDegrees(), angularOffset.inDegrees(), 1e-6
+            Angle::Between(clockingAxisInECI, velocityECIDirection).inDegrees(), angularClockingOffset.inDegrees(), 1e-6
         );
     }
 }
@@ -1504,18 +1407,18 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTy
 
     const auto& [alignmentDirection, clockingDirection, alignmentTargetType, clockingTargetType] = GetParam();
 
-    const Shared<const Profile::Target> alignmentTargetSPtr =
-        std::make_shared<Profile::Target>(alignmentTargetType, alignmentDirection);
+    const Shared<const Profile::Pointing> alignmentPointingSPtr =
+        std::make_shared<Profile::Pointing>(alignmentTargetType, alignmentDirection);
 
-    const Shared<const Profile::Target> clockingTargetSPtr =
-        std::make_shared<Profile::Target>(clockingTargetType, clockingDirection);
+    const Shared<const Profile::Pointing> clockingPointingSPtr =
+        std::make_shared<Profile::Pointing>(clockingTargetType, clockingDirection);
 
     // check failure conditions
 
     if (alignmentDirection == clockingDirection)
     {
         EXPECT_THROW(
-            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr),
+            Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr),
             ostk::core::error::RuntimeError
         );
         return;
@@ -1524,7 +1427,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTy
     if (alignmentTargetType == clockingTargetType)
     {
         EXPECT_THROW(
-            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr),
+            Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr),
             ostk::core::error::RuntimeError
         );
         return;
@@ -1536,14 +1439,14 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimpleTargetTy
          (alignmentTargetType == Profile::TargetType::GeodeticNadir)))
     {
         EXPECT_THROW(
-            Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr),
+            Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr),
             ostk::core::error::RuntimeError
         );
         return;
     }
 
     const std::function<Quaternion(const State&)> orientation =
-        Profile::AlignAndConstrain(alignmentTargetSPtr, clockingTargetSPtr, earthSPtr);
+        Profile::AlignAndConstrain(alignmentPointingSPtr, clockingPointingSPtr, earthSPtr);
 
     const Quaternion q_B_GCRF = orientation(state_);
 
@@ -1646,29 +1549,29 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTarg
     const State state = orbit.getStateAt(instant_);
     const Trajectory targetTrajectory = Trajectory(Nadir(orbit));
 
-    const Shared<const Profile::TrajectoryTarget> targetPositionSPtr =
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetPosition(targetTrajectory, Vector3d::X())
+    const Shared<const Profile::TrajectoryPointing> targetPositionSPtr =
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetPosition(targetTrajectory, Vector3d::X())
         );
 
-    const Shared<const Profile::TrajectoryTarget> targetVelocitySPtr =
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetVelocity(targetTrajectory, Vector3d::X())
+    const Shared<const Profile::TrajectoryPointing> targetVelocitySPtr =
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetVelocity(targetTrajectory, Vector3d::X())
         );
-    const Shared<const Profile::TrajectoryTarget> targetSlidingGroundVelocitySPtr =
-        std::make_shared<const Profile::TrajectoryTarget>(
-            Profile::TrajectoryTarget::TargetSlidingGroundVelocity(targetTrajectory, Vector3d::X())
+    const Shared<const Profile::TrajectoryPointing> targetSlidingGroundVelocitySPtr =
+        std::make_shared<const Profile::TrajectoryPointing>(
+            Profile::TrajectoryPointing::TargetSlidingGroundVelocity(targetTrajectory, Vector3d::X())
         );
 
-    const Shared<const Profile::Target> clockingTargetSPtr =
-        std::make_shared<Profile::Target>(Profile::TargetType::VelocityECI, Vector3d::Y());
+    const Shared<const Profile::Pointing> clockingPointingSPtr =
+        std::make_shared<Profile::Pointing>(Profile::TargetType::VelocityECI, Vector3d::Y());
 
     const std::function<Quaternion(const State&)> orientationTargetPositionAlignement =
-        Profile::AlignAndConstrain(targetPositionSPtr, clockingTargetSPtr, earthSPtr_);
+        Profile::AlignAndConstrain(targetPositionSPtr, clockingPointingSPtr, earthSPtr_);
     const std::function<Quaternion(const State&)> orientationTargetVelocityAlignement =
-        Profile::AlignAndConstrain(targetVelocitySPtr, clockingTargetSPtr, earthSPtr_);
+        Profile::AlignAndConstrain(targetVelocitySPtr, clockingPointingSPtr, earthSPtr_);
     const std::function<Quaternion(const State&)> orientationTargetSlidingGroundVelocityAlignement =
-        Profile::AlignAndConstrain(targetSlidingGroundVelocitySPtr, clockingTargetSPtr, earthSPtr_);
+        Profile::AlignAndConstrain(targetSlidingGroundVelocitySPtr, clockingPointingSPtr, earthSPtr_);
 
     const Vector3d targetPositionDirection =
         orientationTargetPositionAlignement(state).toInverse() * Vector3d(1.0, 0.0, 0.0);
