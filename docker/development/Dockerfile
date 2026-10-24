@@ -16,67 +16,8 @@ RUN apt-get update \
     && apt-get install -y unzip jq git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
-## fmt
-
-ARG FMT_VERSION="5.2.0"
-
-RUN cd /tmp \
-    && git clone --branch ${FMT_VERSION} --depth 1 https://github.com/fmtlib/fmt.git \
-    && cd fmt \
-    && mkdir build \
-    && cd build \
-    && cmake -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE .. \
-    && make --silent -j $(nproc) \
-    && make install \
-    && rm -rf /tmp/fmt
-
-## ordered-map
-
-ARG ORDERED_MAP_VERSION="0.6.0"
-
-RUN git clone --branch v${ORDERED_MAP_VERSION} --depth 1 https://github.com/Tessil/ordered-map.git /tmp/ordered-map \
-    && cd /tmp/ordered-map \
-    && cp -r ./include/tsl /usr/local/include \
-    && rm -rf /tmp/ordered-map
-
-## Eigen
-
-ARG EIGEN_VERSION="3.4.0"
-
-RUN mkdir /tmp/eigen \
-    && cd /tmp/eigen \
-    && wget --quiet https://gitlab.com/libeigen/eigen/-/archive/${EIGEN_VERSION}/eigen-${EIGEN_VERSION}.tar.gz \
-    && tar -xvf eigen-${EIGEN_VERSION}.tar.gz \
-    && cd eigen-${EIGEN_VERSION} \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-    && make install \
-    && rm -rf /tmp/eigen
-
-## NLopt
-
-ARG NLOPT_VERSION="2.9.1"
-
-RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
-    && cd /tmp/nlopt \
-    && mkdir build \
-    && cd build \
-    && cmake -DBUILD_SHARED_LIBS=OFF .. \
-    && make \
-    && make install \
-    && rm -rf /tmp/nlopt
-
-## benchmark
-
-ARG BENCHMARK_VERSION="1.8.2"
-
-RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark.git /tmp/benchmark \
-    && cd /tmp/benchmark \
-    && cmake -E make_directory "build" \
-    && cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DCMAKE_BUILD_TYPE=Release ../ \
-    && cmake --build "build" --config Release --target install \
-    && rm -rf /tmp/benchmark
+COPY tools/dependencies /tmp/dependencies
+RUN /tmp/dependencies/install.sh && rm -rf /tmp/dependencies
 
 ## Open Space Toolkit ▸ Core
 
