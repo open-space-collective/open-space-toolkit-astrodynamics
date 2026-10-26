@@ -4,14 +4,15 @@
 ///
 /// Benchmarks a maneuvering segment steered by the ROETargeting guidance law under a 20x20 EGM96 gravity model, on the
 /// 550 km SSO of the Segment benchmark. The spacecraft starts about 5 km behind (T), 2 km below (R) and 1 km away (N)
-/// from a reference spacecraft and must converge onto it. Operationally, a maneuver lasts at most 10 minutes and cannot
-/// start before 24 hours after the end of the previous one: the Segment enforces these constraints. The guidance law,
+/// from a reference spacecraft and must converge onto it, without radial thrust, then with radial thrust.
+/// Operationally, a maneuver lasts at most 10 minutes, starts at least 26 minutes after the end of the previous one,
+/// and at most 2 maneuvers start within any orbital period: the Segment enforces these constraints. The guidance law,
 /// without memory, decides when within the orbit to start a burn, and commits to it: the Segment then follows a
-/// constant thrust along the planned direction for the planned duration.
-/// Reports:
+/// constant thrust along the planned direction for the planned duration. Reports:
 ///   - elapsed wall-clock runtime (per iteration)
 ///   - number of propagated states and maneuvers
-///   - longest maneuver and shortest time between the end of a maneuver and the start of the next one
+///   - longest maneuver, shortest time between the end of a maneuver and the start of the next one, and largest number
+///     of maneuvers starting within an orbital period
 ///   - time to converge, convergence status and delta-v
 ///   - initial and final RTN offsets, and final ROE, with respect to the reference
 ///
@@ -24,6 +25,7 @@
 #include "benchmark/benchmark.h"
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -68,6 +70,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Pair;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -143,18 +146,32 @@ static const Vector6d INITIAL_ROE_M = (Vector6d() << 0.0, -5000.0, 2000.0, 0.0, 
 // Convergence is declared once every ROE component is within its tolerance
 static const Vector6d ROE_TOLERANCE_M = (Vector6d() << 10.0, 100.0, 10.0, 10.0, 10.0, 10.0).finished();
 
-static const Duration MAX_PROPAGATION_DURATION = Duration::Days(14.0);
+static const Duration MAX_PROPAGATION_DURATION = Duration::Days(3.0);
 
-// Operational constraints, enforced by the Segment: a maneuver lasts at most 10 minutes, and cannot start before
-// 24 hours after the end of the previous one
+// Keplerian period of the reference
+static const Duration ORBITAL_PERIOD = Duration::Seconds(
+    2.0 * M_PI *
+    std::sqrt(
+        std::pow(REFERENCE_SMA_M, 3) /
+        EarthGravitationalModel::EGM96.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared())
+    )
+);
+
+// Operational constraints, enforced by the Segment: a maneuver lasts at most 10 minutes, starts at least 26 minutes
+// after the end of the previous one, and at most 2 maneuvers start within any orbital period
 static const Duration MAX_MANEUVER_DURATION = Duration::Minutes(10.0);
-static const Duration MIN_MANEUVER_SEPARATION = Duration::Days(1.0);
+static const Duration MIN_MANEUVER_SEPARATION = Duration::Minutes(26.0);
+static const Size MAX_MANEUVERS_PER_ORBIT = 2;
+
+// The predictions place the burns at least half an orbit apart: tangential burns half an orbit apart correct the
+// eccentricity vector without changing the semi-major axis
+static const Duration BURN_SPACING = ORBITAL_PERIOD / double(MAX_MANEUVERS_PER_ORBIT);
 
 static const Duration MIN_BURN_DURATION = Duration::Seconds(5.0);  // Segment skips maneuvers shorter than 5 s
 
 // The guidance law burns when burning now achieves at least 99% of the improvement over not burning of the best start
 // time of the next orbit (searched every 10 degrees of argument of latitude, then refined): as it commits to the whole
-// burn, it can wait for the best start time (thresholds of 0.9 and 0.95 converge 1.3 days later)
+// burn, it can wait for the best start time
 static const Real EFFECTIVITY_THRESHOLD = 0.99;
 static const Size BURN_START_CANDIDATE_COUNT = 36;
 
@@ -305,12 +322,13 @@ static void RecordCounters(
     state.counters["min_step_s"] = (aSolution.states.getSize() >= 2) ? minStepSec : 0.0;
     state.counters["max_step_s"] = maxStepSec;
 
-    // Maneuver constraints: each maneuver lasts at most 10 minutes, and starts at least 24 hours after the end of the
-    // previous one
+    // Maneuver constraints: each maneuver lasts at most 10 minutes, starts at least 26 minutes after the end of the
+    // previous one, and at most 2 maneuvers start within any orbital period
     const Array<Interval>& maneuverIntervals = aSolution.maneuverIntervals;
 
     double longestManeuverSec = 0.0;
-    double shortestManeuverGapHours = std::numeric_limits<double>::quiet_NaN();
+    double shortestManeuverGapMin = std::numeric_limits<double>::quiet_NaN();
+    Size maximumManeuversPerOrbit = 0;
 
     for (Size i = 0; i < maneuverIntervals.getSize(); ++i)
     {
@@ -318,15 +336,31 @@ static void RecordCounters(
 
         if (i > 0)
         {
-            const double gapHours = (maneuverIntervals[i].getStart() - maneuverIntervals[i - 1].getEnd()).inHours();
+            const double gapMin = (maneuverIntervals[i].getStart() - maneuverIntervals[i - 1].getEnd()).inMinutes();
 
-            shortestManeuverGapHours = (i == 1) ? gapHours : std::min(shortestManeuverGapHours, gapHours);
+            shortestManeuverGapMin = (i == 1) ? gapMin : std::min(shortestManeuverGapMin, gapMin);
         }
+
+        // Maneuvers starting within the orbital period starting with this one (1 ms tolerance: a maneuver can start
+        // exactly one orbital period after the start of the one before the previous one)
+        Size maneuversPerOrbit = 0;
+
+        for (Size j = i; j < maneuverIntervals.getSize(); ++j)
+        {
+            if ((maneuverIntervals[j].getStart() - maneuverIntervals[i].getStart()) <
+                (ORBITAL_PERIOD - Duration::Milliseconds(1.0)))
+            {
+                ++maneuversPerOrbit;
+            }
+        }
+
+        maximumManeuversPerOrbit = std::max(maximumManeuversPerOrbit, maneuversPerOrbit);
     }
 
     state.counters["maneuvers"] = static_cast<double>(maneuverIntervals.getSize());
     state.counters["longest_maneuver_s"] = longestManeuverSec;
-    state.counters["shortest_maneuver_gap_h"] = shortestManeuverGapHours;
+    state.counters["shortest_maneuver_gap_min"] = shortestManeuverGapMin;
+    state.counters["max_maneuvers_per_orbit"] = static_cast<double>(maximumManeuversPerOrbit);
 
     state.counters["duration_d"] = static_cast<double>(aSolution.getPropagationDuration().inDays());
     state.counters["converged"] = aSolution.conditionIsSatisfied ? 1.0 : 0.0;
@@ -358,10 +392,11 @@ static void RecordCounters(
 }
 
 // ---------------------------------------------------------------------------
-// Scenario: ROE targeting rendezvous from (R, T, N) = (-2, -5, +1) km, one maneuver of at most 10 minutes per day
+// Scenario: ROE targeting rendezvous from (R, T, N) = (-2, -5, +1) km, at most two maneuvers of at most 10 minutes
+// per orbit
 // ---------------------------------------------------------------------------
 
-static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
+static void RunRendezvous(benchmark::State& state, const bool& allowRadialThrust)
 {
     const Shared<const Frame> gcrfSPtr = Frame::GCRF();
     const Derived mu = EarthGravitationalModel::EGM96.gravitationalParameter_;
@@ -373,7 +408,7 @@ static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
     const Trajectory referenceTrajectory = BuildReferenceTrajectory(dynamics, solver, gcrfSPtr, mu);
 
     const ROETargeting::Parameters parameters = {
-        MIN_MANEUVER_SEPARATION + MAX_MANEUVER_DURATION,  // Burn spacing assumed by the predictions
+        BURN_SPACING,
         MAX_MANEUVER_DURATION,
         THRUST_N / INITIAL_MASS_KG,
         5,
@@ -383,6 +418,7 @@ static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
         0.0,
         EFFECTIVITY_THRESHOLD,
         BURN_START_CANDIDATE_COUNT,
+        allowRadialThrust,
     };
 
     const Shared<const ROETargeting> roeTargetingSPtr = std::make_shared<ROETargeting>(referenceTrajectory, parameters);
@@ -407,6 +443,8 @@ static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
         MAX_MANEUVER_DURATION,
         MIN_MANEUVER_SEPARATION,
         Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
+        Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+        Pair<Size, Duration>(MAX_MANEUVERS_PER_ORBIT, ORBITAL_PERIOD),
     };
 
     const Segment segment =
@@ -427,8 +465,21 @@ static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
     }
 }
 
+// Burns in the tangential-normal plane only
+static void BM_Segment_ROETargeting_Rendezvous(benchmark::State& state)
+{
+    RunRendezvous(state, false);
+}
+
+// Burns that also thrust radially
+static void BM_Segment_ROETargeting_Rendezvous_RadialThrust(benchmark::State& state)
+{
+    RunRendezvous(state, true);
+}
+
 // ---------------------------------------------------------------------------
 // Benchmark registration — each scenario runs a single iteration
 // ---------------------------------------------------------------------------
 
 BENCHMARK(BM_Segment_ROETargeting_Rendezvous)->Iterations(1)->Unit(benchmark::kSecond);
+BENCHMARK(BM_Segment_ROETargeting_Rendezvous_RadialThrust)->Iterations(1)->Unit(benchmark::kSecond);

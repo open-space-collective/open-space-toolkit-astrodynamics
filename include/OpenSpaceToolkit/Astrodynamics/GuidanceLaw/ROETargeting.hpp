@@ -76,6 +76,11 @@ using ostk::astrodynamics::trajectory::State;
 /// burn duration keeps the planned burns at least the minimum separation apart. The fuel term leaves errors that are
 /// not worth a burn uncorrected (dead band): increase the fuel weight to save delta-v, decrease it to converge faster.
 ///
+/// The burns thrust in the tangential-normal plane, and also radially when allowRadialThrust is set. Without radial
+/// thrust, the along-track position (δλ) is only steered through the semi-major axis (δa), and a tangential burn
+/// changes δa and the eccentricity vector δe by the same magnitude (2 Δv / (n a)): correcting δe without leaving a
+/// semi-major axis offset takes two opposite tangential burns about half an orbit apart.
+///
 /// The burn middles are optimized by block coordinate descent: in turn, the middle of each burn is searched among
 /// burnStartCandidateCount times evenly spread over its window, then refined, the delta-v of that burn being solved
 /// exactly for each candidate, the other burns being fixed. When a burn moves, the following burns keep their argument
@@ -101,8 +106,8 @@ using ostk::astrodynamics::trajectory::State;
 /// threshold. Instead, when a burn starts, the guidance law commits to it (see commitManeuverAt): a constant thrust
 /// along the planned direction in the RTN (QSW) frame, for the planned duration. A maneuvering Segment follows the
 /// committed burn, and enforces the constraints between burns (minimum separation between maneuvers, maximum maneuver
-/// duration); burnSpacing only models them in the predictions (typically the minimum separation plus the maximum burn
-/// duration).
+/// duration, maximum maneuver count); burnSpacing only models them in the predictions (typically the minimum
+/// separation plus the maximum burn duration, or half an orbit for at most two maneuvers per orbit).
 ///
 /// Each evaluation optimizes up to three plans (several milliseconds in total).
 ///
@@ -122,8 +127,10 @@ class ROETargeting : public GuidanceLaw
         /// @brief Constructor.
         ///
         /// @param aBurnSpacing The minimum time between the middles of two consecutive burns assumed by the
-        /// predictions, typically the minimum separation between maneuvers plus the maximum burn duration. Each burn
-        /// is centered within one orbit after the earliest middle allowed by the previous burn.
+        /// predictions, typically the minimum separation between maneuvers plus the maximum burn duration, or half an
+        /// orbit for at most two maneuvers per orbit (two burns half an orbit apart correct the eccentricity vector
+        /// with tangential burns without changing the semi-major axis). Each burn is centered within one orbit after
+        /// the earliest middle allowed by the previous burn.
         /// @param aMaximumBurnDuration The maximum duration of a burn.
         /// @param aThrustAcceleration The thrust acceleration used for planning, in m/s^2.
         /// @param aHorizonBurnCount The number of burns optimized by each plan. Defaults to 5.
@@ -138,6 +145,8 @@ class ROETargeting : public GuidanceLaw
         /// and 1. Defaults to 0.9.
         /// @param aBurnStartCandidateCount The number of times, evenly spread over one orbit, among which the timing
         /// of each burn is searched before being refined. Defaults to 36.
+        /// @param isRadialThrustAllowed If true, the burns also thrust radially; otherwise, they only thrust in the
+        /// tangential-normal plane of the RTN frame. Defaults to false.
         Parameters(
             const Duration& aBurnSpacing,
             const Duration& aMaximumBurnDuration,
@@ -148,7 +157,8 @@ class ROETargeting : public GuidanceLaw
             const Duration& aMinimumBurnDuration = Duration::Seconds(1.0),
             const Real& aRelativeSemiMajorAxisRate = 0.0,
             const Real& anEffectivityThreshold = 0.9,
-            const Size& aBurnStartCandidateCount = 36
+            const Size& aBurnStartCandidateCount = 36,
+            const bool& isRadialThrustAllowed = false
         );
 
         Duration burnSpacing;
@@ -161,6 +171,7 @@ class ROETargeting : public GuidanceLaw
         Real relativeSemiMajorAxisRate;
         Real effectivityThreshold;
         Size burnStartCandidateCount;
+        bool allowRadialThrust;
     };
 
     /// @brief A burn plan over the planning horizon.
@@ -179,7 +190,8 @@ class ROETargeting : public GuidanceLaw
         /// @brief The interval of each burn of the horizon. Burns that are not executed have a zero duration.
         Array<Interval> burnIntervals;
 
-        /// @brief The delta-v of each burn of the horizon, in the RTN frame of the spacecraft, in m/s.
+        /// @brief The delta-v of each burn of the horizon, in the RTN frame of the spacecraft (with a zero radial
+        /// component unless radial thrust is allowed), in m/s.
         Array<Vector3d> deltaVelocities;
 
         /// @brief The instants at which the ROE are predicted.

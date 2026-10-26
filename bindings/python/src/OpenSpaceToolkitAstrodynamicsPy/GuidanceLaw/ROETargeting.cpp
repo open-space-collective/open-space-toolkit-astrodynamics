@@ -42,6 +42,12 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             the argument of latitude of the burn arc, which sets how much of each ROE component its delta-v can
             correct (the eccentricity and inclination vectors each have a best argument of latitude).
 
+            The burns thrust in the tangential-normal plane, and also radially when `allow_radial_thrust` is set.
+            Without radial thrust, the along-track position (δλ) is only steered through the semi-major axis (δa), and
+            a tangential burn changes δa and the eccentricity vector δe by the same magnitude (2 Δv / (n a)):
+            correcting δe without leaving a semi-major axis offset takes two opposite tangential burns about half an
+            orbit apart.
+
             The burn middles are optimized by block coordinate descent: in turn, the middle of each burn is searched
             among `burn_start_candidate_count` times spread over its window, then refined, the delta-v of that burn
             being solved exactly for each candidate. After each sweep over the burns, the delta-v of all the burns are
@@ -59,8 +65,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             effectivity drops below the threshold before the planned burn is complete. Instead, when a burn starts, the
             guidance law commits to it (see `commit_maneuver_at`): a constant thrust along the planned direction in the
             RTN (QSW) frame, for the planned duration. A maneuvering Segment follows the committed burn, and enforces
-            the constraints between burns (minimum separation between maneuvers, maximum maneuver duration);
-            `burn_spacing` only models them in the predictions.
+            the constraints between burns (minimum separation between maneuvers, maximum maneuver duration, maximum
+            maneuver count); `burn_spacing` only models them in the predictions.
 
             The model assumes a near-circular reference orbit around the Earth (EGM2008 constants).
 
@@ -87,12 +93,13 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
                 const Duration&,
                 const Real&,
                 const Real&,
-                const Size&>(),
+                const Size&,
+                const bool&>(),
             R"doc(
                 Constructor.
 
                 Args:
-                    burn_spacing (Duration): The minimum time between the middles of two consecutive burns assumed by the predictions, typically the minimum separation between maneuvers plus the maximum burn duration. Each burn is centered within one orbit after the earliest middle allowed by the previous burn.
+                    burn_spacing (Duration): The minimum time between the middles of two consecutive burns assumed by the predictions, typically the minimum separation between maneuvers plus the maximum burn duration, or half an orbit for at most two maneuvers per orbit (two burns half an orbit apart correct the eccentricity vector with tangential burns without changing the semi-major axis). Each burn is centered within one orbit after the earliest middle allowed by the previous burn.
                     maximum_burn_duration (Duration): The maximum duration of a burn.
                     thrust_acceleration (float): The thrust acceleration used for planning, in m/s^2.
                     horizon_burn_count (int, optional): The number of burns optimized by each plan. Defaults to 5.
@@ -102,6 +109,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
                     relative_semi_major_axis_rate (float, optional): The rate of change of the semi-major axis of the spacecraft relative to the reference, not modeled by J2 (typically differential drag), in m/s. Defaults to 0.
                     effectivity_threshold (float, optional): The effectivity of burning now above which the spacecraft burns, between 0 and 1. Defaults to 0.9.
                     burn_start_candidate_count (int, optional): The number of times, evenly spread over one orbit, among which the timing of each burn is searched before being refined. Defaults to 36.
+                    allow_radial_thrust (bool, optional): If True, the burns also thrust radially; otherwise, they only thrust in the tangential-normal plane of the RTN frame. Defaults to False.
 
                 Raises:
                     RuntimeError: If a parameter is undefined or out of range.
@@ -115,7 +123,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             arg_v("minimum_burn_duration", Duration::Seconds(1.0), "Duration.seconds(1.0)"),
             arg("relative_semi_major_axis_rate") = 0.0,
             arg("effectivity_threshold") = 0.9,
-            arg("burn_start_candidate_count") = 36
+            arg("burn_start_candidate_count") = 36,
+            arg("allow_radial_thrust") = false
         )
         .def_readonly(
             "burn_spacing",
@@ -216,6 +225,16 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
                 Type:
                     int
             )doc"
+        )
+        .def_readonly(
+            "allow_radial_thrust",
+            &ROETargeting::Parameters::allowRadialThrust,
+            R"doc(
+                Whether the burns also thrust radially.
+
+                Type:
+                    bool
+            )doc"
         );
 
     class_<ROETargeting::Plan>(
@@ -269,7 +288,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ROETargeting(pybind11::module& 
             "delta_velocities",
             &ROETargeting::Plan::deltaVelocities,
             R"doc(
-                The delta-v of each burn of the horizon, in the RTN frame of the spacecraft, in m/s.
+                The delta-v of each burn of the horizon, in the RTN frame of the spacecraft (with a zero radial
+                component unless radial thrust is allowed), in m/s.
 
                 Type:
                     list[np.ndarray]

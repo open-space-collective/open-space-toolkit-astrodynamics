@@ -252,6 +252,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ParametersConstr
             -1e-4,
             0.8,
             12,
+            true,
         };
 
         EXPECT_EQ(Duration::Days(1.0), parameters.burnSpacing);
@@ -264,6 +265,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ParametersConstr
         EXPECT_EQ(-1e-4, parameters.relativeSemiMajorAxisRate);
         EXPECT_EQ(0.8, parameters.effectivityThreshold);
         EXPECT_EQ(12, parameters.burnStartCandidateCount);
+        EXPECT_TRUE(parameters.allowRadialThrust);
     }
 
     {
@@ -276,6 +278,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ParametersConstr
         EXPECT_EQ(0.0, parameters.relativeSemiMajorAxisRate);
         EXPECT_EQ(0.9, parameters.effectivityThreshold);
         EXPECT_EQ(36, parameters.burnStartCandidateCount);
+        EXPECT_FALSE(parameters.allowRadialThrust);
     }
 
     {
@@ -610,6 +613,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputePlan)
             EXPECT_LE(burnInterval.getDuration(), parameters_.maximumBurnDuration);
             EXPECT_LE(deltaVelocity, maximumDeltaVelocity * (1.0 + 1e-9));
             EXPECT_NEAR(deltaVelocity / thrustAcceleration_, burnInterval.getDuration().inSeconds(), 1e-6);
+
+            // The burns do not thrust radially
+            EXPECT_EQ(0.0, plan.deltaVelocities[burnIndex][0]);
         }
 
         EXPECT_EQ(epoch_ + burnSpacing * 0.5, plan.predictionInstants.accessFirst());
@@ -754,6 +760,54 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputeBestPlan)
         EXPECT_GE(burnCount, 3);
         EXPECT_LT(plan.predictedRelativeOrbitalElements.accessLast().cwiseAbs().maxCoeff(), 5.0);
     }
+
+    // Semi-major axis error: without radial thrust, the burn that corrects it is tangential, and changes the
+    // eccentricity vector by as much (a tangential delta-v changes both by 2 Δv / n)
+    {
+        Vector6d relativeOrbitalElements = Vector6d::Zero();
+        relativeOrbitalElements[0] = -20.0;
+
+        const ROETargeting::Plan plan = guidanceLaw.computeBestPlan(offsetState(relativeOrbitalElements));
+
+        const Vector3d& deltaVelocity = plan.deltaVelocities.accessFirst();
+        const Vector6d& predictedRelativeOrbitalElements = plan.predictedRelativeOrbitalElements.accessFirst();
+
+        ASSERT_LT(plan.burnIntervals.accessFirst().accessEnd(), plan.predictionInstants.accessFirst());
+
+        EXPECT_GT(deltaVelocity[1], 0.99 * deltaVelocity.norm());
+        EXPECT_LT(std::abs(predictedRelativeOrbitalElements[0]), 1.0);
+        EXPECT_NEAR(20.0, predictedRelativeOrbitalElements.segment<2>(2).norm(), 1.0);
+    }
+
+    // Eccentricity vector error: a radial burn changes the eccentricity vector along (sin u, -cos u), without changing
+    // the semi-major axis. Without radial thrust, correcting it takes two opposite tangential burns half an orbit
+    // apart, more than a burn spacing apart here
+    {
+        Vector6d relativeOrbitalElements = Vector6d::Zero();
+        relativeOrbitalElements[2] = 20.0;
+
+        const State state = offsetState(relativeOrbitalElements);
+
+        ROETargeting::Parameters radialThrustParameters = parameters_;
+        radialThrustParameters.allowRadialThrust = true;
+
+        const ROETargeting::Plan plan = guidanceLaw.computeBestPlan(state);
+        const ROETargeting::Plan radialThrustPlan =
+            ROETargeting(referenceTrajectory_, radialThrustParameters).computeBestPlan(state);
+
+        for (const Vector3d& deltaVelocity : plan.deltaVelocities)
+        {
+            EXPECT_EQ(0.0, deltaVelocity[0]);
+        }
+
+        const Vector3d& deltaVelocity = radialThrustPlan.deltaVelocities.accessFirst();
+        const double meanArgumentOfLatitude = burnMeanArgumentOfLatitude(radialThrustPlan, 0);
+
+        EXPECT_GT(std::abs(deltaVelocity[0]), 0.99 * deltaVelocity.norm());
+        EXPECT_LT(deltaVelocity[0] * std::sin(meanArgumentOfLatitude), 0.0);
+        EXPECT_GT(std::abs(std::sin(meanArgumentOfLatitude)), 0.9);
+        EXPECT_LT(radialThrustPlan.cost, 0.5 * plan.cost);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputeEffectivity)
@@ -822,6 +876,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, CalculateThrustA
         EXPECT_NEAR(thrustAcceleration_, acceleration.norm(), 1e-15);
         EXPECT_TRUE((rtnToGCRF.transpose() * acceleration / thrustAcceleration_)
                         .isApprox(plan.deltaVelocities.accessFirst().normalized(), 1e-9));
+        EXPECT_NEAR(0.0, rtnToGCRF.col(0).dot(acceleration), 1e-15);
 
         // The thrust magnitude follows the provided one
         EXPECT_NEAR(

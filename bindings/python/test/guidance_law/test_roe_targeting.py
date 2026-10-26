@@ -60,6 +60,7 @@ def parameters() -> ROETargeting.Parameters:
         relative_semi_major_axis_rate=-1.0e-4,
         effectivity_threshold=0.8,
         burn_start_candidate_count=6,
+        allow_radial_thrust=True,
     )
 
 
@@ -102,6 +103,7 @@ class TestROETargetingParameters:
         assert parameters.relative_semi_major_axis_rate == 0.0
         assert parameters.effectivity_threshold == 0.9
         assert parameters.burn_start_candidate_count == 36
+        assert parameters.allow_radial_thrust is False
 
     def test_constructors_failure(self):
         with pytest.raises(RuntimeError):
@@ -130,6 +132,7 @@ class TestROETargetingParameters:
         assert parameters.relative_semi_major_axis_rate == -1.0e-4
         assert parameters.effectivity_threshold == 0.8
         assert parameters.burn_start_candidate_count == 6
+        assert parameters.allow_radial_thrust is True
 
 
 class TestROETargeting:
