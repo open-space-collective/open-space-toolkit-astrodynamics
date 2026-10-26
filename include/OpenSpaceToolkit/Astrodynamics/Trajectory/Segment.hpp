@@ -8,6 +8,7 @@
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -40,6 +41,7 @@ using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::type::Integer;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::MatrixXd;
@@ -119,12 +121,16 @@ class Segment
         /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denominator. For example,
         ///     {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes
         ///     over any 98 minutes interval.
+        /// @param aMaximumManeuverCount The maximum number of maneuvers starting within any interval of a given
+        ///     duration, as count and duration. For example, {2, Duration::Minutes(95.0)} represents at most 2
+        ///     maneuvers over any 95 minutes interval. Defaults to no maximum (undefined duration).
         ManeuverConstraints(
             const Duration& aMinimumDuration,
             const Duration& aMaximumDuration,
             const Duration& aMinimumSeparation,
             const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
-            const Pair<Duration, Duration>& aMaximumDutyCycle
+            const Pair<Duration, Duration>& aMaximumDutyCycle,
+            const Pair<Size, Duration>& aMaximumManeuverCount = {0, Duration::Undefined()}
         );
 
         Duration minimumDuration;
@@ -132,6 +138,7 @@ class Segment
         Duration minimumSeparation;
         MaximumManeuverDurationViolationStrategy maximumDurationStrategy;
         Pair<Duration, Duration> maximumDutyCycle;
+        Pair<Size, Duration> maximumManeuverCount;
 
         /// @brief Check if the maneuver constraints are defined
         /// @return True if the maneuver constraints are defined
@@ -154,6 +161,16 @@ class Segment
         bool intervalHasValidMaximumDutyCycle(
             const Interval& aManeuverInterval, const Array<Interval>& aPreviousManeuverIntervals
         ) const;
+
+        /// @brief Compute the earliest start of the next maneuver allowed by the maximum maneuver count
+        ///
+        /// The next maneuver cannot start before the maximum maneuver count duration after the start of the
+        /// count-th most recent previous maneuver.
+        ///
+        /// @param aPreviousManeuverIntervals Array of previous maneuver intervals
+        /// @return The earliest start of the next maneuver, undefined if the maximum maneuver count does not constrain
+        /// it
+        Instant computeEarliestManeuverStart(const Array<Interval>& aPreviousManeuverIntervals) const;
 
         /// @brief Print the maneuver constraints
         /// @param anOutputStream An output stream

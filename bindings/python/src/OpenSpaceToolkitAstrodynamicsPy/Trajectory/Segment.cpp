@@ -9,6 +9,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
     using ostk::core::type::Shared;
+    using ostk::core::type::Size;
     using ostk::core::type::String;
 
     using ostk::physics::time::Duration;
@@ -449,12 +450,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 const Duration&,
                 const Duration&,
                 const Segment::MaximumManeuverDurationViolationStrategy&,
-                const Pair<Duration, Duration>&>(),
+                const Pair<Duration, Duration>&,
+                const Pair<Size, Duration>&>(),
             arg("minimum_duration"),
             arg("maximum_duration"),
             arg("minimum_separation"),
             arg("maximum_duration_strategy"),
             arg("maximum_duty_cycle"),
+            arg_v(
+                "maximum_maneuver_count", Pair<Size, Duration>(0, Duration::Undefined()), "(0, Duration.undefined())"
+            ),
             R"doc(
                 Construct ManeuverConstraints with all parameters including maximum duty cycle.
 
@@ -466,6 +471,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                     maximum_duty_cycle (tuple[Duration, Duration]): The maximum duty cycle as (numerator, denominator). For example,
                         (Duration.minutes(40.0), Duration.minutes(98.0)) represents a maximum maneuvering time of 40 minutes
                         over any 98 minutes interval.
+                    maximum_maneuver_count (tuple[int, Duration], optional): The maximum number of maneuvers starting within any
+                        interval of a given duration, as (count, duration). For example, (2, Duration.minutes(95.0)) represents
+                        at most 2 maneuvers over any 95 minutes interval. Defaults to (0, Duration.undefined()) (no maximum).
             )doc"
         )
 
@@ -517,6 +525,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: tuple[Duration, Duration]
             )doc"
         )
+        .def_readwrite(
+            "maximum_maneuver_count",
+            &Segment::ManeuverConstraints::maximumManeuverCount,
+            R"doc(
+                The maximum maneuver count as (count, duration): maximum number of maneuvers starting within a time
+                interval.
+
+                :type: tuple[int, Duration]
+            )doc"
+        )
 
         .def(
             "is_defined",
@@ -552,6 +570,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             arg("previous_maneuver_intervals"),
             R"doc(
                 Check if the duty cycle constraint is valid for the given interval and previous maneuver intervals.
+            )doc"
+        )
+        .def(
+            "compute_earliest_maneuver_start",
+            &Segment::ManeuverConstraints::computeEarliestManeuverStart,
+            arg("previous_maneuver_intervals"),
+            R"doc(
+                Compute the earliest start of the next maneuver allowed by the maximum maneuver count: the maximum
+                maneuver count duration after the start of the count-th most recent previous maneuver.
+
+                Args:
+                    previous_maneuver_intervals (list[Interval]): The previous maneuver intervals.
+
+                Returns:
+                    Instant: The earliest start of the next maneuver, undefined if the maximum maneuver count does not
+                        constrain it.
             )doc"
         )
 

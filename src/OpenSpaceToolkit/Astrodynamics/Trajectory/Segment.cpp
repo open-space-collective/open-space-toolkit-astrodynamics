@@ -70,13 +70,15 @@ Segment::ManeuverConstraints::ManeuverConstraints(
     const Duration& aMaximumDuration,
     const Duration& aMinimumSeparation,
     const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
-    const Pair<Duration, Duration>& aMaximumDutyCycle
+    const Pair<Duration, Duration>& aMaximumDutyCycle,
+    const Pair<Size, Duration>& aMaximumManeuverCount
 )
     : minimumDuration(aMinimumDuration),
       maximumDuration(aMaximumDuration),
       minimumSeparation(aMinimumSeparation),
       maximumDurationStrategy(aMaximumDurationStrategy),
-      maximumDutyCycle(aMaximumDutyCycle)
+      maximumDutyCycle(aMaximumDutyCycle),
+      maximumManeuverCount(aMaximumManeuverCount)
 {
     // Validate that both or neither of the duty cycle components are defined
     // This must be checked first before any comparisons
@@ -164,12 +166,29 @@ Segment::ManeuverConstraints::ManeuverConstraints(
             "aliasing issues which can cause sequential maneuver intervals to overlap by a nanosecond."
         );
     }
+
+    // The maximum maneuver count is defined by its duration: a count without a duration is not a constraint
+    if (maximumManeuverCount.first != 0 && !maximumManeuverCount.second.isDefined())
+    {
+        throw ostk::core::error::RuntimeError("Maximum maneuver count duration must be defined if the count is.");
+    }
+
+    if (maximumManeuverCount.second.isDefined() && maximumManeuverCount.first == 0)
+    {
+        throw ostk::core::error::RuntimeError("Maximum maneuver count must be greater than zero.");
+    }
+
+    if (maximumManeuverCount.second.isDefined() && maximumManeuverCount.second <= Duration::Zero())
+    {
+        throw ostk::core::error::RuntimeError("Maximum maneuver count duration must be greater than zero.");
+    }
 }
 
 bool Segment::ManeuverConstraints::isDefined() const
 {
     return minimumDuration.isDefined() || maximumDuration.isDefined() || minimumSeparation.isDefined() ||
-           (maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined());
+           (maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined()) ||
+           maximumManeuverCount.second.isDefined();
 }
 
 bool Segment::ManeuverConstraints::intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const
@@ -241,6 +260,26 @@ bool Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
     return tailManeuverDuration <= maximumDutyCycle.first;
 }
 
+Instant Segment::ManeuverConstraints::computeEarliestManeuverStart(const Array<Interval>& aPreviousManeuverIntervals
+) const
+{
+    const Size& count = maximumManeuverCount.first;
+
+    if (!maximumManeuverCount.second.isDefined() || aPreviousManeuverIntervals.getSize() < count)
+    {
+        return Instant::Undefined();
+    }
+
+    // The count-th most recent previous maneuver must have started at least the duration before the next one:
+    //
+    // ----|xx|-------|xx|----|xx|--------------  (Previous maneuvers, count = 2)
+    // ---------------|       duration       |--  (Earliest start of the next maneuver)
+    const Array<Interval> sortedPreviousManeuverIntervals = Interval::Sort(aPreviousManeuverIntervals);
+
+    return sortedPreviousManeuverIntervals[sortedPreviousManeuverIntervals.getSize() - count].getStart() +
+           maximumManeuverCount.second;
+}
+
 void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     if (displayDecorator)
@@ -263,6 +302,13 @@ void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool disp
         << (this->maximumDutyCycle.first.isDefined() && this->maximumDutyCycle.second.isDefined()
                 ? String::Format(
                       "[{}, {}]", this->maximumDutyCycle.first.toString(), this->maximumDutyCycle.second.toString()
+                  )
+                : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Maximum Maneuver Count:"
+        << (this->maximumManeuverCount.second.isDefined()
+                ? String::Format(
+                      "[{}, {}]", this->maximumManeuverCount.first, this->maximumManeuverCount.second.toString()
                   )
                 : "Undefined");
 
@@ -1468,6 +1514,22 @@ Segment::Solution Segment::solve(
             if (segmentStates.accessLast().accessInstant() < endInstant)
             {
                 if (solveAndAcceptCoast(endInstant))
+                {
+                    break;
+                }
+            }
+        }
+
+        // Check maximum maneuver count constraint from previous maneuvers
+        if (maneuverConstraints_.maximumManeuverCount.second.isDefined())
+        {
+            const Instant earliestManeuverStart = maneuverConstraints_.computeEarliestManeuverStart(
+                sortedPreviousManeuverIntervals + acceptedManeuverIntervals
+            );
+
+            if (earliestManeuverStart.isDefined() && segmentStates.accessLast().accessInstant() < earliestManeuverStart)
+            {
+                if (solveAndAcceptCoast(earliestManeuverStart))
                 {
                     break;
                 }

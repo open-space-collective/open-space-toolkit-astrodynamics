@@ -854,6 +854,128 @@ TEST(
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, MaximumManeuverCount)
+{
+    const auto constructConstraints = [](const Pair<Size, Duration>& aMaximumManeuverCount
+                                      ) -> Segment::ManeuverConstraints
+    {
+        return Segment::ManeuverConstraints(
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail,
+            Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+            aMaximumManeuverCount
+        );
+    };
+
+    // Undefined by default
+    {
+        const Segment::ManeuverConstraints constraints;
+
+        EXPECT_EQ(0, constraints.maximumManeuverCount.first);
+        EXPECT_FALSE(constraints.maximumManeuverCount.second.isDefined());
+        EXPECT_FALSE(constraints.isDefined());
+    }
+
+    // Only maximum maneuver count
+    {
+        const Segment::ManeuverConstraints constraints =
+            constructConstraints(Pair<Size, Duration>(2, Duration::Minutes(95.0)));
+
+        EXPECT_EQ(2, constraints.maximumManeuverCount.first);
+        EXPECT_EQ(Duration::Minutes(95.0), constraints.maximumManeuverCount.second);
+        EXPECT_TRUE(constraints.isDefined());
+    }
+
+    // Failure cases
+    {
+        const auto expectThrow =
+            [&constructConstraints](const Pair<Size, Duration>& aMaximumManeuverCount, const String& aMessage) -> void
+        {
+            EXPECT_THROW(
+                {
+                    try
+                    {
+                        constructConstraints(aMaximumManeuverCount);
+                    }
+                    catch (const ostk::core::error::RuntimeError& e)
+                    {
+                        EXPECT_EQ(aMessage, e.getMessage());
+                        throw;
+                    }
+                },
+                ostk::core::error::RuntimeError
+            );
+        };
+
+        expectThrow(
+            Pair<Size, Duration>(2, Duration::Undefined()),
+            "Maximum maneuver count duration must be defined if the count is."
+        );
+        expectThrow(
+            Pair<Size, Duration>(0, Duration::Minutes(95.0)), "Maximum maneuver count must be greater than zero."
+        );
+        expectThrow(
+            Pair<Size, Duration>(2, Duration::Zero()), "Maximum maneuver count duration must be greater than zero."
+        );
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, ComputeEarliestManeuverStart)
+{
+    const Instant epoch = Instant::J2000();
+
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Undefined(),
+        Duration::Minutes(1.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Fail,
+        Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+        Pair<Size, Duration>(2, Duration::Minutes(95.0))
+    );
+
+    const Interval firstManeuverInterval = Interval::Closed(epoch, epoch + Duration::Minutes(10.0));
+    const Interval secondManeuverInterval =
+        Interval::Closed(epoch + Duration::Minutes(40.0), epoch + Duration::Minutes(45.0));
+    const Interval thirdManeuverInterval =
+        Interval::Closed(epoch + Duration::Minutes(100.0), epoch + Duration::Minutes(101.0));
+
+    // Fewer previous maneuvers than the maximum count: unconstrained
+    {
+        EXPECT_FALSE(constraints.computeEarliestManeuverStart({}).isDefined());
+        EXPECT_FALSE(constraints.computeEarliestManeuverStart({firstManeuverInterval}).isDefined());
+    }
+
+    // The duration after the start of the second most recent maneuver, whatever the order of the previous maneuvers
+    {
+        EXPECT_EQ(
+            epoch + Duration::Minutes(95.0),
+            constraints.computeEarliestManeuverStart({firstManeuverInterval, secondManeuverInterval})
+        );
+        EXPECT_EQ(
+            epoch + Duration::Minutes(135.0),
+            constraints.computeEarliestManeuverStart(
+                {thirdManeuverInterval, firstManeuverInterval, secondManeuverInterval}
+            )
+        );
+    }
+
+    // Without maximum maneuver count
+    {
+        const Segment::ManeuverConstraints unconstrained(
+            Duration::Undefined(),
+            Duration::Undefined(),
+            Duration::Minutes(1.0),
+            Segment::MaximumManeuverDurationViolationStrategy::Fail
+        );
+
+        EXPECT_FALSE(
+            unconstrained.computeEarliestManeuverStart({firstManeuverInterval, secondManeuverInterval}).isDefined()
+        );
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
     void SetUp() override
@@ -3860,6 +3982,96 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     for (const auto& [maneuver, expectedManeuverInterval] : Zip(maneuvers, expectedManeuverIntervals))
     {
         EXPECT_INTERVALS_ALMOST_EQUAL(maneuver.getInterval(), expectedManeuverInterval, Duration::Nanoseconds(10.0));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumManeuverCount)
+{
+    // Thrusting all along, split into maneuvers of at most 5 minutes, at most 2 of which start within 15 minutes
+    const Segment::ManeuverConstraints constraints(
+        Duration::Undefined(),
+        Duration::Minutes(5.0),
+        Duration::Seconds(10.0),
+        Segment::MaximumManeuverDurationViolationStrategy::Chunk,
+        Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined()),
+        Pair<Size, Duration>(2, Duration::Minutes(15.0))
+    );
+
+    const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
+        RealCondition::DurationCondition(RealCondition::Criterion::StrictlyPositive, Duration::Minutes(30.0))
+    );
+
+    const Segment maneuverSegment = Segment::Maneuver(
+        defaultName_,
+        durationCondition,
+        defaultThrusterDynamicsSPtr_,
+        defaultDynamics_,
+        defaultNumericalSolver_,
+        constraints
+    );
+
+    const Instant& epoch = initialStateWithMass_.accessInstant();
+
+    const auto expectManeuverIntervals = [&epoch](
+                                             const Segment::Solution& aSolution,
+                                             const Array<Pair<Duration, Duration>>& anExpectedManeuverIntervals
+                                         ) -> void
+    {
+        EXPECT_TRUE(aSolution.conditionIsSatisfied);
+        ASSERT_STATES_ARE_STRICTLY_MONOTONIC(aSolution.states);
+
+        ASSERT_EQ(anExpectedManeuverIntervals.getSize(), aSolution.maneuverIntervals.getSize());
+
+        for (const auto& [maneuverInterval, expectedManeuverInterval] :
+             Zip(aSolution.maneuverIntervals, anExpectedManeuverIntervals))
+        {
+            EXPECT_INTERVALS_ALMOST_EQUAL(
+                maneuverInterval,
+                Interval::Closed(epoch + expectedManeuverInterval.first, epoch + expectedManeuverInterval.second),
+                Duration::Nanoseconds(10.0)
+            );
+        }
+    };
+
+    // The third maneuver waits until 15 minutes after the start of the first one, and the fifth one until 15 minutes
+    // after the start of the third one (beyond the end of the segment):
+    //
+    // Maneuvers   0----5 5.17--10.17      15----20 20.17--25.17
+    {
+        const Segment::Solution solution = maneuverSegment.solve(initialStateWithMass_, Duration::Minutes(35.0));
+
+        expectManeuverIntervals(
+            solution,
+            {
+                {Duration::Zero(), Duration::Minutes(5.0)},
+                {Duration::Minutes(5.0) + Duration::Seconds(10.0), Duration::Minutes(10.0) + Duration::Seconds(10.0)},
+                {Duration::Minutes(15.0), Duration::Minutes(20.0)},
+                {Duration::Minutes(20.0) + Duration::Seconds(10.0), Duration::Minutes(25.0) + Duration::Seconds(10.0)},
+            }
+        );
+    }
+
+    // The maneuvers prior to the segment count: the first maneuver waits until 15 minutes after the start of the
+    // second most recent one
+    {
+        const Segment::Solution solution = maneuverSegment.solve(
+            initialStateWithMass_,
+            Duration::Minutes(35.0),
+            Array<Interval> {
+                Interval::Closed(epoch - Duration::Minutes(14.0), epoch - Duration::Minutes(13.0)),
+                Interval::Closed(epoch - Duration::Minutes(12.0), epoch - Duration::Minutes(11.0)),
+            }
+        );
+
+        expectManeuverIntervals(
+            solution,
+            {
+                {Duration::Minutes(1.0), Duration::Minutes(6.0)},
+                {Duration::Minutes(6.0) + Duration::Seconds(10.0), Duration::Minutes(11.0) + Duration::Seconds(10.0)},
+                {Duration::Minutes(16.0), Duration::Minutes(21.0)},
+                {Duration::Minutes(21.0) + Duration::Seconds(10.0), Duration::Minutes(26.0) + Duration::Seconds(10.0)},
+            }
+        );
     }
 }
 

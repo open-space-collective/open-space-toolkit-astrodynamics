@@ -166,6 +166,18 @@ def maneuver_constraint_with_duty_Cycle() -> Segment.ManeuverConstraints:
 
 
 @pytest.fixture
+def maneuver_constraint_with_maximum_maneuver_count() -> Segment.ManeuverConstraints:
+    return Segment.ManeuverConstraints(
+        minimum_duration=Duration.undefined(),
+        maximum_duration=Duration.minutes(10.0),
+        minimum_separation=Duration.minutes(26.0),
+        maximum_duration_strategy=Segment.MaximumManeuverDurationViolationStrategy.Skip,
+        maximum_duty_cycle=(Duration.undefined(), Duration.undefined()),
+        maximum_maneuver_count=(2, Duration.minutes(95.0)),
+    )
+
+
+@pytest.fixture
 def maneuver_segment(
     name: str,
     instant_condition: InstantCondition,
@@ -721,6 +733,21 @@ class TestManeuverConstraints:
         assert maneuver_constraint_with_duty_Cycle.maximum_duty_cycle[0] is not None
         assert maneuver_constraint_with_duty_Cycle.maximum_duty_cycle[1] is not None
 
+        # Without maximum maneuver count
+        count, duration = maneuver_constraint_with_duty_Cycle.maximum_maneuver_count
+        assert count == 0
+        assert not duration.is_defined()
+
+    def test_constructor_with_maximum_maneuver_count(
+        self,
+        maneuver_constraint_with_maximum_maneuver_count: Segment.ManeuverConstraints,
+    ):
+        constraints = maneuver_constraint_with_maximum_maneuver_count
+
+        assert constraints.is_defined()
+        assert constraints.maximum_maneuver_count[0] == 2
+        assert constraints.maximum_maneuver_count[1] == Duration.minutes(95.0)
+
     def test_is_defined(
         self,
         maneuver_constraints: Segment.ManeuverConstraints,
@@ -766,6 +793,29 @@ class TestManeuverConstraints:
             )
             is not None
         )
+
+    def test_compute_earliest_maneuver_start(
+        self,
+        maneuver_constraint_with_maximum_maneuver_count: Segment.ManeuverConstraints,
+        interval: Interval,
+    ):
+        constraints = maneuver_constraint_with_maximum_maneuver_count
+
+        earliest_maneuver_start = constraints.compute_earliest_maneuver_start(
+            previous_maneuver_intervals=[
+                Interval.closed(
+                    interval.get_start() - Duration.minutes(60.0),
+                    interval.get_start() - Duration.minutes(55.0),
+                ),
+                Interval.closed(
+                    interval.get_start() - Duration.minutes(20.0),
+                    interval.get_start() - Duration.minutes(15.0),
+                ),
+            ],
+        )
+
+        assert isinstance(earliest_maneuver_start, Instant)
+        assert earliest_maneuver_start.is_defined()
 
 
 class TestStringFromMaximumManeuverDurationViolationStrategy:
