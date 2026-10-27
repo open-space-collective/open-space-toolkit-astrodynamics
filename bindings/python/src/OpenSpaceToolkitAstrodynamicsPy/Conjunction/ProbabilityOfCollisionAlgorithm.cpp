@@ -291,7 +291,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
         .def_static(
             "compute_probability_analysis",
-            &ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis,
+            &ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis,
             R"doc(
                 Compute the probability of collision analysis of a close approach using a probability of collision
                 algorithm.

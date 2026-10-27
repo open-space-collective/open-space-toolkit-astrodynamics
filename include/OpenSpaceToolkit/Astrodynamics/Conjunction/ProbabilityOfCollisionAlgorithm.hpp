@@ -36,7 +36,7 @@ using ostk::core::type::String;
 /// 2. Loop over the list and pick the first algorithm applicable to the close approach (see isApplicable()), then
 /// check whether it computes a maximum probability of collision (see isMaximum()).
 /// 3. If the algorithm does not compute a maximum probability of collision, compute the probability of collision
-/// analysis (see computeProbabilityAnalysis) and check its region:
+/// analysis (see ComputeProbabilityAnalysis) and check its region:
 ///     - ProbabilityRegion::Robust: use the probability of collision.
 ///     - ProbabilityRegion::Diluted: use the maximum probability of collision as an upper bound.
 ///     - ProbabilityRegion::Unknown: try the next applicable algorithm in the list.
@@ -63,7 +63,7 @@ using ostk::core::type::String;
 ///         }
 ///
 ///         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-///             ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+///             ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
 ///                 algorithmSPtr, closeApproach, hardBody1SPtr, hardBody2SPtr
 ///             );
 ///
@@ -200,8 +200,8 @@ class ProbabilityOfCollisionAlgorithm
     /// scaling factor and as a sigma scaling factor. In the unknown region (ProbabilityRegion::Unknown), the maximum
     /// probability of collision and its scaling factors are empty.
     ///
-    /// Raises an Undefined error if the probability of collision algorithm is undefined, a Wrong error if it computes a
-    /// maximum probability of collision, and a RuntimeError if neither covariance is to be scaled.
+    /// Raises an Undefined error if the probability of collision algorithm is undefined, and a RuntimeError if it
+    /// computes a maximum probability of collision or if neither covariance is to be scaled.
     ///
     /// @ref Alfano, Salvatore. (2020). Relating Position Uncertainty to Maximum Conjunction Probability.
     /// The Journal of the Astronautical Sciences. 53. 193-205. 10.1007/BF03546350.
@@ -215,7 +215,7 @@ class ProbabilityOfCollisionAlgorithm
     /// @param scaleObject2Covariance Whether to scale Object 2 covariance. Defaults to true
     ///
     /// @return The probability of collision analysis of the close approach
-    static Analysis computeProbabilityAnalysis(
+    static Analysis ComputeProbabilityAnalysis(
         const Shared<const ProbabilityOfCollisionAlgorithm>& aProbabilityOfCollisionAlgorithmSPtr,
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
