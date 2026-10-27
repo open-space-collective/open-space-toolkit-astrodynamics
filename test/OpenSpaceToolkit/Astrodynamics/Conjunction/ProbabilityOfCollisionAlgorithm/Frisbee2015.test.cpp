@@ -847,23 +847,26 @@ TEST_F(
     {
         EXPECT_THROW(
             try {
-                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                     std::make_shared<Frisbee2015>(algorithm_), closeApproach, hardBodySPtr, hardBodySPtr
                 );
-            } catch (const ostk::core::error::runtime::Wrong& e) {
-                EXPECT_EQ("Probability of collision algorithm = Frisbee 2015 (Closed-form) is wrong.", e.getMessage());
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ(
+                    "The probability of collision is already an upper bound: the analysis is not applicable.",
+                    e.getMessage()
+                );
                 throw;
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
     {
         EXPECT_THROW(
-            ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+            ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                 std::make_shared<Frisbee2015>(), closeApproach, hardBodySPtr, hardBodySPtr
             ),
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 }

@@ -852,7 +852,7 @@ CloseApproach buildPoCCase12()
 // only the position covariances are used.
 //
 // NASA CARA scales both covariances by the square of its scale factor (i.e. its scale factor applies to the standard
-// deviations), whereas the scaling factor of computeProbabilityAnalysis applies to the covariances: the expected
+// deviations), whereas the scaling factor of ComputeProbabilityAnalysis applies to the covariances: the expected
 // maximum probabilities of collision are independent of this convention, the scale factors at which they occur are
 // not.
 
@@ -1435,7 +1435,7 @@ TEST_P(
     const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(params.combinedHardBodyRadius / 2.0);
 
     const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-        ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+        ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
             algorithmSPtr_, params.closeApproach, hardBodySPtr, hardBodySPtr, true, true
         );
 
