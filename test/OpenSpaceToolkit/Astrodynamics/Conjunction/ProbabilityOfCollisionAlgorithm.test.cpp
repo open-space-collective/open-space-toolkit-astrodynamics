@@ -397,7 +397,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                     nullptr, closeApproach, hardBody1SPtr_, hardBody2SPtr_
                 );
             } catch (const ostk::core::error::runtime::Undefined& e) {
@@ -412,17 +412,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                     std::make_shared<MaximumProbabilityOfCollisionAlgorithm>(0.01),
                     closeApproach,
                     hardBody1SPtr_,
                     hardBody2SPtr_
                 );
-            } catch (const ostk::core::error::runtime::Wrong& e) {
-                EXPECT_EQ("Probability of collision algorithm = Maximum is wrong.", e.getMessage());
+            } catch (const ostk::core::error::RuntimeError& e) {
+                EXPECT_EQ(
+                    "The probability of collision is already an upper bound: the analysis is not applicable.",
+                    e.getMessage()
+                );
                 throw;
             },
-            ostk::core::error::runtime::Wrong
+            ostk::core::error::RuntimeError
         );
     }
 
@@ -430,7 +433,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                     algorithmSPtr, closeApproach, hardBody1SPtr_, hardBody2SPtr_, false, false
                 );
             } catch (const ostk::core::error::RuntimeError& e) {
@@ -467,7 +470,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
              })
         {
             const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-                ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+                ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                     algorithmSPtr, buildCloseApproach(), hardBody1SPtr_, hardBody2SPtr_
                 );
 
@@ -486,7 +489,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     // close approach is in the robust region
     {
         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-            ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+            ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                 std::make_shared<SingleMaximumProbabilityOfCollisionAlgorithm>(100.0),
                 buildCloseApproach(),
                 hardBody1SPtr_,
@@ -514,7 +517,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     // approach is in the dilution region
     {
         const ProbabilityOfCollisionAlgorithm::Analysis analysis =
-            ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+            ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
                 std::make_shared<SingleMaximumProbabilityOfCollisionAlgorithm>(1.0),
                 buildCloseApproach(),
                 hardBody1SPtr_,
