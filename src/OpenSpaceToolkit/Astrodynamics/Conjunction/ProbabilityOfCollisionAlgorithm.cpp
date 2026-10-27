@@ -37,7 +37,7 @@ bool ProbabilityOfCollisionAlgorithm::isApplicable(const CloseApproach& aCloseAp
     return this->identifyUnsatisfiedAssumptions(aCloseApproach).isEmpty();
 }
 
-ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::computeProbabilityAnalysis(
+ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(
     const Shared<const ProbabilityOfCollisionAlgorithm>& aProbabilityOfCollisionAlgorithmSPtr,
     const CloseApproach& aCloseApproach,
     const Shared<const HardBody>& aHardBody1SPtr,
@@ -51,11 +51,10 @@ ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::compu
         throw ostk::core::error::runtime::Undefined("Probability of collision algorithm");
     }
 
-    // The probability of collision is already an upper bound: the analysis is not applicable
     if (aProbabilityOfCollisionAlgorithmSPtr->isMaximum())
     {
-        throw ostk::core::error::runtime::Wrong(
-            "Probability of collision algorithm", aProbabilityOfCollisionAlgorithmSPtr->getName()
+        throw ostk::core::error::RuntimeError(
+            "The probability of collision is already an upper bound: the analysis is not applicable."
         );
     }
 
