@@ -1103,7 +1103,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             }
         }
 
-        // Elevation Interval visibility criterion, target with state filter
+        // Elevation Interval visibility criterion, target with state filter that always returns false
 
         {
             const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
@@ -1127,6 +1127,72 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Array<Access> accesses = generator.computeAccesses(interval, accessTarget, toTrajectory);
 
             ASSERT_EQ(accesses.getSize(), 0);
+        }
+
+        // Elevation Interval visibility criterion, target with state filter excluding a window within an access
+        // Unlike the always-false filter above, this yields coarse intervals that must be refined. The window bounds
+        // fall between grid points, so the refined endpoints only match them if the state filter is applied when
+        // refining crossings, not just on the coarse grid.
+        //
+        // Grid (1 min):  |     |     |     |     |     |     |     |
+        // Reference:     [=========================================]
+        // Excluded by state filter:     [xxxxxxxxxxxxxxxxx]
+        // Expected:      [==============]                 [========]
+        //                AOS          start     TCA      end     LOS
+
+        {
+            const ostk::mathematics::object::Interval<Real> elevationInterval =
+                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+
+            const VisibilityCriterion visibilityCriterion =
+                VisibilityCriterion::FromElevationInterval(elevationInterval);
+
+            // High latitude target, so that the sun-synchronous orbit passes over it within the interval
+            const AccessTarget accessTarget = AccessTarget::FromLLA(visibilityCriterion, LLAs[4], defaultEarthSPtr_);
+
+            const Array<Access> referenceAccesses =
+                defaultGenerator_.computeAccesses(interval, accessTarget, toTrajectory);
+
+            ASSERT_FALSE(referenceAccesses.isEmpty());
+
+            Access referenceAccess = referenceAccesses.accessFirst();
+
+            for (const Access& access : referenceAccesses)
+            {
+                if (access.getDuration() > referenceAccess.getDuration())
+                {
+                    referenceAccess = access;
+                }
+            }
+
+            // The excluded window must fit within the access for it to be split in two
+            ASSERT_GT(referenceAccess.getDuration(), Duration::Minutes(2.0));
+
+            // Non-integer offset, to keep the window bounds off the 1 minute grid starting at the acquisition of signal
+            const Instant windowStartInstant = referenceAccess.getTimeOfClosestApproach() - Duration::Seconds(45.5);
+            const Instant windowEndInstant = referenceAccess.getTimeOfClosestApproach() + Duration::Seconds(45.5);
+
+            const auto stateFilter = [windowStartInstant,
+                                      windowEndInstant](const State& aFirstState, const State& aSecondState) -> bool
+            {
+                (void)aFirstState;
+                return (aSecondState.getInstant() < windowStartInstant) ||
+                       (aSecondState.getInstant() > windowEndInstant);
+            };
+
+            const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, {}, stateFilter};
+
+            const Array<Access> accesses = generator.computeAccesses(
+                Interval::Closed(referenceAccess.getAcquisitionOfSignal(), referenceAccess.getLossOfSignal()),
+                accessTarget,
+                toTrajectory
+            );
+
+            ASSERT_EQ(accesses.getSize(), 2);
+            EXPECT_TRUE(accesses[0].getLossOfSignal().isNear(windowStartInstant, Duration::Milliseconds(1.0)))
+                << accesses[0].getLossOfSignal().toString() << " ~ " << windowStartInstant.toString();
+            EXPECT_TRUE(accesses[1].getAcquisitionOfSignal().isNear(windowEndInstant, Duration::Milliseconds(1.0)))
+                << accesses[1].getAcquisitionOfSignal().toString() << " ~ " << windowEndInstant.toString();
         }
     }
 }
