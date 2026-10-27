@@ -825,6 +825,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, ComputeEffectivi
         EXPECT_GE(effectivity, 0.0);
         EXPECT_LE(effectivity, 1.0);
     }
+
+    // A semi-major axis error that the burns of the horizon cannot remove: every burn is the earliest its window
+    // allows. Burning now delays the window of the next burn by half the duration of the first burn, which must not
+    // move the next burn by a whole orbit, out of the horizon: burning now then improves on not burning.
+    {
+        ROETargeting::Parameters parameters = parameters_;
+        parameters.burnSpacing = orbitalPeriod() * 0.5;
+
+        const ROETargeting halfOrbitSpacingGuidanceLaw = {referenceTrajectory_, parameters};
+
+        Vector6d relativeOrbitalElements = Vector6d::Zero();
+        relativeOrbitalElements[0] = 1000.0;
+
+        const State state = offsetState(relativeOrbitalElements);
+
+        const ROETargeting::Plan plan = halfOrbitSpacingGuidanceLaw.computePlan(state);
+
+        for (Size burnIndex = 1; burnIndex < plan.burnIntervals.getSize(); ++burnIndex)
+        {
+            const Instant earliestCenter = plan.burnIntervals[burnIndex - 1].getCenter() + parameters.burnSpacing;
+
+            EXPECT_LT(plan.burnIntervals[burnIndex].getCenter(), earliestCenter + parameters.maximumBurnDuration)
+                << burnIndex;
+        }
+
+        EXPECT_GE(halfOrbitSpacingGuidanceLaw.computeEffectivity(state), parameters.effectivityThreshold);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ROETargeting, CalculateThrustAccelerationAt)

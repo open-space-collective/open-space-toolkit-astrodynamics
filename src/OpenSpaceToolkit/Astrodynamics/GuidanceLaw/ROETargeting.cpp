@@ -804,7 +804,9 @@ class BurnPlanner
                 break;
             }
 
-            optimizeDeltaVelocities_(includeFirstBurn, aFirstBurnWindow, aSolution);
+            // A burn whose duration changes moves the windows of the following burns, which can move by whole orbits:
+            // the next sweep then searches their windows again
+            const bool burnsMovedByDurations = optimizeDeltaVelocities_(includeFirstBurn, aFirstBurnWindow, aSolution);
 
             Solution finalizedSolution = aSolution;
             finalize_(includeFirstBurn, aFirstBurnWindow, finalizedSolution);
@@ -814,7 +816,7 @@ class BurnPlanner
                 bestSolution = finalizedSolution;
             }
 
-            if (!burnsMoved || (bestSolution.cost < aStopCost))
+            if (!(burnsMoved || burnsMovedByDurations) || (bestSolution.cost < aStopCost))
             {
                 break;
             }
@@ -954,8 +956,9 @@ class BurnPlanner
 
     // Sequential convex programming over the delta-v of all the burns, at fixed burn middles: re-linearize the burn
     // arcs about the previous burn durations. The plan is recomputed at every evaluation, so the iterations are damped:
-    // undamped, they can cycle, and the burn durations of the last iteration then jump between nearby states.
-    void optimizeDeltaVelocities_(
+    // undamped, they can cycle, and the burn durations of the last iteration then jump between nearby states. Returns
+    // whether a burn moved by whole orbits to stay within its window.
+    bool optimizeDeltaVelocities_(
         const bool& includeFirstBurn, const FirstBurnWindow& aFirstBurnWindow, Solution& aSolution
     ) const
     {
@@ -1005,7 +1008,7 @@ class BurnPlanner
             setBurnDuration_(burnIndex, burnDurations[burnIndex], aFirstBurnWindow, aSolution);
         }
 
-        keepFollowingBurnsInWindows_(0, aSolution);
+        return keepFollowingBurnsInWindows_(0, aSolution);
     }
 
     VectorXd computeBurnDurations_(const Solution& aSolution) const
