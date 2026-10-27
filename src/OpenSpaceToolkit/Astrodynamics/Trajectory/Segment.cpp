@@ -11,8 +11,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -38,8 +38,8 @@ using ostk::physics::coordinate::Velocity;
 using TabulatedDynamics = ostk::astrodynamics::dynamics::Tabulated;
 using ostk::astrodynamics::eventcondition::LogicalCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
+using ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
-using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -934,11 +934,11 @@ Segment::Solution Segment::solve(
     const auto buildThrusterDynamicsWithinInterval =
         [&originalGuidanceLaw, &segmentThrusterDynamics](const Interval& aManeuverInterval) -> Shared<Thruster>
     {
-        const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw = std::make_shared<HeterogeneousGuidanceLaw>();
-        heterogeneousGuidanceLaw->addGuidanceLaw(originalGuidanceLaw, aManeuverInterval);
+        const Shared<CompositeGuidanceLaw> compositeGuidanceLaw = std::make_shared<CompositeGuidanceLaw>();
+        compositeGuidanceLaw->addGuidanceLaw(originalGuidanceLaw, aManeuverInterval);
 
         return std::make_shared<Thruster>(
-            segmentThrusterDynamics->getSatelliteSystem(), heterogeneousGuidanceLaw, segmentThrusterDynamics->getName()
+            segmentThrusterDynamics->getSatelliteSystem(), compositeGuidanceLaw, segmentThrusterDynamics->getName()
         );
     };
 
@@ -1046,10 +1046,9 @@ Segment::Solution Segment::solve(
     // maneuvers in a row. This is reset when a maneuver has been accepted.
     Size multiplier = 1;
 
-    // Helper lambda to accept a maneuver solution, updating segmentStates and segmentHeterogenousGuidanceLaw
+    // Helper lambda to accept a maneuver solution, updating segmentStates and segmentCompositeGuidanceLaw
     // It also updates the last maneuver interval and adds the interval to acceptedManeuverIntervals
-    const Shared<HeterogeneousGuidanceLaw> segmentHeterogenousGuidanceLaw =
-        std::make_shared<HeterogeneousGuidanceLaw>();
+    const Shared<CompositeGuidanceLaw> segmentCompositeGuidanceLaw = std::make_shared<CompositeGuidanceLaw>();
     const auto acceptManeuver = [&](const Segment::Solution& maneuverSolution, const FlightManeuver& maneuver) -> void
     {
         segmentStates.add(Array<State>(maneuverSolution.states.begin() + 1, maneuverSolution.states.end()));
@@ -1064,7 +1063,7 @@ Segment::Solution Segment::solve(
         // Reset the multiplier to 1, as we have accepted a maneuver
         multiplier = 1;
 
-        segmentHeterogenousGuidanceLaw->addGuidanceLaw(
+        segmentCompositeGuidanceLaw->addGuidanceLaw(
             maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), previousManeuverInterval
         );
     };
@@ -1559,7 +1558,7 @@ Segment::Solution Segment::solve(
 
     segmentDynamics.add(std::make_shared<Thruster>(
         this->getThrusterDynamics()->getSatelliteSystem(),
-        segmentHeterogenousGuidanceLaw,
+        segmentCompositeGuidanceLaw,
         this->getThrusterDynamics()->getName() + " (Maneuvering Constraints)"
     ));
 
