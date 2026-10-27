@@ -1394,6 +1394,98 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_8)
     }
 }
 
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_StateFilterIsAppliedDuringRefinement)
+{
+    // Regression test for a bug where the state filter was applied on the coarse grid of fixed targets, but ignored
+    // when refining the access endpoints.
+    // The state filter excludes a window, not aligned with the coarse grid, in the middle of a reference access. The
+    // reference access is expected to be split in two, with the inner endpoints matching the window bounds.
+
+    const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
+    const Interval interval = Interval::Closed(startInstant, endInstant);
+
+    const TLE tle = {
+        "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
+        "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
+    };
+    const Orbit orbit = {SGP4(tle), defaultEarthSPtr_};
+
+    const LLA lla = LLA(Angle::Degrees(53.406), Angle::Degrees(-6.225), Length::Meters(50.5));
+
+    const Array<VisibilityCriterion> visibilityCriteria = {
+        VisibilityCriterion::FromAERInterval(
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0),
+            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+        ),
+        VisibilityCriterion::FromAERMask(
+            {{0.0, 0.0}, {359.0, 0.0}}, ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+        ),
+        VisibilityCriterion::FromLineOfSight(defaultEnvironment_),
+        VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0)),
+    };
+
+    const Duration toleranceDuration = Duration::Milliseconds(1.0);
+
+    for (const VisibilityCriterion& visibilityCriterion : visibilityCriteria)
+    {
+        const AccessTarget accessTarget = AccessTarget::FromLLA(visibilityCriterion, lla, defaultEarthSPtr_);
+
+        const Array<Access> referenceAccesses = defaultGenerator_.computeAccesses(interval, accessTarget, orbit);
+
+        ASSERT_FALSE(referenceAccesses.isEmpty());
+
+        Access referenceAccess = referenceAccesses.accessFirst();
+
+        for (const Access& access : referenceAccesses)
+        {
+            if (access.getDuration() > referenceAccess.getDuration())
+            {
+                referenceAccess = access;
+            }
+        }
+
+        ASSERT_EQ(Access::Type::Complete, referenceAccess.getType());
+        ASSERT_TRUE(referenceAccess.getDuration() > Duration::Minutes(5.0));
+
+        const Instant midInstant = referenceAccess.getAcquisitionOfSignal() + (referenceAccess.getDuration() / 2.0);
+        const Instant windowStartInstant = midInstant - Duration::Seconds(45.0);
+        const Instant windowEndInstant = midInstant + Duration::Seconds(45.0);
+
+        const auto stateFilter = [windowStartInstant,
+                                  windowEndInstant](const State& aFirstState, const State& aSecondState) -> bool
+        {
+            (void)aFirstState;
+            return (aSecondState.getInstant() < windowStartInstant) || (aSecondState.getInstant() > windowEndInstant);
+        };
+
+        const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, {}, stateFilter};
+
+        const Interval analysisInterval = Interval::Closed(
+            referenceAccess.getAcquisitionOfSignal() - Duration::Minutes(10.0),
+            referenceAccess.getLossOfSignal() + Duration::Minutes(10.0)
+        );
+
+        const Array<Access> accesses = generator.computeAccesses(analysisInterval, accessTarget, orbit);
+
+        ASSERT_EQ(2, accesses.getSize());
+
+        EXPECT_TRUE(
+            accesses[0].getAcquisitionOfSignal().isNear(referenceAccess.getAcquisitionOfSignal(), toleranceDuration)
+        ) << accesses[0].getAcquisitionOfSignal().toString()
+          << " ~ " << referenceAccess.getAcquisitionOfSignal().toString();
+        EXPECT_TRUE(accesses[0].getLossOfSignal().isNear(windowStartInstant, toleranceDuration))
+            << accesses[0].getLossOfSignal().toString() << " ~ " << windowStartInstant.toString();
+
+        EXPECT_TRUE(accesses[1].getAcquisitionOfSignal().isNear(windowEndInstant, toleranceDuration))
+            << accesses[1].getAcquisitionOfSignal().toString() << " ~ " << windowEndInstant.toString();
+        EXPECT_TRUE(accesses[1].getLossOfSignal().isNear(referenceAccess.getLossOfSignal(), toleranceDuration))
+            << accesses[1].getLossOfSignal().toString() << " ~ " << referenceAccess.getLossOfSignal().toString();
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
 {
     {

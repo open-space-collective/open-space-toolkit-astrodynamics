@@ -897,6 +897,20 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         throw ostk::core::error::RuntimeError("VisibilityCriterion type not supported.");
     }
 
+    const Trajectory& fromTrajectory = anAccessTarget.accessTrajectory();
+
+    const auto conditionWithStateFilter = [this, &condition, &fromTrajectory, &aToTrajectory](const Instant& instant
+                                          ) -> double
+    {
+        if (this->stateFilter_ &&
+            !this->stateFilter_(fromTrajectory.getStateAt(instant), aToTrajectory.getStateAt(instant)))
+        {
+            return -1.0;
+        }
+
+        return condition(instant);
+    };
+
     Array<physics::time::Interval> preciseAccessIntervals = accessIntervals;
 
     for (Index i = 0; i < preciseAccessIntervals.getSize(); ++i)
@@ -936,9 +950,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         if (lowerBoundPreviousInstant >= anAnalysisInterval.getStart())
         {
             const auto startCrossingDurationSeconds = rootSolver.solve(
-                [&lowerBoundPreviousInstant, &condition](double aDurationInSeconds) -> double
+                [&lowerBoundPreviousInstant, &conditionWithStateFilter](double aDurationInSeconds) -> double
                 {
-                    return condition(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds));
+                    return conditionWithStateFilter(lowerBoundPreviousInstant + Duration::Seconds(aDurationInSeconds));
                 },
                 0.0,
                 Duration::Between(lowerBoundPreviousInstant, lowerBoundInstant).inSeconds()
@@ -955,9 +969,9 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         if (upperBoundNextInstant <= anAnalysisInterval.getEnd() && upperBoundNextInstant != upperBoundInstant)
         {
             const auto endCrossingDurationSeconds = rootSolver.solve(
-                [&upperBoundInstant, &condition](double aDurationInSeconds) -> double
+                [&upperBoundInstant, &conditionWithStateFilter](double aDurationInSeconds) -> double
                 {
-                    return condition(upperBoundInstant + Duration::Seconds(aDurationInSeconds));
+                    return conditionWithStateFilter(upperBoundInstant + Duration::Seconds(aDurationInSeconds));
                 },
                 0.0,
                 Duration::Between(upperBoundInstant, upperBoundNextInstant).inSeconds()
