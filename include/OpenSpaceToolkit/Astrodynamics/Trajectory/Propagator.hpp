@@ -4,10 +4,12 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
+#include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -28,10 +30,12 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
 using ostk::mathematics::curvefitting::Interpolator;
+using ostk::mathematics::object::MatrixXd;
 
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
@@ -49,6 +53,15 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 class Propagator
 {
    public:
+    /// @brief Per-dynamics contributions recorded at each solver step accepted during a propagation.
+    struct StepContributions
+    {
+        Array<Instant> instants = Array<Instant>::Empty();   ///< One instant per recorded step, in integration order
+        Map<Shared<Dynamics>, MatrixXd> contributions = {};  ///< Per dynamics: rows align with instants, columns
+                                                             ///< follow the dynamics' write coordinate subsets,
+                                                             ///< expressed in GCRF
+    };
+
     /// @brief Default integrator frame
     static const Shared<const Frame> IntegrationFrameSPtr;
 
@@ -117,6 +130,11 @@ class Propagator
     /// @return True if propagator is defined
     bool isDefined() const;
 
+    /// @brief Check if per-dynamics step contribution recording is enabled
+    ///
+    /// @return True if per-dynamics step contribution recording is enabled
+    bool isContributionObservationEnabled() const;
+
     /// @brief Access the coordinate broker
     ///
     /// @return The coordinate broker
@@ -126,6 +144,15 @@ class Propagator
     ///
     /// @return The numerical solver
     const NumericalSolver& accessNumericalSolver() const;
+
+    /// @brief Access the step contributions recorded during the most recent calculate* call.
+    ///        Empty unless recording is enabled. For calculateStateAt / calculateStateToCondition the
+    ///        recorded steps are the solver's accepted steps (initial and final states included); for
+    ///        calculateStatesAt they are the requested instants (each an accepted-step endpoint —
+    ///        intermediate accepted steps are not recorded).
+    ///
+    /// @return The recorded step contributions
+    const StepContributions& accessRecordedStepContributions() const;
 
     /// @brief Get the number of propagated coordinates
     ///
@@ -138,6 +165,13 @@ class Propagator
     /// @endcode
     /// @return An array of dynamics shared pointers
     Array<Shared<Dynamics>> getDynamics() const;
+
+    /// @brief Get the step contributions recorded during the most recent calculate* call
+    /// @code{.cpp}
+    ///              Propagator::StepContributions recorded = propagator.getRecordedStepContributions();
+    /// @endcode
+    /// @return The recorded step contributions
+    StepContributions getRecordedStepContributions() const;
 
     /// @brief Set the dynamics array
     /// @code{.cpp}
@@ -169,6 +203,16 @@ class Propagator
         const Maneuver& aManeuver,
         const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
     );
+
+    /// @brief Enable or disable per-dynamics step contribution recording (disabled by default).
+    ///        When enabled, each calculate* call additionally evaluates every dynamics once per recorded
+    ///        step (one extra RHS-equivalent evaluation per step) and stores the results. Memory grows
+    ///        linearly with the number of recorded steps.
+    /// @code{.cpp}
+    ///              propagator.setContributionObservationEnabled(true);
+    /// @endcode
+    /// @param aContributionObservationEnabled True to enable recording, false to disable it
+    void setContributionObservationEnabled(const bool& aContributionObservationEnabled);
 
     /// @brief Calculate the state at an instant, given initial state
     /// @code{.cpp}
@@ -237,8 +281,15 @@ class Propagator
     Shared<CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
+    bool contributionObservationEnabled_ = false;
+    mutable StepContributions recordedStepContributions_ = {};
 
     void validateDynamicsSet() const;
+
+    /// @brief Evaluate and store per-dynamics contributions for the provided solver-layout states
+    ///
+    /// @param aStateArray States in the coordinate broker layout, expressed in the integration frame
+    void recordStepContributions_(const Array<State>& aStateArray) const;
 };
 
 }  // namespace trajectory
