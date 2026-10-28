@@ -49,8 +49,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
@@ -120,8 +120,8 @@ using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
+using ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::ConstantThrust;
-using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::RootSolver;
 using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
@@ -2273,11 +2273,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             );
         }
 
-        const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw =
-            std::make_shared<HeterogeneousGuidanceLaw>(HeterogeneousGuidanceLaw());
+        const Shared<CompositeGuidanceLaw> compositeGuidanceLaw =
+            std::make_shared<CompositeGuidanceLaw>(CompositeGuidanceLaw());
         for (Size i = 0; i < maneuvers.getSize(); i++)
         {
-            heterogeneousGuidanceLaw->addGuidanceLaw(
+            compositeGuidanceLaw->addGuidanceLaw(
                 std::make_shared<ConstantThrust>(
                     ConstantThrust::FromManeuver(maneuvers[i], defaultLocalOrbitalFrameFactory_)
                 ),
@@ -2292,8 +2292,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             ),
             std::make_shared<Thruster>(
                 defaultQLawThrusterDynamicsSPtr_->getSatelliteSystem(),
-                heterogeneousGuidanceLaw,
-                defaultQLawThrusterDynamicsSPtr_->getName() + " (With Heterogeneous Guidance Law)"
+                compositeGuidanceLaw,
+                defaultQLawThrusterDynamicsSPtr_->getName() + " (With Composite Guidance Law)"
             ),
             defaultDynamics_,
             defaultNumericalSolver_
