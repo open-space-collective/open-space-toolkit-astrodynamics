@@ -126,7 +126,7 @@ def profile(request) -> Profile:
             ),
             [1.0, 0.0, 0.0],
         ),
-        Profile.CustomProfilePointingConstraint(
+        Profile.TabulatedPointingConstraint(
             [
                 (Instant.J2000(), [1.0, 0.0, 0.0]),
                 (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
@@ -136,7 +136,7 @@ def profile(request) -> Profile:
             [1.0, 0.0, 0.0],
             Interpolator.Type.Linear,
         ),
-        Profile.CustomProfileGeneratorPointingConstraint(
+        Profile.PointingConstraintGenerator(
             lambda state: [1.0, 0.0, 0.0],
             [0.0, 0.0, 1.0],
         ),

@@ -916,7 +916,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryPointingConstrai
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfileGeneratorPointingConstraint)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, PointingConstraintGenerator)
 {
     std::function<Vector3d(const State&)> pointingProfileGeneratorECI = [](const State&) -> Vector3d
     {
@@ -924,26 +924,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfileGeneratorPoin
     };
 
     {
-        EXPECT_NO_THROW(Profile::CustomProfileGeneratorPointingConstraint(pointingProfileGeneratorECI, Vector3d::X()));
-        EXPECT_NO_THROW(Profile::CustomProfileGeneratorPointingConstraint(pointingProfileGeneratorECI, Vector3d::Y()));
+        EXPECT_NO_THROW(Profile::PointingConstraintGenerator(pointingProfileGeneratorECI, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::PointingConstraintGenerator(pointingProfileGeneratorECI, Vector3d::Y()));
     }
 
     {
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
-        const Profile::CustomProfileGeneratorPointingConstraint pointing =
-            Profile::CustomProfileGeneratorPointingConstraint(pointingProfileGeneratorECI, customDirection);
+        const Profile::PointingConstraintGenerator pointing =
+            Profile::PointingConstraintGenerator(pointingProfileGeneratorECI, customDirection);
         EXPECT_TRUE(pointing.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(pointing.type, Profile::TargetType::CustomProfileGeneratorECI);
+        EXPECT_EQ(pointing.type, Profile::TargetType::Generator);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfilePointingConstraint)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TabulatedPointingConstraint)
 {
     // Test empty pointing profile throws
     {
-        EXPECT_THROW(
-            Profile::CustomProfilePointingConstraint({}, Vector3d::X()), ostk::core::error::runtime::Undefined
-        );
+        EXPECT_THROW(Profile::TabulatedPointingConstraint({}, Vector3d::X()), ostk::core::error::runtime::Undefined);
     }
 
     // Test valid pointing profile
@@ -955,9 +953,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfilePointingConst
             {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
-        EXPECT_NO_THROW(Profile::CustomProfilePointingConstraint(pointingProfileECI, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::TabulatedPointingConstraint(pointingProfileECI, Vector3d::X()));
         EXPECT_NO_THROW(
-            Profile::CustomProfilePointingConstraint(pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear)
+            Profile::TabulatedPointingConstraint(pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear)
         );
     }
 
@@ -971,9 +969,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfilePointingConst
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
-        Profile::CustomProfilePointingConstraint pointing(pointingProfileECI, customDirection);
+        Profile::TabulatedPointingConstraint pointing(pointingProfileECI, customDirection);
         EXPECT_TRUE(pointing.direction.isNear(customDirection, 1e-12));
-        EXPECT_EQ(pointing.type, Profile::TargetType::CustomProfileECI);
+        EXPECT_EQ(pointing.type, Profile::TargetType::Tabulated);
     }
 
     // Verify pointing vector interpolation
@@ -982,7 +980,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, CustomProfilePointingConst
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::Y()},
         };
-        const Profile::CustomProfilePointingConstraint pointing(
+        const Profile::TabulatedPointingConstraint pointing(
             pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear
         );
 
@@ -1119,7 +1117,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndClock)
             );
         }
 
-        // Custom profile
+        // Tabulated
         {
             const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
                 {Instant::J2000(), Vector3d::X()},
@@ -1131,7 +1129,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndClock)
 
             const auto orientation = Profile::AlignAndClock(
                 earthSPtr,
-                std::make_shared<Profile::CustomProfilePointingConstraint>(pointingProfileECI, Vector3d::X()),
+                std::make_shared<Profile::TabulatedPointingConstraint>(pointingProfileECI, Vector3d::X()),
                 std::make_shared<Profile::PointingConstraint>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 
@@ -1140,7 +1138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndClock)
             EXPECT_VECTORS_ALMOST_EQUAL(q_B_GCRF * Vector3d::X(), Vector3d::X(), 1e-12);
         }
 
-        // Custom profile generator
+        // Generator
         {
             std::function<Vector3d(const State&)> pointingProfileGeneratorECI = [](const State&) -> Vector3d
             {
@@ -1149,9 +1147,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndClock)
 
             const auto orientation = Profile::AlignAndClock(
                 earthSPtr,
-                std::make_shared<Profile::CustomProfileGeneratorPointingConstraint>(
-                    pointingProfileGeneratorECI, Vector3d::X()
-                ),
+                std::make_shared<Profile::PointingConstraintGenerator>(pointingProfileGeneratorECI, Vector3d::X()),
                 std::make_shared<Profile::PointingConstraint>(Profile::TargetType::VelocityECI, Vector3d::Y())
             );
 

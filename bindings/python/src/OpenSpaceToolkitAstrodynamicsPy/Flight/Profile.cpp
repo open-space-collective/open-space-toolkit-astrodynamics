@@ -79,13 +79,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             "sliding across the ground)"
         )
         .value(
-            "CustomProfileECI",
-            Profile::TargetType::CustomProfileECI,
-            "Pointing pre-defined via a profile of vectors in the ECI frame"
+            "Tabulated",
+            Profile::TargetType::Tabulated,
+            "Pointing pre-defined via a profile of vectors in the ECI frame that can be interpolated"
         )
         .value(
-            "CustomProfileGeneratorECI",
-            Profile::TargetType::CustomProfileGeneratorECI,
+            "Generator",
+            Profile::TargetType::Generator,
             "Pointing generated at each timestep by a function that returns a vector in the ECI frame"
         )
 
@@ -95,7 +95,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         profileClass,
         "PointingConstraint",
         R"doc(
-            Represents a pointing constraint of one axis of your spacecraft towards a target.
+            Represents a pointing constraint of one axis of the spacecraft towards a target.
 
         )doc"
     )
@@ -107,7 +107,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     type (Profile.TargetType): The type of the target.
-                    direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for the Z axis).
+                    direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
             )doc",
             arg("type"),
             arg("direction_in_body_frame")
@@ -127,7 +127,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         profileClass,
         "TrajectoryPointingConstraint",
         R"doc(
-            Represents a pointing constraint of one axis of your spacecraft towards a trajectory.
+            Represents a pointing constraint of one axis of the spacecraft towards a trajectory.
 
         )doc"
     )
@@ -140,7 +140,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     trajectory (Trajectory): The trajectory to point towards.
-                    direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
+                    direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
 
                 Returns:
                     Profile.TrajectoryPointingConstraint: The trajectory pointing constraint.
@@ -158,7 +158,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     trajectory (Trajectory): The trajectory to point towards.
-                    direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
+                    direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
 
                 Returns:
                     Profile.TrajectoryPointingConstraint: The trajectory pointing constraint.
@@ -176,7 +176,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     trajectory (Trajectory): The trajectory to point towards.
-                    direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
+                    direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
 
                 Returns:
                     Profile.TrajectoryPointingConstraint: The trajectory pointing constraint.
@@ -192,14 +192,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         ;
 
     class_<
-        Profile::CustomProfilePointingConstraint,
+        Profile::TabulatedPointingConstraint,
         Profile::PointingConstraint,
-        Shared<Profile::CustomProfilePointingConstraint>>(
+        Shared<Profile::TabulatedPointingConstraint>>(
         profileClass,
-        "CustomProfilePointingConstraint",
+        "TabulatedPointingConstraint",
         R"doc(
-            Represents a pointing constraint of one axis of your spacecraft towards a custom pointing profile in the ECI frame.
-            The profile is provided up front (must be known beforehand).
+            Represents a pointing constraint of one axis of the spacecraft towards a user defined, tabulated pointing profile in the ECI frame.
+            Unlike the pre-defined target types, the target is fully user defined: the profile is provided up front (must be known beforehand) and interpolated at each instant.
 
         )doc"
     )
@@ -211,7 +211,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     pointing_profile_eci (list[Tuple[Instant, Vector3d]]): The profile of pointing vectors in the ECI frame.
-                    direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
+                    direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
                     interpolator_type (Interpolator.Type, optional): The type of interpolator to use. Defaults to Barycentric Rational.
             )doc",
             arg("pointing_profile_eci"),
@@ -221,21 +221,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_readonly(
             "pointing_profile_eci",
-            &Profile::CustomProfilePointingConstraint::pointingProfileECI,
+            &Profile::TabulatedPointingConstraint::pointingProfileECI,
             "The profile of pointing vectors in the ECI frame."
         )
 
         ;
 
     class_<
-        Profile::CustomProfileGeneratorPointingConstraint,
+        Profile::PointingConstraintGenerator,
         Profile::PointingConstraint,
-        Shared<Profile::CustomProfileGeneratorPointingConstraint>>(
+        Shared<Profile::PointingConstraintGenerator>>(
         profileClass,
-        "CustomProfileGeneratorPointingConstraint",
+        "PointingConstraintGenerator",
         R"doc(
-            Represents a pointing constraint of one axis of your spacecraft towards a custom pointing profile generator.
-            The pointing vector is generated at each timestep by a function that returns a vector in the ECI frame (does not need to be known beforehand).
+            Represents a pointing constraint of one axis of the spacecraft towards a user defined pointing vector generator.
+            Unlike the pre-defined target types, the target is fully user defined: the pointing vector is generated at each timestep by a function that returns a vector in the ECI frame (does not need to be known beforehand).
 
         )doc"
     )
@@ -247,7 +247,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     pointing_profile_generator_eci (Callable[[State], np.ndarray]): The function that generates the pointing vector in the ECI frame from the state at a given instant.
-                    direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
+                    direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
             )doc",
             arg("pointing_profile_generator_eci"),
             arg("direction_in_body_frame")
@@ -255,7 +255,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_readonly(
             "pointing_profile_generator_eci",
-            &Profile::CustomProfileGeneratorPointingConstraint::pointingProfileGeneratorECI,
+            &Profile::PointingConstraintGenerator::pointingProfileGeneratorECI,
             "The function that generates the pointing vector in the ECI frame."
         )
 
@@ -417,9 +417,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 - Alignment (primary constraint): the body frame direction of the alignment pointing constraint is pointed exactly towards its target (e.g. the payload boresight towards geodetic nadir). This fixes 2 degrees of freedom, leaving the spacecraft free to rotate about its alignment direction.
                 - Clocking (secondary constraint): the remaining degree of freedom (the rotation about the alignment direction) is fixed by rotating the body frame direction of the clocking pointing constraint as close as possible to its target (e.g. a body axis along the ground velocity, for yaw steering).
-
-                The alignment constraint is always met exactly. The clocking constraint is only met exactly when the angle between the alignment and clocking body frame directions matches the angle between the alignment and clocking targets. Otherwise, the clocking body frame direction ends up in the plane containing the alignment and clocking targets, on the same side of the alignment target as the clocking target.
-
                 The celestial object of the orbit is used for the target types that depend on the rotation or shape of the central body (geodetic nadir, ECEF velocity and sliding ground velocity). See `align_and_clock` for details on how the orientation is computed.
 
                 Args:
@@ -477,8 +474,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     celestial (Celestial): The celestial object. Its body frame will be used for geodetic nadir, ECEF velocity and sliding ground velocity calculations.
-                    alignment_pointing_constraint (Profile.PointingConstraint | Profile.TrajectoryPointingConstraint | Profile.CustomProfilePointingConstraint | Profile.CustomProfileGeneratorPointingConstraint): The alignment pointing constraint (primary constraint, met exactly).
-                    clocking_pointing_constraint (Profile.PointingConstraint | Profile.TrajectoryPointingConstraint | Profile.CustomProfilePointingConstraint | Profile.CustomProfileGeneratorPointingConstraint): The clocking pointing constraint (secondary constraint, met as closely as possible).
+                    alignment_pointing_constraint (Profile.PointingConstraint | Profile.TrajectoryPointingConstraint | Profile.TabulatedPointingConstraint | Profile.PointingConstraintGenerator): The alignment pointing constraint (primary constraint, met exactly).
+                    clocking_pointing_constraint (Profile.PointingConstraint | Profile.TrajectoryPointingConstraint | Profile.TabulatedPointingConstraint | Profile.PointingConstraintGenerator): The clocking pointing constraint (secondary constraint, met as closely as possible).
                     angular_clocking_offset (Angle): The angular offset applied to the clocking target, as a right-handed rotation about the alignment target. Defaults to `Angle.Zero()`.
 
                 Returns:

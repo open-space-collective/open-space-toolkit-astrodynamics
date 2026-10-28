@@ -86,12 +86,12 @@ Profile::TrajectoryPointingConstraint::TrajectoryPointingConstraint(
     }
 }
 
-Profile::CustomProfilePointingConstraint::CustomProfilePointingConstraint(
+Profile::TabulatedPointingConstraint::TabulatedPointingConstraint(
     const Array<Pair<Instant, Vector3d>>& aPointingProfileECI,
     const Vector3d& aDirectionInBodyFrame,
     const Interpolator::Type& anInterpolatorType
 )
-    : PointingConstraint(TargetType::CustomProfileECI, aDirectionInBodyFrame),
+    : PointingConstraint(TargetType::Tabulated, aDirectionInBodyFrame),
       pointingProfileECI(aPointingProfileECI)
 {
     if (pointingProfileECI.isEmpty())
@@ -117,7 +117,7 @@ Profile::CustomProfilePointingConstraint::CustomProfilePointingConstraint(
     }
 }
 
-Vector3d Profile::CustomProfilePointingConstraint::interpolatePointingVectorAt(const Instant& anInstant) const
+Vector3d Profile::TabulatedPointingConstraint::interpolatePointingVectorAt(const Instant& anInstant) const
 {
     Vector3d interpolatedCoordinates = Vector3d::Zero();
 
@@ -131,10 +131,10 @@ Vector3d Profile::CustomProfilePointingConstraint::interpolatePointingVectorAt(c
     return interpolatedCoordinates;
 }
 
-Profile::CustomProfileGeneratorPointingConstraint::CustomProfileGeneratorPointingConstraint(
+Profile::PointingConstraintGenerator::PointingConstraintGenerator(
     std::function<Vector3d(const State&)> aPointingProfileGeneratorECI, const Vector3d& aDirectionInBodyFrame
 )
-    : PointingConstraint(TargetType::CustomProfileGeneratorECI, aDirectionInBodyFrame),
+    : PointingConstraint(TargetType::Generator, aDirectionInBodyFrame),
       pointingProfileGeneratorECI(aPointingProfileGeneratorECI)
 {
 }
@@ -405,22 +405,22 @@ std::function<Quaternion(const State&)> Profile::AlignAndClock(
                     );
                 };
             }
-            case TargetType::CustomProfileECI:
+            case TargetType::Tabulated:
             {
-                const Shared<const CustomProfilePointingConstraint> customProfilePointingConstraintSPtr =
-                    std::static_pointer_cast<const CustomProfilePointingConstraint>(aPointingConstraintSPtr);
-                return [customProfilePointingConstraintSPtr](const State& aState) -> Vector3d
+                const Shared<const TabulatedPointingConstraint> tabulatedPointingConstraintSPtr =
+                    std::static_pointer_cast<const TabulatedPointingConstraint>(aPointingConstraintSPtr);
+                return [tabulatedPointingConstraintSPtr](const State& aState) -> Vector3d
                 {
-                    return customProfilePointingConstraintSPtr->interpolatePointingVectorAt(aState.accessInstant());
+                    return tabulatedPointingConstraintSPtr->interpolatePointingVectorAt(aState.accessInstant());
                 };
             }
-            case TargetType::CustomProfileGeneratorECI:
+            case TargetType::Generator:
             {
-                const auto customProfileGeneratorPointingConstraintSPtr =
-                    std::static_pointer_cast<const CustomProfileGeneratorPointingConstraint>(aPointingConstraintSPtr);
-                return [customProfileGeneratorPointingConstraintSPtr](const State& aState) -> Vector3d
+                const Shared<const PointingConstraintGenerator> pointingConstraintGeneratorSPtr =
+                    std::static_pointer_cast<const PointingConstraintGenerator>(aPointingConstraintSPtr);
+                return [pointingConstraintGeneratorSPtr](const State& aState) -> Vector3d
                 {
-                    return customProfileGeneratorPointingConstraintSPtr->pointingProfileGeneratorECI(aState);
+                    return pointingConstraintGeneratorSPtr->pointingProfileGeneratorECI(aState);
                 };
             }
             default:
