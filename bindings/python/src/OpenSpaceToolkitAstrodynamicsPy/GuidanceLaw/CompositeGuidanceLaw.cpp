@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 
 using namespace pybind11;
 
@@ -15,13 +15,13 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::GuidanceLaw;
-using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
+using ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_CompositeGuidanceLaw(pybind11::module& aModule)
 {
-    class_<HeterogeneousGuidanceLaw, GuidanceLaw, Shared<HeterogeneousGuidanceLaw>>(
+    class_<CompositeGuidanceLaw, GuidanceLaw, Shared<CompositeGuidanceLaw>>(
         aModule,
-        "HeterogeneousGuidanceLaw",
+        "CompositeGuidanceLaw",
         R"doc(
             A guidance law that sequences multiple guidance laws over specific time intervals.
             
@@ -48,7 +48,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw
 
         .def(
             "get_guidance_laws_with_intervals",
-            &HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals,
+            &CompositeGuidanceLaw::getGuidanceLawsWithIntervals,
             R"doc(
                 Get the guidance laws with their corresponding intervals.
 
@@ -59,7 +59,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw
 
         .def(
             "add_guidance_law",
-            &HeterogeneousGuidanceLaw::addGuidanceLaw,
+            &CompositeGuidanceLaw::addGuidanceLaw,
             arg("guidance_law"),
             arg("interval"),
             R"doc(
@@ -76,7 +76,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw
 
         .def(
             "calculate_thrust_acceleration_at",
-            &HeterogeneousGuidanceLaw::calculateThrustAccelerationAt,
+            &CompositeGuidanceLaw::calculateThrustAccelerationAt,
             arg("instant"),
             arg("position_coordinates"),
             arg("velocity_coordinates"),
@@ -97,8 +97,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_HeterogeneousGuidanceLaw
             )doc"
         )
 
-        .def("__str__", &(shiftToString<HeterogeneousGuidanceLaw>))
-        .def("__repr__", &(shiftToString<HeterogeneousGuidanceLaw>))
+        .def("__str__", &(shiftToString<CompositeGuidanceLaw>))
+        .def("__repr__", &(shiftToString<CompositeGuidanceLaw>))
 
         ;
 }
