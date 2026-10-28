@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790291362231,
+  "lastUpdate": 1793146017689,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -894,6 +894,138 @@ window.BENCHMARK_DATA = {
             "value": 30.28169261477084,
             "unit": "us/iter",
             "extra": "iterations: 23046\ncpu: 30.28014978738213 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "98616558+apaletta3@users.noreply.github.com",
+            "name": "Antoine Paletta",
+            "username": "apaletta3"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e7c299bd8a92eac46af1667390f93b551283abf4",
+          "message": "fix: ignored state filter access generation (#740)\n\n* fix: ignored state filter access generation\n\n* test: improve tests",
+          "timestamp": "2026-10-27T16:34:53-07:00",
+          "tree_id": "477d74a3a40f05f14d66230536f81c62157b1bb6",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/e7c299bd8a92eac46af1667390f93b551283abf4"
+        },
+        "date": 1793146015920,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 1391325471.199997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1343913650.5000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 377.3673896666689,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 377.3399966666666 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (GCRF out) | 1 target | 2 weeks/iterations:3",
+            "value": 1412.0433989999885,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 1411.3400263333335 ms\nthreads: 1"
+          },
+          {
+            "name": "Access | Tabulated (ITRF out) | 100 targets | 1 week | Elevation/iterations:3",
+            "value": 134.22899133333507,
+            "unit": "ms/iter",
+            "extra": "iterations: 3\ncpu: 134.22104800000056 ms\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1475117674.1999812,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1474906036.699999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 3641207594.799994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3640833741.8 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 3629360304.700003,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3629030958.9 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 3620766672.799999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 3620471364.800002 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_550_to_580/iterations:1",
+            "value": 0.41227093800006287,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.41218928899999696 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_SMA_550_to_580/iterations:1",
+            "value": 1.4032947479999507,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 1.403135739999982 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_FiniteDifference_SMA_550_to_580/iterations:1",
+            "value": 1.545159343000023,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 1.5449692900000116 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_Analytical_Frozen_550_to_580/iterations:1",
+            "value": 2.091814707000026,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 2.0916437730000155 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580/iterations:1",
+            "value": 4.850563450999971,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 4.8501834780000195 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Sequence_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 3.676462345999994,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 3.6760979009999915 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_SMA_AoP/iterations:1",
+            "value": 3.690441767999971,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 3.690202830000004 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_FullHorizon/iterations:1",
+            "value": 67.16646865000001,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 67.160477077 s\nthreads: 1"
+          },
+          {
+            "name": "BM_Segment_QLaw_SSO_540_to_550_ExtractManeuvers/iterations:1",
+            "value": 0.019864235000000008,
+            "unit": "s/iter",
+            "extra": "iterations: 1\ncpu: 0.019863049999997884 s\nthreads: 1"
+          },
+          {
+            "name": "BM_QLaw_CalculateThrustAccelerationAt",
+            "value": 18.89739510348808,
+            "unit": "us/iter",
+            "extra": "iterations: 37251\ncpu: 18.896426136211687 us\nthreads: 1"
           }
         ]
       }
