@@ -22,6 +22,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
     class_<Tabulated, ostk::astrodynamics::trajectory::orbit::Model>(
         aModule,
         "Tabulated",
+        // The model base class is a virtual base: pybind11 must cast to it rather than reinterpret the pointer.
+        multiple_inheritance(),
         R"doc(
             Tabulated orbit model.
 

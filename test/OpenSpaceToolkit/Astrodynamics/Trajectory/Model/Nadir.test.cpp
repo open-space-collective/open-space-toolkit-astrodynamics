@@ -89,6 +89,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, IsDefined)
     EXPECT_TRUE(nadirModel.isDefined());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetValidityInterval)
+{
+    // Neither the nadir model nor the Kepler orbit model it is built on are bounded in time
+    EXPECT_EQ(Nadir(orbit_).getValidityInterval(), std::nullopt);
+    EXPECT_EQ(orbit_.accessModel().getValidityInterval(), std::nullopt);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, CalculateStateAt)
 {
     {

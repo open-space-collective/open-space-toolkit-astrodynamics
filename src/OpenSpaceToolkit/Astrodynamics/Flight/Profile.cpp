@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <algorithm>
+#include <optional>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
@@ -34,6 +37,9 @@ using DynamicProvider = ostk::physics::coordinate::frame::provider::Dynamic;
 using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
 
 static const Shared<const Frame> DEFAULT_PROFILE_FRAME = Frame::GCRF();
+
+/// Time step used to compute the angular velocity of custom pointing profiles by finite difference of the orientation.
+static const Duration ANGULAR_VELOCITY_FINITE_DIFFERENCE_STEP = Duration::Seconds(0.1);
 
 Profile::Target::Target(const TargetType& aType, const Vector3d& aDirection)
     : type(aType),
@@ -344,31 +350,44 @@ Profile Profile::CustomPointing(
         anAlignmentTargetSPtr, aClockingTargetSPtr, anOrbit.accessCelestialObject(), anAngularOffset
     );
 
-    return Profile::CustomPointing(anOrbit, orientationGenerator);
+    // The orientation is only defined where the orbit and the trajectories of the targets are all defined.
+    std::optional<Interval> validityInterval = Profile::GetValidityInterval(anOrbit);
+
+    for (const auto& targetSPtr : {anAlignmentTargetSPtr, aClockingTargetSPtr})
+    {
+        if ((targetSPtr->type != TargetType::TargetPosition) && (targetSPtr->type != TargetType::TargetVelocity) &&
+            (targetSPtr->type != TargetType::TargetSlidingGroundVelocity))
+        {
+            continue;
+        }
+
+        const std::optional<Interval> targetValidityInterval =
+            Profile::GetValidityInterval(std::static_pointer_cast<const TrajectoryTarget>(targetSPtr)->trajectory);
+
+        if (!targetValidityInterval.has_value())
+        {
+            continue;
+        }
+
+        validityInterval = validityInterval.has_value() ? validityInterval->getIntersectionWith(*targetValidityInterval)
+                                                        : *targetValidityInterval;
+
+        if (!validityInterval->isDefined())
+        {
+            throw ostk::core::error::RuntimeError(
+                "The orbit and the target trajectories are not defined over a common time interval."
+            );
+        }
+    }
+
+    return Profile::CustomPointing(anOrbit, orientationGenerator, validityInterval);
 }
 
 Profile Profile::CustomPointing(
     const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
 )
 {
-    // Copy the orbit and orientation generator to avoid dangling references.
-    auto dynamicProviderGenerator = [anOrbit, anOrientationGenerator](const Instant& anInstant) -> Transform
-    {
-        const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_PROFILE_FRAME);
-
-        const Position position = state.getPosition();
-        const Velocity velocity = state.getVelocity();
-
-        return Transform::Active(
-            anInstant,
-            -position.accessCoordinates(),
-            -velocity.accessCoordinates(),
-            anOrientationGenerator(state),
-            Vector3d(0.0, 0.0, 0.0)  // TBM: Artificially set to 0 for now.
-        );
-    };
-
-    return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), DEFAULT_PROFILE_FRAME));
+    return Profile::CustomPointing(anOrbit, anOrientationGenerator, Profile::GetValidityInterval(anOrbit));
 }
 
 std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
@@ -658,6 +677,104 @@ Vector3d Profile::AxisToDirection(const Axis& anAxis, const bool& isAntiDirectio
         default:
             throw ostk::core::error::runtime::Wrong("Axis");
     }
+}
+
+Vector3d Profile::ComputeAngularVelocity(
+    const Quaternion& aStartOrientation, const Quaternion& anEndOrientation, const Duration& aTimeStep
+)
+{
+    if (!aTimeStep.isDefined() || aTimeStep.isZero())
+    {
+        throw ostk::core::error::runtime::Wrong("Time step");
+    }
+
+    // Rotation from the body frame at the start of the time step (B1) to the body frame at its end (B2), i.e.
+    // q_B2_B1 = q_B2_REF * q_REF_B1. Rectified so that the rotation angle lies in [0, π].
+    const Quaternion q_B2_B1 = (anEndOrientation * aStartOrientation.toConjugate()).toNormalized().toRectify();
+
+    const Vector3d vectorPart = q_B2_B1.getVectorPart();
+    const Real vectorPartNorm = vectorPart.norm();
+
+    if (vectorPartNorm == 0.0)
+    {
+        return Vector3d::Zero();
+    }
+
+    // Rotation angle from atan2 rather than acos, as the latter is ill-conditioned for the small angles at play here.
+    const Real rotationAngle_rad = 2.0 * std::atan2(vectorPartNorm, q_B2_B1.getScalarPart());
+
+    // The rotation vector is expressed in the body frame, hence so is the angular velocity.
+    return vectorPart * (rotationAngle_rad / vectorPartNorm / aTimeStep.inSeconds());
+}
+
+std::optional<Interval> Profile::GetValidityInterval(const ostk::astrodynamics::Trajectory& aTrajectory)
+{
+    if (!aTrajectory.isDefined())
+    {
+        return std::nullopt;
+    }
+
+    return aTrajectory.accessModel().getValidityInterval();
+}
+
+Profile Profile::CustomPointing(
+    const trajectory::Orbit& anOrbit,
+    const std::function<Quaternion(const State&)>& anOrientationGenerator,
+    const std::optional<Interval>& aValidityInterval
+)
+{
+    // Copy the orbit and orientation generator to avoid dangling references.
+    auto dynamicProviderGenerator = [anOrbit, anOrientationGenerator, aValidityInterval](const Instant& anInstant
+                                    ) -> Transform
+    {
+        if (aValidityInterval.has_value() && !aValidityInterval->contains(anInstant))
+        {
+            throw ostk::core::error::RuntimeError(
+                "Provided instant [{}] is outside of the validity interval [{}] of the profile.",
+                anInstant.toString(),
+                aValidityInterval->toString()
+            );
+        }
+
+        const State state = anOrbit.getStateAt(anInstant).inFrame(DEFAULT_PROFILE_FRAME);
+        const Quaternion q_B_GCRF = anOrientationGenerator(state);
+
+        const auto orientationAt = [&](const Instant& anEvaluationInstant) -> Quaternion
+        {
+            if (anEvaluationInstant == anInstant)
+            {
+                return q_B_GCRF;
+            }
+
+            return anOrientationGenerator(anOrbit.getStateAt(anEvaluationInstant).inFrame(DEFAULT_PROFILE_FRAME));
+        };
+
+        // Central difference, whose probes are kept within the validity interval (if any): the difference becomes
+        // forward (resp. backward) within one step of the start (resp. end) of the interval.
+        const Duration& step = ANGULAR_VELOCITY_FINITE_DIFFERENCE_STEP;
+
+        Instant previousInstant = anInstant - step;
+        Instant nextInstant = anInstant + step;
+
+        if (aValidityInterval.has_value())
+        {
+            previousInstant = std::max(previousInstant, aValidityInterval->accessStart());
+            nextInstant = std::min(nextInstant, aValidityInterval->accessEnd());
+        }
+
+        const Vector3d w_B_GCRF_in_B = Profile::ComputeAngularVelocity(
+            orientationAt(previousInstant), orientationAt(nextInstant), nextInstant - previousInstant
+        );
+
+        const Position position = state.getPosition();
+        const Velocity velocity = state.getVelocity();
+
+        return Transform::Active(
+            anInstant, -position.accessCoordinates(), -velocity.accessCoordinates(), q_B_GCRF, w_B_GCRF_in_B
+        );
+    };
+
+    return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), DEFAULT_PROFILE_FRAME));
 }
 
 }  // namespace flight

@@ -166,6 +166,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
             )doc"
         )
         .def(
+            "get_validity_interval",
+            // A lambda, as the method is inherited from a virtual base of the orbit model.
+            +[](const Model& aModel) -> std::optional<ostk::physics::time::Interval>
+            {
+                return aModel.getValidityInterval();
+            },
+            R"doc(
+                Get the time interval over which the orbit model is defined.
+
+                Models that can only be evaluated over a bounded time interval (e.g. tabulated models) provide it,
+                and raise when evaluated outside of it. Other models can be evaluated at any instant.
+
+                Returns:
+                    Interval | None: The time interval over which the orbit model is defined, or None if it is not
+                    bounded in time.
+            )doc"
+        )
+        .def(
             "calculate_state_at",
             &Model::calculateStateAt,
             R"doc(

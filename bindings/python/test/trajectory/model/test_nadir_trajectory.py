@@ -85,3 +85,11 @@ class TestNadir:
         nadir: Nadir,
     ):
         assert nadir.get_step_size() is not None
+
+    def test_get_validity_interval(
+        self,
+        orbit: Orbit,
+        nadir: Nadir,
+    ):
+        assert nadir.get_validity_interval() is None
+        assert orbit.access_model().get_validity_interval() is None

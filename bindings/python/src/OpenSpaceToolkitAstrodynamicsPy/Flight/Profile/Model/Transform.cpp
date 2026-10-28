@@ -19,6 +19,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
     class_<Transform, Model>(
         aModule,
         "Transform",
+        // The model base class is a virtual base: pybind11 must cast to it rather than reinterpret the pointer.
+        multiple_inheritance(),
         R"doc(
             A flight profile model defined by a transform.
 

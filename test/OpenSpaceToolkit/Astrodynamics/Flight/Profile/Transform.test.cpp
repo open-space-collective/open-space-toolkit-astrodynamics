@@ -145,6 +145,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Calculate
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, GetValidityInterval)
+{
+    {
+        EXPECT_EQ(transform_.getValidityInterval(), std::nullopt);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, GetAxesAt)
 {
     // undefined

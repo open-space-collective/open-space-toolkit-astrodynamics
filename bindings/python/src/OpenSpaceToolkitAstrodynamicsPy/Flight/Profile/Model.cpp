@@ -104,6 +104,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
         )
 
         .def(
+            "get_validity_interval",
+            &Model::getValidityInterval,
+            R"doc(
+                Get the time interval over which the model is defined.
+
+                Models that can only be evaluated over a bounded time interval (e.g. tabulated models) provide it,
+                and raise when evaluated outside of it. Other models can be evaluated at any instant.
+
+                Returns:
+                    Interval | None: The time interval over which the model is defined, or None if it is not bounded
+                    in time.
+            )doc"
+        )
+
+        .def(
             "calculate_state_at",
             &Model::calculateStateAt,
             R"doc(

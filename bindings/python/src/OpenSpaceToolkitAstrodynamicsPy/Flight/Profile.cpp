@@ -464,6 +464,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             R"doc(
                 Create a custom pointing profile.
 
+                The angular velocity of the body frame is computed by central difference of the generated orientation.
+                If the orbit model has a validity interval (e.g. a tabulated orbit), the probes of the difference are
+                kept within it, so that it becomes a forward (resp. backward) difference at its start (resp. end). The
+                profile is then only defined over that interval, and the orientation generator must be defined over it
+                as well.
+
                 Args:
                     orbit (Orbit): The orbit.
                     orientation_generator (callable[Quaternion, State]): The orientation generator. Typically used in conjunction with `align_and_constrain`.
@@ -485,6 +491,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 const Angle&>(&Profile::CustomPointing),
             R"doc(
                 Create a custom pointing profile.
+
+                The angular velocity of the body frame is computed by central difference of the generated orientation.
+                If the orbit or target trajectory models have a validity interval (e.g. a tabulated orbit or target
+                trajectory), the probes of the difference are kept within their intersection, so that it becomes a
+                forward (resp. backward) difference at its start (resp. end). The profile is then only defined over
+                that intersection.
 
                 Args:
                     orbit (Orbit): The orbit.

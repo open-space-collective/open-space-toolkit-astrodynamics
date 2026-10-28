@@ -397,6 +397,8 @@ bool Tabulated::computeInterpolationData(
     firstState_ = stateArray.accessFirst();
     lastState_ = stateArray.accessLast();
 
+    this->setValidityInterval(Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant()));
+
     aTimestampVector.resize(stateArray.getSize());
     aCoordinateMatrix.resize(stateArray.getSize(), firstState_.getSize());
 
