@@ -21,10 +21,12 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate import Axes
 from ostk.physics.coordinate.frame.provider import Dynamic as DynamicProvider
+from ostk.physics.coordinate.spherical import LLA
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.model import TargetScan
 from ostk.astrodynamics.flight import Profile
 from ostk.astrodynamics.flight.profile.model import Transform as TransformModel
 from ostk.astrodynamics.flight.profile.model import Tabulated as TabulatedModel
@@ -97,42 +99,31 @@ def profile(request) -> Profile:
     return Profile(model=model)
 
 
-# TODO: Add test for target_sliding_ground_velocity
 @pytest.fixture(
     params=[
-        # Axis-based constructors
-        Profile.Target(Profile.TargetType.GeocentricNadir, Profile.Axis.X),
-        Profile.TrajectoryTarget.target_position(
-            Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
-            Profile.Axis.X,
-        ),
-        Profile.TrajectoryTarget.target_velocity(
-            Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
-            Profile.Axis.X,
-        ),
-        Profile.OrientationProfileTarget(
-            [
-                (Instant.J2000(), [1.0, 0.0, 0.0]),
-                (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
-                (Instant.J2000() + Duration.minutes(2.0), [1.0, 0.0, 0.0]),
-                (Instant.J2000() + Duration.minutes(3.0), [1.0, 0.0, 0.0]),
-            ],
-            Profile.Axis.X,
-            False,
-            Interpolator.Type.Linear,
-        ),
-        Profile.CustomTarget(
-            lambda state: [1.0, 0.0, 0.0],
-            Profile.Axis.X,
-        ),
-        # Vector3d-based constructors
         Profile.Target(Profile.TargetType.GeocentricNadir, [1.0, 0.0, 0.0]),
+        Profile.Target(Profile.TargetType.VelocityECEF, [1.0, 0.0, 0.0]),
         Profile.TrajectoryTarget.target_position(
             Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             [1.0, 0.0, 0.0],
         ),
         Profile.TrajectoryTarget.target_velocity(
             Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
+            [1.0, 0.0, 0.0],
+        ),
+        Profile.TrajectoryTarget.target_sliding_ground_velocity(
+            Trajectory(
+                model=TargetScan(
+                    start_lla=LLA.vector([0.0, 0.0, 0.0]),
+                    end_lla=LLA.vector([0.0, 1.0, 0.0]),
+                    start_instant=Instant.date_time(
+                        DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC
+                    ),
+                    end_instant=Instant.date_time(
+                        DateTime(2020, 1, 1, 0, 10, 0), Scale.UTC
+                    ),
+                )
+            ),
             [1.0, 0.0, 0.0],
         ),
         Profile.OrientationProfileTarget(
@@ -157,7 +148,7 @@ def alignment_target(request) -> Profile.Target:
 
 @pytest.fixture
 def clocking_target() -> Profile.Target:
-    return Profile.Target(Profile.TargetType.VelocityECI, Profile.Axis.Y)
+    return Profile.Target(Profile.TargetType.VelocityECI, [0.0, 1.0, 0.0])
 
 
 class TestProfile:
