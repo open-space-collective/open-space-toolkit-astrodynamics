@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="70" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="69" bodyend="73"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="76" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="75" bodyend="79"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="193" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="193" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="199" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1aa2b0ae62f097978076b3a163630ad77d" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="194" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="194" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="200" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a056a8202e36ac73d3f1048c5ad44e9a3" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref></type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="195" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="195" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="201" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="201" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="83" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="47" bodyend="50"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="89" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="47" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a4b3e93d4a7bbf2425bdcbb3e6c654f03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref> &amp;</type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="93" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="52" bodyend="55"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="99" column="31" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="52" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a1ab0fcd8af1ab98a98c48b5a6df59db5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">Trajectory</ref> &amp;</type>
@@ -130,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="103" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="57" bodyend="60"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="109" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="57" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a0369a428baec017b6926aebda9914834" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Position</type>
@@ -150,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="114" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="62" bodyend="70"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="120" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="62" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a06eed765e5a949e7477c658979067a4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Position</type>
@@ -175,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="125" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="72" bodyend="80"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="131" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="72" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a5fda31a9c8c6c96681475fd8ec9b0e72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>LLA</type>
@@ -208,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="137" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="82" bodyend="87"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="143" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="82" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a2cd98ada41f1276e37dc7e7d3fe3598e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Matrix3d</type>
@@ -232,7 +232,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="148" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="89" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="154" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="89" bodyend="104"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -292,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="162" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="106" bodyend="118"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="168" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="106" bodyend="118"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ace9ba102163dec08b6e30e86c25ed687" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref></type>
@@ -338,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="177" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="120" bodyend="128"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="183" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="120" bodyend="128"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a92129b253d244fd162f184a29942741d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_access_target" kindref="compound">AccessTarget</ref></type>
@@ -384,7 +384,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="190" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="130" bodyend="140"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="196" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="130" bodyend="140"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -411,7 +411,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="197" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="142" bodyend="149"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="203" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/Generator.cpp" bodystart="142" bodyend="149"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -420,7 +420,7 @@
     <detaileddescription>
 <para>This class provides methods to retrieve the trajectory, position, LLA, and intervals for azimuth, elevation, and range. It also includes a method to get the SEZ (South-East-Zenith) rotation matrix. </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="67" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="66" bodyend="198"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="73" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" bodystart="72" bodyend="204"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1ab27c739b0472b1b9ab4257d1476c5923" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>AccessTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_access_target_1a1ab0fcd8af1ab98a98c48b5a6df59db5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::AccessTarget</scope><name>accessTrajectory</name></member>
