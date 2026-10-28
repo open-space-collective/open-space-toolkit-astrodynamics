@@ -180,13 +180,13 @@ class Segment
             const std::optional<Array<Interval>>& aManeuverIntervals = std::nullopt
         );
 
-        /// @brief Access Start Instant
-        /// @return Start Instant
-        const Instant& accessStartInstant() const;
+        /// @brief Get start instant
+        /// @return Start instant
+        Instant getStartInstant() const;
 
-        /// @brief Access end instant
-        /// @return End Instant
-        const Instant& accessEndInstant() const;
+        /// @brief Get end instant
+        /// @return End instant
+        Instant getEndInstant() const;
 
         /// @brief Get interval
         /// @return Interval
@@ -320,17 +320,8 @@ class Segment
     /// @return Type of segment
     Type getType() const;
 
-    /// @brief Access event condition
-    /// @return Event condition
-    const Shared<EventCondition>& accessEventCondition() const;
-
-    /// @brief Access numerical solver
-    /// @return Numerical solver
-    const NumericalSolver& accessNumericalSolver() const;
-
-    /// @brief Solve the segment until its event condition is satisfied or the
-    /// maximum propagation duration is reached, considering the previous maneuver
-    /// intervals.
+    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached,
+    /// considering the previous maneuver intervals.
     ///
     /// @code{.cpp}
     ///     Segment segment = Segment::Coast("Coast", anEventCondition, aDynamicsArray, aNumericalSolver) ;

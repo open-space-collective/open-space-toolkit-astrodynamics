@@ -887,16 +887,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Access
             defaultName_, defaultDynamics_, {defaultState_, defaultState_}, true, Segment::Type::Coast
         );
 
-        EXPECT_NO_THROW(segmentSolution.accessStartInstant());
-        EXPECT_NO_THROW(segmentSolution.accessEndInstant());
+        EXPECT_NO_THROW(segmentSolution.getStartInstant());
+        EXPECT_NO_THROW(segmentSolution.getEndInstant());
     }
 
     {
         const Segment::Solution segmentSolution =
             Segment::Solution(defaultName_, defaultDynamics_, {}, true, Segment::Type::Coast);
 
-        EXPECT_THROW(segmentSolution.accessStartInstant(), ostk::core::error::RuntimeError);
-        EXPECT_THROW(segmentSolution.accessEndInstant(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.getStartInstant(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(segmentSolution.getEndInstant(), ostk::core::error::RuntimeError);
     }
 }
 
@@ -1819,16 +1819,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetThrusterDynamics)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessEventCondition)
-{
-    EXPECT_TRUE(defaultCoastSegment_.accessEventCondition() == defaultInstantCondition_);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, AccessNumericalSolver)
-{
-    EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.accessNumericalSolver());
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, StreamOperator)
 {
     {
@@ -2210,13 +2200,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
         EXPECT_INSTANTS_ALMOST_EQUAL(
-            maneuveringSegmentSolution.accessStartInstant(),
-            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(),
+            maneuveringSegmentSolution.getStartInstant(),
+            constantLofDirectionManeuveringSegmentSolution.getStartInstant(),
             Duration::Nanoseconds(10.0)
         );
         EXPECT_INSTANTS_ALMOST_EQUAL(
-            maneuveringSegmentSolution.accessEndInstant(),
-            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(),
+            maneuveringSegmentSolution.getEndInstant(),
+            constantLofDirectionManeuveringSegmentSolution.getEndInstant(),
             Duration::Nanoseconds(10.0)
         );
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
@@ -2528,11 +2518,11 @@ TEST_F(
         const Array<Maneuver> constantLofDirectionManeuvers =
             constantLofDirectionManeuveringSegmentSolution.extractManeuvers(defaultFrameSPtr_);
 
-        EXPECT_TRUE(maneuveringSegmentSolution.accessStartInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessStartInstant(), Duration::Milliseconds(1.0)
+        EXPECT_TRUE(maneuveringSegmentSolution.getStartInstant().isNear(
+            constantLofDirectionManeuveringSegmentSolution.getStartInstant(), Duration::Milliseconds(1.0)
         ));
-        EXPECT_TRUE(maneuveringSegmentSolution.accessEndInstant().isNear(
-            constantLofDirectionManeuveringSegmentSolution.accessEndInstant(), Duration::Milliseconds(1.0)
+        EXPECT_TRUE(maneuveringSegmentSolution.getEndInstant().isNear(
+            constantLofDirectionManeuveringSegmentSolution.getEndInstant(), Duration::Milliseconds(1.0)
         ));
         EXPECT_TRUE(constantLofDirectionManeuveringSegmentSolution.conditionIsSatisfied);
         EXPECT_TRUE(maneuveringSegmentSolution.conditionIsSatisfied);

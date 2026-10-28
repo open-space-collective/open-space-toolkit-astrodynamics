@@ -62,13 +62,13 @@ class Sequence
         /// @return An instance of Solution
         Solution(const Array<Segment::Solution>& aSegmentSolutionArray, const bool& executionIsComplete);
 
-        /// @brief Access Start Instant
-        /// @return Start Instant
-        const Instant& accessStartInstant() const;
+        /// @brief Get start instant
+        /// @return Start instant
+        Instant getStartInstant() const;
 
-        /// @brief Access end instant
-        /// @return End Instant
-        const Instant& accessEndInstant() const;
+        /// @brief Get end instant
+        /// @return End instant
+        Instant getEndInstant() const;
 
         /// @brief Get interval
         /// @return Interval

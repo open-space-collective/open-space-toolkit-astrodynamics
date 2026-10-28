@@ -219,8 +219,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution)
 
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
-        EXPECT_EQ(sequenceSolution.accessStartInstant(), state1.getInstant());
-        EXPECT_EQ(sequenceSolution.accessEndInstant(), state3.getInstant());
+        EXPECT_EQ(sequenceSolution.getStartInstant(), state1.getInstant());
+        EXPECT_EQ(sequenceSolution.getEndInstant(), state3.getInstant());
         EXPECT_EQ(sequenceSolution.getInterval(), Interval::Closed(state1.getInstant(), state3.getInstant()));
         EXPECT_EQ(
             sequenceSolution.getInitialMass().inKilograms(), state1.extractCoordinate(CoordinateSubset::Mass())[0]
@@ -977,8 +977,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     EXPECT_TRUE(solution.segmentSolutions.getSize() == 2 * defaultRepetitionCount_);
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
-    EXPECT_EQ(solution.accessStartInstant(), Instant::J2000());
-    EXPECT_EQ(solution.accessEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
+    EXPECT_EQ(solution.getStartInstant(), Instant::J2000());
+    EXPECT_EQ(solution.getEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
 
     const Array<State> solutionStates = solution.getStates();
 
@@ -991,7 +991,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         solution.getFinalMass().inKilograms(),
         solution.segmentSolutions.accessLast().states.accessLast().accessCoordinates()[6]
     );
-    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
+    EXPECT_EQ(solution.getPropagationDuration(), solution.getEndInstant() - solution.getStartInstant());
 
     EXPECT_DOUBLE_EQ(
         solution.computeDeltaMass().inKilograms(),
@@ -1082,7 +1082,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
         {
             EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
             EXPECT_NEAR(
-                (segmentSolution.accessEndInstant() - defaultState_.accessInstant()).inSeconds(), 30.0 * iter, 1e-6
+                (segmentSolution.getEndInstant() - defaultState_.accessInstant()).inSeconds(), 30.0 * iter, 1e-6
             );
 
             ++iter;

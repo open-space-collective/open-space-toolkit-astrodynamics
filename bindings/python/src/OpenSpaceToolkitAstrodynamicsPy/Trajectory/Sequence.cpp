@@ -79,24 +79,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         )
 
         .def(
-            "access_start_instant",
-            &Sequence::Solution::accessStartInstant,
+            "get_start_instant",
+            &Sequence::Solution::getStartInstant,
             R"doc(
-                Get the instant at which the access starts.
+                Get the instant at which the sequence starts.
 
                 Returns:
-                    Instant: The instant at which the access starts.
+                    Instant: The instant at which the sequence starts.
 
             )doc"
         )
         .def(
-            "access_end_instant",
-            &Sequence::Solution::accessEndInstant,
+            "get_end_instant",
+            &Sequence::Solution::getEndInstant,
             R"doc(
-                Get the instant at which the access ends.
+                Get the instant at which the sequence ends.
 
                 Returns:
-                    Instant: The instant at which the access ends.
+                    Instant: The instant at which the sequence ends.
 
             )doc"
         )

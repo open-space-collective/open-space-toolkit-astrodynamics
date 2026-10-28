@@ -299,8 +299,8 @@ class TestSegmentSolution:
         self,
         segment_solution: Segment.Solution,
     ):
-        assert segment_solution.access_start_instant() is not None
-        assert segment_solution.access_end_instant() is not None
+        assert segment_solution.get_start_instant() is not None
+        assert segment_solution.get_end_instant() is not None
         assert segment_solution.get_interval() is not None
         assert segment_solution.get_initial_mass() is not None
         assert segment_solution.get_final_mass() is not None
@@ -604,8 +604,8 @@ class TestSegment:
         assert solution.condition_is_satisfied is True
         assert solution.segment_type is not None
 
-        assert solution.access_start_instant() is not None
-        assert solution.access_end_instant() is not None
+        assert solution.get_start_instant() is not None
+        assert solution.get_end_instant() is not None
 
         assert solution.get_initial_mass() is not None
         assert solution.get_final_mass() is not None

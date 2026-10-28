@@ -397,8 +397,8 @@ class TestSequenceSolution:
         self,
         sequence_solution: Sequence.Solution,
     ):
-        assert sequence_solution.access_start_instant() is not None
-        assert sequence_solution.access_end_instant() is not None
+        assert sequence_solution.get_start_instant() is not None
+        assert sequence_solution.get_end_instant() is not None
 
         assert sequence_solution.get_states() is not None
         assert sequence_solution.get_initial_mass() is not None
@@ -530,8 +530,8 @@ class TestSequence:
 
         assert solution.execution_is_complete
 
-        assert solution.access_start_instant() is not None
-        assert solution.access_end_instant() is not None
+        assert solution.get_start_instant() is not None
+        assert solution.get_end_instant() is not None
 
         assert solution.get_states() is not None
         assert solution.get_initial_mass() is not None

@@ -197,8 +197,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         )
 
         .def(
-            "access_start_instant",
-            &Segment::Solution::accessStartInstant,
+            "get_start_instant",
+            &Segment::Solution::getStartInstant,
             R"doc(
                 Get the instant at which the segment starts.
 
@@ -208,8 +208,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             )doc"
         )
         .def(
-            "access_end_instant",
-            &Segment::Solution::accessEndInstant,
+            "get_end_instant",
+            &Segment::Solution::getEndInstant,
             R"doc(
                 Get the instant at which the segment ends.
 

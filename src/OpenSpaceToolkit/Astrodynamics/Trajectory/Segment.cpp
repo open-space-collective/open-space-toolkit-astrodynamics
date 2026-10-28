@@ -314,7 +314,7 @@ Segment::Solution::Solution(
 {
 }
 
-const Instant& Segment::Solution::accessStartInstant() const
+Instant Segment::Solution::getStartInstant() const
 {
     if (this->states.isEmpty())
     {
@@ -324,7 +324,7 @@ const Instant& Segment::Solution::accessStartInstant() const
     return this->states.accessFirst().accessInstant();
 }
 
-const Instant& Segment::Solution::accessEndInstant() const
+Instant Segment::Solution::getEndInstant() const
 {
     if (this->states.isEmpty())
     {
@@ -341,7 +341,7 @@ Interval Segment::Solution::getInterval() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return Interval::Closed(accessStartInstant(), accessEndInstant());
+    return Interval::Closed(getStartInstant(), getEndInstant());
 }
 
 Mass Segment::Solution::getInitialMass() const
@@ -366,7 +366,7 @@ Mass Segment::Solution::getFinalMass() const
 
 Duration Segment::Solution::getPropagationDuration() const
 {
-    return accessEndInstant() - accessStartInstant();
+    return getEndInstant() - getStartInstant();
 }
 
 Shared<Thruster> Segment::Solution::getThrusterDynamics() const
@@ -573,7 +573,7 @@ Array<State> Segment::Solution::calculateStatesAt(
 
     for (const Instant& instant : anInstantArray)
     {
-        if (instant < this->accessStartInstant() || instant > this->accessEndInstant())
+        if (instant < this->getStartInstant() || instant > this->getEndInstant())
         {
             throw ostk::core::error::RuntimeError("Instant outside of segment.");
         }
@@ -702,10 +702,10 @@ void Segment::Solution::print(std::ostream& anOutputStream, bool displayDecorato
     ostk::core::utils::Print::Line(anOutputStream)
         << "Segment type:" << (this->segmentType == Segment::Type::Coast ? "Coast" : "Maneuver");
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << accessStartInstant().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << accessEndInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << getStartInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << getEndInstant().toString();
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Propagation duration:" << (accessEndInstant() - accessStartInstant()).toString();
+        << "Propagation duration:" << (getEndInstant() - getStartInstant()).toString();
 
     if (this->segmentType == Segment::Type::Maneuver)
     {
@@ -805,7 +805,7 @@ String Segment::getName() const
 
 Shared<EventCondition> Segment::getEventCondition() const
 {
-    return accessEventCondition();
+    return eventCondition_;
 }
 
 Array<Shared<Dynamics>> Segment::getDynamics() const
@@ -825,7 +825,7 @@ Array<Shared<Dynamics>> Segment::getFreeDynamics() const
 
 NumericalSolver Segment::getNumericalSolver() const
 {
-    return accessNumericalSolver();
+    return numericalSolver_;
 }
 
 Segment::Type Segment::getType() const
@@ -845,16 +845,6 @@ Shared<Thruster> Segment::getThrusterDynamics() const
 std::optional<Segment::ManeuverConstraints> Segment::getManeuverConstraints() const
 {
     return maneuverConstraints_;
-}
-
-const Shared<EventCondition>& Segment::accessEventCondition() const
-{
-    return eventCondition_;
-}
-
-const NumericalSolver& Segment::accessNumericalSolver() const
-{
-    return numericalSolver_;
 }
 
 Segment::Solution Segment::solve(
