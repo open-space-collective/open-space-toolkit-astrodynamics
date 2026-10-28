@@ -9,7 +9,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 namespace ostk
@@ -20,7 +20,7 @@ namespace trajectory
 {
 
 using ostk::astrodynamics::flight::Maneuver;
-using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
+using ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw;
 using ostk::core::type::Unique;
 using ostk::physics::time::Duration;
 
