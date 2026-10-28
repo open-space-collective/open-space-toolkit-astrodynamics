@@ -50,113 +50,93 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 using FlightManeuver = ostk::astrodynamics::flight::Maneuver;
 
 Segment::ManeuverConstraints::ManeuverConstraints(
-    const Duration& aMinimumDuration,
-    const Duration& aMaximumDuration,
-    const Duration& aMinimumSeparation,
-    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy
-)
-    : ManeuverConstraints(
-          aMinimumDuration,
-          aMaximumDuration,
-          aMinimumSeparation,
-          aMaximumDurationStrategy,
-          Pair<Duration, Duration>(Duration::Undefined(), Duration::Undefined())
-      )
-{
-}
-
-Segment::ManeuverConstraints::ManeuverConstraints(
-    const Duration& aMinimumDuration,
-    const Duration& aMaximumDuration,
-    const Duration& aMinimumSeparation,
-    const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
-    const Pair<Duration, Duration>& aMaximumDutyCycle
+    const std::optional<Duration>& aMinimumDuration,
+    const std::optional<Pair<Duration, MaximumManeuverDurationViolationStrategy>>& aMaximumManeuverDurationAndStrategy,
+    const std::optional<Duration>& aMinimumSeparation,
+    const std::optional<Pair<Duration, Duration>>& aMaximumDutyCycle,
+    const std::optional<LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
+    const std::optional<Angle>& aMaximumAllowedAngularOffset
 )
     : minimumDuration(aMinimumDuration),
-      maximumDuration(aMaximumDuration),
+      maximumManeuverDurationAndStrategy(aMaximumManeuverDurationAndStrategy),
       minimumSeparation(aMinimumSeparation),
-      maximumDurationStrategy(aMaximumDurationStrategy),
-      maximumDutyCycle(aMaximumDutyCycle)
+      maximumDutyCycle(aMaximumDutyCycle),
+      localOrbitalFrameFactory(aLocalOrbitalFrameFactory),
+      maximumAllowedAngularOffset(aMaximumAllowedAngularOffset)
 {
-    // Validate that both or neither of the duty cycle components are defined
-    // This must be checked first before any comparisons
-    if ((maximumDutyCycle.first.isDefined() && !maximumDutyCycle.second.isDefined()) ||
-        (!maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined()))
+    if (maximumDutyCycle.has_value())
     {
-        throw ostk::core::error::RuntimeError(
-            "Either both or neither of maximum duty cycle numerator and denominator must be defined."
-        );
-    }
+        if (maximumDutyCycle->first <= Duration::Zero())
+        {
+            throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be greater than zero.");
+        }
 
-    if (maximumDutyCycle.first.isDefined() && maximumDutyCycle.first <= Duration::Zero())
-    {
-        throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be greater than zero.");
-    }
+        if (maximumDutyCycle->second <= Duration::Zero())
+        {
+            throw ostk::core::error::RuntimeError("maximum duty cycle denominator must be greater than zero.");
+        }
 
-    if (maximumDutyCycle.second.isDefined() && maximumDutyCycle.second <= Duration::Zero())
-    {
-        throw ostk::core::error::RuntimeError("maximum duty cycle denominator must be greater than zero.");
-    }
+        if (!(maximumDutyCycle->first < maximumDutyCycle->second))
+        {
+            throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be less than denominator.");
+        }
 
-    if (maximumDutyCycle.first.isDefined() && !(maximumDutyCycle.first < maximumDutyCycle.second))
-    {
-        throw ostk::core::error::RuntimeError("maximum duty cycle numerator must be less than denominator.");
-    }
+        // If both the maximum duty cycle and the maximum duration are defined, the maximum duration must be less or
+        // equal than the maximum duty cycle numerator. As one cannot perform a maneuver that is longer than the maximum
+        // duty cycle numerator. E.g.:
+        // - Maximum duty cycle: 40 minutes / 98 minutes
+        // - Maximum duration: 60 minutes
+        //
+        // One cannot try to allocate any maneuver that is longer than 40min, as the maneuver itself would exceed the
+        // maximum duty cycle.
+        if (maximumManeuverDurationAndStrategy.has_value() &&
+            maximumManeuverDurationAndStrategy->first > maximumDutyCycle->first)
+        {
+            throw ostk::core::error::RuntimeError(
+                "Maximum duration must be less or equal than maximum duty cycle numerator."
+            );
+        }
 
-    // If both the maximum duty cycle and the maximum duration are defined, the maximum duration must be less or equal
-    // than the maximum duty cycle numerator. As one cannot perform a maneuver that is longer than the maximum duty
-    // cycle numerator. E.g.:
-    // - Maximum duty cycle: 40 minutes / 98 minutes
-    // - Maximum duration: 60 minutes
-    //
-    // One cannot try to allocate any maneuver that is longer than 40min, as the maneuver itself would exceed the
-    // maximum duty cycle.
-    if (maximumDutyCycle.first.isDefined() && maximumDuration.isDefined() && maximumDuration > maximumDutyCycle.first)
-    {
-        throw ostk::core::error::RuntimeError(
-            "Maximum duration must be less or equal than maximum duty cycle numerator."
-        );
-    }
-
-    if (maximumDutyCycle.first.isDefined())
-    {
         // If the maximum duty cycle is defined but the maximum duration is not, the maximum duration should be set to
         // the maximum duty cycle numerator. This will ensure that maneuvers, by themselves, do not exceed the maximum
         // duty cycle.
-        if (!maximumDuration.isDefined())
+        if (!maximumManeuverDurationAndStrategy.has_value())
         {
-            maximumDuration = maximumDutyCycle.first;
+            maximumManeuverDurationAndStrategy = Pair<Duration, MaximumManeuverDurationViolationStrategy>(
+                maximumDutyCycle->first, MaximumManeuverDurationViolationStrategy::Fail
+            );
         }
 
         // Minimum separation must be defined if maximum duty cycle is defined.
-        if (!minimumSeparation.isDefined())
+        if (!minimumSeparation.has_value())
         {
             throw ostk::core::error::RuntimeError("Minimum separation must be defined if maximum duty cycle is defined."
             );
         }
     }
 
-    if (minimumDuration.isDefined() && minimumDuration <= Duration::Zero())
+    if (minimumDuration.has_value() && minimumDuration.value() <= Duration::Zero())
     {
         throw ostk::core::error::RuntimeError("Minimum duration must be greater than zero.");
     }
 
-    if (maximumDuration.isDefined() && maximumDuration <= Duration::Zero())
+    if (maximumManeuverDurationAndStrategy.has_value() && maximumManeuverDurationAndStrategy->first <= Duration::Zero())
     {
         throw ostk::core::error::RuntimeError("Maximum duration must be greater than zero.");
     }
 
-    if (minimumSeparation.isDefined() && minimumSeparation <= Duration::Zero())
+    if (minimumSeparation.has_value() && minimumSeparation.value() <= Duration::Zero())
     {
         throw ostk::core::error::RuntimeError("Minimum separation must be greater than zero.");
     }
 
-    if (maximumDuration.isDefined() && minimumDuration.isDefined() && maximumDuration < minimumDuration)
+    if (maximumManeuverDurationAndStrategy.has_value() && minimumDuration.has_value() &&
+        maximumManeuverDurationAndStrategy->first < minimumDuration.value())
     {
         throw ostk::core::error::RuntimeError("Maximum duration must be greater than minimum duration.");
     }
 
-    if (maximumDuration.isDefined() && !minimumSeparation.isDefined())
+    if (maximumManeuverDurationAndStrategy.has_value() && !minimumSeparation.has_value())
     {
         throw ostk::core::error::RuntimeError(
             "Minimum separation of at least 1 second must be defined if maximum duration is defined. This is to "
@@ -164,32 +144,37 @@ Segment::ManeuverConstraints::ManeuverConstraints(
             "aliasing issues which can cause sequential maneuver intervals to overlap by a nanosecond."
         );
     }
-}
 
-bool Segment::ManeuverConstraints::isDefined() const
-{
-    return minimumDuration.isDefined() || maximumDuration.isDefined() || minimumSeparation.isDefined() ||
-           (maximumDutyCycle.first.isDefined() && maximumDutyCycle.second.isDefined());
+    if (localOrbitalFrameFactory.has_value() && !localOrbitalFrameFactory->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local orbital frame factory");
+    }
+    if (maximumAllowedAngularOffset.has_value() && !localOrbitalFrameFactory.has_value())
+    {
+        throw ostk::core::error::RuntimeError(
+            "Maximum allowed angular offset can only be defined if a local orbital frame factory is defined."
+        );
+    }
 }
 
 bool Segment::ManeuverConstraints::intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const
 {
-    if (!minimumDuration.isDefined())
+    if (!minimumDuration.has_value())
     {
         return true;
     }
 
-    return aManeuverInterval.getDuration() >= minimumDuration;
+    return aManeuverInterval.getDuration() >= minimumDuration.value();
 }
 
 bool Segment::ManeuverConstraints::intervalHasValidMaximumDuration(const Interval& aManeuverInterval) const
 {
-    if (!maximumDuration.isDefined())
+    if (!maximumManeuverDurationAndStrategy.has_value())
     {
         return true;
     }
 
-    return aManeuverInterval.getDuration() <= maximumDuration;
+    return aManeuverInterval.getDuration() <= maximumManeuverDurationAndStrategy->first;
 }
 
 bool Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
@@ -197,7 +182,7 @@ bool Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
 ) const
 {
     // If there are no maximum duty cycle constraints, return valid
-    if (!maximumDutyCycle.first.isDefined() || !maximumDutyCycle.second.isDefined())
+    if (!maximumDutyCycle.has_value())
     {
         return true;
     }
@@ -217,7 +202,7 @@ bool Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
     // ----------------------------------|xxxxxx|  (Candidate maneuver)
     // ----------|          denominator         |  (Tail interval)
     const Interval tailInterval =
-        Interval::Closed(aManeuverInterval.getEnd() - maximumDutyCycle.second, aManeuverInterval.getEnd());
+        Interval::Closed(aManeuverInterval.getEnd() - maximumDutyCycle->second, aManeuverInterval.getEnd());
 
     // Check how much maneuvering time takes place during the tail interval:
     //
@@ -238,7 +223,7 @@ bool Segment::ManeuverConstraints::intervalHasValidMaximumDutyCycle(
         }
     );
 
-    return tailManeuverDuration <= maximumDutyCycle.first;
+    return tailManeuverDuration <= maximumDutyCycle->first;
 }
 
 void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -249,22 +234,33 @@ void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool disp
     }
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Minimum Duration:" << (this->minimumDuration.isDefined() ? this->minimumDuration.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Maximum Duration:" << (this->maximumDuration.isDefined() ? this->maximumDuration.toString() : "Undefined");
+        << "Minimum Duration:" << (this->minimumDuration.has_value() ? this->minimumDuration->toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Duration:"
+                                                   << (this->maximumManeuverDurationAndStrategy.has_value()
+                                                           ? this->maximumManeuverDurationAndStrategy->first.toString()
+                                                           : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Minimum Separation:"
-        << (this->minimumSeparation.isDefined() ? this->minimumSeparation.toString() : "Undefined");
+        << (this->minimumSeparation.has_value() ? this->minimumSeparation->toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Maximum Duration Strategy:"
-        << Segment::StringFromMaximumManeuverDurationViolationStrategy(this->maximumDurationStrategy);
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "maximum duty cycle:"
-        << (this->maximumDutyCycle.first.isDefined() && this->maximumDutyCycle.second.isDefined()
-                ? String::Format(
-                      "[{}, {}]", this->maximumDutyCycle.first.toString(), this->maximumDutyCycle.second.toString()
+        << (this->maximumManeuverDurationAndStrategy.has_value()
+                ? Segment::StringFromMaximumManeuverDurationViolationStrategy(
+                      this->maximumManeuverDurationAndStrategy->second
                   )
                 : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "maximum duty cycle:"
+        << (this->maximumDutyCycle.has_value()
+                ? String::Format(
+                      "[{}, {}]", this->maximumDutyCycle->first.toString(), this->maximumDutyCycle->second.toString()
+                  )
+                : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Local Orbital Frame Factory:" << (this->localOrbitalFrameFactory.has_value() ? "Defined" : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream
+    ) << "Maximum Allowed Angular Offset:"
+      << (this->maximumAllowedAngularOffset.has_value() ? this->maximumAllowedAngularOffset->toString() : "Undefined");
 
     if (displayDecorator)
     {
@@ -306,30 +302,15 @@ Segment::Solution::Solution(
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Array<State>& aStateArray,
     const bool& aConditionIsSatisfied,
-    const Segment::Type& aSegmentType
-)
-    : name(aName),
-      dynamics(aDynamicsArray),
-      states(aStateArray),
-      conditionIsSatisfied(aConditionIsSatisfied),
-      segmentType(aSegmentType)
-{
-}
-
-Segment::Solution::Solution(
-    const String& aName,
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Array<State>& aStateArray,
-    const bool& aConditionIsSatisfied,
     const Segment::Type& aSegmentType,
-    const Array<Interval>& aManeuverIntervals
+    const std::optional<Array<Interval>>& aManeuverIntervals
 )
     : name(aName),
       dynamics(aDynamicsArray),
       states(aStateArray),
       conditionIsSatisfied(aConditionIsSatisfied),
       segmentType(aSegmentType),
-      maneuverIntervals(aManeuverIntervals)
+      maneuverIntervals(aManeuverIntervals.value_or(Array<Interval>::Empty()))
 {
 }
 
@@ -757,9 +738,7 @@ Segment::Segment(
     const Array<Shared<Dynamics>>& aFreeDynamicsArray,
     const Shared<Thruster>& aThrusterDynamics,
     const NumericalSolver& aNumericalSolver,
-    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
-    const Angle& aMaximumAllowedAngularOffset,
-    const ManeuverConstraints& aManeuverConstraints
+    const std::optional<ManeuverConstraints>& aManeuverConstraints
 )
     : name_(aName),
       type_(aType),
@@ -767,8 +746,6 @@ Segment::Segment(
       freeDynamicsArray_(aFreeDynamicsArray),
       thrusterDynamicsSPtr_(aThrusterDynamics),
       numericalSolver_(aNumericalSolver),
-      constantManeuverDirectionLocalOrbitalFrameFactory_(aLocalOrbitalFrameFactory),
-      constantManeuverDirectionMaximumAllowedAngularOffset_(aMaximumAllowedAngularOffset),
       maneuverConstraints_(aManeuverConstraints)
 {
     if (eventCondition_ == nullptr)
@@ -865,7 +842,7 @@ Shared<Thruster> Segment::getThrusterDynamics() const
     return thrusterDynamicsSPtr_;
 }
 
-Segment::ManeuverConstraints Segment::getManeuverConstraints() const
+std::optional<Segment::ManeuverConstraints> Segment::getManeuverConstraints() const
 {
     return maneuverConstraints_;
 }
@@ -878,18 +855,6 @@ const Shared<EventCondition>& Segment::accessEventCondition() const
 const NumericalSolver& Segment::accessNumericalSolver() const
 {
     return numericalSolver_;
-}
-
-Segment::Solution Segment::solve(
-    const State& aState, const Duration& maximumPropagationDuration, Interval previousManeuverInterval
-) const
-{
-    Array<Interval> previousManeuverIntervals = Array<Interval>::Empty();
-    if (previousManeuverInterval.isDefined())
-    {
-        previousManeuverIntervals.add(previousManeuverInterval);
-    }
-    return solve(aState, maximumPropagationDuration, previousManeuverIntervals);
 }
 
 Segment::Solution Segment::solve(
@@ -917,6 +882,9 @@ Segment::Solution Segment::solve(
     {
         return solveCoast_(aState, aState.accessInstant() + maximumPropagationDuration);
     }
+
+    // A maneuver segment without maneuver constraints is solved as if no constraint was defined
+    const ManeuverConstraints maneuverConstraints = maneuverConstraints_.value_or(ManeuverConstraints());
 
     // We must solve maneuver by maneuver to get the exact maneuver start and stop times
     Array<State> segmentStates = {aState};
@@ -978,14 +946,15 @@ Segment::Solution Segment::solve(
 
         // Performance when considering a maximum maneuver duration constraint for the "Chunk" strategy
         // can be optimized by eliminating redundant solver iterations and unnecessary trimming.
-        if (maneuverConstraints_.maximumDuration.isDefined() &&
-            maneuverConstraints_.maximumDurationStrategy == MaximumManeuverDurationViolationStrategy::Chunk)
+        if (maneuverConstraints.maximumManeuverDurationAndStrategy.has_value() &&
+            maneuverConstraints.maximumManeuverDurationAndStrategy->second ==
+                MaximumManeuverDurationViolationStrategy::Chunk)
         {
             // If there is no duty cycle constraint, we can safely stop maneuvering after the maximum duration.
             //
             // |*********************************************************************| (Potential maneuver)
             // |<-- maximum duration -->|  (No need to solve beyond this point)
-            Duration optimizedTriming = maneuverConstraints_.maximumDuration;
+            Duration optimizedTriming = maneuverConstraints.maximumManeuverDurationAndStrategy->first;
 
             // However, if the duty cycle constraint is defined, we extend beyond the maximum duration, all the
             // way to the denominator, to give the solver a chance to shift the chunk forward in time.
@@ -997,9 +966,9 @@ Segment::Solution Segment::solve(
             // |************| (Rejected chunk)
             //           |************| (Rejected chunk)
             //                 |************| (Accepted chunk)
-            if (maneuverConstraints_.maximumDutyCycle.second.isDefined())
+            if (maneuverConstraints.maximumDutyCycle.has_value())
             {
-                optimizedTriming = maneuverConstraints_.maximumDutyCycle.second;
+                optimizedTriming = maneuverConstraints.maximumDutyCycle->second;
             }
 
             maximumManeuverSolutionInstant =
@@ -1027,7 +996,7 @@ Segment::Solution Segment::solve(
     const auto constructLOFCompliantManeuverSolution = [&](const Segment::Solution& maneuverSolution,
                                                            const FlightManeuver& maneuver) -> Segment::Solution
     {
-        if (!this->constantManeuverDirectionLocalOrbitalFrameFactory_.isDefined())
+        if (!maneuverConstraints.localOrbitalFrameFactory.has_value())
         {
             return maneuverSolution;
         }
@@ -1089,9 +1058,12 @@ Segment::Solution Segment::solve(
         [&](const Interval& candidateManeuverInterval,
             const Array<Interval>& previousManeuverIntervalsToConsiderForDutyCycle) -> bool
     {
+        // The maximum maneuver duration is always defined when the maximum duty cycle is defined
+        const Duration& maximumManeuverDuration = maneuverConstraints.maximumManeuverDurationAndStrategy->first;
+
         // Define a step size that is used to discretize the search space to find a valid maneuver interval.
         const Duration stepSize = Duration::Seconds(10.0);
-        switch (maneuverConstraints_.maximumDurationStrategy)
+        switch (maneuverConstraints.maximumManeuverDurationAndStrategy->second)
         {
             case MaximumManeuverDurationViolationStrategy::Fail:
             {
@@ -1127,8 +1099,7 @@ Segment::Solution Segment::solve(
                 //                                   Candidate 3
                 //                                 duration -= stepSize
                 // --|***|----|************|-----------|****|                 [ACCEPTED]
-                Duration newDuration =
-                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration);
+                Duration newDuration = std::min(candidateManeuverInterval.getDuration(), maximumManeuverDuration);
 
                 while (newDuration > Duration::Zero())
                 {
@@ -1136,12 +1107,12 @@ Segment::Solution Segment::solve(
                         candidateManeuverInterval.getStart(), candidateManeuverInterval.getStart() + newDuration
                     );
 
-                    if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                    if (!maneuverConstraints.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
                     {
                         break;
                     }
 
-                    if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                    if (maneuverConstraints.intervalHasValidMaximumDutyCycle(
                             newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                         ))
                     {
@@ -1184,8 +1155,7 @@ Segment::Solution Segment::solve(
                 //                                                    Candidate 3
                 //                                              duration -= stepSize
                 // --|***|----|************|----------------------------|****|         [ACCEPTED]
-                Duration newDuration =
-                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration);
+                Duration newDuration = std::min(candidateManeuverInterval.getDuration(), maximumManeuverDuration);
 
                 while (newDuration > Duration::Zero())
                 {
@@ -1193,12 +1163,12 @@ Segment::Solution Segment::solve(
                         candidateManeuverInterval.getEnd() - newDuration, candidateManeuverInterval.getEnd()
                     );
 
-                    if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                    if (!maneuverConstraints.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
                     {
                         break;
                     }
 
-                    if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                    if (maneuverConstraints.intervalHasValidMaximumDutyCycle(
                             newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                         ))
                     {
@@ -1233,20 +1203,19 @@ Segment::Solution Segment::solve(
                 //                                          Candidate 3
                 //                                      duration -= stepSize
                 // --|***|----|************|-------------------|***|               [ACCEPTED]
-                Duration newDuration =
-                    std::min(candidateManeuverInterval.getDuration(), maneuverConstraints_.maximumDuration);
+                Duration newDuration = std::min(candidateManeuverInterval.getDuration(), maximumManeuverDuration);
 
                 while (newDuration > Duration::Zero())
                 {
                     const Interval newCandidateManeuverInterval =
                         Interval::Centered(candidateManeuverInterval.getCenter(), newDuration, Interval::Type::Closed);
 
-                    if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                    if (!maneuverConstraints.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
                     {
                         break;
                     }
 
-                    if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                    if (maneuverConstraints.intervalHasValidMaximumDutyCycle(
                             newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                         ))
                     {
@@ -1309,19 +1278,19 @@ Segment::Solution Segment::solve(
                 while (newStart < candidateManeuverInterval.getEnd())
                 {
                     Duration newDuration =
-                        std::min((candidateManeuverInterval.getEnd() - newStart), maneuverConstraints_.maximumDuration);
+                        std::min((candidateManeuverInterval.getEnd() - newStart), maximumManeuverDuration);
 
                     while (newDuration > Duration::Zero())
                     {
                         const Interval newCandidateManeuverInterval =
                             Interval::Closed(newStart, newStart + newDuration);
 
-                        if (!maneuverConstraints_.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
+                        if (!maneuverConstraints.intervalHasValidMinimumDuration(newCandidateManeuverInterval))
                         {
                             break;
                         }
 
-                        if (maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+                        if (maneuverConstraints.intervalHasValidMaximumDutyCycle(
                                 newCandidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                             ))
                         {
@@ -1350,7 +1319,9 @@ Segment::Solution Segment::solve(
     // maneuver is accepted.
     const auto handleMaximumDurationViolation = [&](const Interval& candidateManeuverInterval) -> bool
     {
-        switch (maneuverConstraints_.maximumDurationStrategy)
+        const Duration& maximumManeuverDuration = maneuverConstraints.maximumManeuverDurationAndStrategy->first;
+
+        switch (maneuverConstraints.maximumManeuverDurationAndStrategy->second)
         {
             case MaximumManeuverDurationViolationStrategy::Fail:
             {
@@ -1369,8 +1340,7 @@ Segment::Solution Segment::solve(
             case MaximumManeuverDurationViolationStrategy::TruncateEnd:
             {
                 const Interval validManeuverInterval = Interval::Closed(
-                    candidateManeuverInterval.getStart(),
-                    candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
+                    candidateManeuverInterval.getStart(), candidateManeuverInterval.getStart() + maximumManeuverDuration
                 );
 
                 const bool conditionIsSatisfied = solveAndAcceptConstantLofManeuver(validManeuverInterval);
@@ -1386,8 +1356,7 @@ Segment::Solution Segment::solve(
             case MaximumManeuverDurationViolationStrategy::TruncateStart:
             {
                 const Interval validManeuverInterval = Interval::Closed(
-                    candidateManeuverInterval.getEnd() - maneuverConstraints_.maximumDuration,
-                    candidateManeuverInterval.getEnd()
+                    candidateManeuverInterval.getEnd() - maximumManeuverDuration, candidateManeuverInterval.getEnd()
                 );
 
                 return solveAndAcceptConstantLofManeuver(validManeuverInterval);
@@ -1396,7 +1365,7 @@ Segment::Solution Segment::solve(
             case MaximumManeuverDurationViolationStrategy::Center:
             {
                 const Interval validManeuverInterval = Interval::Centered(
-                    candidateManeuverInterval.getCenter(), maneuverConstraints_.maximumDuration, Interval::Type::Closed
+                    candidateManeuverInterval.getCenter(), maximumManeuverDuration, Interval::Type::Closed
                 );
 
                 const bool conditionIsSatisfied = solveAndAcceptConstantLofManeuver(validManeuverInterval);
@@ -1412,8 +1381,7 @@ Segment::Solution Segment::solve(
             case MaximumManeuverDurationViolationStrategy::Chunk:
             {
                 const Interval validManeuverInterval = Interval::Closed(
-                    candidateManeuverInterval.getStart(),
-                    candidateManeuverInterval.getStart() + maneuverConstraints_.maximumDuration
+                    candidateManeuverInterval.getStart(), candidateManeuverInterval.getStart() + maximumManeuverDuration
                 );
 
                 return solveAndAcceptConstantLofManeuver(validManeuverInterval);
@@ -1430,9 +1398,10 @@ Segment::Solution Segment::solve(
     while (segmentStates.accessLast().accessInstant() < maximumInstant && !segmentConditionIsSatisfied)
     {
         // Check minimum maneuver separation constraint from previous maneuver
-        if (maneuverConstraints_.minimumSeparation.isDefined() && previousManeuverInterval.isDefined())
+        if (maneuverConstraints.minimumSeparation.has_value() && previousManeuverInterval.isDefined())
         {
-            const Instant endInstant = previousManeuverInterval.getEnd() + maneuverConstraints_.minimumSeparation;
+            const Instant endInstant =
+                previousManeuverInterval.getEnd() + maneuverConstraints.minimumSeparation.value();
 
             // No need to coast if we are already past the minimum separation target
             if (segmentStates.accessLast().accessInstant() < endInstant)
@@ -1471,7 +1440,7 @@ Segment::Solution Segment::solve(
         }
 
         // Check minimum maneuver duration constraint
-        if (!maneuverConstraints_.intervalHasValidMinimumDuration(candidateManeuverInterval))
+        if (!maneuverConstraints.intervalHasValidMinimumDuration(candidateManeuverInterval))
         {
             // The extracted maneuver might be a single-point maneuver. This happens as the maneuver
             // window might have been small enough (see note below) for the propagator to only step
@@ -1502,11 +1471,11 @@ Segment::Solution Segment::solve(
         }
 
         // Check maximum duty cycle constraint (which also considers the maximum maneuver duration constraint)
-        if (maneuverConstraints_.maximumDutyCycle.second.isDefined())
+        if (maneuverConstraints.maximumDutyCycle.has_value())
         {
             // Create an array of maneuver intervals that might influence the maximum duty cycle constraint
             const Instant dutyCycleInfluenceCutoff =
-                candidateManeuverInterval.getStart() - maneuverConstraints_.maximumDutyCycle.second;
+                candidateManeuverInterval.getStart() - maneuverConstraints.maximumDutyCycle->second;
             Array<Interval> previousManeuverIntervalsToConsiderForDutyCycle = Array<Interval>::Empty();
 
             for (const auto& initialPreviousManeuverInterval : sortedPreviousManeuverIntervals)
@@ -1526,7 +1495,7 @@ Segment::Solution Segment::solve(
             }
 
             // Now, handle the maximum duty cycle constraint
-            if (!maneuverConstraints_.intervalHasValidMaximumDutyCycle(
+            if (!maneuverConstraints.intervalHasValidMaximumDutyCycle(
                     candidateManeuverInterval, previousManeuverIntervalsToConsiderForDutyCycle
                 ))
             {
@@ -1539,7 +1508,7 @@ Segment::Solution Segment::solve(
         }
 
         // Check maximum maneuver duration constraint
-        if (!maneuverConstraints_.intervalHasValidMaximumDuration(candidateManeuverInterval))
+        if (!maneuverConstraints.intervalHasValidMaximumDuration(candidateManeuverInterval))
         {
             segmentConditionIsSatisfied = handleMaximumDurationViolation(candidateManeuverInterval);
 
@@ -1619,6 +1588,7 @@ Segment Segment::Coast(
         aDynamicsArray,
         nullptr,
         aNumericalSolver,
+        std::nullopt,
     };
 }
 
@@ -1628,7 +1598,7 @@ Segment Segment::Maneuver(
     const Shared<Thruster>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver,
-    const ManeuverConstraints& aManeuverConstraints
+    const std::optional<ManeuverConstraints>& aManeuverConstraints
 )
 {
     return {
@@ -1638,33 +1608,7 @@ Segment Segment::Maneuver(
         aDynamicsArray,
         aThrusterDynamics,
         aNumericalSolver,
-        LocalOrbitalFrameFactory::Undefined(),
-        Angle::Undefined(),
         aManeuverConstraints,
-    };
-}
-
-Segment Segment::ConstantLocalOrbitalFrameDirectionManeuver(
-    const String& aName,
-    const Shared<EventCondition>& anEventConditionSPtr,
-    const Shared<Thruster>& aThrusterDynamics,
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver,
-    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
-    const Angle& aMaximumAllowedAngularOffset,
-    const ManeuverConstraints& aManeuverConstraints
-)
-{
-    return {
-        aName,
-        Segment::Type::Maneuver,
-        anEventConditionSPtr,
-        aDynamicsArray,
-        aThrusterDynamics,
-        aNumericalSolver,
-        aLocalOrbitalFrameFactory,
-        aMaximumAllowedAngularOffset,
-        aManeuverConstraints
     };
 }
 
@@ -1749,8 +1693,8 @@ Segment::Solution Segment::constructLOFCompliantManeuverSolution_(const State& a
 {
     const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
         aManeuver,
-        this->constantManeuverDirectionLocalOrbitalFrameFactory_,
-        this->constantManeuverDirectionMaximumAllowedAngularOffset_
+        maneuverConstraints_->localOrbitalFrameFactory.value(),
+        maneuverConstraints_->maximumAllowedAngularOffset.value_or(Angle::Undefined())
     ));
 
     const Shared<Thruster> constantThrustDynamics = std::make_shared<Thruster>(

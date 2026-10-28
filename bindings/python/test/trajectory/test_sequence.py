@@ -501,6 +501,17 @@ class TestSequence:
 
         assert len(sequence.get_segments()) == segments_count + 1
 
+        sequence.add_maneuver_segment(
+            event_condition=instant_condition,
+            thruster_dynamics=thruster_dynamics,
+            maneuver_constraints=Segment.ManeuverConstraints(
+                minimum_duration=Duration.minutes(1.0),
+            ),
+        )
+
+        assert len(sequence.get_segments()) == segments_count + 2
+        assert sequence.get_segments()[-1].get_maneuver_constraints() is not None
+
     def test_solve(
         self,
         state: State,

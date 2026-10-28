@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/stl.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module& aModule)
@@ -336,10 +338,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Args:
                         event_condition (EventCondition): The event condition.
                         thruster_dynamics (Thruster): The thruster dynamics.
+                        maneuver_constraints (Segment.ManeuverConstraints | None, optional): The maneuver constraints. Defaults to None.
 
                 )doc",
                 arg("event_condition"),
-                arg("thruster_dynamics")
+                arg("thruster_dynamics"),
+                arg("maneuver_constraints") = none()
             )
 
             .def(

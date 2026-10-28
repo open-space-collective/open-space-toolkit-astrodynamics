@@ -211,7 +211,12 @@ class Sequence
     ///
     /// @param anEventConditionSPtr An event condition.
     /// @param aThruster A thruster dynamics.
-    void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster);
+    /// @param aManeuverConstraints Maneuver constraints. Defaults to std::nullopt.
+    void addManeuverSegment(
+        const Shared<EventCondition>& anEventConditionSPtr,
+        const Shared<Thruster>& aThruster,
+        const std::optional<Segment::ManeuverConstraints>& aManeuverConstraints = std::nullopt
+    );
 
     /// @brief Solve the sequence given an initial state, for a number of reptitions.
     ///

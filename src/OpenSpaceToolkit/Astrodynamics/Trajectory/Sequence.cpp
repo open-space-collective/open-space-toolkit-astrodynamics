@@ -292,9 +292,15 @@ void Sequence::addCoastSegment(const Shared<EventCondition>& anEventConditionSPt
     segments_.add(Segment::Coast("Coast", anEventConditionSPtr, dynamics_, numericalSolver_));
 }
 
-void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster)
+void Sequence::addManeuverSegment(
+    const Shared<EventCondition>& anEventConditionSPtr,
+    const Shared<Thruster>& aThruster,
+    const std::optional<Segment::ManeuverConstraints>& aManeuverConstraints
+)
 {
-    segments_.add(Segment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_));
+    segments_.add(Segment::Maneuver(
+        "Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_, aManeuverConstraints
+    ));
 }
 
 Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionCount) const
