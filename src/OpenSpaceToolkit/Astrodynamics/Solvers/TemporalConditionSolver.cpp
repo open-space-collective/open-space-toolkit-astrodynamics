@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <boost/log/trivial.hpp>
 #include <boost/math/tools/roots.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -85,11 +86,9 @@ Array<Interval> TemporalConditionSolver::solve(
 
     if (timeStep_ > intervalDuration)
     {
-        throw ostk::core::error::RuntimeError(
-            "Time step [{}] must not be larger than interval duration [{}].",
-            timeStep_.toString(),
-            intervalDuration.toString()
-        );
+        BOOST_LOG_TRIVIAL(warning) << "Time step [" << timeStep_.toString() << "] is larger than interval duration ["
+                                   << intervalDuration.toString()
+                                   << "]: condition switches within the interval may be missed.";
     }
 
     Array<Interval> intervals = Array<Interval>::Empty();

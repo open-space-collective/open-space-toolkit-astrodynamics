@@ -93,7 +93,8 @@ class TemporalConditionSolver
 
     /// @brief Find the intervals over which the provided condition is true.
     ///
-    /// @details Throws if the time step is larger than the interval duration.
+    /// @note A warning is logged if the time step is larger than the interval duration, as condition switches within
+    /// the interval may be missed.
     ///
     /// @code{.cpp}
     ///     TemporalConditionSolver solver = { Duration::Minutes(1.0), Duration::Microseconds(1.0) } ;
@@ -108,7 +109,8 @@ class TemporalConditionSolver
 
     /// @brief Find the intervals over which all provided conditions are true.
     ///
-    /// @details Throws if the time step is larger than the interval duration.
+    /// @note A warning is logged if the time step is larger than the interval duration, as condition switches within
+    /// the interval may be missed.
     ///
     /// @code{.cpp}
     ///     TemporalConditionSolver solver = { Duration::Minutes(1.0), Duration::Microseconds(1.0) } ;

@@ -92,6 +92,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(pybin
             R"doc(
                 Solve a temporal condition.
 
+                Note:
+                    A warning is logged if the time step is larger than the interval duration, as condition switches
+                    within the interval may be missed.
+
                 Args:
                     condition (function): The condition to solve.
                     interval (Interval): The interval to solve the condition over.
@@ -110,6 +114,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(pybin
             ),
             R"doc(
                 Solve an array of temporal conditions.
+
+                Note:
+                    A warning is logged if the time step is larger than the interval duration, as condition switches
+                    within the interval may be missed.
 
                 Args:
                     conditions (list): The conditions to solve.

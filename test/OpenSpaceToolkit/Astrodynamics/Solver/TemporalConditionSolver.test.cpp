@@ -272,32 +272,66 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver, Solve)
         EXPECT_EQ(Array<Interval>({intervalEqualToTimeStep}), intervals);
     }
 
-    // Interval duration shorter than the time step: throws
+    // Interval duration shorter than the time step: warns but does not throw
     {
         const Interval shortInterval = Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0));
 
-        EXPECT_THROW(
-            try {
-                defaultSolver_.solve(
-                    [](const Instant&) -> bool
-                    {
-                        return true;
-                    },
-                    shortInterval
-                );
-            } catch (const ostk::core::error::RuntimeError& e) {
-                EXPECT_EQ(
-                    String::Format(
-                        "Time step [{}] must not be larger than interval duration [{}].",
-                        defaultTimeStep_.toString(),
-                        Duration::Seconds(10.0).toString()
-                    ),
-                    e.getMessage()
-                );
-                throw;
-            },
-            ostk::core::error::RuntimeError
+        Array<Interval> intervals = Array<Interval>::Empty();
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(
+            intervals = defaultSolver_.solve(
+                [](const Instant&) -> bool
+                {
+                    return true;
+                },
+                shortInterval
+            )
         );
+
+        const std::string output = testing::internal::GetCapturedStdout();
+
+        EXPECT_NE(
+            std::string::npos,
+            output.find(String::Format(
+                "Time step [{}] is larger than interval duration [{}]: condition switches within the interval may be "
+                "missed.",
+                defaultTimeStep_.toString(),
+                Duration::Seconds(10.0).toString()
+            ))
+        ) << output;
+
+        EXPECT_EQ(Array<Interval>({shortInterval}), intervals);
+    }
+
+    // Interval duration shorter than the time step, condition never met: no interval is returned
+    {
+        const Interval shortInterval = Interval::Closed(Instant::J2000(), Instant::J2000() + Duration::Seconds(10.0));
+
+        testing::internal::CaptureStdout();
+
+        const Array<Interval> intervals = defaultSolver_.solve(
+            [](const Instant&) -> bool
+            {
+                return false;
+            },
+            shortInterval
+        );
+
+        const std::string output = testing::internal::GetCapturedStdout();
+
+        EXPECT_NE(
+            std::string::npos,
+            output.find(String::Format(
+                "Time step [{}] is larger than interval duration [{}]: condition switches within the interval may be "
+                "missed.",
+                defaultTimeStep_.toString(),
+                Duration::Seconds(10.0).toString()
+            ))
+        ) << output;
+
+        EXPECT_TRUE(intervals.isEmpty());
     }
 
     // Undefined interval: throws
