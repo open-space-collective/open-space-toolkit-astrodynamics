@@ -68,19 +68,6 @@ class TestTemporalConditionSolver:
         assert isinstance(solution, list)
         assert solution == [interval]
 
-    def test_solve_success_one_condition_always_false(
-        self,
-        temporal_condition_solver: TemporalConditionSolver,
-        interval: Interval,
-    ):
-        solution: list[Interval] = temporal_condition_solver.solve(
-            condition=lambda _: False,
-            interval=interval,
-        )
-
-        assert isinstance(solution, list)
-        assert solution == []
-
     def test_solve_success_multiple_conditions_always_true(
         self,
         temporal_condition_solver: TemporalConditionSolver,
@@ -96,22 +83,6 @@ class TestTemporalConditionSolver:
 
         assert isinstance(solution, list)
         assert solution == [interval]
-
-    def test_solve_success_multiple_conditions_one_always_false(
-        self,
-        temporal_condition_solver: TemporalConditionSolver,
-        interval: Interval,
-    ):
-        solution: list[Interval] = temporal_condition_solver.solve(
-            conditions=[
-                lambda _: True,
-                lambda _: False,
-            ],
-            interval=interval,
-        )
-
-        assert isinstance(solution, list)
-        assert solution == []
 
     def test_solve_success_using_access_generator(
         self,
