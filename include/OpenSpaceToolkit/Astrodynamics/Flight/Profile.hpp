@@ -95,37 +95,39 @@ class Profile
                                     /// the ECI frame
     };
 
-    /// @brief Represents pointing of one axis of your spacecraft towards a target.
-    class Pointing
+    /// @brief Represents a pointing constraint of one axis of your spacecraft towards a target.
+    class PointingConstraint
     {
        public:
-        /// @brief Constructs a Pointing object.
+        /// @brief Constructs a PointingConstraint object.
         ///
         /// @param aType The type of the target.
         /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for the Z axis).
-        Pointing(const TargetType& aType, const Vector3d& aDirectionInBodyFrame);
+        PointingConstraint(const TargetType& aType, const Vector3d& aDirectionInBodyFrame);
 
         TargetType type;     ///< The type of the target.
         Vector3d direction;  ///< The direction (unit vector) of the target.
     };
 
-    /// @brief Represents pointing of one axis of your spacecraft towards a trajectory.
-    class TrajectoryPointing : public Pointing
+    /// @brief Represents a pointing constraint of one axis of your spacecraft towards a trajectory.
+    class TrajectoryPointingConstraint : public PointingConstraint
     {
        public:
-        /// @brief Constructs a TrajectoryPointing object, pointing towards the provided trajectory's position.
+        /// @brief Constructs a TrajectoryPointingConstraint object, pointing towards the provided trajectory's
+        /// position.
         ///
         /// @param aTrajectory The trajectory to point towards.
         /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for the Z axis).
-        static TrajectoryPointing TargetPosition(
+        static TrajectoryPointingConstraint TargetPosition(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
         );
 
-        /// @brief Constructs a TrajectoryPointing object, pointing towards the provided trajectory's velocity vector.
+        /// @brief Constructs a TrajectoryPointingConstraint object, pointing towards the provided trajectory's
+        /// velocity vector.
         /// @note When choosing this as a clocking target, the resulting profile will not compensate for the rotation of
         /// the referenced celestial body (yaw compensation).
         ///
@@ -133,12 +135,12 @@ class Profile
         /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for the Z axis).
-        static TrajectoryPointing TargetVelocity(
+        static TrajectoryPointingConstraint TargetVelocity(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
         );
 
-        /// @brief Constructs a TrajectoryPointing object, pointing along the provided trajectory's ground velocity
-        /// vector (aka the scan direction of the point sliding across the ground).
+        /// @brief Constructs a TrajectoryPointingConstraint object, pointing towards the provided trajectory's ground
+        /// velocity vector (aka the scan direction of the point sliding across the ground).
         /// @note When choosing this as a clocking target, the resulting profile will compensate for the rotation of the
         /// referenced celestial body (yaw compensation).
         ///
@@ -146,40 +148,34 @@ class Profile
         /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for the Z axis).
-        static TrajectoryPointing TargetSlidingGroundVelocity(
+        static TrajectoryPointingConstraint TargetSlidingGroundVelocity(
             const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
         );
 
         ostk::astrodynamics::Trajectory trajectory;  ///< The trajectory to point towards.
 
        private:
-        /// @brief Constructs a TrajectoryPointing object.
-        ///
-        /// @param aType The type of the target.
-        /// @param aTrajectory The trajectory to point towards.
-        /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
-        /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
-        /// for the Z axis).
-        TrajectoryPointing(
+        TrajectoryPointingConstraint(
             const TargetType& aType,
             const ostk::astrodynamics::Trajectory& aTrajectory,
             const Vector3d& aDirectionInBodyFrame
         );
     };
 
-    /// @brief Represents pointing of one axis of your spacecraft towards a custom pointing profile in the ECI frame.
+    /// @brief Represents a pointing constraint of one axis of your spacecraft towards a custom pointing profile in the
+    /// ECI frame.
     /// @note The profile is provided up front (must be known beforehand).
-    class CustomProfilePointing : public Pointing
+    class CustomProfilePointingConstraint : public PointingConstraint
     {
        public:
-        /// @brief Constructs a CustomProfilePointing object.
+        /// @brief Constructs a CustomProfilePointingConstraint object.
         ///
         /// @param aPointingProfileECI The profile of pointing vectors in the ECI frame.
         /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for the Z axis).
         /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
-        CustomProfilePointing(
+        CustomProfilePointingConstraint(
             const Array<Pair<Instant, Vector3d>>& aPointingProfileECI,
             const Vector3d& aDirectionInBodyFrame,
             const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
@@ -197,20 +193,21 @@ class Profile
         Array<Shared<const Interpolator>> interpolators_;
     };
 
-    /// @brief Represents pointing of one axis of your spacecraft towards a custom pointing profile generator.
+    /// @brief Represents a pointing constraint of one axis of your spacecraft towards a custom pointing profile
+    /// generator.
     /// @note The pointing vector is generated at each timestep by a function of that returns a vector in the ECI frame
     /// (does not need to be known beforehand).
-    class CustomProfileGeneratorPointing : public Pointing
+    class CustomProfileGeneratorPointingConstraint : public PointingConstraint
     {
        public:
-        /// @brief Constructs a CustomProfileGeneratorPointing object.
+        /// @brief Constructs a CustomProfileGeneratorPointingConstraint object.
         ///
         /// @param aPointingProfileGeneratorECI The function that generates the pointing vector in the ECI frame from
         /// the state at a given instant.
         /// @param aDirectionInBodyFrame The (unit) vector in your spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for the Z axis).
-        CustomProfileGeneratorPointing(
+        CustomProfileGeneratorPointingConstraint(
             std::function<Vector3d(const State&)> aPointingProfileGeneratorECI, const Vector3d& aDirectionInBodyFrame
         );
 
@@ -342,17 +339,53 @@ class Profile
         const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
     );
 
-    /// @brief Construct a flight profile with constrained (alignment vector + clocking vector) pointing
+    /// @brief Construct a flight profile with constrained pointing.
+    ///
+    /// This solves the "align and clock" (two-vector) attitude problem at each instant of the orbit. Fully defining
+    /// the spacecraft attitude requires fixing 3 rotational degrees of freedom, which is done using two constraints
+    /// of decreasing priority:
+    /// - Alignment (primary constraint): the body frame direction of the alignment pointing constraint is pointed
+    ///   exactly towards its target (e.g. the payload boresight towards geodetic nadir). This fixes 2 degrees of
+    ///   freedom, leaving the spacecraft free to rotate about its alignment direction.
+    /// - Clocking (secondary constraint): the remaining degree of freedom (the rotation about the alignment direction)
+    ///   is fixed by rotating the body frame direction of the clocking pointing constraint as close as possible to its
+    ///   target (e.g. a body axis along the ground velocity, for yaw steering).
+    ///
+    /// The alignment constraint is always met exactly. The clocking constraint is only met exactly when the angle
+    /// between the alignment and clocking body frame directions matches the angle between the alignment and clocking
+    /// targets. Otherwise, the clocking body frame direction ends up in the plane containing the alignment and clocking
+    /// targets, on the same side of the alignment target as the clocking target.
+    ///
+    /// The celestial object of the orbit is used for the target types that depend on the rotation or shape of the
+    /// central body (geodetic nadir, ECEF velocity and sliding ground velocity). See AlignAndClock for details on how
+    /// the orientation is computed.
+    ///
+    /// @code{.cpp}
+    ///              Orbit orbit = { ... };
+    ///              const Shared<const Profile::PointingConstraint> alignmentPointingConstraintSPtr =
+    ///                  std::make_shared<const Profile::PointingConstraint>(
+    ///                      Profile::TargetType::GeodeticNadir, Vector3d::UnitZ()
+    ///                  );
+    ///              const Shared<const Profile::PointingConstraint> clockingPointingConstraintSPtr =
+    ///                  std::make_shared<const Profile::PointingConstraint>(
+    ///                      Profile::TargetType::VelocityECEF, Vector3d::UnitX()
+    ///                  );
+    ///              Profile profile = Profile::ConstrainedPointing(
+    ///                  orbit, alignmentPointingConstraintSPtr, clockingPointingConstraintSPtr
+    ///              );
+    /// @endcode
     ///
     /// @param anOrbit An orbit
-    /// @param anAlignmentPointingSPtr An alignment pointing vector
-    /// @param aClockingPointingSPtr A clocking pointing vector
-    /// @param anAngularClockingOffset An angular offset applied to the clocking pointing vector
+    /// @param anAlignmentPointingConstraintSPtr An alignment pointing constraint (primary constraint, met exactly)
+    /// @param aClockingPointingConstraintSPtr A clocking pointing constraint (secondary constraint, met as closely as
+    /// possible)
+    /// @param anAngularClockingOffset An angular offset applied to the clocking target, as a right-handed rotation
+    /// about the alignment target
     /// @return Flight profile
     static Profile ConstrainedPointing(
         const trajectory::Orbit& anOrbit,
-        const Shared<const Pointing>& anAlignmentPointingSPtr,
-        const Shared<const Pointing>& aClockingPointingSPtr,
+        const Shared<const PointingConstraint>& anAlignmentPointingConstraintSPtr,
+        const Shared<const PointingConstraint>& aClockingPointingConstraintSPtr,
         const Angle& anAngularClockingOffset = Angle::Zero()
     );
 
@@ -365,18 +398,47 @@ class Profile
         const trajectory::Orbit& anOrbit, const std::function<Quaternion(const State&)>& anOrientationGenerator
     );
 
-    /// @brief Generate a function that returns a quaternion constrained by alignment and clocking pointing vectors for
+    /// @brief Generate a function that returns a quaternion constrained by alignment and clocking vectors for
     /// each given state.
     ///
-    /// @param anAlignmentPointingSPtr An alignment pointing vector
-    /// @param aClockingPointingSPtr A clocking pointing vector
-    /// @param aCelestialSPtr A celestial object. Its body frame will be used for geodetic nadir and
+    /// The generated function solves the "align and clock" (two-vector) attitude problem: the spacecraft alignment
+    /// body frame direction is pointed exactly towards the alignment target (primary constraint), and the spacecraft
+    /// is then rotated about this direction so that its clocking body frame direction gets as close as possible to
+    /// the clocking target (secondary constraint).
+    ///
+    /// For each state, with all target directions expressed in GCRF:
+    /// 1. The alignment target direction is computed from the alignment pointing constraint.
+    /// 2. The clocking target direction is computed from the clocking pointing constraint, then projected onto the
+    ///    plane perpendicular to the alignment target direction, and rotated about the alignment target direction by
+    ///    the angular clocking offset.
+    /// 3. The clocking body frame direction is projected onto the plane perpendicular to the alignment body frame
+    ///    direction.
+    /// 4. The returned quaternion is the rotation from GCRF to the spacecraft body frame that maps the alignment
+    ///    target direction onto the alignment body frame direction, and the projected clocking target direction onto
+    ///    the projected clocking body frame direction.
+    ///
+    /// The resulting attitude is undefined if the alignment and clocking target directions are colinear at a given
+    /// state, as there is no unique rotation about the alignment target direction in that case.
+    ///
+    /// This function is typically used in conjunction with CustomPointing, or directly through ConstrainedPointing.
+    ///
+    /// @throw RuntimeError If the alignment and clocking pointing constraints have the same target type (except for
+    /// trajectory position and trajectory velocity targets, which can point to different trajectories)
+    /// @throw RuntimeError If the alignment and clocking body frame directions are colinear
+    /// @throw RuntimeError If the alignment and clocking targets are geocentric nadir and geodetic nadir
+    ///
+    /// @param aCelestialSPtr A celestial object. Its body frame will be used for geodetic nadir, ECEF velocity and
     /// sliding ground velocity calculations
-    /// @param anAngularClockingOffset An angular offset applied to the clocking pointing vector
-    static std::function<Quaternion(const State&)> AlignAndConstrain(
-        const Shared<const Pointing>& anAlignmentPointingSPtr,
-        const Shared<const Pointing>& aClockingPointingSPtr,
+    /// @param anAlignmentPointingConstraintSPtr An alignment pointing constraint (primary constraint, met exactly)
+    /// @param aClockingPointingConstraintSPtr A clocking pointing constraint (secondary constraint, met as closely as
+    /// possible)
+    /// @param anAngularClockingOffset An angular offset applied to the clocking target, as a right-handed rotation
+    /// about the alignment target
+    /// @return A function returning the orientation (rotation from GCRF to the spacecraft body frame) for a given state
+    static std::function<Quaternion(const State&)> AlignAndClock(
         const Shared<const Celestial>& aCelestialSPtr,
+        const Shared<const PointingConstraint>& anAlignmentPointingConstraintSPtr,
+        const Shared<const PointingConstraint>& aClockingPointingConstraintSPtr,
         const Angle& anAngularClockingOffset = Angle::Zero()
     );
 
@@ -415,7 +477,7 @@ class Profile
 
     static Vector3d ComputeOrbitalMomentumDirectionVector(const State& aState);
 
-    static Vector3d ComputeClockingVector(const Vector3d& anAligmentVector, const Vector3d& aDesiredClockingVector);
+    static Vector3d ComputeClockingVector(const Vector3d& anAlignmentVector, const Vector3d& aDesiredClockingVector);
 };
 
 }  // namespace flight

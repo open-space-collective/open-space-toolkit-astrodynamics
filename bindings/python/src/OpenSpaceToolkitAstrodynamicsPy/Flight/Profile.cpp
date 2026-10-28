@@ -91,11 +91,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::Pointing, Shared<Profile::Pointing>>(
+    class_<Profile::PointingConstraint, Shared<Profile::PointingConstraint>>(
         profileClass,
-        "Pointing",
+        "PointingConstraint",
         R"doc(
-            Represents pointing of one axis of your spacecraft towards a target.
+            Represents a pointing constraint of one axis of your spacecraft towards a target.
 
         )doc"
     )
@@ -113,32 +113,37 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("direction_in_body_frame")
         )
 
-        .def_readonly("type", &Profile::Pointing::type, "The type of the target.")
-        .def_readonly("direction", &Profile::Pointing::direction, "The direction (unit vector) of the target.")
+        .def_readonly("type", &Profile::PointingConstraint::type, "The type of the target.")
+        .def_readonly(
+            "direction", &Profile::PointingConstraint::direction, "The direction (unit vector) of the target."
+        )
 
         ;
 
-    class_<Profile::TrajectoryPointing, Profile::Pointing, Shared<Profile::TrajectoryPointing>>(
+    class_<
+        Profile::TrajectoryPointingConstraint,
+        Profile::PointingConstraint,
+        Shared<Profile::TrajectoryPointingConstraint>>(
         profileClass,
-        "TrajectoryPointing",
+        "TrajectoryPointingConstraint",
         R"doc(
-            Represents pointing of one axis of your spacecraft towards a trajectory.
+            Represents a pointing constraint of one axis of your spacecraft towards a trajectory.
 
         )doc"
     )
 
         .def_static(
             "target_position",
-            &Profile::TrajectoryPointing::TargetPosition,
+            &Profile::TrajectoryPointingConstraint::TargetPosition,
             R"doc(
-                Create a trajectory pointing, pointing towards the provided trajectory's position.
+                Create a trajectory pointing constraint, pointing towards the provided trajectory's position.
 
                 Args:
                     trajectory (Trajectory): The trajectory to point towards.
                     direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
 
                 Returns:
-                    Profile.TrajectoryPointing: The trajectory pointing.
+                    Profile.TrajectoryPointingConstraint: The trajectory pointing constraint.
             )doc",
             arg("trajectory"),
             arg("direction_in_body_frame")
@@ -146,9 +151,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "target_velocity",
-            &Profile::TrajectoryPointing::TargetVelocity,
+            &Profile::TrajectoryPointingConstraint::TargetVelocity,
             R"doc(
-                Create a trajectory pointing, pointing towards the provided trajectory's velocity vector.
+                Create a trajectory pointing constraint, pointing towards the provided trajectory's velocity vector.
                 When choosing this as a clocking target, the resulting profile will not compensate for the rotation of the referenced celestial body (yaw compensation).
 
                 Args:
@@ -156,7 +161,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
 
                 Returns:
-                    Profile.TrajectoryPointing: The trajectory pointing.
+                    Profile.TrajectoryPointingConstraint: The trajectory pointing constraint.
             )doc",
             arg("trajectory"),
             arg("direction_in_body_frame")
@@ -164,9 +169,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_static(
             "target_sliding_ground_velocity",
-            &Profile::TrajectoryPointing::TargetSlidingGroundVelocity,
+            &Profile::TrajectoryPointingConstraint::TargetSlidingGroundVelocity,
             R"doc(
-                Create a trajectory pointing, pointing along the provided trajectory's ground velocity vector (aka the scan direction of the point sliding across the ground).
+                Create a trajectory pointing constraint, pointing along the provided trajectory's ground velocity vector (aka the scan direction of the point sliding across the ground).
                 When choosing this as a clocking target, the resulting profile will compensate for the rotation of the referenced celestial body (yaw compensation).
 
                 Args:
@@ -174,21 +179,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                     direction_in_body_frame (Vector3d): The (unit) vector in your spacecraft's body frame to point relative to the target.
 
                 Returns:
-                    Profile.TrajectoryPointing: The trajectory pointing.
+                    Profile.TrajectoryPointingConstraint: The trajectory pointing constraint.
             )doc",
             arg("trajectory"),
             arg("direction_in_body_frame")
         )
 
-        .def_readonly("trajectory", &Profile::TrajectoryPointing::trajectory, "The trajectory to point towards.")
+        .def_readonly(
+            "trajectory", &Profile::TrajectoryPointingConstraint::trajectory, "The trajectory to point towards."
+        )
 
         ;
 
-    class_<Profile::CustomProfilePointing, Profile::Pointing, Shared<Profile::CustomProfilePointing>>(
+    class_<
+        Profile::CustomProfilePointingConstraint,
+        Profile::PointingConstraint,
+        Shared<Profile::CustomProfilePointingConstraint>>(
         profileClass,
-        "CustomProfilePointing",
+        "CustomProfilePointingConstraint",
         R"doc(
-            Represents pointing of one axis of your spacecraft towards a custom pointing profile in the ECI frame.
+            Represents a pointing constraint of one axis of your spacecraft towards a custom pointing profile in the ECI frame.
             The profile is provided up front (must be known beforehand).
 
         )doc"
@@ -211,17 +221,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_readonly(
             "pointing_profile_eci",
-            &Profile::CustomProfilePointing::pointingProfileECI,
+            &Profile::CustomProfilePointingConstraint::pointingProfileECI,
             "The profile of pointing vectors in the ECI frame."
         )
 
         ;
 
-    class_<Profile::CustomProfileGeneratorPointing, Profile::Pointing, Shared<Profile::CustomProfileGeneratorPointing>>(
+    class_<
+        Profile::CustomProfileGeneratorPointingConstraint,
+        Profile::PointingConstraint,
+        Shared<Profile::CustomProfileGeneratorPointingConstraint>>(
         profileClass,
-        "CustomProfileGeneratorPointing",
+        "CustomProfileGeneratorPointingConstraint",
         R"doc(
-            Represents pointing of one axis of your spacecraft towards a custom pointing profile generator.
+            Represents a pointing constraint of one axis of your spacecraft towards a custom pointing profile generator.
             The pointing vector is generated at each timestep by a function that returns a vector in the ECI frame (does not need to be known beforehand).
 
         )doc"
@@ -242,7 +255,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         .def_readonly(
             "pointing_profile_generator_eci",
-            &Profile::CustomProfileGeneratorPointing::pointingProfileGeneratorECI,
+            &Profile::CustomProfileGeneratorPointingConstraint::pointingProfileGeneratorECI,
             "The function that generates the pointing vector in the ECI frame."
         )
 
@@ -398,21 +411,30 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             "constrained_pointing",
             &Profile::ConstrainedPointing,
             R"doc(
-                Create a profile with constrained (alignment vector + clocking vector) pointing.
+                Create a profile with constrained pointing, where the spacecraft is aligned with the alignment pointing constraint and clocked with the clocking pointing constraint.
+
+                This solves the "align and clock" (two-vector) attitude problem at each instant of the orbit. Fully defining the spacecraft attitude requires fixing 3 rotational degrees of freedom, which is done using two constraints of decreasing priority:
+
+                - Alignment (primary constraint): the body frame direction of the alignment pointing constraint is pointed exactly towards its target (e.g. the payload boresight towards geodetic nadir). This fixes 2 degrees of freedom, leaving the spacecraft free to rotate about its alignment direction.
+                - Clocking (secondary constraint): the remaining degree of freedom (the rotation about the alignment direction) is fixed by rotating the body frame direction of the clocking pointing constraint as close as possible to its target (e.g. a body axis along the ground velocity, for yaw steering).
+
+                The alignment constraint is always met exactly. The clocking constraint is only met exactly when the angle between the alignment and clocking body frame directions matches the angle between the alignment and clocking targets. Otherwise, the clocking body frame direction ends up in the plane containing the alignment and clocking targets, on the same side of the alignment target as the clocking target.
+
+                The celestial object of the orbit is used for the target types that depend on the rotation or shape of the central body (geodetic nadir, ECEF velocity and sliding ground velocity). See `align_and_clock` for details on how the orientation is computed.
 
                 Args:
                     orbit (Orbit): The orbit.
-                    alignment_pointing (Profile.Pointing): The alignment pointing.
-                    clocking_pointing (Profile.Pointing): The clocking pointing.
-                    angular_clocking_offset (Angle): The angular offset applied to the clocking pointing vector. Defaults to `Angle.Zero()`.
+                    alignment_pointing_constraint (Profile.PointingConstraint): The alignment pointing constraint (primary constraint, met exactly).
+                    clocking_pointing_constraint (Profile.PointingConstraint): The clocking pointing constraint (secondary constraint, met as closely as possible).
+                    angular_clocking_offset (Angle): The angular offset applied to the clocking target, as a right-handed rotation about the alignment target. Defaults to `Angle.Zero()`.
 
                 Returns:
                     Profile: The constrained pointing profile.
 
             )doc",
             arg("orbit"),
-            arg("alignment_pointing"),
-            arg("clocking_pointing"),
+            arg("alignment_pointing_constraint"),
+            arg("clocking_pointing_constraint"),
             arg_v("angular_clocking_offset", Angle::Zero(), "Angle.Zero()")
         )
 
@@ -424,7 +446,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
                 Args:
                     orbit (Orbit): The orbit.
-                    orientation_generator (callable[Quaternion, State]): The orientation generator. Typically used in conjunction with `align_and_constrain`.
+                    orientation_generator (callable[Quaternion, State]): The orientation generator. Typically used in conjunction with `align_and_clock`.
 
                 Returns:
                     Profile: The custom pointing profile.
@@ -435,24 +457,42 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def_static(
-            "align_and_constrain",
-            &Profile::AlignAndConstrain,
+            "align_and_clock",
+            &Profile::AlignAndClock,
             R"doc(
-                Generate a function that returns a quaternion constrained by alignment and clocking pointing vectors for each given state.
+                Generate a function that returns a quaternion constrained by alignment and clocking vectors for each given state.
+
+                The generated function solves the "align and clock" (two-vector) attitude problem: the spacecraft alignment body frame direction is pointed exactly towards the alignment target (primary constraint), and the spacecraft is then rotated about this direction so that its clocking body frame direction gets as close as possible to the clocking target (secondary constraint).
+
+                For each state, with all target directions expressed in GCRF:
+
+                1. The alignment target direction is computed from the alignment pointing constraint.
+                2. The clocking target direction is computed from the clocking pointing constraint, then projected onto the plane perpendicular to the alignment target direction, and rotated about the alignment target direction by the angular clocking offset.
+                3. The clocking body frame direction is projected onto the plane perpendicular to the alignment body frame direction.
+                4. The returned quaternion is the rotation from GCRF to the spacecraft body frame that maps the alignment target direction onto the alignment body frame direction, and the projected clocking target direction onto the projected clocking body frame direction.
+
+                The resulting attitude is undefined if the alignment and clocking target directions are colinear at a given state, as there is no unique rotation about the alignment target direction in that case.
+
+                This function is typically used in conjunction with `custom_pointing`, or directly through `constrained_pointing`.
 
                 Args:
-                    alignment_pointing (Profile.Pointing | Profile.TrajectoryPointing | Profile.CustomProfilePointing | Profile.CustomProfileGeneratorPointing): The alignment pointing.
-                    clocking_pointing (Profile.Pointing | Profile.TrajectoryPointing | Profile.CustomProfilePointing | Profile.CustomProfileGeneratorPointing): The clocking pointing.
-                    celestial (Celestial): The celestial object. Its body frame will be used for geodetic nadir and sliding ground velocity calculations.
-                    angular_clocking_offset (Angle): The angular offset applied to the clocking pointing vector. Defaults to `Angle.Zero()`.
+                    celestial (Celestial): The celestial object. Its body frame will be used for geodetic nadir, ECEF velocity and sliding ground velocity calculations.
+                    alignment_pointing_constraint (Profile.PointingConstraint | Profile.TrajectoryPointingConstraint | Profile.CustomProfilePointingConstraint | Profile.CustomProfileGeneratorPointingConstraint): The alignment pointing constraint (primary constraint, met exactly).
+                    clocking_pointing_constraint (Profile.PointingConstraint | Profile.TrajectoryPointingConstraint | Profile.CustomProfilePointingConstraint | Profile.CustomProfileGeneratorPointingConstraint): The clocking pointing constraint (secondary constraint, met as closely as possible).
+                    angular_clocking_offset (Angle): The angular offset applied to the clocking target, as a right-handed rotation about the alignment target. Defaults to `Angle.Zero()`.
 
                 Returns:
-                    callable[Quaternion, State]: The custom orientation.
+                    callable[Quaternion, State]: The orientation (rotation from GCRF to the spacecraft body frame) for a given state.
+
+                Raises:
+                    RuntimeError: If the alignment and clocking pointing constraints have the same target type (except for trajectory position and trajectory velocity targets, which can point to different trajectories).
+                    RuntimeError: If the alignment and clocking body frame directions are colinear.
+                    RuntimeError: If the alignment and clocking targets are geocentric nadir and geodetic nadir.
 
             )doc",
-            arg("alignment_pointing"),
-            arg("clocking_pointing"),
             arg("celestial"),
+            arg("alignment_pointing_constraint"),
+            arg("clocking_pointing_constraint"),
             arg_v("angular_clocking_offset", Angle::Zero(), "Angle.Zero()")
         )
 
