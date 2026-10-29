@@ -264,31 +264,27 @@ def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> P
 
 
 @pytest.fixture
-def propagator_with_maneuvers(
-    numerical_solver: NumericalSolver,
-    dynamics: list[Dynamics],
-    maneuver: Maneuver,
-) -> Propagator:
-    return Propagator(numerical_solver, dynamics, [maneuver])
+def state_with_mass(frame: Frame) -> State:
+    return State(
+        Instant.J2000() - Duration.seconds(10.0),
+        [7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 100.0],
+        frame,
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinateSubset.mass(),
+        ],
+    )
 
 
 class TestPropagator:
-    def test_constructors(
-        self, propagator: Propagator, propagator_with_maneuvers: Propagator
-    ):
+    def test_constructors(self, propagator: Propagator):
         assert propagator is not None
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
 
-        assert propagator_with_maneuvers is not None
-        assert isinstance(propagator_with_maneuvers, Propagator)
-        assert propagator_with_maneuvers.is_defined()
-
-    def test_comparators(
-        self, propagator: Propagator, propagator_with_maneuvers: Propagator
-    ):
+    def test_comparators(self, propagator: Propagator):
         assert propagator == propagator
-        assert propagator != propagator_with_maneuvers
 
     def test_access_numerical_solver(
         self, propagator: Propagator, numerical_solver: NumericalSolver
@@ -322,17 +318,6 @@ class TestPropagator:
 
         assert len(propagator.get_dynamics()) == 0
 
-    def test_add_maneuver(
-        self,
-        propagator: Propagator,
-        maneuver: Maneuver,
-    ):
-        assert len(propagator.get_dynamics()) == 2
-
-        propagator.add_maneuver(maneuver)
-
-        assert len(propagator.get_dynamics()) == 3
-
     def test_calculate_state_at(self, propagator: Propagator, state: State):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
@@ -364,6 +349,60 @@ class TestPropagator:
         )
         assert propagator_state.get_instant() == instant
 
+    def test_calculate_state_at_with_maneuvers(
+        self, propagator: Propagator, state_with_mass: State, maneuver: Maneuver
+    ):
+        instant: Instant = Instant.J2000() + Duration.seconds(200.0)
+
+        state_with_maneuver = propagator.calculate_state_at(
+            state_with_mass, instant, [maneuver]
+        )
+        state_without_maneuver = propagator.calculate_state_at(state_with_mass, instant)
+
+        assert state_with_maneuver.get_instant() == instant
+        assert state_with_maneuver != state_without_maneuver
+
+        # Keyword arguments
+        assert (
+            propagator.calculate_state_at(
+                state=state_with_mass, instant=instant, maneuvers=[maneuver]
+            ).get_instant()
+            == instant
+        )
+
+    def test_calculate_state_at_with_overlapping_maneuvers_fails(
+        self, propagator: Propagator, state_with_mass: State, maneuver: Maneuver
+    ):
+        with pytest.raises(RuntimeError):
+            propagator.calculate_state_at(
+                state_with_mass,
+                Instant.J2000() + Duration.seconds(200.0),
+                [maneuver, maneuver],
+            )
+
+    def test_calculate_state_to_condition_with_maneuvers(
+        self,
+        conditional_numerical_solver: NumericalSolver,
+        dynamics: list[Dynamics],
+        state_with_mass: State,
+        maneuver: Maneuver,
+    ):
+        propagator: Propagator = Propagator(conditional_numerical_solver, dynamics)
+
+        event_condition = InstantCondition(
+            InstantCondition.Criterion.StrictlyPositive,
+            Instant.J2000() + Duration.seconds(42.0),
+        )
+
+        solution = propagator.calculate_state_to_condition(
+            state=state_with_mass,
+            instant=Instant.J2000() + Duration.seconds(200.0),
+            event_condition=event_condition,
+            maneuvers=[maneuver],
+        )
+
+        assert solution.condition_is_satisfied
+
     def test_calculate_state_to_condition(
         self,
         conditional_numerical_solver: NumericalSolver,
@@ -385,6 +424,18 @@ class TestPropagator:
         assert pytest.approx(42.0, abs=1e-3) == float(
             (solution.state.get_instant() - state.get_instant()).in_seconds()
         )
+
+    def test_calculate_states_at_with_maneuvers(
+        self, propagator: Propagator, state_with_mass: State, maneuver: Maneuver
+    ):
+        instants = [
+            Instant.J2000() + Duration.seconds(20.0),
+            Instant.J2000() + Duration.seconds(200.0),
+        ]
+
+        states = propagator.calculate_states_at(state_with_mass, instants, [maneuver])
+
+        assert [state.get_instant() for state in states] == instants
 
     def test_calculate_states_at(self, propagator: Propagator, state: State):
         instant_array = [

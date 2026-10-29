@@ -169,8 +169,6 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
         };
 
         this->defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
-
-        this->defaultPropagatorWithManeuvers_ = {defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}};
     }
 
     const NumericalSolver defaultNumericalSolver_ = {
@@ -209,65 +207,12 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
     };
 
     const Maneuver defaultManeuver_ = {defaultManeuverStates_, Interpolator::Type::Linear};
-
-    Propagator defaultPropagatorWithManeuvers_ = Propagator::Undefined();
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constructor)
 {
     {
         EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, defaultDynamics_));
-    }
-
-    {
-        EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}));
-    }
-
-    // Check if there are any overlapping maneuvers
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Propagator(
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        {defaultManeuver_,
-                         Maneuver(
-                             {
-                                 stateGenerator(Instant::J2000() + Duration::Seconds(30.0)),
-                                 stateGenerator(Instant::J2000() + Duration::Seconds(90.0)),
-                             },
-                             Interpolator::Type::Linear
-                         )}
-                    );
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Maneuvers cannot overlap in time.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
-    }
-
-    // Check if there are any of the same maneuvers
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Propagator(defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_, defaultManeuver_});
-                }
-                catch (const ostk::core::error::RuntimeError& e)
-                {
-                    EXPECT_EQ("Maneuvers cannot be duplicated.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::RuntimeError
-        );
     }
 }
 
@@ -321,10 +266,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, EqualTo
         const Propagator propagator_1 = {numericalSolver_1, defaultDynamics_};
         EXPECT_FALSE(defaultPropagator_ == propagator_1);
     }
-
-    {
-        EXPECT_FALSE(defaultPropagator_ == defaultPropagatorWithManeuvers_);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, NotEqualToOperator)
@@ -345,20 +286,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, NotEqua
         const Propagator propagator_1 = {numericalSolver_1, defaultDynamics_};
         EXPECT_TRUE(defaultPropagator_ != propagator_1);
     }
-
-    {
-        EXPECT_TRUE(defaultPropagator_ != defaultPropagatorWithManeuvers_);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, IsDefined)
 {
     {
         EXPECT_TRUE(defaultPropagator_.isDefined());
-    }
-
-    {
-        EXPECT_TRUE(defaultPropagatorWithManeuvers_.isDefined());
     }
 
     {
@@ -408,13 +341,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessC
     }
 
     {
-        Shared<CoordinateBroker> brokerSPtr = defaultPropagatorWithManeuvers_.accessCoordinateBroker();
-        EXPECT_TRUE(brokerSPtr != nullptr);
-        EXPECT_EQ(brokerSPtr->getNumberOfCoordinates(), 7);
-        EXPECT_EQ(brokerSPtr->getNumberOfSubsets(), 3);
-    }
-
-    {
         EXPECT_ANY_THROW(Propagator::Undefined().accessCoordinateBroker());
     }
 }
@@ -434,12 +360,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Getters
 {
     {
         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
     }
 
     {
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
     }
 }
 
@@ -461,23 +385,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, SetDyna
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 0);
         EXPECT_FALSE(defaultPropagator_.isDefined());
     }
-
-    {
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
-
-        const Shared<Dynamics> centralBodyGravity = std::make_shared<CentralBodyGravity>(earthSpherical_);
-
-        defaultPropagatorWithManeuvers_.setDynamics({centralBodyGravity});
-
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 6);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 1);
-
-        defaultPropagatorWithManeuvers_.setDynamics({});
-
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 0);
-        EXPECT_FALSE(defaultPropagatorWithManeuvers_.isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddDynamics)
@@ -498,71 +405,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddDyna
         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 4);
     }
-
-    {
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
-
-        const Shared<Dynamics> centralBodyGravity = std::make_shared<CentralBodyGravity>(earthSpherical_);
-
-        defaultPropagatorWithManeuvers_.addDynamics(centralBodyGravity);
-
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 4);
-
-        defaultPropagatorWithManeuvers_.addDynamics(centralBodyGravity);
-
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 5);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddManeuvers)
-{
-    // Create another maneuver with same accelerations but non-overlapping instants
-    Array<State> secondManeuverStates = Array<State>::Empty();
-    for (const State& state : defaultManeuverStates_)
-    {
-        secondManeuverStates.add(stateGenerator(
-            state.accessInstant() + defaultManeuver_.getInterval().getDuration() + Duration::Seconds(1.0)
-        ));
-    }
-
-    const Maneuver secondManeuver = {secondManeuverStates, Interpolator::Type::Linear};
-
-    // Check adding maneuvers to a propagator that doesn't already have maneuvers
-    {
-        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
-        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
-
-        defaultPropagator_.addManeuver(defaultManeuver_);
-
-        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 3);
-
-        defaultPropagator_.addManeuver(secondManeuver);
-
-        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 4);
-    }
-
-    // Check adding maneuvers to a propagator that already has maneuvers
-    {
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
-
-        defaultPropagatorWithManeuvers_.addManeuver(secondManeuver);
-
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 4);
-    }
-
-    // Check single-state maneuvers can't be added
-    {
-        const Maneuver singleStateManeuver = {{secondManeuverStates.accessFirst()}};
-
-        EXPECT_THROW(defaultPropagator_.addManeuver(singleStateManeuver), ostk::core::error::RuntimeError);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ClearDynamics)
@@ -574,15 +416,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ClearDy
         defaultPropagator_.clearDynamics();
 
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 0);
-    }
-
-    {
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
-        EXPECT_GE(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
-
-        defaultPropagatorWithManeuvers_.clearDynamics();
-
-        EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 0);
     }
 }
 
@@ -693,7 +526,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
         EXPECT_NE(
             defaultPropagator_.calculateStateAt(stateBeforeManeuver, afterManeuverInstant),
-            defaultPropagatorWithManeuvers_.calculateStateAt(stateBeforeManeuver, afterManeuverInstant)
+            defaultPropagator_.calculateStateAt(stateBeforeManeuver, afterManeuverInstant, {defaultManeuver_})
         );
     }
 
@@ -837,18 +670,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             coordinateSubsets,
         };
 
-        const Propagator propagatorWithManeuvers = {defaultRKD5_, defaultDynamics_, {defaultManeuver_}};
-
         const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
             beforeManeuverState, afterManeuverCondition.getInstant() + Duration::Seconds(1.0), afterManeuverCondition
         );
 
-        const NumericalSolver::ConditionSolution conditionSolutionWithManeuvers =
-            propagatorWithManeuvers.calculateStateToCondition(
-                beforeManeuverState,
-                afterManeuverCondition.getInstant() + Duration::Seconds(1.0),
-                afterManeuverCondition
-            );
+        const NumericalSolver::ConditionSolution conditionSolutionWithManeuvers = propagator.calculateStateToCondition(
+            beforeManeuverState,
+            afterManeuverCondition.getInstant() + Duration::Seconds(1.0),
+            afterManeuverCondition,
+            {defaultManeuver_}
+        );
 
         EXPECT_NE(conditionSolution.state, conditionSolutionWithManeuvers.state);
     }
@@ -1125,9 +956,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             maneuverStates.add(stateGenerator(startInstant + i * Duration::Seconds(60.0), {1e-1, 1e-1, 1e-1}));
         }
 
-        // Create a maneuver and add it to the propagator
         const Maneuver maneuver = {maneuverStates, Interpolator::Type::Linear};
-        defaultPropagatorWithManeuvers_.addManeuver(maneuver);
 
         // Remove first instant from instant array so that we can check that both propagators do not produce the same
         // result
@@ -1136,7 +965,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
         // Propagate both with and without maneuvers
         const Array<State> propagatedStateArrayWithManeuvers =
-            defaultPropagatorWithManeuvers_.calculateStatesAt(maneuverState, instantArrayWithoutFirstInstant);
+            defaultPropagator_.calculateStatesAt(maneuverState, instantArrayWithoutFirstInstant, {maneuver});
 
         const Array<State> propagatedStateArray =
             defaultPropagator_.calculateStatesAt(state, instantArrayWithoutFirstInstant);
@@ -1188,6 +1017,447 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             );
 
             EXPECT_THROW(propagator.calculateStatesAt(state, {state.getInstant()}), ostk::core::error::RuntimeError);
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Maneuvers)
+{
+    const Instant epoch = Instant::J2000();
+
+    VectorXd coordinates(7);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 100.0;
+
+    const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    };
+
+    const State initialState = {epoch - Duration::Seconds(60.0), coordinates, gcrfSPtr_, coordinateSubsets};
+    const Instant endInstant = epoch + Duration::Seconds(200.0);
+
+    // The default maneuver spans [0 s, 60 s] after the epoch
+    const Maneuver secondManeuver = {
+        {
+            stateGenerator(epoch + Duration::Seconds(61.0)),
+            stateGenerator(epoch + Duration::Seconds(121.0)),
+        },
+        Interpolator::Type::Linear
+    };
+
+    // Maneuvers are validated by every way of propagating
+    {
+        const InstantCondition condition = {InstantCondition::Criterion::StrictlyPositive, endInstant};
+
+        const auto expectAllThrow = [&](const Array<Maneuver>& aManeuverArray, const String& aMessage)
+        {
+            const Array<std::function<void()>> propagations = {
+                [&]()
+                {
+                    defaultPropagator_.calculateStateAt(initialState, endInstant, aManeuverArray);
+                },
+                [&]()
+                {
+                    defaultPropagator_.calculateStatesAt(initialState, {endInstant}, aManeuverArray);
+                },
+                [&]()
+                {
+                    defaultPropagator_.calculateStateToCondition(initialState, endInstant, condition, aManeuverArray);
+                },
+            };
+
+            for (const auto& propagation : propagations)
+            {
+                try
+                {
+                    propagation();
+                    FAIL() << "Expected an exception";
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(aMessage, e.getMessage());
+                }
+            }
+        };
+
+        expectAllThrow({defaultManeuver_, defaultManeuver_}, "Maneuvers cannot be duplicated.");
+
+        const Maneuver overlappingManeuver = {
+            {
+                stateGenerator(epoch + Duration::Seconds(30.0)),
+                stateGenerator(epoch + Duration::Seconds(90.0)),
+            },
+            Interpolator::Type::Linear
+        };
+        expectAllThrow({defaultManeuver_, overlappingManeuver}, "Maneuvers cannot overlap in time.");
+        expectAllThrow({overlappingManeuver, defaultManeuver_}, "Maneuvers cannot overlap in time.");
+
+        // Touching at a single instant is an overlap too
+        const Maneuver touchingManeuver = {
+            {
+                stateGenerator(epoch + Duration::Seconds(60.0)),
+                stateGenerator(epoch + Duration::Seconds(90.0)),
+            },
+            Interpolator::Type::Linear
+        };
+        expectAllThrow({defaultManeuver_, touchingManeuver}, "Maneuvers cannot overlap in time.");
+
+        // A maneuver needs at least two states
+        const Maneuver singleStateManeuver = {{stateGenerator(epoch + Duration::Seconds(300.0))}};
+        EXPECT_THROW(
+            defaultPropagator_.calculateStateAt(initialState, endInstant, {singleStateManeuver}),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // Maneuvers need the mass to be in the state
+    {
+        const State stateWithoutMass = {
+            epoch - Duration::Seconds(60.0),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+        };
+
+        EXPECT_NO_THROW(defaultPropagator_.calculateStateAt(stateWithoutMass, endInstant));
+        EXPECT_ANY_THROW(defaultPropagator_.calculateStateAt(stateWithoutMass, endInstant, {defaultManeuver_}));
+    }
+
+    // The order the maneuvers are given in does not matter
+    {
+        const State state =
+            defaultPropagator_.calculateStateAt(initialState, endInstant, {defaultManeuver_, secondManeuver});
+        const State reversedState =
+            defaultPropagator_.calculateStateAt(initialState, endInstant, {secondManeuver, defaultManeuver_});
+
+        EXPECT_EQ(state, reversedState);
+        EXPECT_NE(state, defaultPropagator_.calculateStateAt(initialState, endInstant));
+    }
+
+    // Maneuvers outside the propagated interval have no effect
+    {
+        const Instant beforeManeuverInstant = epoch - Duration::Seconds(30.0);
+
+        EXPECT_EQ(
+            defaultPropagator_.calculateStateAt(
+                initialState, beforeManeuverInstant, {defaultManeuver_, secondManeuver}
+            ),
+            defaultPropagator_.calculateStateAt(initialState, beforeManeuverInstant)
+        );
+    }
+
+    // The interpolation type of a maneuver is what is used to evaluate its profile while propagating
+    {
+        const Array<State> states = {
+            stateGenerator(epoch + Duration::Seconds(0.0), {0.0, 0.0, 0.0}, -1.0e-5),
+            stateGenerator(epoch + Duration::Seconds(30.0), {1.0e-2, 0.0, 0.0}, -1.0e-5),
+            stateGenerator(epoch + Duration::Seconds(60.0), {0.0, 0.0, 0.0}, -1.0e-5),
+            stateGenerator(epoch + Duration::Seconds(90.0), {0.0, 1.0e-2, 0.0}, -1.0e-5),
+        };
+
+        const State linearState = defaultPropagator_.calculateStateAt(
+            initialState, endInstant, {Maneuver(states, Interpolator::Type::Linear)}
+        );
+        const State rationalState = defaultPropagator_.calculateStateAt(
+            initialState, endInstant, {Maneuver(states, Interpolator::Type::BarycentricRational)}
+        );
+        const State defaultState = defaultPropagator_.calculateStateAt(initialState, endInstant, {Maneuver(states)});
+
+        EXPECT_NE(linearState, rationalState);
+        EXPECT_EQ(rationalState, defaultState);
+    }
+
+    // Propagating with maneuvers does not modify the propagator
+    {
+        const Propagator reference = defaultPropagator_;
+
+        defaultPropagator_.calculateStateAt(initialState, endInstant, {defaultManeuver_});
+
+        EXPECT_EQ(defaultPropagator_, reference);
+        EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
+        EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortManeuvers)
+{
+    // A 2 s maneuver that starts 31 s after the epoch: shorter than the 30 s fixed step below, and it falls between
+    // the stages of a step that starts at the epoch, so an integrator that is unaware of it never samples the thrust.
+    const Instant epoch = Instant::J2000();
+    const Real acceleration = 1.0;
+    const Real massFlowRate = -1.0e-3;
+    const Real initialMass = 100.0;
+
+    const Maneuver maneuver = {
+        {
+            stateGenerator(epoch + Duration::Seconds(31.0), {acceleration, 0.0, 0.0}, massFlowRate),
+            stateGenerator(epoch + Duration::Seconds(32.0), {acceleration, 0.0, 0.0}, massFlowRate),
+            stateGenerator(epoch + Duration::Seconds(33.0), {acceleration, 0.0, 0.0}, massFlowRate),
+        },
+        Interpolator::Type::Linear
+    };
+
+    const Real maneuverDeltaV = maneuver.calculateDeltaV();
+    const Real maneuverDeltaMass = maneuver.calculateDeltaMass().inKilograms();
+    EXPECT_DOUBLE_EQ(maneuverDeltaV, 2.0);
+    EXPECT_DOUBLE_EQ(maneuverDeltaMass, 2.0e-3);
+
+    // The same kind of maneuver, but with instants that are not whole seconds, to exercise the reconstruction of the
+    // instants at the boundaries
+    const Maneuver fractionalManeuver = {
+        {
+            stateGenerator(epoch + Duration::Seconds(31.123456789), {acceleration, 0.0, 0.0}, massFlowRate),
+            stateGenerator(epoch + Duration::Seconds(32.000000123), {acceleration, 0.0, 0.0}, massFlowRate),
+            stateGenerator(epoch + Duration::Seconds(33.987654321), {acceleration, 0.0, 0.0}, massFlowRate),
+        },
+        Interpolator::Type::Linear
+    };
+
+    const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    };
+
+    const auto stateAt = [&](const Duration& anOffset, const Real& aMass) -> State
+    {
+        VectorXd coordinates(7);
+        coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, aMass;
+
+        return {epoch + anOffset, coordinates, gcrfSPtr_, coordinateSubsets};
+    };
+
+    const auto massOf = [](const State& aState) -> double
+    {
+        return aState.extractCoordinate(CoordinateSubset::Mass())[0];
+    };
+
+    const Array<NumericalSolver> numericalSolvers = {
+        NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKutta4, 30.0),
+        defaultRKD5_,
+        defaultNumericalSolver_,
+    };
+
+    for (const NumericalSolver& numericalSolver : numericalSolvers)
+    {
+        const Propagator propagator = {numericalSolver, defaultDynamics_};
+
+        // calculateStateAt: the whole maneuver is applied, once
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const Instant endInstant = epoch + Duration::Seconds(40.0);
+
+            const State coastState = propagator.calculateStateAt(initialState, endInstant);
+            const State maneuverState = propagator.calculateStateAt(initialState, endInstant, {maneuver});
+
+            EXPECT_EQ(maneuverState.accessInstant(), endInstant);
+            EXPECT_NEAR(massOf(maneuverState), initialMass - maneuverDeltaMass, 1e-9);
+
+            const Vector3d deltaVelocity = maneuverState.extractCoordinate(CartesianVelocity::Default()) -
+                                           coastState.extractCoordinate(CartesianVelocity::Default());
+            EXPECT_NEAR(deltaVelocity(0), maneuverDeltaV, 1e-2);
+            EXPECT_NEAR(deltaVelocity(1), 0.0, 1e-2);
+            EXPECT_NEAR(deltaVelocity(2), 0.0, 1e-2);
+        }
+
+        // calculateStatesAt: before, during, exactly at the end of, and after the maneuver
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const Array<Instant> instants = {
+                epoch + Duration::Seconds(20.0),
+                epoch + Duration::Seconds(32.0),
+                epoch + Duration::Seconds(33.0),
+                epoch + Duration::Seconds(40.0),
+            };
+            const Array<double> expectedMasses = {
+                initialMass,
+                initialMass - 0.5 * maneuverDeltaMass,
+                initialMass - maneuverDeltaMass,
+                initialMass - maneuverDeltaMass,
+            };
+
+            const Array<State> states = propagator.calculateStatesAt(initialState, instants, {maneuver});
+
+            ASSERT_EQ(states.getSize(), instants.getSize());
+            for (Size i = 0; i < states.getSize(); ++i)
+            {
+                EXPECT_EQ(states[i].accessInstant(), instants[i]);
+                EXPECT_NEAR(massOf(states[i]), expectedMasses[i], 1e-9) << "instant index " << i;
+            }
+        }
+
+        // calculateStatesAt backwards: the maneuver is un-applied
+        {
+            const State initialState = stateAt(Duration::Seconds(40.0), initialMass - maneuverDeltaMass);
+            const Array<Instant> instants = {
+                epoch + Duration::Seconds(20.0),
+                epoch + Duration::Seconds(32.0),
+                epoch + Duration::Seconds(33.0),
+            };
+            const Array<double> expectedMasses = {
+                initialMass,
+                initialMass - 0.5 * maneuverDeltaMass,
+                initialMass - maneuverDeltaMass,
+            };
+
+            const Array<State> states = propagator.calculateStatesAt(initialState, instants, {maneuver});
+
+            ASSERT_EQ(states.getSize(), instants.getSize());
+            for (Size i = 0; i < states.getSize(); ++i)
+            {
+                EXPECT_EQ(states[i].accessInstant(), instants[i]);
+                EXPECT_NEAR(massOf(states[i]), expectedMasses[i], 1e-9) << "instant index " << i;
+            }
+
+            EXPECT_NEAR(
+                massOf(propagator.calculateStateAt(initialState, epoch + Duration::Seconds(20.0), {maneuver})),
+                initialMass,
+                1e-9
+            );
+        }
+
+        // Starting in the middle of the maneuver applies only the remainder
+        {
+            const State initialState = stateAt(Duration::Seconds(32.0), initialMass);
+
+            EXPECT_NEAR(
+                massOf(propagator.calculateStateAt(initialState, epoch + Duration::Seconds(40.0), {maneuver})),
+                initialMass - 0.5 * maneuverDeltaMass,
+                1e-9
+            );
+        }
+
+        // calculateStateToCondition: the maneuver is applied before the condition is reached
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const InstantCondition condition = {
+                InstantCondition::Criterion::StrictlyPositive,
+                epoch + Duration::Seconds(40.0),
+            };
+
+            const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+                initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
+            );
+
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            EXPECT_NEAR(massOf(conditionSolution.state), initialMass - maneuverDeltaMass, 1e-9);
+        }
+
+        // calculateStateToCondition: an event in the middle of the maneuver
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const InstantCondition condition = {
+                InstantCondition::Criterion::StrictlyPositive,
+                epoch + Duration::Seconds(32.0),
+            };
+
+            const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+                initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
+            );
+
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            EXPECT_NEAR(massOf(conditionSolution.state), initialMass - 0.5 * maneuverDeltaMass, 1e-5);
+        }
+
+        // calculateStateToCondition: the propagation ends exactly at, or in the middle of, the last maneuver
+        for (const Maneuver& lastManeuver : {maneuver, fractionalManeuver})
+        {
+            const Instant maneuverStartInstant = lastManeuver.getInterval().getStart();
+            const Instant maneuverEndInstant = lastManeuver.getInterval().getEnd();
+
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const InstantCondition neverSatisfiedCondition = {
+                InstantCondition::Criterion::StrictlyPositive,
+                epoch + Duration::Seconds(1000.0),
+            };
+
+            for (const Instant& endInstant :
+                 {maneuverEndInstant, maneuverStartInstant + (maneuverEndInstant - maneuverStartInstant) / 2.0})
+            {
+                const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+                    initialState, endInstant, neverSatisfiedCondition, {lastManeuver}
+                );
+
+                EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+                EXPECT_NEAR((conditionSolution.state.accessInstant() - endInstant).inSeconds(), 0.0, 1e-6);
+                EXPECT_NEAR(
+                    massOf(conditionSolution.state),
+                    initialMass + massFlowRate * (endInstant - maneuverStartInstant).inSeconds(),
+                    1e-9
+                );
+            }
+        }
+
+        // calculateStateToCondition backwards: the maneuver is un-applied before the condition is reached
+        {
+            const State initialState = stateAt(Duration::Seconds(40.0), initialMass - maneuverDeltaMass);
+
+            // Strictly negative is the criterion that triggers when propagating towards earlier instants
+            const InstantCondition conditionBeforeManeuver = {
+                InstantCondition::Criterion::StrictlyNegative,
+                epoch + Duration::Seconds(20.0),
+            };
+
+            const NumericalSolver::ConditionSolution solutionBeforeManeuver =
+                propagator.calculateStateToCondition(initialState, epoch, conditionBeforeManeuver, {maneuver});
+
+            EXPECT_TRUE(solutionBeforeManeuver.conditionIsSatisfied);
+            EXPECT_LT(
+                std::abs(
+                    (solutionBeforeManeuver.state.accessInstant() - conditionBeforeManeuver.getInstant()).inSeconds()
+                ),
+                1e-3
+            );
+            EXPECT_NEAR(massOf(solutionBeforeManeuver.state), initialMass, 1e-9);
+
+            const InstantCondition conditionInManeuver = {
+                InstantCondition::Criterion::StrictlyNegative,
+                epoch + Duration::Seconds(32.0),
+            };
+
+            const NumericalSolver::ConditionSolution solutionInManeuver =
+                propagator.calculateStateToCondition(initialState, epoch, conditionInManeuver, {maneuver});
+
+            EXPECT_TRUE(solutionInManeuver.conditionIsSatisfied);
+            EXPECT_LT(
+                std::abs((solutionInManeuver.state.accessInstant() - conditionInManeuver.getInstant()).inSeconds()),
+                1e-3
+            );
+            EXPECT_NEAR(massOf(solutionInManeuver.state), initialMass - 0.5 * maneuverDeltaMass, 1e-5);
+        }
+
+        // Several maneuvers, given out of order
+        {
+            const Maneuver laterManeuver = {
+                {
+                    stateGenerator(epoch + Duration::Seconds(51.0), {acceleration, 0.0, 0.0}, massFlowRate),
+                    stateGenerator(epoch + Duration::Seconds(52.0), {acceleration, 0.0, 0.0}, massFlowRate),
+                    stateGenerator(epoch + Duration::Seconds(53.0), {acceleration, 0.0, 0.0}, massFlowRate),
+                },
+                Interpolator::Type::Linear
+            };
+
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const Array<Instant> instants = {
+                epoch + Duration::Seconds(45.0),
+                epoch + Duration::Seconds(52.0),
+                epoch + Duration::Seconds(60.0),
+            };
+            const Array<double> expectedMasses = {
+                initialMass - maneuverDeltaMass,
+                initialMass - 1.5 * maneuverDeltaMass,
+                initialMass - 2.0 * maneuverDeltaMass,
+            };
+
+            const Array<State> states = propagator.calculateStatesAt(initialState, instants, {laterManeuver, maneuver});
+
+            ASSERT_EQ(states.getSize(), instants.getSize());
+            for (Size i = 0; i < states.getSize(); ++i)
+            {
+                EXPECT_NEAR(massOf(states[i]), expectedMasses[i], 1e-9) << "instant index " << i;
+            }
         }
     }
 }
