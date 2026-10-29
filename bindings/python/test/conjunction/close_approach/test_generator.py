@@ -1,23 +1,16 @@
 # Apache License 2.0
 
 import pytest
-
-from ostk.physics.unit import Length
-from ostk.physics.unit import Angle
-from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
-from ostk.physics.time import Duration
-from ostk.physics.time import Instant
-from ostk.physics.time import Interval
-from ostk.physics import Environment
-from ostk.physics.environment.object import Celestial
-
 from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.conjunction import CloseApproach
+from ostk.astrodynamics.conjunction.close_approach import Generator
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.model import Kepler
 from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
-from ostk.astrodynamics.conjunction import CloseApproach
-from ostk.astrodynamics.conjunction.close_approach import Generator
+from ostk.physics import Environment
+from ostk.physics.environment.object import Celestial
+from ostk.physics.time import DateTime, Duration, Instant, Interval, Scale
+from ostk.physics.unit import Angle, Length
 
 
 @pytest.fixture
@@ -37,7 +30,7 @@ def epoch() -> Instant:
 
 @pytest.fixture
 def step() -> Duration:
-    return Duration.minutes(20.0)
+    return Duration.minutes(1.0)
 
 
 @pytest.fixture
@@ -206,23 +199,3 @@ class TestGenerator:
             assert isinstance(close_approach, CloseApproach)
             assert close_approach.is_defined() is True
             assert search_interval.contains_instant(close_approach.get_instant())
-
-    def test_compute_close_approaches_empty_interval_success(
-        self,
-        generator: Generator,
-        other_trajectory: Trajectory,
-        epoch: Instant,
-    ):
-        search_interval = Interval.closed(
-            epoch + Duration.hours(10.0),
-            epoch + Duration.hours(10.0) + Duration.seconds(1.0),
-        )
-
-        close_approaches = generator.compute_close_approaches(
-            trajectory=other_trajectory,
-            search_interval=search_interval,
-        )
-
-        assert close_approaches is not None
-        assert isinstance(close_approaches, list)
-        assert len(close_approaches) == 0

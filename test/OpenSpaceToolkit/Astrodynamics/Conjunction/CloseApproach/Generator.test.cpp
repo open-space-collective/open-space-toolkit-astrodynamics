@@ -511,7 +511,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator_CDM, C
         KeplerPerturbationType::J4
     );
 
-    const Generator generator(referenceTrajectory, Duration::Seconds(60.0), Duration::Seconds(1.0e-3));
+    const Generator generator(referenceTrajectory, Duration::Seconds(1.0), Duration::Seconds(1.0e-3));
 
     const Array<CloseApproach> closeApproaches = generator.computeCloseApproaches(
         otherObjectTrajectory, Interval::Closed(tca - Duration::Seconds(10.0), tca + Duration::Seconds(10.0))
@@ -544,7 +544,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator_CDM, C
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, ComputeCloseApproaches_CoLocatedStates)
 {
-    const Generator generator = Generator(referenceTrajectory_);
+    const Generator generator = Generator(referenceTrajectory_, Duration::Seconds(1.0));
 
     EXPECT_THROW(
         try {

@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <boost/log/trivial.hpp>
 #include <boost/math/tools/roots.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -22,6 +23,32 @@ TemporalConditionSolver::TemporalConditionSolver(
       tolerance_(aTolerance),
       maximumIterationCount_(aMaximumIterationCount)
 {
+    if (!timeStep_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Time step");
+    }
+
+    if (!timeStep_.isStrictlyPositive())
+    {
+        throw ostk::core::error::RuntimeError("Time step [{}] must be strictly positive.", timeStep_.toString());
+    }
+
+    if (!tolerance_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tolerance");
+    }
+
+    if (!tolerance_.isStrictlyPositive())
+    {
+        throw ostk::core::error::RuntimeError("Tolerance [{}] must be strictly positive.", tolerance_.toString());
+    }
+
+    if (tolerance_ >= timeStep_)
+    {
+        throw ostk::core::error::RuntimeError(
+            "Tolerance [{}] must be smaller than time step [{}].", tolerance_.toString(), timeStep_.toString()
+        );
+    }
 }
 
 Duration TemporalConditionSolver::getTimeStep() const
@@ -53,6 +80,15 @@ Array<Interval> TemporalConditionSolver::solve(
     if (!anInterval.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Interval");
+    }
+
+    const Duration intervalDuration = anInterval.getDuration();
+
+    if (timeStep_ > intervalDuration)
+    {
+        BOOST_LOG_TRIVIAL(warning) << "Time step [" << timeStep_.toString() << "] is larger than interval duration ["
+                                   << intervalDuration.toString()
+                                   << "]: condition switches within the interval may be missed.";
     }
 
     Array<Interval> intervals = Array<Interval>::Empty();

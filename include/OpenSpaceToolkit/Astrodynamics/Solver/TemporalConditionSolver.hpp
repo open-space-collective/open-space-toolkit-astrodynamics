@@ -51,8 +51,9 @@ class TemporalConditionSolver
     ///
     /// @param aTimeStep A time step used to generate the temporal grid, within which condition switching instants are
     /// searched. This must be set to be smaller than the smallest expected interval over which the condition changes
-    /// state in order to avoid missing any switching instants.
-    /// @param aTolerance A temporal tolerance used to determine the switching instant.
+    /// state in order to avoid missing any switching instants. Must be strictly positive.
+    /// @param aTolerance A temporal tolerance used to determine the switching instant. Must be strictly positive and
+    /// smaller than the time step.
     /// @param aMaximumIterationCount The maximum iteration count for the solver.
     TemporalConditionSolver(
         const Duration& aTimeStep,
@@ -92,6 +93,9 @@ class TemporalConditionSolver
 
     /// @brief Find the intervals over which the provided condition is true.
     ///
+    /// @note A warning is logged if the time step is larger than the interval duration, as condition switches within
+    /// the interval may be missed.
+    ///
     /// @code{.cpp}
     ///     TemporalConditionSolver solver = { Duration::Minutes(1.0), Duration::Microseconds(1.0) } ;
     ///     auto condition = [](const Instant& instant) { return true ; } ;
@@ -104,6 +108,9 @@ class TemporalConditionSolver
     Array<Interval> solve(const TemporalConditionSolver::Condition& aCondition, const Interval& anInterval) const;
 
     /// @brief Find the intervals over which all provided conditions are true.
+    ///
+    /// @note A warning is logged if the time step is larger than the interval duration, as condition switches within
+    /// the interval may be missed.
     ///
     /// @code{.cpp}
     ///     TemporalConditionSolver solver = { Duration::Minutes(1.0), Duration::Microseconds(1.0) } ;
