@@ -1000,7 +1000,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
     // The interpolation type is preserved
     {
         const Maneuver newManeuver = Maneuver(defaultStates_, Interpolator::Type::Linear)
-                                         .toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactorySPtr);
+                                         .toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
 
         EXPECT_EQ(newManeuver.getInterpolationType(), Interpolator::Type::Linear);
     }
