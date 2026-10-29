@@ -46,21 +46,17 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
 
-Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
-    : dynamicsContexts_(),
-      numericalSolver_(aNumericalSolver)
-{
-    this->setDynamics(aDynamicsArray);
-}
-
 Propagator::Propagator(
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Array<Maneuver>& aManeuverArray,
-    const Interpolator::Type& anInterpolationType
+    const Interpolator::Type& aManeuverInterpolationType
 )
-    : Propagator(aNumericalSolver, aDynamicsArray)
+    : dynamicsContexts_(),
+      numericalSolver_(aNumericalSolver)
 {
+    this->setDynamics(aDynamicsArray);
+
     for (const Maneuver& maneuver : aManeuverArray)
     {
         // Check if the maneuver's first and last instants overlap with any other maneuver
@@ -87,7 +83,7 @@ Propagator::Propagator(
         {
             throw ostk::core::error::RuntimeError("Maneuvers cannot be duplicated.");
         }
-        this->addManeuver(maneuver, anInterpolationType);
+        this->addManeuver(maneuver, aManeuverInterpolationType);
     }
 }
 

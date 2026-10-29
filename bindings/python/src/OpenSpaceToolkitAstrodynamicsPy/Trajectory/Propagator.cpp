@@ -32,44 +32,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     )
 
         .def(
-            init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
-            arg("numerical_solver"),
-            arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
-            R"doc(
-                Construct a new `Propagator` object.
-
-                Args:
-                    numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (list[Dynamics], optional) The dynamics.
-
-                Returns:
-                    Propagator: The new `Propagator` object.
-
-            )doc"
-        )
-
-        .def(
             init<
                 const NumericalSolver&,
                 const Array<Shared<Dynamics>>&,
                 const Array<Maneuver>&,
                 const Interpolator::Type&>(),
             arg("numerical_solver"),
-            arg("dynamics"),
-            arg("maneuvers"),
+            arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             arg_v(
-                "interpolation_type",
+                "maneuver_interpolation_type",
                 DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
                 "Interpolator.Type.BarycentricRational"
             ),
             R"doc(
-                Construct a new `Propagator` object with maneuvers.
+                Construct a new `Propagator` object.
 
                 Args:
                     numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (list[Dynamics]) The dynamics.
-                    maneuvers (list[Maneuver]) The maneuvers.
-                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
+                    dynamics (list[Dynamics], optional) The dynamics (only non-maneuvering dynamics should be added here). Defaults to an empty list.
+                    maneuvers (list[Maneuver], optional) The maneuvers. Defaults to an empty list.
+                    maneuver_interpolation_type (Interpolator.Type, optional) The interpolation type used for the maneuvers. Defaults to Barycentric Rational.
 
                 Returns:
                     Propagator: The new `Propagator` object.

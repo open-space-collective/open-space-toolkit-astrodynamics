@@ -19,30 +19,12 @@ namespace model
 Tabulated::Tabulated(
     const Array<State>& aStateArray,
     const Integer& anInitialRevolutionNumber,
-    const Interpolator::Type& anInterpolationType
-)
-    : Tabulated(aStateArray, anInitialRevolutionNumber, anInterpolationType, Frame::GCRF())
-{
-}
-
-Tabulated::Tabulated(
-    const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
     const Interpolator::Type& anInterpolationType,
     const Shared<const Frame>& aFrameSPtr
 )
     : trajectory::orbit::Model(),
       trajectory::model::Tabulated(aStateArray, anInterpolationType, aFrameSPtr),
       initialRevolutionNumber_(anInitialRevolutionNumber)
-{
-}
-
-Tabulated::Tabulated(
-    const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
-)
-    : Tabulated(aStateArray, anInitialRevolutionNumber, anInterpolationTypeMap, Frame::GCRF())
 {
 }
 
@@ -112,11 +94,6 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     trajectory::model::Tabulated::print(anOutputStream, displayDecorator);
-}
-
-Tabulated Tabulated::Default(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
-{
-    return Tabulated(aStateArray, anInitialRevolutionNumber, trajectory::model::Tabulated::DefaultInterpolationTypes());
 }
 
 Tabulated Tabulated::Default(

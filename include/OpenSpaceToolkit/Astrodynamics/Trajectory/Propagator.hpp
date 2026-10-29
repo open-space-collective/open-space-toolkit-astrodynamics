@@ -56,30 +56,20 @@ class Propagator
     ///
     /// @code{.cpp}
     ///              Propagator propagator = { aNumericalSolver, aDynamicsArray };
-    /// @endcode
-    ///
-    /// @param aNumericalSolver A numerical solver
-    /// @param aDynamicsArray A dynamics array
-    Propagator(
-        const NumericalSolver& aNumericalSolver,
-        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
-    );
-
-    /// @brief Constructor with Maneuvers
-    ///
-    /// @code{.cpp}
     ///              Propagator propagator = { aNumericalSolver, aDynamicsArray, aManeuverArray };
     /// @endcode
     ///
     /// @param aNumericalSolver A numerical solver
-    /// @param aDynamicsArray A dynamics array (only non-maneuvering dynamics should be added here)
+    /// @param aDynamicsArray A dynamics array (only non-maneuvering dynamics should be added here). Defaults to empty.
     /// @param aManeuverArray A maneuver array (don't add tabulated dynamics to the dynamics array, add them here in the
-    /// form of maneuvers instead)
+    /// form of maneuvers instead). Defaults to empty.
+    /// @param aManeuverInterpolationType The interpolation type used for the maneuvers' tabulated dynamics. Defaults
+    /// to BarycentricRational.
     Propagator(
         const NumericalSolver& aNumericalSolver,
-        const Array<Shared<Dynamics>>& aDynamicsArray,
-        const Array<Maneuver>& aManeuverArray,
-        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
+        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
+        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty(),
+        const Interpolator::Type& aManeuverInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
     );
 
     /// @brief Copy constructor

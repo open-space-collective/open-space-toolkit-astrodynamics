@@ -40,33 +40,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
         )
 
             .def(
-                init<TLE>(),
+                init<const TLE&, const Shared<const Frame>&>(),
                 R"doc(
-                    Constructor.
-
-                    Args:
-                        tle (TLE): The TLE.
-
-                )doc",
-                arg("tle")
-            )
-
-            .def(
-                init<TLE, Shared<const Frame>>(),
-                R"doc(
+                    Construct an SGP4 model from a TLE and an output frame.
                     If TEME, the runtime is faster as no frame transformations are needed.
 
                     Args:
                         tle (TLE): The TLE.
-                        output_frame (Frame): The output frame for state calculations.
+                        output_frame (Frame, optional): The output frame for state calculations. Defaults to TEME.
 
                 )doc",
                 arg("tle"),
-                arg("output_frame")
+                arg_v("output_frame", DEFAULT_SGP4_OUTPUT_FRAME, "Frame.TEME()")
             )
 
             .def(
-                init<Array<TLE>, Shared<const Frame>>(),
+                init<const Array<TLE>&, const Shared<const Frame>&>(),
                 R"doc(
                     Construct an SGP4 model from an array of TLEs and an output frame.
                     When multiple TLEs are provided, validity intervals are automatically generated
@@ -76,14 +65,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                     Args:
                         tles (list[TLE]): The list of TLEs.
-                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
+                        output_frame (Frame, optional): The output frame for state calculations. Defaults to TEME.
                 )doc",
                 arg("tles"),
-                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+                arg_v("output_frame", DEFAULT_SGP4_OUTPUT_FRAME, "Frame.TEME()")
             )
 
             .def(
-                init<Array<Pair<TLE, Interval>>, Shared<const Frame>>(),
+                init<const Array<Pair<TLE, Interval>>&, const Shared<const Frame>&>(),
                 R"doc(
                     Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
                     Each pair specifies a TLE and the time interval over which it is valid.
@@ -92,10 +81,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                     Args:
                         tles_with_intervals (list[tuple[TLE, Interval]]): The array of TLE-Interval pairs.
-                        output_frame (Frame): The output frame for state calculations. Defaults to TEME.
+                        output_frame (Frame, optional): The output frame for state calculations. Defaults to TEME.
                 )doc",
                 arg("tles_with_intervals"),
-                arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+                arg_v("output_frame", DEFAULT_SGP4_OUTPUT_FRAME, "Frame.TEME()")
             )
 
             .def(

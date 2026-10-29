@@ -29,13 +29,8 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr)
-    : AtmosphericDrag(aCelestialSPtr, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName()))
-{
-}
-
-AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr, const String& aName)
-    : Dynamics(aName),
+AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr, const std::optional<String>& aName)
+    : Dynamics(aName.has_value() ? aName.value() : String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName())),
       celestialObjectSPtr_(aCelestialSPtr)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->atmosphericModelIsDefined())

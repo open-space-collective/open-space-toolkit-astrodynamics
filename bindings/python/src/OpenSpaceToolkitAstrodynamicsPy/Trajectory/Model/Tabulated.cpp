@@ -29,47 +29,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
     )
 
         .def(
-            init<const Array<State>&, const Interpolator::Type&>(),
-            R"doc(
-                Constructor.
-
-                Args:
-                    states (list[State]): The states of the model.
-                    interpolation_type (Interpolator.Type): The type of interpolation to use. Defaults to Linear.
-            )doc",
-            arg("states"),
-            arg_v("interpolation_type", Interpolator::Type::Linear, "Interpolator.Type.Linear")
-        )
-
-        .def(
             init<const Array<State>&, const Interpolator::Type&, const Shared<const Frame>&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     states (list[State]): The states of the model.
-                    interpolation_type (Interpolator.Type): The type of interpolation to use.
-                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
+                    interpolation_type (Interpolator.Type, optional): The type of interpolation to use. Defaults to Linear.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
              )doc",
             arg("states"),
-            arg("interpolation_type"),
-            arg("output_frame")
-        )
-
-        .def(
-            init<const Array<State>&, const Map<Shared<const CoordinateSubset>, Interpolator::Type>&>(),
-            R"doc(
-                Constructor with per-coordinate-subset interpolation types.
-
-                Each coordinate is interpolated using the interpolation type associated with the coordinate subset
-                it belongs to.
-
-                Args:
-                    states (list[State]): The states of the model.
-                    interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
-             )doc",
-            arg("states"),
-            arg("interpolation_types")
+            arg_v("interpolation_type", DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE, "Interpolator.Type.Linear"),
+            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
         )
 
         .def(
@@ -86,11 +57,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                 Args:
                     states (list[State]): The states of the model.
                     interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
-                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
              )doc",
             arg("states"),
             arg("interpolation_types"),
-            arg("output_frame")
+            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
         )
 
         .def(
@@ -213,7 +184,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
         .def_static(
             "default",
-            overload_cast<const Array<State>&>(&Tabulated::Default),
+            &Tabulated::Default,
             R"doc(
                 Construct a tabulated model using the default per-coordinate-subset interpolation types.
 
@@ -223,32 +194,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Args:
                     states (list[State]): The states of the model.
-
-                Returns:
-                    Tabulated: A tabulated model using the default interpolation types.
-             )doc",
-            arg("states")
-        )
-
-        .def_static(
-            "default",
-            overload_cast<const Array<State>&, const Shared<const Frame>&>(&Tabulated::Default),
-            R"doc(
-                Construct a tabulated model using the default per-coordinate-subset interpolation types.
-
-                Each coordinate subset present in the states is interpolated using its default interpolation type
-                (barycentric rational for position, velocity, acceleration, attitude, angular velocity and mass;
-                zero-order for drag coefficient, surface area, mass flow rate and ballistic coefficient).
-
-                Args:
-                    states (list[State]): The states of the model.
-                    output_frame (Frame): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
 
                 Returns:
                     Tabulated: A tabulated model using the default interpolation types.
              )doc",
             arg("states"),
-            arg("output_frame")
+            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
         )
 
         ;

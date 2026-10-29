@@ -21,15 +21,13 @@ using ostk::physics::coordinate::Position;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
-    : CentralBodyGravity(
-          aCelestialObjectSPtr, String::Format("Central Body Gravity [{}]", aCelestialObjectSPtr->getName())
-      )
-{
-}
-
-CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr, const String& aName)
-    : Dynamics(aName),
+CentralBodyGravity::CentralBodyGravity(
+    const Shared<const Celestial>& aCelestialObjectSPtr, const std::optional<String>& aName
+)
+    : Dynamics(
+          aName.has_value() ? aName.value()
+                            : String::Format("Central Body Gravity [{}]", aCelestialObjectSPtr->getName())
+      ),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->gravitationalModelIsDefined())

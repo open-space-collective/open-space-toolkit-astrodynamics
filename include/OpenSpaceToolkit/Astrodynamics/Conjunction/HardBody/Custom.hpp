@@ -57,9 +57,10 @@ class Custom : public HardBody
     /// the vertex frame axes.
     using VertexGenerator = std::function<Array<Vertex>(const State&)>;
 
-    /// @brief Constructor, with vertices expressed in a frame
+    /// @brief Constructor
     ///
-    /// @details Raises an Undefined error if the vertex generator or the frame is undefined.
+    /// @details The vertices are expressed either in a fixed frame, or in a local orbital frame generated from the
+    /// state by a factory. Raises an Undefined error if the vertex generator, the frame or the factory is undefined.
     ///
     /// @code{.cpp}
     ///              // Cube of side 2.0 m, with edges aligned with the GCRF axes
@@ -74,25 +75,17 @@ class Custom : public HardBody
     ///              } ;
     ///
     ///              Custom custom = { vertexGenerator, Frame::GCRF() } ;
-    /// @endcode
     ///
-    /// @param aVertexGenerator A vertex generator
-    /// @param aFrameSPtr A vertex frame
-    Custom(const VertexGenerator& aVertexGenerator, const Shared<const Frame>& aFrameSPtr);
-
-    /// @brief Constructor, with vertices expressed in a local orbital frame
-    ///
-    /// @details The vertex frame is generated from the state by the factory. Raises an Undefined error if the
-    /// vertex generator or the factory is undefined.
-    ///
-    /// @code{.cpp}
     ///              // Same cube, with edges aligned with the VNC axes
-    ///              Custom custom = { vertexGenerator, LocalOrbitalFrameFactory::VNC(Frame::GCRF()) } ;
+    ///              Custom lofCustom = { vertexGenerator, LocalOrbitalFrameFactory::VNC(Frame::GCRF()) } ;
     /// @endcode
     ///
     /// @param aVertexGenerator A vertex generator
-    /// @param aLocalOrbitalFrameFactory A local orbital frame factory generating the vertex frame
-    Custom(const VertexGenerator& aVertexGenerator, const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory);
+    /// @param aFrameOrLOFFactory A vertex frame, or a local orbital frame factory generating the vertex frame
+    Custom(
+        const VertexGenerator& aVertexGenerator,
+        const std::variant<Shared<const Frame>, LocalOrbitalFrameFactory>& aFrameOrLOFFactory
+    );
 
     /// @brief Destructor
     virtual ~Custom() override = default;

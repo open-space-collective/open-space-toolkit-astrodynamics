@@ -14,15 +14,10 @@ namespace trajectory
 namespace state
 {
 
-CoordinateBroker::CoordinateBroker()
+CoordinateBroker::CoordinateBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray)
     : nextCoordinateSubsetIndex_(0),
       coordinateSubsets_({}),
       coordinateSubsetsIndexMap_({})
-{
-}
-
-CoordinateBroker::CoordinateBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray)
-    : CoordinateBroker()
 {
     for (Shared<const CoordinateSubset> subset : aCoordinateSubsetsArray)
     {

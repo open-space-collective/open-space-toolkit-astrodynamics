@@ -53,6 +53,7 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
 #define DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE Interpolator::Type::Linear
+#define DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME Frame::GCRF()
 
 /// @brief Tabulated trajectory model
 ///
@@ -66,31 +67,17 @@ class Tabulated : public virtual Model
     ///
     /// @code{.cpp}
     ///     Array<State> states = { ... };
-    ///     Tabulated tabulated(states, Interpolator::Type::Linear);
-    /// @endcode
-    ///
-    /// @param aStateArray An array of states defining the tabulated trajectory.
-    /// @param anInterpolationType The interpolation type to use between states.
-    Tabulated(
-        const Array<State>& aStateArray,
-        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
-    );
-
-    /// @brief Constructor with an explicit output frame.
-    ///
-    /// @code{.cpp}
-    ///     Array<State> states = { ... };
     ///     Tabulated tabulated(states, Interpolator::Type::Linear, Frame::ITRF());
     /// @endcode
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
-    /// @param anInterpolationType The interpolation type to use between states.
+    /// @param anInterpolationType The interpolation type to use between states. Defaults to Linear.
     /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
-    /// converted to this frame and interpolation is performed in this frame.
+    /// converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
     Tabulated(
         const Array<State>& aStateArray,
-        const Interpolator::Type& anInterpolationType,
-        const Shared<const Frame>& aFrameSPtr
+        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
+        const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME
     );
 
     /// @brief Constructor with per-coordinate-subset interpolation types.
@@ -104,30 +91,19 @@ class Tabulated : public virtual Model
     ///         {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
     ///         {CartesianVelocity::Default(), Interpolator::Type::Linear},
     ///     };
-    ///     Tabulated tabulated(states, interpolationTypes);
+    ///     Tabulated tabulated(states, interpolationTypes, Frame::ITRF());
     /// @endcode
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
     /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
     /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
     /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
-    Tabulated(
-        const Array<State>& aStateArray,
-        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
-    );
-
-    /// @brief Constructor with per-coordinate-subset interpolation types and an explicit output frame.
-    ///
-    /// @param aStateArray An array of states defining the tabulated trajectory.
-    /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
-    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
-    /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
     /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
-    /// converted to this frame and interpolation is performed in this frame.
+    /// converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
     Tabulated(
         const Array<State>& aStateArray,
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
-        const Shared<const Frame>& aFrameSPtr
+        const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME
     );
 
     /// @brief Clone the tabulated model.
@@ -278,16 +254,12 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. Defaults to GCRF.
     /// @return A Tabulated trajectory model using the default interpolation types.
-    static Tabulated Default(const Array<State>& aStateArray);
-
-    /// @brief Construct a tabulated model using the default per-coordinate-subset interpolation types and an explicit
-    /// output frame.
-    ///
-    /// @param aStateArray An array of states defining the tabulated trajectory.
-    /// @param aFrameSPtr The reference frame in which the computed states are expressed.
-    /// @return A Tabulated trajectory model using the default interpolation types.
-    static Tabulated Default(const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr);
+    static Tabulated Default(
+        const Array<State>& aStateArray,
+        const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME
+    );
 
     /// @brief Get the default interpolation type to use for each well-known coordinate subset.
     ///

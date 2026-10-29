@@ -53,6 +53,8 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
+#define DEFAULT_TABULATED_PROFILE_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
+
 /// @brief Tabulated profile model.
 ///
 /// @details Represents a flight profile model that interpolates states from a set of tabulated data
@@ -72,7 +74,7 @@ class Tabulated : public virtual Model
     /// quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Barycentric Rational.
     Tabulated(
         const Array<State>& aStateArray,
-        const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
+        const Interpolator::Type& anInterpolatorType = DEFAULT_TABULATED_PROFILE_INTERPOLATION_TYPE
     );
 
     /// @brief Constructor with per-coordinate-subset interpolation types.
