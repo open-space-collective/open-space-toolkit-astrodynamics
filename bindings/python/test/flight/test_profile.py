@@ -101,17 +101,19 @@ def profile(request) -> Profile:
 
 @pytest.fixture(
     params=[
-        Profile.PointingConstraint(Profile.TargetType.GeocentricNadir, [1.0, 0.0, 0.0]),
-        Profile.PointingConstraint(Profile.TargetType.VelocityECEF, [1.0, 0.0, 0.0]),
-        Profile.TrajectoryPointingConstraint.target_position(
+        Profile.PointingTarget(
+            Profile.PointingTarget.Type.GeocentricNadir, [1.0, 0.0, 0.0]
+        ),
+        Profile.PointingTarget(Profile.PointingTarget.Type.VelocityECEF, [1.0, 0.0, 0.0]),
+        Profile.TrajectoryPointingTarget.target_position(
             Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             [1.0, 0.0, 0.0],
         ),
-        Profile.TrajectoryPointingConstraint.target_velocity(
+        Profile.TrajectoryPointingTarget.target_velocity(
             Trajectory.position(Position.meters((7000000.0, 0.0, 0.0), Frame.ITRF())),
             [1.0, 0.0, 0.0],
         ),
-        Profile.TrajectoryPointingConstraint.target_sliding_ground_velocity(
+        Profile.TrajectoryPointingTarget.target_sliding_ground_velocity(
             Trajectory(
                 model=TargetScan(
                     start_lla=LLA.vector([0.0, 0.0, 0.0]),
@@ -126,7 +128,7 @@ def profile(request) -> Profile:
             ),
             [1.0, 0.0, 0.0],
         ),
-        Profile.TabulatedPointingConstraint(
+        Profile.TabulatedPointingTarget(
             [
                 (Instant.J2000(), [1.0, 0.0, 0.0]),
                 (Instant.J2000() + Duration.minutes(1.0), [1.0, 0.0, 0.0]),
@@ -136,19 +138,21 @@ def profile(request) -> Profile:
             [1.0, 0.0, 0.0],
             Interpolator.Type.Linear,
         ),
-        Profile.PointingConstraintGenerator(
+        Profile.PointingTargetGenerator(
             lambda state: [1.0, 0.0, 0.0],
             [0.0, 0.0, 1.0],
         ),
     ]
 )
-def alignment_pointing_constraint(request) -> Profile.PointingConstraint:
+def alignment_pointing_target(request) -> Profile.PointingTarget:
     return request.param
 
 
 @pytest.fixture
-def clocking_pointing_constraint() -> Profile.PointingConstraint:
-    return Profile.PointingConstraint(Profile.TargetType.VelocityECI, [0.0, 1.0, 0.0])
+def clocking_pointing_target() -> Profile.PointingTarget:
+    return Profile.PointingTarget(
+        Profile.PointingTarget.Type.VelocityECI, [0.0, 1.0, 0.0]
+    )
 
 
 class TestProfile:
@@ -156,11 +160,11 @@ class TestProfile:
         assert profile is not None
         assert isinstance(profile, Profile)
 
-    def test_profile_pointing_constraint(
-        self, alignment_pointing_constraint: Profile.PointingConstraint
+    def test_profile_pointing_target(
+        self, alignment_pointing_target: Profile.PointingTarget
     ):
-        assert alignment_pointing_constraint is not None
-        assert isinstance(alignment_pointing_constraint, Profile.PointingConstraint)
+        assert alignment_pointing_target is not None
+        assert isinstance(alignment_pointing_target, Profile.PointingTarget)
 
     def test_access_model(self, profile: Profile):
         model = profile.access_model()
@@ -235,25 +239,25 @@ class TestProfile:
         assert isinstance(profile, Profile)
         assert profile.is_defined()
 
-    def test_constrained_pointing(
+    def test_aligned_and_constrained_pointing(
         self,
         orbit: Orbit,
-        alignment_pointing_constraint: Profile.PointingConstraint,
-        clocking_pointing_constraint: Profile.PointingConstraint,
+        alignment_pointing_target: Profile.PointingTarget,
+        clocking_pointing_target: Profile.PointingTarget,
     ):
-        profile = Profile.constrained_pointing(
+        profile = Profile.aligned_and_constrained_pointing(
             orbit=orbit,
-            alignment_pointing_constraint=alignment_pointing_constraint,
-            clocking_pointing_constraint=clocking_pointing_constraint,
+            alignment_pointing_target=alignment_pointing_target,
+            clocking_pointing_target=clocking_pointing_target,
         )
 
         assert profile is not None
         assert profile.is_defined()
 
-        profile = Profile.constrained_pointing(
+        profile = Profile.aligned_and_constrained_pointing(
             orbit=orbit,
-            alignment_pointing_constraint=alignment_pointing_constraint,
-            clocking_pointing_constraint=clocking_pointing_constraint,
+            alignment_pointing_target=alignment_pointing_target,
+            clocking_pointing_target=clocking_pointing_target,
             angular_clocking_offset=Angle.degrees(90.0),
         )
 
@@ -263,41 +267,41 @@ class TestProfile:
     def test_custom_pointing(
         self,
         orbit: Orbit,
-        alignment_pointing_constraint: Profile.PointingConstraint,
-        clocking_pointing_constraint: Profile.PointingConstraint,
+        alignment_pointing_target: Profile.PointingTarget,
+        clocking_pointing_target: Profile.PointingTarget,
     ):
         profile = Profile.custom_pointing(
             orbit=orbit,
-            orientation_generator=Profile.align_and_clock(
+            orientation_generator=Profile.align_and_constrain_generator(
                 orbit.access_celestial_object(),
-                alignment_pointing_constraint,
-                clocking_pointing_constraint,
+                alignment_pointing_target,
+                clocking_pointing_target,
             ),
         )
 
         assert profile is not None
         assert profile.is_defined()
 
-    def test_align_and_clock(
+    def test_align_and_constrain_generator(
         self,
         orbit: Orbit,
         instant: Instant,
-        alignment_pointing_constraint: Profile.PointingConstraint,
-        clocking_pointing_constraint: Profile.PointingConstraint,
+        alignment_pointing_target: Profile.PointingTarget,
+        clocking_pointing_target: Profile.PointingTarget,
     ):
-        orientation = Profile.align_and_clock(
+        orientation = Profile.align_and_constrain_generator(
             celestial=orbit.access_celestial_object(),
-            alignment_pointing_constraint=alignment_pointing_constraint,
-            clocking_pointing_constraint=clocking_pointing_constraint,
+            alignment_pointing_target=alignment_pointing_target,
+            clocking_pointing_target=clocking_pointing_target,
         )
 
         assert orientation is not None
         assert orientation(orbit.get_state_at(instant)) is not None
 
-        orientation = Profile.align_and_clock(
+        orientation = Profile.align_and_constrain_generator(
             celestial=orbit.access_celestial_object(),
-            alignment_pointing_constraint=alignment_pointing_constraint,
-            clocking_pointing_constraint=clocking_pointing_constraint,
+            alignment_pointing_target=alignment_pointing_target,
+            clocking_pointing_target=clocking_pointing_target,
             angular_clocking_offset=Angle.degrees(90.0),
         )
 
