@@ -26,7 +26,7 @@ void MissionSequence::run()
 {
     Sequence::Solution sequenceSolution = sequence_.solve(initialState_);
     const Array<Instant> comparisonInstants = Parser::CreateComparisonInstants(
-        dataTree_, sequenceSolution.accessStartInstant(), sequenceSolution.accessEndInstant()
+        dataTree_, sequenceSolution.getStartInstant(), sequenceSolution.getEndInstant()
     );
 
     // Need to recompute the states at the comparison instants because the sequence solution only
