@@ -260,8 +260,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
 
     const Maneuver maneuver = Maneuver(maneuverStateArray);
 
-    Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
-    const Array<State> statesWithManeuver = maneuverPropagator.calculateStatesAt(initialState, instants);
+    const Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_};
+    const Array<State> statesWithManeuver = maneuverPropagator.calculateStatesAt(initialState, instants, {maneuver});
 
     // Validate that all return very similar results
     for (Size i = 0; i < instants.getSize(); i++)

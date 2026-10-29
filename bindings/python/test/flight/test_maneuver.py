@@ -122,17 +122,32 @@ class TestManeuver:
         self,
         states: list[State],
     ):
-        maneuver = Maneuver(states=states, interpolation_type=Interpolator.Type.Linear)
-
-        assert isinstance(maneuver, Maneuver)
-        assert maneuver.get_interpolation_type() == Interpolator.Type.Linear
+        assert (
+            Maneuver(states).get_interpolation_type()
+            == Interpolator.Type.BarycentricRational
+        )
+        assert (
+            Maneuver(states, Interpolator.Type.Linear).get_interpolation_type()
+            == Interpolator.Type.Linear
+        )
+        assert (
+            Maneuver(
+                states=states, interpolation_type=Interpolator.Type.Linear
+            ).get_interpolation_type()
+            == Interpolator.Type.Linear
+        )
 
     def test_comparators(
         self,
         maneuver: Maneuver,
+        states: list[State],
     ):
         assert (maneuver == maneuver) is True
         assert (maneuver != maneuver) is False
+
+        linear_maneuver = Maneuver(states, Interpolator.Type.Linear)
+        assert (maneuver == linear_maneuver) is False
+        assert (maneuver != linear_maneuver) is True
 
     def test_getters(
         self,

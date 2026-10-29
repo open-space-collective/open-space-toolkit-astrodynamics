@@ -793,8 +793,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     }
 
     const Maneuver maneuver = Maneuver(maneuverStateArray);
-    Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
-    const Array<State> propagatedStateArray_Maneuver = maneuverPropagator.calculateStatesAt(initialState, instantArray);
+    const Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_};
+    const Array<State> propagatedStateArray_Maneuver =
+        maneuverPropagator.calculateStatesAt(initialState, instantArray, {maneuver});
 
     // Validation loop
     for (size_t i = 0; i < instantArray.getSize() - 1; i++)
