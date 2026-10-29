@@ -397,8 +397,8 @@ class TestSequenceSolution:
         self,
         sequence_solution: Sequence.Solution,
     ):
-        assert sequence_solution.access_start_instant() is not None
-        assert sequence_solution.access_end_instant() is not None
+        assert sequence_solution.get_start_instant() is not None
+        assert sequence_solution.get_end_instant() is not None
 
         assert sequence_solution.get_states() is not None
         assert sequence_solution.get_initial_mass() is not None
@@ -501,6 +501,17 @@ class TestSequence:
 
         assert len(sequence.get_segments()) == segments_count + 1
 
+        sequence.add_maneuver_segment(
+            event_condition=instant_condition,
+            thruster_dynamics=thruster_dynamics,
+            maneuver_constraints=Segment.ManeuverConstraints(
+                minimum_duration=Duration.minutes(1.0),
+            ),
+        )
+
+        assert len(sequence.get_segments()) == segments_count + 2
+        assert sequence.get_segments()[-1].get_maneuver_constraints() is not None
+
     def test_solve(
         self,
         state: State,
@@ -519,8 +530,8 @@ class TestSequence:
 
         assert solution.execution_is_complete
 
-        assert solution.access_start_instant() is not None
-        assert solution.access_end_instant() is not None
+        assert solution.get_start_instant() is not None
+        assert solution.get_end_instant() is not None
 
         assert solution.get_states() is not None
         assert solution.get_initial_mass() is not None

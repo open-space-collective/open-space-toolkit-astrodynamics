@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Segment__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -98,44 +100,35 @@ class Segment
     {
         /// @brief Constructor
         ///
-        /// @param aMinimumDuration The minimum duration for a maneuver. Defaults to Undefined.
-        /// @param aMaximumDuration The maximum duration for a maneuver. Defaults to Undefined.
-        /// @param aMinimumSeparation The minimum separation between maneuvers. Defaults to Undefined.
-        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated. Defaults to Fail.
-        ManeuverConstraints(
-            const Duration& aMinimumDuration = Duration::Undefined(),
-            const Duration& aMaximumDuration = Duration::Undefined(),
-            const Duration& aMinimumSeparation = Duration::Undefined(),
-            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy =
-                MaximumManeuverDurationViolationStrategy::Fail
-        );
-
-        /// @brief Constructor with all parameters (all with default undefined values, aMaximumDutyCycle last).
-        ///
-        /// @param aMinimumDuration The minimum duration for a maneuver.
-        /// @param aMaximumDuration The maximum duration for a maneuver.
-        /// @param aMinimumSeparation The minimum separation between maneuvers.
-        /// @param aMaximumDurationStrategy The strategy when maximum duration is violated.
+        /// @param aMinimumDuration The minimum duration for a maneuver. Defaults to std::nullopt.
+        /// @param aMaximumManeuverDurationAndStrategy The maximum duration for a maneuver, along with the strategy to
+        ///     use when it is violated. Defaults to std::nullopt.
+        /// @param aMinimumSeparation The minimum separation between maneuvers. Defaults to std::nullopt.
         /// @param aMaximumDutyCycle The maximum duty cycle as numerator and denominator. For example,
         ///     {Duration::Minutes(40.0), Duration::Minutes(98.0)} represents a maximum maneuvering time of 40 minutes
-        ///     over any 98 minutes interval.
+        ///     over any 98 minutes interval. Defaults to std::nullopt.
+        /// @param aConstantLocalOrbitalFrameEnforcement If provided, maneuvers will be forced to be constant in the
+        ///     given local orbital frame, meaning: every time a maneuver is computed by the guidance law, its mean
+        ///     direction in said local orbital frame is computed and the maneuver is made constant in that direction.
+        ///     The optional angle sets the maximum allowed angular offset between the original maneuver and its mean
+        ///     direction; if it is ever surpassed, an error is raised. If std::nullopt, no such check is performed
+        ///     (i.e. any maneuver is allowed to be made constant, regardless of how variable it might be in the local
+        ///     orbital frame). Defaults to std::nullopt.
         ManeuverConstraints(
-            const Duration& aMinimumDuration,
-            const Duration& aMaximumDuration,
-            const Duration& aMinimumSeparation,
-            const MaximumManeuverDurationViolationStrategy& aMaximumDurationStrategy,
-            const Pair<Duration, Duration>& aMaximumDutyCycle
+            const std::optional<Duration>& aMinimumDuration = std::nullopt,
+            const std::optional<Pair<Duration, MaximumManeuverDurationViolationStrategy>>&
+                aMaximumManeuverDurationAndStrategy = std::nullopt,
+            const std::optional<Duration>& aMinimumSeparation = std::nullopt,
+            const std::optional<Pair<Duration, Duration>>& aMaximumDutyCycle = std::nullopt,
+            const std::optional<Pair<LocalOrbitalFrameFactory, std::optional<Angle>>>&
+                aConstantLocalOrbitalFrameEnforcement = std::nullopt
         );
 
-        Duration minimumDuration;
-        Duration maximumDuration;
-        Duration minimumSeparation;
-        MaximumManeuverDurationViolationStrategy maximumDurationStrategy;
-        Pair<Duration, Duration> maximumDutyCycle;
-
-        /// @brief Check if the maneuver constraints are defined
-        /// @return True if the maneuver constraints are defined
-        bool isDefined() const;
+        std::optional<Duration> minimumDuration;
+        std::optional<Pair<Duration, MaximumManeuverDurationViolationStrategy>> maximumManeuverDurationAndStrategy;
+        std::optional<Duration> minimumSeparation;
+        std::optional<Pair<Duration, Duration>> maximumDutyCycle;
+        std::optional<Pair<LocalOrbitalFrameFactory, std::optional<Angle>>> constantLocalOrbitalFrameEnforcement;
 
         /// @brief Check if the minimum duration is valid
         /// @param aManeuverInterval The maneuver interval
@@ -178,23 +171,7 @@ class Segment
         /// @param aStateArray Array of states for the segment
         /// @param aConditionIsSatisfied True if the event condition is satisfied
         /// @param aSegmentType Type of segment
-        /// @return An instance of Solution
-        Solution(
-            const String& aName,
-            const Array<Shared<Dynamics>>& aDynamicsArray,
-            const Array<State>& aStateArray,
-            const bool& aConditionIsSatisfied,
-            const Segment::Type& aSegmentType
-        );
-
-        /// @brief Constructor
-        ///
-        /// @param aName Name of the segment
-        /// @param aDynamicsArray Array of dynamics
-        /// @param aStateArray Array of states for the segment
-        /// @param aConditionIsSatisfied True if the event condition is satisfied
-        /// @param aSegmentType Type of segment
-        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments).
+        /// @param aManeuverIntervals Array of maneuver intervals (for maneuver segments). Defaults to std::nullopt.
         /// @return An instance of Solution
         Solution(
             const String& aName,
@@ -202,16 +179,16 @@ class Segment
             const Array<State>& aStateArray,
             const bool& aConditionIsSatisfied,
             const Segment::Type& aSegmentType,
-            const Array<Interval>& aManeuverIntervals
+            const std::optional<Array<Interval>>& aManeuverIntervals = std::nullopt
         );
 
-        /// @brief Access Start Instant
-        /// @return Start Instant
-        const Instant& accessStartInstant() const;
+        /// @brief Get start instant
+        /// @return Start instant
+        Instant getStartInstant() const;
 
-        /// @brief Access end instant
-        /// @return End Instant
-        const Instant& accessEndInstant() const;
+        /// @brief Get end instant
+        /// @return End instant
+        Instant getEndInstant() const;
 
         /// @brief Get interval
         /// @return Interval
@@ -338,22 +315,15 @@ class Segment
     Shared<Thruster> getThrusterDynamics() const;
 
     /// @brief Get maneuver constraints
-    /// @return Maneuver constraints
-    ManeuverConstraints getManeuverConstraints() const;
+    /// @return Maneuver constraints, if any
+    std::optional<ManeuverConstraints> getManeuverConstraints() const;
 
     /// @brief Get type
     /// @return Type of segment
     Type getType() const;
 
-    /// @brief Access event condition
-    /// @return Event condition
-    const Shared<EventCondition>& accessEventCondition() const;
-
-    /// @brief Access numerical solver
-    /// @return Numerical solver
-    const NumericalSolver& accessNumericalSolver() const;
-
-    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached.
+    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached,
+    /// considering the previous maneuver intervals.
     ///
     /// @code{.cpp}
     ///     Segment segment = Segment::Coast("Coast", anEventCondition, aDynamicsArray, aNumericalSolver) ;
@@ -362,25 +332,13 @@ class Segment
     ///
     /// @param aState Initial state for the segment
     /// @param maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
-    /// @param previousManeuverInterval Last maneuver interval prior to this segment. Defaults to Undefined.
+    /// @param previousManeuverIntervals Maneuver intervals prior to this segment (e.g. from previous segments).
+    /// Defaults to an empty array.
     /// @return A Solution representing the result of the solve
     Solution solve(
         const State& aState,
         const Duration& maximumPropagationDuration = Duration::Days(30.0),
-        Interval previousManeuverInterval = Interval::Undefined()
-    ) const;
-
-    /// @brief Solve the segment until its event condition is satisfied or the maximum propagation duration is reached,
-    /// considering the previous maneuver intervals.
-    ///
-    /// @param aState Initial state for the segment
-    /// @param maximumPropagationDuration Maximum duration for propagation
-    /// @param previousManeuverIntervals Maneuver intervals prior to this segment (e.g. from previous segments)
-    /// @return A Solution representing the result of the solve
-    Solution solve(
-        const State& aState,
-        const Duration& maximumPropagationDuration,
-        const Array<Interval>& previousManeuverIntervals
+        const Array<Interval>& previousManeuverIntervals = Array<Interval>::Empty()
     ) const;
 
     /// @brief Print the segment
@@ -420,7 +378,7 @@ class Segment
     /// @param aThrusterDynamics Dynamics for the thruster
     /// @param aDynamicsArray Array of dynamics
     /// @param aNumericalSolver Numerical solver
-    /// @param aManeuverConstraints Maneuver constraints
+    /// @param aManeuverConstraints Maneuver constraints. Defaults to std::nullopt.
     /// @return A Segment for maneuvering
     static Segment Maneuver(
         const String& aName,
@@ -428,38 +386,7 @@ class Segment
         const Shared<Thruster>& aThrusterDynamics,
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver,
-        const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
-    );
-
-    /// @brief Create a maneuvering segment that produces maneuvers with a constant direction in the local orbital
-    /// frame.
-    ///
-    /// The provided thruster dynamics are used to solve the segment at first. The maneuvers produced by this segement
-    /// solution are then used to create a new thruster dynamics with a constant direction in the local orbital frame.
-    /// This new thruster dynamics is then used to actually solve the segment.
-    ///
-    /// If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thruster
-    /// dynamics and the mean thrust direction is violated.
-    ///
-    /// @param aName A name
-    /// @param anEventConditionSPtr An event condition
-    /// @param aThrusterDynamics Dynamics for the thruster
-    /// @param aDynamicsArray Array of dynamics
-    /// @param aNumericalSolver Numerical solver
-    /// @param aLocalOrbitalFrameFactory A local orbital frame factory.
-    /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults
-    /// to Undefined.
-    /// @param aManeuverConstraints Maneuver constraints
-    /// @return A Segment for maneuvering
-    static Segment ConstantLocalOrbitalFrameDirectionManeuver(
-        const String& aName,
-        const Shared<EventCondition>& anEventConditionSPtr,
-        const Shared<Thruster>& aThrusterDynamics,
-        const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver,
-        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
-        const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
+        const std::optional<ManeuverConstraints>& aManeuverConstraints = std::nullopt
     );
 
     // TBI: Remove this and replace with magic_enum based solution
@@ -477,9 +404,7 @@ class Segment
     Array<Shared<Dynamics>> freeDynamicsArray_;
     Shared<Thruster> thrusterDynamicsSPtr_;
     NumericalSolver numericalSolver_;
-    LocalOrbitalFrameFactory constantManeuverDirectionLocalOrbitalFrameFactory_;
-    Angle constantManeuverDirectionMaximumAllowedAngularOffset_;
-    ManeuverConstraints maneuverConstraints_;
+    std::optional<ManeuverConstraints> maneuverConstraints_;
 
     /// @brief Constructor
     ///
@@ -489,8 +414,6 @@ class Segment
     /// @param aFreeDynamicsArray The free dynamics array
     /// @param aThrusterDynamics The thruster dynamics
     /// @param aNumericalSolver The numerical solver
-    /// @param aLocalOrbitalFrameFactory The local orbital frame factory
-    /// @param aMaximumAllowedAngularOffset The maximum allowed angular offset
     /// @param aManeuverConstraints Maneuver constraints
     /// @return A Segment
     Segment(
@@ -500,9 +423,7 @@ class Segment
         const Array<Shared<Dynamics>>& aFreeDynamicsArray,
         const Shared<Thruster>& aThrusterDynamics,
         const NumericalSolver& aNumericalSolver,
-        const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory = LocalOrbitalFrameFactory::Undefined(),
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined(),
-        const ManeuverConstraints& aManeuverConstraints = ManeuverConstraints()
+        const std::optional<ManeuverConstraints>& aManeuverConstraints
     );
 
     /// @brief Solve the segment with the provided dynamics and event condition. This method is used to solve coasting

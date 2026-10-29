@@ -62,13 +62,13 @@ class Sequence
         /// @return An instance of Solution
         Solution(const Array<Segment::Solution>& aSegmentSolutionArray, const bool& executionIsComplete);
 
-        /// @brief Access Start Instant
-        /// @return Start Instant
-        const Instant& accessStartInstant() const;
+        /// @brief Get start instant
+        /// @return Start instant
+        Instant getStartInstant() const;
 
-        /// @brief Access end instant
-        /// @return End Instant
-        const Instant& accessEndInstant() const;
+        /// @brief Get end instant
+        /// @return End instant
+        Instant getEndInstant() const;
 
         /// @brief Get interval
         /// @return Interval
@@ -195,6 +195,7 @@ class Sequence
     /// @endcode
     ///
     /// @param aTrajectorySegment A trajectory segment.
+    // TBI: consider having the addX methods return a new instance of the Sequence
     void addSegment(const Segment& aTrajectorySegment);
 
     /// @brief Add multiple segments.
@@ -211,7 +212,12 @@ class Sequence
     ///
     /// @param anEventConditionSPtr An event condition.
     /// @param aThruster A thruster dynamics.
-    void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster);
+    /// @param aManeuverConstraints Maneuver constraints. Defaults to std::nullopt.
+    void addManeuverSegment(
+        const Shared<EventCondition>& anEventConditionSPtr,
+        const Shared<Thruster>& aThruster,
+        const std::optional<Segment::ManeuverConstraints>& aManeuverConstraints = std::nullopt
+    );
 
     /// @brief Solve the sequence given an initial state, for a number of reptitions.
     ///
