@@ -179,8 +179,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
         EXPECT_FALSE(constraints.maximumManeuverDurationAndStrategy.has_value());
         EXPECT_FALSE(constraints.minimumSeparation.has_value());
         EXPECT_FALSE(constraints.maximumDutyCycle.has_value());
-        EXPECT_FALSE(constraints.localOrbitalFrameFactory.has_value());
-        EXPECT_FALSE(constraints.maximumAllowedAngularOffset.has_value());
+        EXPECT_FALSE(constraints.constantLocalOrbitalFrameEnforcement.has_value());
     }
 
     {
@@ -191,7 +190,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
             Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd;
 
         const Segment::ManeuverConstraints constraints(
-            minimumDuration, std::make_pair(maximumDuration, strategy), minimumSeparation
+            minimumDuration, {{maximumDuration, strategy}}, minimumSeparation
         );
 
         EXPECT_EQ(minimumDuration, constraints.minimumDuration);
@@ -199,8 +198,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
         EXPECT_EQ(strategy, constraints.maximumManeuverDurationAndStrategy->second);
         EXPECT_EQ(minimumSeparation, constraints.minimumSeparation);
         EXPECT_FALSE(constraints.maximumDutyCycle.has_value());
-        EXPECT_FALSE(constraints.localOrbitalFrameFactory.has_value());
-        EXPECT_FALSE(constraints.maximumAllowedAngularOffset.has_value());
+        EXPECT_FALSE(constraints.constantLocalOrbitalFrameEnforcement.has_value());
     }
 
     {
@@ -212,12 +210,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
             std::nullopt,
             std::nullopt,
             std::nullopt,
-            localOrbitalFrameFactory,
-            maximumAllowedAngularOffset
+            {{localOrbitalFrameFactory, maximumAllowedAngularOffset}}
         );
 
-        EXPECT_TRUE(constraints.localOrbitalFrameFactory.has_value());
-        EXPECT_EQ(maximumAllowedAngularOffset, constraints.maximumAllowedAngularOffset);
+        ASSERT_TRUE(constraints.constantLocalOrbitalFrameEnforcement.has_value());
+        EXPECT_EQ(maximumAllowedAngularOffset, constraints.constantLocalOrbitalFrameEnforcement->second);
     }
 
     // Failure cases
@@ -264,8 +261,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
                     try
                     {
                         const Segment::ManeuverConstraints constraints(
-                            std::nullopt,
-                            std::make_pair(Duration::Zero(), Segment::MaximumManeuverDurationViolationStrategy::Fail)
+                            std::nullopt, {{Duration::Zero(), Segment::MaximumManeuverDurationViolationStrategy::Fail}}
                         );
                     }
                     catch (const ostk::core::error::RuntimeError& e)
@@ -285,9 +281,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
                     {
                         const Segment::ManeuverConstraints constraints(
                             std::nullopt,
-                            std::make_pair(
-                                Duration::Seconds(-1.0), Segment::MaximumManeuverDurationViolationStrategy::Fail
-                            )
+                            {{Duration::Seconds(-1.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}}
                         );
                     }
                     catch (const ostk::core::error::RuntimeError& e)
@@ -345,9 +339,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
                     {
                         const Segment::ManeuverConstraints constraints(
                             std::nullopt,
-                            std::make_pair(
-                                Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail
-                            )
+                            {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}}
                         );
                     }
                     catch (const ostk::core::error::RuntimeError& e)
@@ -375,9 +367,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
                     {
                         const Segment::ManeuverConstraints constraints(
                             Duration::Minutes(1.0),
-                            std::make_pair(
-                                Duration::Minutes(0.5), Segment::MaximumManeuverDurationViolationStrategy::Fail
-                            )
+                            {{Duration::Minutes(0.5), Segment::MaximumManeuverDurationViolationStrategy::Fail}}
                         );
                     }
                     catch (const ostk::core::error::RuntimeError& e)
@@ -394,33 +384,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
         {
             EXPECT_THROW(
                 Segment::ManeuverConstraints(
-                    std::nullopt, std::nullopt, std::nullopt, std::nullopt, LocalOrbitalFrameFactory::Undefined()
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    {{LocalOrbitalFrameFactory::Undefined(), std::nullopt}}
                 ),
                 ostk::core::error::runtime::Undefined
-            );
-        }
-
-        // Test that the maximum allowed angular offset requires a local orbital frame factory
-        {
-            EXPECT_THROW(
-                {
-                    try
-                    {
-                        const Segment::ManeuverConstraints constraints(
-                            std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, Angle::Degrees(10.0)
-                        );
-                    }
-                    catch (const ostk::core::error::RuntimeError& e)
-                    {
-                        EXPECT_EQ(
-                            "Maximum allowed angular offset can only be defined if a local orbital frame factory is "
-                            "defined.",
-                            e.getMessage()
-                        );
-                        throw;
-                    }
-                },
-                ostk::core::error::RuntimeError
             );
         }
     }
@@ -430,7 +400,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Prin
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Minutes(1.0),
-        std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+        {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
         Duration::Minutes(5.0)
     );
 
@@ -444,7 +414,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Inte
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Minutes(2.0),
-        std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+        {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
         Duration::Minutes(5.0)
     );
     EXPECT_TRUE(constraints.intervalHasValidMinimumDuration(
@@ -459,7 +429,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Inte
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Minutes(1.0),
-        std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+        {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
         Duration::Minutes(5.0)
     );
     EXPECT_TRUE(constraints.intervalHasValidMaximumDuration(
@@ -497,9 +467,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Mane
                 {
                     Segment::ManeuverConstraints(
                         std::nullopt,
-                        std::make_pair(
-                            Duration::Minutes(41.0), Segment::MaximumManeuverDurationViolationStrategy::Fail
-                        ),
+                        {{Duration::Minutes(41.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}},
                         Duration::Minutes(5.0),
                         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Minutes(98.0))
                     );
@@ -1748,7 +1716,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Maneuver_WithConstantL
             defaultDynamics_,
             defaultNumericalSolver_,
             Segment::ManeuverConstraints(
-                std::nullopt, std::nullopt, std::nullopt, std::nullopt, defaultLocalOrbitalFrameFactory_
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                {{defaultLocalOrbitalFrameFactory_, std::nullopt}}
             )
         ));
     }
@@ -2080,7 +2052,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                 defaultDynamics_,
                 defaultNumericalSolver_,
                 Segment::ManeuverConstraints(
-                    std::nullopt, std::nullopt, std::nullopt, std::nullopt, defaultLocalOrbitalFrameFactory_
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    {{defaultLocalOrbitalFrameFactory_, std::nullopt}}
                 )
             );
 
@@ -2106,8 +2082,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                     std::nullopt,
                     std::nullopt,
                     std::nullopt,
-                    defaultLocalOrbitalFrameFactory_,
-                    Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
+                    {{defaultLocalOrbitalFrameFactory_,
+                      Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))}}
                 )
             );
 
@@ -2133,8 +2109,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
                     std::nullopt,
                     std::nullopt,
                     std::nullopt,
-                    defaultLocalOrbitalFrameFactory_,
-                    Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
+                    {{defaultLocalOrbitalFrameFactory_,
+                      Angle::Degrees(0.9 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))}}
                 )
             );
 
@@ -2172,7 +2148,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             defaultDynamics_,
             defaultNumericalSolver_,
             Segment::ManeuverConstraints(
-                std::nullopt, std::nullopt, std::nullopt, std::nullopt, defaultLocalOrbitalFrameFactory_
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                {{defaultLocalOrbitalFrameFactory_, std::nullopt}}
             )
         );
 
@@ -2282,7 +2262,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             Segment::MaximumManeuverDurationViolationStrategy::Center;
 
         const Segment::ManeuverConstraints constraints(
-            minimumDuration, std::make_pair(maximumDuration, strategy), minimumSeparation
+            minimumDuration, {{maximumDuration, strategy}}, minimumSeparation
         );
 
         Segment maneuveringSegment = Segment::Maneuver(
@@ -2306,10 +2286,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumAllowedAn
             defaultNumericalSolver_,
             Segment::ManeuverConstraints(
                 minimumDuration,
-                std::make_pair(maximumDuration, strategy),
+                {{maximumDuration, strategy}},
                 minimumSeparation,
                 std::nullopt,
-                defaultLocalOrbitalFrameFactory_
+                {{defaultLocalOrbitalFrameFactory_, std::nullopt}}
             )
         );
 
@@ -2375,7 +2355,7 @@ TEST_F(
             Segment::MaximumManeuverDurationViolationStrategy::Center;
 
         const Segment::ManeuverConstraints constraints(
-            minimumDuration, std::make_pair(maximumDuration, strategy), minimumSeparation
+            minimumDuration, {{maximumDuration, strategy}}, minimumSeparation
         );
 
         const Shared<RealCondition> durationCondition = std::make_shared<RealCondition>(
@@ -2463,7 +2443,7 @@ TEST_F(
             Segment::MaximumManeuverDurationViolationStrategy::Chunk;
 
         const Segment::ManeuverConstraints constraints(
-            minimumDuration, std::make_pair(maximumDuration, strategy), minimumSeparation
+            minimumDuration, {{maximumDuration, strategy}}, minimumSeparation
         );
 
         Segment maneuveringSegment = Segment::Maneuver(
@@ -2487,10 +2467,10 @@ TEST_F(
             defaultNumericalSolver_,
             Segment::ManeuverConstraints(
                 minimumDuration,
-                std::make_pair(maximumDuration, strategy),
+                {{maximumDuration, strategy}},
                 minimumSeparation,
                 std::nullopt,
-                defaultLocalOrbitalFrameFactory_
+                {{defaultLocalOrbitalFrameFactory_, std::nullopt}}
             )
         );
 
@@ -2738,7 +2718,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, GetManeuverConstraints
     {
         const Segment::ManeuverConstraints constraints(
             Duration::Minutes(1.0),
-            std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+            {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
             Duration::Minutes(5.0)
         );
 
@@ -2881,7 +2861,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_MaximumInstantRe
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Minutes(1.0),
-        std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail),
+        {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}},
         Duration::Minutes(5.0)
     );
 
@@ -2907,7 +2887,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ConditionSatisfi
 {
     const Segment::ManeuverConstraints constraints(
         Duration::Minutes(1.0),
-        std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail),
+        {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}},
         Duration::Minutes(5.0)
     );
 
@@ -3192,7 +3172,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
 {
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
-        std::make_pair(Duration::Minutes(20.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+        {{Duration::Minutes(20.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
         Duration::Seconds(10.0)
     );
 
@@ -3226,7 +3206,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Very small maximum duration
-        std::make_pair(Duration::Seconds(1.0), Segment::MaximumManeuverDurationViolationStrategy::Fail),
+        {{Duration::Seconds(1.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}},
         Duration::Seconds(1.0)
     );
 
@@ -3268,7 +3248,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Very small maximum duration
-        std::make_pair(Duration::Seconds(1.0), Segment::MaximumManeuverDurationViolationStrategy::Skip),
+        {{Duration::Seconds(1.0), Segment::MaximumManeuverDurationViolationStrategy::Skip}},
         Duration::Seconds(1.0)
     );
 
@@ -3301,7 +3281,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
         Duration::Seconds(1.0)
     );
 
@@ -3344,7 +3324,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
         Duration::Seconds(10.0)
     );
 
@@ -3393,7 +3373,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart}},
         Duration::Seconds(1.0)
     );
 
@@ -3436,7 +3416,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart}},
         Duration::Seconds(10.0)
     );
 
@@ -3484,7 +3464,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
         Duration::Seconds(10.0)
     );
 
@@ -3524,7 +3504,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
         Duration::Seconds(10.0)
     );
 
@@ -3572,7 +3552,7 @@ TEST_F(
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
         Duration::Seconds(1.0)
     );
 
@@ -3612,7 +3592,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_ManeuverDuration
     const Segment::ManeuverConstraints constraints(
         std::nullopt,
         // Maximum duration
-        std::make_pair(Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+        {{Duration::Minutes(5.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
         Duration::Seconds(10.0)
     );
 
@@ -4320,10 +4300,8 @@ TEST_P(
 
     const Segment::ManeuverConstraints constraints(
         Duration::Seconds(30.0),
-        std::make_pair(
-            params.maximumManeuverDuration.value_or(params.maximumManeuverDutyCycle.first),
-            params.maximumManeuverDurationViolationStrategy
-        ),
+        {{params.maximumManeuverDuration.value_or(params.maximumManeuverDutyCycle.first),
+          params.maximumManeuverDurationViolationStrategy}},
         Duration::Minutes(1.0),
         params.maximumManeuverDutyCycle
     );
@@ -4425,7 +4403,7 @@ TEST_P(
 
     const Segment::ManeuverConstraints constraints(
         Duration::Seconds(30.0),
-        std::make_pair(params.maximumManeuverDutyCycle.first, params.maximumManeuverDurationViolationStrategy),
+        {{params.maximumManeuverDutyCycle.first, params.maximumManeuverDurationViolationStrategy}},
         Duration::Minutes(1.0),
         params.maximumManeuverDutyCycle
     );
@@ -4504,7 +4482,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve_AllConstraintsDe
         // Minimum duration
         Duration::Minutes(1.0),
         // Maximum duration
-        std::make_pair(Duration::Minutes(20.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+        {{Duration::Minutes(20.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
         // Minimum separation
         Duration::Minutes(5.0),
         // Maximum duty cycle
@@ -4659,11 +4637,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Singl
         // minimum maneuver duration
         Duration::Minutes(10.0),
         // maximum maneuver duration
-        std::make_pair(Duration::Minutes(25.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+        {{Duration::Minutes(25.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
         // minimum separation
         Duration::Hours(23.5),
         std::nullopt,
-        lofFactory
+        {{lofFactory, std::nullopt}}
     );
 
     const Segment maneuverSegment = Segment::Maneuver(
@@ -4791,10 +4769,10 @@ TEST_F(
         numericalSolver,
         Segment::ManeuverConstraints(
             Duration::Minutes(20.0),
-            std::make_pair(Duration::Minutes(40.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+            {{Duration::Minutes(40.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
             Duration::Minutes(55.0),
             std::nullopt,
-            tnwFactory
+            {{tnwFactory, std::nullopt}}
         )
     );
 
@@ -4956,7 +4934,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
         defaultNumericalSolver_,
         Segment::ManeuverConstraints(
             Duration::Minutes(16.0),
-            std::make_pair(Duration::Minutes(16.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+            {{Duration::Minutes(16.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
             Duration::Minutes(26.0)
         )
     );
@@ -5073,10 +5051,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
         defaultNumericalSolver_,
         Segment::ManeuverConstraints(
             Duration::Minutes(10.0),
-            std::make_pair(Duration::Minutes(60.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+            {{Duration::Minutes(60.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
             Duration::Minutes(15.0),
             std::nullopt,
-            tnwFactory
+            {{tnwFactory, std::nullopt}}
         )
     );
 
@@ -5198,11 +5176,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Negat
             // minimum maneuver duration
             Duration::Minutes(5.0),
             // maximum maneuver duration
-            std::make_pair(Duration::Minutes(40.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+            {{Duration::Minutes(40.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
             // minimum separation
             Duration::Minutes(27.0),
             std::nullopt,
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF())
+            {{LocalOrbitalFrameFactory::VNC(Frame::GCRF()), std::nullopt}}
         )
     );
 

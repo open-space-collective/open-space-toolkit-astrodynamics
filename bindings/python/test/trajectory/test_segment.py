@@ -207,7 +207,7 @@ def constant_local_orbital_frame_direction_maneuver_segment(
         dynamics=dynamics,
         numerical_solver=numerical_solver,
         maneuver_constraints=Segment.ManeuverConstraints(
-            local_orbital_frame_factory=local_orbital_frame_factory,
+            constant_local_orbital_frame_enforcement=(local_orbital_frame_factory, None),
         ),
     )
 
@@ -229,8 +229,10 @@ def constant_local_orbital_frame_direction_maneuver_segment_with_maximum_allowed
         dynamics=dynamics,
         numerical_solver=numerical_solver,
         maneuver_constraints=Segment.ManeuverConstraints(
-            local_orbital_frame_factory=local_orbital_frame_factory,
-            maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+            constant_local_orbital_frame_enforcement=(
+                local_orbital_frame_factory,
+                maximum_allowed_angular_offset,
+            ),
         ),
     )
 
@@ -521,7 +523,10 @@ class TestSegment:
                 dynamics=dynamics,
                 numerical_solver=numerical_solver,
                 maneuver_constraints=Segment.ManeuverConstraints(
-                    local_orbital_frame_factory=local_orbital_frame_factory,
+                    constant_local_orbital_frame_enforcement=(
+                        local_orbital_frame_factory,
+                        None,
+                    ),
                 ),
             )
             is not None
@@ -535,8 +540,10 @@ class TestSegment:
                 dynamics=dynamics,
                 numerical_solver=numerical_solver,
                 maneuver_constraints=Segment.ManeuverConstraints(
-                    local_orbital_frame_factory=local_orbital_frame_factory,
-                    maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+                    constant_local_orbital_frame_enforcement=(
+                        local_orbital_frame_factory,
+                        maximum_allowed_angular_offset,
+                    ),
                 ),
             )
             is not None
@@ -556,8 +563,10 @@ class TestSegment:
                         Segment.MaximumManeuverDurationViolationStrategy.Fail,
                     ),
                     minimum_separation=Duration.minutes(5.0),
-                    local_orbital_frame_factory=local_orbital_frame_factory,
-                    maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+                    constant_local_orbital_frame_enforcement=(
+                        local_orbital_frame_factory,
+                        maximum_allowed_angular_offset,
+                    ),
                 ),
             )
             is not None
@@ -727,8 +736,9 @@ class TestManeuverConstraints:
         assert default_maneuver_constraints.maximum_maneuver_duration_and_strategy is None
         assert default_maneuver_constraints.minimum_separation is None
         assert default_maneuver_constraints.maximum_duty_cycle is None
-        assert default_maneuver_constraints.local_orbital_frame_factory is None
-        assert default_maneuver_constraints.maximum_allowed_angular_offset is None
+        assert (
+            default_maneuver_constraints.constant_local_orbital_frame_enforcement is None
+        )
 
         # Constructor with durations
         assert maneuver_constraints is not None
@@ -750,17 +760,16 @@ class TestManeuverConstraints:
 
         # Constructor with constant local orbital frame direction
         maneuver_constraints_with_local_orbital_frame = Segment.ManeuverConstraints(
-            local_orbital_frame_factory=local_orbital_frame_factory,
-            maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+            constant_local_orbital_frame_enforcement=(
+                local_orbital_frame_factory,
+                maximum_allowed_angular_offset,
+            ),
         )
-        assert (
-            maneuver_constraints_with_local_orbital_frame.local_orbital_frame_factory
-            is not None
+        constant_local_orbital_frame_enforcement = (
+            maneuver_constraints_with_local_orbital_frame.constant_local_orbital_frame_enforcement
         )
-        assert (
-            maneuver_constraints_with_local_orbital_frame.maximum_allowed_angular_offset
-            is not None
-        )
+        assert constant_local_orbital_frame_enforcement[0] is not None
+        assert constant_local_orbital_frame_enforcement[1] is not None
 
     def test_interval_has_valid_minimum_duration(
         self,

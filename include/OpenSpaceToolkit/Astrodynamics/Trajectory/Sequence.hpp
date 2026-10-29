@@ -195,6 +195,7 @@ class Sequence
     /// @endcode
     ///
     /// @param aTrajectorySegment A trajectory segment.
+    // TBI: consider having the addX methods return a new instance of the Sequence
     void addSegment(const Segment& aTrajectorySegment);
 
     /// @brief Add multiple segments.

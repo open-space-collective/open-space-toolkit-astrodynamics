@@ -724,7 +724,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
 
         const Segment::ManeuverConstraints maneuverConstraints(
             Duration::Minutes(1.0),
-            std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+            {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
             Duration::Minutes(5.0)
         );
 
@@ -1180,7 +1180,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Skip),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Skip}},
                 Duration::Seconds(30.0)
             ),
             Array<Tuple<Duration, Duration>> {{Duration::Minutes(20.0), Duration::Minutes(25.0)}},
@@ -1205,7 +1205,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
                 Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1235,9 +1235,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
-                std::make_pair(
-                    Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
-                ),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart}},
                 Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1267,7 +1265,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
                 Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1297,7 +1295,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
                 Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1322,7 +1320,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Skip),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Skip}},
                 Duration::Seconds(30.0),
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
@@ -1342,7 +1340,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
                 Duration::Seconds(30.0),
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
@@ -1365,9 +1363,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(
-                    Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
-                ),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart}},
                 Duration::Seconds(30.0),
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
@@ -1388,7 +1384,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Center),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
                 Duration::Seconds(30.0),
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
@@ -1411,7 +1407,7 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
                 Duration::Seconds(30.0),
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
@@ -1550,8 +1546,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
     const Shared<const Frame> frameSPtr = Frame::GCRF();
 
     Segment::ManeuverConstraints maneuverConstraints;
-    maneuverConstraints.maximumManeuverDurationAndStrategy =
-        std::make_pair(Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail);
+    maneuverConstraints.maximumManeuverDurationAndStrategy = {
+        {Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}
+    };
 
     Segment segment = Segment::Maneuver(
         "Segment",

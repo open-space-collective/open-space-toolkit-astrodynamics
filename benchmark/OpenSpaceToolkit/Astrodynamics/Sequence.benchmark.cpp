@@ -245,7 +245,7 @@ static Segment::ManeuverConstraints BuildConstraints()
 {
     return Segment::ManeuverConstraints(
         MIN_MANEUVER_DURATION,
-        std::make_pair(MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+        {{MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
         MIN_MANEUVER_SEPARATION,
         MAX_DUTY_CYCLE
     );

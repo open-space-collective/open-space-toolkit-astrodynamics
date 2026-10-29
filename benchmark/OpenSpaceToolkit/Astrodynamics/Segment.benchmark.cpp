@@ -184,7 +184,7 @@ static Segment::ManeuverConstraints BuildQLawConstraints()
 {
     return Segment::ManeuverConstraints(
         MIN_MANEUVER_DURATION,
-        std::make_pair(MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Center),
+        {{MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Center}},
         MIN_MANEUVER_SEPARATION
     );
 }
@@ -193,7 +193,7 @@ static Segment::ManeuverConstraints BuildConstantThrustConstraints()
 {
     return Segment::ManeuverConstraints(
         MIN_MANEUVER_DURATION,
-        std::make_pair(MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+        {{MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
         MIN_MANEUVER_SEPARATION
     );
 }
@@ -544,7 +544,7 @@ static void BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580(benchmark::St
     const SatelliteSystem satelliteSystem = BuildSatelliteSystem();
     const Segment::ManeuverConstraints constraints = Segment::ManeuverConstraints(
         MIN_MANEUVER_DURATION,
-        std::make_pair(MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Chunk),
+        {{MAX_MANEUVER_DURATION, Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
         MIN_MANEUVER_SEPARATION,
         Pair<Duration, Duration>(Duration::Minutes(40.0), Duration::Days(1.0))
     );

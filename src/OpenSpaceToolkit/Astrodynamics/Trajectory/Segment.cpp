@@ -54,15 +54,13 @@ Segment::ManeuverConstraints::ManeuverConstraints(
     const std::optional<Pair<Duration, MaximumManeuverDurationViolationStrategy>>& aMaximumManeuverDurationAndStrategy,
     const std::optional<Duration>& aMinimumSeparation,
     const std::optional<Pair<Duration, Duration>>& aMaximumDutyCycle,
-    const std::optional<LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactory,
-    const std::optional<Angle>& aMaximumAllowedAngularOffset
+    const std::optional<Pair<LocalOrbitalFrameFactory, std::optional<Angle>>>& aConstantLocalOrbitalFrameEnforcement
 )
     : minimumDuration(aMinimumDuration),
       maximumManeuverDurationAndStrategy(aMaximumManeuverDurationAndStrategy),
       minimumSeparation(aMinimumSeparation),
       maximumDutyCycle(aMaximumDutyCycle),
-      localOrbitalFrameFactory(aLocalOrbitalFrameFactory),
-      maximumAllowedAngularOffset(aMaximumAllowedAngularOffset)
+      constantLocalOrbitalFrameEnforcement(aConstantLocalOrbitalFrameEnforcement)
 {
     if (maximumDutyCycle.has_value())
     {
@@ -145,15 +143,9 @@ Segment::ManeuverConstraints::ManeuverConstraints(
         );
     }
 
-    if (localOrbitalFrameFactory.has_value() && !localOrbitalFrameFactory->isDefined())
+    if (constantLocalOrbitalFrameEnforcement.has_value() && !constantLocalOrbitalFrameEnforcement->first.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Local orbital frame factory");
-    }
-    if (maximumAllowedAngularOffset.has_value() && !localOrbitalFrameFactory.has_value())
-    {
-        throw ostk::core::error::RuntimeError(
-            "Maximum allowed angular offset can only be defined if a local orbital frame factory is defined."
-        );
     }
 }
 
@@ -257,10 +249,14 @@ void Segment::ManeuverConstraints::print(std::ostream& anOutputStream, bool disp
                   )
                 : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Local Orbital Frame Factory:" << (this->localOrbitalFrameFactory.has_value() ? "Defined" : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream
-    ) << "Maximum Allowed Angular Offset:"
-      << (this->maximumAllowedAngularOffset.has_value() ? this->maximumAllowedAngularOffset->toString() : "Undefined");
+        << "Constant Local Orbital Frame Enforcement:"
+        << (this->constantLocalOrbitalFrameEnforcement.has_value() ? "Defined" : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Maximum Allowed Angular Offset:"
+        << ((this->constantLocalOrbitalFrameEnforcement.has_value() &&
+             this->constantLocalOrbitalFrameEnforcement->second.has_value())
+                ? this->constantLocalOrbitalFrameEnforcement->second->toString()
+                : "Undefined");
 
     if (displayDecorator)
     {
@@ -986,7 +982,7 @@ Segment::Solution Segment::solve(
     const auto constructLOFCompliantManeuverSolution = [&](const Segment::Solution& maneuverSolution,
                                                            const FlightManeuver& maneuver) -> Segment::Solution
     {
-        if (!maneuverConstraints.localOrbitalFrameFactory.has_value())
+        if (!maneuverConstraints.constantLocalOrbitalFrameEnforcement.has_value())
         {
             return maneuverSolution;
         }
@@ -1683,8 +1679,8 @@ Segment::Solution Segment::constructLOFCompliantManeuverSolution_(const State& a
 {
     const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
         aManeuver,
-        maneuverConstraints_->localOrbitalFrameFactory.value(),
-        maneuverConstraints_->maximumAllowedAngularOffset.value_or(Angle::Undefined())
+        maneuverConstraints_->constantLocalOrbitalFrameEnforcement->first,
+        maneuverConstraints_->constantLocalOrbitalFrameEnforcement->second.value_or(Angle::Undefined())
     ));
 
     const Shared<Thruster> constantThrustDynamics = std::make_shared<Thruster>(
