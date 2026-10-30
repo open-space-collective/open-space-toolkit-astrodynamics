@@ -391,7 +391,7 @@ def generate_orbit_from_dataframe(
     mass_column: str | None = None,
     drag_coefficient_column: str | None = None,
     surface_area_column: str | None = None,
-    initial_revolution_number: int = 1,
+    initial_revolution_number: int = 0,
     interpolation_type: Interpolator.Type | None = None,
     output_frame: Frame | None = None,
 ) -> Orbit:
@@ -408,7 +408,7 @@ def generate_orbit_from_dataframe(
         mass_column (str | None, optional): Name of the column containing the mass data in [kg].
         drag_coefficient_column (str | None, optional): Name of the column containing the drag coefficient data.
         surface_area_column (str | None, optional): Name of the column containing the surface area data  in [m^2].
-        initial_revolution_number (int, optional): Initial revolution number. Defaults to 1.
+        initial_revolution_number (int, optional): Initial revolution number. Defaults to 0.
         interpolation_type (Interpolator.Type | None, optional): Interpolation type.
         output_frame (Frame | None, optional): Output frame for the states.
 

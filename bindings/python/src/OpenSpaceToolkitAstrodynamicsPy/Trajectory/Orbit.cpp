@@ -84,7 +84,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                     Constructs an `Orbit` object.
 
                     Args:
-                        states (Array<State>): The states.
+                        states (Array<State>): The states. States are interpolated with barycentric rational interpolation, which requires at least 4 states.
                         initial_revolution_number (Integer): The initial revolution number.
                         celestial_object (Celestial): The celestial object.
 

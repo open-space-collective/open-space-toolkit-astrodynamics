@@ -29,29 +29,33 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
     )
 
         .def(
-            init<const Array<State>&, const Integer&, const Interpolator::Type&, const Shared<const Frame>&>(),
+            init<const Array<State>&, const Interpolator::Type&, const Shared<const Frame>&, const Integer&>(),
             R"doc(
                 Constructor.
 
                 Args:
                     states (list[State]): The states.
-                    initial_revolution_number (int): The initial revolution number.
-                    interpolation_type (Interpolator.Type, optional): The interpolation type. Defaults to Linear.
-                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+                    interpolation_type (Interpolator.Type, optional): The interpolation type. Defaults to Interpolator.Type.BarycentricRational, which requires at least 4 states.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
+                    initial_revolution_number (int, optional): The initial revolution number. Defaults to 0.
 
             )doc",
             arg("states"),
-            arg("initial_revolution_number"),
-            arg_v("interpolation_type", DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE, "Interpolator.Type.Linear"),
-            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
+            arg_v(
+                "interpolation_type",
+                DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
+                "Interpolator.Type.BarycentricRational"
+            ),
+            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()"),
+            arg_v("initial_revolution_number", Integer(DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER), "0")
         )
 
         .def(
             init<
                 const Array<State>&,
-                const Integer&,
                 const Map<Shared<const CoordinateSubset>, Interpolator::Type>&,
-                const Shared<const Frame>&>(),
+                const Shared<const Frame>&,
+                const Integer&>(),
             R"doc(
                 Constructor with per-coordinate-subset interpolation types.
 
@@ -60,15 +64,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
 
                 Args:
                     states (list[State]): The states.
-                    initial_revolution_number (int): The initial revolution number.
                     interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
-                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
+                    initial_revolution_number (int, optional): The initial revolution number. Defaults to 0.
 
             )doc",
             arg("states"),
-            arg("initial_revolution_number"),
             arg("interpolation_types"),
-            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
+            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()"),
+            arg_v("initial_revolution_number", Integer(DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER), "0")
         )
 
         .def(self == self)
@@ -195,16 +199,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
 
                 Args:
                     states (list[State]): The states.
-                    initial_revolution_number (int, optional): The initial revolution number. Defaults to 1.
-                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
+                    initial_revolution_number (int, optional): The initial revolution number. Defaults to 0.
 
                 Returns:
                     Tabulated: A tabulated orbit model using the default interpolation types.
 
             )doc",
             arg("states"),
-            arg_v("initial_revolution_number", Integer(1), "1"),
-            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
+            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()"),
+            arg_v("initial_revolution_number", Integer(DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER), "0")
         )
 
         ;

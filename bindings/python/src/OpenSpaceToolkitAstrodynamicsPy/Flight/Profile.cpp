@@ -214,11 +214,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Args:
                     pointing_profile_in_eci (list[Tuple[Instant, Vector3d]]): The profile of pointing vectors in the ECI frame.
                     direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
-                    interpolator_type (Interpolator.Type, optional): The type of interpolator to use. Defaults to BarycentricRational.
+                    interpolation_type (Interpolator.Type, optional): The type of interpolation to use. Defaults to Interpolator.Type.BarycentricRational.
             )doc",
             arg("pointing_profile_in_eci"),
             arg("direction_in_body_frame"),
-            arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
+            arg_v(
+                "interpolation_type",
+                DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE,
+                "Interpolator.Type.BarycentricRational"
+            )
         )
 
         .def_readonly(

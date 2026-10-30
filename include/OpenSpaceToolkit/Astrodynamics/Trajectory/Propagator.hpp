@@ -43,8 +43,6 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
-#define DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
-
 /// @brief Define a propagator to be used for numerical propagation
 class Propagator
 {
@@ -61,15 +59,13 @@ class Propagator
     ///
     /// @param aNumericalSolver A numerical solver
     /// @param aDynamicsArray A dynamics array (only non-maneuvering dynamics should be added here). Defaults to empty.
-    /// @param aManeuverArray A maneuver array (don't add tabulated dynamics to the dynamics array, add them here in the
-    /// form of maneuvers instead). Defaults to empty.
-    /// @param aManeuverInterpolationType The interpolation type used for the maneuvers' tabulated dynamics. Defaults
-    /// to BarycentricRational.
+    /// @param aManeuverArray A maneuver array (don't add tabulated dynamics extracted from maneuvers to the dynamics
+    /// array, add them here in the form of maneuvers instead). Each maneuver is interpolated with its own
+    /// interpolation type. Defaults to empty.
     Propagator(
         const NumericalSolver& aNumericalSolver,
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty(),
-        const Interpolator::Type& aManeuverInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
+        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
     );
 
     /// @brief Copy constructor
@@ -153,12 +149,8 @@ class Propagator
     /// @code{.cpp}
     ///              propagator.addManeuver(aManeuver);
     /// @endcode
-    /// @param aManeuver A maneuver array
-    /// @param (optional) anInterpolationType An interpolation type
-    void addManeuver(
-        const Maneuver& aManeuver,
-        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE
-    );
+    /// @param aManeuver A maneuver, interpolated with its own interpolation type
+    void addManeuver(const Maneuver& aManeuver);
 
     /// @brief Calculate the state at an instant, given initial state
     /// @code{.cpp}

@@ -33,11 +33,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
 
                 Args:
                     states (Array[State]): The states of the model.
-                    interpolator_type (Interpolator.Type, optional): The type of interpolator to use for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Barycentric Rational.
+                    interpolation_type (Interpolator.Type, optional): The type of interpolation to use for all but the AttitudeQuaternion subset. Attitude quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Interpolator.Type.BarycentricRational.
              )doc",
             arg("states"),
             arg_v(
-                "interpolator_type",
+                "interpolation_type",
                 DEFAULT_TABULATED_PROFILE_INTERPOLATION_TYPE,
                 "Interpolator.Type.BarycentricRational"
             )
@@ -103,13 +103,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(pybin
              )doc"
         )
         .def(
-            "get_interpolator_type",
-            &Tabulated::getInterpolatorType,
+            "get_interpolation_type",
+            &Tabulated::getInterpolationType,
             R"doc(
-                Get the type of interpolator used in the model.
+                Get the type of interpolation used in the model.
 
                 Returns:
-                    Interpolator.Type: The type of interpolator used in the model.
+                    Interpolator.Type: The type of interpolation used in the model.
              )doc"
         )
 

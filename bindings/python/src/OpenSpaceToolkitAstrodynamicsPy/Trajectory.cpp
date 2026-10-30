@@ -59,7 +59,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                 Construct a `Trajectory` object from an array of states.
 
                 Args:
-                    states (list[State]): The states of the trajectory.
+                    states (list[State]): The states of the trajectory. States are interpolated with barycentric rational interpolation, which requires at least 4 states.
 
                 Returns:
                     Trajectory: The `Trajectory` object.

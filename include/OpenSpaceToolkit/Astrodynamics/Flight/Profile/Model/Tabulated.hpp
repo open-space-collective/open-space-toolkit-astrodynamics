@@ -59,7 +59,7 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 ///
 /// @details Represents a flight profile model that interpolates states from a set of tabulated data
 /// points. Attitude quaternions are interpolated using SLERP, while other coordinate subsets use
-/// the specified interpolator type (defaults to Barycentric Rational).
+/// the specified interpolation type (defaults to BarycentricRational).
 class Tabulated : public virtual Model
 {
    public:
@@ -70,11 +70,11 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @param aStateArray An array of states
-    /// @param anInterpolatorType  The type of interpolation used for all but the AttitudeQuaternion subset. Attitude
-    /// quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to Barycentric Rational.
+    /// @param anInterpolationType  The type of interpolation used for all but the AttitudeQuaternion subset. Attitude
+    /// quaternions will be interpolated using spherical linear interpolation (SLERP). Defaults to BarycentricRational.
     Tabulated(
         const Array<State>& aStateArray,
-        const Interpolator::Type& anInterpolatorType = DEFAULT_TABULATED_PROFILE_INTERPOLATION_TYPE
+        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_PROFILE_INTERPOLATION_TYPE
     );
 
     /// @brief Constructor with per-coordinate-subset interpolation types.
@@ -131,10 +131,10 @@ class Tabulated : public virtual Model
     /// @return Interval of the model
     Interval getInterval() const;
 
-    /// @brief Get the interpolator type
+    /// @brief Get the interpolation type
     ///
-    /// @return Interpolator type
-    Interpolator::Type getInterpolatorType() const;
+    /// @return Interpolation type
+    Interpolator::Type getInterpolationType() const;
 
     /// @brief Calculate the state at a given instant
     ///
@@ -200,7 +200,7 @@ class Tabulated : public virtual Model
 
    private:
     Array<State> stateArray_;
-    Interpolator::Type interpolatorType_;
+    Interpolator::Type interpolationType_;
     StateBuilder stateBuilder_;
     Array<Shared<const Interpolator>> interpolators_;
 

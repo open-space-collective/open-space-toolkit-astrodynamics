@@ -35,11 +35,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Args:
                     states (list[State]): The states of the model.
-                    interpolation_type (Interpolator.Type, optional): The type of interpolation to use. Defaults to Linear.
-                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+                    interpolation_type (Interpolator.Type, optional): The type of interpolation to use. Defaults to Interpolator.Type.BarycentricRational, which requires at least 4 states.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
              )doc",
             arg("states"),
-            arg_v("interpolation_type", DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE, "Interpolator.Type.Linear"),
+            arg_v(
+                "interpolation_type",
+                DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
+                "Interpolator.Type.BarycentricRational"
+            ),
             arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
         )
 
@@ -57,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                 Args:
                     states (list[State]): The states of the model.
                     interpolation_types (dict[CoordinateSubset, Interpolator.Type]): A mapping from coordinate subset to the interpolation type to use for that subset's coordinates. Every coordinate subset present in the states must have an entry, and every coordinate subset in the map must be present in the states.
-                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
              )doc",
             arg("states"),
             arg("interpolation_types"),
@@ -194,7 +198,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Args:
                     states (list[State]): The states of the model.
-                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+                    output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
 
                 Returns:
                     Tabulated: A tabulated model using the default interpolation types.

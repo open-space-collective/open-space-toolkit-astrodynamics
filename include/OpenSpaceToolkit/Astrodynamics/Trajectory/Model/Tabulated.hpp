@@ -52,7 +52,7 @@ using ostk::astrodynamics::trajectory::Model;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-#define DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE Interpolator::Type::Linear
+#define DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
 #define DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME Frame::GCRF()
 
 /// @brief Tabulated trajectory model
@@ -71,7 +71,8 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
-    /// @param anInterpolationType The interpolation type to use between states. Defaults to Linear.
+    /// @param anInterpolationType The interpolation type to use between states. Defaults to BarycentricRational, which
+    /// requires at least 4 states.
     /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
     /// converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
     Tabulated(
