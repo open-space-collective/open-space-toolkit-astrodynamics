@@ -67,7 +67,7 @@ using ostk::physics::unit::Angle;
 using ostk::astrodynamics::flight::profile::Model;
 using ostk::astrodynamics::trajectory::State;
 
-/// @brief Spacecraft flight profile (6 DOF)
+/// @brief Spacecraft flight Profile (6 DOF)
 class Profile
 {
    public:
@@ -169,13 +169,13 @@ class Profile
        public:
         /// @brief Constructs a TabulatedPointingTarget object.
         ///
-        /// @param aPointingProfileECI The profile of pointing vectors in the ECI frame.
+        /// @param aPointingProfileInECI The profile of pointing vectors in the ECI frame.
         /// @param aDirectionInBodyFrame The (unit) vector in the spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for an arbitrary axis).
         /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
         TabulatedPointingTarget(
-            const Array<Pair<Instant, Vector3d>>& aPointingProfileECI,
+            const Array<Pair<Instant, Vector3d>>& aPointingProfileInECI,
             const Vector3d& aDirectionInBodyFrame,
             const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
         );
@@ -186,7 +186,7 @@ class Profile
         /// @return The pointing vector in ECI at the specified instant.
         Vector3d interpolatePointingVectorAt(const Instant& anInstant) const;
 
-        Array<Pair<Instant, Vector3d>> pointingProfileECI;
+        Array<Pair<Instant, Vector3d>> pointingProfileInECI;
 
        private:
         Array<Shared<const Interpolator>> interpolators_;
@@ -202,16 +202,16 @@ class Profile
        public:
         /// @brief Constructs a PointingTargetGenerator object.
         ///
-        /// @param aPointingProfileGeneratorECI The function that generates the pointing vector in the ECI frame from
+        /// @param aPointingProfileGeneratorInECI The function that generates the pointing vector in the ECI frame from
         /// the state at a given instant.
         /// @param aDirectionInBodyFrame The (unit) vector in the spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for an arbitrary axis).
         PointingTargetGenerator(
-            std::function<Vector3d(const State&)> aPointingProfileGeneratorECI, const Vector3d& aDirectionInBodyFrame
+            std::function<Vector3d(const State&)> aPointingProfileGeneratorInECI, const Vector3d& aDirectionInBodyFrame
         );
 
-        std::function<Vector3d(const State&)> pointingProfileGeneratorECI;
+        std::function<Vector3d(const State&)> pointingProfileGeneratorInECI;
     };
 
     /// @brief Constructor

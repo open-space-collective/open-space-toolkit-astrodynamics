@@ -87,26 +87,26 @@ Profile::TrajectoryPointingTarget::TrajectoryPointingTarget(
 }
 
 Profile::TabulatedPointingTarget::TabulatedPointingTarget(
-    const Array<Pair<Instant, Vector3d>>& aPointingProfileECI,
+    const Array<Pair<Instant, Vector3d>>& aPointingProfileInECI,
     const Vector3d& aDirectionInBodyFrame,
     const Interpolator::Type& anInterpolatorType
 )
     : PointingTarget(PointingTarget::Type::Tabulated, aDirectionInBodyFrame),
-      pointingProfileECI(aPointingProfileECI)
+      pointingProfileInECI(aPointingProfileInECI)
 {
-    if (pointingProfileECI.isEmpty())
+    if (pointingProfileInECI.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("Pointing Profile");
     }
 
-    VectorXd timestamps(aPointingProfileECI.getSize());
-    MatrixXd coordinates(aPointingProfileECI.getSize(), 3);
+    VectorXd timestamps(aPointingProfileInECI.getSize());
+    MatrixXd coordinates(aPointingProfileInECI.getSize(), 3);
 
-    for (Index i = 0; i < aPointingProfileECI.getSize(); ++i)
+    for (Index i = 0; i < aPointingProfileInECI.getSize(); ++i)
     {
-        timestamps(i) = (aPointingProfileECI[i].first - aPointingProfileECI.accessFirst().first).inSeconds();
+        timestamps(i) = (aPointingProfileInECI[i].first - aPointingProfileInECI.accessFirst().first).inSeconds();
 
-        coordinates.row(i) = aPointingProfileECI[i].second;
+        coordinates.row(i) = aPointingProfileInECI[i].second;
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -121,7 +121,7 @@ Vector3d Profile::TabulatedPointingTarget::interpolatePointingVectorAt(const Ins
 {
     Vector3d interpolatedCoordinates = Vector3d::Zero();
 
-    const Real duration = (anInstant - pointingProfileECI.accessFirst().first).inSeconds();
+    const Real duration = (anInstant - pointingProfileInECI.accessFirst().first).inSeconds();
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
@@ -132,10 +132,10 @@ Vector3d Profile::TabulatedPointingTarget::interpolatePointingVectorAt(const Ins
 }
 
 Profile::PointingTargetGenerator::PointingTargetGenerator(
-    std::function<Vector3d(const State&)> aPointingProfileGeneratorECI, const Vector3d& aDirectionInBodyFrame
+    std::function<Vector3d(const State&)> aPointingProfileGeneratorInECI, const Vector3d& aDirectionInBodyFrame
 )
     : PointingTarget(PointingTarget::Type::Generator, aDirectionInBodyFrame),
-      pointingProfileGeneratorECI(aPointingProfileGeneratorECI)
+      pointingProfileGeneratorInECI(aPointingProfileGeneratorInECI)
 {
 }
 
@@ -420,7 +420,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrainGenerator(
                     std::static_pointer_cast<const PointingTargetGenerator>(aPointingTargetSPtr);
                 return [pointingTargetGeneratorSPtr](const State& aState) -> Vector3d
                 {
-                    return pointingTargetGeneratorSPtr->pointingProfileGeneratorECI(aState);
+                    return pointingTargetGeneratorSPtr->pointingProfileGeneratorInECI(aState);
                 };
             }
             default:

@@ -918,20 +918,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryPointingTarget)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, PointingTargetGenerator)
 {
-    std::function<Vector3d(const State&)> pointingProfileGeneratorECI = [](const State&) -> Vector3d
+    std::function<Vector3d(const State&)> pointingProfileGeneratorInECI = [](const State&) -> Vector3d
     {
         return Vector3d::X();
     };
 
     {
-        EXPECT_NO_THROW(Profile::PointingTargetGenerator(pointingProfileGeneratorECI, Vector3d::X()));
-        EXPECT_NO_THROW(Profile::PointingTargetGenerator(pointingProfileGeneratorECI, Vector3d::Y()));
+        EXPECT_NO_THROW(Profile::PointingTargetGenerator(pointingProfileGeneratorInECI, Vector3d::X()));
+        EXPECT_NO_THROW(Profile::PointingTargetGenerator(pointingProfileGeneratorInECI, Vector3d::Y()));
     }
 
     {
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
         const Profile::PointingTargetGenerator pointing =
-            Profile::PointingTargetGenerator(pointingProfileGeneratorECI, customDirection);
+            Profile::PointingTargetGenerator(pointingProfileGeneratorInECI, customDirection);
         EXPECT_TRUE(pointing.directionInBodyFrame.isNear(customDirection, 1e-12));
         EXPECT_EQ(pointing.type, Profile::PointingTarget::Type::Generator);
     }
@@ -946,21 +946,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TabulatedPointingTarget)
 
     // Test valid pointing profile
     {
-        const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
+        const Array<Pair<Instant, Vector3d>> pointingProfileInECI = {
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(30.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
-        EXPECT_NO_THROW(Profile::TabulatedPointingTarget(pointingProfileECI, Vector3d::X()));
-        EXPECT_NO_THROW(Profile::TabulatedPointingTarget(pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear)
+        EXPECT_NO_THROW(Profile::TabulatedPointingTarget(pointingProfileInECI, Vector3d::X()));
+        EXPECT_NO_THROW(
+            Profile::TabulatedPointingTarget(pointingProfileInECI, Vector3d::X(), Interpolator::Type::Linear)
         );
     }
 
     // Verify direction and type are correctly set
     {
-        const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
+        const Array<Pair<Instant, Vector3d>> pointingProfileInECI = {
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
@@ -968,18 +969,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TabulatedPointingTarget)
             {Instant::J2000() + Duration::Seconds(40.0), Vector3d::X()},
         };
         const Vector3d customDirection = Vector3d(1.0, 2.0, 3.0).normalized();
-        Profile::TabulatedPointingTarget pointing(pointingProfileECI, customDirection);
+        Profile::TabulatedPointingTarget pointing(pointingProfileInECI, customDirection);
         EXPECT_TRUE(pointing.directionInBodyFrame.isNear(customDirection, 1e-12));
         EXPECT_EQ(pointing.type, Profile::PointingTarget::Type::Tabulated);
     }
 
     // Verify pointing vector interpolation
     {
-        const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
+        const Array<Pair<Instant, Vector3d>> pointingProfileInECI = {
             {Instant::J2000(), Vector3d::X()},
             {Instant::J2000() + Duration::Seconds(10.0), Vector3d::Y()},
         };
-        const Profile::TabulatedPointingTarget pointing(pointingProfileECI, Vector3d::X(), Interpolator::Type::Linear);
+        const Profile::TabulatedPointingTarget pointing(
+            pointingProfileInECI, Vector3d::X(), Interpolator::Type::Linear
+        );
 
         EXPECT_VECTORS_ALMOST_EQUAL(pointing.interpolatePointingVectorAt(Instant::J2000()), Vector3d::X(), 1e-12);
         EXPECT_VECTORS_ALMOST_EQUAL(
@@ -1116,7 +1119,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrainGenerator
 
         // Tabulated
         {
-            const Array<Pair<Instant, Vector3d>> pointingProfileECI = {
+            const Array<Pair<Instant, Vector3d>> pointingProfileInECI = {
                 {Instant::J2000(), Vector3d::X()},
                 {Instant::J2000() + Duration::Seconds(10.0), Vector3d::X()},
                 {Instant::J2000() + Duration::Seconds(20.0), Vector3d::X()},
@@ -1126,7 +1129,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrainGenerator
 
             const auto orientation = Profile::AlignAndConstrainGenerator(
                 earthSPtr,
-                std::make_shared<Profile::TabulatedPointingTarget>(pointingProfileECI, Vector3d::X()),
+                std::make_shared<Profile::TabulatedPointingTarget>(pointingProfileInECI, Vector3d::X()),
                 std::make_shared<Profile::PointingTarget>(Profile::PointingTarget::Type::VelocityECI, Vector3d::Y())
             );
 
@@ -1137,14 +1140,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignAndConstrainGenerator
 
         // Generator
         {
-            std::function<Vector3d(const State&)> pointingProfileGeneratorECI = [](const State&) -> Vector3d
+            std::function<Vector3d(const State&)> pointingProfileGeneratorInECI = [](const State&) -> Vector3d
             {
                 return Vector3d::X();
             };
 
             const auto orientation = Profile::AlignAndConstrainGenerator(
                 earthSPtr,
-                std::make_shared<Profile::PointingTargetGenerator>(pointingProfileGeneratorECI, Vector3d::X()),
+                std::make_shared<Profile::PointingTargetGenerator>(pointingProfileGeneratorInECI, Vector3d::X()),
                 std::make_shared<Profile::PointingTarget>(Profile::PointingTarget::Type::VelocityECI, Vector3d::Y())
             );
 

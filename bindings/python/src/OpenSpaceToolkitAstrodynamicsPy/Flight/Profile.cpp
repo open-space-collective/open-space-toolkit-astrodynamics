@@ -28,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         aModule,
         "Profile",
         R"doc(
-            Spacecraft flight profile (6 DOF).
+            Spacecraft flight Profile (6 DOF).
 
         )doc"
     );
@@ -212,18 +212,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Constructor.
 
                 Args:
-                    pointing_profile_eci (list[Tuple[Instant, Vector3d]]): The profile of pointing vectors in the ECI frame.
+                    pointing_profile_in_eci (list[Tuple[Instant, Vector3d]]): The profile of pointing vectors in the ECI frame.
                     direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
                     interpolator_type (Interpolator.Type, optional): The type of interpolator to use. Defaults to BarycentricRational.
             )doc",
-            arg("pointing_profile_eci"),
+            arg("pointing_profile_in_eci"),
             arg("direction_in_body_frame"),
             arg_v("interpolator_type", Interpolator::Type::BarycentricRational, "Interpolator.Type.BarycentricRational")
         )
 
         .def_readonly(
-            "pointing_profile_eci",
-            &Profile::TabulatedPointingTarget::pointingProfileECI,
+            "pointing_profile_in_eci",
+            &Profile::TabulatedPointingTarget::pointingProfileInECI,
             "The profile of pointing vectors in the ECI frame."
         )
 
@@ -245,16 +245,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
                 Constructor.
 
                 Args:
-                    pointing_profile_generator_eci (Callable[[State], np.ndarray]): The function that generates the pointing vector in the ECI frame from the state at a given instant.
+                    pointing_profile_generator_in_eci (Callable[[State], np.ndarray]): The function that generates the pointing vector in the ECI frame from the state at a given instant.
                     direction_in_body_frame (Vector3d): The (unit) vector in the spacecraft's body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis).
             )doc",
-            arg("pointing_profile_generator_eci"),
+            arg("pointing_profile_generator_in_eci"),
             arg("direction_in_body_frame")
         )
 
         .def_readonly(
-            "pointing_profile_generator_eci",
-            &Profile::PointingTargetGenerator::pointingProfileGeneratorECI,
+            "pointing_profile_generator_in_eci",
+            &Profile::PointingTargetGenerator::pointingProfileGeneratorInECI,
             "The function that generates the pointing vector in the ECI frame."
         )
 
