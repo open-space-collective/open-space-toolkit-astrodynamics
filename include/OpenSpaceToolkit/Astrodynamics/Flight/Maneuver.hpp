@@ -61,8 +61,9 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 /// @brief Store an acceleration and mass flow rate profile of a spacecraft maneuver.
 ///
 /// @details Represents a spacecraft maneuver defined by a time-ordered array of states containing
-/// position, velocity, acceleration, and mass flow rate. Provides methods to compute delta-V,
-/// delta-mass, average thrust, average specific impulse, and to convert to tabulated dynamics.
+/// position, velocity, acceleration, and mass flow rate, and the interpolation type used to evaluate its acceleration
+/// and mass flow rate profiles between those states. Provides methods to compute delta-V, delta-mass, average thrust,
+/// average specific impulse, and to convert to tabulated dynamics.
 class Maneuver
 {
    public:

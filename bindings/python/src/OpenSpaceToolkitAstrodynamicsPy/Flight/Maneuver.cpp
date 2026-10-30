@@ -133,7 +133,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             &Maneuver::toTabulatedDynamics,
             arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
             R"doc(
-                Convert the maneuver to tabulated dynamics.
+                Convert the maneuver to tabulated dynamics, which use the interpolation type of the maneuver.
 
                 Args:
                     frame (Frame, optional): The frame in which the acceleration profile is defined. Defaults to the default acceleration frame.

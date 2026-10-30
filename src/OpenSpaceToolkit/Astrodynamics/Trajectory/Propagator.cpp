@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <algorithm>
 #include <typeindex>
 
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
@@ -36,6 +37,7 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Position;
 using ostk::physics::environment::object::Celestial;
+using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::dynamics::AtmosphericDrag;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
@@ -46,44 +48,11 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
 
-Propagator::Propagator(
-    const NumericalSolver& aNumericalSolver,
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Array<Maneuver>& aManeuverArray
-)
+Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
     : dynamicsContexts_(),
       numericalSolver_(aNumericalSolver)
 {
     this->setDynamics(aDynamicsArray);
-
-    for (const Maneuver& maneuver : aManeuverArray)
-    {
-        // Check if the maneuver's first and last instants overlap with any other maneuver
-        Size duplicateManeuverCounter = 0;
-        for (const Maneuver& otherManeuver : aManeuverArray)
-        {
-            if (maneuver != otherManeuver)
-            {
-                if (maneuver.getStates().accessFirst().accessInstant() <=
-                        otherManeuver.getStates().accessLast().accessInstant() &&
-                    maneuver.getStates().accessLast().accessInstant() >=
-                        otherManeuver.getStates().accessFirst().accessInstant())
-                {
-                    throw ostk::core::error::RuntimeError("Maneuvers cannot overlap in time.");
-                }
-            }
-            else
-            {
-                duplicateManeuverCounter++;
-            }
-        }
-
-        if (duplicateManeuverCounter != 1)
-        {
-            throw ostk::core::error::RuntimeError("Maneuvers cannot be duplicated.");
-        }
-        this->addManeuver(maneuver);
-    }
 }
 
 Propagator::Propagator(const Propagator& aPropagator)
@@ -181,11 +150,6 @@ void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
     }
 }
 
-void Propagator::addManeuver(const Maneuver& aManeuver)
-{
-    this->addDynamics(aManeuver.toTabulatedDynamics(IntegrationFrameSPtr));
-}
-
 void Propagator::addDynamics(const Shared<Dynamics>& aDynamicsSPtr)
 {
     if (aDynamicsSPtr == nullptr || !aDynamicsSPtr->isDefined())
@@ -193,25 +157,7 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamicsSPtr)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
-    // Store read coordinate subsets information
-    Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
-    readInfo.reserve(aDynamicsSPtr->getReadCoordinateSubsets().getSize());
-    for (const Shared<const CoordinateSubset>& subset : aDynamicsSPtr->getReadCoordinateSubsets())
-    {
-        const Pair<Index, Size> indexAndSize = {coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
-        readInfo.add(indexAndSize);
-    }
-
-    // Store write coordinate subsets information
-    Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
-    writeInfo.reserve(aDynamicsSPtr->getWriteCoordinateSubsets().getSize());
-    for (const Shared<const CoordinateSubset>& subset : aDynamicsSPtr->getWriteCoordinateSubsets())
-    {
-        const Pair<Index, Size> indexAndSize = {coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
-        writeInfo.add(indexAndSize);
-    }
-
-    dynamicsContexts_.add({aDynamicsSPtr, readInfo, writeInfo});
+    dynamicsContexts_.add(Propagator::CreateContext(aDynamicsSPtr, coordinatesBrokerSPtr_));
 }
 
 void Propagator::clearDynamics()
@@ -220,7 +166,8 @@ void Propagator::clearDynamics()
     coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
-State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
+State Propagator::calculateStateAt(const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray)
+    const
 {
     if (!this->isDefined())
     {
@@ -229,17 +176,22 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     this->validateDynamicsSet();
 
-    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
+    const ManeuverSchedule maneuverSchedule = this->scheduleManeuvers(aManeuverArray);
+
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, maneuverSchedule.coordinateBrokerSPtr};
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
-    const State solverOutputState = numericalSolver_.integrateTime(
-        solverInputState,
-        anInstant,
-        Dynamics::GetSystemOfEquations(
-            dynamicsContexts_, solverInputState.accessInstant(), Propagator::IntegrationFrameSPtr
-        )
-    );
+    State solverOutputState = solverInputState;
+
+    for (const Arc& arc : this->generateArcs(solverInputState.accessInstant(), anInstant, maneuverSchedule.maneuvers))
+    {
+        solverOutputState = numericalSolver_.integrateTime(
+            solverOutputState,
+            arc.endInstant,
+            Dynamics::GetSystemOfEquations(arc.contexts, arc.startInstant, Propagator::IntegrationFrameSPtr)
+        );
+    }
 
     const StateBuilder outputStateBuilder = {aState};
 
@@ -247,7 +199,10 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 }
 
 NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
-    const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
+    const State& aState,
+    const Instant& anInstant,
+    const EventCondition& anEventCondition,
+    const Array<Maneuver>& aManeuverArray
 ) const
 {
     if (!this->isDefined())
@@ -257,18 +212,83 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     this->validateDynamicsSet();
 
+    const ManeuverSchedule maneuverSchedule = this->scheduleManeuvers(aManeuverArray);
+
     const Instant& startInstant = aState.accessInstant();
 
-    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, maneuverSchedule.coordinateBrokerSPtr};
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
-    NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
-        solverInputState,
-        anInstant,
-        Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr),
-        anEventCondition
-    );
+    const Array<Arc> arcs = this->generateArcs(startInstant, anInstant, maneuverSchedule.maneuvers);
+
+    State arcInputState = solverInputState;
+    NumericalSolver::ConditionSolution conditionSolution = {solverInputState, false, 0, false};
+
+    for (Index i = 0; i < arcs.getSize(); ++i)
+    {
+        const Arc& arc = arcs[i];
+        const bool isLastArc = (i + 1 == arcs.getSize());
+
+        const NumericalSolver::SystemOfEquationsWrapper arcSystemOfEquations =
+            Dynamics::GetSystemOfEquations(arc.contexts, arc.startInstant, Propagator::IntegrationFrameSPtr);
+
+        // The conditional solver lets its last step run past the end of the arc, then integrates back to the end. The
+        // dynamics of an arc stop at its end (a maneuver switches off, or the next arc has different dynamics), and the
+        // error estimate cannot see a step that straddles such a discontinuity. Holding the time fixed at the end of
+        // the arc beyond it extends the dynamics of the arc continuously, so the overshoot and the integration back
+        // stay consistent. A last arc without a maneuver has no such discontinuity, and is left untouched.
+        const double arcDuration = (arc.endInstant - arc.startInstant).inSeconds();
+
+        const NumericalSolver::SystemOfEquationsWrapper systemOfEquations =
+            (isLastArc && !arc.hasManeuver)
+                ? arcSystemOfEquations
+                : NumericalSolver::SystemOfEquationsWrapper(
+                      [arcSystemOfEquations, arcDuration](
+                          const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                      )
+                      {
+                          arcSystemOfEquations(
+                              x, dxdt, arcDuration >= 0.0 ? std::min(t, arcDuration) : std::max(t, arcDuration)
+                          );
+                      }
+                  );
+
+        conditionSolution =
+            numericalSolver_.integrateTime(arcInputState, arc.endInstant, systemOfEquations, anEventCondition);
+
+        if (isLastArc)
+        {
+            break;
+        }
+
+        if (conditionSolution.conditionIsSatisfied)
+        {
+            const Instant& eventInstant = conditionSolution.state.accessInstant();
+            const bool isEventWithinArc =
+                arc.endInstant >= arc.startInstant ? eventInstant <= arc.endInstant : eventInstant >= arc.endInstant;
+
+            if (isEventWithinArc)
+            {
+                break;
+            }
+
+            // The solver's last step can overshoot the end of the arc, and an event found there was computed with the
+            // dynamics of this arc rather than those of the next one: discard it and carry on from the end of the arc.
+            conditionSolution.state = numericalSolver_.integrateTime(arcInputState, arc.endInstant, systemOfEquations);
+            conditionSolution.conditionIsSatisfied = false;
+        }
+
+        // The solver rebuilds the end instant from a floating-point duration: pin it to the exact arc boundary
+        arcInputState = conditionSolution.state.accessInstant() == arc.endInstant
+                          ? conditionSolution.state
+                          : State(
+                                arc.endInstant,
+                                conditionSolution.state.accessCoordinates(),
+                                conditionSolution.state.accessFrame(),
+                                conditionSolution.state.accessCoordinateBroker()
+                            );
+    }
 
     const StateBuilder outputStateBuilder = {aState};
 
@@ -277,7 +297,9 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     return conditionSolution;
 }
 
-Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
+Array<State> Propagator::calculateStatesAt(
+    const State& aState, const Array<Instant>& anInstantArray, const Array<Maneuver>& aManeuverArray
+) const
 {
     if (!this->isDefined())
     {
@@ -313,7 +335,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
 
     this->validateDynamicsSet();
 
-    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
+    const ManeuverSchedule maneuverSchedule = this->scheduleManeuvers(aManeuverArray);
+
+    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, maneuverSchedule.coordinateBrokerSPtr};
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
@@ -339,30 +363,16 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // forward propagation only
-    Array<State> forwardPropagatedStates;
-    if (!forwardInstants.isEmpty())
-    {
-        forwardPropagatedStates = numericalSolver_.integrateTime(
-            solverInputState,
-            forwardInstants,
-            Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr)
-        );
-    }
+    const Array<State> forwardPropagatedStates =
+        this->propagateThroughArcs(solverInputState, forwardInstants, maneuverSchedule.maneuvers);
 
     // backward propagation only
-    Array<State> backwardPropagatedStates;
-    if (!backwardInstants.isEmpty())
-    {
-        std::reverse(backwardInstants.begin(), backwardInstants.end());
+    std::reverse(backwardInstants.begin(), backwardInstants.end());
 
-        backwardPropagatedStates = numericalSolver_.integrateTime(
-            solverInputState,
-            backwardInstants,
-            Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr)
-        );
+    Array<State> backwardPropagatedStates =
+        this->propagateThroughArcs(solverInputState, backwardInstants, maneuverSchedule.maneuvers);
 
-        std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
-    }
+    std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
 
     Array<State> outputStates;
     outputStates.reserve(backwardPropagatedStates.getSize() + forwardPropagatedStates.getSize());
@@ -448,6 +458,203 @@ void Propagator::validateDynamicsSet() const
     {
         throw ostk::core::error::RuntimeError("Propagator can have at most one Thruster Dynamics.");
     }
+}
+
+Propagator::ManeuverSchedule Propagator::scheduleManeuvers(const Array<Maneuver>& aManeuverArray) const
+{
+    if (aManeuverArray.isEmpty())
+    {
+        return {coordinatesBrokerSPtr_, Array<ScheduledManeuver>::Empty()};
+    }
+
+    // The maneuvers write to subsets (e.g. mass) that the dynamics of the propagator might not: extend a copy of the
+    // broker, which leaves the existing indexes untouched, so that the propagator itself is not modified
+    const Shared<CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(*coordinatesBrokerSPtr_);
+
+    struct Candidate
+    {
+        Instant startInstant;
+        Instant endInstant;
+        Index index;
+    };
+
+    Array<Candidate> candidates = Array<Candidate>::Empty();
+    candidates.reserve(aManeuverArray.getSize());
+    for (Index i = 0; i < aManeuverArray.getSize(); ++i)
+    {
+        const Interval maneuverInterval = aManeuverArray[i].getInterval();
+        candidates.add({maneuverInterval.getStart(), maneuverInterval.getEnd(), i});
+    }
+
+    std::stable_sort(
+        candidates.begin(),
+        candidates.end(),
+        [](const Candidate& aFirstCandidate, const Candidate& aSecondCandidate) -> bool
+        {
+            return aFirstCandidate.startInstant < aSecondCandidate.startInstant;
+        }
+    );
+
+    // Sorted by start instant, so any overlap is between neighbors
+    for (Index i = 1; i < candidates.getSize(); ++i)
+    {
+        if (candidates[i].startInstant <= candidates[i - 1].endInstant)
+        {
+            if (aManeuverArray[candidates[i].index] == aManeuverArray[candidates[i - 1].index])
+            {
+                throw ostk::core::error::RuntimeError("Maneuvers cannot be duplicated.");
+            }
+
+            throw ostk::core::error::RuntimeError("Maneuvers cannot overlap in time.");
+        }
+    }
+
+    Array<ScheduledManeuver> scheduledManeuvers = Array<ScheduledManeuver>::Empty();
+    scheduledManeuvers.reserve(candidates.getSize());
+    for (const Candidate& candidate : candidates)
+    {
+        const Shared<Dynamics> tabulatedDynamicsSPtr =
+            aManeuverArray[candidate.index].toTabulatedDynamics(Propagator::IntegrationFrameSPtr);
+
+        scheduledManeuvers.add({
+            candidate.startInstant,
+            candidate.endInstant,
+            Propagator::CreateContext(tabulatedDynamicsSPtr, coordinateBrokerSPtr),
+        });
+    }
+
+    return {coordinateBrokerSPtr, scheduledManeuvers};
+}
+
+Array<Propagator::Arc> Propagator::generateArcs(
+    const Instant& aStartInstant, const Instant& anEndInstant, const Array<ScheduledManeuver>& aManeuverArray
+) const
+{
+    const bool isForward = anEndInstant >= aStartInstant;
+    const Instant lowerInstant = isForward ? aStartInstant : anEndInstant;
+    const Instant upperInstant = isForward ? anEndInstant : aStartInstant;
+
+    // Build the arcs in chronological order, then flip them if propagating backwards
+    Array<Arc> arcs = Array<Arc>::Empty();
+    Instant cursorInstant = lowerInstant;
+
+    for (const ScheduledManeuver& scheduledManeuver : aManeuverArray)
+    {
+        if (scheduledManeuver.endInstant <= lowerInstant || scheduledManeuver.startInstant >= upperInstant)
+        {
+            continue;
+        }
+
+        const Instant maneuverStartInstant = std::max(scheduledManeuver.startInstant, lowerInstant);
+        const Instant maneuverEndInstant = std::min(scheduledManeuver.endInstant, upperInstant);
+
+        if (maneuverStartInstant > cursorInstant)
+        {
+            arcs.add({cursorInstant, maneuverStartInstant, false, dynamicsContexts_});
+        }
+
+        Array<Dynamics::Context> maneuverContexts = dynamicsContexts_;
+        maneuverContexts.add(scheduledManeuver.context);
+        arcs.add({maneuverStartInstant, maneuverEndInstant, true, maneuverContexts});
+
+        cursorInstant = maneuverEndInstant;
+    }
+
+    if (cursorInstant < upperInstant || arcs.isEmpty())
+    {
+        arcs.add({cursorInstant, upperInstant, false, dynamicsContexts_});
+    }
+
+    if (!isForward)
+    {
+        std::reverse(arcs.begin(), arcs.end());
+
+        for (Arc& arc : arcs)
+        {
+            std::swap(arc.startInstant, arc.endInstant);
+        }
+    }
+
+    return arcs;
+}
+
+Array<State> Propagator::propagateThroughArcs(
+    const State& aState, const Array<Instant>& anInstantArray, const Array<ScheduledManeuver>& aManeuverArray
+) const
+{
+    if (anInstantArray.isEmpty())
+    {
+        return Array<State>::Empty();
+    }
+
+    const bool isForward = anInstantArray.accessLast() > aState.accessInstant();
+
+    Array<State> states = Array<State>::Empty();
+    states.reserve(anInstantArray.getSize());
+
+    State arcInputState = aState;
+    Index nextInstantIndex = 0;
+
+    for (const Arc& arc : this->generateArcs(aState.accessInstant(), anInstantArray.accessLast(), aManeuverArray))
+    {
+        // The instants that fall within this arc (an instant on a boundary belongs to the arc that ends there)
+        Array<Instant> arcInstants = Array<Instant>::Empty();
+        while (nextInstantIndex < anInstantArray.getSize() &&
+               (isForward ? anInstantArray[nextInstantIndex] <= arc.endInstant
+                          : anInstantArray[nextInstantIndex] >= arc.endInstant))
+        {
+            arcInstants.add(anInstantArray[nextInstantIndex]);
+            ++nextInstantIndex;
+        }
+
+        // Always integrate up to the end of the arc, which is where the next arc starts
+        const bool isArcEndRequested = !arcInstants.isEmpty() && arcInstants.accessLast() == arc.endInstant;
+        if (!isArcEndRequested)
+        {
+            arcInstants.add(arc.endInstant);
+        }
+
+        const Array<State> arcStates = numericalSolver_.integrateTime(
+            arcInputState,
+            arcInstants,
+            Dynamics::GetSystemOfEquations(arc.contexts, arc.startInstant, Propagator::IntegrationFrameSPtr)
+        );
+
+        const Size requestedStateCount = isArcEndRequested ? arcStates.getSize() : arcStates.getSize() - 1;
+        for (Index i = 0; i < requestedStateCount; ++i)
+        {
+            states.add(arcStates[i]);
+        }
+
+        arcInputState = arcStates.accessLast();
+    }
+
+    return states;
+}
+
+Dynamics::Context Propagator::CreateContext(
+    const Shared<Dynamics>& aDynamicsSPtr, const Shared<CoordinateBroker>& aCoordinateBrokerSPtr
+)
+{
+    // Store read coordinate subsets information
+    Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
+    readInfo.reserve(aDynamicsSPtr->getReadCoordinateSubsets().getSize());
+    for (const Shared<const CoordinateSubset>& subset : aDynamicsSPtr->getReadCoordinateSubsets())
+    {
+        const Pair<Index, Size> indexAndSize = {aCoordinateBrokerSPtr->addSubset(subset), subset->getSize()};
+        readInfo.add(indexAndSize);
+    }
+
+    // Store write coordinate subsets information
+    Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
+    writeInfo.reserve(aDynamicsSPtr->getWriteCoordinateSubsets().getSize());
+    for (const Shared<const CoordinateSubset>& subset : aDynamicsSPtr->getWriteCoordinateSubsets())
+    {
+        const Pair<Index, Size> indexAndSize = {aCoordinateBrokerSPtr->addSubset(subset), subset->getSize()};
+        writeInfo.add(indexAndSize);
+    }
+
+    return {aDynamicsSPtr, readInfo, writeInfo};
 }
 
 }  // namespace trajectory
