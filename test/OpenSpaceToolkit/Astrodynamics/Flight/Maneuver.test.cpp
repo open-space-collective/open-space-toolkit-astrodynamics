@@ -104,6 +104,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         EXPECT_NO_THROW(Maneuver {defaultStates_});
     }
 
+    {
+        EXPECT_NO_THROW(Maneuver(defaultStates_, Interpolator::Type::Linear));
+    }
+
     // No states provided
     {
         EXPECT_THROW(
@@ -419,6 +423,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, EqualToOperator)
     {
         EXPECT_TRUE(defaultManeuver_ == defaultManeuver_);
     }
+
+    {
+        EXPECT_FALSE(defaultManeuver_ == Maneuver(defaultStates_, Interpolator::Type::Linear));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, NotEqualToOperator)
@@ -458,6 +466,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
 {
     {
         EXPECT_EQ(defaultManeuver_.getStates(), defaultStates_);
+    }
+
+    {
+        EXPECT_EQ(defaultManeuver_.getInterpolationType(), DEFAULT_MANEUVER_INTERPOLATION_TYPE);
+        EXPECT_EQ(
+            Maneuver(defaultStates_, Interpolator::Type::Linear).getInterpolationType(), Interpolator::Type::Linear
+        );
     }
 
     {
@@ -664,8 +679,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
 {
     {
-        const Shared<TabulatedDynamics> tabulatedDynamicsSPtr =
-            defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_, Interpolator::Type::BarycentricRational);
+        const Shared<TabulatedDynamics> tabulatedDynamicsSPtr = defaultManeuver_.toTabulatedDynamics(defaultFrameSPtr_);
 
         const Array<Instant> instants = defaultStates_.map<Instant>(
             [](const auto& state)
@@ -716,9 +730,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             {
                 try
                 {
-                    singleStateManeuver_.toTabulatedDynamics(
-                        defaultFrameSPtr_, Interpolator::Type::BarycentricRational
-                    );
+                    singleStateManeuver_.toTabulatedDynamics(defaultFrameSPtr_);
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {

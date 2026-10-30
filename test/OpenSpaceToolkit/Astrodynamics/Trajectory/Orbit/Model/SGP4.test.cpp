@@ -177,7 +177,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
 
         // 15 hours after tle1 should still use tle1 (within 18-hour boundary)
         const Instant instantInTle1 = tle1.getEpoch() + Duration::Hours(15.0);
-        const SGP4 sgp4Single1(tle1);
+        const SGP4 sgp4Single1(tle1, Frame::GCRF());
         const State stateMulti = sgp4.calculateStateAt(instantInTle1);
         const State stateSingle = sgp4Single1.calculateStateAt(instantInTle1);
 
@@ -187,7 +187,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
 
         // 19 hours after tle1 should use tle2 (past 18-hour boundary)
         const Instant instantInTle2 = tle1.getEpoch() + Duration::Hours(19.0);
-        const SGP4 sgp4Single2(tle2);
+        const SGP4 sgp4Single2(tle2, Frame::GCRF());
         const State stateMulti2 = sgp4.calculateStateAt(instantInTle2);
         const State stateSingle2 = sgp4Single2.calculateStateAt(instantInTle2);
 
@@ -252,7 +252,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyConstruct
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmentOperator)
 {
-    SGP4 sgp4Copy(tle_, Frame::TEME());
+    SGP4 sgp4Copy(tle_, Frame::GCRF());
 
     EXPECT_NE(sgp4_, sgp4Copy);
 
@@ -343,7 +343,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, EqualityOpera
     // Same TLE, different frame
     {
         const SGP4 sgp4A(tle_);
-        const SGP4 sgp4B(tle_, Frame::TEME());
+        const SGP4 sgp4B(tle_, Frame::GCRF());
 
         EXPECT_FALSE(sgp4A == sgp4B);
         EXPECT_TRUE(sgp4A != sgp4B);
@@ -468,21 +468,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Print)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
 {
-    // Default constructor outputs in GCRF
+    // Default constructor outputs in TEME
     {
-        EXPECT_EQ(Frame::GCRF(), sgp4_.getOutputFrame());
+        EXPECT_EQ(Frame::TEME(), sgp4_.getOutputFrame());
 
         const State state = sgp4_.calculateStateAt(tle_.getEpoch());
-        EXPECT_EQ(*Frame::GCRF(), *state.accessFrame());
+        EXPECT_EQ(*Frame::TEME(), *state.accessFrame());
     }
 
-    // Constructor with TEME output frame
+    // Constructor with GCRF output frame
     {
-        const SGP4 sgp4(tle_, Frame::TEME());
-        EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
+        const SGP4 sgp4(tle_, Frame::GCRF());
+        EXPECT_EQ(Frame::GCRF(), sgp4.getOutputFrame());
 
         const State state = sgp4.calculateStateAt(tle_.getEpoch());
-        EXPECT_EQ(*Frame::TEME(), *state.accessFrame());
+        EXPECT_EQ(*Frame::GCRF(), *state.accessFrame());
     }
 }
 
@@ -497,7 +497,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
 
     // State at tle1 epoch should match single-TLE SGP4 with tle1
     {
-        const SGP4 sgp4Single(tle1);
+        const SGP4 sgp4Single(tle1, Frame::GCRF());
         const State stateMulti = sgp4Multi.calculateStateAt(tle1.getEpoch());
         const State stateSingle = sgp4Single.calculateStateAt(tle1.getEpoch());
 
@@ -511,7 +511,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
 
     // State at tle2 epoch should match single-TLE SGP4 with tle2
     {
-        const SGP4 sgp4Single(tle2);
+        const SGP4 sgp4Single(tle2, Frame::GCRF());
         const State stateMulti = sgp4Multi.calculateStateAt(tle2.getEpoch());
         const State stateSingle = sgp4Single.calculateStateAt(tle2.getEpoch());
 
@@ -527,7 +527,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
     {
         const Instant instantNearTle1 =
             tle1.getEpoch() + Duration::Hours(6.0);  // 6 hours after tle1, 18 hours before tle2
-        const SGP4 sgp4Single(tle1);
+        const SGP4 sgp4Single(tle1, Frame::GCRF());
         const State stateMulti = sgp4Multi.calculateStateAt(instantNearTle1);
         const State stateSingle = sgp4Single.calculateStateAt(instantNearTle1);
 
@@ -540,7 +540,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
     {
         const Instant instantNearTle2 =
             tle2.getEpoch() - Duration::Hours(6.0);  // 18 hours after tle1, 6 hours before tle2
-        const SGP4 sgp4Single(tle2);
+        const SGP4 sgp4Single(tle2, Frame::GCRF());
         const State stateMulti = sgp4Multi.calculateStateAt(instantNearTle2);
         const State stateSingle = sgp4Single.calculateStateAt(instantNearTle2);
 
@@ -616,7 +616,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/Test_1/Satellite.tle")
         ));
 
-        const SGP4 sgp4Model = {tle};
+        const SGP4 sgp4Model = {tle, Frame::GCRF()};
 
         // Orbit setup
 

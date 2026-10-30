@@ -25,11 +25,6 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianAcceler
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
-    : Tabulated(aStateArray, anInterpolationType, Frame::GCRF())
-{
-}
-
 Tabulated::Tabulated(
     const Array<State>& aStateArray,
     const Interpolator::Type& anInterpolationType,
@@ -57,14 +52,6 @@ Tabulated::Tabulated(
     {
         interpolators_.add(Interpolator::GenerateInterpolator(anInterpolationType, timestamps, coordinates.col(i)));
     }
-}
-
-Tabulated::Tabulated(
-    const Array<State>& aStateArray,
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
-)
-    : Tabulated(aStateArray, anInterpolationTypeMap, Frame::GCRF())
-{
 }
 
 Tabulated::Tabulated(
@@ -331,11 +318,6 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-Tabulated Tabulated::Default(const Array<State>& aStateArray)
-{
-    return Tabulated(aStateArray, Tabulated::DefaultInterpolationTypes());
 }
 
 Tabulated Tabulated::Default(const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr)

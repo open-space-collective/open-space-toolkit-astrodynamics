@@ -40,7 +40,9 @@ def cube_vertex_generator(state: State) -> list[Point]:
 
 class TestCustom:
     def test_constructor_success_frame(self):
-        custom = Custom(vertex_generator=cube_vertex_generator, frame=Frame.GCRF())
+        custom = Custom(
+            vertex_generator=cube_vertex_generator, frame_or_lof_factory=Frame.GCRF()
+        )
 
         assert custom is not None
         assert isinstance(custom, Custom)
@@ -51,21 +53,23 @@ class TestCustom:
     ):
         custom = Custom(
             vertex_generator=cube_vertex_generator,
-            local_orbital_frame_factory=vnc_factory,
+            frame_or_lof_factory=vnc_factory,
         )
 
         assert isinstance(custom, Custom)
         assert isinstance(custom, HardBody)
 
     def test_get_vertex_generator_success(self, state: State):
-        custom = Custom(vertex_generator=cube_vertex_generator, frame=Frame.GCRF())
+        custom = Custom(
+            vertex_generator=cube_vertex_generator, frame_or_lof_factory=Frame.GCRF()
+        )
 
         assert len(custom.get_vertex_generator()(state)) == 8
 
     def test_calculate_cross_section_at_success(self, state: State):
         # Cube: square shadow of side 2.0 m
         cross_section = Custom(
-            vertex_generator=cube_vertex_generator, frame=Frame.GCRF()
+            vertex_generator=cube_vertex_generator, frame_or_lof_factory=Frame.GCRF()
         ).calculate_cross_section_at(state=state, frame=Frame.GCRF())
 
         assert isinstance(cross_section, HardBody.CrossSection)

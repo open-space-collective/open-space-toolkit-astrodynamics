@@ -1265,8 +1265,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
         const Orbit tabulatedOrbit = {
             Tabulated(
                 orbit.getStatesAt(interval.generateGrid(Duration::Seconds(20.0))),
-                1,
-                Interpolator::Type::BarycentricRational
+                Interpolator::Type::BarycentricRational,
+                Frame::GCRF(),
+                1
             ),
             defaultEarthSPtr_
         };

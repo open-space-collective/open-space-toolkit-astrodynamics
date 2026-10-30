@@ -67,6 +67,8 @@ using ostk::physics::unit::Angle;
 using ostk::astrodynamics::flight::profile::Model;
 using ostk::astrodynamics::trajectory::State;
 
+#define DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE Interpolator::Type::BarycentricRational
+
 /// @brief Spacecraft flight Profile (6 DOF)
 class Profile
 {
@@ -173,11 +175,11 @@ class Profile
         /// @param aDirectionInBodyFrame The (unit) vector in the spacecraft's body frame to point relative to the
         /// target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69]
         /// for an arbitrary axis).
-        /// @param anInterpolatorType The type of interpolator to use. Defaults to BarycentricRational.
+        /// @param anInterpolationType The type of interpolation to use. Defaults to BarycentricRational.
         TabulatedPointingTarget(
             const Array<Pair<Instant, Vector3d>>& aPointingProfileInECI,
             const Vector3d& aDirectionInBodyFrame,
-            const Interpolator::Type& anInterpolatorType = Interpolator::Type::BarycentricRational
+            const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE
         );
 
         /// @brief Interpolates the pointing vector in ECI at a specified instant using the profile.

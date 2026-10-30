@@ -28,20 +28,7 @@ namespace sgp4
 
 const Integer TLE::MaximumSatelliteNumber = 339999;
 
-TLE::TLE(const String& aFirstLine, const String& aSecondLine)
-    : satelliteName_(String::Empty()),
-      firstLine_(aFirstLine),
-      secondLine_(aSecondLine)
-{
-    if (((!aFirstLine.isEmpty()) || (!aSecondLine.isEmpty())) && (!TLE::CanParse(aFirstLine, aSecondLine)))
-    {
-        throw ostk::core::error::runtime::Wrong(
-            "TLE", String::Format("First line: [{}], Second line: [{}]", aFirstLine, aSecondLine)
-        );
-    }
-}
-
-TLE::TLE(const String& aSatelliteName, const String& aFirstLine, const String& aSecondLine)
+TLE::TLE(const String& aFirstLine, const String& aSecondLine, const std::optional<String>& aSatelliteName)
     : satelliteName_(aSatelliteName),
       firstLine_(aFirstLine),
       secondLine_(aSecondLine)
@@ -88,7 +75,7 @@ bool TLE::isDefined() const
     return (!firstLine_.isEmpty()) && (!secondLine_.isEmpty());
 }
 
-String TLE::getSatelliteName() const
+std::optional<String> TLE::getSatelliteName() const
 {
     return satelliteName_;
 }
@@ -320,7 +307,7 @@ void TLE::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Separator(anOutputStream);
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Name:" << this->getSatelliteName();
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Name:" << satelliteName_.value_or("Undefined");
     ostk::core::utils::Print::Line(anOutputStream) << "Satellite Number:" << this->getSatelliteNumber().toString();
     ostk::core::utils::Print::Line(anOutputStream) << "Classification:" << this->getClassification();
     ostk::core::utils::Print::Line(anOutputStream) << "International Designator:" << this->getInternationalDesignator();
@@ -456,7 +443,7 @@ void TLE::setRevolutionNumberAtEpoch(const Integer& aRevolutionNumberAtEpoch)
 
 TLE TLE::Undefined()
 {
-    return {String::Empty(), String::Empty(), String::Empty()};
+    return {String::Empty(), String::Empty()};
 }
 
 bool TLE::CanParse(const String& aString)
@@ -550,7 +537,7 @@ TLE TLE::Parse(const String& aString)
     }
     else if (lines.getSize() >= 3)
     {
-        return TLE {lines.at(0), lines.at(1), lines.at(2)};
+        return TLE {lines.at(1), lines.at(2), lines.at(0)};
     }
 
     throw ostk::core::error::runtime::Wrong("String", aString);
@@ -576,7 +563,7 @@ TLE TLE::Load(const File& aFile)
 }
 
 TLE TLE::Construct(
-    const String& aSatelliteName,
+    const std::optional<String>& aSatelliteName,
     const Integer& aSatelliteNumber,
     const String& aClassification,
     const String& anInternationalDesignator,
@@ -744,9 +731,9 @@ TLE TLE::Construct(
     );
 
     return {
-        aSatelliteName,
         firstLine.getHead(firstLine.getLength() - 1) + String::Format("{:1}", GenerateChecksum(firstLine)),
         secondLine.getHead(secondLine.getLength() - 1) + String::Format("{:1}", GenerateChecksum(secondLine)),
+        aSatelliteName,
     };
 }
 
@@ -770,7 +757,7 @@ TLE TLE::Construct(
 )
 {
     return TLE::Construct(
-        String::Empty(),
+        std::nullopt,
         aSatelliteNumber,
         aClassification,
         anInternationalDesignator,

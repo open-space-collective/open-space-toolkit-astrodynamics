@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
@@ -46,24 +48,16 @@ class TLE
     /// @code{.cpp}
     ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
+    ///     TLE namedTle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                        "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    ///                        String("ISS (ZARYA)"));
     /// @endcode
     ///
     /// @param aFirstLine A first line
     /// @param aSecondLine A second line
-    TLE(const String& aFirstLine, const String& aSecondLine);
-
-    /// @brief Constructor
-    ///
-    /// @code{.cpp}
-    ///     TLE tle = TLE("ISS (ZARYA)",
-    ///                   "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
-    /// @endcode
-    ///
-    /// @param aSatelliteName A satellite name
-    /// @param aFirstLine A first line
-    /// @param aSecondLine A second line
-    TLE(const String& aSatelliteName, const String& aFirstLine, const String& aSecondLine);
+    /// @param aSatelliteName A satellite name. Defaults to none.
+    TLE(const String& aFirstLine, const String& aSecondLine, const std::optional<String>& aSatelliteName = std::nullopt
+    );
 
     /// @brief Equal to operator
     ///
@@ -115,22 +109,20 @@ class TLE
     /// @brief Get satellite name
     ///
     /// @code{.cpp}
-    ///     TLE tle = TLE("ISS (ZARYA)",
-    ///                  "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                  "2 25544  51.6416 247.4627 0006703 130.5360
-    ///                  325.0288 15.72125391563537").getSatelliteName(); // "ISS (ZARYA)"
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                  "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    ///                  String("ISS (ZARYA)")).getSatelliteName(); // "ISS (ZARYA)"
     /// @endcode
     ///
-    /// @return Satellite name
-    String getSatelliteName() const;
+    /// @return Satellite name, or std::nullopt if not set
+    std::optional<String> getSatelliteName() const;
 
     /// @brief Get first line
     ///
     /// @code{.cpp}
-    ///     TLE tle = TLE("ISS (ZARYA)",
-    ///                  "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                  "2 25544  51.6416 247.4627 0006703 130.5360
-    ///                  325.0288 15.72125391563537").getSatelliteName(); // "1 25544U 98067A   08264.51782528
+    ///                  325.0288 15.72125391563537").getFirstLine(); // "1 25544U 98067A   08264.51782528
     ///                  -.00002182  00000-0 -11606-4 0  2927"
     /// @endcode
     ///
@@ -140,9 +132,8 @@ class TLE
     /// @brief Get second line
     ///
     /// @code{.cpp}
-    ///     TLE tle = TLE("ISS (ZARYA)",
-    ///                   "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                   "2 25544  51.6416 247.4627 0006703 130.5360325.0288 15.72125391563537").getSatelliteName(); //
+    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    ///                   "2 25544  51.6416 247.4627 0006703 130.5360325.0288 15.72125391563537").getSecondLine(); //
     ///                   "2 25544  51.6416 247.4627 0006703130.5360 325.0288 15.72125391563537"
     /// @endcode
     ///
@@ -376,7 +367,7 @@ class TLE
     /// @param aRevolutionNumberAtEpoch A revolution number at epoch
     /// @return TLE
     static TLE Construct(
-        const String& aSatelliteName,
+        const std::optional<String>& aSatelliteName,
         const Integer& aSatelliteNumber,
         const String& aClassification,
         const String& anInternationalDesignator,
@@ -467,7 +458,7 @@ class TLE
     static Integer GenerateChecksum(const String& aLine);
 
    private:
-    String satelliteName_;
+    std::optional<String> satelliteName_;
     String firstLine_;
     String secondLine_;
 

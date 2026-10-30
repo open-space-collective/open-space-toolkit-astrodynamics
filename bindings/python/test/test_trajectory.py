@@ -52,8 +52,9 @@ def trajectory(position: Position) -> Trajectory:
 
 @pytest.fixture
 def states(trajectory: Trajectory) -> list[State]:
+    # The default (barycentric rational) interpolation requires at least 4 states.
     return trajectory.get_states_at(
-        [Instant.J2000(), Instant.J2000() + Duration.seconds(10.0)]
+        [Instant.J2000() + Duration.seconds(10.0 * i) for i in range(4)]
     )
 
 

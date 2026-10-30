@@ -22,13 +22,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
     )
 
         .def(
-            init<const Array<State>&>(),
+            init<const Array<State>&, const Interpolator::Type&>(),
             arg("states"),
+            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
             R"doc(
                 Constructor.
 
                 Args:
                     states (list[State]): An list of states, must be sorted, must include the CartesianPosition, CartesianVelocity, CartesianAcceleration and MassFlowRate subsets.
+                    interpolation_type (Interpolator.Type, optional): The interpolation type used to interpolate the maneuver states (e.g. when converting it to tabulated dynamics to propagate through them). Defaults to Interpolator.Type.BarycentricRational.
             )doc"
         )
 
@@ -56,6 +58,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
 
                 Returns:
                     list[State]: The states.
+            )doc"
+        )
+        .def(
+            "get_interpolation_type",
+            &Maneuver::getInterpolationType,
+            R"doc(
+                Get the interpolation type.
+
+                Returns:
+                    Interpolator.Type: The interpolation type.
             )doc"
         )
         .def(
@@ -120,13 +132,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             "to_tabulated_dynamics",
             &Maneuver::toTabulatedDynamics,
             arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
-            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
             R"doc(
                 Convert the maneuver to tabulated dynamics.
 
                 Args:
                     frame (Frame, optional): The frame in which the acceleration profile is defined. Defaults to the default acceleration frame.
-                    interpolation_type (Interpolator.Type, optional): The interpolation type to use. Defaults to the default interpolation type.
 
                 Returns:
                     Tabulated: The tabulated dynamics.
@@ -174,14 +184,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             &Maneuver::ConstantMassFlowRateProfile,
             arg("states"),
             arg("mass_flow_rate"),
+            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
             R"doc(
                 Create a maneuver from a constant mass flow rate profile.
 
                 Args:
-                    instants (list[Instant]): An array of instants, must be sorted.
-                    acceleration_profile (list[numpy.ndarray]): An acceleration profile of the maneuver, one numpy.ndarray per instant.
-                    frame (Frame): A frame in which the acceleration profile is defined.
+                    states (list[State]): An list of states, must be sorted, must include the CartesianPosition, CartesianVelocity and CartesianAcceleration subsets.
                     mass_flow_rate (float): The constant mass flow rate (negative number expected).
+                    interpolation_type (Interpolator.Type, optional): The interpolation type of the maneuver. Defaults to Interpolator.Type.BarycentricRational.
 
                 Returns:
                     Maneuver: The created maneuver.
