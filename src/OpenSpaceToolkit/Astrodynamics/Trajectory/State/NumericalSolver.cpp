@@ -108,12 +108,13 @@ NumericalSolver::NumericalSolver(
     const Real& aTimeStep,
     const Real& aRelativeTolerance,
     const Real& anAbsoluteTolerance,
-    const RootSolver& aRootSolver
+    const RootSolver& aRootSolver,
+    const std::function<void(const State&)>& aStateLogger
 )
     : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
       rootSolver_(aRootSolver),
       observedStates_(),
-      stateLogger_(nullptr)
+      stateLogger_(aStateLogger)
 {
 }
 
@@ -204,7 +205,7 @@ State NumericalSolver::integrateTime(
 
     for (const auto& state : MathNumericalSolver::getObservedStateVectors())
     {
-        observedStates_.add(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
+        observeState(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
     }
 
     return stateBuilder.build(anEndTime, solution.first);
@@ -303,56 +304,6 @@ NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperTyp
         RootSolver::Default(),
         nullptr,
     };
-}
-
-NumericalSolver NumericalSolver::DefaultConditional(const std::function<void(const State&)>& stateLogger)
-{
-    return {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        5.0,
-        1.0e-12,
-        1.0e-12,
-        RootSolver::Default(),
-        stateLogger,
-    };
-}
-
-NumericalSolver NumericalSolver::Conditional(
-    const Real& aTimeStep,
-    const Real& aRelativeTolerance,
-    const Real& anAbsoluteTolerance,
-    const std::function<void(const State&)>& stateLogger
-)
-{
-    const NumericalSolver::LogType logType =
-        stateLogger != nullptr ? NumericalSolver::LogType::LogAdaptive : NumericalSolver::LogType::NoLog;
-
-    return {
-        logType,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        aTimeStep,
-        aRelativeTolerance,
-        anAbsoluteTolerance,
-        RootSolver::Default(),
-        stateLogger,
-    };
-}
-
-NumericalSolver::NumericalSolver(
-    const NumericalSolver::LogType& aLogType,
-    const NumericalSolver::StepperType& aStepperType,
-    const Real& aTimeStep,
-    const Real& aRelativeTolerance,
-    const Real& anAbsoluteTolerance,
-    const RootSolver& aRootSolver,
-    const std::function<void(const State& aState)>& stateLogger
-)
-    : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
-      rootSolver_(aRootSolver),
-      observedStates_(),
-      stateLogger_(stateLogger)
-{
 }
 
 void NumericalSolver::observeState(const State& aState)

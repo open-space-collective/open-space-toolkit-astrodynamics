@@ -56,6 +56,27 @@ struct SharedFrameEnabler : public Frame
     }
 };
 
+bool LocalOrbitalFrameFactory::operator==(const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory) const
+{
+    if ((!this->isDefined()) || (!aLocalOrbitalFrameFactory.isDefined()))
+    {
+        return false;
+    }
+
+    if (type_ == LocalOrbitalFrameTransformProvider::Type::Custom)
+    {
+        return this == &aLocalOrbitalFrameFactory;
+    }
+
+    return (type_ == aLocalOrbitalFrameFactory.type_) &&
+           (parentFrameSPtr_ == aLocalOrbitalFrameFactory.parentFrameSPtr_);
+}
+
+bool LocalOrbitalFrameFactory::operator!=(const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory) const
+{
+    return !((*this) == aLocalOrbitalFrameFactory);
+}
+
 Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState) const
 {
     const StateBuilder positionVelocityStateBuilder =
@@ -105,42 +126,42 @@ LocalOrbitalFrameTransformProvider::Type LocalOrbitalFrameFactory::getProviderTy
     return type_;
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::NED(const Shared<const Frame>& aParentFrame)
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::NED(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::NED, aParentFrame);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::LVLH(const Shared<const Frame>& aParentFrame)
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::LVLH(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::LVLH, aParentFrame);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::VVLH(const Shared<const Frame>& aParentFrame)
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::VVLH(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::VVLH, aParentFrame);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::QSW(const Shared<const Frame>& aParentFrame)
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::QSW(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::QSW, aParentFrame);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::TNW(const Shared<const Frame>& aParentFrame)
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::TNW(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::TNW, aParentFrame);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::VNC(const Shared<const Frame>& aParentFrame)
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::VNC(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::VNC, aParentFrame);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Undefined()
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::Undefined()
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, nullptr);
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::Construct(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
 )
 {
@@ -149,17 +170,17 @@ Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
         throw ostk::core::error::RuntimeError("Must provide a transform generator for custom frame type.");
     }
 
-    return std::make_shared<LocalOrbitalFrameFactory>(
-        LocalOrbitalFrameFactory(aType, aParentFrame, LocalOrbitalFrameTransformProvider::GetTransformGenerator(aType))
+    return LocalOrbitalFrameFactory(
+        aType, aParentFrame, LocalOrbitalFrameTransformProvider::GetTransformGenerator(aType)
     );
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
+LocalOrbitalFrameFactory LocalOrbitalFrameFactory::Construct(
     const TransformGenerator& aTransformGenerator, const Shared<const Frame>& aParentFrame
 )
 {
-    return std::make_shared<LocalOrbitalFrameFactory>(
-        LocalOrbitalFrameFactory(LocalOrbitalFrameTransformProvider::Type::Custom, aParentFrame, aTransformGenerator)
+    return LocalOrbitalFrameFactory(
+        LocalOrbitalFrameTransformProvider::Type::Custom, aParentFrame, aTransformGenerator
     );
 }
 

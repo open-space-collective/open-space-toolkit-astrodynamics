@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 namespace ostk
 {
@@ -44,10 +45,12 @@ using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 #define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
+#define DEFAULT_SCALE_FACTOR_GENERATOR LeastSquaresSolver::NoScaling()      // Default scale factor generator
 
 /// @brief Class to solve non-linear least squares problems.
 ///
@@ -87,15 +90,15 @@ class LeastSquaresSolver
         ///
         /// @param aTerminationCriteria Termination criteria description.
         /// @param anEstimatedState Estimated state.
-        /// @param anEstimatedCovariance Estimated covariance matrix.
-        /// @param anEstimatedFrisbeeCovariance Estimated Frisbee covariance matrix.
+        /// @param anEstimatedCovariance Estimated covariance.
+        /// @param anEstimatedFrisbeeCovariance Estimated Frisbee covariance.
         /// @param aComputedObservationsStateArray Array of computed observation states.
         /// @param aStepArray Array of solver iteration steps.
         Analysis(
             const String& aTerminationCriteria,
             const State& anEstimatedState,
-            const MatrixXd& anEstimatedCovariance,
-            const MatrixXd& anEstimatedFrisbeeCovariance,
+            const Covariance& anEstimatedCovariance,
+            const Covariance& anEstimatedFrisbeeCovariance,
             const Array<State>& aComputedObservationsStateArray,
             const Array<Step>& aStepArray
         );
@@ -114,8 +117,8 @@ class LeastSquaresSolver
         Size iterationCount;                     ///< Number of iterations performed.
         String terminationCriteria;              ///< Description of why the solver terminated.
         State estimatedState;                    ///< Estimated state at the solution.
-        MatrixXd estimatedCovariance;            ///< Estimated covariance matrix of the solution.
-        MatrixXd estimatedFrisbeeCovariance;     ///< Estimated Frisbee covariance matrix of the solution.
+        Covariance estimatedCovariance;          ///< Estimated covariance of the solution.
+        Covariance estimatedFrisbeeCovariance;   ///< Estimated Frisbee covariance of the solution.
         Array<State> computedObservationStates;  ///< Array of computed observation states at the solution.
         Array<Step> steps;                       ///< Array of solver iteration steps.
     };
@@ -124,35 +127,21 @@ class LeastSquaresSolver
     ///
     /// @code{.cpp}
     ///     LeastSquaresSolver solver = { 10, 1e-3 } ;
+    ///     LeastSquaresSolver scaledSolver = {
+    ///         20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
+    ///     };
     /// @endcode
     ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
     /// @param aFiniteDifferenceSolver Finite difference solver. Defaults to FiniteDifferenceSolver::Default()
-    LeastSquaresSolver(
-        const Size& aMaxIterationCount,
-        const Real& aRmsUpdateThreshold,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER
-    );
-
-    /// @brief Constructor with custom scale factor generator
-    ///
-    /// @code{.cpp}
-    ///     auto solver = LeastSquaresSolver(
-    ///         20, 1.0, FiniteDifferenceSolver.default(), LeastSquaresSolver.maximum_absolute_coordinate_scaling()
-    ///     );
-    /// @endcode
-    ///
-    /// @param aMaxIterationCount Maximum number of iterations
-    /// @param aRmsUpdateThreshold Minimum RMS threshold
-    /// @param aFiniteDifferenceSolver Finite difference solver
     /// @param aScaleFactorGenerator Function to generate scale factors from a state. Normalizing the decision vector
-    /// ensures that the jacobian is well-conditioned.
+    /// ensures that the jacobian is well-conditioned. Defaults to LeastSquaresSolver::NoScaling()
     LeastSquaresSolver(
         const Size& aMaxIterationCount,
         const Real& aRmsUpdateThreshold,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver,
-        const ScaleFactorGenerator& aScaleFactorGenerator
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER,
+        const ScaleFactorGenerator& aScaleFactorGenerator = DEFAULT_SCALE_FACTOR_GENERATOR
     );
 
     /// @brief Get max iteration count

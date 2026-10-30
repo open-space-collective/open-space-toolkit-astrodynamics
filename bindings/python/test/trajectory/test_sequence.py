@@ -23,7 +23,7 @@ from ostk.physics.unit import Derived
 from ostk.physics.unit import Length
 from ostk.physics.unit import Mass
 
-from ostk.astrodynamics.event_condition import COECondition
+from ostk.astrodynamics.event_condition import OrbitalElementCondition
 from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import RealCondition
 from ostk.astrodynamics import Dynamics
@@ -201,7 +201,7 @@ def dynamics(environment: Environment) -> list:
 
 @pytest.fixture
 def numerical_solver() -> NumericalSolver:
-    return NumericalSolver.default_conditional()
+    return NumericalSolver.default()
 
 
 @pytest.fixture
@@ -254,8 +254,9 @@ def sma_target(sma: Length) -> EventCondition.Target:
 @pytest.fixture
 def sma_condition(
     sma_target: EventCondition.Target, gravitational_parameter: Derived
-) -> COECondition:
-    return COECondition.semi_major_axis(
+) -> RealCondition:
+    return OrbitalElementCondition.semi_major_axis(
+        theory=OrbitalElementCondition.Theory.Osculating,
         criterion=RealCondition.Criterion.AnyCrossing,
         frame=Frame.GCRF(),
         semi_major_axis=sma_target,
@@ -279,7 +280,7 @@ def coast_duration_segment(
 
 @pytest.fixture
 def coast_sma_segment(
-    sma_condition: COECondition,
+    sma_condition: RealCondition,
     dynamics: list[Dynamics],
     numerical_solver: NumericalSolver,
 ):
@@ -396,8 +397,8 @@ class TestSequenceSolution:
         self,
         sequence_solution: Sequence.Solution,
     ):
-        assert sequence_solution.access_start_instant() is not None
-        assert sequence_solution.access_end_instant() is not None
+        assert sequence_solution.get_start_instant() is not None
+        assert sequence_solution.get_end_instant() is not None
 
         assert sequence_solution.get_states() is not None
         assert sequence_solution.get_initial_mass() is not None
@@ -500,6 +501,17 @@ class TestSequence:
 
         assert len(sequence.get_segments()) == segments_count + 1
 
+        sequence.add_maneuver_segment(
+            event_condition=instant_condition,
+            thruster_dynamics=thruster_dynamics,
+            maneuver_constraints=Segment.ManeuverConstraints(
+                minimum_duration=Duration.minutes(1.0),
+            ),
+        )
+
+        assert len(sequence.get_segments()) == segments_count + 2
+        assert sequence.get_segments()[-1].get_maneuver_constraints() is not None
+
     def test_solve(
         self,
         state: State,
@@ -518,8 +530,8 @@ class TestSequence:
 
         assert solution.execution_is_complete
 
-        assert solution.access_start_instant() is not None
-        assert solution.access_end_instant() is not None
+        assert solution.get_start_instant() is not None
+        assert solution.get_end_instant() is not None
 
         assert solution.get_states() is not None
         assert solution.get_initial_mass() is not None

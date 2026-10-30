@@ -15,8 +15,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
@@ -67,8 +67,8 @@ using ostk::astrodynamics::dynamics::PositionDerivative;
 using ostk::astrodynamics::dynamics::Thruster;
 using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
-using ostk::astrodynamics::eventcondition::COECondition;
 using ostk::astrodynamics::eventcondition::InstantCondition;
+using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::PropulsionSystem;
@@ -142,12 +142,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         1.0e-12,
     };
 
-    const Shared<AngularCondition> defaultCondition_ = std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
-        AngularCondition::Criterion::AnyCrossing,
-        Frame::GCRF(),
-        Angle::Degrees(0.0),
-        EarthGravitationalModel::EGM2008.gravitationalParameter_
-    ));
+    const Shared<AngularCondition> defaultCondition_ =
+        std::make_shared<AngularCondition>(OrbitalElementCondition::TrueAnomaly(
+            OrbitalElementCondition::Theory::Osculating,
+            AngularCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            Angle::Degrees(0.0),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
 
     const Segment coastSegment_ = Segment::Coast("Coast", defaultCondition_, defaultDynamics_, defaultNumericalSolver_);
 
@@ -217,8 +219,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SequenceSolution)
 
         const Sequence::Solution sequenceSolution = {{segmentSolution1, segmentSolution2}, true};
 
-        EXPECT_EQ(sequenceSolution.accessStartInstant(), state1.getInstant());
-        EXPECT_EQ(sequenceSolution.accessEndInstant(), state3.getInstant());
+        EXPECT_EQ(sequenceSolution.getStartInstant(), state1.getInstant());
+        EXPECT_EQ(sequenceSolution.getEndInstant(), state3.getInstant());
         EXPECT_EQ(sequenceSolution.getInterval(), Interval::Closed(state1.getInstant(), state3.getInstant()));
         EXPECT_EQ(
             sequenceSolution.getInitialMass().inKilograms(), state1.extractCoordinate(CoordinateSubset::Mass())[0]
@@ -675,7 +677,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddCoastSegment)
     {
         const Size segmentsCount = defaultSequence_.getSegments().getSize();
 
-        defaultSequence_.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+        defaultSequence_.addCoastSegment(std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::Osculating,
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
             Length::Kilometers(6999.5),
@@ -698,7 +701,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
             std::make_shared<Thruster>(SatelliteSystem::Default(), constantThrustSPtr);
 
         defaultSequence_.addManeuverSegment(
-            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+                OrbitalElementCondition::Theory::Osculating,
                 RealCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
                 Length::Kilometers(7000.0),
@@ -708,6 +712,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
+        EXPECT_FALSE(defaultSequence_.getSegments().accessLast().getManeuverConstraints().has_value());
+    }
+
+    {
+        const Size segmentsCount = defaultSequence_.getSegments().getSize();
+
+        const Shared<Thruster> thrustDynamicsSPtr = std::make_shared<Thruster>(
+            SatelliteSystem::Default(), std::make_shared<ConstantThrust>(ConstantThrust::Intrack())
+        );
+
+        const Segment::ManeuverConstraints maneuverConstraints(
+            Duration::Minutes(1.0),
+            {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
+            Duration::Minutes(5.0)
+        );
+
+        defaultSequence_.addManeuverSegment(
+            std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+                OrbitalElementCondition::Theory::Osculating,
+                RealCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                Length::Kilometers(7000.0),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            )),
+            thrustDynamicsSPtr,
+            maneuverConstraints
+        );
+
+        EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
+
+        const std::optional<Segment::ManeuverConstraints> segmentManeuverConstraints =
+            defaultSequence_.getSegments().accessLast().getManeuverConstraints();
+
+        ASSERT_TRUE(segmentManeuverConstraints.has_value());
+        EXPECT_EQ(maneuverConstraints.minimumDuration, segmentManeuverConstraints->minimumDuration);
+        EXPECT_EQ(
+            maneuverConstraints.maximumManeuverDurationAndStrategy,
+            segmentManeuverConstraints->maximumManeuverDurationAndStrategy
+        );
+        EXPECT_EQ(maneuverConstraints.minimumSeparation, segmentManeuverConstraints->minimumSeparation);
     }
 }
 
@@ -892,7 +936,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         defaultMaximumPropagationDuration_,
     };
 
-    sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+    sequence.addCoastSegment(std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+        OrbitalElementCondition::Theory::Osculating,
         RealCondition::Criterion::AnyCrossing,
         Frame::GCRF(),
         Length::Kilometers(6999.5),
@@ -900,7 +945,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     )));
 
     sequence.addManeuverSegment(
-        std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+        std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::Osculating,
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
             Length::Kilometers(7000.0),
@@ -931,8 +977,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     EXPECT_TRUE(solution.segmentSolutions.getSize() == 2 * defaultRepetitionCount_);
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
-    EXPECT_EQ(solution.accessStartInstant(), Instant::J2000());
-    EXPECT_EQ(solution.accessEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
+    EXPECT_EQ(solution.getStartInstant(), Instant::J2000());
+    EXPECT_EQ(solution.getEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
 
     const Array<State> solutionStates = solution.getStates();
 
@@ -945,7 +991,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         solution.getFinalMass().inKilograms(),
         solution.segmentSolutions.accessLast().states.accessLast().accessCoordinates()[6]
     );
-    EXPECT_EQ(solution.getPropagationDuration(), solution.accessEndInstant() - solution.accessStartInstant());
+    EXPECT_EQ(solution.getPropagationDuration(), solution.getEndInstant() - solution.getStartInstant());
 
     EXPECT_DOUBLE_EQ(
         solution.computeDeltaMass().inKilograms(),
@@ -965,7 +1011,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
 
     {
         const Shared<AngularCondition> relativeTrueAnomalyCondition =
-            std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
+            std::make_shared<AngularCondition>(OrbitalElementCondition::TrueAnomaly(
+                OrbitalElementCondition::Theory::Osculating,
                 AngularCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
                 EventCondition::Target(Angle::Degrees(5.0), EventCondition::Target::Type::Relative),
@@ -1035,7 +1082,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
         {
             EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
             EXPECT_NEAR(
-                (segmentSolution.accessEndInstant() - defaultState_.accessInstant()).inSeconds(), 30.0 * iter, 1e-6
+                (segmentSolution.getEndInstant() - defaultState_.accessInstant()).inSeconds(), 30.0 * iter, 1e-6
             );
 
             ++iter;
@@ -1081,12 +1128,7 @@ INSTANTIATE_TEST_SUITE_P(
         ManeuveringConstraintsTestParams {
             "NoManeuvers",
             Array<Tuple<Duration, Duration>>::Empty(),
-            Segment::ManeuverConstraints(
-                Duration::Seconds(30.0),
-                Duration::Undefined(),
-                Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
-            ),
+            Segment::ManeuverConstraints(Duration::Seconds(30.0), std::nullopt, Duration::Seconds(30.0)),
             Array<Tuple<Duration, Duration>>::Empty(),
             Duration::Milliseconds(10.0)
         },
@@ -1100,12 +1142,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
                 Tuple<Duration, Duration> {Duration::Minutes(85.0), Duration::Minutes(110.0)}
             },
-            Segment::ManeuverConstraints(
-                Duration::Minutes(10.0),
-                Duration::Undefined(),
-                Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
-            ),
+            Segment::ManeuverConstraints(Duration::Minutes(10.0), std::nullopt, Duration::Seconds(30.0)),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(10.0), Duration::Minutes(21.0)},
                 {Duration::Minutes(50.0), Duration::Minutes(70.0)},
@@ -1123,12 +1160,7 @@ INSTANTIATE_TEST_SUITE_P(
                 Tuple<Duration, Duration> {Duration::Minutes(50.0), Duration::Minutes(70.0)},
                 Tuple<Duration, Duration> {Duration::Minutes(75.0), Duration::Minutes(110.0)}  // Too soon, delayed
             },
-            Segment::ManeuverConstraints(
-                Duration::Seconds(30.0),
-                Duration::Undefined(),
-                Duration::Minutes(10.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
-            ),
+            Segment::ManeuverConstraints(Duration::Seconds(30.0), std::nullopt, Duration::Minutes(10.0)),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(0.0), Duration::Minutes(7.0)},
                 {Duration::Minutes(25.0), Duration::Minutes(30.0)},
@@ -1148,9 +1180,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Minutes(10.0),
-                Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Skip
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Skip}},
+                Duration::Seconds(30.0)
             ),
             Array<Tuple<Duration, Duration>> {{Duration::Minutes(20.0), Duration::Minutes(25.0)}},
             Duration::Milliseconds(10.0)
@@ -1174,9 +1205,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
-                Duration::Minutes(10.0),
-                Duration::Minutes(3.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
+                Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(0.0), Duration::Minutes(10.0)},
@@ -1205,9 +1235,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
-                Duration::Minutes(10.0),
-                Duration::Minutes(3.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart}},
+                Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(4.0), Duration::Minutes(14.0)},
@@ -1236,9 +1265,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Minutes(10.0),
-                Duration::Minutes(3.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Center
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
+                Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(2.0), Duration::Minutes(12.0)},
@@ -1267,9 +1295,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Minutes(4.0),
-                Duration::Minutes(10.0),
-                Duration::Minutes(3.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Chunk
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
+                Duration::Minutes(3.0)
             ),
             Array<Tuple<Duration, Duration>> {
                 {Duration::Minutes(0.0), Duration::Minutes(10.0)},
@@ -1293,9 +1320,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Undefined(),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Skip}},
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Skip,
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1314,9 +1340,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Undefined(),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd}},
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateEnd,
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1338,9 +1363,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Undefined(),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::TruncateStart}},
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::TruncateStart,
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1360,9 +1384,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Undefined(),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Center}},
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Center,
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1384,9 +1407,8 @@ INSTANTIATE_TEST_SUITE_P(
             },
             Segment::ManeuverConstraints(
                 Duration::Seconds(30.0),
-                Duration::Undefined(),
+                {{Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Chunk}},
                 Duration::Seconds(30.0),
-                Segment::MaximumManeuverDurationViolationStrategy::Chunk,
                 Pair<Duration, Duration>(Duration::Minutes(10.0), Duration::Minutes(20.0))
             ),
             Array<Tuple<Duration, Duration>> {
@@ -1524,7 +1546,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_WithMaximumMane
     const Shared<const Frame> frameSPtr = Frame::GCRF();
 
     Segment::ManeuverConstraints maneuverConstraints;
-    maneuverConstraints.maximumDuration = Duration::Minutes(10.0);
+    maneuverConstraints.maximumManeuverDurationAndStrategy = {
+        {Duration::Minutes(10.0), Segment::MaximumManeuverDurationViolationStrategy::Fail}
+    };
 
     Segment segment = Segment::Maneuver(
         "Segment",
@@ -1797,7 +1821,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
             defaultMaximumPropagationDuration_,
         };
 
-        sequence.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+        sequence.addCoastSegment(std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+            OrbitalElementCondition::Theory::Osculating,
             RealCondition::Criterion::AnyCrossing,
             Frame::GCRF(),
             Length::Kilometers(6999.5),
@@ -1805,7 +1830,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Print)
         )));
 
         sequence.addManeuverSegment(
-            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            std::make_shared<RealCondition>(OrbitalElementCondition::SemiMajorAxis(
+                OrbitalElementCondition::Theory::Osculating,
                 RealCondition::Criterion::AnyCrossing,
                 Frame::GCRF(),
                 Length::Kilometers(7000.0),

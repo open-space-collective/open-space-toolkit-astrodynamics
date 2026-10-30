@@ -27,6 +27,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
     using ostk::astrodynamics::solver::FiniteDifferenceSolver;
     using ostk::astrodynamics::solver::LeastSquaresSolver;
     using ostk::astrodynamics::trajectory::State;
+    using ostk::astrodynamics::uncertainty::Covariance;
 
     class_<LeastSquaresSolver> leastSquaresSolver(
         aModule,
@@ -89,8 +90,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             init<
                 const String&,
                 const State&,
-                const MatrixXd&,
-                const MatrixXd&,
+                const Covariance&,
+                const Covariance&,
                 const Array<State>&,
                 const Array<LeastSquaresSolver::Step>&>(),
             R"doc(
@@ -99,8 +100,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 Args:
                     termination_criteria (str): The termination criteria.
                     estimated_state (State): The estimated state.
-                    estimated_covariance (np.ndarray): The estimated covariance matrix.
-                    estimated_frisbee_covariance (np.ndarray): The estimated Frisbee covariance matrix.
+                    estimated_covariance (Covariance): The estimated covariance.
+                    estimated_frisbee_covariance (Covariance): The estimated Frisbee covariance.
                     computed_observations (list[State]): The computed observations of the final iteration.
                     steps (list[LeastSquaresSolver.Step]): The steps.
             )doc",
@@ -176,18 +177,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             "estimated_covariance",
             &LeastSquaresSolver::Analysis::estimatedCovariance,
             R"doc(
-                The estimated covariance matrix.
+                The estimated covariance.
 
-                :type: np.ndarray
+                :type: Covariance
             )doc"
         )
         .def_readonly(
             "estimated_frisbee_covariance",
             &LeastSquaresSolver::Analysis::estimatedFrisbeeCovariance,
             R"doc(
-                The estimated Frisbee covariance matrix.
+                The estimated Frisbee covariance.
 
-                :type: np.ndarray
+                :type: Covariance
             )doc"
         )
         .def_readonly(
@@ -213,38 +214,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
     leastSquaresSolver
         .def(
-            init<const Size&, const Real&, const FiniteDifferenceSolver&>(),
-            R"doc(
-                Constructor.
-
-                Args:
-                    maximum_iteration_count (int): Maximum number of iterations.
-                    rms_update_threshold (float): Minimum RMS threshold.
-                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver. Defaults to FiniteDifferenceSolver.default().
-            )doc",
-            arg("maximum_iteration_count"),
-            arg("rms_update_threshold"),
-            arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.default()")
-        )
-        .def(
             init<
                 const Size&,
                 const Real&,
                 const FiniteDifferenceSolver&,
                 const LeastSquaresSolver::ScaleFactorGenerator&>(),
             R"doc(
-                Constructor with custom scale factor generator.
+                Constructor.
 
                 Args:
                     maximum_iteration_count (int): Maximum number of iterations.
                     rms_update_threshold (float): Minimum RMS threshold.
-                    finite_difference_solver (FiniteDifferenceSolver): Finite difference solver.
-                    scale_factor_generator (callable): Function taking a State and returning scale factors as np.ndarray.
+                    finite_difference_solver (FiniteDifferenceSolver, optional): Finite difference solver. Defaults to FiniteDifferenceSolver.default().
+                    scale_factor_generator (callable, optional): Function taking a State and returning scale factors as np.ndarray. Defaults to LeastSquaresSolver.no_scaling().
             )doc",
             arg("maximum_iteration_count"),
             arg("rms_update_threshold"),
-            arg("finite_difference_solver"),
-            arg("scale_factor_generator")
+            arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.default()"),
+            arg_v("scale_factor_generator", DEFAULT_SCALE_FACTOR_GENERATOR, "LeastSquaresSolver.no_scaling()")
         )
         .def(
             "get_max_iteration_count",

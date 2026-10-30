@@ -159,7 +159,8 @@ State::State(const State& aState)
     : instant_(aState.instant_),
       coordinates_(aState.coordinates_),
       frameSPtr_(aState.frameSPtr_),
-      coordinatesBrokerSPtr_(aState.coordinatesBrokerSPtr_)
+      coordinatesBrokerSPtr_(aState.coordinatesBrokerSPtr_),
+      covariance_(aState.covariance_)
 {
 }
 
@@ -171,6 +172,7 @@ State& State::operator=(const State& aState)
         coordinates_ = aState.coordinates_;
         frameSPtr_ = aState.frameSPtr_;
         coordinatesBrokerSPtr_ = aState.coordinatesBrokerSPtr_;
+        covariance_ = aState.covariance_;
     }
     return *this;
 }
@@ -381,6 +383,11 @@ Shared<const Frame> State::getFrame() const
     return this->accessFrame();
 }
 
+const std::optional<Covariance>& State::getCovariance() const
+{
+    return this->covariance_;
+}
+
 Position State::getPosition() const
 {
     if (!this->isDefined())
@@ -453,6 +460,11 @@ bool State::hasSubset(const Shared<const CoordinateSubset>& aSubsetSPtr) const
     return this->coordinatesBrokerSPtr_->hasSubset(aSubsetSPtr);
 }
 
+bool State::hasCovariance() const
+{
+    return this->covariance_.has_value();
+}
+
 VectorXd State::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
     return this->coordinatesBrokerSPtr_->extractCoordinate(this->accessCoordinates(), aSubsetSPtr);
@@ -477,7 +489,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 
     if (aFrameSPtr == this->frameSPtr_)
     {
-        return {this->instant_, this->coordinates_, this->frameSPtr_, this->coordinatesBrokerSPtr_};
+        return *this;
     }
 
     VectorXd inFrameCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
@@ -498,6 +510,56 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
         aFrameSPtr,
         this->coordinatesBrokerSPtr_,
     };
+}
+
+State State::withCovariance(const std::optional<Covariance>& aCovariance) const
+{
+    if (aCovariance.has_value() && aCovariance->getInstant() != this->instant_)
+    {
+        throw ostk::core::error::runtime::Wrong("Instant");
+    }
+
+    State state = *this;
+    state.covariance_ = aCovariance;
+
+    return state;
+}
+
+Covariance::MahalanobisDistanceAnalysis State::computeMahalanobisDistanceAnalysis(
+    const State& anotherState, const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray
+) const
+{
+    if (!this->covariance_.has_value())
+    {
+        throw ostk::core::error::runtime::Wrong("Covariance");
+    }
+
+    if (aCoordinateSubsetsArray.isEmpty())
+    {
+        throw ostk::core::error::runtime::Wrong("Coordinate Subsets");
+    }
+
+    const Covariance& covariance = this->covariance_.value();
+    const Shared<const Frame>& covarianceFrameSPtr = covariance.getFrame();
+
+    // States are reduced after the frame transformation (which may require other subsets), so that only the
+    // analyzed subsets need to be shared by both States
+    const auto reduceInCovarianceFrame = [&](const State& aState) -> State
+    {
+        const State stateInCovarianceFrame = aState.inFrame(covarianceFrameSPtr);
+
+        return {
+            stateInCovarianceFrame.accessInstant(),
+            stateInCovarianceFrame.extractCoordinates(aCoordinateSubsetsArray),
+            covarianceFrameSPtr,
+            aCoordinateSubsetsArray,
+        };
+    };
+
+    const State residualState = reduceInCovarianceFrame(anotherState) - reduceInCovarianceFrame(*this);
+
+    return covariance.reduce(aCoordinateSubsetsArray)
+        .computeMahalanobisDistanceAnalysis(residualState.accessCoordinates());
 }
 
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const

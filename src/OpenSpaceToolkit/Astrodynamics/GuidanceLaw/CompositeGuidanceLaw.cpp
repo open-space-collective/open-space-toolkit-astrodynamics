@@ -4,7 +4,7 @@
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 
 namespace ostk
 {
@@ -27,10 +27,10 @@ using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::GuidanceLaw;
 
-HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw(
+CompositeGuidanceLaw::CompositeGuidanceLaw(
     const Array<Pair<Shared<const GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray
 )
-    : GuidanceLaw("Heterogeneous Guidance Law"),
+    : GuidanceLaw("Composite Guidance Law"),
       intervals_(Array<Interval>::Empty()),
       guidanceLaws_(Array<Shared<const GuidanceLaw>>::Empty())
 {
@@ -40,7 +40,7 @@ HeterogeneousGuidanceLaw::HeterogeneousGuidanceLaw(
     }
 }
 
-Array<Pair<Shared<const GuidanceLaw>, Interval>> HeterogeneousGuidanceLaw::getGuidanceLawsWithIntervals() const
+Array<Pair<Shared<const GuidanceLaw>, Interval>> CompositeGuidanceLaw::getGuidanceLawsWithIntervals() const
 {
     Array<Pair<Shared<const GuidanceLaw>, Interval>> guidanceLawsWithIntervals =
         Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty();
@@ -51,9 +51,7 @@ Array<Pair<Shared<const GuidanceLaw>, Interval>> HeterogeneousGuidanceLaw::getGu
     return guidanceLawsWithIntervals;
 }
 
-void HeterogeneousGuidanceLaw::addGuidanceLaw(
-    const Shared<const GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval
-)
+void CompositeGuidanceLaw::addGuidanceLaw(const Shared<const GuidanceLaw>& aGuidanceLawSPtr, const Interval& anInterval)
 {
     if (aGuidanceLawSPtr == nullptr)
     {
@@ -79,21 +77,19 @@ void HeterogeneousGuidanceLaw::addGuidanceLaw(
     guidanceLaws_.add(aGuidanceLawSPtr);
 }
 
-Shared<GuidanceLaw> HeterogeneousGuidanceLaw::constructUngatedGuidanceLaw() const
+Shared<GuidanceLaw> CompositeGuidanceLaw::constructUngatedGuidanceLaw() const
 {
-    const Shared<HeterogeneousGuidanceLaw> heterogeneousGuidanceLaw = std::make_shared<HeterogeneousGuidanceLaw>();
+    const Shared<CompositeGuidanceLaw> compositeGuidanceLaw = std::make_shared<CompositeGuidanceLaw>();
 
     for (Size index = 0; index < guidanceLaws_.getSize(); ++index)
     {
-        heterogeneousGuidanceLaw->addGuidanceLaw(
-            guidanceLaws_[index]->constructUngatedGuidanceLaw(), intervals_[index]
-        );
+        compositeGuidanceLaw->addGuidanceLaw(guidanceLaws_[index]->constructUngatedGuidanceLaw(), intervals_[index]);
     }
 
-    return heterogeneousGuidanceLaw;
+    return compositeGuidanceLaw;
 }
 
-Vector3d HeterogeneousGuidanceLaw::calculateThrustAccelerationAt(
+Vector3d CompositeGuidanceLaw::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,

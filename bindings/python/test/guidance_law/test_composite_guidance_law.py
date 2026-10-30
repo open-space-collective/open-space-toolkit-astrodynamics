@@ -9,7 +9,7 @@ from ostk.physics.time import Instant
 from ostk.physics.time import Duration
 from ostk.physics.time import Interval
 from ostk.astrodynamics import GuidanceLaw
-from ostk.astrodynamics.guidance_law import HeterogeneousGuidanceLaw
+from ostk.astrodynamics.guidance_law import CompositeGuidanceLaw
 
 
 @pytest.fixture
@@ -81,13 +81,13 @@ def guidance_law_2() -> GuidanceLaw:
 
 
 @pytest.fixture
-def heterogeneous_guidance_law(
+def composite_guidance_law(
     interval_1: Interval,
     guidance_law_1: GuidanceLaw,
     interval_2: Interval,
     guidance_law_2: GuidanceLaw,
-) -> HeterogeneousGuidanceLaw:
-    return HeterogeneousGuidanceLaw(
+) -> CompositeGuidanceLaw:
+    return CompositeGuidanceLaw(
         guidance_laws_with_intervals=[
             (guidance_law_1, interval_1),
             (guidance_law_2, interval_2),
@@ -95,7 +95,7 @@ def heterogeneous_guidance_law(
     )
 
 
-class TestHeterogeneousGuidanceLaw:
+class TestCompositeGuidanceLaw:
     def test_constructor_and_getters(
         self,
         interval_1: Interval,
@@ -103,15 +103,15 @@ class TestHeterogeneousGuidanceLaw:
         interval_2: Interval,
         guidance_law_2: GuidanceLaw,
     ):
-        heterogeneous_guidance_law = HeterogeneousGuidanceLaw(
+        composite_guidance_law = CompositeGuidanceLaw(
             guidance_laws_with_intervals=[
                 (guidance_law_1, interval_1),
                 (guidance_law_2, interval_2),
             ],
         )
-        assert heterogeneous_guidance_law is not None
-        assert isinstance(heterogeneous_guidance_law, HeterogeneousGuidanceLaw)
-        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == [
+        assert composite_guidance_law is not None
+        assert isinstance(composite_guidance_law, CompositeGuidanceLaw)
+        assert composite_guidance_law.get_guidance_laws_with_intervals() == [
             (guidance_law_1, interval_1),
             (guidance_law_2, interval_2),
         ]
@@ -123,18 +123,18 @@ class TestHeterogeneousGuidanceLaw:
         interval_2: Interval,
         guidance_law_2: GuidanceLaw,
     ):
-        heterogeneous_guidance_law = HeterogeneousGuidanceLaw()
+        composite_guidance_law = CompositeGuidanceLaw()
 
-        assert isinstance(heterogeneous_guidance_law, HeterogeneousGuidanceLaw)
-        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == []
+        assert isinstance(composite_guidance_law, CompositeGuidanceLaw)
+        assert composite_guidance_law.get_guidance_laws_with_intervals() == []
 
-        heterogeneous_guidance_law.add_guidance_law(guidance_law_1, interval_1)
-        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == [
+        composite_guidance_law.add_guidance_law(guidance_law_1, interval_1)
+        assert composite_guidance_law.get_guidance_laws_with_intervals() == [
             (guidance_law_1, interval_1),
         ]
 
-        heterogeneous_guidance_law.add_guidance_law(guidance_law_2, interval_2)
-        assert heterogeneous_guidance_law.get_guidance_laws_with_intervals() == [
+        composite_guidance_law.add_guidance_law(guidance_law_2, interval_2)
+        assert composite_guidance_law.get_guidance_laws_with_intervals() == [
             (guidance_law_1, interval_1),
             (guidance_law_2, interval_2),
         ]
@@ -154,12 +154,12 @@ class TestHeterogeneousGuidanceLaw:
     )
     def test_calculate_thrust_acceleration_at(
         self,
-        heterogeneous_guidance_law: HeterogeneousGuidanceLaw,
+        composite_guidance_law: CompositeGuidanceLaw,
         instant: Instant,
         expected_thrust_acceleration: np.array,
     ):
         assert np.array_equal(
-            heterogeneous_guidance_law.calculate_thrust_acceleration_at(
+            composite_guidance_law.calculate_thrust_acceleration_at(
                 instant=instant,
                 position_coordinates=np.array([0.0, 0.0, 0.0]),
                 velocity_coordinates=np.array([0.0, 0.0, 0.0]),
@@ -171,10 +171,10 @@ class TestHeterogeneousGuidanceLaw:
 
     def test_construct_ungated_guidance_law(
         self,
-        heterogeneous_guidance_law: HeterogeneousGuidanceLaw,
+        composite_guidance_law: CompositeGuidanceLaw,
     ):
         ungated_guidance_law: GuidanceLaw = (
-            heterogeneous_guidance_law.construct_ungated_guidance_law()
+            composite_guidance_law.construct_ungated_guidance_law()
         )
 
-        assert type(ungated_guidance_law) is type(heterogeneous_guidance_law)
+        assert type(ungated_guidance_law) is type(composite_guidance_law)

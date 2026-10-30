@@ -41,7 +41,8 @@ const Array<Shared<const CoordinateSubset>> Maneuver::RequiredCoordinateSubsets 
 };
 const Shared<const CoordinateSubset> Maneuver::DefaultAccelerationCoordinateSubsetSPtr = RequiredCoordinateSubsets[2];
 
-Maneuver::Maneuver(const Array<State>& aStateArray)
+Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
+    : interpolationType_(anInterpolationType)
 {
     if (aStateArray.isEmpty())
     {
@@ -174,7 +175,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
 
 bool Maneuver::operator==(const Maneuver& aManeuver) const
 {
-    return states_ == aManeuver.states_;
+    return (states_ == aManeuver.states_) && (interpolationType_ == aManeuver.interpolationType_);
 }
 
 bool Maneuver::operator!=(const Maneuver& aManeuver) const
@@ -197,6 +198,11 @@ bool Maneuver::isDefined() const
 Array<State> Maneuver::getStates() const
 {
     return states_;
+}
+
+Interpolator::Type Maneuver::getInterpolationType() const
+{
+    return interpolationType_;
 }
 
 Interval Maneuver::getInterval() const
@@ -308,9 +314,7 @@ Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMa
     return averageSpecificImpulse;
 }
 
-Shared<Tabulated> Maneuver::toTabulatedDynamics(
-    const Shared<const Frame>& aFrameSPtr, const Interpolator::Type& anInterpolationType
-) const
+Shared<Tabulated> Maneuver::toTabulatedDynamics(const Shared<const Frame>& aFrameSPtr) const
 {
     if (states_.getSize() < 2)
     {
@@ -354,15 +358,15 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
     );
 
     return std::make_shared<Tabulated>(
-        Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
+        Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, interpolationType_)
     );
 }
 
 Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDirectionAndMaximumAngularOffset(
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 ) const
 {
-    if ((aLocalOrbitalFrameFactorySPtr == nullptr) || !aLocalOrbitalFrameFactorySPtr->isDefined())
+    if (!aLocalOrbitalFrameFactory.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
     }
@@ -374,7 +378,7 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
 
     for (const auto& state : states_)
     {
-        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
 
         const Vector3d thrustAcceleration = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr);
         const Transform transform = state.accessFrame()->getTransformTo(lofFrame, state.accessInstant());
@@ -413,17 +417,16 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
     }
 
     const LocalOrbitalFrameDirection meanLocalOrbitalFrameDirection =
-        LocalOrbitalFrameDirection(meanThrustDirectionInLof, aLocalOrbitalFrameFactorySPtr);
+        LocalOrbitalFrameDirection(meanThrustDirectionInLof, aLocalOrbitalFrameFactory);
     return {meanLocalOrbitalFrameDirection, maximumAngularOffset};
 }
 
 Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
-    const Angle& aMaximumAllowedAngularOffset
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory, const Angle& aMaximumAllowedAngularOffset
 ) const
 {
     const MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-        this->calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);
+        this->calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactory);
 
     if (aMaximumAllowedAngularOffset.isDefined() && meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0) >
                                                         aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0))
@@ -443,7 +446,7 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
     for (const auto& state : states_)
     {
         const Instant& instant = state.accessInstant();
-        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactorySPtr->generateFrame(state);
+        const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
         const Shared<const Frame>& stateFrame = state.accessFrame();
 
         const Real originalMagnitude = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
@@ -457,7 +460,7 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
         newStates.add(fullStateBuilder.expand(partialState, state));
     }
 
-    return Maneuver(newStates);
+    return Maneuver(newStates, interpolationType_);
 }
 
 void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -473,7 +476,9 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, const Real& aMassFlowRate)
+Maneuver Maneuver::ConstantMassFlowRateProfile(
+    const Array<State>& aStateArray, const Real& aMassFlowRate, const Interpolator::Type& anInterpolationType
+)
 {
     Array<State> maneuverStates = Array<State>::Empty();
     maneuverStates.reserve(aStateArray.getSize());
@@ -496,7 +501,7 @@ Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, 
         maneuverStates.add(maneuverState);
     }
 
-    return {maneuverStates};
+    return {maneuverStates, anInterpolationType};
 }
 
 }  // namespace flight

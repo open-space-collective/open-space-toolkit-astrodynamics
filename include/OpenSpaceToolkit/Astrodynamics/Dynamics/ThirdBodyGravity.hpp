@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
@@ -39,21 +41,12 @@ class ThirdBodyGravity : public Dynamics
     /// @code{.cpp}
     ///     Shared<const Celestial> celestialSPtr = { ... } ;
     ///     ThirdBodyGravity thirdBodyGravity = { celestialSPtr } ;
+    ///     ThirdBodyGravity namedThirdBodyGravity = { celestialSPtr, String("Moon Gravity") } ;
     /// @endcode
     ///
     /// @param aCelestial A celestial object representing the third body.
-    ThirdBodyGravity(const Shared<const Celestial>& aCelestial);
-
-    /// @brief Constructor with name.
-    ///
-    /// @code{.cpp}
-    ///     Shared<const Celestial> celestialSPtr = { ... } ;
-    ///     ThirdBodyGravity thirdBodyGravity = { celestialSPtr, "Moon Gravity" } ;
-    /// @endcode
-    ///
-    /// @param aCelestial A celestial object representing the third body.
-    /// @param aName A name for the dynamics.
-    ThirdBodyGravity(const Shared<const Celestial>& aCelestial, const String& aName);
+    /// @param aName A name for the dynamics. Defaults to "Third Body Gravity [<celestial name>]".
+    ThirdBodyGravity(const Shared<const Celestial>& aCelestial, const std::optional<String>& aName = std::nullopt);
 
     /// @brief Destructor.
     virtual ~ThirdBodyGravity() override;

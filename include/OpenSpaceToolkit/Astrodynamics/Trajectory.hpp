@@ -71,7 +71,8 @@ class Trajectory
     ///              Trajectory trajectory = { stateArray };
     /// @endcode
     ///
-    /// @param aStateArray An array of states
+    /// @param aStateArray An array of states. States are interpolated with barycentric rational interpolation, which
+    /// requires at least 4 states.
     Trajectory(const Array<State>& aStateArray);
 
     /// @brief Copy constructor

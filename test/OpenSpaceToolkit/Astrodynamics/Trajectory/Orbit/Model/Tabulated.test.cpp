@@ -114,7 +114,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Constructor)
 {
     {
-        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
 
         EXPECT_TRUE(tabulated.isDefined());
     }
@@ -125,7 +125,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
             {CartesianVelocity::Default(), Interpolator::Type::Linear},
         };
 
-        const Tabulated tabulated(states_, 0, interpolationTypes);
+        const Tabulated tabulated(states_, interpolationTypes);
 
         EXPECT_TRUE(tabulated.isDefined());
         EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
@@ -139,7 +139,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
             {CoordinateSubset::Mass(), Interpolator::Type::Linear},
         };
 
-        EXPECT_NO_THROW({ const Tabulated tabulated(states_, 0, unknownSubsetInStates); });
+        EXPECT_NO_THROW({ const Tabulated tabulated(states_, unknownSubsetInStates); });
     }
 
     // Omitting the interpolation type for a coordinate subset present in the states must raise.
@@ -148,12 +148,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
             {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
         };
 
-        EXPECT_THROW({ const Tabulated tabulated(states_, 0, missingTypeForSubset); }, ostk::core::error::RuntimeError);
+        EXPECT_THROW({ const Tabulated tabulated(states_, missingTypeForSubset); }, ostk::core::error::RuntimeError);
     }
 
     // The output frame is set by the constructor.
     {
-        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear, Frame::ITRF());
+        const Tabulated tabulated(states_, Interpolator::Type::Linear, Frame::ITRF());
 
         EXPECT_TRUE(tabulated.isDefined());
         EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
@@ -163,18 +163,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 {
-    const Tabulated tabulated = Tabulated::Default(states_, 0);
+    const Tabulated tabulated = Tabulated::Default(states_, Frame::GCRF(), 2);
 
     EXPECT_TRUE(tabulated.isDefined());
-    EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
+    EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 2);
     EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
-    // The initial revolution number defaults to 1.
-    EXPECT_TRUE(Tabulated::Default(states_).getRevolutionNumberAtEpoch() == 1);
+    // The initial revolution number defaults to 0, for both the static constructor and the constructors.
+    EXPECT_TRUE(Tabulated::Default(states_).getRevolutionNumberAtEpoch() == 0);
+    EXPECT_TRUE(Tabulated(states_).getRevolutionNumberAtEpoch() == 0);
+    EXPECT_TRUE(Tabulated(states_, Tabulated::DefaultInterpolationTypes()).getRevolutionNumberAtEpoch() == 0);
 
     // The output frame is set by the default constructor.
     {
-        const Tabulated tabulatedITRF = Tabulated::Default(states_, 0, Frame::ITRF());
+        const Tabulated tabulatedITRF = Tabulated::Default(states_, Frame::ITRF());
 
         EXPECT_EQ(tabulatedITRF.getFrame(), Frame::ITRF());
         EXPECT_TRUE(tabulatedITRF.getRevolutionNumberAtEpoch() == 0);
@@ -188,7 +190,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
 
     // The default output frame is GCRF (backward-compatible behavior).
     {
-        const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+        const Tabulated tabulated(states_, Interpolator::Type::Linear);
 
         EXPECT_EQ(tabulated.getFrame(), Frame::GCRF());
         EXPECT_EQ(tabulated.calculateStateAt(queryInstant).getFrame(), Frame::GCRF());
@@ -196,8 +198,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
 
     // An explicitly requested output frame is honored by calculateStateAt.
     {
-        const Tabulated tabulatedGCRF(states_, 0, Interpolator::Type::Linear, Frame::GCRF());
-        const Tabulated tabulatedITRF(states_, 0, Interpolator::Type::Linear, Frame::ITRF());
+        const Tabulated tabulatedGCRF(states_, Interpolator::Type::Linear, Frame::GCRF());
+        const Tabulated tabulatedITRF(states_, Interpolator::Type::Linear, Frame::ITRF());
 
         EXPECT_EQ(tabulatedITRF.getFrame(), Frame::ITRF());
         EXPECT_EQ(tabulatedGCRF.getFrame(), Frame::GCRF());
@@ -226,7 +228,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
             {CartesianVelocity::Default(), Interpolator::Type::Linear},
         };
 
-        const Tabulated tabulated(states_, 0, interpolationTypes, Frame::ITRF());
+        const Tabulated tabulated(states_, interpolationTypes, Frame::ITRF());
 
         EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
         EXPECT_EQ(tabulated.calculateStateAt(queryInstant).getFrame(), Frame::ITRF());
@@ -234,14 +236,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
 
     // Default() honors the output frame.
     {
-        EXPECT_EQ(Tabulated::Default(states_, 0).getFrame(), Frame::GCRF());
-        EXPECT_EQ(Tabulated::Default(states_, 0, Frame::ITRF()).getFrame(), Frame::ITRF());
+        EXPECT_EQ(Tabulated::Default(states_).getFrame(), Frame::GCRF());
+        EXPECT_EQ(Tabulated::Default(states_, Frame::ITRF()).getFrame(), Frame::ITRF());
     }
 
     // Models that differ only by their output frame are not equal.
     {
-        const Tabulated tabulatedGCRF(states_, 0, Interpolator::Type::Linear, Frame::GCRF());
-        const Tabulated tabulatedITRF(states_, 0, Interpolator::Type::Linear, Frame::ITRF());
+        const Tabulated tabulatedGCRF(states_, Interpolator::Type::Linear, Frame::GCRF());
+        const Tabulated tabulatedITRF(states_, Interpolator::Type::Linear, Frame::ITRF());
 
         EXPECT_TRUE(tabulatedGCRF != tabulatedITRF);
         EXPECT_FALSE(tabulatedGCRF == tabulatedITRF);
@@ -252,7 +254,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
         const Shared<const Frame> nullFrameSPtr = nullptr;
 
         EXPECT_THROW(
-            { const Tabulated tabulated(states_, 0, Interpolator::Type::Linear, nullFrameSPtr); },
+            { const Tabulated tabulated(states_, Interpolator::Type::Linear, nullFrameSPtr); },
             ostk::core::error::runtime::Undefined
         );
 
@@ -262,7 +264,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
         };
 
         EXPECT_THROW(
-            { const Tabulated tabulated(states_, 0, interpolationTypes, nullFrameSPtr); },
+            { const Tabulated tabulated(states_, interpolationTypes, nullFrameSPtr); },
             ostk::core::error::runtime::Undefined
         );
     }
@@ -272,7 +274,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 {
     using ostk::physics::time::Interval;
 
-    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
+    const Tabulated tabulated(states_, Interpolator::Type::Linear);
 
     EXPECT_TRUE(tabulated.getInterval().isDefined());
     EXPECT_TRUE(
@@ -283,16 +285,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, EqualToOperator)
 {
-    const Tabulated tabulated(states_, 0, Interpolator::Type::Linear);
-    const Tabulated anotherTabulated(states_, 0, Interpolator::Type::Linear);
+    const Tabulated tabulated(states_, Interpolator::Type::Linear);
+    const Tabulated anotherTabulated(states_, Interpolator::Type::Linear);
 
     EXPECT_TRUE(tabulated == anotherTabulated);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, NotEqualToOperator)
 {
-    const Tabulated tabulated(states_, 0, Interpolator::Type::CubicSpline);
-    const Tabulated anotherTabulated(states_, 0, Interpolator::Type::Linear);
+    const Tabulated tabulated(states_, Interpolator::Type::CubicSpline);
+    const Tabulated anotherTabulated(states_, Interpolator::Type::Linear);
 
     EXPECT_TRUE(tabulated != anotherTabulated);
 }
@@ -312,7 +314,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         Interpolator::Type interpolationType = std::get<0>(testCase);
         Real tolerance = std::get<1>(testCase);
 
-        const Tabulated tabulated(states_, 0, interpolationType);
+        const Tabulated tabulated(states_, interpolationType);
 
         for (Size i = 0; i < referenceStates_.getSize() - testStatesCount_; ++i)
         {
@@ -347,7 +349,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         Interpolator::Type interpolationType = std::get<0>(testCase);
         Real tolerance = std::get<1>(testCase);
 
-        const Tabulated tabulated(states_, 0, interpolationType);
+        const Tabulated tabulated(states_, interpolationType);
 
         Array<Instant> referenceInstants = Array<Instant>::Empty();
         Array<State> referenceStates = Array<State>::Empty();

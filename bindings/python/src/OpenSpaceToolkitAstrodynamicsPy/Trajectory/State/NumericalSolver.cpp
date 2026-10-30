@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/functional.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pybind11::module& aModule)
@@ -94,7 +96,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const Real&,
                     const Real&,
                     const Real&,
-                    const RootSolver&>(),
+                    const RootSolver&,
+                    const std::function<void(const State&)>&>(),
                 R"doc(
                     Constructor.
 
@@ -105,6 +108,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         root_solver (RootSolver, optional): The root solver. Defaults to RootSolver.Default().
+                        state_logger (Callable[[State], None], optional): A function called with each observed state, when logging is enabled. Defaults to None.
 
                 )doc",
                 arg("log_type"),
@@ -112,7 +116,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()")
+                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()"),
+                arg("state_logger") = none()
             )
 
             .def(self == self)
@@ -320,61 +325,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 )doc",
                 arg("stepper_type"),
                 arg("time_step")
-            )
-            .def_static(
-                "default_conditional",
-                +[](const std::function<void(const State&)>& stateLogger = nullptr) -> NumericalSolver
-                {
-                    PyErr_WarnEx(
-                        PyExc_DeprecationWarning,
-                        "NumericalSolver.default_conditional is deprecated. Use NumericalSolver.default instead.",
-                        1
-                    );
-                    return NumericalSolver::DefaultConditional(stateLogger);
-                },
-                R"doc(
-                    Return the default conditional numerical solver.
-
-                    Args:
-                        state_logger (StateLogger, optional): The state logger. Defaults to None.
-
-                    Returns:
-                        NumericalSolver: The default conditional numerical solver.
-                )doc",
-                arg_v("state_logger", nullptr, "None")
-            )
-            .def_static(
-                "conditional",
-                +[](const Real& aTimeStep,
-                    const Real& aRelativeTolerance,
-                    const Real& anAbsoluteTolerance,
-                    const std::function<void(const State&)>& stateLogger = nullptr) -> NumericalSolver
-                {
-                    PyErr_WarnEx(
-                        PyExc_DeprecationWarning,
-                        "NumericalSolver.conditional is deprecated. Use NumericalSolver constructor instead.",
-                        1
-                    );
-                    return NumericalSolver::Conditional(
-                        aTimeStep, aRelativeTolerance, anAbsoluteTolerance, stateLogger
-                    );
-                },
-                R"doc(
-                    Return a conditional numerical solver.
-
-                    Args:
-                        time_step (float): The time step (in seconds).
-                        relative_tolerance (float): The relative tolerance.
-                        absolute_tolerance (float): The absolute tolerance.
-                        state_logger (StateLogger, optional): The state logger. Defaults to None.
-
-                    Returns:
-                        NumericalSolver: The conditional numerical solver.
-                )doc",
-                arg("time_step"),
-                arg("relative_tolerance"),
-                arg("absolute_tolerance"),
-                arg_v("state_logger", nullptr, "None")
             );
     }
 }

@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw__
-#define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_HeterogeneousGuidanceLaw__
+#ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_CompositeGuidanceLaw__
+#define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_CompositeGuidanceLaw__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -33,24 +33,24 @@ using ostk::physics::coordinate::Frame;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 
-/// @brief    The Heterogeneous Guidance Law encompasses a sequence of one or more guidance laws to be used over
+/// @brief    The Composite Guidance Law encompasses a sequence of one or more guidance laws to be used over
 /// specific time intervals.
 ///    At each point in time, the applicable guidance law is selected and used to calculate the thrust acceleration.
 ///    Guidance laws don't need to be contiguous, and can be added in any order. If the instant does not fall within any
 ///    of the intervals, the thrust acceleration is zero. The guidance law intervals must not intersect each other.
-class HeterogeneousGuidanceLaw : public GuidanceLaw
+class CompositeGuidanceLaw : public GuidanceLaw
 {
    public:
     /// @brief Constructor.
     ///
     /// @code{.cpp}
-    ///     HeterogeneousGuidanceLaw guidanceLaw = {} ;
+    ///     CompositeGuidanceLaw guidanceLaw = {} ;
     ///     guidanceLaw.addGuidanceLaw(aConstantThrustSPtr, anInterval) ;
     /// @endcode
     ///
     /// @param aGuidanceLawWithIntervalArray Array of pairs containing the guidance law and their corresponding
     /// interval. Defaults to empty.
-    HeterogeneousGuidanceLaw(
+    CompositeGuidanceLaw(
         const Array<Pair<Shared<const GuidanceLaw>, Interval>>& aGuidanceLawWithIntervalArray =
             Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty()
     );
@@ -58,7 +58,7 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
     /// @brief Get guidance laws with their corresponding intervals.
     ///
     /// @code{.cpp}
-    ///     HeterogeneousGuidanceLaw guidanceLaw = { ... } ;
+    ///     CompositeGuidanceLaw guidanceLaw = { ... } ;
     ///     auto lawsWithIntervals = guidanceLaw.getGuidanceLawsWithIntervals() ;
     /// @endcode
     ///
@@ -68,7 +68,7 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
     /// @brief Add a guidance law with its corresponding interval.
     ///
     /// @code{.cpp}
-    ///     HeterogeneousGuidanceLaw guidanceLaw = {} ;
+    ///     CompositeGuidanceLaw guidanceLaw = {} ;
     ///     guidanceLaw.addGuidanceLaw(aConstantThrustSPtr, anInterval) ;
     /// @endcode
     ///
@@ -93,7 +93,7 @@ class HeterogeneousGuidanceLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
-    /// @brief Construct an ungated heterogeneous guidance law from this instance.
+    /// @brief Construct an ungated composite guidance law from this instance.
     ///
     /// The new instance contains the same intervals paired with the ungated versions of the underlying guidance laws.
     ///

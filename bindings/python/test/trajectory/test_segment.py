@@ -109,7 +109,7 @@ def local_orbital_frame_factory() -> LocalOrbitalFrameFactory:
 
 @pytest.fixture
 def numerical_solver() -> NumericalSolver:
-    return NumericalSolver.default_conditional()
+    return NumericalSolver.default()
 
 
 @pytest.fixture
@@ -148,9 +148,11 @@ def coast_duration_segment(
 def maneuver_constraints() -> Segment.ManeuverConstraints:
     return Segment.ManeuverConstraints(
         minimum_duration=Duration.minutes(1.0),
-        maximum_duration=Duration.minutes(10.0),
+        maximum_maneuver_duration_and_strategy=(
+            Duration.minutes(10.0),
+            Segment.MaximumManeuverDurationViolationStrategy.Skip,
+        ),
         minimum_separation=Duration.minutes(5.0),
-        maximum_duration_strategy=Segment.MaximumManeuverDurationViolationStrategy.Skip,
     )
 
 
@@ -158,9 +160,11 @@ def maneuver_constraints() -> Segment.ManeuverConstraints:
 def maneuver_constraint_with_duty_Cycle() -> Segment.ManeuverConstraints:
     return Segment.ManeuverConstraints(
         minimum_duration=Duration.minutes(1.0),
-        maximum_duration=Duration.minutes(10.0),
+        maximum_maneuver_duration_and_strategy=(
+            Duration.minutes(10.0),
+            Segment.MaximumManeuverDurationViolationStrategy.Skip,
+        ),
         minimum_separation=Duration.minutes(5.0),
-        maximum_duration_strategy=Segment.MaximumManeuverDurationViolationStrategy.Skip,
         maximum_duty_cycle=(Duration.minutes(40.0), Duration.minutes(98.0)),
     )
 
@@ -196,13 +200,15 @@ def constant_local_orbital_frame_direction_maneuver_segment(
     numerical_solver: NumericalSolver,
     local_orbital_frame_factory: LocalOrbitalFrameFactory,
 ) -> Segment:
-    return Segment.constant_local_orbital_frame_direction_maneuver(
+    return Segment.maneuver(
         name=name,
         event_condition=instant_condition,
         thruster_dynamics=thruster_dynamics,
         dynamics=dynamics,
         numerical_solver=numerical_solver,
-        local_orbital_frame_factory=local_orbital_frame_factory,
+        maneuver_constraints=Segment.ManeuverConstraints(
+            constant_local_orbital_frame_enforcement=(local_orbital_frame_factory, None),
+        ),
     )
 
 
@@ -216,14 +222,18 @@ def constant_local_orbital_frame_direction_maneuver_segment_with_maximum_allowed
     local_orbital_frame_factory: LocalOrbitalFrameFactory,
     maximum_allowed_angular_offset: Angle,
 ) -> Segment:
-    return Segment.constant_local_orbital_frame_direction_maneuver(
+    return Segment.maneuver(
         name=name,
         event_condition=instant_condition,
         thruster_dynamics=thruster_dynamics,
         dynamics=dynamics,
         numerical_solver=numerical_solver,
-        local_orbital_frame_factory=local_orbital_frame_factory,
-        maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+        maneuver_constraints=Segment.ManeuverConstraints(
+            constant_local_orbital_frame_enforcement=(
+                local_orbital_frame_factory,
+                maximum_allowed_angular_offset,
+            ),
+        ),
     )
 
 
@@ -291,8 +301,8 @@ class TestSegmentSolution:
         self,
         segment_solution: Segment.Solution,
     ):
-        assert segment_solution.access_start_instant() is not None
-        assert segment_solution.access_end_instant() is not None
+        assert segment_solution.get_start_instant() is not None
+        assert segment_solution.get_end_instant() is not None
         assert segment_solution.get_interval() is not None
         assert segment_solution.get_initial_mass() is not None
         assert segment_solution.get_final_mass() is not None
@@ -332,7 +342,7 @@ class TestSegmentSolution:
                 [
                     segment_solution.states[0].get_instant(),
                 ],
-                NumericalSolver.default_conditional(),
+                NumericalSolver.default(),
             )
             is not None
         )
@@ -425,10 +435,24 @@ class TestSegment:
 
     def test_get_maneuver_constraints(
         self,
+        name: str,
+        instant_condition: InstantCondition,
+        thruster_dynamics: Thruster,
+        dynamics: list,
+        numerical_solver: NumericalSolver,
         maneuver_segment: Segment,
+        maneuver_constraints: Segment.ManeuverConstraints,
     ):
-        constraints = maneuver_segment.get_maneuver_constraints()
-        assert constraints is not None
+        assert maneuver_segment.get_maneuver_constraints() is None
+
+        constraints = Segment.maneuver(
+            name=name,
+            event_condition=instant_condition,
+            thruster_dynamics=thruster_dynamics,
+            dynamics=dynamics,
+            numerical_solver=numerical_solver,
+            maneuver_constraints=maneuver_constraints,
+        ).get_maneuver_constraints()
         assert isinstance(constraints, Segment.ManeuverConstraints)
 
     def test_coast(
@@ -463,7 +487,10 @@ class TestSegment:
 
         # Test with maneuver constraints
         constraints = Segment.ManeuverConstraints(
-            maximum_duration=Duration.minutes(10.0),
+            maximum_maneuver_duration_and_strategy=(
+                Duration.minutes(10.0),
+                Segment.MaximumManeuverDurationViolationStrategy.Fail,
+            ),
             minimum_separation=Duration.minutes(5.0),
         )
         assert (
@@ -478,7 +505,7 @@ class TestSegment:
             is not None
         )
 
-    def test_constant_local_orbital_frame_direction_maneuver(
+    def test_maneuver_with_constant_local_orbital_frame_direction(
         self,
         name: str,
         instant_condition: InstantCondition,
@@ -489,45 +516,58 @@ class TestSegment:
         maximum_allowed_angular_offset: Angle,
     ):
         assert (
-            Segment.constant_local_orbital_frame_direction_maneuver(
+            Segment.maneuver(
                 name=name,
                 event_condition=instant_condition,
                 thruster_dynamics=thruster_dynamics,
                 dynamics=dynamics,
                 numerical_solver=numerical_solver,
-                local_orbital_frame_factory=local_orbital_frame_factory,
+                maneuver_constraints=Segment.ManeuverConstraints(
+                    constant_local_orbital_frame_enforcement=(
+                        local_orbital_frame_factory,
+                        None,
+                    ),
+                ),
             )
             is not None
         )
 
         assert (
-            Segment.constant_local_orbital_frame_direction_maneuver(
+            Segment.maneuver(
                 name=name,
                 event_condition=instant_condition,
                 thruster_dynamics=thruster_dynamics,
                 dynamics=dynamics,
                 numerical_solver=numerical_solver,
-                local_orbital_frame_factory=local_orbital_frame_factory,
-                maximum_allowed_angular_offset=maximum_allowed_angular_offset,
+                maneuver_constraints=Segment.ManeuverConstraints(
+                    constant_local_orbital_frame_enforcement=(
+                        local_orbital_frame_factory,
+                        maximum_allowed_angular_offset,
+                    ),
+                ),
             )
             is not None
         )
 
-        # Test with maneuver constraints
-        constraints = Segment.ManeuverConstraints(
-            maximum_duration=Duration.minutes(10.0),
-            minimum_separation=Duration.minutes(5.0),
-        )
+        # Test with other maneuver constraints
         assert (
-            Segment.constant_local_orbital_frame_direction_maneuver(
+            Segment.maneuver(
                 name=name,
                 event_condition=instant_condition,
                 thruster_dynamics=thruster_dynamics,
                 dynamics=dynamics,
                 numerical_solver=numerical_solver,
-                local_orbital_frame_factory=local_orbital_frame_factory,
-                maximum_allowed_angular_offset=maximum_allowed_angular_offset,
-                maneuver_constraints=constraints,
+                maneuver_constraints=Segment.ManeuverConstraints(
+                    maximum_maneuver_duration_and_strategy=(
+                        Duration.minutes(10.0),
+                        Segment.MaximumManeuverDurationViolationStrategy.Fail,
+                    ),
+                    minimum_separation=Duration.minutes(5.0),
+                    constant_local_orbital_frame_enforcement=(
+                        local_orbital_frame_factory,
+                        maximum_allowed_angular_offset,
+                    ),
+                ),
             )
             is not None
         )
@@ -573,8 +613,8 @@ class TestSegment:
         assert solution.condition_is_satisfied is True
         assert solution.segment_type is not None
 
-        assert solution.access_start_instant() is not None
-        assert solution.access_end_instant() is not None
+        assert solution.get_start_instant() is not None
+        assert solution.get_end_instant() is not None
 
         assert solution.get_initial_mass() is not None
         assert solution.get_final_mass() is not None
@@ -640,23 +680,6 @@ class TestSegment:
                 solution.dynamics[0], state.get_frame()
             )
 
-    def test_solve_with_previous_maneuver_interval(
-        self,
-        state: State,
-        maneuver_segment: Segment,
-        instants: list[Instant],
-    ):
-        solution: Segment.Solution = maneuver_segment.solve(
-            state=state,
-            maximum_propagation_duration=Duration.minutes(15.0),
-            previous_maneuver_interval=Interval.closed(
-                instants[0] - Duration.minutes(100.0),
-                instants[0] - Duration.minutes(90.0),
-            ),
-        )
-
-        assert solution is not None
-
     def test_solve_with_previous_maneuver_intervals(
         self,
         state: State,
@@ -704,28 +727,49 @@ class TestManeuverConstraints:
         self,
         maneuver_constraints: Segment.ManeuverConstraints,
         maneuver_constraint_with_duty_Cycle: Segment.ManeuverConstraints,
+        local_orbital_frame_factory: LocalOrbitalFrameFactory,
+        maximum_allowed_angular_offset: Angle,
     ):
         # Default constructor
+        default_maneuver_constraints = Segment.ManeuverConstraints()
+        assert default_maneuver_constraints.minimum_duration is None
+        assert default_maneuver_constraints.maximum_maneuver_duration_and_strategy is None
+        assert default_maneuver_constraints.minimum_separation is None
+        assert default_maneuver_constraints.maximum_duty_cycle is None
+        assert (
+            default_maneuver_constraints.constant_local_orbital_frame_enforcement is None
+        )
+
+        # Constructor with durations
         assert maneuver_constraints is not None
         assert maneuver_constraints.minimum_duration is not None
-        assert maneuver_constraints.maximum_duration is not None
+        assert maneuver_constraints.maximum_maneuver_duration_and_strategy[0] is not None
+        assert maneuver_constraints.maximum_maneuver_duration_and_strategy[1] is not None
         assert maneuver_constraints.minimum_separation is not None
-        assert maneuver_constraints.maximum_duration_strategy is not None
 
         # Constructor with duty cycle
         assert maneuver_constraint_with_duty_Cycle is not None
         assert maneuver_constraint_with_duty_Cycle.minimum_duration is not None
-        assert maneuver_constraint_with_duty_Cycle.maximum_duration is not None
+        assert (
+            maneuver_constraint_with_duty_Cycle.maximum_maneuver_duration_and_strategy
+            is not None
+        )
         assert maneuver_constraint_with_duty_Cycle.minimum_separation is not None
-        assert maneuver_constraint_with_duty_Cycle.maximum_duration_strategy is not None
         assert maneuver_constraint_with_duty_Cycle.maximum_duty_cycle[0] is not None
         assert maneuver_constraint_with_duty_Cycle.maximum_duty_cycle[1] is not None
 
-    def test_is_defined(
-        self,
-        maneuver_constraints: Segment.ManeuverConstraints,
-    ):
-        assert maneuver_constraints.is_defined()
+        # Constructor with constant local orbital frame direction
+        maneuver_constraints_with_local_orbital_frame = Segment.ManeuverConstraints(
+            constant_local_orbital_frame_enforcement=(
+                local_orbital_frame_factory,
+                maximum_allowed_angular_offset,
+            ),
+        )
+        constant_local_orbital_frame_enforcement = (
+            maneuver_constraints_with_local_orbital_frame.constant_local_orbital_frame_enforcement
+        )
+        assert constant_local_orbital_frame_enforcement[0] is not None
+        assert constant_local_orbital_frame_enforcement[1] is not None
 
     def test_interval_has_valid_minimum_duration(
         self,

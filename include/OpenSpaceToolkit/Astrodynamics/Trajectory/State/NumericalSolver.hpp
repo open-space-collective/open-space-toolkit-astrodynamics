@@ -61,13 +61,15 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aRelativeTolerance A number indicating the relative integration tolerance
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
     /// @param aRootSolver A root solver to be used to solve the event condition
+    /// @param aStateLogger A function called with each observed state, when logging is enabled. Defaults to none.
     NumericalSolver(
         const NumericalSolver::LogType& aLogType,
         const NumericalSolver::StepperType& aStepperType,
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver = RootSolver::Default()
+        const RootSolver& aRootSolver = RootSolver::Default(),
+        const std::function<void(const State&)>& aStateLogger = nullptr
     );
 
     /// @brief Access observed states
@@ -177,39 +179,6 @@ class NumericalSolver : public MathNumericalSolver
     /// @return A fixed step size numerical solver.
     static NumericalSolver FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep);
 
-    /// @brief Default conditional
-    ///
-    /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::DefaultConditional();
-    /// @endcode
-    ///
-    /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
-    /// @return A default conditional numerical solver.
-    [[deprecated(
-        "Use NumericalSolver::Default() instead. All solvers now support conditional solving. This method will be "
-        "removed in a future version."
-    )]]
-    static NumericalSolver DefaultConditional(const std::function<void(const State&)>& stateLogger = nullptr);
-
-    /// @brief Create a conditional numerical solver.
-    ///
-    /// @param aTimeStep The initial time step (in seconds) to use.
-    /// @param aRelativeTolerance The relative tolerance to use.
-    /// @param anAbsoluteTolerance The absolute tolerance to use.
-    /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
-    ///
-    /// @return A conditional numerical solver.
-    [[deprecated(
-        "Use NumericalSolver constructor instead. All solvers now support conditional solving. This method will be "
-        "removed in a future version."
-    )]]
-    static NumericalSolver Conditional(
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const std::function<void(const State&)>& stateLogger = nullptr
-    );
-
     /// Delete undesired methods from parent
     Array<MathNumericalSolver::Solution> integrateTime(
         const MathNumericalSolver::StateVector& anInitialStateVector,
@@ -246,28 +215,6 @@ class NumericalSolver : public MathNumericalSolver
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
     Real maxStepSize_ = Real::Undefined();
-
-    /// @brief Constructor
-    ///
-    /// @param aLogType An enum indicating the amount of verbosity wanted to be logged during
-    ///                  numerical integration
-    /// @param aStepperType An enum indicating the type of numerical stepper used to perform
-    ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step (in seconds) the numerical solver will
-    ///                  take
-    /// @param aRelativeTolerance A number indicating the relative integration tolerance
-    /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
-    /// @param aRootSolver A root solver to be used to solve the event condition
-    /// @param stateLogger A function that takes a `State` object and logs
-    NumericalSolver(
-        const NumericalSolver::LogType& aLogType,
-        const NumericalSolver::StepperType& aStepperType,
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver,
-        const std::function<void(const State&)>& stateLogger
-    );
 
     /// @brief Observe a state, storing it's coordinates in the observedStates_ array
     ///

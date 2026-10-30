@@ -43,6 +43,8 @@ using ostk::physics::time::Instant;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
+#define DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER 0
+
 /// @brief Tabulated orbit model.
 ///
 /// @details Orbit model based on tabulated states with interpolation, extending the trajectory tabulated model with
@@ -54,35 +56,20 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     ///
     /// @code{.cpp}
     ///     Array<State> states = { ... };
-    ///     Tabulated tabulated = Tabulated(states, 1, Interpolator::Type::Linear);
+    ///     Tabulated tabulated = Tabulated(states, Interpolator::Type::Linear, Frame::ITRF(), 1);
     /// @endcode
     ///
     /// @param aStateArray An array of states to tabulate.
-    /// @param anInitialRevolutionNumber The revolution number at the first state epoch.
-    /// @param aType The interpolation type to use between tabulated states.
-    Tabulated(
-        const Array<State>& aStateArray,
-        const Integer& anInitialRevolutionNumber,
-        const Interpolator::Type& aType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE
-    );
-
-    /// @brief Construct a tabulated orbit model from an array of states, with an explicit output frame.
-    ///
-    /// @code{.cpp}
-    ///     Array<State> states = { ... };
-    ///     Tabulated tabulated = Tabulated(states, 1, Interpolator::Type::Linear, Frame::ITRF());
-    /// @endcode
-    ///
-    /// @param aStateArray An array of states to tabulate.
-    /// @param anInitialRevolutionNumber The revolution number at the first state epoch.
-    /// @param aType The interpolation type to use between tabulated states.
+    /// @param anInterpolationType The interpolation type to use between tabulated states. Defaults to
+    /// BarycentricRational, which requires at least 4 states.
     /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
-    /// converted to this frame and interpolation is performed in this frame.
+    /// converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+    /// @param anInitialRevolutionNumber The revolution number at the first state epoch. Defaults to 0.
     Tabulated(
         const Array<State>& aStateArray,
-        const Integer& anInitialRevolutionNumber,
-        const Interpolator::Type& aType,
-        const Shared<const Frame>& aFrameSPtr
+        const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
+        const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
+        const Integer& anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
     );
 
     /// @brief Construct a tabulated orbit model with per-coordinate-subset interpolation types.
@@ -96,35 +83,21 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     ///         {CartesianPosition::Default(), Interpolator::Type::CubicSpline},
     ///         {CartesianVelocity::Default(), Interpolator::Type::Linear},
     ///     };
-    ///     Tabulated tabulated = Tabulated(states, 1, interpolationTypes);
+    ///     Tabulated tabulated = Tabulated(states, interpolationTypes, Frame::ITRF(), 1);
     /// @endcode
     ///
     /// @param aStateArray An array of states to tabulate.
-    /// @param anInitialRevolutionNumber The revolution number at the first state epoch.
-    /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
-    /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
-    /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
-    Tabulated(
-        const Array<State>& aStateArray,
-        const Integer& anInitialRevolutionNumber,
-        const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
-    );
-
-    /// @brief Construct a tabulated orbit model with per-coordinate-subset interpolation types and an explicit
-    /// output frame.
-    ///
-    /// @param aStateArray An array of states to tabulate.
-    /// @param anInitialRevolutionNumber The revolution number at the first state epoch.
     /// @param anInterpolationTypeMap A mapping from coordinate subset to the interpolation type to use for that
     /// subset's coordinates. Every coordinate subset present in the states must have an entry in the map (an error is
     /// raised otherwise). Entries for coordinate subsets that are not present in the states are ignored.
     /// @param aFrameSPtr The reference frame in which the computed states are expressed. The provided states are
-    /// converted to this frame and interpolation is performed in this frame.
+    /// converted to this frame and interpolation is performed in this frame. Defaults to GCRF.
+    /// @param anInitialRevolutionNumber The revolution number at the first state epoch. Defaults to 0.
     Tabulated(
         const Array<State>& aStateArray,
-        const Integer& anInitialRevolutionNumber,
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
-        const Shared<const Frame>& aFrameSPtr
+        const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
+        const Integer& anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
     );
 
     /// @brief Clone this tabulated orbit model.
@@ -162,7 +135,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     /// @brief Calculate the state at a given instant by interpolating the tabulated states.
     ///
     /// @code{.cpp}
-    ///     Tabulated tabulated = Tabulated(states, 1);
+    ///     Tabulated tabulated = Tabulated(states);
     ///     State state = tabulated.calculateStateAt(Instant::Now());
     /// @endcode
     ///
@@ -184,28 +157,17 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     ///
     /// @code{.cpp}
     ///     Array<State> states = { ... };
-    ///     Tabulated tabulated = Tabulated::Default(states, 1);
+    ///     Tabulated tabulated = Tabulated::Default(states, Frame::ITRF(), 1);
     /// @endcode
     ///
     /// @param aStateArray An array of states to tabulate.
-    /// @param anInitialRevolutionNumber The revolution number at the first state epoch. Defaults to 1.
-    /// @return A tabulated orbit model using the default interpolation types.
-    static Tabulated Default(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber = 1);
-
-    /// @brief Construct a tabulated orbit model using the default per-coordinate-subset interpolation types and an
-    /// explicit output frame.
-    ///
-    /// @code{.cpp}
-    ///     Array<State> states = { ... };
-    ///     Tabulated tabulated = Tabulated::Default(states, 1, Frame::ITRF());
-    /// @endcode
-    ///
-    /// @param aStateArray An array of states to tabulate.
-    /// @param anInitialRevolutionNumber The revolution number at the first state epoch.
-    /// @param aFrameSPtr The reference frame in which the computed states are expressed.
+    /// @param aFrameSPtr The reference frame in which the computed states are expressed. Defaults to GCRF.
+    /// @param anInitialRevolutionNumber The revolution number at the first state epoch. Defaults to 0.
     /// @return A tabulated orbit model using the default interpolation types.
     static Tabulated Default(
-        const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber, const Shared<const Frame>& aFrameSPtr
+        const Array<State>& aStateArray,
+        const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
+        const Integer& anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
     );
 
    protected:

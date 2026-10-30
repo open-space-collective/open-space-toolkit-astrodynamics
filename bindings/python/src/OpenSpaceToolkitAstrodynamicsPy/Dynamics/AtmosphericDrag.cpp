@@ -7,6 +7,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
     using namespace pybind11;
 
     using ostk::core::type::Shared;
+    using ostk::core::type::String;
 
     using ostk::physics::environment::object::Celestial;
 
@@ -23,13 +24,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
             )doc"
         )
             .def(
-                init<const Shared<Celestial>&>(),
+                init<const Shared<Celestial>&, const std::optional<String>&>(),
                 arg("celestial"),
+                arg("name") = none(),
                 R"doc(
                     Constructor.
 
                     Args:
                         celestial (Celestial): The celestial body.
+                        name (str, optional): The name of the dynamics. Defaults to "Atmospheric Drag [<celestial name>]".
 
                 )doc"
             )
