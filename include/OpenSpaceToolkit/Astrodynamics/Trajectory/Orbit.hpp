@@ -92,7 +92,8 @@ class Orbit : public Trajectory
 
     /// @brief Constructor.
     ///
-    /// @param aStateArray An array of states.
+    /// @param aStateArray An array of states. States are interpolated with barycentric rational interpolation, which
+    /// requires at least 4 states.
     /// @param anInitialRevolutionNumber An initial revolution number.
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
     Orbit(

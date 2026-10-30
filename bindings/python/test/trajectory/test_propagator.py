@@ -255,7 +255,7 @@ def maneuver_states(frame: Frame) -> list[State]:
 def maneuver(
     maneuver_states: list[State],
 ) -> Maneuver:
-    return Maneuver(states=maneuver_states)
+    return Maneuver(states=maneuver_states, interpolation_type=Interpolator.Type.Linear)
 
 
 @pytest.fixture
@@ -269,7 +269,7 @@ def propagator_with_maneuvers(
     dynamics: list[Dynamics],
     maneuver: Maneuver,
 ) -> Propagator:
-    return Propagator(numerical_solver, dynamics, [maneuver], Interpolator.Type.Linear)
+    return Propagator(numerical_solver, dynamics, [maneuver])
 
 
 class TestPropagator:

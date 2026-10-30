@@ -85,7 +85,12 @@ class Maneuver
     ///
     /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity, Acceleration and Mass
     /// Flow Rate coordinate subsets.
-    Maneuver(const Array<State>& aStateArray);
+    /// @param anInterpolationType The interpolation type used to interpolate the maneuver states (e.g. when
+    /// converting it to tabulated dynamics to propagate through them). Defaults to BarycentricRational.
+    Maneuver(
+        const Array<State>& aStateArray,
+        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
+    );
 
     /// @brief Equal to operator
     ///
@@ -124,6 +129,15 @@ class Maneuver
     ///
     /// @return The states
     Array<State> getStates() const;
+
+    /// @brief Get the interpolation type of the maneuver
+    ///
+    /// @code{.cpp}
+    ///                  Interpolator::Type interpolationType = maneuver.getInterpolationType();
+    /// @endcode
+    ///
+    /// @return The interpolation type
+    Interpolator::Type getInterpolationType() const;
 
     /// @brief Get the interval of the maneuver
     ///
@@ -178,18 +192,15 @@ class Maneuver
     /// @brief Convert the maneuver to a Tabulated Dynamics object
     ///
     /// @code{.cpp}
-    ///                  Shared<Tabulated> tabulatedDynamicsSPtr = maneuver.toTabulatedDynamics(Frame::GCRF(),
-    ///                  Interpolator::Type::BarycentricRational);
+    ///                  Shared<Tabulated> tabulatedDynamicsSPtr = maneuver.toTabulatedDynamics(Frame::GCRF());
     /// @endcode
     ///
+    /// @details The Tabulated Dynamics object uses the maneuver's interpolation type.
+    ///
     /// @param (optional) aFrameSPtr The frame in which the acceleration profile is to be defined
-    /// @param (optional) anInterpolationType The interpolation type to use in the Tabulated Dynamics object
     ///
     /// @return A shared pointer to the Tabulated Dynamics object
-    Shared<Tabulated> toTabulatedDynamics(
-        const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr,
-        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
-    ) const;
+    Shared<Tabulated> toTabulatedDynamics(const Shared<const Frame>& aFrameSPtr = DefaultAccelFrameSPtr) const;
 
     /// @brief Calculate the mean thrust direction in the Local Orbital Frame and its maximum angular offset w.r.t. the
     /// maneuver's thrust acceleration directions.
@@ -242,12 +253,18 @@ class Maneuver
     /// @param aStateArray An array of states, must be sorted, must contain Position, Velocity and Acceleration
     /// coordinate subsets.
     /// @param aMassFlowRate A constant mass flow rate that will be used for all the instants in the maneuver in kg/s
+    /// @param anInterpolationType The interpolation type of the maneuver. Defaults to BarycentricRational.
     ///
     /// @return A maneuver
-    static Maneuver ConstantMassFlowRateProfile(const Array<State>& aStatearray, const Real& aMassFlowRate);
+    static Maneuver ConstantMassFlowRateProfile(
+        const Array<State>& aStatearray,
+        const Real& aMassFlowRate,
+        const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
+    );
 
    private:
     Array<State> states_;
+    Interpolator::Type interpolationType_;
 };
 
 }  // namespace flight

@@ -244,6 +244,12 @@ class TestTabulated:
             is not None
         )
 
+    def test_constructor_default_initial_revolution_number(
+        self, test_states: list[State]
+    ):
+        assert Tabulated(test_states).get_revolution_number_at_epoch() == 0
+        assert Tabulated.default(test_states).get_revolution_number_at_epoch() == 0
+
     def test_constructor_orbit_tabulated_sucess(
         self,
         test_states: list[State],

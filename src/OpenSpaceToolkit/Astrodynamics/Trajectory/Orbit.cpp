@@ -77,7 +77,12 @@ Orbit::Orbit(
     const Integer& anInitialRevolutionNumber,
     const Shared<const Celestial>& aCelestialObjectSPtr
 )
-    : Trajectory(orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber)),
+    : Trajectory(orbit::model::Tabulated(
+          aStateArray,
+          DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
+          DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
+          anInitialRevolutionNumber
+      )),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
@@ -1058,8 +1063,12 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
         }
     }
 
-    const orbit::model::Tabulated tabulated =
-        orbit::model::Tabulated(aStateArray, anInitialRevolutionNumber, Interpolator::Type::BarycentricRational);
+    const orbit::model::Tabulated tabulated = orbit::model::Tabulated(
+        aStateArray,
+        Interpolator::Type::BarycentricRational,
+        DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
+        anInitialRevolutionNumber
+    );
 
     const Array<Pass> passes = Orbit::ComputePassesWithModel(
         tabulated,

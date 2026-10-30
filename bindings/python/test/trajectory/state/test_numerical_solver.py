@@ -128,6 +128,34 @@ class TestNumericalSolver:
         assert isinstance(numerical_solver, NumericalSolver)
         assert numerical_solver.is_defined()
 
+    def test_constructor_with_state_logger(
+        self,
+        initial_state: State,
+        variable_size_stepper_type: NumericalSolver.StepperType,
+        initial_time_step: float,
+        relative_tolerance: float,
+        absolute_tolerance: float,
+    ):
+        logged_states: list[State] = []
+
+        numerical_solver = NumericalSolver(
+            log_type=NumericalSolver.LogType.LogAdaptive,
+            stepper_type=variable_size_stepper_type,
+            time_step=initial_time_step,
+            relative_tolerance=relative_tolerance,
+            absolute_tolerance=absolute_tolerance,
+            state_logger=logged_states.append,
+        )
+
+        numerical_solver.integrate_time(
+            initial_state,
+            initial_state.get_instant() + Duration.seconds(10.0),
+            oscillator,
+        )
+
+        assert len(logged_states) > 0
+        assert isinstance(logged_states[0], State)
+
     def test_comparators(self, numerical_solver: NumericalSolver):
         assert numerical_solver == numerical_solver
         assert (numerical_solver != numerical_solver) is False

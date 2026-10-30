@@ -121,27 +121,6 @@ Array<State> LeastSquaresSolver::Analysis::computeResidualStates(const Array<Sta
 LeastSquaresSolver::LeastSquaresSolver(
     const Size& aMaxIterationCount,
     const Real& aRmsUpdateThreshold,
-    const FiniteDifferenceSolver& aFiniteDifferenceSolver
-)
-    : maxIterationCount_(aMaxIterationCount),
-      rmsUpdateThreshold_(aRmsUpdateThreshold),
-      finiteDifferenceSolver_(aFiniteDifferenceSolver),
-      scaleFactorGenerator_(NoScaling())
-{
-    if (aMaxIterationCount == 0)
-    {
-        throw ostk::core::error::RuntimeError("Max iteration count must be greater than 0.");
-    }
-
-    if (aRmsUpdateThreshold <= 0.0)
-    {
-        throw ostk::core::error::RuntimeError("RMS update threshold must be greater than 0.");
-    }
-}
-
-LeastSquaresSolver::LeastSquaresSolver(
-    const Size& aMaxIterationCount,
-    const Real& aRmsUpdateThreshold,
     const FiniteDifferenceSolver& aFiniteDifferenceSolver,
     const ScaleFactorGenerator& aScaleFactorGenerator
 )

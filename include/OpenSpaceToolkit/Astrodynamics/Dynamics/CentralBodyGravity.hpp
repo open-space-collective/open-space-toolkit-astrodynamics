@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
@@ -38,21 +40,12 @@ class CentralBodyGravity : public Dynamics
     /// @code{.cpp}
     ///     Shared<const Celestial> celestialSPtr = { ... } ;
     ///     CentralBodyGravity centralBodyGravity = { celestialSPtr } ;
+    ///     CentralBodyGravity namedCentralBodyGravity = { celestialSPtr, String("Earth Gravity") } ;
     /// @endcode
     ///
     /// @param aCelestial A celestial object representing the central body.
-    CentralBodyGravity(const Shared<const Celestial>& aCelestial);
-
-    /// @brief Constructor with name.
-    ///
-    /// @code{.cpp}
-    ///     Shared<const Celestial> celestialSPtr = { ... } ;
-    ///     CentralBodyGravity centralBodyGravity = { celestialSPtr, "Earth Gravity" } ;
-    /// @endcode
-    ///
-    /// @param aCelestial A celestial object representing the central body.
-    /// @param aName A name for the dynamics.
-    CentralBodyGravity(const Shared<const Celestial>& aCelestial, const String& aName);
+    /// @param aName A name for the dynamics. Defaults to "Central Body Gravity [<celestial name>]".
+    CentralBodyGravity(const Shared<const Celestial>& aCelestial, const std::optional<String>& aName = std::nullopt);
 
     /// @brief Destructor.
     virtual ~CentralBodyGravity() override;

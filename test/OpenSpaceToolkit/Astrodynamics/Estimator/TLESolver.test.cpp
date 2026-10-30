@@ -288,7 +288,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_
 
         // Verify estimated TLE accuracy
         const TLE estimatedTLE = analysis.estimatedTLE;
-        const SGP4 sgp4(estimatedTLE);
+        const SGP4 sgp4(estimatedTLE, Frame::GCRF());
 
         for (const auto& observation : observations)
         {
@@ -353,7 +353,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBSt
 
         // Verify estimated TLE accuracy
         const TLE estimatedTLE = analysis.estimatedTLE;
-        const SGP4 sgp4(estimatedTLE);
+        const SGP4 sgp4(estimatedTLE, Frame::GCRF());
 
         for (const auto& observation : observations)
         {
@@ -508,7 +508,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
 
     // Verify the estimated TLE is valid by propagating
     const TLE estimatedTLE = analysis.estimatedTLE;
-    const SGP4 sgp4(estimatedTLE);
+    const SGP4 sgp4(estimatedTLE, Frame::GCRF());
 
     for (Size i = 0; i < observations.getSize(); i += 100)
     {
@@ -539,7 +539,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
 
     // Verify the estimated TLE is valid by propagating
     const TLE estimatedTLE = analysis.estimatedTLE;
-    const SGP4 sgp4(estimatedTLE);
+    const SGP4 sgp4(estimatedTLE, Frame::GCRF());
 
     for (Size i = 0; i < observations.getSize(); i += 100)
     {
@@ -690,7 +690,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
 
     // A no-B* SGP4 fit of a 10.4 h GNSS arc bottoms out around 560 m RMS; require the fit to
     // reach that floor rather than merely avoid throwing.
-    const SGP4 sgp4(analysis.estimatedTLE);
+    const SGP4 sgp4(analysis.estimatedTLE, Frame::GCRF());
 
     double sumOfSquares = 0.0;
 

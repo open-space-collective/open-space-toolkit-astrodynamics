@@ -84,7 +84,7 @@ def tabulated_model() -> TabulatedModel:
                 attitude_frame=Frame.GCRF(),
             ),
         ],
-        interpolator_type=Interpolator.Type.Linear,
+        interpolation_type=Interpolator.Type.Linear,
     )
 
 

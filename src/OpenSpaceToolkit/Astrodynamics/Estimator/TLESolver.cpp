@@ -241,7 +241,7 @@ Orbit TLESolver::estimateOrbit(
     const Analysis analysis =
         estimate(anInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas);
 
-    return Orbit(SGP4(analysis.estimatedTLE), std::make_shared<Earth>(Earth::Spherical()));
+    return Orbit(SGP4(analysis.estimatedTLE, Frame::GCRF()), std::make_shared<Earth>(Earth::Spherical()));
 }
 
 State TLESolver::TLEToTLEState(const TLE& aTLE) const

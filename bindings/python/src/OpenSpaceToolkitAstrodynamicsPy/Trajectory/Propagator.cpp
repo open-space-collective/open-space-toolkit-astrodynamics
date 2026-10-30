@@ -32,44 +32,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     )
 
         .def(
-            init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
+            init<const NumericalSolver&, const Array<Shared<Dynamics>>&, const Array<Maneuver>&>(),
             arg("numerical_solver"),
             arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Construct a new `Propagator` object.
 
                 Args:
                     numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (list[Dynamics], optional) The dynamics.
-
-                Returns:
-                    Propagator: The new `Propagator` object.
-
-            )doc"
-        )
-
-        .def(
-            init<
-                const NumericalSolver&,
-                const Array<Shared<Dynamics>>&,
-                const Array<Maneuver>&,
-                const Interpolator::Type&>(),
-            arg("numerical_solver"),
-            arg("dynamics"),
-            arg("maneuvers"),
-            arg_v(
-                "interpolation_type",
-                DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
-            R"doc(
-                Construct a new `Propagator` object with maneuvers.
-
-                Args:
-                    numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (list[Dynamics]) The dynamics.
-                    maneuvers (list[Maneuver]) The maneuvers.
-                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
+                    dynamics (list[Dynamics], optional) The dynamics (only non-maneuvering dynamics should be added here). Defaults to an empty list.
+                    maneuvers (list[Maneuver], optional) The maneuvers (don't add tabulated dynamics extracted from maneuvers to the dynamics array, add them here in the form of maneuvers instead). Each maneuver is interpolated with its own interpolation type. Defaults to an empty list.
 
                 Returns:
                     Propagator: The new `Propagator` object.
@@ -165,17 +138,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             "add_maneuver",
             &Propagator::addManeuver,
             arg("maneuver"),
-            arg_v(
-                "interpolation_type",
-                DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
             R"doc(
                 Add a maneuver.
 
                 Args:
-                    maneuver (Maneuver) The maneuver.
-                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
+                    maneuver (Maneuver) The maneuver, interpolated with its own interpolation type.
 
             )doc"
         )

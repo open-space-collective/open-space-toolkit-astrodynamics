@@ -43,9 +43,9 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaterni
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
-Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolatorType)
+Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
     : Model(),
-      interpolatorType_(anInterpolatorType),
+      interpolationType_(anInterpolationType),
       stateBuilder_(StateBuilder::Undefined()),
       reducedStateBuilder_(StateBuilder::Undefined())
 {
@@ -57,7 +57,7 @@ Tabulated::Tabulated(
     const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
 )
     : Model(),
-      interpolatorType_(Interpolator::Type::BarycentricRational),
+      interpolationType_(Interpolator::Type::BarycentricRational),
       stateBuilder_(StateBuilder::Undefined()),
       reducedStateBuilder_(StateBuilder::Undefined())
 {
@@ -109,14 +109,14 @@ Interval Tabulated::getInterval() const
     );
 }
 
-Interpolator::Type Tabulated::getInterpolatorType() const
+Interpolator::Type Tabulated::getInterpolationType() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return this->interpolatorType_;
+    return this->interpolationType_;
 }
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
@@ -337,7 +337,7 @@ void Tabulated::setMembers(const Array<State>& aStateArray)
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(Interpolator::GenerateInterpolator(interpolatorType_, timestamps, coordinates.col(i)));
+        interpolators_.add(Interpolator::GenerateInterpolator(interpolationType_, timestamps, coordinates.col(i)));
     }
 }
 
@@ -382,10 +382,10 @@ void Tabulated::setMembers(
         }
     }
 
-    // Report the interpolator type of the first reduced coordinate via getInterpolatorType().
+    // Report the interpolation type of the first reduced coordinate via getInterpolationType().
     if (!interpolationTypePerCoordinate.isEmpty())
     {
-        interpolatorType_ = interpolationTypePerCoordinate.accessFirst();
+        interpolationType_ = interpolationTypePerCoordinate.accessFirst();
     }
 
     interpolators_.reserve(coordinates.cols());

@@ -192,6 +192,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_StateLogger)
+{
+    const Instant endInstant = defaultState_.accessInstant() + defaultDuration_;
+
+    // Logger called for each observed state when logging is enabled
+    {
+        Array<State> loggedStates = Array<State>::Empty();
+
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            1e-3,
+            1.0e-15,
+            1.0e-15,
+            RootSolver::Default(),
+            [&loggedStates](const State &aState) -> void
+            {
+                loggedStates.add(aState);
+            },
+        };
+
+        testing::internal::CaptureStdout();
+
+        numericalSolver.integrateTime(defaultState_, endInstant, systemOfEquations_);
+
+        testing::internal::GetCapturedStdout();
+
+        EXPECT_FALSE(loggedStates.isEmpty());
+        EXPECT_EQ(numericalSolver.getObservedStates().getSize(), loggedStates.getSize());
+    }
+
+    // Logger not called when logging is disabled
+    {
+        Array<State> loggedStates = Array<State>::Empty();
+
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            1e-3,
+            1.0e-15,
+            1.0e-15,
+            RootSolver::Default(),
+            [&loggedStates](const State &aState) -> void
+            {
+                loggedStates.add(aState);
+            },
+        };
+
+        numericalSolver.integrateTime(defaultState_, endInstant, systemOfEquations_);
+
+        EXPECT_FALSE(numericalSolver.getObservedStates().isEmpty());
+        EXPECT_TRUE(loggedStates.isEmpty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Array)
 {
     const Array<Array<Instant>> instantsArray = {

@@ -25,33 +25,27 @@ using ostk::mathematics::object::Vector3d;
 
 using ostk::physics::coordinate::Transform;
 
-Custom::Custom(const VertexGenerator& aVertexGenerator, const Shared<const Frame>& aFrameSPtr)
+Custom::Custom(
+    const VertexGenerator& aVertexGenerator,
+    const std::variant<Shared<const Frame>, LocalOrbitalFrameFactory>& aFrameOrLOFFactory
+)
     : HardBody(),
       vertexGenerator_(aVertexGenerator),
-      frameOrLOF_(aFrameSPtr)
+      frameOrLOF_(aFrameOrLOFFactory)
 {
     if (!vertexGenerator_)
     {
         throw ostk::core::error::runtime::Undefined("Vertex generator");
     }
 
-    if (aFrameSPtr == nullptr)
+    if (const Shared<const Frame>* frameSPtr = std::get_if<Shared<const Frame>>(&frameOrLOF_))
     {
-        throw ostk::core::error::runtime::Undefined("Frame");
+        if (*frameSPtr == nullptr)
+        {
+            throw ostk::core::error::runtime::Undefined("Frame");
+        }
     }
-}
-
-Custom::Custom(const VertexGenerator& aVertexGenerator, const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory)
-    : HardBody(),
-      vertexGenerator_(aVertexGenerator),
-      frameOrLOF_(aLocalOrbitalFrameFactory)
-{
-    if (!vertexGenerator_)
-    {
-        throw ostk::core::error::runtime::Undefined("Vertex generator");
-    }
-
-    if (!aLocalOrbitalFrameFactory.isDefined())
+    else if (!std::get<LocalOrbitalFrameFactory>(frameOrLOF_).isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }

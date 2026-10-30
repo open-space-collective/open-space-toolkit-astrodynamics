@@ -62,16 +62,6 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
     return this->sgp4FullPrecision_.calculateStateAt(anInstant);
 }
 
-SGP4::SGP4(const TLE& aTle)
-    : Model(),
-      tleArray_({aTle}),
-      validityIntervals_(),
-      outputFrameSPtr_(Frame::GCRF()),
-      implArray_()
-{
-    implArray_.add(std::make_shared<SGP4::Impl>(aTle, outputFrameSPtr_));
-}
-
 SGP4::SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr)
     : Model(),
       tleArray_({aTle}),

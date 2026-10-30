@@ -118,10 +118,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
              Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC),
+             Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 3), Scale::UTC),
+             Position::Meters({3.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
         const Integer initialRevolutionNumber = 123;
+
+        // The default (barycentric rational) interpolation requires at least 4 states.
 
         const Orbit orbit = {states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth")};
 
@@ -1073,7 +1081,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             "1  7276U 74026A   19177.06815612 -.00000040  00000-0 -59146-3 0  9999",
             "2  7276  63.5942  41.6062 6850823 289.3685  12.0680  2.45095050222705",
         };
-        const SGP4 sgp4 = SGP4(tle);
+        const SGP4 sgp4 = SGP4(tle, Frame::GCRF());
 
         // Forward propagation (Validated with STK)
         {

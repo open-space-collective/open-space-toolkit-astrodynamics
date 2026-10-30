@@ -89,7 +89,7 @@ Profile::TrajectoryPointingTarget::TrajectoryPointingTarget(
 Profile::TabulatedPointingTarget::TabulatedPointingTarget(
     const Array<Pair<Instant, Vector3d>>& aPointingProfileInECI,
     const Vector3d& aDirectionInBodyFrame,
-    const Interpolator::Type& anInterpolatorType
+    const Interpolator::Type& anInterpolationType
 )
     : PointingTarget(PointingTarget::Type::Tabulated, aDirectionInBodyFrame),
       pointingProfileInECI(aPointingProfileInECI)
@@ -113,7 +113,7 @@ Profile::TabulatedPointingTarget::TabulatedPointingTarget(
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolationType, timestamps, coordinates.col(i)));
     }
 }
 

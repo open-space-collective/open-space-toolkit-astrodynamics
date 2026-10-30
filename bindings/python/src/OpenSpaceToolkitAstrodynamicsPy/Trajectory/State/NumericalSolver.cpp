@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/functional.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pybind11::module& aModule)
@@ -94,7 +96,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const Real&,
                     const Real&,
                     const Real&,
-                    const RootSolver&>(),
+                    const RootSolver&,
+                    const std::function<void(const State&)>&>(),
                 R"doc(
                     Constructor.
 
@@ -105,6 +108,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         relative_tolerance (float): The relative tolerance.
                         absolute_tolerance (float): The absolute tolerance.
                         root_solver (RootSolver, optional): The root solver. Defaults to RootSolver.Default().
+                        state_logger (Callable[[State], None], optional): A function called with each observed state, when logging is enabled. Defaults to None.
 
                 )doc",
                 arg("log_type"),
@@ -112,7 +116,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()")
+                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()"),
+                arg("state_logger") = none()
             )
 
             .def(self == self)

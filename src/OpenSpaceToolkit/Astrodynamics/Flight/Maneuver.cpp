@@ -41,7 +41,8 @@ const Array<Shared<const CoordinateSubset>> Maneuver::RequiredCoordinateSubsets 
 };
 const Shared<const CoordinateSubset> Maneuver::DefaultAccelerationCoordinateSubsetSPtr = RequiredCoordinateSubsets[2];
 
-Maneuver::Maneuver(const Array<State>& aStateArray)
+Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
+    : interpolationType_(anInterpolationType)
 {
     if (aStateArray.isEmpty())
     {
@@ -174,7 +175,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray)
 
 bool Maneuver::operator==(const Maneuver& aManeuver) const
 {
-    return states_ == aManeuver.states_;
+    return (states_ == aManeuver.states_) && (interpolationType_ == aManeuver.interpolationType_);
 }
 
 bool Maneuver::operator!=(const Maneuver& aManeuver) const
@@ -197,6 +198,11 @@ bool Maneuver::isDefined() const
 Array<State> Maneuver::getStates() const
 {
     return states_;
+}
+
+Interpolator::Type Maneuver::getInterpolationType() const
+{
+    return interpolationType_;
 }
 
 Interval Maneuver::getInterval() const
@@ -308,9 +314,7 @@ Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMa
     return averageSpecificImpulse;
 }
 
-Shared<Tabulated> Maneuver::toTabulatedDynamics(
-    const Shared<const Frame>& aFrameSPtr, const Interpolator::Type& anInterpolationType
-) const
+Shared<Tabulated> Maneuver::toTabulatedDynamics(const Shared<const Frame>& aFrameSPtr) const
 {
     if (states_.getSize() < 2)
     {
@@ -354,7 +358,7 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(
     );
 
     return std::make_shared<Tabulated>(
-        Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, anInterpolationType)
+        Tabulated(instants, contributionProfile, writeCoordinateSubset, aFrameSPtr, interpolationType_)
     );
 }
 
@@ -456,7 +460,7 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
         newStates.add(fullStateBuilder.expand(partialState, state));
     }
 
-    return Maneuver(newStates);
+    return Maneuver(newStates, interpolationType_);
 }
 
 void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -472,7 +476,9 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, const Real& aMassFlowRate)
+Maneuver Maneuver::ConstantMassFlowRateProfile(
+    const Array<State>& aStateArray, const Real& aMassFlowRate, const Interpolator::Type& anInterpolationType
+)
 {
     Array<State> maneuverStates = Array<State>::Empty();
     maneuverStates.reserve(aStateArray.getSize());
@@ -495,7 +501,7 @@ Maneuver Maneuver::ConstantMassFlowRateProfile(const Array<State>& aStateArray, 
         maneuverStates.add(maneuverState);
     }
 
-    return {maneuverStates};
+    return {maneuverStates, anInterpolationType};
 }
 
 }  // namespace flight

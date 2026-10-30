@@ -50,6 +50,7 @@ using ostk::astrodynamics::uncertainty::Covariance;
 #define DEFAULT_INITIAL_GUESS_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()  // Initial guess sigmas
 #define DEFAULT_OBSERVATION_SIGMAS std::unordered_map<CoordinateSubset, VectorXd>()    // Observation sigmas
 #define DEFAULT_FINITE_DIFFERENCE_SOLVER FiniteDifferenceSolver::Default()  // Default finite difference solver
+#define DEFAULT_SCALE_FACTOR_GENERATOR LeastSquaresSolver::NoScaling()      // Default scale factor generator
 
 /// @brief Class to solve non-linear least squares problems.
 ///
@@ -126,35 +127,21 @@ class LeastSquaresSolver
     ///
     /// @code{.cpp}
     ///     LeastSquaresSolver solver = { 10, 1e-3 } ;
+    ///     LeastSquaresSolver scaledSolver = {
+    ///         20, 1.0, FiniteDifferenceSolver::Default(), LeastSquaresSolver::MaximumAbsoluteCoordinateScaling()
+    ///     };
     /// @endcode
     ///
     /// @param aMaxIterationCount Maximum number of iterations
     /// @param aRmsUpdateThreshold Minimum RMS threshold
     /// @param aFiniteDifferenceSolver Finite difference solver. Defaults to FiniteDifferenceSolver::Default()
-    LeastSquaresSolver(
-        const Size& aMaxIterationCount,
-        const Real& aRmsUpdateThreshold,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER
-    );
-
-    /// @brief Constructor with custom scale factor generator
-    ///
-    /// @code{.cpp}
-    ///     auto solver = LeastSquaresSolver(
-    ///         20, 1.0, FiniteDifferenceSolver.default(), LeastSquaresSolver.maximum_absolute_coordinate_scaling()
-    ///     );
-    /// @endcode
-    ///
-    /// @param aMaxIterationCount Maximum number of iterations
-    /// @param aRmsUpdateThreshold Minimum RMS threshold
-    /// @param aFiniteDifferenceSolver Finite difference solver
     /// @param aScaleFactorGenerator Function to generate scale factors from a state. Normalizing the decision vector
-    /// ensures that the jacobian is well-conditioned.
+    /// ensures that the jacobian is well-conditioned. Defaults to LeastSquaresSolver::NoScaling()
     LeastSquaresSolver(
         const Size& aMaxIterationCount,
         const Real& aRmsUpdateThreshold,
-        const FiniteDifferenceSolver& aFiniteDifferenceSolver,
-        const ScaleFactorGenerator& aScaleFactorGenerator
+        const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER,
+        const ScaleFactorGenerator& aScaleFactorGenerator = DEFAULT_SCALE_FACTOR_GENERATOR
     );
 
     /// @brief Get max iteration count

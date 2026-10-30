@@ -4,6 +4,8 @@ import pytest
 
 import numpy as np
 
+from ostk.mathematics.curve_fitting import Interpolator
+
 from ostk.physics.time import Instant
 from ostk.physics.time import Interval
 from ostk.physics.time import Duration
@@ -116,6 +118,15 @@ class TestManeuver:
         assert isinstance(maneuver, Maneuver)
         assert maneuver.is_defined()
 
+    def test_constructor_with_interpolation_type(
+        self,
+        states: list[State],
+    ):
+        maneuver = Maneuver(states=states, interpolation_type=Interpolator.Type.Linear)
+
+        assert isinstance(maneuver, Maneuver)
+        assert maneuver.get_interpolation_type() == Interpolator.Type.Linear
+
     def test_comparators(
         self,
         maneuver: Maneuver,
@@ -131,6 +142,8 @@ class TestManeuver:
         assert maneuver.is_defined()
 
         assert maneuver.get_states() == states
+
+        assert maneuver.get_interpolation_type() == Interpolator.Type.BarycentricRational
 
         assert maneuver.get_interval() == Interval.closed(
             states[0].get_instant(), states[-1].get_instant()

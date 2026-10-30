@@ -170,9 +170,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
 
         this->defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
 
-        this->defaultPropagatorWithManeuvers_ = {
-            defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}, Interpolator::Type::Linear
-        };
+        this->defaultPropagatorWithManeuvers_ = {defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}};
     }
 
     const NumericalSolver defaultNumericalSolver_ = {
@@ -210,7 +208,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
         stateGenerator(Instant::J2000() + Duration::Seconds(60.0), {0.0, 1e-3, 0.0}, -0.9e-5),
     };
 
-    const Maneuver defaultManeuver_ = {defaultManeuverStates_};
+    const Maneuver defaultManeuver_ = {defaultManeuverStates_, Interpolator::Type::Linear};
 
     Propagator defaultPropagatorWithManeuvers_ = Propagator::Undefined();
 };
@@ -222,9 +220,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constru
     }
 
     {
-        EXPECT_NO_THROW(
-            Propagator(defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}, Interpolator::Type::Linear)
-        );
+        EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_}));
     }
 
     // Check if there are any overlapping maneuvers
@@ -237,11 +233,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constru
                         defaultNumericalSolver_,
                         defaultDynamics_,
                         {defaultManeuver_,
-                         Maneuver({
-                             stateGenerator(Instant::J2000() + Duration::Seconds(30.0)),
-                             stateGenerator(Instant::J2000() + Duration::Seconds(90.0)),
-                         })},
-                        Interpolator::Type::Linear
+                         Maneuver(
+                             {
+                                 stateGenerator(Instant::J2000() + Duration::Seconds(30.0)),
+                                 stateGenerator(Instant::J2000() + Duration::Seconds(90.0)),
+                             },
+                             Interpolator::Type::Linear
+                         )}
                     );
                 }
                 catch (const ostk::core::error::RuntimeError& e)
@@ -260,12 +258,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Constru
             {
                 try
                 {
-                    Propagator(
-                        defaultNumericalSolver_,
-                        defaultDynamics_,
-                        {defaultManeuver_, defaultManeuver_},
-                        Interpolator::Type::Linear
-                    );
+                    Propagator(defaultNumericalSolver_, defaultDynamics_, {defaultManeuver_, defaultManeuver_});
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
@@ -535,19 +528,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddMane
         ));
     }
 
-    const Maneuver secondManeuver = {secondManeuverStates};
+    const Maneuver secondManeuver = {secondManeuverStates, Interpolator::Type::Linear};
 
     // Check adding maneuvers to a propagator that doesn't already have maneuvers
     {
         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 6);
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 2);
 
-        defaultPropagator_.addManeuver(defaultManeuver_, Interpolator::Type::Linear);
+        defaultPropagator_.addManeuver(defaultManeuver_);
 
         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 3);
 
-        defaultPropagator_.addManeuver(secondManeuver, Interpolator::Type::Linear);
+        defaultPropagator_.addManeuver(secondManeuver);
 
         EXPECT_EQ(defaultPropagator_.getNumberOfCoordinates(), 7);
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 4);
@@ -558,7 +551,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AddMane
         EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
         EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 3);
 
-        defaultPropagatorWithManeuvers_.addManeuver(secondManeuver, Interpolator::Type::Linear);
+        defaultPropagatorWithManeuvers_.addManeuver(secondManeuver);
 
         EXPECT_EQ(defaultPropagatorWithManeuvers_.getNumberOfCoordinates(), 7);
         EXPECT_EQ(defaultPropagatorWithManeuvers_.getDynamics().getSize(), 4);
@@ -844,9 +837,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             coordinateSubsets,
         };
 
-        const Propagator propagatorWithManeuvers = {
-            defaultRKD5_, defaultDynamics_, {defaultManeuver_}, Interpolator::Type::Linear
-        };
+        const Propagator propagatorWithManeuvers = {defaultRKD5_, defaultDynamics_, {defaultManeuver_}};
 
         const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
             beforeManeuverState, afterManeuverCondition.getInstant() + Duration::Seconds(1.0), afterManeuverCondition
@@ -1135,8 +1126,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         }
 
         // Create a maneuver and add it to the propagator
-        const Maneuver maneuver = {maneuverStates};
-        defaultPropagatorWithManeuvers_.addManeuver(maneuver, Interpolator::Type::Linear);
+        const Maneuver maneuver = {maneuverStates, Interpolator::Type::Linear};
+        defaultPropagatorWithManeuvers_.addManeuver(maneuver);
 
         // Remove first instant from instant array so that we can check that both propagators do not produce the same
         // result
