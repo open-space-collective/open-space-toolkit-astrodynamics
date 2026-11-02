@@ -166,9 +166,8 @@ void Propagator::clearDynamics()
     coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
-State Propagator::calculateStateAt(
-    const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray
-) const
+State Propagator::calculateStateAt(const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray)
+    const
 {
     if (!this->isDefined())
     {
@@ -177,16 +176,17 @@ State Propagator::calculateStateAt(
 
     this->validateDynamicsSet();
 
-    const ManeuverSchedule maneuverSchedule = this->scheduleManeuvers(aManeuverArray);
+    const ManeuverSchedule maneuverSchedule = this->generateManeuverSchedule(aManeuverArray);
 
-    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, maneuverSchedule.coordinateBrokerSPtr};
+    const StateBuilder solverStateBuilder = {
+        Propagator::IntegrationFrameSPtr, maneuverSchedule.maneuverCoordinateBrokerSPtr
+    };
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
     State solverOutputState = solverInputState;
 
-    for (const ManeuverSchedule::Arc& arc :
-         maneuverSchedule.generateArcs(solverInputState.accessInstant(), anInstant))
+    for (const ManeuverSchedule::Arc& arc : maneuverSchedule.generateArcs(solverInputState.accessInstant(), anInstant))
     {
         solverOutputState = numericalSolver_.integrateTime(
             solverOutputState,
@@ -214,11 +214,13 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     this->validateDynamicsSet();
 
-    const ManeuverSchedule maneuverSchedule = this->scheduleManeuvers(aManeuverArray);
+    const ManeuverSchedule maneuverSchedule = this->generateManeuverSchedule(aManeuverArray);
 
     const Instant& startInstant = aState.accessInstant();
 
-    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, maneuverSchedule.coordinateBrokerSPtr};
+    const StateBuilder solverStateBuilder = {
+        Propagator::IntegrationFrameSPtr, maneuverSchedule.maneuverCoordinateBrokerSPtr
+    };
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
@@ -250,8 +252,9 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
                           const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
                       )
                       {
+                          const bool isForwardPropagation = arcDuration >= 0.0;
                           arcSystemOfEquations(
-                              x, dxdt, arcDuration >= 0.0 ? std::min(t, arcDuration) : std::max(t, arcDuration)
+                              x, dxdt, isForwardPropagation ? std::min(t, arcDuration) : std::max(t, arcDuration)
                           );
                       }
                   );
@@ -337,9 +340,11 @@ Array<State> Propagator::calculateStatesAt(
 
     this->validateDynamicsSet();
 
-    const ManeuverSchedule maneuverSchedule = this->scheduleManeuvers(aManeuverArray);
+    const ManeuverSchedule maneuverSchedule = this->generateManeuverSchedule(aManeuverArray);
 
-    const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, maneuverSchedule.coordinateBrokerSPtr};
+    const StateBuilder solverStateBuilder = {
+        Propagator::IntegrationFrameSPtr, maneuverSchedule.maneuverCoordinateBrokerSPtr
+    };
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
@@ -366,13 +371,13 @@ Array<State> Propagator::calculateStatesAt(
 
     // forward propagation only
     const Array<State> forwardPropagatedStates =
-        this->propagateThroughArcs(solverInputState, forwardInstants, maneuverSchedule);
+        this->propagateThroughManeuverSchedule(solverInputState, forwardInstants, maneuverSchedule);
 
     // backward propagation only
     std::reverse(backwardInstants.begin(), backwardInstants.end());
 
     Array<State> backwardPropagatedStates =
-        this->propagateThroughArcs(solverInputState, backwardInstants, maneuverSchedule);
+        this->propagateThroughManeuverSchedule(solverInputState, backwardInstants, maneuverSchedule);
 
     std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
 
@@ -462,7 +467,7 @@ void Propagator::validateDynamicsSet() const
     }
 }
 
-Propagator::ManeuverSchedule Propagator::scheduleManeuvers(const Array<Maneuver>& aManeuverArray) const
+Propagator::ManeuverSchedule Propagator::generateManeuverSchedule(const Array<Maneuver>& aManeuverArray) const
 {
     if (aManeuverArray.isEmpty())
     {
@@ -471,7 +476,8 @@ Propagator::ManeuverSchedule Propagator::scheduleManeuvers(const Array<Maneuver>
 
     // The maneuvers write to subsets (e.g. mass) that the dynamics of the propagator might not: extend a copy of the
     // broker, which leaves the existing indexes untouched, so that the propagator itself is not modified
-    const Shared<CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(*coordinatesBrokerSPtr_);
+    const Shared<CoordinateBroker> maneuverCoordinateBrokerSPtr =
+        std::make_shared<CoordinateBroker>(*coordinatesBrokerSPtr_);
 
     Array<Interval> maneuverIntervals = Array<Interval>::Empty();
     maneuverIntervals.reserve(aManeuverArray.getSize());
@@ -495,7 +501,7 @@ Propagator::ManeuverSchedule Propagator::scheduleManeuvers(const Array<Maneuver>
         maneuverContexts.add({
             maneuver.getInterval().getStart(),
             maneuver.getInterval().getEnd(),
-            Propagator::CreateContext(tabulatedDynamicsSPtr, coordinateBrokerSPtr),
+            Propagator::CreateContext(tabulatedDynamicsSPtr, maneuverCoordinateBrokerSPtr),
         });
     }
 
@@ -510,7 +516,7 @@ Propagator::ManeuverSchedule Propagator::scheduleManeuvers(const Array<Maneuver>
         }
     );
 
-    return {coordinateBrokerSPtr, dynamicsContexts_, maneuverContexts};
+    return {maneuverCoordinateBrokerSPtr, dynamicsContexts_, maneuverContexts};
 }
 
 Array<Propagator::ManeuverSchedule::Arc> Propagator::ManeuverSchedule::generateArcs(
@@ -537,10 +543,10 @@ Array<Propagator::ManeuverSchedule::Arc> Propagator::ManeuverSchedule::generateA
 
         if (maneuverStartInstant > cursorInstant)
         {
-            arcs.add({cursorInstant, maneuverStartInstant, false, dynamicsContexts});
+            arcs.add({cursorInstant, maneuverStartInstant, false, freeDynamicsContexts});
         }
 
-        Array<Dynamics::Context> arcContexts = dynamicsContexts;
+        Array<Dynamics::Context> arcContexts = freeDynamicsContexts;
         arcContexts.add(maneuverContext.context);
         arcs.add({maneuverStartInstant, maneuverEndInstant, true, arcContexts});
 
@@ -549,7 +555,7 @@ Array<Propagator::ManeuverSchedule::Arc> Propagator::ManeuverSchedule::generateA
 
     if (cursorInstant < upperInstant || arcs.isEmpty())
     {
-        arcs.add({cursorInstant, upperInstant, false, dynamicsContexts});
+        arcs.add({cursorInstant, upperInstant, false, freeDynamicsContexts});
     }
 
     if (!isForward)
@@ -565,7 +571,7 @@ Array<Propagator::ManeuverSchedule::Arc> Propagator::ManeuverSchedule::generateA
     return arcs;
 }
 
-Array<State> Propagator::propagateThroughArcs(
+Array<State> Propagator::propagateThroughManeuverSchedule(
     const State& aState, const Array<Instant>& anInstantArray, const ManeuverSchedule& aManeuverSchedule
 ) const
 {

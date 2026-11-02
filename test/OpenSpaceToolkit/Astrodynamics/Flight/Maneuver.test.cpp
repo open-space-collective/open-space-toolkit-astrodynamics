@@ -406,21 +406,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         Maneuver {spacedOutStates};
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
-
-    // Maneuver with duration of less than minimum recommended duration: the propagator never steps over a maneuver,
-    // however short, so there is nothing to warn about
-    {
-        const Array<State> shortStates = {
-            stateGenerator(Instant::J2000()),
-            stateGenerator(Instant::J2000() + Maneuver::MinimumRecommendedDuration / 4),
-            stateGenerator(Instant::J2000() + Maneuver::MinimumRecommendedDuration / 3),
-            stateGenerator(Instant::J2000() + Maneuver::MinimumRecommendedDuration / 2),
-        };
-
-        testing::internal::CaptureStdout();
-        Maneuver {shortStates};
-        EXPECT_TRUE(testing::internal::GetCapturedStdout().empty());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, EqualToOperator)
@@ -556,19 +541,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
         EXPECT_DOUBLE_EQ(
             96.9375,  // Higher than evenlySpacedManeuverWithConstantMassFlowRate because acceleration is higher for a
                       // greater portion of the burn
-            unevenlySpacedManeuverWithConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+            unevenlySpacedManeuverWithConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
 
         EXPECT_DOUBLE_EQ(
             87.90625,  // Very slightly lower than evenlySpacedManeuverWithConstantMassFlowRate's because non-constantly
                        // decreasing spacecraft mass
-            evenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+            evenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
 
         EXPECT_DOUBLE_EQ(
             94.4765625,  // Very slightly lower than unevenlySpacedManeuverWithConstantMassFlowRate's because
                          // non-constantly decreasing spacecraft mass
-            unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+            unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
     }
 

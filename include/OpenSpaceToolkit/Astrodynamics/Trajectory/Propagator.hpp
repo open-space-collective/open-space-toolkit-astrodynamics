@@ -46,9 +46,9 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 /// the start of the maneuver, applies the maneuver dynamics until its end, then continues. A maneuver is therefore
 /// never stepped over by the integrator, however short it is.
 ///
-/// @note Each stretch of integration (between maneuver starts / ends) is a separate call to the numerical solver, so
-/// when a maneuver falls within the propagated interval, the numerical solver's observed states only cover the last
-/// stretch. Without maneuvers there is a single stretch and nothing changes.
+/// @note When maneuvers are provided, Each stretch of integration (between maneuver starts / ends) is a separate call
+/// to the numerical solver, so when a maneuver falls within the propagated interval, the numerical solver's observed
+/// states only cover the last stretch. Without maneuvers there is a single stretch and nothing changes.
 class Propagator
 {
    public:
@@ -197,7 +197,7 @@ class Propagator
     /// @brief Print propagator
     ///
     /// @param anOutputStream An output stream
-    /// @param (optional) displayDecorators If true, display decorators
+    /// @param (optional) displayDecorator If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief Undefined
@@ -248,15 +248,20 @@ class Propagator
             Array<Dynamics::Context> contexts;
         };
 
-        Shared<CoordinateBroker> coordinateBrokerSPtr;
-        Array<Dynamics::Context> dynamicsContexts;  ///< The regular dynamics of the propagator
-        Array<ManeuverContext> maneuvers;           ///< Sorted by start instant
+        Shared<CoordinateBroker>
+            maneuverCoordinateBrokerSPtr;               ///< The propagator's broker, plus what maneuvers write to
+        Array<Dynamics::Context> freeDynamicsContexts;  ///< The regular dynamics of the propagator
+        Array<ManeuverContext> maneuvers;               ///< Sorted by start instant
 
         /// @brief Split the propagation between two instants into arcs, in propagation order (also when going
         /// backwards)
         ///
-        /// @details Coasting arcs only carry the regular dynamics. Maneuver arcs span exactly the (clipped) interval of
-        /// a maneuver, and additionally carry the maneuver's dynamics. There is always at least one arc.
+        /// @details Coasting arcs only carry the regular dynamics. Maneuver arcs span exactly the interval of
+        /// a maneuver, and carry the regular dynamics + maneuver's dynamics. Atleast one arc is always generated.
+        ///
+        /// @param aStartInstant The instant the propagation starts at
+        /// @param anEndInstant The instant the propagation ends at (can be before the start instant)
+        /// @return The arcs, in propagation order
         Array<Arc> generateArcs(const Instant& aStartInstant, const Instant& anEndInstant) const;
     };
 
@@ -264,27 +269,39 @@ class Propagator
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
+    /// @brief Validate that the dynamics set has the mandatory dynamics, and no more than the allowed number of
+    /// optional ones
+    ///
+    /// @throw ostk::core::error::RuntimeError If the dynamics set is invalid
     void validateDynamicsSet() const;
 
     /// @brief Validate the maneuvers of a propagation call, and prepare them to be applied
     ///
     /// @details The propagator's coordinate broker is left untouched: if there are maneuvers, the schedule carries a
     /// copy of it that also includes the coordinate subsets the maneuvers write to.
-    ManeuverSchedule scheduleManeuvers(const Array<Maneuver>& aManeuverArray) const;
+    ///
+    /// @param aManeuverArray The maneuvers to apply. They must not overlap in time, nor be duplicated.
+    /// @return The maneuver schedule
+    /// @throw ostk::core::error::RuntimeError If the maneuvers overlap in time or are duplicated
+    ManeuverSchedule generateManeuverSchedule(const Array<Maneuver>& aManeuverArray) const;
 
-    /// @brief Propagate through the arcs up to each of the instants
+    /// @brief Propagate through the arcs of a maneuver schedule up to each of the instants
     ///
     /// @param aState A state in the integration frame, reduced to the coordinates of the schedule's broker
     /// @param anInstantArray Instants sorted in the direction of propagation, all on the same side of the state's
     /// instant (an instant equal to the state's instant is allowed)
     /// @param aManeuverSchedule The maneuver schedule
     /// @return The states at the instants
-    Array<State> propagateThroughArcs(
+    Array<State> propagateThroughManeuverSchedule(
         const State& aState, const Array<Instant>& anInstantArray, const ManeuverSchedule& aManeuverSchedule
     ) const;
 
     /// @brief Create the context of a dynamics, registering the coordinate subsets it reads and writes with a
     /// coordinate broker
+    ///
+    /// @param aDynamicsSPtr A dynamics shared pointer
+    /// @param aCoordinateBrokerSPtr The coordinate broker to register the dynamics' coordinate subsets with
+    /// @return The context of the dynamics
     static Dynamics::Context CreateContext(
         const Shared<Dynamics>& aDynamicsSPtr, const Shared<CoordinateBroker>& aCoordinateBrokerSPtr
     );

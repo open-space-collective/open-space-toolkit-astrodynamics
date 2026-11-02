@@ -724,8 +724,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
     /// Test full state results against reference trajectory
     // Reference data setup
     const Table referenceData = Table::Load(
-        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                               "Propagated/CalculateStatesAt_StateValidation.csv")),
+        File::Path(
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                "Propagated/CalculateStatesAt_StateValidation.csv"
+            )
+        ),
         Table::Format::CSV,
         true
     );
@@ -1179,7 +1183,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Maneuve
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortManeuvers)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortManeuversAreNotSkipped)
 {
     // A 2 s maneuver that starts 31 s after the epoch: shorter than the 30 s fixed step below, and it falls between
     // the stages of a step that starts at the epoch, so an integrator that is unaware of it never samples the thrust.
@@ -1608,12 +1612,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Validat
         // Wrong number of AtmosphericDrags
         {
             Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
-            propagator.addDynamics(std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
-                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
-            ))));
-            propagator.addDynamics(std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
-                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
-            ))));
+            propagator.addDynamics(
+                std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
+                    std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+                )))
+            );
+            propagator.addDynamics(
+                std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
+                    std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+                )))
+            );
 
             EXPECT_THROW(
                 {
