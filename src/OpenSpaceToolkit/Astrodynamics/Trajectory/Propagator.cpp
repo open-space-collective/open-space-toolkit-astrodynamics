@@ -166,8 +166,9 @@ void Propagator::clearDynamics()
     coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
-State Propagator::calculateStateAt(const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray)
-    const
+State Propagator::calculateStateAt(
+    const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray
+) const
 {
     if (!this->isDefined())
     {
@@ -184,7 +185,8 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     State solverOutputState = solverInputState;
 
-    for (const Arc& arc : this->generateArcs(solverInputState.accessInstant(), anInstant, maneuverSchedule.maneuvers))
+    for (const ManeuverSchedule::Arc& arc :
+         maneuverSchedule.generateArcs(solverInputState.accessInstant(), anInstant))
     {
         solverOutputState = numericalSolver_.integrateTime(
             solverOutputState,
@@ -220,14 +222,14 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
-    const Array<Arc> arcs = this->generateArcs(startInstant, anInstant, maneuverSchedule.maneuvers);
+    const Array<ManeuverSchedule::Arc> arcs = maneuverSchedule.generateArcs(startInstant, anInstant);
 
     State arcInputState = solverInputState;
     NumericalSolver::ConditionSolution conditionSolution = {solverInputState, false, 0, false};
 
     for (Index i = 0; i < arcs.getSize(); ++i)
     {
-        const Arc& arc = arcs[i];
+        const ManeuverSchedule::Arc& arc = arcs[i];
         const bool isLastArc = (i + 1 == arcs.getSize());
 
         const NumericalSolver::SystemOfEquationsWrapper arcSystemOfEquations =
@@ -364,13 +366,13 @@ Array<State> Propagator::calculateStatesAt(
 
     // forward propagation only
     const Array<State> forwardPropagatedStates =
-        this->propagateThroughArcs(solverInputState, forwardInstants, maneuverSchedule.maneuvers);
+        this->propagateThroughArcs(solverInputState, forwardInstants, maneuverSchedule);
 
     // backward propagation only
     std::reverse(backwardInstants.begin(), backwardInstants.end());
 
     Array<State> backwardPropagatedStates =
-        this->propagateThroughArcs(solverInputState, backwardInstants, maneuverSchedule.maneuvers);
+        this->propagateThroughArcs(solverInputState, backwardInstants, maneuverSchedule);
 
     std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
 
@@ -464,70 +466,55 @@ Propagator::ManeuverSchedule Propagator::scheduleManeuvers(const Array<Maneuver>
 {
     if (aManeuverArray.isEmpty())
     {
-        return {coordinatesBrokerSPtr_, Array<ScheduledManeuver>::Empty()};
+        return {coordinatesBrokerSPtr_, dynamicsContexts_, Array<ManeuverSchedule::ManeuverContext>::Empty()};
     }
 
     // The maneuvers write to subsets (e.g. mass) that the dynamics of the propagator might not: extend a copy of the
     // broker, which leaves the existing indexes untouched, so that the propagator itself is not modified
     const Shared<CoordinateBroker> coordinateBrokerSPtr = std::make_shared<CoordinateBroker>(*coordinatesBrokerSPtr_);
 
-    struct Candidate
+    Array<Interval> maneuverIntervals = Array<Interval>::Empty();
+    maneuverIntervals.reserve(aManeuverArray.getSize());
+    for (const Maneuver& maneuver : aManeuverArray)
     {
-        Instant startInstant;
-        Instant endInstant;
-        Index index;
-    };
-
-    Array<Candidate> candidates = Array<Candidate>::Empty();
-    candidates.reserve(aManeuverArray.getSize());
-    for (Index i = 0; i < aManeuverArray.getSize(); ++i)
-    {
-        const Interval maneuverInterval = aManeuverArray[i].getInterval();
-        candidates.add({maneuverInterval.getStart(), maneuverInterval.getEnd(), i});
+        maneuverIntervals.add(maneuver.getInterval());
     }
 
-    std::stable_sort(
-        candidates.begin(),
-        candidates.end(),
-        [](const Candidate& aFirstCandidate, const Candidate& aSecondCandidate) -> bool
-        {
-            return aFirstCandidate.startInstant < aSecondCandidate.startInstant;
-        }
-    );
-
-    // Sorted by start instant, so any overlap is between neighbors
-    for (Index i = 1; i < candidates.getSize(); ++i)
+    // Overlapping, touching and duplicated maneuvers are all merged into fewer intervals
+    if (Interval::Merge(maneuverIntervals).getSize() != maneuverIntervals.getSize())
     {
-        if (candidates[i].startInstant <= candidates[i - 1].endInstant)
-        {
-            if (aManeuverArray[candidates[i].index] == aManeuverArray[candidates[i - 1].index])
-            {
-                throw ostk::core::error::RuntimeError("Maneuvers cannot be duplicated.");
-            }
-
-            throw ostk::core::error::RuntimeError("Maneuvers cannot overlap in time.");
-        }
+        throw ostk::core::error::RuntimeError("Maneuvers must be non-overlapping and unique.");
     }
 
-    Array<ScheduledManeuver> scheduledManeuvers = Array<ScheduledManeuver>::Empty();
-    scheduledManeuvers.reserve(candidates.getSize());
-    for (const Candidate& candidate : candidates)
+    Array<ManeuverSchedule::ManeuverContext> maneuverContexts = Array<ManeuverSchedule::ManeuverContext>::Empty();
+    maneuverContexts.reserve(aManeuverArray.getSize());
+    for (const Maneuver& maneuver : aManeuverArray)
     {
-        const Shared<Dynamics> tabulatedDynamicsSPtr =
-            aManeuverArray[candidate.index].toTabulatedDynamics(Propagator::IntegrationFrameSPtr);
+        const Shared<Dynamics> tabulatedDynamicsSPtr = maneuver.toTabulatedDynamics(Propagator::IntegrationFrameSPtr);
 
-        scheduledManeuvers.add({
-            candidate.startInstant,
-            candidate.endInstant,
+        maneuverContexts.add({
+            maneuver.getInterval().getStart(),
+            maneuver.getInterval().getEnd(),
             Propagator::CreateContext(tabulatedDynamicsSPtr, coordinateBrokerSPtr),
         });
     }
 
-    return {coordinateBrokerSPtr, scheduledManeuvers};
+    // The maneuvers do not overlap, so ordering them by start instant is unambiguous
+    std::sort(
+        maneuverContexts.begin(),
+        maneuverContexts.end(),
+        [](const ManeuverSchedule::ManeuverContext& aFirstContext,
+           const ManeuverSchedule::ManeuverContext& aSecondContext) -> bool
+        {
+            return aFirstContext.startInstant < aSecondContext.startInstant;
+        }
+    );
+
+    return {coordinateBrokerSPtr, dynamicsContexts_, maneuverContexts};
 }
 
-Array<Propagator::Arc> Propagator::generateArcs(
-    const Instant& aStartInstant, const Instant& anEndInstant, const Array<ScheduledManeuver>& aManeuverArray
+Array<Propagator::ManeuverSchedule::Arc> Propagator::ManeuverSchedule::generateArcs(
+    const Instant& aStartInstant, const Instant& anEndInstant
 ) const
 {
     const bool isForward = anEndInstant >= aStartInstant;
@@ -538,31 +525,31 @@ Array<Propagator::Arc> Propagator::generateArcs(
     Array<Arc> arcs = Array<Arc>::Empty();
     Instant cursorInstant = lowerInstant;
 
-    for (const ScheduledManeuver& scheduledManeuver : aManeuverArray)
+    for (const ManeuverContext& maneuverContext : maneuvers)
     {
-        if (scheduledManeuver.endInstant <= lowerInstant || scheduledManeuver.startInstant >= upperInstant)
+        if (maneuverContext.endInstant <= lowerInstant || maneuverContext.startInstant >= upperInstant)
         {
             continue;
         }
 
-        const Instant maneuverStartInstant = std::max(scheduledManeuver.startInstant, lowerInstant);
-        const Instant maneuverEndInstant = std::min(scheduledManeuver.endInstant, upperInstant);
+        const Instant maneuverStartInstant = std::max(maneuverContext.startInstant, lowerInstant);
+        const Instant maneuverEndInstant = std::min(maneuverContext.endInstant, upperInstant);
 
         if (maneuverStartInstant > cursorInstant)
         {
-            arcs.add({cursorInstant, maneuverStartInstant, false, dynamicsContexts_});
+            arcs.add({cursorInstant, maneuverStartInstant, false, dynamicsContexts});
         }
 
-        Array<Dynamics::Context> maneuverContexts = dynamicsContexts_;
-        maneuverContexts.add(scheduledManeuver.context);
-        arcs.add({maneuverStartInstant, maneuverEndInstant, true, maneuverContexts});
+        Array<Dynamics::Context> arcContexts = dynamicsContexts;
+        arcContexts.add(maneuverContext.context);
+        arcs.add({maneuverStartInstant, maneuverEndInstant, true, arcContexts});
 
         cursorInstant = maneuverEndInstant;
     }
 
     if (cursorInstant < upperInstant || arcs.isEmpty())
     {
-        arcs.add({cursorInstant, upperInstant, false, dynamicsContexts_});
+        arcs.add({cursorInstant, upperInstant, false, dynamicsContexts});
     }
 
     if (!isForward)
@@ -579,7 +566,7 @@ Array<Propagator::Arc> Propagator::generateArcs(
 }
 
 Array<State> Propagator::propagateThroughArcs(
-    const State& aState, const Array<Instant>& anInstantArray, const Array<ScheduledManeuver>& aManeuverArray
+    const State& aState, const Array<Instant>& anInstantArray, const ManeuverSchedule& aManeuverSchedule
 ) const
 {
     if (anInstantArray.isEmpty())
@@ -595,7 +582,8 @@ Array<State> Propagator::propagateThroughArcs(
     State arcInputState = aState;
     Index nextInstantIndex = 0;
 
-    for (const Arc& arc : this->generateArcs(aState.accessInstant(), anInstantArray.accessLast(), aManeuverArray))
+    for (const ManeuverSchedule::Arc& arc :
+         aManeuverSchedule.generateArcs(aState.accessInstant(), anInstantArray.accessLast()))
     {
         // The instants that fall within this arc (an instant on a boundary belongs to the arc that ends there)
         Array<Instant> arcInstants = Array<Instant>::Empty();

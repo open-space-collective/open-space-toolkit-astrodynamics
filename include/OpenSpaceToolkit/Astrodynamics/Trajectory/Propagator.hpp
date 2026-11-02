@@ -226,29 +226,38 @@ class Propagator
     static Propagator FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment);
 
    private:
-    /// @brief A maneuver, together with the context needed to apply it during integration
-    struct ScheduledManeuver
-    {
-        Instant startInstant;
-        Instant endInstant;
-        Dynamics::Context context;
-    };
-
-    /// @brief The maneuvers of a propagation call, and the coordinate broker that includes what they write to
+    /// @brief The maneuvers of a propagation call, prepared to be applied, together with the dynamics they are applied
+    /// to and the coordinate broker that includes what they write to
     struct ManeuverSchedule
     {
-        Shared<CoordinateBroker> coordinateBrokerSPtr;
-        Array<ScheduledManeuver> maneuvers;  ///< Sorted by start instant
-    };
+        /// @brief A maneuver, together with the context needed to apply it during integration
+        struct ManeuverContext
+        {
+            Instant startInstant;
+            Instant endInstant;
+            Dynamics::Context context;
+        };
 
-    /// @brief A stretch of integration between two consecutive breakpoints (maneuver starts / ends), over which the set
-    /// of applied dynamics is constant
-    struct Arc
-    {
-        Instant startInstant;
-        Instant endInstant;
-        bool hasManeuver;
-        Array<Dynamics::Context> contexts;
+        /// @brief A stretch of integration between two consecutive breakpoints (maneuver starts / ends), over which
+        /// the set of applied dynamics is constant
+        struct Arc
+        {
+            Instant startInstant;
+            Instant endInstant;
+            bool hasManeuver;
+            Array<Dynamics::Context> contexts;
+        };
+
+        Shared<CoordinateBroker> coordinateBrokerSPtr;
+        Array<Dynamics::Context> dynamicsContexts;  ///< The regular dynamics of the propagator
+        Array<ManeuverContext> maneuvers;           ///< Sorted by start instant
+
+        /// @brief Split the propagation between two instants into arcs, in propagation order (also when going
+        /// backwards)
+        ///
+        /// @details Coasting arcs only carry the regular dynamics. Maneuver arcs span exactly the (clipped) interval of
+        /// a maneuver, and additionally carry the maneuver's dynamics. There is always at least one arc.
+        Array<Arc> generateArcs(const Instant& aStartInstant, const Instant& anEndInstant) const;
     };
 
     Shared<CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
@@ -263,23 +272,15 @@ class Propagator
     /// copy of it that also includes the coordinate subsets the maneuvers write to.
     ManeuverSchedule scheduleManeuvers(const Array<Maneuver>& aManeuverArray) const;
 
-    /// @brief Split the propagation between two instants into arcs, in propagation order (also when going backwards)
-    ///
-    /// @details Coasting arcs only carry the regular dynamics. Maneuver arcs span exactly the (clipped) interval of a
-    /// maneuver, and additionally carry the maneuver's dynamics. There is always at least one arc.
-    Array<Arc> generateArcs(
-        const Instant& aStartInstant, const Instant& anEndInstant, const Array<ScheduledManeuver>& aManeuverArray
-    ) const;
-
     /// @brief Propagate through the arcs up to each of the instants
     ///
     /// @param aState A state in the integration frame, reduced to the coordinates of the schedule's broker
     /// @param anInstantArray Instants sorted in the direction of propagation, all on the same side of the state's
     /// instant (an instant equal to the state's instant is allowed)
-    /// @param aManeuverArray The scheduled maneuvers
+    /// @param aManeuverSchedule The maneuver schedule
     /// @return The states at the instants
     Array<State> propagateThroughArcs(
-        const State& aState, const Array<Instant>& anInstantArray, const Array<ScheduledManeuver>& aManeuverArray
+        const State& aState, const Array<Instant>& anInstantArray, const ManeuverSchedule& aManeuverSchedule
     ) const;
 
     /// @brief Create the context of a dynamics, registering the coordinate subsets it reads and writes with a

@@ -1081,7 +1081,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Maneuve
             }
         };
 
-        expectAllThrow({defaultManeuver_, defaultManeuver_}, "Maneuvers cannot be duplicated.");
+        expectAllThrow({defaultManeuver_, defaultManeuver_}, "Maneuvers must be non-overlapping and unique.");
 
         const Maneuver overlappingManeuver = {
             {
@@ -1090,8 +1090,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Maneuve
             },
             Interpolator::Type::Linear
         };
-        expectAllThrow({defaultManeuver_, overlappingManeuver}, "Maneuvers cannot overlap in time.");
-        expectAllThrow({overlappingManeuver, defaultManeuver_}, "Maneuvers cannot overlap in time.");
+        expectAllThrow({defaultManeuver_, overlappingManeuver}, "Maneuvers must be non-overlapping and unique.");
+        expectAllThrow({overlappingManeuver, defaultManeuver_}, "Maneuvers must be non-overlapping and unique.");
 
         // Touching at a single instant is an overlap too
         const Maneuver touchingManeuver = {
@@ -1101,7 +1101,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Maneuve
             },
             Interpolator::Type::Linear
         };
-        expectAllThrow({defaultManeuver_, touchingManeuver}, "Maneuvers cannot overlap in time.");
+        expectAllThrow({defaultManeuver_, touchingManeuver}, "Maneuvers must be non-overlapping and unique.");
 
         // A maneuver needs at least two states
         const Maneuver singleStateManeuver = {{stateGenerator(epoch + Duration::Seconds(300.0))}};
