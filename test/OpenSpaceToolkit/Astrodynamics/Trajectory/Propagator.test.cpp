@@ -902,8 +902,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
     /// Test full state results against reference trajectory
     // Reference data setup
     const Table referenceData = Table::Load(
-        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
-                               "Propagated/CalculateStatesAt_StateValidation.csv")),
+        File::Path(
+            Path::Parse(
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/"
+                "Propagated/CalculateStatesAt_StateValidation.csv"
+            )
+        ),
         Table::Format::CSV,
         true
     );
@@ -1201,6 +1205,359 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    // Observation is disabled by default and records nothing
+    {
+        Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+
+        EXPECT_FALSE(propagator.isContributionObservationEnabled());
+
+        propagator.calculateStateAt(state, state.accessInstant() + Duration::Minutes(10.0));
+
+        EXPECT_TRUE(propagator.accessRecordedStepContributions().instants.isEmpty());
+        EXPECT_TRUE(propagator.accessRecordedStepContributions().contributions.empty());
+        EXPECT_TRUE(propagator.getRecordedStepContributions().instants.isEmpty());
+    }
+
+    // An undefined propagator has no recorded contributions to access
+    {
+        EXPECT_THROW(Propagator::Undefined().accessRecordedStepContributions(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Propagator::Undefined().getRecordedStepContributions(), ostk::core::error::runtime::Undefined);
+    }
+
+    // Setter round-trip
+    {
+        Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+
+        propagator.setContributionObservationEnabled(true);
+        EXPECT_TRUE(propagator.isContributionObservationEnabled());
+
+        propagator.setContributionObservationEnabled(false);
+        EXPECT_FALSE(propagator.isContributionObservationEnabled());
+    }
+
+    // Zero-duration propagation does not throw
+    {
+        Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+        propagator.setContributionObservationEnabled(true);
+
+        EXPECT_NO_THROW(propagator.calculateStateAt(state, state.accessInstant()));
+
+        const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+
+        for (const auto& dynamicsContributionPair : recorded.contributions)
+        {
+            EXPECT_EQ(recorded.instants.getSize(), Size(dynamicsContributionPair.second.rows()));
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation_CalculateStateAt)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    const Instant endInstant = state.accessInstant() + Duration::Minutes(90.0);
+
+    Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+    propagator.setContributionObservationEnabled(true);
+
+    propagator.calculateStateAt(state, endInstant);
+
+    const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+    const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+
+    // Recorded instants are exactly the solver's accepted steps
+    {
+        ASSERT_FALSE(observedStates.isEmpty());
+        ASSERT_EQ(observedStates.getSize(), recorded.instants.getSize());
+
+        for (Size i = 0; i < observedStates.getSize(); ++i)
+        {
+            EXPECT_EQ(observedStates[i].accessInstant(), recorded.instants[i]);
+        }
+
+        EXPECT_LT(std::abs((recorded.instants.accessLast() - endInstant).inSeconds()), 1e-9);
+    }
+
+    // One entry per dynamics, with the expected shape
+    {
+        const Array<Shared<Dynamics>> dynamicsArray = propagator.getDynamics();
+
+        ASSERT_EQ(dynamicsArray.getSize(), recorded.contributions.size());
+
+        for (const Shared<Dynamics>& dynamicsSPtr : dynamicsArray)
+        {
+            ASSERT_EQ(1, recorded.contributions.count(dynamicsSPtr));
+
+            const MatrixXd& dynamicsContributions = recorded.contributions.at(dynamicsSPtr);
+
+            EXPECT_EQ(recorded.instants.getSize(), Size(dynamicsContributions.rows()));
+            EXPECT_EQ(3, dynamicsContributions.cols());
+        }
+    }
+
+    // Recorded values are exactly what the dynamics return at the accepted states
+    {
+        const Shared<Dynamics> positionDerivativeSPtr = propagator.getDynamics()[0];
+        const Shared<Dynamics> centralBodyGravitySPtr = propagator.getDynamics()[1];
+
+        const MatrixXd& positionDerivativeContributions = recorded.contributions.at(positionDerivativeSPtr);
+        const MatrixXd& centralBodyGravityContributions = recorded.contributions.at(centralBodyGravitySPtr);
+
+        for (Size i = 0; i < observedStates.getSize(); ++i)
+        {
+            const State& observedState = observedStates[i];
+
+            const VectorXd position = observedState.extractCoordinate(CartesianPosition::Default());
+            const VectorXd velocity = observedState.extractCoordinate(CartesianVelocity::Default());
+
+            const VectorXd expectedCentralBodyGravityContribution =
+                centralBodyGravitySPtr->computeContribution(observedState.accessInstant(), position, gcrfSPtr_);
+
+            for (Size j = 0; j < 3; ++j)
+            {
+                EXPECT_EQ(velocity(j), positionDerivativeContributions(i, j));
+                EXPECT_EQ(expectedCentralBodyGravityContribution(j), centralBodyGravityContributions(i, j));
+            }
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation_CalculateStatesAt)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    // Mixed backward + forward request, spanning the initial instant
+    const Array<Instant> instantArray = {
+        state.accessInstant() - Duration::Minutes(20.0),
+        state.accessInstant() - Duration::Minutes(10.0),
+        state.accessInstant(),
+        state.accessInstant() + Duration::Minutes(10.0),
+        state.accessInstant() + Duration::Minutes(20.0),
+    };
+
+    Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+    propagator.setContributionObservationEnabled(true);
+
+    const Array<State> outputStates = propagator.calculateStatesAt(state, instantArray);
+
+    const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+
+    ASSERT_EQ(instantArray.getSize(), recorded.instants.getSize());
+
+    for (Size i = 0; i < instantArray.getSize(); ++i)
+    {
+        EXPECT_EQ(instantArray[i], recorded.instants[i]);
+    }
+
+    const Shared<Dynamics> positionDerivativeSPtr = propagator.getDynamics()[0];
+    const Shared<Dynamics> centralBodyGravitySPtr = propagator.getDynamics()[1];
+
+    const MatrixXd& positionDerivativeContributions = recorded.contributions.at(positionDerivativeSPtr);
+    const MatrixXd& centralBodyGravityContributions = recorded.contributions.at(centralBodyGravitySPtr);
+
+    for (Size i = 0; i < outputStates.getSize(); ++i)
+    {
+        const State& outputState = outputStates[i];
+
+        const VectorXd position = outputState.extractCoordinate(CartesianPosition::Default());
+        const VectorXd velocity = outputState.extractCoordinate(CartesianVelocity::Default());
+
+        const VectorXd expectedCentralBodyGravityContribution =
+            centralBodyGravitySPtr->computeContribution(outputState.accessInstant(), position, gcrfSPtr_);
+
+        for (Size j = 0; j < 3; ++j)
+        {
+            EXPECT_EQ(velocity(j), positionDerivativeContributions(i, j));
+            EXPECT_EQ(expectedCentralBodyGravityContribution(j), centralBodyGravityContributions(i, j));
+        }
+    }
+}
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation_CalculateStateToCondition
+)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    const Instant endInstant = state.accessInstant() + Duration::Minutes(60.0);
+
+    const InstantCondition condition = {
+        InstantCondition::Criterion::StrictlyPositive,
+        state.accessInstant() + Duration::Seconds(60.0),
+    };
+
+    Propagator propagator = {defaultRKD5_, defaultDynamics_};
+    propagator.setContributionObservationEnabled(true);
+
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(state, endInstant, condition);
+
+    ASSERT_TRUE(conditionSolution.conditionIsSatisfied);
+
+    const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+
+    ASSERT_FALSE(recorded.instants.isEmpty());
+
+    EXPECT_EQ(state.accessInstant(), recorded.instants.accessFirst());
+    EXPECT_EQ(conditionSolution.state.accessInstant(), recorded.instants.accessLast());
+
+    for (Size i = 1; i < recorded.instants.getSize(); ++i)
+    {
+        EXPECT_TRUE(recorded.instants[i] > recorded.instants[i - 1]);
+    }
+
+    for (const auto& dynamicsContributionPair : recorded.contributions)
+    {
+        EXPECT_EQ(recorded.instants.getSize(), Size(dynamicsContributionPair.second.rows()));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation_Reset)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+    propagator.setContributionObservationEnabled(true);
+
+    propagator.calculateStateAt(state, state.accessInstant() + Duration::Minutes(90.0));
+
+    const Size longPropagationStepCount = propagator.accessRecordedStepContributions().instants.getSize();
+
+    const Instant shortEndInstant = state.accessInstant() + Duration::Minutes(5.0);
+
+    propagator.calculateStateAt(state, shortEndInstant);
+
+    // Only the second call is reflected
+    {
+        const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+
+        EXPECT_LT(recorded.instants.getSize(), longPropagationStepCount);
+        EXPECT_LT(std::abs((recorded.instants.accessLast() - shortEndInstant).inSeconds()), 1e-9);
+
+        for (const auto& dynamicsContributionPair : recorded.contributions)
+        {
+            EXPECT_EQ(recorded.instants.getSize(), Size(dynamicsContributionPair.second.rows()));
+        }
+    }
+
+    // Disabling recording clears the previous results on the next call
+    {
+        propagator.setContributionObservationEnabled(false);
+
+        propagator.calculateStateAt(state, shortEndInstant);
+
+        EXPECT_TRUE(propagator.accessRecordedStepContributions().instants.isEmpty());
+        EXPECT_TRUE(propagator.accessRecordedStepContributions().contributions.empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation_BackwardPropagation)
+{
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+    propagator.setContributionObservationEnabled(true);
+
+    propagator.calculateStateAt(state, state.accessInstant() - Duration::Minutes(30.0));
+
+    const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+
+    ASSERT_GT(recorded.instants.getSize(), 1);
+
+    for (Size i = 1; i < recorded.instants.getSize(); ++i)
+    {
+        EXPECT_TRUE(recorded.instants[i] < recorded.instants[i - 1]);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ContributionObservation_WithDrag)
+{
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+    ));
+
+    const Shared<Dynamics> positionDerivativeSPtr = std::make_shared<PositionDerivative>();
+    const Shared<Dynamics> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
+    const Shared<Dynamics> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr);
+
+    Propagator propagator = {
+        defaultNumericalSolver_,
+        {positionDerivativeSPtr, centralBodyGravitySPtr, atmosphericDragSPtr},
+    };
+    propagator.setContributionObservationEnabled(true);
+
+    VectorXd coordinates(9);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 100.0, 1.0, 2.1;
+
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        coordinates,
+        gcrfSPtr_,
+        {
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            CoordinateSubset::Mass(),
+            CoordinateSubset::SurfaceArea(),
+            CoordinateSubset::DragCoefficient(),
+        },
+    };
+
+    EXPECT_EQ(9, propagator.getNumberOfCoordinates());
+
+    propagator.calculateStateAt(state, state.accessInstant() + Duration::Minutes(10.0));
+
+    const Propagator::StepContributions& recorded = propagator.accessRecordedStepContributions();
+
+    ASSERT_EQ(3, recorded.contributions.size());
+    ASSERT_FALSE(recorded.instants.isEmpty());
+
+    const MatrixXd& positionDerivativeContributions = recorded.contributions.at(positionDerivativeSPtr);
+    const MatrixXd& centralBodyGravityContributions = recorded.contributions.at(centralBodyGravitySPtr);
+    const MatrixXd& atmosphericDragContributions = recorded.contributions.at(atmosphericDragSPtr);
+
+    for (const MatrixXd& dynamicsContributions :
+         {positionDerivativeContributions, centralBodyGravityContributions, atmosphericDragContributions})
+    {
+        EXPECT_EQ(recorded.instants.getSize(), Size(dynamicsContributions.rows()));
+        EXPECT_EQ(3, dynamicsContributions.cols());
+        EXPECT_TRUE(dynamicsContributions.allFinite());
+    }
+
+    // Drag opposes the velocity and is dominated by gravity
+    EXPECT_LT(atmosphericDragContributions.row(0).norm(), centralBodyGravityContributions.row(0).norm());
+    EXPECT_GT(atmosphericDragContributions.row(0).norm(), 0.0);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Default)
 {
     {
@@ -1347,12 +1704,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Validat
         // Wrong number of AtmosphericDrags
         {
             Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
-            propagator.addDynamics(std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
-                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
-            ))));
-            propagator.addDynamics(std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
-                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
-            ))));
+            propagator.addDynamics(
+                std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
+                    std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+                )))
+            );
+            propagator.addDynamics(
+                std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(Earth::AtmosphericOnly(
+                    std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+                )))
+            );
 
             EXPECT_THROW(
                 {

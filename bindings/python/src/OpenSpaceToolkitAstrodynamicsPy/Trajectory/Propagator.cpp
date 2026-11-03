@@ -22,14 +22,48 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
-    class_<Propagator>(
+    class_<Propagator> propagator(
         aModule,
         "Propagator",
         R"doc(
             A `Propagator` that propagates the provided `State` using it's `NumericalSolver` under the set `Dynamics`.
 
         )doc"
+    );
+
+    class_<Propagator::StepContributions>(
+        propagator,
+        "StepContributions",
+        R"doc(
+            Per-dynamics contributions recorded at each solver step accepted during a propagation.
+
+        )doc"
     )
+        .def_readonly(
+            "instants",
+            &Propagator::StepContributions::instants,
+            R"doc(
+                One instant per recorded step, in integration order.
+
+                Type:
+                    list[Instant]
+            )doc"
+        )
+        .def_readonly(
+            "contributions",
+            &Propagator::StepContributions::contributions,
+            R"doc(
+                Per dynamics, a matrix whose rows align with `instants` and whose columns follow the
+                dynamics' write coordinate subsets, expressed in GCRF.
+
+                Type:
+                    dict[Dynamics, np.ndarray]
+            )doc"
+        )
+
+        ;
+
+    propagator
 
         .def(
             init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
@@ -95,6 +129,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         )
 
         .def(
+            "is_contribution_observation_enabled",
+            &Propagator::isContributionObservationEnabled,
+            R"doc(
+                Check if per-dynamics step contribution recording is enabled.
+
+                Returns:
+                    bool: True if per-dynamics step contribution recording is enabled, False otherwise.
+
+            )doc"
+        )
+
+        .def(
             "access_numerical_solver",
             &Propagator::accessNumericalSolver,
             R"doc(
@@ -125,6 +171,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
                 Returns:
                     list[Dynamics]: The dynamics.
+
+            )doc"
+        )
+        .def(
+            "get_recorded_step_contributions",
+            &Propagator::getRecordedStepContributions,
+            R"doc(
+                Get the step contributions recorded during the most recent `calculate_*` call.
+
+                Empty unless recording is enabled with `set_contribution_observation_enabled`. For
+                `calculate_state_at` and `calculate_state_to_condition`, the recorded steps are the solver's
+                accepted steps (initial and final states included). For `calculate_states_at`, they are the
+                requested instants (each an accepted-step endpoint — intermediate accepted steps are not
+                recorded). Contributions are expressed in GCRF, the integration frame.
+
+                Returns:
+                    Propagator.StepContributions: The recorded step contributions.
 
             )doc"
         )
@@ -176,6 +239,23 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
                 Args:
                     maneuver (Maneuver) The maneuver.
                     interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
+
+            )doc"
+        )
+
+        .def(
+            "set_contribution_observation_enabled",
+            &Propagator::setContributionObservationEnabled,
+            arg("enabled"),
+            R"doc(
+                Enable or disable per-dynamics step contribution recording (disabled by default).
+
+                When enabled, each `calculate_*` call additionally evaluates every dynamics once per recorded
+                step (one extra right-hand-side-equivalent evaluation per step) and stores the results. Memory
+                grows linearly with the number of recorded steps.
+
+                Args:
+                    enabled (bool) True to enable recording, False to disable it.
 
             )doc"
         )

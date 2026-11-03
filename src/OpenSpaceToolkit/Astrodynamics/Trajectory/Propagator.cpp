@@ -94,7 +94,9 @@ Propagator::Propagator(
 Propagator::Propagator(const Propagator& aPropagator)
     : coordinatesBrokerSPtr_(std::make_shared<CoordinateBroker>(*aPropagator.coordinatesBrokerSPtr_)),
       dynamicsContexts_(aPropagator.dynamicsContexts_),
-      numericalSolver_(aPropagator.numericalSolver_)
+      numericalSolver_(aPropagator.numericalSolver_),
+      contributionObservationEnabled_(aPropagator.contributionObservationEnabled_),
+      recordedStepContributions_(aPropagator.recordedStepContributions_)
 {
 }
 
@@ -105,6 +107,8 @@ Propagator& Propagator::operator=(const Propagator& aPropagator)
         coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>(*aPropagator.coordinatesBrokerSPtr_);
         dynamicsContexts_ = aPropagator.dynamicsContexts_;
         numericalSolver_ = aPropagator.numericalSolver_;
+        contributionObservationEnabled_ = aPropagator.contributionObservationEnabled_;
+        recordedStepContributions_ = aPropagator.recordedStepContributions_;
     }
     return *this;
 }
@@ -139,6 +143,11 @@ bool Propagator::isDefined() const
     return numericalSolver_.isDefined() && coordinatesBrokerSPtr_ != nullptr && !dynamicsContexts_.isEmpty();
 }
 
+bool Propagator::isContributionObservationEnabled() const
+{
+    return contributionObservationEnabled_;
+}
+
 const Shared<CoordinateBroker>& Propagator::accessCoordinateBroker() const
 {
     if (!this->isDefined())
@@ -159,6 +168,16 @@ const NumericalSolver& Propagator::accessNumericalSolver() const
     return numericalSolver_;
 }
 
+const Propagator::StepContributions& Propagator::accessRecordedStepContributions() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagator");
+    }
+
+    return recordedStepContributions_;
+}
+
 Size Propagator::getNumberOfCoordinates() const
 {
     return this->accessCoordinateBroker()->getNumberOfCoordinates();
@@ -174,6 +193,11 @@ Array<Shared<Dynamics>> Propagator::getDynamics() const
     }
 
     return dynamicsArray;
+}
+
+Propagator::StepContributions Propagator::getRecordedStepContributions() const
+{
+    return this->accessRecordedStepContributions();
 }
 
 void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
@@ -225,6 +249,11 @@ void Propagator::clearDynamics()
     coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
+void Propagator::setContributionObservationEnabled(const bool& aContributionObservationEnabled)
+{
+    contributionObservationEnabled_ = aContributionObservationEnabled;
+}
+
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
 {
     if (!this->isDefined())
@@ -233,6 +262,8 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     }
 
     this->validateDynamicsSet();
+
+    recordedStepContributions_ = {};
 
     const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
 
@@ -245,6 +276,11 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
             dynamicsContexts_, solverInputState.accessInstant(), Propagator::IntegrationFrameSPtr
         )
     );
+
+    if (contributionObservationEnabled_)
+    {
+        this->recordStepContributions_(numericalSolver_.accessObservedStates());
+    }
 
     const StateBuilder outputStateBuilder = {aState};
 
@@ -262,6 +298,8 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     this->validateDynamicsSet();
 
+    recordedStepContributions_ = {};
+
     const Instant& startInstant = aState.accessInstant();
 
     const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
@@ -274,6 +312,11 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
         Dynamics::GetSystemOfEquations(dynamicsContexts_, startInstant, Propagator::IntegrationFrameSPtr),
         anEventCondition
     );
+
+    if (contributionObservationEnabled_)
+    {
+        this->recordStepContributions_(numericalSolver_.accessObservedStates());
+    }
 
     const StateBuilder outputStateBuilder = {aState};
 
@@ -317,6 +360,8 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     this->validateDynamicsSet();
+
+    recordedStepContributions_ = {};
 
     const StateBuilder solverStateBuilder = {Propagator::IntegrationFrameSPtr, coordinatesBrokerSPtr_};
 
@@ -369,12 +414,19 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
     }
 
-    Array<State> outputStates;
-    outputStates.reserve(backwardPropagatedStates.getSize() + forwardPropagatedStates.getSize());
+    const Array<State> solverOutputStates = backwardPropagatedStates + forwardPropagatedStates;
 
-    for (const State& solverOutputState : backwardPropagatedStates + forwardPropagatedStates)
+    Array<State> outputStates;
+    outputStates.reserve(solverOutputStates.getSize());
+
+    for (const State& solverOutputState : solverOutputStates)
     {
         outputStates.add(outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState));
+    }
+
+    if (contributionObservationEnabled_)
+    {
+        this->recordStepContributions_(solverOutputStates);
     }
 
     return outputStates;
@@ -452,6 +504,43 @@ void Propagator::validateDynamicsSet() const
     if (thrusterIt != dynamicsMap.end() && thrusterIt->second.getSize() > 1)
     {
         throw ostk::core::error::RuntimeError("Propagator can have at most one Thruster Dynamics.");
+    }
+}
+
+void Propagator::recordStepContributions_(const Array<State>& aStateArray) const
+{
+    const Size stepCount = aStateArray.getSize();
+
+    recordedStepContributions_.instants.reserve(stepCount);
+
+    for (const Dynamics::Context& dynamicsContext : dynamicsContexts_)
+    {
+        Size writeSize = 0;
+        for (const Pair<Index, Size>& writeInfo : dynamicsContext.writeIndexes)
+        {
+            writeSize += writeInfo.second;
+        }
+
+        recordedStepContributions_.contributions.emplace(
+            dynamicsContext.dynamics, MatrixXd::Zero(stepCount, writeSize)
+        );
+    }
+
+    for (Index stepIndex = 0; stepIndex < stepCount; ++stepIndex)
+    {
+        const State& state = aStateArray[stepIndex];
+
+        recordedStepContributions_.instants.add(state.accessInstant());
+
+        const Array<VectorXd> contributions = Dynamics::ComputeContributions(
+            dynamicsContexts_, state.accessInstant(), state.accessCoordinates(), Propagator::IntegrationFrameSPtr
+        );
+
+        for (Index contextIndex = 0; contextIndex < dynamicsContexts_.getSize(); ++contextIndex)
+        {
+            recordedStepContributions_.contributions.at(dynamicsContexts_[contextIndex].dynamics).row(stepIndex) =
+                contributions[contextIndex];
+        }
     }
 }
 

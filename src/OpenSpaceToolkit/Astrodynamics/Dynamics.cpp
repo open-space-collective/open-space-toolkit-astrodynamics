@@ -85,6 +85,28 @@ NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemOfEquations(
     );
 }
 
+Array<VectorXd> Dynamics::ComputeContributions(
+    const Array<Dynamics::Context>& aContextArray,
+    const Instant& anInstant,
+    const NumericalSolver::StateVector& aStateVector,
+    const Shared<const Frame>& aFrameSPtr
+)
+{
+    Array<VectorXd> contributions = Array<VectorXd>::Empty();
+    contributions.reserve(aContextArray.getSize());
+
+    for (const Dynamics::Context& dynamicsContext : aContextArray)
+    {
+        contributions.add(dynamicsContext.dynamics->computeContribution(
+            anInstant,
+            Dynamics::extractReadState(aStateVector, dynamicsContext.readIndexes, dynamicsContext.readStateSize),
+            aFrameSPtr
+        ));
+    }
+
+    return contributions;
+}
+
 void Dynamics::DynamicalEquations(
     const NumericalSolver::StateVector& x,
     NumericalSolver::StateVector& dxdt,
