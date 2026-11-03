@@ -564,6 +564,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_BracketReintegration)
+{
+    // The bracket around a detected crossing is re-integrated from the pre-step state. FSAL steppers
+    // (Dormand-Prince 5) cache the derivative at their post-step state, so the re-integration must start from a
+    // reset stepper; otherwise the first stage is evaluated at the wrong state and biases the crossing state.
+    const State state = getStateVector(defaultStartInstant_);
+
+    for (const double targetTime : {2.7, 3.7, 5.3})
+    {
+        NumericalSolver solver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaDopri5,
+            1.0,
+            1.0e-10,
+            1.0e-10,
+        };
+
+        const Instant targetInstant = defaultStartInstant_ + Duration::Seconds(targetTime);
+
+        const NumericalSolver::ConditionSolution conditionSolution = solver.integrateTime(
+            state,
+            defaultStartInstant_ + Duration::Seconds(10.0),
+            systemOfEquations_,
+            InstantCondition(RealCondition::Criterion::AnyCrossing, targetInstant)
+        );
+
+        ASSERT_TRUE(conditionSolution.conditionIsSatisfied);
+
+        const double solutionTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+        const NumericalSolver::StateVector solutionStateVector = conditionSolution.state.accessCoordinates();
+
+        EXPECT_NEAR(std::sin(solutionTime), solutionStateVector[0], 3.0e-9) << "target " << targetTime;
+        EXPECT_NEAR(std::cos(solutionTime), solutionStateVector[1], 3.0e-9) << "target " << targetTime;
+    }
+}
+
 class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperConditional
     : public OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver,
       public ::testing::WithParamInterface<NumericalSolver::StepperType>

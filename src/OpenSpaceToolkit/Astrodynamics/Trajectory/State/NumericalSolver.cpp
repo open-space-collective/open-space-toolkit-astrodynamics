@@ -379,6 +379,18 @@ struct IsFixedStepStepper<stepper_type_4> : std::true_type
 {
 };
 
+/// @brief Type trait to detect steppers that carry internal state between steps and expose `reset()`
+///        (e.g., FSAL steppers such as Dormand-Prince 5, which cache the derivative at the post-step state)
+template <typename Stepper, typename = void>
+struct HasReset : std::false_type
+{
+};
+
+template <typename Stepper>
+struct HasReset<Stepper, std::void_t<decltype(std::declval<Stepper&>().reset())>> : std::true_type
+{
+};
+
 /// @brief Perform a single integration step with a fixed-step stepper
 template <typename Stepper, typename System>
 inline typename std::enable_if<IsFixedStepStepper<Stepper>::value>::type doStep(
@@ -537,9 +549,19 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         sampleMatrix.row(sampleIdx++) = aSampledState.transpose();
     };
 
+    // The bracket is re-integrated from `previousStateVector`, but `aStepper` has already stepped to
+    // `currentStateVector`. FSAL steppers (e.g. Dormand-Prince 5) cache the derivative evaluated at their
+    // post-step state and reuse it as the first stage of the next step, which would be evaluated at the wrong
+    // state here and bias the whole bracket. Re-integrate on a reset copy so the first stage is recomputed.
+    Stepper bracketStepper = aStepper;
+    if constexpr (HasReset<Stepper>::value)
+    {
+        bracketStepper.reset();
+    }
+
     const double initialDt = signedSampleDt / 10.0;
     integrate_times(
-        aStepper,
+        bracketStepper,
         aSystemOfEquations,
         previousStateVector,
         sampleTimes.begin(),
