@@ -45,10 +45,6 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 /// across a maneuver, the integration is split at the exact start and end of the maneuver: the propagator coasts up to
 /// the start of the maneuver, applies the maneuver dynamics until its end, then continues. A maneuver is therefore
 /// never stepped over by the integrator, however short it is.
-///
-/// @note When maneuvers are provided, Each stretch of integration (between maneuver starts / ends) is a separate call
-/// to the numerical solver, so when a maneuver falls within the propagated interval, the numerical solver's observed
-/// states only cover the last stretch. Without maneuvers there is a single stretch and nothing changes.
 class Propagator
 {
    public:
