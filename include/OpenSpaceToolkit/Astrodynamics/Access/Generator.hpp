@@ -8,7 +8,6 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -34,7 +33,6 @@ namespace access
 using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Interval;

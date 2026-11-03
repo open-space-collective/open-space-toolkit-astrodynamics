@@ -115,8 +115,9 @@ State CloseApproach::getObject2State() const
     return object2State_;
 }
 
-CloseApproach CloseApproach::scale(const std::optional<Real>& aScaleFactor1, const std::optional<Real>& aScaleFactor2)
-    const
+CloseApproach CloseApproach::scale(
+    const std::optional<double>& aScaleFactor1, const std::optional<double>& aScaleFactor2
+) const
 {
     if (!this->isDefined())
     {
@@ -366,15 +367,15 @@ CloseApproach::RotatedEncounterFrameParameters CloseApproach::computeRotatedEnco
     const Vector2d majorPrincipalAxis = eigenSolver.eigenvectors().col(1);
     const Vector2d minorPrincipalAxis = eigenSolver.eigenvectors().col(0);
 
-    const Real majorPrincipalAxisSigma = std::sqrt(eigenSolver.eigenvalues()(1));
-    const Real minorPrincipalAxisSigma = std::sqrt(eigenSolver.eigenvalues()(0));
+    const double majorPrincipalAxisSigma = std::sqrt(eigenSolver.eigenvalues()(1));
+    const double minorPrincipalAxisSigma = std::sqrt(eigenSolver.eigenvalues()(0));
 
     // x-axis along the major (resp. minor) principal axis, y-axis along the minor (resp. major) principal axis
     const Vector2d xPrincipalAxis = xAlongMajorPrincipalAxis ? majorPrincipalAxis : minorPrincipalAxis;
     const Vector2d yPrincipalAxis = xAlongMajorPrincipalAxis ? minorPrincipalAxis : majorPrincipalAxis;
 
-    const Real xPrincipalAxisSigma = xAlongMajorPrincipalAxis ? majorPrincipalAxisSigma : minorPrincipalAxisSigma;
-    const Real yPrincipalAxisSigma = xAlongMajorPrincipalAxis ? minorPrincipalAxisSigma : majorPrincipalAxisSigma;
+    const double xPrincipalAxisSigma = xAlongMajorPrincipalAxis ? majorPrincipalAxisSigma : minorPrincipalAxisSigma;
+    const double yPrincipalAxisSigma = xAlongMajorPrincipalAxis ? minorPrincipalAxisSigma : majorPrincipalAxisSigma;
 
     // Rotated encounter frame: the encounter frame rotated about its z-axis, its x-axis along the x principal axis and
     // its y-axis completing the right-handed coordinate system (hence along the y principal axis)

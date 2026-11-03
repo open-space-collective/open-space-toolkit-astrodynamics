@@ -22,7 +22,6 @@ namespace astrodynamics
 namespace dynamics
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::Vector3d;
@@ -123,7 +122,7 @@ VectorXd ThirdBodyGravity::computeContribution(
             celestialObjectSPtr_->getPositionIn(aFrameSPtr, anInstant).getCoordinates();
         const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - positionCoordinates;
 
-        const Real mu = celestialObjectSPtr_->getGravitationalParameter().in(GravitationalParameterSIUnit);
+        const double mu = celestialObjectSPtr_->getGravitationalParameter().in(GravitationalParameterSIUnit);
 
         gravitationalAccelerationSI =
             mu * (relativePositionCoordinates / std::pow(relativePositionCoordinates.norm(), 3) -

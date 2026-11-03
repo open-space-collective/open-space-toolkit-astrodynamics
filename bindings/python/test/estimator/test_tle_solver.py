@@ -4,8 +4,6 @@ import pytest
 
 import pandas as pd
 
-from ostk.core.type import Real
-from ostk.core.type import Integer
 
 from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
@@ -92,15 +90,15 @@ class TestTLESolver:
 
     def test_access_methods(self, tle_solver: TLESolver):
         assert isinstance(tle_solver.access_solver(), LeastSquaresSolver)
-        assert isinstance(tle_solver.access_default_b_star(), Real)
+        assert isinstance(tle_solver.access_default_b_star(), float)
         assert isinstance(
-            tle_solver.access_first_derivative_mean_motion_divided_by_2(), Real
+            tle_solver.access_first_derivative_mean_motion_divided_by_2(), float
         )
         assert isinstance(
-            tle_solver.access_second_derivative_mean_motion_divided_by_6(), Real
+            tle_solver.access_second_derivative_mean_motion_divided_by_6(), float
         )
-        assert isinstance(tle_solver.access_ephemeris_type(), Integer)
-        assert isinstance(tle_solver.access_element_set_number(), Integer)
+        assert isinstance(tle_solver.access_ephemeris_type(), int)
+        assert isinstance(tle_solver.access_element_set_number(), int)
         assert isinstance(tle_solver.access_tle_state_builder(), StateBuilder)
 
     def test_estimate_from_tle(

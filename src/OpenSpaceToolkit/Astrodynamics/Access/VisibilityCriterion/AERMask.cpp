@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
@@ -16,7 +18,7 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector2d;
 
 VisibilityCriterion::AERMask::AERMask(
-    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
+    const Map<double, double>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
 )
     : azimuthElevationMask(anAzimuthElevationMask),
       range(aRangeInterval)
@@ -36,15 +38,15 @@ VisibilityCriterion::AERMask::AERMask(
             String::Format(
                 "Empty: {}, Min azimuth: {}, Max azimuth: {}",
                 anAzimuthElevationMask.empty(),
-                anAzimuthElevationMask.empty() ? Real::Zero() : anAzimuthElevationMask.begin()->first,
-                anAzimuthElevationMask.empty() ? Real::Zero() : anAzimuthElevationMask.rbegin()->first
+                anAzimuthElevationMask.empty() ? 0.0 : anAzimuthElevationMask.begin()->first,
+                anAzimuthElevationMask.empty() ? 0.0 : anAzimuthElevationMask.rbegin()->first
             )
         );
     }
 
     for (const auto& azimuthElevationPair : anAzimuthElevationMask)
     {
-        if ((azimuthElevationPair.second).abs() > 90.0)
+        if (std::abs((azimuthElevationPair.second)) > 90.0)
         {
             throw ostk::core::error::runtime::Wrong(
                 "Azimuth-Elevation Mask",
@@ -53,7 +55,7 @@ VisibilityCriterion::AERMask::AERMask(
         }
     }
 
-    Map<Real, Real> anAzimuthElevationMask_deg = anAzimuthElevationMask;
+    Map<double, double> anAzimuthElevationMask_deg = anAzimuthElevationMask;
 
     if (anAzimuthElevationMask_deg.begin()->first != 0.0)
     {
@@ -65,7 +67,7 @@ VisibilityCriterion::AERMask::AERMask(
         anAzimuthElevationMask_deg.insert({360.0, anAzimuthElevationMask_deg.begin()->second});
     }
 
-    Map<Real, Real> anAzimuthElevationMask_rad;
+    Map<double, double> anAzimuthElevationMask_rad;
 
     for (auto it = anAzimuthElevationMask_deg.begin(); it != anAzimuthElevationMask_deg.end(); ++it)
     {
@@ -78,19 +80,18 @@ VisibilityCriterion::AERMask::AERMask(
 bool VisibilityCriterion::AERMask::isSatisfied(const AER& anAer) const
 {
     return isSatisfied(
-        anAer.getAzimuth().inRadians(0.0, Real::TwoPi()),
-        anAer.getElevation().inRadians(-Real::Pi(), Real::Pi()),
+        anAer.getAzimuth().inRadians(0.0, 2.0 * M_PI),
+        anAer.getElevation().inRadians(-M_PI, M_PI),
         anAer.getRange().inMeters()
     );
 }
 
 bool VisibilityCriterion::AERMask::isSatisfied(
-    const Real& anAzimuth_Radians, const Real& anElevation_Radians, const Real& aRange_Meters
+    double anAzimuth_Radians, double anElevation_Radians, double aRange_Meters
 ) const
 {
-    Real anAzimuthReduced_Radians = Angle(anAzimuth_Radians, Angle::Unit::Radian).inRadians(0.0, Real::TwoPi());
-    Real anElevationReduced_Radians =
-        Angle(anElevation_Radians, Angle::Unit::Radian).inRadians(-Real::Pi(), Real::Pi());
+    double anAzimuthReduced_Radians = Angle(anAzimuth_Radians, Angle::Unit::Radian).inRadians(0.0, 2.0 * M_PI);
+    double anElevationReduced_Radians = Angle(anElevation_Radians, Angle::Unit::Radian).inRadians(-M_PI, M_PI);
 
     auto itLow = this->azimuthElevationMask.lower_bound(anAzimuthReduced_Radians);
 

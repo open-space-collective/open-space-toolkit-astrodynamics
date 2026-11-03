@@ -32,7 +32,7 @@ Model::Model() {}
 
 Model::~Model() {}
 
-Integer Model::calculateRevolutionNumberAt(const Instant& anInstant) const
+int Model::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
     if (!anInstant.isDefined())
     {

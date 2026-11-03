@@ -15,7 +15,6 @@ namespace astrodynamics
 namespace guidancelaw
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
@@ -57,7 +56,7 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
-    const Real& aThrustAcceleration,
+    double aThrustAcceleration,
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
@@ -113,8 +112,8 @@ ConstantThrust ConstantThrust::FromManeuver(
 
     if (aMaximumAllowedAngularOffset.isDefined())
     {
-        const Real maximumAllowedAngularOffsetDegrees = aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0);
-        const Real maximumAngularOffsetDegrees = meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0);
+        const double maximumAllowedAngularOffsetDegrees = aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0);
+        const double maximumAngularOffsetDegrees = meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0);
         if (maximumAngularOffsetDegrees > maximumAllowedAngularOffsetDegrees)
         {
             throw ostk::core::error::RuntimeError(String::Format(

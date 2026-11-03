@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
@@ -68,7 +70,7 @@ bool VisibilityCriterion::AERInterval::isSatisfied(const AER& anAer) const
 }
 
 bool VisibilityCriterion::AERInterval::isSatisfied(
-    const Real& anAzimuth_Radians, const Real& anElevation_Radians, const Real& aRange_Meters
+    double anAzimuth_Radians, double anElevation_Radians, double aRange_Meters
 ) const
 {
     return this->azimuth.contains(anAzimuth_Radians) && this->elevation.contains(anElevation_Radians) &&

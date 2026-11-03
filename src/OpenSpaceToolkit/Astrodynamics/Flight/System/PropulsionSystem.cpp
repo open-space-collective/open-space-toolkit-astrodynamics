@@ -1,11 +1,15 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -18,12 +22,12 @@ namespace system
 
 using ostk::physics::environment::gravitational::Earth;
 
-PropulsionSystem::PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpecificImpulseInSIUnit)
+PropulsionSystem::PropulsionSystem(double aThrustInSIUnit, double aSpecificImpulseInSIUnit)
     : thrust_(aThrustInSIUnit),
       specificImpulse_(aSpecificImpulseInSIUnit),
-      massFlowRate_(Real::Undefined())
+      massFlowRate_(std::numeric_limits<double>::quiet_NaN())
 {
-    if (aThrustInSIUnit.isDefined() && aSpecificImpulseInSIUnit.isDefined())
+    if (!std::isnan(aThrustInSIUnit) && !std::isnan(aSpecificImpulseInSIUnit))
     {
         massFlowRate_ = {aThrustInSIUnit / (aSpecificImpulseInSIUnit * Earth::gravityConstant)};
     }
@@ -54,7 +58,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PropulsionSystem& a
 
 bool PropulsionSystem::isDefined() const
 {
-    return thrust_.isDefined() && specificImpulse_.isDefined() && massFlowRate_.isDefined();
+    return !std::isnan(thrust_) && !std::isnan(specificImpulse_) && !std::isnan(massFlowRate_);
 }
 
 void PropulsionSystem::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -62,16 +66,17 @@ void PropulsionSystem::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propulsion") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Thrust:" << (thrust_.isDefined() ? thrust_.toString() : "Undefined");
+        << "Thrust:" << (!std::isnan(thrust_) ? utility::DoubleToString(thrust_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Specific Impulse:" << (specificImpulse_.isDefined() ? specificImpulse_.toString() : "Undefined");
+        << "Specific Impulse:"
+        << (!std::isnan(specificImpulse_) ? utility::DoubleToString(specificImpulse_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Mass Flow Rate:" << (massFlowRate_.isDefined() ? massFlowRate_.toString() : "Undefined");
+        << "Mass Flow Rate:" << (!std::isnan(massFlowRate_) ? utility::DoubleToString(massFlowRate_) : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Real PropulsionSystem::getThrust() const
+double PropulsionSystem::getThrust() const
 {
     if (!this->isDefined())
     {
@@ -81,7 +86,7 @@ Real PropulsionSystem::getThrust() const
     return thrust_;
 }
 
-Real PropulsionSystem::getSpecificImpulse() const
+double PropulsionSystem::getSpecificImpulse() const
 {
     if (!this->isDefined())
     {
@@ -91,7 +96,7 @@ Real PropulsionSystem::getSpecificImpulse() const
     return specificImpulse_;
 }
 
-Real PropulsionSystem::getMassFlowRate() const
+double PropulsionSystem::getMassFlowRate() const
 {
     if (!this->isDefined())
     {
@@ -101,7 +106,7 @@ Real PropulsionSystem::getMassFlowRate() const
     return massFlowRate_;
 }
 
-Real PropulsionSystem::getAcceleration(const Mass& aMass) const
+double PropulsionSystem::getAcceleration(const Mass& aMass) const
 {
     if (!this->isDefined())
     {
@@ -114,8 +119,8 @@ Real PropulsionSystem::getAcceleration(const Mass& aMass) const
 PropulsionSystem PropulsionSystem::Undefined()
 {
     return {
-        Real::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
     };
 }
 

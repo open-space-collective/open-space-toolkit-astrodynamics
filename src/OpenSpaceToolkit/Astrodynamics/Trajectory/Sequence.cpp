@@ -80,9 +80,9 @@ Duration Sequence::Solution::getPropagationDuration() const
     return this->getEndInstant() - this->getStartInstant();
 }
 
-Real Sequence::Solution::computeDeltaV(const Real& aSpecificImpulse) const
+double Sequence::Solution::computeDeltaV(double aSpecificImpulse) const
 {
-    Real deltaV = 0.0;
+    double deltaV = 0.0;
 
     for (const auto& segmentSolution : this->segmentSolutions)
     {

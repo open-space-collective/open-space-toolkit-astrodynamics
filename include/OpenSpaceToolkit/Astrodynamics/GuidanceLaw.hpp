@@ -5,7 +5,6 @@
 
 #include <memory>
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -19,7 +18,6 @@ namespace ostk
 namespace astrodynamics
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -83,7 +81,7 @@ class GuidanceLaw : public std::enable_shared_from_this<GuidanceLaw>
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration,
+        double aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
     ) const = 0;
 

@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
@@ -16,7 +15,6 @@ namespace astrodynamics
 namespace dynamics
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::coordinate::Position;
@@ -87,12 +85,12 @@ VectorXd AtmosphericDrag::computeContribution(
 {
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
     Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
-    const Real mass = x[6];         // kg
-    const Real surfaceArea = x[7];  // m^2
-    const Real dragCoefficient = x[8];
+    const double mass = x[6];         // kg
+    const double surfaceArea = x[7];  // m^2
+    const double dragCoefficient = x[8];
 
     // Get atmospheric density
-    const Real atmosphericDensity =
+    const double atmosphericDensity =
         celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();

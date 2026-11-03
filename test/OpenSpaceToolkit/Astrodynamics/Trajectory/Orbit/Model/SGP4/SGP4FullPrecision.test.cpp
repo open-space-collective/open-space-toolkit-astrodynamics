@@ -5,7 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -30,7 +29,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -54,7 +52,7 @@ using ostk::astrodynamics::trajectory::State;
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision : public ::testing::Test
 {
    protected:
-    static Derived MeanMotion(const Real& aValue_revPerDay)
+    static Derived MeanMotion(double aValue_revPerDay)
     {
         return {aValue_revPerDay, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)};
     }
@@ -244,7 +242,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 {
     const SGP4 sgp4 = {tle_, Frame::TEME()};
 
-    for (const Real minutesFromEpoch : {-1440.0, -60.0, 0.0, 1.0, 60.0, 720.0, 1440.0})
+    for (const double minutesFromEpoch : {-1440.0, -60.0, 0.0, 1.0, 60.0, 720.0, 1440.0})
     {
         const Instant instant = tle_.getEpoch() + Duration::Minutes(minutesFromEpoch);
 
@@ -337,10 +335,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 /// still move the propagated position; through a TLE it does not move it at all.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, RespondsBelowTheTLEQuantum)
 {
-    const Real nearCircularEccentricity = 2.4e-5;
-    const Real step = 1e-3 * nearCircularEccentricity;  // ~2.4e-8, a quarter of the 1e-7 quantization
+    const double nearCircularEccentricity = 2.4e-5;
+    const double step = 1e-3 * nearCircularEccentricity;  // ~2.4e-8, a quarter of the 1e-7 quantization
 
-    const auto elementsWith = [this](const Real& anEccentricity) -> SGP4FullPrecision
+    const auto elementsWith = [this](double anEccentricity) -> SGP4FullPrecision
     {
         return {
             tle_.getEpoch(),

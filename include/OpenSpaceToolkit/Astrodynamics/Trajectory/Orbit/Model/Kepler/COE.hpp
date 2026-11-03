@@ -3,8 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE__
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -33,7 +34,6 @@ namespace kepler
 {
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -100,7 +100,7 @@ class COE
     /// @param anAop An aop
     /// @param aTrueAnomaly A true anomaly
     COE(const Length& aSemiMajorAxis,
-        const Real& anEccentricity,
+        double anEccentricity,
         const Angle& anInclination,
         const Angle& aRaan,
         const Angle& anAop,
@@ -142,7 +142,7 @@ class COE
     /// @brief Get Eccentricity
     ///
     /// @return Eccentricity
-    Real getEccentricity() const;
+    double getEccentricity() const;
 
     /// @brief Get Inclination
     ///
@@ -218,7 +218,7 @@ class COE
     /// @param aJ2Parameter
     /// @return Nodal precession rate
     Derived getNodalPrecessionRate(
-        const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+        const Derived& aGravitationalParameter, const Length& anEquatorialRadius, double aJ2Parameter
     ) const;
 
     /// @brief Get the along-track angular rate (argument of latitude angular rate) including J2 perturbations
@@ -228,7 +228,7 @@ class COE
     /// @param aJ2Parameter A J2 parameter
     /// @return Argument of latitude angular rate
     Derived getArgumentOfLatitudeAngularRate(
-        const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+        const Derived& aGravitationalParameter, const Length& anEquatorialRadius, double aJ2Parameter
     ) const;
 
     /// @brief Get Orbital period
@@ -329,7 +329,7 @@ class COE
     static COE FrozenOrbit(
         const Length& aSemiMajorAxis,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        const Real& anEccentricity = Real::Undefined(),
+        double anEccentricity = std::numeric_limits<double>::quiet_NaN(),
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
         const Angle& anAop = Angle::Undefined(),
@@ -370,9 +370,9 @@ class COE
     static COE FrozenOrbit(
         const Length& aSemiMajorAxis,
         const Length& anEquatorialRadius,
-        const Real& aJ2,
-        const Real& aJ3,
-        const Real& anEccentricity = Real::Undefined(),
+        double aJ2,
+        double aJ3,
+        double anEccentricity = std::numeric_limits<double>::quiet_NaN(),
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
         const Angle& anAop = Angle::Undefined(),
@@ -384,21 +384,21 @@ class COE
     /// @param aTrueAnomaly A true anomaly
     /// @param anEccentricity An eccentricity
     /// @return Eccentric anomaly
-    static Angle EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity);
+    static Angle EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, double anEccentricity);
 
     /// @brief Convert Eccentric anomaly to True anomaly
     ///
     /// @param anEccentricAnomaly An eccentric anomaly
     /// @param anEccentricity An eccentricity
     /// @return True anomaly
-    static Angle TrueAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, const Real& anEccentricity);
+    static Angle TrueAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, double anEccentricity);
 
     /// @brief Convert Mean anomaly to Eccentric anomaly
     ///
     /// @param aMeanAnomaly A mean anomaly
     /// @param anEccentricity An eccentricity
     /// @return Eccentric anomaly
-    static Angle MeanAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, const Real& anEccentricity);
+    static Angle MeanAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, double anEccentricity);
 
     /// @brief Convert Eccentric anomaly to Mean anomaly
     ///
@@ -406,9 +406,7 @@ class COE
     /// @param anEccentricity An eccentricity
     /// @param aTolerance a tolerance
     /// @return Mean anomaly
-    static Angle EccentricAnomalyFromMeanAnomaly(
-        const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
-    );
+    static Angle EccentricAnomalyFromMeanAnomaly(const Angle& aMeanAnomaly, double anEccentricity, double aTolerance);
 
     /// @brief Convert Mean anomaly to True anomaly
     ///
@@ -416,16 +414,14 @@ class COE
     /// @param anEccentricity An eccentricity
     /// @param aTolerance a tolerance
     /// @return True anomaly
-    static Angle TrueAnomalyFromMeanAnomaly(
-        const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance
-    );
+    static Angle TrueAnomalyFromMeanAnomaly(const Angle& aMeanAnomly, double anEccentricity, double aTolerance);
 
     /// @brief Compute the semi-latus rectum of the orbit.
     ///
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param anEccentricity Eccentricity of the orbit.
     /// @return Semi-latus rectum in meters.
-    static Real ComputeSemiLatusRectum(const Real& aSemiMajorAxis, const Real& anEccentricity);
+    static double ComputeSemiLatusRectum(double aSemiMajorAxis, double anEccentricity);
 
     /// @brief Compute the angular momentum of the orbit.
     ///
@@ -433,8 +429,8 @@ class COE
     /// @param anEccentricity Eccentricity of the orbit.
     /// @param aGravitationalParameter Gravitational parameter.
     /// @return Angular momentum.
-    static Real ComputeAngularMomentum(
-        const Real& aSemiMajorAxis, const Real& anEccentricity, const Derived& aGravitationalParameter
+    static double ComputeAngularMomentum(
+        double aSemiMajorAxis, double anEccentricity, const Derived& aGravitationalParameter
     );
 
     /// @brief Compute the angular momentum of the orbit.
@@ -442,7 +438,7 @@ class COE
     /// @param aSemiLatusRectum Semi-latus rectum of the orbit in meters.
     /// @param aGravitationalParameter Gravitational parameter.
     /// @return Angular momentum.
-    static Real ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aGravitationalParameter);
+    static double ComputeAngularMomentum(double aSemiLatusRectum, const Derived& aGravitationalParameter);
 
     /// @brief Compute the radial distance at a given true anomaly.
     ///
@@ -450,35 +446,35 @@ class COE
     /// @param anEccentricity Eccentricity of the orbit.
     /// @param trueAnomaly True anomaly in radians.
     /// @return Radial distance in meters.
-    static Real ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& trueAnomaly);
+    static double ComputeRadialDistance(double aSemiMajorAxis, double anEccentricity, double trueAnomaly);
 
     /// @brief Compute the periapsis radius of the orbit.
     ///
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param anEccentricity Eccentricity of the orbit.
     /// @return Periapsis radius in meters.
-    static Real ComputePeriapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity);
+    static double ComputePeriapsisRadius(double aSemiMajorAxis, double anEccentricity);
 
     /// @brief Compute the apoapsis radius of the orbit.
     ///
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param anEccentricity Eccentricity of the orbit.
     /// @return Apoapsis radius in meters.
-    static Real ComputeApoapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity);
+    static double ComputeApoapsisRadius(double aSemiMajorAxis, double anEccentricity);
 
     /// @brief Compute the mean motion of the orbit.
     ///
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param aGravitationalParameter Gravitational parameter.
     /// @return Mean motion in radians per second.
-    static Real ComputeMeanMotion(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter);
+    static double ComputeMeanMotion(double aSemiMajorAxis, const Derived& aGravitationalParameter);
 
     /// @brief Compute the orbital period of the orbit.
     ///
     /// @param aSemiMajorAxis Semi-major axis of the orbit in meters.
     /// @param aGravitationalParameter Gravitational parameter.
     /// @return Orbital period in seconds.
-    static Real ComputeOrbitalPeriod(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter);
+    static double ComputeOrbitalPeriod(double aSemiMajorAxis, const Derived& aGravitationalParameter);
 
     /// @brief Compute the nodal precession rate of the orbit.
     ///
@@ -489,13 +485,13 @@ class COE
     /// @param anEquatorialRadius Equatorial radius of the central body in meters.
     /// @param aJ2Parameter Second zonal harmonic coefficient.
     /// @return Nodal precession rate in radians per second.
-    static Real ComputeNodalPrecessionRate(
-        const Real& aSemiMajorAxis,
-        const Real& anEccentricity,
-        const Real& anInclination,
+    static double ComputeNodalPrecessionRate(
+        double aSemiMajorAxis,
+        double anEccentricity,
+        double anInclination,
         const Derived& aGravitationalParameter,
-        const Real& anEquatorialRadius,
-        const Real& aJ2Parameter
+        double anEquatorialRadius,
+        double aJ2Parameter
     );
 
     /// @brief Compute the along-track angular rate (argument of latitude angular rate) including J2 perturbations.
@@ -509,13 +505,13 @@ class COE
     /// @param anEquatorialRadius Equatorial radius of the central body in meters.
     /// @param aJ2Parameter Second zonal harmonic coefficient.
     /// @return Argument of latitude angular rate in radians per second.
-    static Real ComputeArgumentOfLatitudeAngularRate(
-        const Real& aSemiMajorAxis,
-        const Real& anEccentricity,
-        const Real& anInclination,
+    static double ComputeArgumentOfLatitudeAngularRate(
+        double aSemiMajorAxis,
+        double anEccentricity,
+        double anInclination,
         const Derived& aGravitationalParameter,
-        const Real& anEquatorialRadius,
-        const Real& aJ2Parameter
+        double anEquatorialRadius,
+        double aJ2Parameter
     );
 
     /// @brief Compute Mean Local Time of the Ascending Node (MLTAN) from the RAAN and instant
@@ -599,7 +595,7 @@ class COE
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return Sun-synchronous inclination
     static Angle ComputeSunSynchronousInclination(
-        const Length& aSemiMajorAxis, const Real& anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
+        const Length& aSemiMajorAxis, double anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
     );
 
     /// @brief Compute the Right Ascension of the Ascending Node (RAAN) from Local Time of the Ascending Node (LTAN)
@@ -640,7 +636,7 @@ class COE
         const Time& aLocalTimeAtAscendingNode,
         const Instant& anEpoch,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        const Real& anEccentricity = Real::Zero(),
+        double anEccentricity = 0.0,
         const Angle& anArgumentOfLatitude = Angle::Zero(),
         const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
@@ -686,9 +682,7 @@ class COE
     /// @param aTrueAnomaly A true anomaly (defaults to zero)
     /// @return Equatorial COE
     static COE Equatorial(
-        const Length& aSemiMajorAxis,
-        const Real& anEccentricity = Real::Zero(),
-        const Angle& aTrueAnomaly = Angle::Zero()
+        const Length& aSemiMajorAxis, double anEccentricity = 0.0, const Angle& aTrueAnomaly = Angle::Zero()
     );
 
     /// @brief Convert element to string
@@ -703,7 +697,7 @@ class COE
 
    protected:
     Length semiMajorAxis_;
-    Real eccentricity_;
+    double eccentricity_;
     Angle inclination_;
     Angle raan_;
     Angle aop_;
@@ -720,7 +714,7 @@ class COE
     /// @param anAnomaly An anomaly
     /// @param anAnomalyType An anomaly type
     COE(const Length& aSemiMajorAxis,
-        const Real& anEccentricity,
+        double anEccentricity,
         const Angle& anInclination,
         const Angle& aRaan,
         const Angle& anAop,
@@ -738,10 +732,10 @@ class COE
     /// @return Anomaly
     static Angle ConvertAnomaly(
         const Angle& anAnomaly,
-        const Real& anEccentricity,
+        double anEccentricity,
         const AnomalyType& fromAnomalyType,
         const AnomalyType& toAnomalyType,
-        const Real& aTolerance
+        double aTolerance
     );
 
     /// @brief Compute the equation of time

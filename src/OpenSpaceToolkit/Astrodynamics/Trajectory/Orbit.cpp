@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -34,7 +37,6 @@ namespace trajectory
 
 using ostk::core::container::Tuple;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Uint8;
 
 using ostk::mathematics::curvefitting::Interpolator;
@@ -61,7 +63,7 @@ static const Derived::Unit GravitationalParameterSIUnit =
 static const Derived::Unit AngularVelocitySIUnit =
     Derived::Unit::AngularVelocity(ostk::physics::unit::Angle::Unit::Radian, ostk::physics::unit::Time::Unit::Second);
 
-static const Real epsilon = 1e-6;
+static const double epsilon = 1e-6;
 
 static const RootSolver rootSolver = RootSolver::Default();
 
@@ -73,9 +75,7 @@ Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelesti
 }
 
 Orbit::Orbit(
-    const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
-    const Shared<const Celestial>& aCelestialObjectSPtr
+    const Array<State>& aStateArray, int anInitialRevolutionNumber, const Shared<const Celestial>& aCelestialObjectSPtr
 )
     : Trajectory(orbit::model::Tabulated(
           aStateArray,
@@ -167,7 +167,7 @@ const Shared<const Celestial> Orbit::accessCelestialObject() const
     return this->celestialObjectSPtr_;
 }
 
-Integer Orbit::getRevolutionNumberAt(const Instant& anInstant) const
+int Orbit::getRevolutionNumberAt(const Instant& anInstant) const
 {
     if (!this->isDefined())
     {
@@ -187,7 +187,7 @@ Pass Orbit::getPassAt(const Instant& anInstant) const
     return this->getPassWithRevolutionNumber(this->getRevolutionNumberAt(anInstant));
 }
 
-Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const Duration& aStepDuration) const
+Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& aStepDuration) const
 {
     if (!this->isDefined())
     {
@@ -196,7 +196,7 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     const std::lock_guard<std::mutex> lock {this->mutex_};
 
-    const auto getClosestPass = [this](const Integer& revolutionNumber) -> Pass
+    const auto getClosestPass = [this](int revolutionNumber) -> Pass
     {
         if (this->passMap_.empty())
         {
@@ -248,11 +248,11 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
 
     Pass currentPass = getClosestPass(aRevolutionNumber);
 
-    Integer currentRevolutionNumber =
-        currentPass.isDefined() ? currentPass.getRevolutionNumber() : this->modelPtr_->getRevolutionNumberAtEpoch();
+    int currentRevolutionNumber = currentPass.isDefined() ? static_cast<int>(currentPass.getRevolutionNumber())
+                                                          : this->modelPtr_->getRevolutionNumberAtEpoch();
 
     const bool isForwardPropagated = currentRevolutionNumber <= aRevolutionNumber;
-    const Integer propagationSign = isForwardPropagated ? 1 : -1;
+    const int propagationSign = isForwardPropagated ? 1 : -1;
 
     Instant northPointCrossing = Instant::Undefined();
     Instant southPointCrossing = Instant::Undefined();
@@ -269,8 +269,9 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber, const 
             Orbit::ComputeCrossings(*this->modelPtr_, previousInstant, stepDuration, isForwardPropagated);
 
         const Instant crossingInstant =
-            Real(this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch()).getPosition().accessCoordinates().z())
-                    .isNear(0.0, epsilon)
+            (std::abs(
+                 this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch()).getPosition().accessCoordinates().z()
+             ) <= epsilon)
                 ? this->modelPtr_->getEpoch()
                 : Instant::Undefined();
 
@@ -347,7 +348,7 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
 
     Instant currentInstant = anInterval.getStart();
 
-    Integer revolutionNumber = Integer::Undefined();
+    std::optional<int> revolutionNumber = std::nullopt;
 
     // Check if the Pass is already within Pass map
     for (const auto& passPair : this->passMap_)
@@ -362,21 +363,23 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
     }
 
     // If not, then calculate using the model method
-    if (!revolutionNumber.isDefined())
+    if (!revolutionNumber.has_value())
     {
         revolutionNumber = this->modelPtr_->calculateRevolutionNumberAt(currentInstant);
     }
+
+    int currentRevolutionNumber = revolutionNumber.value();
 
     Array<Pass> passes = {};
 
     while (currentInstant <= anInterval.accessEnd())
     {
-        const Pass pass = this->getPassWithRevolutionNumber(revolutionNumber);
+        const Pass pass = this->getPassWithRevolutionNumber(currentRevolutionNumber);
 
         passes.add(pass);
 
         currentInstant = pass.accessInstantAtPassBreak();
-        revolutionNumber++;
+        currentRevolutionNumber++;
     }
 
     return passes;
@@ -620,8 +623,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
-                const Real latitude_radians = lla.getLatitude().inRadians();
-                const Real longitude_radians = lla.getLongitude().inRadians();
+                const double latitude_radians = lla.getLatitude().inRadians();
+                const double longitude_radians = lla.getLongitude().inRadians();
 
                 const Vector3d nadir_ITRF = {
                     std::cos(latitude_radians) * std::cos(longitude_radians),
@@ -670,8 +673,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
-                const Real latitude_radians = lla.getLatitude().inRadians();
-                const Real longitude_radians = lla.getLongitude().inRadians();
+                const double latitude_radians = lla.getLatitude().inRadians();
+                const double longitude_radians = lla.getLongitude().inRadians();
 
                 const Vector3d nadir_ITRF = {
                     std::cos(latitude_radians) * std::cos(longitude_radians),
@@ -704,19 +707,19 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
                 const bool isPassDescending = v_GCRF.z() < 0.0;
 
-                const Real w_ITRF_GCRF_in_ITRF_z =
+                const double w_ITRF_GCRF_in_ITRF_z =
                     (Frame::GCRF()->getTransformTo(this->celestialObjectSPtr_->accessFrame(), aState.accessInstant()))
                         .getAngularVelocity()
                         .z();
 
-                const Real k = meanMotion.in(AngularVelocitySIUnit) /
-                               (w_ITRF_GCRF_in_ITRF_z - nodalPrecessionRate.in(AngularVelocitySIUnit));
+                const double k = meanMotion.in(AngularVelocitySIUnit) /
+                                 (w_ITRF_GCRF_in_ITRF_z - nodalPrecessionRate.in(AngularVelocitySIUnit));
 
-                Real temp1 = std::pow(std::cos(lla.getLatitude().inRadians()), 2.0) -
-                             std::pow(std::cos(inclination.inRadians()), 2.0);
+                double temp1 = std::pow(std::cos(lla.getLatitude().inRadians()), 2.0) -
+                               std::pow(std::cos(inclination.inRadians()), 2.0);
                 temp1 = temp1 > 0.0 ? std::sqrt(temp1) : 0.0;
-                const Real temp2 = k - std::cos(inclination.inRadians());
-                const Real delta = (isPassDescending ? 1.0 : -1.0) * std::atan2(temp1, temp2);
+                const double temp2 = k - std::cos(inclination.inRadians());
+                const double delta = (isPassDescending ? 1.0 : -1.0) * std::atan2(temp1, temp2);
 
                 const Quaternion q_LVLHGDGT_LVLHGD =
                     Quaternion::RotationVector(RotationVector::X(Angle::Radians(delta)));
@@ -763,7 +766,7 @@ void Orbit::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 Orbit Orbit::Undefined()
 {
-    return {Array<State>::Empty(), Integer::Undefined(), nullptr};
+    return {Array<State>::Empty(), DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER, nullptr};
 }
 
 Orbit Orbit::Circular(
@@ -843,10 +846,10 @@ Orbit Orbit::Equatorial(
         );
     }
 
-    const Real r_a = aCelestialObjectSPtr->getEquatorialRadius().inMeters() + anApoapsisAltitude.inMeters();
-    const Real r_p = aCelestialObjectSPtr->getEquatorialRadius().inMeters() + aPeriapsisAltitude.inMeters();
+    const double r_a = aCelestialObjectSPtr->getEquatorialRadius().inMeters() + anApoapsisAltitude.inMeters();
+    const double r_p = aCelestialObjectSPtr->getEquatorialRadius().inMeters() + aPeriapsisAltitude.inMeters();
 
-    const Real eccentricity = (r_a - r_p) / (r_a + r_p);
+    const double eccentricity = (r_a - r_p) / (r_a + r_p);
     const Length semiMajorAxis = Length::Meters(r_a / (1.0 + eccentricity));
 
     const COE coe = COE::Equatorial(semiMajorAxis, eccentricity);
@@ -984,7 +987,7 @@ Orbit Orbit::Frozen(
     const Instant& anEpoch,
     const Length& anAltitude,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -1063,13 +1066,8 @@ String Orbit::generateFrameName(const Orbit::FrameType& aFrameType) const
     return String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), stringStream.str());
 }
 
-Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
+Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, int anInitialRevolutionNumber)
 {
-    if (!anInitialRevolutionNumber.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Initial revolution number");
-    }
-
     if (aStateArray.getSize() < 2)
     {
         throw ostk::core::error::RuntimeError(
@@ -1125,10 +1123,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, c
 }
 
 Array<Pass> Orbit::ComputePassesWithModel(
-    const orbit::Model& aModel,
-    const Instant& aStartInstant,
-    const Instant& anEndInstant,
-    const Integer& aRevolutionNumber
+    const orbit::Model& aModel, const Instant& aStartInstant, const Instant& anEndInstant, int aRevolutionNumber
 )
 {
     // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)
@@ -1138,18 +1133,13 @@ Array<Pass> Orbit::ComputePassesWithModel(
         throw ostk::core::error::runtime::Undefined("Model");
     }
 
-    if (!aRevolutionNumber.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Revolution number");
-    }
-
     Array<Pass> passes = Array<Pass>::Empty();
 
-    Integer revolutionNumber = aRevolutionNumber;
+    int revolutionNumber = aRevolutionNumber;
     Instant previousInstant = aStartInstant;
     State previousState = aModel.calculateStateAt(previousInstant);
 
-    Instant previousPassEndInstant = (Real(previousState.getPosition().accessCoordinates().z()).isNear(0.0, epsilon))
+    Instant previousPassEndInstant = (std::abs(previousState.getPosition().accessCoordinates().z()) <= epsilon)
                                        ? previousState.accessInstant()
                                        : Instant::Undefined();
 
@@ -1256,10 +1246,10 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
     const Instant epoch = aModel.getEpoch();
 
     const State previousState = aModel.calculateStateAt(previousInstant);
-    Real previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
-    Real previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
+    double previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
+    double previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
 
-    const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> Real
+    const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> double
     {
         return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getPosition()
@@ -1267,7 +1257,7 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
             .z();
     };
 
-    const auto getZDot = [&aModel, &epoch](const double& aDurationInSeconds) -> Real
+    const auto getZDot = [&aModel, &epoch](const double& aDurationInSeconds) -> double
     {
         return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getVelocity()
@@ -1294,8 +1284,8 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
         }
 
         const State currentState = aModel.calculateStateAt(currentInstant);
-        const Real currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
-        const Real currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
+        const double currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
+        const double currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
 
         if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
         {

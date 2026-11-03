@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model__
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
@@ -18,8 +16,6 @@ namespace trajectory
 {
 namespace orbit
 {
-
-using ostk::core::type::Integer;
 
 using ostk::physics::time::Instant;
 
@@ -53,7 +49,7 @@ class Model : public virtual ostk::astrodynamics::trajectory::Model
     /// @brief Get the revolution number at the epoch.
     ///
     /// @return The revolution number at epoch.
-    virtual Integer getRevolutionNumberAtEpoch() const = 0;
+    virtual int getRevolutionNumberAtEpoch() const = 0;
 
     /// @brief Calculate the state at a given instant.
     ///
@@ -64,12 +60,12 @@ class Model : public virtual ostk::astrodynamics::trajectory::Model
     /// @brief Calculate the revolution number at a given instant.
     ///
     /// @code{.cpp}
-    ///     Integer revolutionNumber = model.calculateRevolutionNumberAt(instant) ;
+    ///     int revolutionNumber = model.calculateRevolutionNumberAt(instant) ;
     /// @endcode
     ///
     /// @param anInstant An instant at which to calculate the revolution number.
     /// @return The revolution number at the given instant.
-    virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const;
+    virtual int calculateRevolutionNumberAt(const Instant& anInstant) const;
 
     /// @brief Print the orbit model to an output stream.
     ///

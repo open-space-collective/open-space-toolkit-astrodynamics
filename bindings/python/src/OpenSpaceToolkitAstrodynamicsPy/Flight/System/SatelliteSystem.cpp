@@ -6,8 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
-
     using ostk::mathematics::geometry::d3::object::Composite;
     using ostk::mathematics::object::Matrix3d;
 
@@ -28,8 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
         )
 
             .def(
-                init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&, const PropulsionSystem&>(
-                ),
+                init<const Mass&, const Composite&, const Matrix3d&, double, double, const PropulsionSystem&>(),
                 R"doc(
                     Constructor.
 

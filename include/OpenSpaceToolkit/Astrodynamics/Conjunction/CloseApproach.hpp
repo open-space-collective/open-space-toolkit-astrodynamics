@@ -6,7 +6,6 @@
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -27,7 +26,6 @@ namespace conjunction
 {
 
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
@@ -140,7 +138,8 @@ class CloseApproach
     /// @param aScaleFactor2 The scale factor for Object 2 covariance. Defaults to std::nullopt
     /// @return A new Close Approach with scaled covariances
     CloseApproach scale(
-        const std::optional<Real>& aScaleFactor1 = std::nullopt, const std::optional<Real>& aScaleFactor2 = std::nullopt
+        const std::optional<double>& aScaleFactor1 = std::nullopt,
+        const std::optional<double>& aScaleFactor2 = std::nullopt
     ) const;
 
     /// @brief Return a new Close Approach with Object 1 and Object 2 swapped

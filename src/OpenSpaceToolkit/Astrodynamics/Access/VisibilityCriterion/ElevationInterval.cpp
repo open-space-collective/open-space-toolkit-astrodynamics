@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp>
 
 namespace ostk
@@ -33,7 +35,7 @@ bool VisibilityCriterion::ElevationInterval::isSatisfied(const Angle& anElevatio
     return this->elevation.contains(anElevationAngle.inRadians());
 }
 
-bool VisibilityCriterion::ElevationInterval::isSatisfied(const Real& anElevation) const
+bool VisibilityCriterion::ElevationInterval::isSatisfied(double anElevation) const
 {
     return this->elevation.contains(anElevation);
 }

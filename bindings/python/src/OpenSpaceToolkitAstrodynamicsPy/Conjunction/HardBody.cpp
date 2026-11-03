@@ -36,7 +36,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody(pybind11::modul
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Real;
 
     using ostk::mathematics::geometry::d2::object::Point;
 
@@ -81,7 +80,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody(pybind11::modul
     )
 
         .def(
-            init<const Array<Point>&, const Real&>(),
+            init<const Array<Point>&, double>(),
             R"doc(
                 Constructor.
 

@@ -1,9 +1,10 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <gtest/gtest.h>
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -16,7 +17,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp>
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -37,10 +37,10 @@ using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial;
 
 // Define a tolerance for floating point comparisons
-const Real TOLERANCE = 1e-8;            // A bit tighter for ModifiedEquinoctial elements themselves
-const Real POSITION_TOLERANCE = 1e-4;   // meters, can be influenced by many factors
-const Real VELOCITY_TOLERANCE = 1e-10;  // m/s
-const Real ANGLE_TOLERANCE = 1e-5;      // radians
+const double TOLERANCE = 1e-8;            // A bit tighter for ModifiedEquinoctial elements themselves
+const double POSITION_TOLERANCE = 1e-4;   // meters, can be influenced by many factors
+const double VELOCITY_TOLERANCE = 1e-10;  // m/s
+const double ANGLE_TOLERANCE = 1e-5;      // radians
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial : public ::testing::Test
 {
@@ -50,10 +50,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquin
     const Instant defaultInstant_ = Instant::J2000();
 
     const Length semiLatusRectum_ = Length::Kilometers(7000.0);
-    const Real eccentricityX_ = 0.01;
-    const Real eccentricityY_ = 0.02;
-    const Real nodeX_ = 0.03;
-    const Real nodeY_ = 0.04;
+    const double eccentricityX_ = 0.01;
+    const double eccentricityY_ = 0.02;
+    const double nodeX_ = 0.03;
+    const double nodeY_ = 0.04;
     const Angle trueLongitude_ = Angle::Degrees(30.0);
     const ModifiedEquinoctial modifiedEquinoctial_ = {
         semiLatusRectum_, eccentricityX_, eccentricityY_, nodeX_, nodeY_, trueLongitude_
@@ -115,18 +115,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Operators)
 {
     const Length p1 = Length::Kilometers(7000.0);
-    const Real f1 = 0.01;
-    const Real g1 = 0.02;
-    const Real h1 = 0.03;
-    const Real k1 = 0.04;
+    const double f1 = 0.01;
+    const double g1 = 0.02;
+    const double h1 = 0.03;
+    const double k1 = 0.04;
     const Angle L1 = Angle::Degrees(30.0);
     const ModifiedEquinoctial meoe1(p1, f1, g1, h1, k1, L1);
 
     const Length p2 = Length::Kilometers(7000.0);
-    const Real f2 = 0.01;
-    const Real g2 = 0.02;
-    const Real h2 = 0.03;
-    const Real k2 = 0.04;
+    const double f2 = 0.01;
+    const double g2 = 0.02;
+    const double h2 = 0.03;
+    const double k2 = 0.04;
     const Angle L2 = Angle::Degrees(30.0);
     const ModifiedEquinoctial meoe2(p2, f2, g2, h2, k2, L2);
 
@@ -208,16 +208,14 @@ TEST_F(
     EXPECT_THROW(meoe_q_zero1.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
 
     // Case 2: g = -1, L = PI/2
-    const ModifiedEquinoctial meoe_q_zero2(
-        Length::Kilometers(7000.0), 0.0, -1.0, 0.0, 0.0, Angle::Radians(Real::Pi() / 2.0)
-    );
+    const ModifiedEquinoctial meoe_q_zero2(Length::Kilometers(7000.0), 0.0, -1.0, 0.0, 0.0, Angle::Radians(M_PI / 2.0));
     EXPECT_THROW(meoe_q_zero2.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
 
     // Case 3: f = 1/sqrt(2), g = 1/sqrt(2), L = 5PI/4 (cosL = -1/sqrt(2), sinL = -1/sqrt(2))
     // q = 1 + (1/sqrt(2))*(-1/sqrt(2)) + (1/sqrt(2))*(-1/sqrt(2)) = 1 - 1/2 - 1/2 = 0
-    const Real val = 1.0 / std::sqrt(2.0);
+    const double val = 1.0 / std::sqrt(2.0);
     const ModifiedEquinoctial meoe_q_zero3(
-        Length::Kilometers(7000.0), val, val, 0.0, 0.0, Angle::Radians(5.0 * Real::Pi() / 4.0)
+        Length::Kilometers(7000.0), val, val, 0.0, 0.0, Angle::Radians(5.0 * M_PI / 4.0)
     );
     EXPECT_THROW(meoe_q_zero3.getCartesianState(earthGravitationalParameter_, gcrf_), ostk::core::error::RuntimeError);
 }
@@ -225,7 +223,7 @@ TEST_F(
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_GeneralElliptical)
 {
     const Length sma = Length::Kilometers(24396.137);
-    const Real ecc = 0.7308;
+    const double ecc = 0.7308;
     const Angle inc = Angle::Degrees(7.0);
     const Angle raan = Angle::Degrees(45.0);
     const Angle aop = Angle::Degrees(90.0);
@@ -240,14 +238,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     ASSERT_TRUE(modifiedEquinoctial.isDefined());
 
     // Expected values
-    const Real p_expected_m = sma.inMeters() * (1.0 - ecc * ecc);
-    const Real L_expected_rad =
-        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, Real::TwoPi());
-    const Real f_expected = ecc * std::cos(aop.inRadians() + raan.inRadians());
-    const Real g_expected = ecc * std::sin(aop.inRadians() + raan.inRadians());
-    const Real tan_i_half_expected = std::tan(inc.inRadians() / 2.0);
-    const Real h_expected = tan_i_half_expected * std::cos(raan.inRadians());
-    const Real k_expected = tan_i_half_expected * std::sin(raan.inRadians());
+    const double p_expected_m = sma.inMeters() * (1.0 - ecc * ecc);
+    const double L_expected_rad =
+        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, 2.0 * M_PI);
+    const double f_expected = ecc * std::cos(aop.inRadians() + raan.inRadians());
+    const double g_expected = ecc * std::sin(aop.inRadians() + raan.inRadians());
+    const double tan_i_half_expected = std::tan(inc.inRadians() / 2.0);
+    const double h_expected = tan_i_half_expected * std::cos(raan.inRadians());
+    const double k_expected = tan_i_half_expected * std::sin(raan.inRadians());
 
     EXPECT_NEAR(
         p_expected_m, modifiedEquinoctial.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE
@@ -262,7 +260,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_Circular)
 {
     const Length sma = Length::Kilometers(7000.0);  // LEO
-    const Real ecc = 0.0;                           // Circular
+    const double ecc = 0.0;                         // Circular
     const Angle inc = Angle::Degrees(28.5);
     const Angle raan = Angle::Degrees(10.0);
     const Angle aop = Angle::Degrees(0.0);  // AOP is undefined for circular, often set to 0 or longitude of periapsis
@@ -282,17 +280,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(0.0, modifiedEquinoctial.getEccentricityX(), TOLERANCE);  // f = e * cos(aop+raan) = 0
     EXPECT_NEAR(0.0, modifiedEquinoctial.getEccentricityY(), TOLERANCE);  // g = e * sin(aop+raan) = 0
 
-    const Real tan_i_half_expected = std::tan(inc.inRadians() / 2.0);
-    const Real h_expected = tan_i_half_expected * std::cos(raan.inRadians());
-    const Real k_expected = tan_i_half_expected * std::sin(raan.inRadians());
+    const double tan_i_half_expected = std::tan(inc.inRadians() / 2.0);
+    const double h_expected = tan_i_half_expected * std::cos(raan.inRadians());
+    const double k_expected = tan_i_half_expected * std::sin(raan.inRadians());
     // For circular orbit, L = RAAN + AOP + TA. If AOP is taken as 0, L = RAAN + TA (true argument of latitude)
     // The ModifiedEquinoctial definition L = raan + aop + ta. For e=0, aop is ill-defined in COE.
     // However, the sum aop+ta (argument of latitude from ascending node) is well defined.
     // And for ModifiedEquinoctial, L = true longitude. For e=0, f=0, g=0.
     // L should be raan + argument_of_latitude.
     // COE.getCartesianState will use aop=0 if e=0. So, L = raan_rad + ta_rad
-    const Real L_expected_rad =
-        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, Real::TwoPi());
+    const double L_expected_rad =
+        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, 2.0 * M_PI);
 
     EXPECT_NEAR(h_expected, modifiedEquinoctial.getNodeX(), TOLERANCE);
     EXPECT_NEAR(k_expected, modifiedEquinoctial.getNodeY(), TOLERANCE);
@@ -302,7 +300,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_Equatorial)
 {
     const Length sma = Length::Kilometers(7000.0);
-    const Real ecc = 0.05;
+    const double ecc = 0.05;
     const Angle inc = Angle::Degrees(0.0);  // Equatorial
     const Angle raan =
         Angle::Degrees(0.0);  // RAAN undefined for equatorial, often set to 0 or longitude of ascending node
@@ -318,7 +316,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
         ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_);
 
     ASSERT_TRUE(modifiedEquinoctial.isDefined());
-    const Real p_expected_m = sma.inMeters() * (1.0 - ecc * ecc);
+    const double p_expected_m = sma.inMeters() * (1.0 - ecc * ecc);
     EXPECT_NEAR(p_expected_m, modifiedEquinoctial.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE);
     EXPECT_NEAR(0.0, modifiedEquinoctial.getNodeX(), TOLERANCE);  // h = tan(0/2)*cos(raan) = 0
     EXPECT_NEAR(0.0, modifiedEquinoctial.getNodeY(), TOLERANCE);  // k = tan(0/2)*sin(raan) = 0
@@ -328,10 +326,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     // g = ecc * sin(aop) (since raan=0)
     // The ModifiedEquinoctial definition has L = raan + aop + ta. If raan=0 (as per COE convention for i=0), then
     // L=aop+ta. And f = ecc * cos(aop+raan), g = ecc * sin(aop+raan)
-    const Real L_expected_rad =
-        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, Real::TwoPi());
-    const Real f_expected = ecc * std::cos(aop.inRadians() + raan.inRadians());
-    const Real g_expected = ecc * std::sin(aop.inRadians() + raan.inRadians());
+    const double L_expected_rad =
+        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, 2.0 * M_PI);
+    const double f_expected = ecc * std::cos(aop.inRadians() + raan.inRadians());
+    const double g_expected = ecc * std::sin(aop.inRadians() + raan.inRadians());
 
     EXPECT_NEAR(f_expected, modifiedEquinoctial.getEccentricityX(), TOLERANCE);
     EXPECT_NEAR(g_expected, modifiedEquinoctial.getEccentricityY(), TOLERANCE);
@@ -341,7 +339,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Cartesian_CircularEquatorial)
 {
     const Length sma = Length::Kilometers(42164.0);  // GEO
-    const Real ecc = 0.0;
+    const double ecc = 0.0;
     const Angle inc = Angle::Degrees(0.0);
     const Angle raan = Angle::Degrees(0.0);  // Undefined, conventionally 0
     const Angle aop = Angle::Degrees(0.0);   // Undefined, conventionally 0
@@ -369,8 +367,8 @@ TEST_F(
 {
     // Create a COE with inclination = 180 degrees (PI radians)
     const Length sma = Length::Kilometers(10000.0);
-    const Real ecc = 0.1;
-    const Angle inc = Angle::Radians(Real::Pi());  // 180 degrees
+    const double ecc = 0.1;
+    const Angle inc = Angle::Radians(M_PI);  // 180 degrees
     const Angle raan = Angle::Degrees(0.0);
     const Angle aop = Angle::Degrees(0.0);
     const Angle ta = Angle::Degrees(0.0);
@@ -409,10 +407,10 @@ TEST_F(
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, RoundTrip_MEOE_Cartesian_MEOE)
 {
     const Length p_initial = Length::Kilometers(10000.0);
-    const Real f_initial = 0.1;
-    const Real g_initial = -0.05;
-    const Real h_initial = 0.2;
-    const Real k_initial = -0.15;
+    const double f_initial = 0.1;
+    const double g_initial = -0.05;
+    const double h_initial = 0.2;
+    const double k_initial = -0.15;
     const Angle L_initial = Angle::Degrees(120.0);
 
     const ModifiedEquinoctial meoe_initial(p_initial, f_initial, g_initial, h_initial, k_initial, L_initial);
@@ -434,8 +432,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(meoe_initial.getNodeX(), meoe_final.getNodeX(), TOLERANCE);
     EXPECT_NEAR(meoe_initial.getNodeY(), meoe_final.getNodeY(), TOLERANCE);
     EXPECT_NEAR(
-        meoe_initial.getTrueLongitude().inRadians(0.0, Real::TwoPi()),
-        meoe_final.getTrueLongitude().inRadians(0.0, Real::TwoPi()),
+        meoe_initial.getTrueLongitude().inRadians(0.0, 2.0 * M_PI),
+        meoe_final.getTrueLongitude().inRadians(0.0, 2.0 * M_PI),
         ANGLE_TOLERANCE
     );
 }
@@ -459,8 +457,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
     // Values from Orekit testEquinoctialToEquinoctialEll
     const Length sma = Length::Meters(42166712.0);
-    const Real ecc = 0.5;  // This is quite high eccentricity
-    const Real inc_rad = 2.0 * std::asin(std::sqrt((1.200e-04 * 1.200e-04 + 1.16e-04 * 1.16e-04) / 4.0));
+    const double ecc = 0.5;  // This is quite high eccentricity
+    const double inc_rad = 2.0 * std::asin(std::sqrt((1.200e-04 * 1.200e-04 + 1.16e-04 * 1.16e-04) / 4.0));
     const Angle inc = Angle::Radians(inc_rad);
     const Angle raan = Angle::Radians(5.51473467358854);  // From Orekit test
     const Angle aop = Angle::Radians(-3.87224326008837);  // From Orekit test
@@ -472,20 +470,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     ASSERT_TRUE(meoe.isDefined());
 
     // Expected values based on Orekit test
-    const Real p_expected = sma.inMeters() * (1.0 - ecc * ecc);
-    const Real f_expected = ecc * std::cos(aop.inRadians() + raan.inRadians());
-    const Real g_expected = ecc * std::sin(aop.inRadians() + raan.inRadians());
-    const Real h_expected = std::tan(inc.inRadians() / 2.0) * std::cos(raan.inRadians());
-    const Real k_expected = std::tan(inc.inRadians() / 2.0) * std::sin(raan.inRadians());
-    const Real L_expected =
-        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, Real::TwoPi());
+    const double p_expected = sma.inMeters() * (1.0 - ecc * ecc);
+    const double f_expected = ecc * std::cos(aop.inRadians() + raan.inRadians());
+    const double g_expected = ecc * std::sin(aop.inRadians() + raan.inRadians());
+    const double h_expected = std::tan(inc.inRadians() / 2.0) * std::cos(raan.inRadians());
+    const double k_expected = std::tan(inc.inRadians() / 2.0) * std::sin(raan.inRadians());
+    const double L_expected =
+        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, 2.0 * M_PI);
 
     EXPECT_NEAR(p_expected, meoe.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE);
     EXPECT_NEAR(f_expected, meoe.getEccentricityX(), TOLERANCE);
     EXPECT_NEAR(g_expected, meoe.getEccentricityY(), TOLERANCE);
     EXPECT_NEAR(h_expected, meoe.getNodeX(), TOLERANCE);
     EXPECT_NEAR(k_expected, meoe.getNodeY(), TOLERANCE);
-    EXPECT_NEAR(L_expected, meoe.getTrueLongitude().inRadians(0.0, Real::TwoPi()), ANGLE_TOLERANCE);
+    EXPECT_NEAR(L_expected, meoe.getTrueLongitude().inRadians(0.0, 2.0 * M_PI), ANGLE_TOLERANCE);
 }
 
 // Test based on Orekit testEquinoctialToEquinoctialCirc
@@ -493,8 +491,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 {
     // Values from Orekit testEquinoctialToEquinoctialCirc
     const Length sma = Length::Meters(42166712.0);
-    const Real ecc = 0.1e-10;  // Nearly circular
-    const Real inc_rad = 2.0 * std::asin(std::sqrt((1.200e-04 * 1.200e-04 + 1.16e-04 * 1.16e-04) / 4.0));
+    const double ecc = 0.1e-10;  // Nearly circular
+    const double inc_rad = 2.0 * std::asin(std::sqrt((1.200e-04 * 1.200e-04 + 1.16e-04 * 1.16e-04) / 4.0));
     const Angle inc = Angle::Radians(inc_rad);
     const Angle raan = Angle::Radians(5.51473467358854);
     const Angle aop = Angle::Radians(-3.87224326008837);
@@ -510,23 +508,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(0.0, meoe.getEccentricityX(), TOLERANCE);
     EXPECT_NEAR(0.0, meoe.getEccentricityY(), TOLERANCE);
 
-    const Real h_expected = std::tan(inc.inRadians() / 2.0) * std::cos(raan.inRadians());
-    const Real k_expected = std::tan(inc.inRadians() / 2.0) * std::sin(raan.inRadians());
+    const double h_expected = std::tan(inc.inRadians() / 2.0) * std::cos(raan.inRadians());
+    const double k_expected = std::tan(inc.inRadians() / 2.0) * std::sin(raan.inRadians());
     EXPECT_NEAR(h_expected, meoe.getNodeX(), TOLERANCE);
     EXPECT_NEAR(k_expected, meoe.getNodeY(), TOLERANCE);
 
-    const Real L_expected =
-        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, Real::TwoPi());
-    EXPECT_NEAR(L_expected, meoe.getTrueLongitude().inRadians(0.0, Real::TwoPi()), ANGLE_TOLERANCE);
+    const double L_expected =
+        Angle::Radians(raan.inRadians() + aop.inRadians() + ta.inRadians()).inRadians(0.0, 2.0 * M_PI);
+    EXPECT_NEAR(L_expected, meoe.getTrueLongitude().inRadians(0.0, 2.0 * M_PI), ANGLE_TOLERANCE);
 }
 
 // Test based on Orekit testEquinoctialToCartesian
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, COE_OrekitCartesian)
 {
-    const Real hx = 6.000000020892001E-5;
-    const Real hy = -5.8000000201956006E-5;
-    const Real ex = -7.9E-6;
-    const Real ey = 1.1E-4;
+    const double hx = 6.000000020892001E-5;
+    const double hy = -5.8000000201956006E-5;
+    const double ex = -7.9E-6;
+    const double ey = 1.1E-4;
     const Length p = Length::Meters(4.216671148715116E7);
     const Angle l = Angle::Radians(5.299891200518183);
 
@@ -538,14 +536,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const Pair<Position, Velocity> cartesianState = meoe.getCartesianState(earthGravitationalParameter_, gcrf_);
 
     // Expected position from Orekit test
-    const Real expectedPosX = 23374566.86787335;
-    const Real expectedPosY = -35099891.435266934;
-    const Real expectedPosZ = -1500.5372312333;
+    const double expectedPosX = 23374566.86787335;
+    const double expectedPosY = -35099891.435266934;
+    const double expectedPosZ = -1500.5372312333;
 
     // Expected velocity from Orekit test
-    const Real expectedVelX = 2558.7095644069;
-    const Real expectedVelY = 1704.1585429854;
-    const Real expectedVelZ = 0.5013093399;
+    const double expectedVelX = 2558.7095644069;
+    const double expectedVelY = 1704.1585429854;
+    const double expectedVelZ = 0.5013093399;
 
     EXPECT_NEAR(expectedPosX, cartesianState.first.accessCoordinates()[0], POSITION_TOLERANCE);
     EXPECT_NEAR(expectedPosY, cartesianState.first.accessCoordinates()[1], POSITION_TOLERANCE);
@@ -561,8 +559,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 {
     // Values from Orekit testEquinoctialToKeplerian
     const Length sma = Length::Meters(42166712.0);
-    const Real ecc = 0.110283316961361e-03;
-    const Real inc_rad = 0.166901168553917e-03;
+    const double ecc = 0.110283316961361e-03;
+    const double inc_rad = 0.166901168553917e-03;
     const Angle inc = Angle::Radians(inc_rad);
     const Angle raan = Angle::Radians(5.51473467358854);
     const Angle aop = Angle::Radians(-3.87224326008837);
@@ -585,14 +583,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(inc.inRadians(), coeFinal.getInclination().inRadians(), ANGLE_TOLERANCE);
 
     // For angles, normalize and compare
-    const Real raan_normalized = Angle::Radians(raan.inRadians()).inRadians(0.0, Real::TwoPi());
-    const Real aop_normalized = Angle::Radians(aop.inRadians()).inRadians(0.0, Real::TwoPi());
-    const Real ta_normalized = Angle::Radians(ta.inRadians()).inRadians(0.0, Real::TwoPi());
+    const double raan_normalized = Angle::Radians(raan.inRadians()).inRadians(0.0, 2.0 * M_PI);
+    const double aop_normalized = Angle::Radians(aop.inRadians()).inRadians(0.0, 2.0 * M_PI);
+    const double ta_normalized = Angle::Radians(ta.inRadians()).inRadians(0.0, 2.0 * M_PI);
 
-    const Real raan_final_normalized = Angle::Radians(coeFinal.getRaan().inRadians()).inRadians(0.0, Real::TwoPi());
-    const Real aop_final_normalized = Angle::Radians(coeFinal.getAop().inRadians()).inRadians(0.0, Real::TwoPi());
-    const Real ta_final_normalized =
-        Angle::Radians(coeFinal.getTrueAnomaly().inRadians()).inRadians(0.0, Real::TwoPi());
+    const double raan_final_normalized = Angle::Radians(coeFinal.getRaan().inRadians()).inRadians(0.0, 2.0 * M_PI);
+    const double aop_final_normalized = Angle::Radians(coeFinal.getAop().inRadians()).inRadians(0.0, 2.0 * M_PI);
+    const double ta_final_normalized = Angle::Radians(coeFinal.getTrueAnomaly().inRadians()).inRadians(0.0, 2.0 * M_PI);
 
     EXPECT_NEAR(raan_normalized, raan_final_normalized, ANGLE_TOLERANCE);
     EXPECT_NEAR(aop_normalized, aop_final_normalized, ANGLE_TOLERANCE);
@@ -604,7 +601,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 {
     // Test with negative semi-major axis (hyperbolic)
     const Length sma = Length::Meters(-42166712.0);
-    const Real ecc = 1.9;
+    const double ecc = 1.9;
     const Angle inc = Angle::Degrees(0.5);
     const Angle raan = Angle::Degrees(0.01);
     const Angle aop = Angle::Degrees(-0.02);
@@ -622,7 +619,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 {
     // Test with eccentricity = 1.0 (parabolic)
     const Length sma = Length::Meters(42166712.0);
-    const Real ecc = 1.0;
+    const double ecc = 1.0;
     const Angle inc = Angle::Degrees(45.0);
     const Angle raan = Angle::Degrees(0.0);
     const Angle aop = Angle::Degrees(90.0);
@@ -654,7 +651,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     // general elliptical orbit
     {
         const Length sma = Length::Kilometers(24396.137);
-        const Real ecc = 0.7308;
+        const double ecc = 0.7308;
         const Angle inc = Angle::Degrees(7.0);
         const Angle raan = Angle::Degrees(45.0);
         const Angle aop = Angle::Degrees(90.0);

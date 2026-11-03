@@ -3,7 +3,6 @@
 #include <gmock/gmock.h>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
@@ -22,7 +21,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Unique;

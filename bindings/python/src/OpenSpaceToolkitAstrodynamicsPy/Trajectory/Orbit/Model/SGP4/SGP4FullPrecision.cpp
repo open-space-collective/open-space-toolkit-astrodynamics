@@ -8,7 +8,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
 
     using ostk::core::container::Array;
     using ostk::core::type::Integer;
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
@@ -34,11 +33,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
                 const Instant&,
                 const Angle&,
                 const Angle&,
-                const Real&,
+                double,
                 const Angle&,
                 const Angle&,
                 const Derived&,
-                const Real&,
+                double,
                 const Integer&,
                 const Shared<const Frame>&>(),
             R"doc(

@@ -1,8 +1,11 @@
 /// Apache License 2.0
 
 #include <cctype>
+#include <cmath>
 #include <iostream>
+#include <limits>
 
+#include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
@@ -12,6 +15,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -26,7 +30,85 @@ namespace model
 namespace sgp4
 {
 
-const Integer TLE::MaximumSatelliteNumber = 339999;
+namespace
+{
+
+/// @brief Parse a string into a double
+///
+/// "NaN" and "Undefined" map to NaN, and "Inf", "+Inf" and "-Inf" map to infinities.
+///
+/// @param [in] aString A string
+/// @return Parsed value
+double ParseDouble(const String& aString)
+{
+    if (aString.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("String");
+    }
+
+    if ((aString == "Undefined") || (aString == "NaN"))
+    {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+
+    if ((aString == "Inf") || (aString == "+Inf"))
+    {
+        return std::numeric_limits<double>::infinity();
+    }
+
+    if (aString == "-Inf")
+    {
+        return -std::numeric_limits<double>::infinity();
+    }
+
+    double value = 0.0;
+
+    if ((!boost::conversion::try_lexical_convert<double>(aString, value)) || std::isnan(value))
+    {
+        throw ostk::core::error::RuntimeError("Cannot cast string [" + aString + "] to Real.");
+    }
+
+    return value;
+}
+
+/// @brief Parse a string into an int
+///
+/// @param [in] aString A string
+/// @return Parsed value
+int ParseInt(const String& aString)
+{
+    if (aString.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("String");
+    }
+
+    int value = 0;
+
+    if (!boost::conversion::try_lexical_convert<int>(aString, value))
+    {
+        throw ostk::core::error::RuntimeError("Cannot cast string [" + aString + "] to Integer.");
+    }
+
+    return value;
+}
+
+/// @brief Parse a digit character into an int
+///
+/// @param [in] aCharacter A character
+/// @return Parsed value
+int ParseInt(char aCharacter)
+{
+    if (!std::isdigit(static_cast<unsigned char>(aCharacter)))
+    {
+        throw ostk::core::error::RuntimeError("Cannot cast character [" + String::Char(aCharacter) + "] to Integer.");
+    }
+
+    return aCharacter - '0';
+}
+
+}  // namespace
+
+const int TLE::MaximumSatelliteNumber = 339999;
 
 TLE::TLE(const String& aFirstLine, const String& aSecondLine, const std::optional<String>& aSatelliteName)
     : satelliteName_(aSatelliteName),
@@ -90,7 +172,7 @@ String TLE::getSecondLine() const
     return secondLine_;
 }
 
-Integer TLE::getSatelliteNumber() const
+int TLE::getSatelliteNumber() const
 {
     if (!this->isDefined())
     {
@@ -144,28 +226,28 @@ Instant TLE::getEpoch() const
     const String epochYearTwoDigitsString = firstLine_.getSubstring(18, 2).trim();
     const String epochDayString = firstLine_.getSubstring(20, 12).trim();
 
-    const Integer epochYearTwoDigits = Integer::Parse(epochYearTwoDigitsString);
+    const int epochYearTwoDigits = ParseInt(epochYearTwoDigitsString);
 
     // See: https://www.celestrak.com/columns/v04n03/
 
-    const Integer epochYear =
+    const int epochYear =
         (((epochYearTwoDigits >= 57) && (epochYearTwoDigits <= 99)) ? 1900 : 2000) + epochYearTwoDigits;
-    const Real epochDay = Real::Parse(epochDayString);
+    const double epochDay = ParseDouble(epochDayString);
 
     return Instant::DateTime(DateTime(epochYear, 1, 1, 0, 0, 0), Scale::UTC) + Duration::Days(epochDay - 1.0);
 }
 
-Real TLE::getMeanMotionFirstTimeDerivativeDividedByTwo() const
+double TLE::getMeanMotionFirstTimeDerivativeDividedByTwo() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Real::Parse(firstLine_.getSubstring(33, 10).trim());
+    return ParseDouble(firstLine_.getSubstring(33, 10).trim());
 }
 
-Real TLE::getMeanMotionSecondTimeDerivativeDividedBySix() const
+double TLE::getMeanMotionSecondTimeDerivativeDividedBySix() const
 {
     if (!this->isDefined())
     {
@@ -175,7 +257,7 @@ Real TLE::getMeanMotionSecondTimeDerivativeDividedBySix() const
     return TLE::ParseReal(firstLine_.getSubstring(44, 8).trim(), true);
 }
 
-Real TLE::getBStarDragTerm() const
+double TLE::getBStarDragTerm() const
 {
     if (!this->isDefined())
     {
@@ -185,34 +267,34 @@ Real TLE::getBStarDragTerm() const
     return TLE::ParseReal(firstLine_.getSubstring(53, 8).trim(), true);
 }
 
-Integer TLE::getEphemerisType() const
+int TLE::getEphemerisType() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Integer::Parse(firstLine_.getSubstring(62, 1));
+    return ParseInt(firstLine_.getSubstring(62, 1));
 }
 
-Integer TLE::getElementSetNumber() const
+int TLE::getElementSetNumber() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Integer::Parse(firstLine_.getSubstring(64, 4).trim());
+    return ParseInt(firstLine_.getSubstring(64, 4).trim());
 }
 
-Integer TLE::getFirstLineChecksum() const
+int TLE::getFirstLineChecksum() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Integer::Parse(firstLine_.getSubstring(68, 1));
+    return ParseInt(firstLine_.getSubstring(68, 1));
 }
 
 Angle TLE::getInclination() const
@@ -222,7 +304,7 @@ Angle TLE::getInclination() const
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Angle::Degrees(Real::Parse(secondLine_.getSubstring(8, 8).trim()));
+    return Angle::Degrees(ParseDouble(secondLine_.getSubstring(8, 8).trim()));
 }
 
 Angle TLE::getRaan() const
@@ -232,17 +314,17 @@ Angle TLE::getRaan() const
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Angle::Degrees(Real::Parse(secondLine_.getSubstring(17, 8).trim()));
+    return Angle::Degrees(ParseDouble(secondLine_.getSubstring(17, 8).trim()));
 }
 
-Real TLE::getEccentricity() const
+double TLE::getEccentricity() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Real::Parse("0." + secondLine_.getSubstring(26, 7).trim());
+    return ParseDouble("0." + secondLine_.getSubstring(26, 7).trim());
 }
 
 Angle TLE::getAop() const
@@ -252,7 +334,7 @@ Angle TLE::getAop() const
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Angle::Degrees(Real::Parse(secondLine_.getSubstring(34, 8).trim()));
+    return Angle::Degrees(ParseDouble(secondLine_.getSubstring(34, 8).trim()));
 }
 
 Angle TLE::getMeanAnomaly() const
@@ -262,7 +344,7 @@ Angle TLE::getMeanAnomaly() const
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Angle::Degrees(Real::Parse(secondLine_.getSubstring(43, 8).trim()));
+    return Angle::Degrees(ParseDouble(secondLine_.getSubstring(43, 8).trim()));
 }
 
 Derived TLE::getMeanMotion() const
@@ -273,29 +355,29 @@ Derived TLE::getMeanMotion() const
     }
 
     return Derived(
-        Real::Parse(secondLine_.getSubstring(52, 11).trim()),
+        ParseDouble(secondLine_.getSubstring(52, 11).trim()),
         Derived::Unit::AngularVelocity(Angle::Unit::Revolution, physics::unit::Time::Unit::Day)
     );
 }
 
-Integer TLE::getRevolutionNumberAtEpoch() const
+int TLE::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Integer::Parse(secondLine_.getSubstring(63, 5).trim());
+    return ParseInt(secondLine_.getSubstring(63, 5).trim());
 }
 
-Integer TLE::getSecondLineChecksum() const
+int TLE::getSecondLineChecksum() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    return Integer::Parse(secondLine_.getSubstring(68, 1));
+    return ParseInt(secondLine_.getSubstring(68, 1));
 }
 
 void TLE::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -308,38 +390,43 @@ void TLE::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Separator(anOutputStream);
 
     ostk::core::utils::Print::Line(anOutputStream) << "Satellite Name:" << satelliteName_.value_or("Undefined");
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Number:" << this->getSatelliteNumber().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Number:" << std::to_string(this->getSatelliteNumber());
     ostk::core::utils::Print::Line(anOutputStream) << "Classification:" << this->getClassification();
     ostk::core::utils::Print::Line(anOutputStream) << "International Designator:" << this->getInternationalDesignator();
     ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << this->getEpoch().toString();
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Mean Motion First Time Der. / 2:" << this->getMeanMotionFirstTimeDerivativeDividedByTwo().toString();
+        << "Mean Motion First Time Der. / 2:"
+        << utility::DoubleToString(this->getMeanMotionFirstTimeDerivativeDividedByTwo());
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Mean Motion Second Time Der. / 6:" << this->getMeanMotionSecondTimeDerivativeDividedBySix().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "B* Drag Term:" << this->getBStarDragTerm().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:" << this->getEphemerisType().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Element Set Number:" << this->getElementSetNumber().toString();
+        << "Mean Motion Second Time Der. / 6:"
+        << utility::DoubleToString(this->getMeanMotionSecondTimeDerivativeDividedBySix());
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "B* Drag Term:" << utility::DoubleToString(this->getBStarDragTerm());
+    ostk::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:" << std::to_string(this->getEphemerisType());
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Element Set Number:" << std::to_string(this->getElementSetNumber());
     ostk::core::utils::Print::Line(anOutputStream) << "Inclination:" << this->getInclination().toString();
     ostk::core::utils::Print::Line(anOutputStream)
         << "Right Ascension of the Ascending Node :" << this->getRaan().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << this->getEccentricity().toString();
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Eccentricity:" << utility::DoubleToString(this->getEccentricity());
     ostk::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:" << this->getAop().toString();
     ostk::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:" << this->getMeanAnomaly().toString();
     ostk::core::utils::Print::Line(anOutputStream) << "Mean Motion:" << this->getMeanMotion().toString();
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Revolution Number at Epoch:" << this->getRevolutionNumberAtEpoch().toString();
+        << "Revolution Number at Epoch:" << std::to_string(this->getRevolutionNumberAtEpoch());
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void TLE::setSatelliteNumber(const Integer& aSatelliteNumber)
+void TLE::setSatelliteNumber(int aSatelliteNumber)
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    if (aSatelliteNumber.isNegative() || aSatelliteNumber > TLE::MaximumSatelliteNumber)
+    if ((aSatelliteNumber <= 0) || aSatelliteNumber > TLE::MaximumSatelliteNumber)
     {
         throw ostk::core::error::runtime::Wrong(
             String::Format("Satellite number must be in range [0, {}]", TLE::MaximumSatelliteNumber)
@@ -353,11 +440,11 @@ void TLE::setSatelliteNumber(const Integer& aSatelliteNumber)
     const String newIntermediateSecondLine =
         secondLine_.getSubstring(0, 2) + satelliteNumberString + secondLine_.getSubstring(7, 62);
 
-    const Integer firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
-    const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
+    const int firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
+    const int secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
 
-    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + firstLineNewChecksum.toString();
-    secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + secondLineNewChecksum.toString();
+    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + std::to_string(firstLineNewChecksum);
+    secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + std::to_string(secondLineNewChecksum);
 }
 
 void TLE::setEpoch(const Instant& anInstant)
@@ -373,12 +460,12 @@ void TLE::setEpoch(const Instant& anInstant)
     }
 
     const DateTime epochDateTime = anInstant.getDateTime(Scale::UTC);
-    const Integer epochYear = epochDateTime.getDate().getYear();
+    const int epochYear = epochDateTime.getDate().getYear();
     String epochYearTwoDigitsString;
 
     if (epochYear >= 1957 && epochYear <= 2056)
     {
-        epochYearTwoDigitsString = epochYear.toString().getTail(2);
+        epochYearTwoDigitsString = String(std::to_string(epochYear)).getTail(2);
     }
 
     else
@@ -386,26 +473,27 @@ void TLE::setEpoch(const Instant& anInstant)
         throw ostk::core::error::runtime::Wrong("Epoch Year");
     }
 
-    const Real epochDay =
+    const double epochDay =
         Duration::Between(Instant::DateTime(DateTime(epochYear, 1, 1, 0, 0, 0), Scale::UTC), anInstant).inDays() +
         Duration::Days(1.0).inDays();
 
-    const Integer epochDayInteger = epochDay.floor();
-    const String epochDayIntegerString = epochDayInteger.toString();
+    const int epochDayInteger = static_cast<int>(std::floor(epochDay));
+    const String epochDayIntegerString = std::to_string(epochDayInteger);
     const String sanitizedEpochDayIntegerString =
         String::Replicate("0", 3 - epochDayIntegerString.getLength()) + epochDayIntegerString;
 
-    const Real epochDayFraction = epochDay - Real::Integer(epochDayInteger);
-    const String epochDayFractionString = epochDayFraction.toString(8);  // day fraction has 8 decimal places
+    const double epochDayFraction = epochDay - static_cast<double>(epochDayInteger);
+    const String epochDayFractionString =
+        String::Format("{:.8f}", epochDayFraction);  // day fraction has 8 decimal places
     const String sanitizedEpochDayFractionString = epochDayFractionString.getSubstring(1, 9);
 
     const String newIntermediateFirstLine = firstLine_.getSubstring(0, 18) + epochYearTwoDigitsString +
                                             sanitizedEpochDayIntegerString + sanitizedEpochDayFractionString +
                                             firstLine_.getSubstring(32, 37);
 
-    Integer firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
+    int firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
 
-    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + firstLineNewChecksum.toString();
+    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + std::to_string(firstLineNewChecksum);
 
     if (!this->isDefined())
     {
@@ -413,27 +501,27 @@ void TLE::setEpoch(const Instant& anInstant)
     }
 }
 
-void TLE::setRevolutionNumberAtEpoch(const Integer& aRevolutionNumberAtEpoch)
+void TLE::setRevolutionNumberAtEpoch(int aRevolutionNumberAtEpoch)
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("TLE");
     }
 
-    if (aRevolutionNumberAtEpoch > 99999 || aRevolutionNumberAtEpoch.isNegative())
+    if (aRevolutionNumberAtEpoch > 99999 || (aRevolutionNumberAtEpoch <= 0))
     {
         throw ostk::core::error::runtime::Wrong("Provided Revolution Number at Epoch");
     }
 
-    const String revolutionNumberAtEpochString = aRevolutionNumberAtEpoch.toString();
+    const String revolutionNumberAtEpochString = std::to_string(aRevolutionNumberAtEpoch);
     const String sanitizedRevolutionNumberAtEpochString =
         String::Replicate(" ", 5 - revolutionNumberAtEpochString.getLength()) + revolutionNumberAtEpochString;
     const String newIntermediateSecondLine =
         secondLine_.getSubstring(0, 63) + sanitizedRevolutionNumberAtEpochString + secondLine_.getSubstring(68, 1);
 
-    const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
+    const int secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
 
-    secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + secondLineNewChecksum.toString();
+    secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + std::to_string(secondLineNewChecksum);
 
     if (!this->isDefined())
     {
@@ -494,10 +582,11 @@ bool TLE::CanParse(const String& aFirstLine, const String& aSecondLine)
 
     if ((firstLine.getLength() == 69) && (secondLine.getLength() == 69))
     {
-        if (Integer::CanParse(firstLine[68]) && Integer::CanParse(secondLine[68]))
+        if (std::isdigit(static_cast<unsigned char>(firstLine[68])) &&
+            std::isdigit(static_cast<unsigned char>(secondLine[68])))
         {
-            return (Integer::Parse(firstLine[68]) == TLE::GenerateChecksum(firstLine)) &&
-                   (Integer::Parse(secondLine[68]) == TLE::GenerateChecksum(secondLine));
+            return (ParseInt(firstLine[68]) == TLE::GenerateChecksum(firstLine)) &&
+                   (ParseInt(secondLine[68]) == TLE::GenerateChecksum(secondLine));
         }
     }
 
@@ -564,22 +653,22 @@ TLE TLE::Load(const File& aFile)
 
 TLE TLE::Construct(
     const std::optional<String>& aSatelliteName,
-    const Integer& aSatelliteNumber,
+    int aSatelliteNumber,
     const String& aClassification,
     const String& anInternationalDesignator,
     const Instant& anEpoch,
-    const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
-    const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
-    const Real& aBStarDragTerm,
-    const Integer& anEphemerisType,
-    const Integer& anElementSetNumber,
+    double aMeanMotionFirstTimeDerivativeDividedByTwo,
+    double aMeanMotionSecondTimeDerivativeDividedBySix,
+    double aBStarDragTerm,
+    int anEphemerisType,
+    int anElementSetNumber,
     const Angle& anInclination,
     const Angle& aRaan,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anAop,
     const Angle& aMeanAnomaly,
     const Derived& aMeanMotion,
-    const Integer& aRevolutionNumberAtEpoch
+    int aRevolutionNumberAtEpoch
 )
 {
     // https://celestrak.org/columns/v04n03/#FAQ01
@@ -614,7 +703,7 @@ TLE TLE::Construct(
         throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator);
     }
 
-    if (aMeanMotionFirstTimeDerivativeDividedByTwo.abs() > 1.0)
+    if (std::abs(aMeanMotionFirstTimeDerivativeDividedByTwo) > 1.0)
     {
         throw ostk::core::error::runtime::Wrong(
             "Mean motion first time derivative divided by two", aMeanMotionFirstTimeDerivativeDividedByTwo
@@ -636,7 +725,7 @@ TLE TLE::Construct(
         throw ostk::core::error::runtime::Wrong("Eccentricity", anEccentricity);
     }
 
-    const Real meanMotion_revPerDay =
+    const double meanMotion_revPerDay =
         aMeanMotion.in(Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day));
     if ((meanMotion_revPerDay < 0.0) || (meanMotion_revPerDay > 99.99999999))
     {
@@ -650,29 +739,29 @@ TLE TLE::Construct(
 
     const DateTime epochDateTime = anEpoch.getDateTime(Scale::UTC);  // TBC: Scale
 
-    const Integer dayOfYear =
+    const int dayOfYear =
         (anEpoch - Instant::DateTime(DateTime(epochDateTime.getDate().getYear(), 1, 1, 0, 0, 0), Scale::UTC))
             .getDays() +
         1;
 
-    const Integer epochYear = epochDateTime.getDate().getYear() - 2000;
-    const Real epochDay = Real(dayOfYear) + (epochDateTime.getTime().getHour() / 24.0) +
-                          (epochDateTime.getTime().getMinute() / 1440.0) +
-                          (epochDateTime.getTime().getFloatingSeconds() / 86400.0);
+    const int epochYear = epochDateTime.getDate().getYear() - 2000;
+    const double epochDay = double(dayOfYear) + (epochDateTime.getTime().getHour() / 24.0) +
+                            (epochDateTime.getTime().getMinute() / 1440.0) +
+                            (epochDateTime.getTime().getFloatingSeconds() / 86400.0);
 
-    const auto formatFloatingPointNotation = [](const Real& aValue) -> String
+    const auto formatFloatingPointNotation = [](double aValue) -> String
     {
-        return ((aValue < 0.0) ? "-" : " ") + String::Format("{:.8f}", aValue.abs()).replace("0.", ".");
+        return ((aValue < 0.0) ? "-" : " ") + String::Format("{:.8f}", std::abs(aValue)).replace("0.", ".");
     };
 
-    const auto formatScientificNotation = [](const Real& aValue) -> String
+    const auto formatScientificNotation = [](double aValue) -> String
     {
         if (aValue == 0.0)
         {
             return " 00000-0";
         }
 
-        String value = String::Format("{:.5e}", aValue.abs());
+        String value = String::Format("{:.5e}", std::abs(aValue));
         value = value.replace("0.", "");
 
         {
@@ -681,8 +770,8 @@ TLE TLE::Construct(
             {
                 value = String::Format(
                     "{:0>5}+{:1}",
-                    Integer::Parse(value.getHead(end).replace(".", "").getHead(5)),
-                    Integer::Parse(value.getTail(value.getLength() - end - 2)) + 1
+                    ParseInt(value.getHead(end).replace(".", "").getHead(5)),
+                    ParseInt(value.getTail(value.getLength() - end - 2)) + 1
                 );
             }
         }
@@ -693,8 +782,8 @@ TLE TLE::Construct(
             {
                 value = String::Format(
                     "{:0>5}-{:1}",
-                    Integer::Parse(value.getHead(end).replace(".", "").getHead(5)),
-                    Integer::Parse(value.getTail(value.getLength() - end - 2)) - 1
+                    ParseInt(value.getHead(end).replace(".", "").getHead(5)),
+                    ParseInt(value.getTail(value.getLength() - end - 2)) - 1
                 );
             }
         }
@@ -738,22 +827,22 @@ TLE TLE::Construct(
 }
 
 TLE TLE::Construct(
-    const Integer& aSatelliteNumber,
+    int aSatelliteNumber,
     const String& aClassification,
     const String& anInternationalDesignator,
     const Instant& anEpoch,
-    const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
-    const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
-    const Real& aBStarDragTerm,
-    const Integer& anEphemerisType,
-    const Integer& anElementSetNumber,
+    double aMeanMotionFirstTimeDerivativeDividedByTwo,
+    double aMeanMotionSecondTimeDerivativeDividedBySix,
+    double aBStarDragTerm,
+    int anEphemerisType,
+    int anElementSetNumber,
     const Angle& anInclination,
     const Angle& aRaan,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anAop,
     const Angle& aMeanAnomaly,
     const Derived& aMeanMotion,
-    const Integer& aRevolutionNumberAtEpoch
+    int aRevolutionNumberAtEpoch
 )
 {
     return TLE::Construct(
@@ -777,7 +866,7 @@ TLE TLE::Construct(
     );
 }
 
-Integer TLE::GenerateChecksum(const String& aLine)
+int TLE::GenerateChecksum(const String& aLine)
 {
     using ostk::core::type::Index;
 
@@ -793,7 +882,7 @@ Integer TLE::GenerateChecksum(const String& aLine)
     for (Index idx = 0; idx < (aLine.getLength() - 1); ++idx)
     {
         checksum +=
-            Integer::CanParse(aLine[idx]) ? static_cast<int>(Integer::Parse(aLine[idx])) : (aLine[idx] == '-' ? 1 : 0);
+            std::isdigit(static_cast<unsigned char>(aLine[idx])) ? ParseInt(aLine[idx]) : (aLine[idx] == '-' ? 1 : 0);
     }
 
     checksum -= (checksum / 10) * 10;  // Last digit
@@ -801,7 +890,7 @@ Integer TLE::GenerateChecksum(const String& aLine)
     return checksum;
 }
 
-Real TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
+double TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
 {
     using ostk::core::type::Index;
 
@@ -843,10 +932,10 @@ Real TLE::ParseReal(const String& aString, bool isDecimalPointAssumed)
         string.std::string::replace(plusSignIndex, 1, "e+");
     }
 
-    return Real::Parse(string);
+    return ParseDouble(string);
 }
 
-String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
+String TLE::SatelliteNumberToAlpha5(int aSatelliteNumber)
 {
     // Alpha-5 alphabet (https://www.space-track.org/documentation#tle-alpha5):
     // A-Z excluding I and O (to avoid confusion with 1 and 0), so 'A' encodes 10 and 'Z' encodes 33.
@@ -862,15 +951,15 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
     if (aSatelliteNumber <= 99999)
     {
         // Standard: right-justify in 5 characters
-        const String digits = aSatelliteNumber.toString();
+        const String digits = std::to_string(aSatelliteNumber);
         return String::Replicate(" ", 5 - digits.getLength()) + digits;
     }
 
     // Alpha-5: leading letter encodes the first two digits
-    const Integer leadingDigits = aSatelliteNumber / 10000;  // e.g. 182931 -> 18
-    const Integer remainder = aSatelliteNumber % 10000;      // e.g. 182931 -> 2931
+    const int leadingDigits = aSatelliteNumber / 10000;  // e.g. 182931 -> 18
+    const int remainder = aSatelliteNumber % 10000;      // e.g. 182931 -> 2931
 
-    const String remainderString = remainder.toString();
+    const String remainderString = std::to_string(remainder);
     const String paddedRemainder = String::Replicate("0", 4 - remainderString.getLength()) + remainderString;
 
     const String letter =
@@ -879,7 +968,7 @@ String TLE::SatelliteNumberToAlpha5(const Integer& aSatelliteNumber)
     return letter + paddedRemainder;
 }
 
-Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
+int TLE::Alpha5ToSatelliteNumber(const String& aField)
 {
     // Alpha-5 alphabet (https://www.space-track.org/documentation#tle-alpha5):
     // A-Z excluding I and O (to avoid confusion with 1 and 0), so 'A' encodes 10 and 'Z' encodes 33.
@@ -897,7 +986,7 @@ Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
 
     if (std::isdigit(static_cast<unsigned char>(firstChar)))
     {
-        return Integer::Parse(field);
+        return ParseInt(field);
     }
 
     const auto letterIndex = alpha5Letters.find(firstChar);
@@ -915,10 +1004,10 @@ Integer TLE::Alpha5ToSatelliteNumber(const String& aField)
         );
     }
 
-    const Integer leadingDigits = static_cast<int>(letterIndex) + 10;
+    const int leadingDigits = static_cast<int>(letterIndex) + 10;
     const String remainingDigits = field.getSubstring(1, 4);
 
-    return Integer::Parse(String::Format("{}{}", leadingDigits, remainingDigits));
+    return ParseInt(String::Format("{}{}", leadingDigits, remainingDigits));
 }
 
 }  // namespace sgp4

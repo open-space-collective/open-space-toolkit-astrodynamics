@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -23,8 +21,6 @@ namespace flight
 {
 namespace system
 {
-
-using ostk::core::type::Real;
 
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
@@ -48,8 +44,8 @@ class SatelliteSystem : public System
     ///                  Mass mass = { ... };
     ///                  Composite composite ( ... );
     ///                  Matrix3d intertiaTensor ( ... );
-    ///                  Real crossSectionalSurfaceArea = 0.8;
-    ///                  Real dragCoefficient = 2.2;
+    ///                  double crossSectionalSurfaceArea = 0.8;
+    ///                  double dragCoefficient = 2.2;
     ///                  PropulsionSystem propulsionSystem = { ... };
     ///                  System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
     ///                  dragCoefficient, propulsionSystem };
@@ -65,8 +61,8 @@ class SatelliteSystem : public System
         const Mass& aDryMass,
         const Composite& aSatelliteGeometry,
         const Matrix3d& anInertiaTensor,
-        const Real& aCrossSectionalSurfaceArea,
-        const Real& aDragCoefficient,
+        double aCrossSectionalSurfaceArea,
+        double aDragCoefficient,
         const PropulsionSystem& aPropulsionSystem = PropulsionSystem::Undefined()
     );
 
@@ -123,20 +119,20 @@ class SatelliteSystem : public System
     /// @brief Get satellite system's surface area
     ///
     /// @code{.cpp}
-    ///                  Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+    ///                  double surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
     /// @endcode
     ///
-    /// @return Real
-    Real getCrossSectionalSurfaceArea() const;
+    /// @return double
+    double getCrossSectionalSurfaceArea() const;
 
     /// @brief Get satellite system's drag coefficient
     ///
     /// @code{.cpp}
-    ///                  Real dragCoefficient = satelliteSystem.getDragCoefficient();
+    ///                  double dragCoefficient = satelliteSystem.getDragCoefficient();
     /// @endcode
     ///
-    /// @return Real
-    Real getDragCoefficient() const;
+    /// @return double
+    double getDragCoefficient() const;
 
     /// @brief Get satellite system's propulsion system
     ///
@@ -173,8 +169,8 @@ class SatelliteSystem : public System
 
    private:
     Matrix3d inertiaTensor_;
-    Real crossSectionalSurfaceArea_;
-    Real dragCoefficient_;
+    double crossSectionalSurfaceArea_;
+    double dragCoefficient_;
     PropulsionSystem propulsionSystem_;
 };
 

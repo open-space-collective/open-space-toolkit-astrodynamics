@@ -6,7 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Spherical(pybin
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::astrodynamics::conjunction::HardBody;
@@ -24,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Spherical(pybin
     )
 
         .def(
-            init<const Real&>(),
+            init<double>(),
             R"doc(
                 Constructor.
 

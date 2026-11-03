@@ -6,8 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
-
     using ostk::astrodynamics::flight::system::PropulsionSystem;
 
     {
@@ -21,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
         )
 
             .def(
-                init<const Real&, const Real&>(),
+                init<double, double>(),
                 R"doc(
                     Construct a propulsion system.
 

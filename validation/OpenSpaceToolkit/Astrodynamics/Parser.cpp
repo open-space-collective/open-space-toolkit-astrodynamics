@@ -114,8 +114,8 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
     Array<Shared<const Object>> celestials = Array<Shared<const Object>>::Empty();
 
     EarthGravitationalModel::Type earthGravitationalModelType = EarthGravitationalModel::Type::Undefined;
-    Integer earthGravitationalModelDegree = 0;
-    Integer earthGravitationalModelOrder = 0;
+    int earthGravitationalModelDegree = 0;
+    int earthGravitationalModelOrder = 0;
     EarthMagneticModel::Type earthMagneticModelType = EarthMagneticModel::Type::Undefined;
     EarthAtmosphericModel::Type earthAtmosphericModelType = EarthAtmosphericModel::Type::Undefined;
 
@@ -247,14 +247,14 @@ Array<Instant> Parser::CreateComparisonInstants(
     const Dictionary& aDictionary, const Instant& anInitialInstant, const Instant& aFinalInstant
 )
 {
-    const Real step = aDictionary["data"]["output"]["step"].accessReal();
+    const double step = aDictionary["data"]["output"]["step"].accessReal();
 
     const Interval interval = Interval::Closed(anInitialInstant, aFinalInstant);
     const Duration stepDuration = Duration::Seconds(step);
     Array<Instant> comparisonInstants = interval.generateGrid(stepDuration);
 
     const Size estimatedNumberOfComparisonInstants =
-        Real(std::round(interval.getDuration().inSeconds() / step)).toInteger() + 1;
+        static_cast<Size>(std::round(interval.getDuration().inSeconds() / step)) + 1;
 
     // Sanitize comparison instant array to avoid numerical errors from segment stop conditions and numerical solver
     const Duration durationTolerance = Duration::Microseconds(100.0);

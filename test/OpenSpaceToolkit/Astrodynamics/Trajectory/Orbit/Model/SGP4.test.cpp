@@ -5,7 +5,6 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp>
@@ -34,7 +33,6 @@ using ostk::core::container::Pair;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -659,7 +657,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
                 referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal()
             };
 
-            // const Real referenceRevolutionNumber = referenceRow[19].accessReal();
+            // const double referenceRevolutionNumber = referenceRow[19].accessReal();
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -700,9 +698,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
             // std::cout << "dq = " << RotationVector::Quaternion((q_TEME_GCRF /
             // ref_q_TEME_GCRF).normalize().rectify()).getAngle().inArcseconds().toString(12) << " [asec]" << std::endl
-            //; std::cout << "dx_GCRF = " << Real((position_GCRF.accessCoordinates() -
+            //; std::cout << "dx_GCRF = " << double((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " [m]" << std::endl; std::cout << "dx_TEME = " <<
-            // Real((position_TEME.accessCoordinates() - referencePosition_TEME).norm()).toString(12) << " [m]" <<
+            // double((position_TEME.accessCoordinates() - referencePosition_TEME).norm()).toString(12) << " [m]" <<
             // std::endl;
 
             // std::cout << "x_GCRF A: " << (ref_q_TEME_GCRF.toConjugate() *
@@ -750,20 +748,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout   << "dx = " << Real((position_TEME.accessCoordinates() -
-            // referencePosition_TEME).norm()).toString(12) << " - " << Real((position_GCRF.accessCoordinates() -
+            // std::cout   << "dx = " << double((position_TEME.accessCoordinates() -
+            // referencePosition_TEME).norm()).toString(12) << " - " << double((position_GCRF.accessCoordinates() -
             // referencePosition_GCRF).norm()).toString(12)
-            //    << " | " << "dv = " << Real((velocity_TEME.accessCoordinates() -
-            //    referenceVelocity_TEME).norm()).toString(12) << " - " << Real((velocity_GCRF.accessCoordinates() -
+            //    << " | " << "dv = " << double((velocity_TEME.accessCoordinates() -
+            //    referenceVelocity_TEME).norm()).toString(12) << " - " << double((velocity_GCRF.accessCoordinates() -
             //    referenceVelocity_GCRF).norm()).toString(12) << std::endl;
 
-            // std::cout   << "dx = " << Real((position_TEME.accessCoordinates() -
-            // referencePosition_TEME).norm()).toString(12) << " - " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
+            // std::cout   << "dx = " << double((position_TEME.accessCoordinates() -
+            // referencePosition_TEME).norm()).toString(12) << " - " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
             // referencePosition_ITRF).norm()).toString(12)
-            //    << " | " << "dv = " << Real((velocity_TEME.accessCoordinates() -
-            //    referenceVelocity_TEME).norm()).toString(12) << " - " << Real((velocity_GCRF.accessCoordinates() -
-            //    referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            //    << " | " << "dv = " << double((velocity_TEME.accessCoordinates() -
+            //    referenceVelocity_TEME).norm()).toString(12) << " - " << double((velocity_GCRF.accessCoordinates() -
+            //    referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             //    referenceVelocity_ITRF).norm()).toString(12) << std::endl;
 
             // FAIL();

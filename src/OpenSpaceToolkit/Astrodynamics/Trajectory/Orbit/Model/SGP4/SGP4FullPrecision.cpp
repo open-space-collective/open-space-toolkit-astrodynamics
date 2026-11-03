@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
 #include <mutex>
 
 #include <vallado-sgp4/SGP4.h>
@@ -17,6 +19,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -65,11 +68,11 @@ class SGP4FullPrecision::Impl
             0.0,  // First derivative of the mean motion: carried by the TLE, unused by SGP4.
             0.0,  // Second derivative of the mean motion: idem.
             aSGP4FullPrecision.getEccentricity(),
-            aSGP4FullPrecision.getAop().inRadians(0.0, Real::TwoPi()),
-            aSGP4FullPrecision.getInclination().inRadians(0.0, Real::TwoPi()),
-            aSGP4FullPrecision.getMeanAnomaly().inRadians(0.0, Real::TwoPi()),
+            aSGP4FullPrecision.getAop().inRadians(0.0, 2.0 * M_PI),
+            aSGP4FullPrecision.getInclination().inRadians(0.0, 2.0 * M_PI),
+            aSGP4FullPrecision.getMeanAnomaly().inRadians(0.0, 2.0 * M_PI),
             aSGP4FullPrecision.getMeanMotion().in(RadianPerMinute),
-            aSGP4FullPrecision.getRaan().inRadians(0.0, Real::TwoPi()),
+            aSGP4FullPrecision.getRaan().inRadians(0.0, 2.0 * M_PI),
             this->satelliteRecord_
         );
 
@@ -104,7 +107,7 @@ class SGP4FullPrecision::Impl
         const Instant& anEpoch, const Instant& anInstant, const Shared<const Frame>& anOutputFrameSPtr
     ) const
     {
-        const Real durationFromEpoch_min = Duration::Between(anEpoch, anInstant).inMinutes();
+        const double durationFromEpoch_min = Duration::Between(anEpoch, anInstant).inMinutes();
 
         double x_TEME_km[3] = {0.0, 0.0, 0.0};
         double v_TEME_kmps[3] = {0.0, 0.0, 0.0};
@@ -179,11 +182,11 @@ SGP4FullPrecision::SGP4FullPrecision(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aRaan,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anAop,
     const Angle& aMeanAnomaly,
     const Derived& aMeanMotion,
-    const Real& aBStarDragTerm,
+    double aBStarDragTerm,
     const Integer& aRevolutionNumberAtEpoch,
     const Shared<const Frame>& anOutputFrameSPtr
 )
@@ -274,8 +277,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4FullPrecision& 
 
 bool SGP4FullPrecision::isDefined() const
 {
-    return epoch_.isDefined() && inclination_.isDefined() && raan_.isDefined() && eccentricity_.isDefined() &&
-           aop_.isDefined() && meanAnomaly_.isDefined() && meanMotion_.isDefined() && bStarDragTerm_.isDefined() &&
+    return epoch_.isDefined() && inclination_.isDefined() && raan_.isDefined() && !std::isnan(eccentricity_) &&
+           aop_.isDefined() && meanAnomaly_.isDefined() && meanMotion_.isDefined() && !std::isnan(bStarDragTerm_) &&
            revolutionNumberAtEpoch_.isDefined() && outputFrameSPtr_;
 }
 
@@ -309,7 +312,7 @@ Angle SGP4FullPrecision::getRaan() const
     return raan_;
 }
 
-Real SGP4FullPrecision::getEccentricity() const
+double SGP4FullPrecision::getEccentricity() const
 {
     if (!this->isDefined())
     {
@@ -349,7 +352,7 @@ Derived SGP4FullPrecision::getMeanMotion() const
     return meanMotion_;
 }
 
-Real SGP4FullPrecision::getBStarDragTerm() const
+double SGP4FullPrecision::getBStarDragTerm() const
 {
     if (!this->isDefined())
     {
@@ -359,7 +362,7 @@ Real SGP4FullPrecision::getBStarDragTerm() const
     return bStarDragTerm_;
 }
 
-Integer SGP4FullPrecision::getRevolutionNumberAtEpoch() const
+int SGP4FullPrecision::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {
@@ -429,14 +432,14 @@ void SGP4FullPrecision::print(std::ostream& anOutputStream, bool displayDecorato
         << "Inclination:" << (inclination_.isDefined() ? inclination_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream) << "RAAN:" << (raan_.isDefined() ? raan_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity:" << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined");
+        << "Eccentricity:" << (!std::isnan(eccentricity_) ? utility::DoubleToString(eccentricity_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream) << "AoP:" << (aop_.isDefined() ? aop_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Mean anomaly:" << (meanAnomaly_.isDefined() ? meanAnomaly_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Mean motion:" << (meanMotion_.isDefined() ? meanMotion_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "B*:" << (bStarDragTerm_.isDefined() ? bStarDragTerm_.toString() : "Undefined");
+        << "B*:" << (!std::isnan(bStarDragTerm_) ? utility::DoubleToString(bStarDragTerm_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Revolution Number:"
         << (revolutionNumberAtEpoch_.isDefined() ? revolutionNumberAtEpoch_.toString() : "Undefined");
@@ -450,11 +453,11 @@ SGP4FullPrecision SGP4FullPrecision::Undefined()
         Instant::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
         Angle::Undefined(),
         Angle::Undefined(),
         Derived::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
         Integer::Undefined(),
     };
 }

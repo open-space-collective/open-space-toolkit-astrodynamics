@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -21,8 +19,6 @@ namespace astrodynamics
 {
 namespace guidancelaw
 {
-
-using ostk::core::type::Real;
 
 using ostk::mathematics::object::Vector3d;
 
@@ -81,7 +77,7 @@ class ConstantThrust : public GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration,
+        double aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 

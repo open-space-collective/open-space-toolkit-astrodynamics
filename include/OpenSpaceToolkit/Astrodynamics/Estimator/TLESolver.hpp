@@ -3,13 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Estimator_TLESolver__
 #define __OpenSpaceToolkit_Astrodynamics_Estimator_TLESolver__
 
+#include <limits>
 #include <unordered_map>
 #include <variant>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
@@ -35,8 +34,6 @@ namespace estimator
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -107,9 +104,9 @@ class TLESolver
     /// @param anEstimateBStar Whether to also estimate the B* parameter, defaults to true
     TLESolver(
         const LeastSquaresSolver& aSolver = LeastSquaresSolver::Default(),
-        const Integer& aSatelliteNumber = 0,
+        int aSatelliteNumber = 0,
         const String& anInternationalDesignator = "00001A",
-        const Integer& aRevolutionNumber = 0,
+        int aRevolutionNumber = 0,
         const bool anEstimateBStar = true
     );
 
@@ -121,7 +118,7 @@ class TLESolver
     /// @brief Access satellite number
     ///
     /// @return Satellite number
-    const Integer& accessSatelliteNumber() const;
+    const int& accessSatelliteNumber() const;
 
     /// @brief Access international designator
     ///
@@ -131,7 +128,7 @@ class TLESolver
     /// @brief Access revolution number
     ///
     /// @return Revolution number
-    const Integer& accessRevolutionNumber() const;
+    const int& accessRevolutionNumber() const;
 
     /// @brief Access whether to also estimate B*
     ///
@@ -141,27 +138,27 @@ class TLESolver
     /// @brief Access default B* value
     ///
     /// @return Default B* value
-    const Real& accessDefaultBStar() const;
+    const double& accessDefaultBStar() const;
 
     /// @brief Access first derivative of mean motion divided by 2
     ///
     /// @return First derivative of mean motion divided by 2
-    const Real& accessFirstDerivativeMeanMotionDividedBy2() const;
+    const double& accessFirstDerivativeMeanMotionDividedBy2() const;
 
     /// @brief Access second derivative of mean motion divided by 6
     ///
     /// @return Second derivative of mean motion divided by 6
-    const Real& accessSecondDerivativeMeanMotionDividedBy6() const;
+    const double& accessSecondDerivativeMeanMotionDividedBy6() const;
 
     /// @brief Access ephemeris type
     ///
     /// @return Ephemeris type
-    const Integer& accessEphemerisType() const;
+    const int& accessEphemerisType() const;
 
     /// @brief Access element set number
     ///
     /// @return Element set number
-    const Integer& accessElementSetNumber() const;
+    const int& accessElementSetNumber() const;
 
     /// @brief Access TLE state builder
     ///
@@ -180,7 +177,7 @@ class TLESolver
     /// @param anInitialGuessSigmas Map of sigmas for initial guess
     /// @param anObservationSigmas Map of sigmas for observations
     Analysis estimate(
-        const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+        const std::variant<TLE, Pair<State, double>, State>& anInitialGuess,
         const Array<State>& anObservationStateArray,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
@@ -193,7 +190,7 @@ class TLESolver
     /// @param anInitialGuessSigmas Map of sigmas for initial guess
     /// @param anObservationSigmas Map of sigmas for observations
     Orbit estimateOrbit(
-        const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+        const std::variant<TLE, Pair<State, double>, State>& anInitialGuess,
         const Array<State>& anObservationStateArray,
         const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas = DEFAULT_INITIAL_GUESS_SIGMAS,
         const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas = DEFAULT_OBSERVATION_SIGMAS
@@ -201,16 +198,16 @@ class TLESolver
 
    private:
     LeastSquaresSolver solver_;
-    Integer satelliteNumber_;
+    int satelliteNumber_;
     String internationalDesignator_;
-    Integer revolutionNumber_;
+    int revolutionNumber_;
     bool estimateBStar_;
 
-    mutable Real defaultBStar_;
-    Real firstDerivativeMeanMotionDividedBy2_;
-    Real secondDerivativeMeanMotionDividedBy6_;
-    Integer ephemerisType_;
-    Integer elementSetNumber_;
+    mutable double defaultBStar_;
+    double firstDerivativeMeanMotionDividedBy2_;
+    double secondDerivativeMeanMotionDividedBy6_;
+    int ephemerisType_;
+    int elementSetNumber_;
     StateBuilder tleStateBuilder_;
 
     /// @brief Convert TLE to TLE state
@@ -246,7 +243,9 @@ class TLESolver
     /// @param aBStar B* value. Default is undefined
     ///
     /// @return TLE state
-    State CartesianStateAndBStarToTLEState(const State& aCartesianState, const Real& aBStar = Real::Undefined()) const;
+    State CartesianStateAndBStarToTLEState(
+        const State& aCartesianState, double aBStar = std::numeric_limits<double>::quiet_NaN()
+    ) const;
 };
 
 }  // namespace estimator

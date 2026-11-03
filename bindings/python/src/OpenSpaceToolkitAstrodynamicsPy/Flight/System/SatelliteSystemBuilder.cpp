@@ -6,8 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
-
     using ostk::mathematics::geometry::d3::object::Composite;
     using ostk::mathematics::object::Matrix3d;
 

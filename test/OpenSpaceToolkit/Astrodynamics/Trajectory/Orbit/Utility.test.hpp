@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -29,7 +29,6 @@ using ostk::core::container::Array;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -58,10 +57,10 @@ void testOrbit(
     const String& aScenarioIdentifier,
     const File& aReferenceDataFile,
     const Orbit& anOrbit,
-    const Real& aPositionTolerance_GCRF,
-    const Real& aVelocityTolerance_GCRF,
-    const Real& aPositionTolerance_ITRF,
-    const Real& aVelocityTolerance_ITRF
+    double aPositionTolerance_GCRF,
+    double aVelocityTolerance_GCRF,
+    double aPositionTolerance_ITRF,
+    double aVelocityTolerance_ITRF
 )
 {
     // Reference data setup
@@ -88,7 +87,7 @@ void testOrbit(
             referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()
         };
 
-        const Real referenceRevolutionNumber = referenceRow[13].accessReal();
+        const double referenceRevolutionNumber = referenceRow[13].accessReal();
 
         const State state_GCRF = anOrbit.getStateAt(instant);
 
@@ -150,12 +149,13 @@ void testOrbit(
                    aVelocityTolerance_ITRF
                );
 
-        ASSERT_EQ(referenceRevolutionNumber.floor(), anOrbit.getRevolutionNumberAt(instant)) << String::Format(
-            "[{}] {}: {} ≠ {}",
-            aScenarioIdentifier,
-            instant.toString(),
-            referenceRevolutionNumber.floor(),
-            anOrbit.getRevolutionNumberAt(instant)
-        );
+        ASSERT_EQ(static_cast<int>(std::floor(referenceRevolutionNumber)), anOrbit.getRevolutionNumberAt(instant))
+            << String::Format(
+                   "[{}] {}: {} ≠ {}",
+                   aScenarioIdentifier,
+                   instant.toString(),
+                   static_cast<int>(std::floor(referenceRevolutionNumber)),
+                   anOrbit.getRevolutionNumberAt(instant)
+               );
     }
 }

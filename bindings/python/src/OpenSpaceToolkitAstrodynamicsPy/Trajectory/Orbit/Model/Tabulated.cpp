@@ -6,7 +6,6 @@ using namespace pybind11;
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
@@ -29,7 +28,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
     )
 
         .def(
-            init<const Array<State>&, const Interpolator::Type&, const Shared<const Frame>&, const Integer&>(),
+            init<const Array<State>&, const Interpolator::Type&, const Shared<const Frame>&, int>(),
             R"doc(
                 Constructor.
 
@@ -47,7 +46,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
                 "Interpolator.Type.BarycentricRational"
             ),
             arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()"),
-            arg_v("initial_revolution_number", Integer(DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER), "0")
+            arg_v("initial_revolution_number", DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER, "0")
         )
 
         .def(
@@ -55,7 +54,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
                 const Array<State>&,
                 const Map<Shared<const CoordinateSubset>, Interpolator::Type>&,
                 const Shared<const Frame>&,
-                const Integer&>(),
+                int>(),
             R"doc(
                 Constructor with per-coordinate-subset interpolation types.
 
@@ -72,7 +71,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             arg("states"),
             arg("interpolation_types"),
             arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()"),
-            arg_v("initial_revolution_number", Integer(DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER), "0")
+            arg_v("initial_revolution_number", DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER, "0")
         )
 
         .def(self == self)
@@ -208,7 +207,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(pyb
             )doc",
             arg("states"),
             arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()"),
-            arg_v("initial_revolution_number", Integer(DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER), "0")
+            arg_v("initial_revolution_number", DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER, "0")
         )
 
         ;

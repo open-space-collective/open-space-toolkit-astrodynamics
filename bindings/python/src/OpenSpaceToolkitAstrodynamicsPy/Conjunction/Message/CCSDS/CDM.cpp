@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind11::module& aModule)
@@ -8,7 +10,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
 
     using ostk::core::container::Array;
     using ostk::core::type::Integer;
-    using ostk::core::type::Real;
     using ostk::core::type::String;
 
     using ostk::mathematics::object::MatrixXd;
@@ -450,12 +451,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const Instant&,
                 const String&,
                 const String&,
-                const Real&,
-                const Real&,
-                const Real&,
+                double,
+                double,
+                double,
                 const Instant&,
                 const Instant&,
-                const Real&,
+                double,
                 const String&>(),
             R"doc(
                 Constructor.
@@ -489,9 +490,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             arg("end_screen_period"),
             arg_v("screen_volume_frame", String::Empty(), "String.empty()"),
             arg_v("screen_volume_shape", String::Empty(), "String.empty()"),
-            arg_v("screen_volume_x", Real::Undefined(), "Real.undefined()"),
-            arg_v("screen_volume_y", Real::Undefined(), "Real.undefined()"),
-            arg_v("screen_volume_z", Real::Undefined(), "Real.undefined()"),
+            arg_v("screen_volume_x", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+            arg_v("screen_volume_y", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+            arg_v("screen_volume_z", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
             arg("screen_entry_time"),
             arg("screen_exit_time"),
             arg("collision_probability"),
@@ -628,7 +629,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             init<
                 const String&,
                 const String&,
-                const Integer&,
+                int,
                 const String&,
                 const String&,
                 const String&,
@@ -879,16 +880,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const Integer&,
                 const Integer&,
                 const Integer&,
-                const Real&,
-                const Real&,
-                const Real&,
-                const Real&,
-                const Real&,
+                double,
+                double,
+                double,
+                double,
+                double,
                 const Mass&,
-                const Real&,
-                const Real&,
-                const Real&,
-                const Real&,
+                double,
+                double,
+                double,
+                double,
                 const State&,
                 const MatrixXd&>(),
             R"doc(

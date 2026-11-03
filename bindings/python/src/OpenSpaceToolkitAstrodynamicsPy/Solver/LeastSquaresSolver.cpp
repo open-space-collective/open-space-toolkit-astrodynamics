@@ -15,7 +15,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
-    using ostk::core::type::Real;
     using ostk::core::type::Size;
     using ostk::core::type::String;
 
@@ -45,7 +44,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )doc"
     )
         .def(
-            init<const Real&, const VectorXd&>(),
+            init<double, const VectorXd&>(),
             R"doc(
                 Constructor.
 
@@ -214,11 +213,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
 
     leastSquaresSolver
         .def(
-            init<
-                const Size&,
-                const Real&,
-                const FiniteDifferenceSolver&,
-                const LeastSquaresSolver::ScaleFactorGenerator&>(),
+            init<const Size&, double, const FiniteDifferenceSolver&, const LeastSquaresSolver::ScaleFactorGenerator&>(),
             R"doc(
                 Constructor.
 

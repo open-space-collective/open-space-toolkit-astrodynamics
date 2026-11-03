@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Type.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -105,7 +108,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
     // FromAERMask
     {
         {
-            const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+            const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
             const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
             EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
@@ -117,7 +120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
             const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
             // empty map
             {
-                const Map<Real, Real> azimuthElevationMask = {};
+                const Map<double, double> azimuthElevationMask = {};
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<Real>::Undefined()),
                     ostk::core::error::runtime::Undefined
@@ -126,7 +129,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
             // azimuth key < 0.0 for first key
             {
-                const Map<Real, Real> azimuthElevationMask = {{-1.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+                const Map<double, double> azimuthElevationMask = {{-1.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval),
                     ostk::core::error::RuntimeError
@@ -135,7 +138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
             // azimuth key > 360.0 for last key
             {
-                const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {361.0, 20.0}};
+                const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {361.0, 20.0}};
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval),
                     ostk::core::error::RuntimeError
@@ -144,7 +147,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
             // elevation greater than 90 for a value
             {
-                const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 91.0}};
+                const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 91.0}};
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval),
                     ostk::core::error::RuntimeError
@@ -153,7 +156,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
             // lower bound of range < 0.0
             {
-                const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+                const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<Real>::Closed(-1.0, 1e6)),
                     ostk::core::error::RuntimeError
@@ -211,7 +214,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, EqualToOperato
 
     // AERMask
     {
-        const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+        const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
         const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion1 =
@@ -263,10 +266,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, NotEqualToOper
 
     // AERMask
     {
-        const Map<Real, Real> azimuthElevationMask1 = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+        const Map<double, double> azimuthElevationMask1 = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
         const Interval<Real> rangeInterval1 = Interval<Real>::Closed(0.0, 1e6);
 
-        const Map<Real, Real> azimuthElevationMask2 = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+        const Map<double, double> azimuthElevationMask2 = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
         const Interval<Real> rangeInterval2 = Interval<Real>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion1 =
@@ -313,7 +316,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Is)
 
     // AERMask
     {
-        const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+        const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
         const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion =
@@ -361,7 +364,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, As)
 
     // AERMask
     {
-        const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
+        const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
         const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion =
@@ -453,7 +456,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisf
 {
     const auto& param = GetParam();
 
-    const Map<Real, Real> azimuthElevationMask = {{0.0, 10.0}, {45.0, 15.0}, {90.0, 20.0}};
+    const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {45.0, 15.0}, {90.0, 20.0}};
     const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
 
     const VisibilityCriterion visibilityCriterion =
@@ -536,13 +539,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, ElevationInter
 
     {
         {
-            const Real elevation = 45.0 * deg2rad;
+            const double elevation = 45.0 * deg2rad;
 
             EXPECT_TRUE(elevationIntervalCriterion.value().isSatisfied(elevation));
         }
 
         {
-            const Real elevationOutside = 5.0 * deg2rad;
+            const double elevationOutside = 5.0 * deg2rad;
 
             EXPECT_FALSE(elevationIntervalCriterion.value().isSatisfied(elevationOutside));
         }

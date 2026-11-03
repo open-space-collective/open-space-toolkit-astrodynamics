@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler__
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -29,8 +27,6 @@ namespace orbit
 namespace model
 {
 
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -67,8 +63,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     ///     Instant epoch = Instant::J2000();
     ///     Derived mu = Derived(3.986004418e14, Derived::Unit::GravitationalParameter());
     ///     Length Re = Length::Kilometers(6378.137);
-    ///     Real j2 = 1.08262668e-3;
-    ///     Real j4 = -1.6109876e-6;
+    ///     double j2 = 1.08262668e-3;
+    ///     double j4 = -1.6109876e-6;
     ///     Kepler model(coe, epoch, mu, Re, j2, j4, Kepler::PerturbationType::J2);
     /// @endcode
     ///
@@ -87,8 +83,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Instant& anEpoch,
         const Derived& aGravitationalParameter,
         const Length& anEquatorialRadius,
-        const Real& aJ2,
-        const Real& aJ4,
+        double aJ2,
+        double aJ4,
         const Kepler::PerturbationType& aPerturbationType,
         const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
@@ -161,7 +157,7 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the revolution number at the epoch.
     ///
     /// @return The revolution number at the epoch instant.
-    virtual Integer getRevolutionNumberAtEpoch() const override;
+    virtual int getRevolutionNumberAtEpoch() const override;
 
     /// @brief Get the gravitational parameter of the central body.
     ///
@@ -176,12 +172,12 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the J2 zonal harmonic coefficient.
     ///
     /// @return The J2 coefficient used in this model.
-    Real getJ2() const;
+    double getJ2() const;
 
     /// @brief Get the J4 zonal harmonic coefficient.
     ///
     /// @return The J4 coefficient used in this model.
-    Real getJ4() const;
+    double getJ4() const;
 
     /// @brief Get the frame in which the orbital elements are defined and the states are returned.
     ///
@@ -203,7 +199,7 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     ///
     /// @param anInstant The instant at which to evaluate the revolution number.
     /// @return The revolution number at the given instant.
-    virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const override;  // [TBR] ?
+    virtual int calculateRevolutionNumberAt(const Instant& anInstant) const override;  // [TBR] ?
 
     /// @brief Print the Kepler model to an output stream.
     ///
@@ -231,8 +227,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     Instant epoch_;
     Derived gravitationalParameter_;
     Length equatorialRadius_;
-    Real j2_;
-    Real j4_;
+    double j2_;
+    double j4_;
     Kepler::PerturbationType perturbationType_;
     Shared<const Frame> frameSPtr_;
 
@@ -253,7 +249,7 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Shared<const Frame>& aFrameSPtr
     );
 
-    static Integer CalculateNoneRevolutionNumberAt(
+    static int CalculateNoneRevolutionNumberAt(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
         const Derived& aGravitationalParameter,
@@ -266,17 +262,17 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Derived& aGravitationalParameter,
         const Instant& anInstant,
         const Length& anEquatorialRadius,
-        const Real& aJ2,
+        double aJ2,
         const Shared<const Frame>& aFrameSPtr
     );
 
-    static Integer CalculateJ2RevolutionNumberAt(
+    static int CalculateJ2RevolutionNumberAt(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
         const Derived& aGravitationalParameter,
         const Instant& anInstant,
         const Length& anEquatorialRadius,
-        const Real& aJ2
+        double aJ2
     );
 
     static State CalculateJ4StateAt(
@@ -285,19 +281,19 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Derived& aGravitationalParameter,
         const Instant& anInstant,
         const Length& anEquatorialRadius,
-        const Real& aJ2,
-        const Real& aJ4,
+        double aJ2,
+        double aJ4,
         const Shared<const Frame>& aFrameSPtr
     );
 
-    static Integer CalculateJ4RevolutionNumberAt(
+    static int CalculateJ4RevolutionNumberAt(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
         const Derived& aGravitationalParameter,
         const Instant& anInstant,
         const Length& anEquatorialRadius,
-        const Real& aJ2,
-        const Real& aJ4
+        double aJ2,
+        double aJ4
     );
 };
 

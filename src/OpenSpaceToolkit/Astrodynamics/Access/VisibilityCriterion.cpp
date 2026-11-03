@@ -27,7 +27,7 @@ VisibilityCriterion VisibilityCriterion::FromAERInterval(
 }
 
 VisibilityCriterion VisibilityCriterion::FromAERMask(
-    const Map<Real, Real>& azimuthElevationMask, const Interval<Real>& range
+    const Map<double, double>& azimuthElevationMask, const Interval<Real>& range
 )
 {
     return VisibilityCriterion(AERMask {azimuthElevationMask, range});

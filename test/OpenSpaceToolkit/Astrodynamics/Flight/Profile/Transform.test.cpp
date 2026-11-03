@@ -20,7 +20,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -56,7 +55,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform : public ::
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -67,8 +66,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform : public ::
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None

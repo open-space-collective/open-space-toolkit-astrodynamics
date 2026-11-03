@@ -25,8 +25,6 @@ using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -303,7 +301,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
 {
     loadData();
 
-    const Array<Tuple<Interpolator::Type, Real>> testCases = {
+    const Array<Tuple<Interpolator::Type, double>> testCases = {
         {Interpolator::Type::Linear, 420.0},
         {Interpolator::Type::BarycentricRational, 5e-2},
         {Interpolator::Type::CubicSpline, 5e-3},
@@ -312,7 +310,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
     for (const auto& testCase : testCases)
     {
         Interpolator::Type interpolationType = std::get<0>(testCase);
-        Real tolerance = std::get<1>(testCase);
+        double tolerance = std::get<1>(testCase);
 
         const Tabulated tabulated(states_, interpolationType);
 
@@ -338,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
 {
     loadData();
 
-    const Array<Tuple<Interpolator::Type, Real>> testCases = {
+    const Array<Tuple<Interpolator::Type, double>> testCases = {
         {Interpolator::Type::Linear, 420.0},
         {Interpolator::Type::BarycentricRational, 5e-2},
         {Interpolator::Type::CubicSpline, 5e-3},
@@ -347,7 +345,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
     for (const auto& testCase : testCases)
     {
         Interpolator::Type interpolationType = std::get<0>(testCase);
-        Real tolerance = std::get<1>(testCase);
+        double tolerance = std::get<1>(testCase);
 
         const Tabulated tabulated(states_, interpolationType);
 

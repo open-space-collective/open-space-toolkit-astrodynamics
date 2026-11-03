@@ -8,7 +8,6 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -40,7 +39,6 @@ namespace trajectory
 using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::Pair;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -214,7 +212,7 @@ class Segment
         ///
         /// @param aSpecificImpulse Specific impulse
         /// @return Delta V
-        Real computeDeltaV(const Real& aSpecificImpulse) const;
+        double computeDeltaV(double aSpecificImpulse) const;
 
         /// @brief Compute delta mass
         /// @return Delta mass

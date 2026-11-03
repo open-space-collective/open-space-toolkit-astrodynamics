@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -29,8 +29,6 @@ using ostk::core::container::Array;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
@@ -89,7 +87,7 @@ using ostk::astrodynamics::trajectory::State;
 //     //     const Earth earth = Earth::Analytical();
 
 //     //     const Length semiMajorAxis = Length::Kilometers(7000.0);
-//     //     const Real eccentricity = 0.0;
+//     //     const double eccentricity = 0.0;
 //     //     const Angle inclination = Angle::Degrees(0.0);
 //     //     const Angle raan = Angle::Degrees(0.0);
 //     //     const Angle aop = Angle::Degrees(0.0);
@@ -112,7 +110,7 @@ using ostk::astrodynamics::trajectory::State;
 //         const Earth earth = Earth::Analytical();
 
 //         const Length semiMajorAxis = Length::Kilometers(7000.0);
-//         const Real eccentricity = 0.0;
+//         const double eccentricity = 0.0;
 //         const Angle inclination = Angle::Degrees(0.0);
 //         const Angle raan = Angle::Degrees(0.0);
 //         const Angle aop = Angle::Degrees(0.0);
@@ -158,7 +156,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
         // Orbital model setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -169,8 +167,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
         const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
-        const Real J2 = Earth::EGM2008.J2_;
-        const Real J4 = Earth::EGM2008.J4_;
+        const double J2 = Earth::EGM2008.J2_;
+        const double J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -210,7 +208,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
                 referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()
             };
 
-            const Real referenceRevolutionNumber = referenceRow[13].accessReal();
+            const double referenceRevolutionNumber = referenceRow[13].accessReal();
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -236,7 +234,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
             ASSERT_GT(1e-1, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm());
             ASSERT_GT(1e-0, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
-            ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant));
+            ASSERT_EQ(static_cast<int>(std::floor(referenceRevolutionNumber)), orbit.getRevolutionNumberAt(instant));
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
             // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
@@ -250,10 +248,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_1)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
-            // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
-            // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            // std::cout << "dx | dv = " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // referencePosition_ITRF).norm()).toString(12) << " | " << double((velocity_GCRF.accessCoordinates() -
+            // referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
@@ -269,7 +267,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
         // Orbital model setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -280,8 +278,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
-        const Real J2 = Earth::EGM96.J2_;
-        const Real J4 = Earth::EGM96.J4_;
+        const double J2 = Earth::EGM96.J2_;
+        const double J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
@@ -321,7 +319,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
                 referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()
             };
 
-            const Real referenceRevolutionNumber = referenceRow[13].accessReal();
+            const double referenceRevolutionNumber = referenceRow[13].accessReal();
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -347,9 +345,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
             ASSERT_GT(1e-0, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm());
             ASSERT_GT(1e-3, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm());
 
-            ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant));
+            ASSERT_EQ(static_cast<int>(std::floor(referenceRevolutionNumber)), orbit.getRevolutionNumberAt(instant));
 
-            if (referenceRevolutionNumber.floor() != orbit.getRevolutionNumberAt(instant))
+            if (static_cast<int>(std::floor(referenceRevolutionNumber)) != orbit.getRevolutionNumberAt(instant))
             {
                 std::cout << "instant = " << instant.toString() << std::endl;
 
@@ -368,10 +366,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_2)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
-            // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
-            // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            // std::cout << "dx | dv = " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // referencePosition_ITRF).norm()).toString(12) << " | " << double((velocity_GCRF.accessCoordinates() -
+            // referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
@@ -387,7 +385,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_3)
         // Orbital model setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 7.3226415931607501e-03;
+        const double eccentricity = 7.3226415931607501e-03;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -398,8 +396,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_3)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
-        const Real J2 = Earth::EGM96.J2_;
-        const Real J4 = Earth::EGM96.J4_;
+        const double J2 = Earth::EGM96.J2_;
+        const double J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
@@ -475,10 +473,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_3)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
-            // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
-            // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            // std::cout << "dx | dv = " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // referencePosition_ITRF).norm()).toString(12) << " | " << double((velocity_GCRF.accessCoordinates() -
+            // referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
@@ -494,7 +492,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_4)
         // Orbital model setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -505,8 +503,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_4)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
-        const Real J2 = Earth::EGM96.J2_;
-        const Real J4 = Earth::EGM96.J4_;
+        const double J2 = Earth::EGM96.J2_;
+        const double J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4
@@ -582,10 +580,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_4)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
-            // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
-            // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            // std::cout << "dx | dv = " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // referencePosition_ITRF).norm()).toString(12) << " | " << double((velocity_GCRF.accessCoordinates() -
+            // referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
@@ -601,7 +599,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_5)
         // Orbital model setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 7.3226415931607501e-03;
+        const double eccentricity = 7.3226415931607501e-03;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -612,8 +610,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_5)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
-        const Real J2 = Earth::EGM96.J2_;
-        const Real J4 = Earth::EGM96.J4_;
+        const double J2 = Earth::EGM96.J2_;
+        const double J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4
@@ -689,10 +687,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_5)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
-            // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
-            // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            // std::cout << "dx | dv = " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // referencePosition_ITRF).norm()).toString(12) << " | " << double((velocity_GCRF.accessCoordinates() -
+            // referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
@@ -708,7 +706,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
         // Orbital model setup
 
         const Length semiMajorAxis = Length::Kilometers(6878.14);
-        const Real eccentricity = 0.0012;
+        const double eccentricity = 0.0012;
         const Angle inclination = Angle::Degrees(97.5106);
         const Angle raan = Angle::Degrees(319.2343);
         const Angle aop = Angle::Degrees(187.4562);
@@ -719,8 +717,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
-        const Real J2 = Earth::EGM96.J2_;
-        const Real J4 = Earth::EGM96.J4_;
+        const double J2 = Earth::EGM96.J2_;
+        const double J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4
@@ -796,10 +794,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Test_6)
             // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
             // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() -
-            // referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() -
-            // referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() -
+            // std::cout << "dx | dv = " << double((position_GCRF.accessCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // referencePosition_ITRF).norm()).toString(12) << " | " << double((velocity_GCRF.accessCoordinates() -
+            // referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
             // referenceVelocity_ITRF).norm()).toString(12) << std::endl;
         }
     }
@@ -814,12 +812,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevo
     const Instant defaultEpoch = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
 
     // Kepler's revolution number at epoch is hardcoded to 1
-    const Integer defaultRevolutionNumber = 1;
+    const int defaultRevolutionNumber = 1;
 
     const Derived gravitationalParameter = Earth::Spherical.gravitationalParameter_;
     const Length equatorialRadius = Earth::Spherical.equatorialRadius_;
-    const Real J2 = Earth::Spherical.J2_;
-    const Real J4 = Earth::Spherical.J4_;
+    const double J2 = Earth::Spherical.J2_;
+    const double J4 = Earth::Spherical.J4_;
 
     // Test simple positive and negative revolution numbers for non-edge case initial state (far away from the ascending
     // node)
@@ -966,7 +964,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
         EXPECT_TRUE(stateTEME.getVelocity().getCoordinates().isNear(stateGCRF.getVelocity().getCoordinates(), 1e-9));
 
         // ... which is a physically different orbit (TEME and GCRF differ by ~0.3 deg of precession since J2000)
-        const Real separation =
+        const double separation =
             (stateTEME.inFrame(Frame::GCRF()).getPosition().getCoordinates() - stateGCRF.getPosition().getCoordinates())
                 .norm();
 

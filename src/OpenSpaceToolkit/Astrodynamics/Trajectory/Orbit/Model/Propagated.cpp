@@ -47,7 +47,7 @@ using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-Propagated::Propagated(const Propagator& aPropagator, const State& aState, const Integer& aRevolutionNumber)
+Propagated::Propagated(const Propagator& aPropagator, const State& aState, int aRevolutionNumber)
     : Model(),
       propagator_(aPropagator),
       cachedStateArray_(1, aState),
@@ -55,9 +55,7 @@ Propagated::Propagated(const Propagator& aPropagator, const State& aState, const
 {
 }
 
-Propagated::Propagated(
-    const Propagator& aPropagator, const Array<State>& aCachedStateArray, const Integer& aRevolutionNumber
-)
+Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray, int aRevolutionNumber)
     : Model(),
       propagator_(aPropagator),
       cachedStateArray_(aCachedStateArray),
@@ -108,7 +106,7 @@ Instant Propagated::getEpoch() const
     return cachedStateArray_[0].getInstant();
 }
 
-Integer Propagated::getRevolutionNumberAtEpoch() const
+int Propagated::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {
@@ -230,7 +228,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         // Backward propagation
         Array<State> backwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i + 1], instants);
 
-        Real durationBetweenStates = (nextStateInstant - thisStateInstant).inSeconds();
+        double durationBetweenStates = (nextStateInstant - thisStateInstant).inSeconds();
 
         // Take weighted average
         Array<State> averagedStates = Array<State>::Empty();
@@ -238,9 +236,9 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
 
         for (Size k = 0; k < instants.getSize(); ++k)
         {
-            Real forwardWeight =
+            double forwardWeight =
                 (this->cachedStateArray_[i + 1].accessInstant() - instants[k]).inSeconds() / durationBetweenStates;
-            Real backwardWeight =
+            double backwardWeight =
                 (instants[k] - this->cachedStateArray_[i].accessInstant()).inSeconds() / durationBetweenStates;
 
             VectorXd coordinates =
@@ -267,7 +265,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
     return allStates;
 }
 
-Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
+int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
     if (!anInstant.isDefined())
     {
@@ -299,11 +297,11 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
     // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
     const State stateAtEpoch = this->calculateStateAt(this->getEpoch());
-    const Integer durationSign = (anInstant > this->getEpoch()) ? 1 : -1;
+    const int durationSign = (anInstant > this->getEpoch()) ? 1 : -1;
 
     State currentState = stateAtEpoch;
     Instant currentInstant = stateAtEpoch.accessInstant();
-    Integer revolutionNumber = this->getRevolutionNumberAtEpoch();
+    int revolutionNumber = this->getRevolutionNumberAtEpoch();
 
     // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired
     // instant
@@ -319,9 +317,9 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
         currentInstant = currentState.accessInstant();
 
         // If we have passed the desired instant during our progration, break from the loop
-        if (durationSign.isPositive() && currentInstant > anInstant)
+        if ((durationSign >= 0) && currentInstant > anInstant)
             break;
-        if (durationSign.isNegative() && currentInstant < anInstant)
+        if ((durationSign <= 0) && currentInstant < anInstant)
             break;
 
         // Increase or decrease revolution number by 1

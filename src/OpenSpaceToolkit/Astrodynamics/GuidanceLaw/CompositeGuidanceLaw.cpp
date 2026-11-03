@@ -15,7 +15,6 @@ namespace guidancelaw
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -93,7 +92,7 @@ Vector3d CompositeGuidanceLaw::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
-    const Real& aThrustAcceleration,
+    double aThrustAcceleration,
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {

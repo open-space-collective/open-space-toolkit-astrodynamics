@@ -1,10 +1,10 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <unordered_set>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
@@ -42,7 +42,6 @@ using ostk::core::container::Pair;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -90,7 +89,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -101,8 +100,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -299,7 +298,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -310,8 +309,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -321,10 +320,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
 
         const Profile profile = Profile::ConstantInertialPointing(orbit, Quaternion::Unit());
 
-        const Real positionTolerance_m = 1e-3;
-        const Real velocityTolerance_meterPerSec = 1e-6;
-        const Real angularTolerance_asec = 0.0;
-        const Real angularVelocityTolerance_radPerSec = 1e-10;
+        const double positionTolerance_m = 1e-3;
+        const double velocityTolerance_meterPerSec = 1e-6;
+        const double angularTolerance_asec = 0.0;
+        const double angularVelocityTolerance_radPerSec = 1e-10;
 
         // Reference data setup
 
@@ -413,7 +412,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -424,8 +423,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -435,10 +434,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
 
         const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
-        const Real positionTolerance_m = 1e-3;
-        const Real velocityTolerance_meterPerSec = 1e-6;
-        const Real angularTolerance_asec = 0.0;
-        const Real angularVelocityTolerance_radPerSec = 1e-10;
+        const double positionTolerance_m = 1e-3;
+        const double velocityTolerance_meterPerSec = 1e-6;
+        const double angularTolerance_asec = 0.0;
+        const double angularVelocityTolerance_radPerSec = 1e-10;
 
         // Reference data setup
 
@@ -524,7 +523,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -535,8 +534,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -546,10 +545,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
 
         const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
-        const Real positionTolerance_m = 1e-3;
-        const Real velocityTolerance_meterPerSec = 1e-6;
-        const Real angularTolerance_asec = 0.0;
-        const Real angularVelocityTolerance_radPerSec = 1e-10;
+        const double positionTolerance_m = 1e-3;
+        const double velocityTolerance_meterPerSec = 1e-6;
+        const double angularTolerance_asec = 0.0;
+        const double angularVelocityTolerance_radPerSec = 1e-10;
 
         // Reference data setup
 
@@ -635,7 +634,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.05;
+        const double eccentricity = 0.05;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(10.0);
         const Angle aop = Angle::Degrees(20.0);
@@ -646,8 +645,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -657,10 +656,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
 
         const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
-        const Real positionTolerance_m = 1e-3;
-        const Real velocityTolerance_meterPerSec = 1e-6;
-        const Real angularTolerance_asec = 0.0;
-        const Real angularVelocityTolerance_radPerSec = 1e-7;
+        const double positionTolerance_m = 1e-3;
+        const double velocityTolerance_meterPerSec = 1e-6;
+        const double angularTolerance_asec = 0.0;
+        const double angularVelocityTolerance_radPerSec = 1e-7;
 
         // Reference data setup
 
@@ -1001,7 +1000,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Shared<const Earth> earthSPtr_ = std::make_shared<Earth>(Earth::WGS84());
 
     const Length semiMajorAxis = Length::Kilometers(7000.0);
-    const Real eccentricity = 0.0;
+    const double eccentricity = 0.0;
     const Angle inclination = Angle::Degrees(98.0);
     const Angle raan = Angle::Degrees(0.0);
     const Angle aop = Angle::Degrees(0.0);
@@ -1012,8 +1011,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, YawCompensationOrekit)
     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
     const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
     const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-    const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-    const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+    const double J2 = EarthGravitationalModel::EGM2008.J2_;
+    const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
     const Kepler keplerianModel = {
         coe, instant, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -1547,7 +1546,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_TrajectoryTarge
 
     // Simple perfectly polar keplerian orbit with epoch at the ascending node
     const Length semiMajorAxis_ = Length::Kilometers(7000.0);
-    const Real eccentricity_ = 0.0;
+    const double eccentricity_ = 0.0;
     const Angle raan_ = Angle::Degrees(0.0);
     const Angle aop_ = Angle::Degrees(0.0);
 };

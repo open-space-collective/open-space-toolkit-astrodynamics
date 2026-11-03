@@ -1,9 +1,13 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -18,8 +22,8 @@ SatelliteSystem::SatelliteSystem(
     const Mass& aDryMass,
     const Composite& aSatelliteGeometry,
     const Matrix3d& anInertiaTensor,
-    const Real& aCrossSectionalSurfaceArea,
-    const Real& aDragCoefficient,
+    double aCrossSectionalSurfaceArea,
+    double aDragCoefficient,
     const PropulsionSystem& aPropulsionSystem
 )
     : System(aDryMass, aSatelliteGeometry),
@@ -64,8 +68,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aS
 
 bool SatelliteSystem::isDefined() const
 {
-    return System::isDefined() && inertiaTensor_.isDefined() && crossSectionalSurfaceArea_.isDefined() &&
-           dragCoefficient_.isDefined() && propulsionSystem_.isDefined();
+    return System::isDefined() && inertiaTensor_.isDefined() && !std::isnan(crossSectionalSurfaceArea_) &&
+           !std::isnan(dragCoefficient_) && propulsionSystem_.isDefined();
 }
 
 void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -76,11 +80,12 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream
+    ) << "Cross Sectional Surface Area:"
+      << (!std::isnan(crossSectionalSurfaceArea_) ? utility::DoubleToString(crossSectionalSurfaceArea_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Cross Sectional Surface Area:"
-        << (crossSectionalSurfaceArea_.isDefined() ? crossSectionalSurfaceArea_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Drag Coefficient:" << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined");
+        << "Drag Coefficient:"
+        << (!std::isnan(dragCoefficient_) ? utility::DoubleToString(dragCoefficient_) : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
     propulsionSystem_.isDefined() ? propulsionSystem_.print(anOutputStream, false) : void();
@@ -108,9 +113,9 @@ Matrix3d SatelliteSystem::getInertiaTensor() const
     return inertiaTensor_;
 }
 
-Real SatelliteSystem::getCrossSectionalSurfaceArea() const
+double SatelliteSystem::getCrossSectionalSurfaceArea() const
 {
-    if (!crossSectionalSurfaceArea_.isDefined())
+    if (std::isnan(crossSectionalSurfaceArea_))
     {
         throw ostk::core::error::runtime::Undefined("Cross-Sectional Surface Area");
     }
@@ -118,9 +123,9 @@ Real SatelliteSystem::getCrossSectionalSurfaceArea() const
     return crossSectionalSurfaceArea_;
 }
 
-Real SatelliteSystem::getDragCoefficient() const
+double SatelliteSystem::getDragCoefficient() const
 {
-    if (!dragCoefficient_.isDefined())
+    if (std::isnan(dragCoefficient_))
     {
         throw ostk::core::error::runtime::Undefined("Drag Coefficient");
     }
@@ -139,8 +144,8 @@ SatelliteSystem SatelliteSystem::Undefined()
         Mass::Undefined(),
         Composite::Undefined(),
         Matrix3d::Undefined(),
-        Real::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
         PropulsionSystem::Undefined(),
     };
 }

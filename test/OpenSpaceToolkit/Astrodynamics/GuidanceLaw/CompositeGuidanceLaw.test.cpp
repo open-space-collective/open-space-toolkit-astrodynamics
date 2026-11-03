@@ -14,7 +14,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -40,7 +39,7 @@ class MockGuidanceLaw1 : public GuidanceLaw
         [[maybe_unused]] const Instant& anInstant,
         [[maybe_unused]] const Vector3d& aPositionCoordinates,
         [[maybe_unused]] const Vector3d& aVelocityCoordinates,
-        [[maybe_unused]] const Real& aThrustDirection,
+        [[maybe_unused]] double aThrustDirection,
         [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {
@@ -60,7 +59,7 @@ class MockGuidanceLaw2 : public GuidanceLaw
         [[maybe_unused]] const Instant& anInstant,
         [[maybe_unused]] const Vector3d& aPositionCoordinates,
         [[maybe_unused]] const Vector3d& aVelocityCoordinates,
-        [[maybe_unused]] const Real& aThrustDirection,
+        [[maybe_unused]] double aThrustDirection,
         [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {

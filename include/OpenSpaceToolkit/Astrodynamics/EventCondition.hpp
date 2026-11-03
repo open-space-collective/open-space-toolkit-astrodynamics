@@ -3,7 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
@@ -17,7 +16,6 @@ namespace ostk
 namespace astrodynamics
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
 
@@ -45,7 +43,7 @@ class EventCondition
         ///
         /// @param aValue A real target value
         /// @param aType A target type (Absolute or Relative)
-        Target(const Real& aValue, const Type& aType = Type::Absolute);
+        Target(double aValue, const Type& aType = Type::Absolute);
 
         /// @brief Constructor
         ///
@@ -82,9 +80,9 @@ class EventCondition
         /// @return String representation of the target type
         static String StringFromType(const Type& aType);
 
-        const Real value;
+        const double value;
         const Type type;
-        mutable Real valueOffset = 0.0;
+        mutable double valueOffset = 0.0;
     };
 
     /// @brief Constructor
@@ -93,11 +91,13 @@ class EventCondition
     ///                  EventCondition eventCondition = {aName, anEvaluator, aTarget};
     /// @endcode
     ///
-    /// @param aName A string representing the name of the Real Event Condition
+    /// @param aName A string representing the name of the double Event Condition
     /// @param anEvaluator A function evaluating a state
-    /// @param aTarget A target associated with the Real Event Condition
+    /// @param aTarget A target associated with the double Event Condition
     EventCondition(
-        const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget
+        const String& aName,
+        const std::function<double(const State&)>& anEvaluator,
+        const EventCondition::Target& aTarget
     );
 
     /// @brief Constructor
@@ -106,10 +106,10 @@ class EventCondition
     ///                  EventCondition eventCondition = {aName, anEvaluator, aTargetValue};
     /// @endcode
     ///
-    /// @param aName A string representing the name of the Real Event Condition
+    /// @param aName A string representing the name of the double Event Condition
     /// @param anEvaluator A function evaluating a state
-    /// @param aTargetValue A target value associated with the Real Event Condition
-    EventCondition(const String& aName, const std::function<Real(const State&)>& anEvaluator, const Real& aTargetValue);
+    /// @param aTargetValue A target value associated with the double Event Condition
+    EventCondition(const String& aName, const std::function<double(const State&)>& anEvaluator, double aTargetValue);
 
     /// @brief Virtual destructor
     virtual ~EventCondition();
@@ -133,7 +133,7 @@ class EventCondition
     /// @brief Get evaluator
     ///
     /// @return Evaluator
-    std::function<Real(const State&)> getEvaluator() const;
+    std::function<double(const State&)> getEvaluator() const;
 
     /// @brief Get the target
     ///
@@ -168,7 +168,7 @@ class EventCondition
 
    protected:
     String name_;
-    std::function<Real(const State&)> evaluator_;
+    std::function<double(const State&)> evaluator_;
     Target target_;
 };
 

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <optional>
 #include <string>
 
@@ -11,6 +12,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -39,7 +41,7 @@ Foster1992::Foster1992(
       frameSPtr_(aFrameSPtr),
       numberOfRadialSteps_(aNumberOfRadialSteps),
       increaseNumberOfRadialStepsIfNeeded_(increaseNumberOfRadialStepsIfNeeded),
-      angularStepSize_(Real::Undefined()),
+      angularStepSize_(std::numeric_limits<double>::quiet_NaN()),
       angularSliceSines_(Array<double>::Empty()),
       angularSliceCosines_(Array<double>::Empty())
 {
@@ -58,7 +60,7 @@ Foster1992::Foster1992(
         throw ostk::core::error::runtime::Undefined("Angular step size");
     }
 
-    const Real angularStepSizeDegrees = anAngularStepSize.inDegrees();
+    const double angularStepSizeDegrees = anAngularStepSize.inDegrees();
 
     if ((angularStepSizeDegrees <= 0.0) || (angularStepSizeDegrees > 360.0))
     {
@@ -109,22 +111,23 @@ Array<String> Foster1992::identifyUnsatisfiedAssumptions(const CloseApproach& aC
         unsatisfiedAssumptions.add("No position uncertainty for Object 2");
     }
 
-    const Real relativeSpeedMetersPerSecond = aCloseApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond());
-    const Real relativeSpeedThresholdMetersPerSecond = relativeSpeedThreshold_.in(Derived::Unit::MeterPerSecond());
+    const double relativeSpeedMetersPerSecond =
+        aCloseApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond());
+    const double relativeSpeedThresholdMetersPerSecond = relativeSpeedThreshold_.in(Derived::Unit::MeterPerSecond());
 
     if (relativeSpeedMetersPerSecond < relativeSpeedThresholdMetersPerSecond)
     {
         unsatisfiedAssumptions.add(String::Format(
             "Relative speed [{} m/s] is below the threshold [{} m/s]",
-            relativeSpeedMetersPerSecond.toString(),
-            relativeSpeedThresholdMetersPerSecond.toString()
+            utility::DoubleToString(relativeSpeedMetersPerSecond),
+            utility::DoubleToString(relativeSpeedThresholdMetersPerSecond)
         ));
     }
 
     return unsatisfiedAssumptions;
 }
 
-Real Foster1992::computeProbabilityOfCollision(
+double Foster1992::computeProbabilityOfCollision(
     const CloseApproach& aCloseApproach,
     const Shared<const HardBody>& aHardBody1SPtr,
     const Shared<const HardBody>& aHardBody2SPtr
@@ -155,12 +158,12 @@ Real Foster1992::computeProbabilityOfCollision(
         aHardBody2SPtr->calculateCrossSectionAt(object2State, rotatedEncounterFrameSPtr)
     );
 
-    const Real combinedHardBodyRadius = combinedCrossSection.getEnclosingRadius();
+    const double combinedHardBodyRadius = combinedCrossSection.getEnclosingRadius();
 
     // Center of the hard-body circle in polar coordinates (R0, phi), the U and W axes being the x and y principal axes
     // (phi being measured from the W axis: (xm, ym) = (R0 * sin(phi), R0 * cos(phi)))
-    const Real xm = rotatedEncounterFrameParameters.xM.inMeters();
-    const Real ym = rotatedEncounterFrameParameters.yM.inMeters();
+    const double xm = rotatedEncounterFrameParameters.xM.inMeters();
+    const double ym = rotatedEncounterFrameParameters.yM.inMeters();
 
     return this->computeProbabilityOfCollision_(
         std::hypot(double(xm), double(ym)),
@@ -171,8 +174,8 @@ Real Foster1992::computeProbabilityOfCollision(
     );
 }
 
-Real Foster1992::computeProbabilityOfCollision_(
-    const Real& aR0, const Angle& aPhi, const Real& aSigmaU, const Real& aSigmaW, const Real& anObj
+double Foster1992::computeProbabilityOfCollision_(
+    double aR0, const Angle& aPhi, double aSigmaU, double aSigmaW, double anObj
 ) const
 {
     const double sigmaU = aSigmaU;

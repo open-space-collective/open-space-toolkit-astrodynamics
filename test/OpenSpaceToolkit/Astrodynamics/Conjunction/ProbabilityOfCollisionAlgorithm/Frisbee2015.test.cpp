@@ -8,7 +8,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -26,7 +25,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -115,7 +113,7 @@ CloseApproach buildSingleCovCase1_1()
 
 // Ratio of the combined hard-body radius to the smaller standard deviation of the critical combined covariance, as
 // stated in the test case comment (e.g. "HBR / sigma_min = 2.81")
-Real getHBRToSigmaMinRatio(const PoCTestCase& aTestCase)
+double getHBRToSigmaMinRatio(const PoCTestCase& aTestCase)
 {
     const String prefix = "HBR / sigma_min = ";
     const std::size_t position = aTestCase.comment.find(prefix);
@@ -349,9 +347,9 @@ TEST_F(
 
     // Maximum probabilities of collision using a single covariance: Pc1 with the Object 1 covariance only, Pc2 with the
     // Object 2 covariance only (computed by swapping the objects back, so that it is the Object 1 covariance)
-    const Real probabilityOfCollision1 =
+    const double probabilityOfCollision1 =
         algorithm_.computeProbabilityOfCollision(removeObject2Covariance(closeApproach), hardBodySPtr, hardBodySPtr);
-    const Real probabilityOfCollision2 = algorithm_.computeProbabilityOfCollision(
+    const double probabilityOfCollision2 = algorithm_.computeProbabilityOfCollision(
         removeObject2Covariance(closeApproach.swap()), hardBodySPtr, hardBodySPtr
     );
 
@@ -410,10 +408,10 @@ TEST_F(
     const CloseApproach closeApproach = buildFrisbeeExample();
 
     // Equation 15b: Pc = R_HB^2 * e^(-1/2) / (20000 * sqrt(314))
-    const Real probabilityOfCollisionPerSquareMeter = std::exp(-0.5) / (20000.0 * std::sqrt(314.0));
+    const double probabilityOfCollisionPerSquareMeter = std::exp(-0.5) / (20000.0 * std::sqrt(314.0));
 
     // Table 1: combined hard-body radius [m] and probability of collision (reported to 1e-6)
-    const Array<std::pair<Real, Real>> table = {
+    const Array<std::pair<double, double>> table = {
         {5.0, 0.000043},
         {10.0, 0.000171},
         {20.0, 0.000685},
@@ -424,10 +422,10 @@ TEST_F(
     {
         const Shared<const Spherical> hardBodySPtr = std::make_shared<Spherical>(combinedHardBodyRadius / 2.0);
 
-        const Real probabilityOfCollision =
+        const double probabilityOfCollision =
             algorithm_.computeProbabilityOfCollision(closeApproach, hardBodySPtr, hardBodySPtr);
 
-        const Real expectedProbabilityOfCollision =
+        const double expectedProbabilityOfCollision =
             combinedHardBodyRadius * combinedHardBodyRadius * probabilityOfCollisionPerSquareMeter;
 
         // The relative tolerance accounts for the rounding of the CDM states (~2e-6 on the probability of collision)
@@ -477,10 +475,10 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
     : public ::testing::TestWithParam<PoCTestCase>
 {
    protected:
-    const Real nominalTolerance_ = 0.01;
-    const Real ignoreClosedFormForHBRToSigmaMinRatioGreaterThan_ = 0.3;
-    const Real useFallbackAlgorithmForHBRToSigmaMinRatioGreaterThan_ = 1.3;
-    const Real fallbackAlgorithmicTolerance_ = 0.15;
+    const double nominalTolerance_ = 0.01;
+    const double ignoreClosedFormForHBRToSigmaMinRatioGreaterThan_ = 0.3;
+    const double useFallbackAlgorithmForHBRToSigmaMinRatioGreaterThan_ = 1.3;
+    const double fallbackAlgorithmicTolerance_ = 0.15;
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -500,7 +498,7 @@ TEST_P(
 {
     const PoCTestCase& testCase = GetParam();
 
-    const Real hbrToSigmaMinRatio = getHBRToSigmaMinRatio(testCase);
+    const double hbrToSigmaMinRatio = getHBRToSigmaMinRatio(testCase);
 
     // Closed form (Frisbee 2015, Equation 5)
     {
@@ -532,9 +530,9 @@ TEST_P(
         // The NASA CARA expected value uses an equal-area square hard body (squareEquArea),
         // which differs increasingly from the circle that we use here as HBR-to-sigma_min increases.
         // So we use a higher tolerance for these cases.
-        const Real tolerance = (hbrToSigmaMinRatio > useFallbackAlgorithmForHBRToSigmaMinRatioGreaterThan_)
-                                 ? fallbackAlgorithmicTolerance_
-                                 : nominalTolerance_;
+        const double tolerance = (hbrToSigmaMinRatio > useFallbackAlgorithmForHBRToSigmaMinRatioGreaterThan_)
+                                   ? fallbackAlgorithmicTolerance_
+                                   : nominalTolerance_;
 
         EXPECT_NEAR(
             algorithm.computeProbabilityOfCollision(

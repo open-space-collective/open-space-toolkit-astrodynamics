@@ -5,8 +5,6 @@
 
 #include <optional>
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
@@ -21,7 +19,6 @@ namespace astrodynamics
 namespace dynamics
 {
 
-using ostk::core::type::Integer;
 using ostk::core::type::String;
 
 using ostk::physics::environment::object::Celestial;

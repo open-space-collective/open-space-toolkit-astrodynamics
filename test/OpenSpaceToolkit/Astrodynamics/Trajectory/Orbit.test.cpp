@@ -1,11 +1,12 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/RotationMatrix.hpp>
@@ -42,8 +43,6 @@ using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
@@ -84,7 +83,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -95,8 +94,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -127,7 +126,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Integer initialRevolutionNumber = 123;
+        const int initialRevolutionNumber = 123;
 
         // The default (barycentric rational) interpolation requires at least 4 states.
 
@@ -143,7 +142,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -154,8 +153,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -180,7 +179,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -191,8 +190,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -217,7 +216,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -228,8 +227,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -251,7 +250,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, accessCelestialObject)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -262,8 +261,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, accessCelestialObject)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -289,7 +288,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -300,8 +299,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -323,7 +322,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         for (const auto &referenceRow : referenceData)
         {
-            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant referencePassEndInstant =
@@ -347,7 +346,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -358,8 +357,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -407,11 +406,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
 {
-    // undefined revolution number
-    {
-        EXPECT_THROW(Orbit::ComputePasses({}, Integer::Undefined()), ostk::core::error::runtime::Undefined);
-    }
-
     // states < 2
     {
         const Array<State> states = {
@@ -450,7 +444,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -461,8 +455,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -497,7 +491,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -508,8 +502,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -635,26 +629,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
         );
     }
 
-    // undefined revolution number
-    {
-        const TLE tle =
-            TLE("1 43890U 18111Q   20195.55622117 +.00000241 +00000-0 +28512-4 0  9991",
-                "2 43890 097.6899 099.9703 0003551 181.1072 179.0140 14.92932318084236");
-        const SGP4 sgp4 = SGP4(tle);
-        const Instant startInstant = Instant::J2000();
-        const Instant endInstant = startInstant + Duration::Days(1.0);
-        EXPECT_THROW(
-            Orbit::ComputePassesWithModel(sgp4, startInstant, endInstant, Integer::Undefined()),
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Kepler model
     {
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -665,8 +645,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -885,7 +865,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -896,8 +876,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -918,7 +898,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         for (const auto &referenceRow : referenceData)
         {
-            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant referencePassEndInstant =
@@ -949,7 +929,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -960,8 +940,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
@@ -982,7 +962,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         for (const auto &referenceRow : referenceData)
         {
-            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant referencePassEndInstant =
@@ -1013,7 +993,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -1024,8 +1004,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4
@@ -1046,7 +1026,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         for (const auto &referenceRow : referenceData)
         {
-            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant referencePassEndInstant =
@@ -1220,7 +1200,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -1231,8 +1211,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -1267,7 +1247,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
 
         for (const auto &referenceRow : referenceData)
         {
-            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
             const Instant referencePassStartInstant =
                 Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
             const Instant referencePassEndInstant =
@@ -1304,7 +1284,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -1315,8 +1295,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -1404,7 +1384,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
     {
         const Length semiMajorAxis = Length::Meters(6878137.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(97.401458306592275);
         const Angle raan = Angle::Degrees(279.82375866413543);
         const Angle aop = Angle::Degrees(0.0);
@@ -1536,7 +1516,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         const Environment environment = Environment::Default();
 
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -1547,8 +1527,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
-        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
-        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
+        const double J2 = EarthGravitationalModel::EGM2008.J2_;
+        const double J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
@@ -1583,10 +1563,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
             Length altitude;
             Angle inclination;
             File referenceDataFile;
-            Real positionTolerance_GCRF_m;
-            Real velocityTolerance_GCRF_mps;
-            Real positionTolerance_ITRF_m;
-            Real velocityTolerance_ITRF_mps;
+            double positionTolerance_GCRF_m;
+            double velocityTolerance_GCRF_mps;
+            double positionTolerance_ITRF_m;
+            double velocityTolerance_ITRF_mps;
         };
 
         const Array<Scenario> scenarios = {
@@ -1732,10 +1712,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
             Length apoapsisAltitude;
             Length periapsisAltitude;
             File referenceDataFile;
-            Real positionTolerance_GCRF_m;
-            Real velocityTolerance_GCRF_mps;
-            Real positionTolerance_ITRF_m;
-            Real velocityTolerance_ITRF_mps;
+            double positionTolerance_GCRF_m;
+            double velocityTolerance_GCRF_mps;
+            double positionTolerance_ITRF_m;
+            double velocityTolerance_ITRF_mps;
         };
 
         const Array<Scenario> scenarios = {
@@ -1868,10 +1848,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
             Instant epoch;
             Length altitude;
             File referenceDataFile;
-            Real positionTolerance_GCRF_m;
-            Real velocityTolerance_GCRF_mps;
-            Real positionTolerance_ITRF_m;
-            Real velocityTolerance_ITRF_mps;
+            double positionTolerance_GCRF_m;
+            double velocityTolerance_GCRF_mps;
+            double positionTolerance_ITRF_m;
+            double velocityTolerance_ITRF_mps;
         };
 
         const Array<Scenario> scenarios = {
@@ -2122,10 +2102,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
     //         Length altitude;
     //         Time localTimeAtDescendingNode;
     //         File referenceDataFile;
-    //         Real positionTolerance_GCRF_m;
-    //         Real velocityTolerance_GCRF_mps;
-    //         Real positionTolerance_ITRF_m;
-    //         Real velocityTolerance_ITRF_mps;
+    //         double positionTolerance_GCRF_m;
+    //         double velocityTolerance_GCRF_mps;
+    //         double positionTolerance_ITRF_m;
+    //         double velocityTolerance_ITRF_mps;
     //     };
 
     //     const Array<Scenario> scenarios = {{
@@ -2194,7 +2174,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
                 epoch,
                 altitude,
                 Environment::Default().accessCelestialObjectWithName("Earth"),
-                Real::Undefined(),
+                std::numeric_limits<double>::quiet_NaN(),
                 Angle::Degrees(60.0)
             );
 

@@ -8,8 +8,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddan
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
-
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Length;
 
@@ -28,7 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddan
     brouwerLyddaneMeanLong
 
         .def(
-            init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>(),
+            init<const Length&, double, const Angle&, const Angle&, const Angle&, const Angle&>(),
             R"doc(
                 Constructor.
 

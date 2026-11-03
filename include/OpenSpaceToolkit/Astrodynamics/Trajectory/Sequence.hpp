@@ -28,7 +28,6 @@ namespace trajectory
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Size;
 
 using ostk::physics::Environment;
@@ -94,7 +93,7 @@ class Sequence
         ///
         /// @param aSpecificImpulse Specific impulse
         /// @return Delta V
-        Real computeDeltaV(const Real& aSpecificImpulse) const;
+        double computeDeltaV(double aSpecificImpulse) const;
 
         /// @brief Compute delta mass
         /// @return Delta mass

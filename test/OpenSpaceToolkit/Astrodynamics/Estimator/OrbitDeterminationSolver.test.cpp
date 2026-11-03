@@ -6,7 +6,6 @@
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
@@ -34,7 +33,6 @@ using ostk::core::container::Table;
 using ostk::core::filesystem::Directory;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -67,7 +65,7 @@ using ostk::astrodynamics::uncertainty::Covariance;
 class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis : public ::testing::Test
 {
    protected:
-    const Real rmsError_ = 1.0;
+    const double rmsError_ = 1.0;
     const Size iterationCount_ = 5;
     const String terminationCriteria_ = "Test Criteria";
     const State estimatedState_ = State(

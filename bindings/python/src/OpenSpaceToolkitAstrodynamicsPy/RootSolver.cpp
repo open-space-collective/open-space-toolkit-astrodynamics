@@ -6,7 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
     using ostk::core::type::Size;
 
     using ostk::astrodynamics::RootSolver;
@@ -87,7 +86,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
         rootSolver
 
             .def(
-                init<const Size&, const Real&>(),
+                init<const Size&, double>(),
                 R"doc(
                     Constructor.
 
@@ -128,7 +127,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                 "bracket_and_solve",
                 +[](const RootSolver& aRootSolver,
                     const pythonFunctionSignature& aFunction,
-                    const Real& anInitialGuess,
+                    double anInitialGuess,
                     const bool& isRising) -> RootSolver::Solution
                 {
                     return aRootSolver.bracketAndSolve(aFunction, anInitialGuess, isRising);
@@ -154,8 +153,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                 "solve",
                 +[](const RootSolver& aRootSolver,
                     const pythonFunctionSignature& aFunction,
-                    const Real& aLowerBound,
-                    const Real& anUpperBound) -> RootSolver::Solution
+                    double aLowerBound,
+                    double anUpperBound) -> RootSolver::Solution
                 {
                     return aRootSolver.solve(aFunction, aLowerBound, anUpperBound);
                 },
@@ -180,8 +179,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                 "bisection",
                 +[](const RootSolver& aRootSolver,
                     const pythonFunctionSignature& aFunction,
-                    const Real& aLowerBound,
-                    const Real& anUpperBound) -> RootSolver::Solution
+                    double aLowerBound,
+                    double anUpperBound) -> RootSolver::Solution
                 {
                     return aRootSolver.bisection(aFunction, aLowerBound, anUpperBound);
                 },

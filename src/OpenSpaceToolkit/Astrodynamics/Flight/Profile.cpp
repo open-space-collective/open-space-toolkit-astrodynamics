@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
@@ -17,8 +19,6 @@ namespace astrodynamics
 {
 namespace flight
 {
-
-using ostk::core::type::Real;
 
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::environment::object::celestial::Moon;
@@ -39,7 +39,7 @@ Profile::PointingTarget::PointingTarget(const Type& aType, const Vector3d& aDire
     : type(aType),
       directionInBodyFrame(aDirectionInBodyFrame)
 {
-    if (std::abs(aDirectionInBodyFrame.norm() - 1.0) > Real::Epsilon())
+    if (std::abs(aDirectionInBodyFrame.norm() - 1.0) > 1e-15)
     {
         throw ostk::core::error::RuntimeError("Direction is not a unit vector.");
     }
@@ -121,7 +121,7 @@ Vector3d Profile::TabulatedPointingTarget::interpolatePointingVectorAt(const Ins
 {
     Vector3d interpolatedCoordinates = Vector3d::Zero();
 
-    const Real duration = (anInstant - pointingProfileInECI.accessFirst().first).inSeconds();
+    const double duration = (anInstant - pointingProfileInECI.accessFirst().first).inSeconds();
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
@@ -324,8 +324,8 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrainGenerator(
     {
         const Vector3d& bodyFrameAlignment = anAlignmentPointingTargetSPtr->directionInBodyFrame;
         const Vector3d& bodyFrameClocking = aClockingPointingTargetSPtr->directionInBodyFrame;
-        const Real cosTheta = bodyFrameAlignment.normalized().dot(bodyFrameClocking.normalized());
-        if (std::abs(cosTheta) >= 1.0 - Real::Epsilon())
+        const double cosTheta = bodyFrameAlignment.normalized().dot(bodyFrameClocking.normalized());
+        if (std::abs(cosTheta) >= 1.0 - 1e-15)
         {
             throw ostk::core::error::RuntimeError("Alignment and clocking direction cannot be colinear.");
         }
@@ -445,7 +445,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrainGenerator(
             Profile::ComputeClockingVector(inertialFrameAlignment, inertialFrameClockingGenerator(aState));
 
         // Apply angular offset rotation around the alignment axis to the clocking target using Rodrigues' formula
-        const Real thetaOffsetRad = anAngularClockingOffset.inRadians();
+        const double thetaOffsetRad = anAngularClockingOffset.inRadians();
         const Vector3d inertialFrameClockingRotated =
             (inertialFrameClocking * std::cos(thetaOffsetRad) +
              (inertialFrameAlignment.cross(inertialFrameClocking)) * std::sin(thetaOffsetRad) +

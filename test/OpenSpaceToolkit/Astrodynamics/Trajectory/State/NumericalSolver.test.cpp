@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -22,8 +22,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -143,7 +141,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
     {
         // Defined solver: no throw, returns the configured (initially Undefined) max step size
         EXPECT_NO_THROW(defaultRKD5_.getMaxStepSize());
-        EXPECT_FALSE(defaultRKD5_.getMaxStepSize().isDefined());
+        EXPECT_TRUE(std::isnan(defaultRKD5_.getMaxStepSize()));
 
         // Undefined solver: throws like the other getters
         EXPECT_THROW(NumericalSolver::Undefined().getMaxStepSize(), ostk::core::error::runtime::Undefined);
@@ -548,7 +546,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
-            const Real propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+            const double propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
 
             // Ensure that integration terminates at condition if condition is met
 
@@ -574,7 +572,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     const State state = getStateVector(defaultStartInstant_);
 
     {
-        const Array<Tuple<Real, Real, RealCondition::Criterion, bool>> testCases = {
+        const Array<Tuple<double, double, RealCondition::Criterion, bool>> testCases = {
             {1.0, 0.0, RealCondition::Criterion::AnyCrossing, true},     // Condition happens at the start (forwards)
             {-1.0, 0.0, RealCondition::Criterion::AnyCrossing, true},    // Condition happens at the end (backwards)
             {1.0, 1.0, RealCondition::Criterion::AnyCrossing, true},     // Condition happens at the end (forwards)
@@ -585,8 +583,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
         for (const auto &testCase : testCases)
         {
-            const Real maximumPropagationTime = std::get<0>(testCase);
-            const Real target = std::get<1>(testCase);
+            const double maximumPropagationTime = std::get<0>(testCase);
+            const double target = std::get<1>(testCase);
             const RealCondition::Criterion criterion = std::get<2>(testCase);
             const InstantCondition condition =
                 InstantCondition(criterion, defaultStartInstant_ + Duration::Seconds(target));
@@ -596,7 +594,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             );
 
             const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
-            const Real propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+            const double propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
 
             const bool expectedConditionIsSatisfied = std::get<3>(testCase);
 
@@ -625,43 +623,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     const State state = getStateVector(defaultStartInstant_);
 
     {
-        const Array<Tuple<Real, Real, RealCondition::Criterion, Real, bool>> testCases = {
-            {Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, Real::TwoPi(), false
+        const Array<Tuple<double, double, RealCondition::Criterion, double, bool>> testCases = {
+            {2.0 * M_PI, 1.0, RealCondition::Criterion::AnyCrossing, 2.0 * M_PI, false
             },  // Almost meets the condition, but never does (forwards)
-            {-Real::TwoPi(), 1.0, RealCondition::Criterion::AnyCrossing, -Real::TwoPi(), false
+            {-2.0 * M_PI, 1.0, RealCondition::Criterion::AnyCrossing, -2.0 * M_PI, false
             },  // Almost meets the condition, but never does (backwards)
-            {Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, std::asin(0.5), true
-            },  // Any crossing (forwards)
-            {-Real::TwoPi(), 0.5, RealCondition::Criterion::AnyCrossing, -Real::Pi() - std::asin(0.5), true
+            {2.0 * M_PI, 0.5, RealCondition::Criterion::AnyCrossing, std::asin(0.5), true},  // Any crossing (forwards)
+            {-2.0 * M_PI, 0.5, RealCondition::Criterion::AnyCrossing, -M_PI - std::asin(0.5), true
             },  // Any crossing (backwards)
-            {Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, Real::Pi() - std::asin(0.5), true
+            {2.0 * M_PI, 0.5, RealCondition::Criterion::NegativeCrossing, M_PI - std::asin(0.5), true
             },  // Negative crossing (forwards)
-            {-Real::TwoPi(), 0.5, RealCondition::Criterion::NegativeCrossing, -Real::TwoPi() + std::asin(0.5), true
+            {-2.0 * M_PI, 0.5, RealCondition::Criterion::NegativeCrossing, -2.0 * M_PI + std::asin(0.5), true
             },  // Negative crossing (backwards)
-            {Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, Real::TwoPi() - std::asin(0.5), true
+            {2.0 * M_PI, -0.5, RealCondition::Criterion::PositiveCrossing, 2.0 * M_PI - std::asin(0.5), true
             },  // Positive crossing (forwards)
-            {-Real::TwoPi(), -0.5, RealCondition::Criterion::PositiveCrossing, -Real::Pi() + std::asin(0.5), true
+            {-2.0 * M_PI, -0.5, RealCondition::Criterion::PositiveCrossing, -M_PI + std::asin(0.5), true
             },  // Positive crossing (backwards)
-            {Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, Real::Pi() + std::asin(0.5), true
+            {2.0 * M_PI, -0.5, RealCondition::Criterion::StrictlyNegative, M_PI + std::asin(0.5), true
             },  // Strictly negative (forwards)
-            {-Real::TwoPi(), -0.5, RealCondition::Criterion::StrictlyNegative, -std::asin(0.5), true
+            {-2.0 * M_PI, -0.5, RealCondition::Criterion::StrictlyNegative, -std::asin(0.5), true
             },  // Strictly negative (backwards)
-            {Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, std::asin(0.5), true
+            {2.0 * M_PI, 0.5, RealCondition::Criterion::StrictlyPositive, std::asin(0.5), true
             },  // Strictly positive (forwards)
-            {-Real::TwoPi(), 0.5, RealCondition::Criterion::StrictlyPositive, -Real::Pi() - std::asin(0.5), true
+            {-2.0 * M_PI, 0.5, RealCondition::Criterion::StrictlyPositive, -M_PI - std::asin(0.5), true
             },  // Strictly positive (backwards)
         };
 
         for (const auto &testCase : testCases)
         {
             const Duration duration = Duration::Seconds(std::get<0>(testCase));
-            const Real target = std::get<1>(testCase);
+            const double target = std::get<1>(testCase);
             const RealCondition::Criterion criterion = std::get<2>(testCase);
             const Instant endInstant = defaultStartInstant_ + duration;
             const RealCondition condition = RealCondition(
                 "X Crossing Condition",
                 criterion,
-                [](const State &aState) -> Real
+                [](const State &aState) -> double
                 {
                     return aState.accessCoordinates()[0];
                 },
@@ -671,9 +668,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
-            const Real propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+            const double propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
 
-            const Real expectedPropagatedTime = std::get<3>(testCase);
+            const double expectedPropagatedTime = std::get<3>(testCase);
             const bool expectedConditionIsSatisfied = std::get<4>(testCase);
 
             EXPECT_NEAR(propagatedTime, expectedPropagatedTime, 1e-8);
@@ -841,7 +838,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperCo
 
     const State state = getStateVector(defaultStartInstant_);
 
-    for (const Real durationSeconds : {Real(1.0), Real(-1.0)})
+    for (const double durationSeconds : {1.0, -1.0})
     {
         const Duration duration = Duration::Seconds(durationSeconds);
         const Instant endInstant = defaultStartInstant_ + duration;
@@ -881,13 +878,13 @@ TEST_P(
 
     const State state = getStateVector(defaultStartInstant_);
 
-    for (const Real durationSeconds : {Real(1.0), Real(-1.0)})
+    for (const double durationSeconds : {1.0, -1.0})
     {
         const Duration duration = Duration::Seconds(durationSeconds);
         const Instant endInstant = defaultStartInstant_ + duration;
 
         // Place the condition target *outside* [start, end] so it is never reached.
-        const Instant outsideTarget = defaultStartInstant_ + duration * Real(2.0);
+        const Instant outsideTarget = defaultStartInstant_ + duration * 2.0;
         const InstantCondition condition = InstantCondition(RealCondition::Criterion::AnyCrossing, outsideTarget);
 
         const NumericalSolver::ConditionSolution conditionSolution =

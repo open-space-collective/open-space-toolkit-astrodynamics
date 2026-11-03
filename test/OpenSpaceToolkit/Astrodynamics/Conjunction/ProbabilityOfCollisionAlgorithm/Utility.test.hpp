@@ -13,7 +13,6 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -52,7 +51,6 @@ inline ostk::astrodynamics::trajectory::State BuildJ2000StateWithRTNPositionCova
     const ostk::physics::time::Instant& anInstant
 )
 {
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
     using ostk::core::type::String;
 
@@ -69,7 +67,7 @@ inline ostk::astrodynamics::trajectory::State BuildJ2000StateWithRTNPositionCova
     using ostk::astrodynamics::trajectory::StateBuilder;
     using ostk::astrodynamics::uncertainty::Covariance;
 
-    const auto get = [&aRow, &anObjectPrefix](const String& aColumnSuffix) -> Real
+    const auto get = [&aRow, &anObjectPrefix](const String& aColumnSuffix) -> double
     {
         return aRow[String::Format("{}_{}", anObjectPrefix, aColumnSuffix)].accessReal();
     };
@@ -148,7 +146,7 @@ struct PoCTestCase
     ostk::astrodynamics::conjunction::CloseApproach closeApproach;
     ostk::core::type::Shared<const ostk::astrodynamics::conjunction::HardBody> hardBody1SPtr;
     ostk::core::type::Shared<const ostk::astrodynamics::conjunction::HardBody> hardBody2SPtr;
-    ostk::core::type::Real expectedProbabilityOfCollision;
+    double expectedProbabilityOfCollision;
 
     /// @brief Get the description of the test case (e.g. for test failure messages)
     ///
@@ -183,7 +181,6 @@ struct PoCTestCase
         using ostk::core::container::Table;
         using ostk::core::filesystem::File;
         using ostk::core::filesystem::Path;
-        using ostk::core::type::Real;
         using ostk::core::type::String;
 
         using ostk::astrodynamics::conjunction::hardbody::Spherical;
@@ -202,7 +199,7 @@ struct PoCTestCase
 
         for (const auto& row : table)
         {
-            const Real combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
 
             // An empty comment cell is loaded as an undefined object
             const String comment = row["COMMENT"].isString() ? row["COMMENT"].accessString() : String::Empty();
@@ -244,7 +241,6 @@ struct PoCTestCase
         using ostk::core::container::Table;
         using ostk::core::filesystem::File;
         using ostk::core::filesystem::Path;
-        using ostk::core::type::Real;
         using ostk::core::type::String;
 
         using ostk::physics::time::DateTime;
@@ -267,7 +263,7 @@ struct PoCTestCase
 
         for (const auto& row : table)
         {
-            const Real combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
 
             // An empty comment cell is loaded as an undefined object
             const String comment = row["COMMENT"].isString() ? row["COMMENT"].accessString() : String::Empty();
@@ -317,7 +313,6 @@ struct PoCTestCase
         using ostk::core::container::Table;
         using ostk::core::filesystem::File;
         using ostk::core::filesystem::Path;
-        using ostk::core::type::Real;
         using ostk::core::type::String;
 
         using ostk::astrodynamics::conjunction::hardbody::Spherical;
@@ -336,7 +331,7 @@ struct PoCTestCase
 
         for (const auto& row : table)
         {
-            const Real combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
 
             testCases.add({
                 row["NAME"].accessString(),
@@ -379,10 +374,7 @@ struct PoCTestCase
     /// @param aSigmaY The combined standard deviation along the y principal axis [m]
     /// @return The close approach
     static ostk::astrodynamics::conjunction::CloseApproach BuildCloseApproachFromRotatedEncounterFrameParams(
-        const ostk::core::type::Real& aMissDistanceX,
-        const ostk::core::type::Real& aMissDistanceY,
-        const ostk::core::type::Real& aSigmaX,
-        const ostk::core::type::Real& aSigmaY
+        double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY
     )
     {
         using ostk::core::type::Shared;
@@ -465,7 +457,6 @@ struct PoCTestCase
         const ostk::core::container::table::Row& aRow, const ostk::core::type::String& anObjectPrefix
     )
     {
-        using ostk::core::type::Real;
         using ostk::core::type::Shared;
         using ostk::core::type::String;
 
@@ -480,7 +471,7 @@ struct PoCTestCase
         using ostk::astrodynamics::trajectory::StateBuilder;
         using ostk::astrodynamics::uncertainty::Covariance;
 
-        const auto get = [&aRow, &anObjectPrefix](const String& aColumnSuffix) -> Real
+        const auto get = [&aRow, &anObjectPrefix](const String& aColumnSuffix) -> double
         {
             return aRow[String::Format("{}_{}", anObjectPrefix, aColumnSuffix)].accessReal();
         };
@@ -529,7 +520,7 @@ struct PoCAnalysisTestCase
     ostk::core::type::Shared<const ostk::astrodynamics::conjunction::HardBody> hardBody1SPtr;
     ostk::core::type::Shared<const ostk::astrodynamics::conjunction::HardBody> hardBody2SPtr;
     ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::ProbabilityRegion expectedRegion;
-    ostk::core::type::Real expectedMaximumProbabilityOfCollision;
+    double expectedMaximumProbabilityOfCollision;
 
     /// @brief Get the description of the test case (e.g. for test failure messages)
     ///
@@ -564,7 +555,6 @@ struct PoCAnalysisTestCase
         using ostk::core::container::Table;
         using ostk::core::filesystem::File;
         using ostk::core::filesystem::Path;
-        using ostk::core::type::Real;
         using ostk::core::type::String;
 
         using ostk::physics::time::DateTime;
@@ -608,7 +598,7 @@ struct PoCAnalysisTestCase
 
         for (const auto& row : table)
         {
-            const Real combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
 
             // An empty comment cell is loaded as an undefined object
             const String comment = row["COMMENT"].isString() ? row["COMMENT"].accessString() : String::Empty();

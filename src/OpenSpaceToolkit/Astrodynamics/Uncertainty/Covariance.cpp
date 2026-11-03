@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -72,7 +74,7 @@ Covariance::Covariance(
 
     // Computed eigenvalues are only accurate up to rounding errors (relative to the matrix norm), so a tolerance is
     // required to accept singular (positive semi-definite) matrices
-    const Real tolerance = 1e-12 * coordinates_.cwiseAbs().maxCoeff();
+    const double tolerance = 1e-12 * coordinates_.cwiseAbs().maxCoeff();
 
     const Eigen::SelfAdjointEigenSolver<MatrixXd> eigenSolver(coordinates_, Eigen::EigenvaluesOnly);
 
@@ -293,14 +295,14 @@ Covariance Covariance::reduce(const Array<Shared<const CoordinateSubset>>& aCoor
     };
 }
 
-Covariance Covariance::scale(const Real& aScalar) const
+Covariance Covariance::scale(double aScalar) const
 {
-    if (!aScalar.isDefined())
+    if (std::isnan(aScalar))
     {
         throw ostk::core::error::runtime::Undefined("Scalar");
     }
 
-    if (!aScalar.isStrictlyPositive())
+    if (!(aScalar > 0.0))
     {
         throw ostk::core::error::runtime::Wrong("Scalar");
     }

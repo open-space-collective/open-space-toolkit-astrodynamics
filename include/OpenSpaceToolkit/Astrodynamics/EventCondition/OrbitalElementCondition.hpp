@@ -5,7 +5,6 @@
 
 #include <functional>
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -26,7 +25,6 @@ namespace eventcondition
 {
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -324,7 +322,7 @@ class OrbitalElementCondition
     );
 
    private:
-    static std::function<Real(const State&)> GenerateEvaluator(
+    static std::function<double(const State&)> GenerateEvaluator(
         const Theory& aTheory,
         const COE::Element& anElement,
         const Shared<const Frame>& aFrameSPtr,

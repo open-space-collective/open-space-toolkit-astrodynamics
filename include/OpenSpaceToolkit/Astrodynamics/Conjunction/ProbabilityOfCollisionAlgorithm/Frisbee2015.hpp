@@ -6,7 +6,6 @@
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -29,7 +28,6 @@ namespace probabilityofcollisionalgorithm
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -122,7 +120,7 @@ class Frisbee2015 : public ProbabilityOfCollisionAlgorithm
     /// @param aHardBody2SPtr The hard body of Object 2
     ///
     /// @return The probability of collision
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -136,7 +134,7 @@ class Frisbee2015 : public ProbabilityOfCollisionAlgorithm
     /// @param aHardBody2SPtr The hard body of Object 2
     ///
     /// @return The probability of collision
-    Real computeProbabilityOfCollision_(
+    double computeProbabilityOfCollision_(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr

@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition__
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp>
@@ -19,7 +18,6 @@ namespace eventcondition
 {
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::unit::Angle;
@@ -53,7 +51,7 @@ class AngularCondition : public EventCondition
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)>& anEvaluator,
+        const std::function<double(const State&)>& anEvaluator,
         const Angle& aTargetAngle
     );
 
@@ -71,7 +69,7 @@ class AngularCondition : public EventCondition
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)>& anEvaluator,
+        const std::function<double(const State&)>& anEvaluator,
         const Target& aTarget
     );
 
@@ -143,7 +141,7 @@ class AngularCondition : public EventCondition
     /// @return Angular Event Condition.
     static AngularCondition WithinRange(
         const String& aName,
-        const std::function<Real(const State&)>& anEvaluator,
+        const std::function<double(const State&)>& anEvaluator,
         const Pair<Angle, Angle>& aTargetRange
     );
 
@@ -159,18 +157,18 @@ class AngularCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<bool(const Real&, const Real&, const Real&)> comparator_;
-    Pair<Real, Real> targetRange_;
+    std::function<bool(double, double, double)> comparator_;
+    Pair<double, double> targetRange_;
 
-    static bool IsPositiveCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
-    static bool IsNegativeCrossing(const Real& currentAngle, const Real& previousAngle, const Real& targetAngle);
+    static bool IsPositiveCrossing(double currentAngle, double previousAngle, double targetAngle);
+    static bool IsNegativeCrossing(double currentAngle, double previousAngle, double targetAngle);
 
-    std::function<bool(const Real&, const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
+    std::function<bool(double, double, double)> GenerateComparator(const Criterion& aCriterion);
 
     AngularCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)>& anEvaluator,
+        const std::function<double(const State&)>& anEvaluator,
         const Pair<Angle, Angle>& aTargetRange
     );
 };

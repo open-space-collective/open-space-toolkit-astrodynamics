@@ -15,7 +15,7 @@ InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& a
     : RealCondition(
           "Instant Condition",
           aCriterion,
-          [anInstant](const State& aState) -> Real
+          [anInstant](const State& aState) -> double
           {
               return (aState.accessInstant() - anInstant).inSeconds();
           },

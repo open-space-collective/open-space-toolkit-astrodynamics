@@ -11,7 +11,6 @@
 
 using namespace pybind11;
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
@@ -80,7 +79,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
         eventConditionTarget
 
             .def(
-                init<const Real&, const EventCondition::Target::Type&>(),
+                init<double, const EventCondition::Target::Type&>(),
                 R"doc(
                     Construct a new `EventConditionTarget` object.
 
@@ -177,7 +176,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
         eventCondition
 
             .def(
-                init<const String&, const std::function<Real(const State&)>&, const EventCondition::Target&>(),
+                init<const String&, const std::function<double(const State&)>&, const EventCondition::Target&>(),
                 R"doc(
                     Construct a new `EventCondition` object.
 
@@ -195,7 +194,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             )
 
             .def(
-                init<const String&, const std::function<Real(const State&)>&, const Real&>(),
+                init<const String&, const std::function<double(const State&)>&, double>(),
                 R"doc(
                     Construct a new `EventCondition` object.
 

@@ -14,6 +14,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -95,7 +96,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
     for (Size k = 0; k < aStateArray.getSize(); k++)
     {
         const State& state = aStateArray[k];
-        const Real massFlowRate = state.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const double massFlowRate = state.extractCoordinate(RequiredCoordinateSubsets[3])[0];
 
         // Check mass flow rate is not positive
         if (massFlowRate > 0.0)
@@ -198,7 +199,7 @@ Interval Maneuver::getInterval() const
     return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
 }
 
-Real Maneuver::calculateDeltaV() const
+double Maneuver::calculateDeltaV() const
 {
     if (states_.getSize() < 2)
     {
@@ -206,17 +207,17 @@ Real Maneuver::calculateDeltaV() const
     }
 
     // Use simple forward trapezoidal rule to calculate the total delta-v
-    Real totalDeltaV = 0.0;
+    double totalDeltaV = 0.0;
     for (Size i = 0; i < states_.getSize() - 1; i++)
     {
         const State& currentState = states_[i];
         const State& nextState = states_[i + 1];
 
-        const Real timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+        const double timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
 
-        const Real currentAccelerationMagnitude =
+        const double currentAccelerationMagnitude =
             currentState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
-        const Real nextAccelerationMagnitude =
+        const double nextAccelerationMagnitude =
             nextState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
 
         totalDeltaV += ((currentAccelerationMagnitude + nextAccelerationMagnitude) / 2.0) * timeStep;
@@ -233,16 +234,16 @@ Mass Maneuver::calculateDeltaMass() const
     }
 
     // Use simple forward trapezoidal rule to calculate the total delta-mass
-    Real totalDeltaMass = 0.0;
+    double totalDeltaMass = 0.0;
     for (Size i = 0; i < states_.getSize() - 1; i++)
     {
         const State& currentState = states_[i];
         const State& nextState = states_[i + 1];
 
-        const Real currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
-        const Real nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const double currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const double nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
 
-        const Real timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+        const double timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
 
         totalDeltaMass += (-(currentMassFlowRate + nextMassFlowRate) / 2.0) * timeStep;
     }
@@ -250,34 +251,34 @@ Mass Maneuver::calculateDeltaMass() const
     return Mass::Kilograms(totalDeltaMass);
 }
 
-Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
+double Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
 {
     if (states_.getSize() < 2)
     {
         throw ostk::core::error::RuntimeError("At least two states are required to calculate the average thrust.");
     }
 
-    Real currentMass = anInitialSpacecraftMass.inKilograms();
-    Real weightedThrustSum = 0.0;
+    double currentMass = anInitialSpacecraftMass.inKilograms();
+    double weightedThrustSum = 0.0;
 
     for (Size i = 0; i < states_.getSize() - 1; i++)
     {
         const State& currentState = states_[i];
         const State& nextState = states_[i + 1];
 
-        const Real currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
-        const Real nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const double currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
+        const double nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
 
-        const Real timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+        const double timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
 
         currentMass += ((currentMassFlowRate + nextMassFlowRate) / 2.0) * timeStep;
 
-        const Real currentAccelerationMagnitude =
+        const double currentAccelerationMagnitude =
             currentState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
-        const Real nextAccelerationMagnitude =
+        const double nextAccelerationMagnitude =
             nextState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
 
-        const Real currentThrust = (currentAccelerationMagnitude + nextAccelerationMagnitude) / 2.0 * currentMass;
+        const double currentThrust = (currentAccelerationMagnitude + nextAccelerationMagnitude) / 2.0 * currentMass;
 
         weightedThrustSum += currentThrust * timeStep;
     }
@@ -286,7 +287,7 @@ Real Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) const
            (states_.accessLast().accessInstant() - states_.accessFirst().accessInstant()).inSeconds();
 }
 
-Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
+double Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
 {
     if (states_.getSize() < 2)
     {
@@ -295,7 +296,7 @@ Real Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMa
         );
     }
 
-    const Real averageSpecificImpulse =
+    const double averageSpecificImpulse =
         (this->calculateAverageThrust(anInitialSpacecraftMass) * this->getInterval().getDuration().inSeconds()) /
         (this->calculateDeltaMass().inKilograms() * EarthGravitationalModel::gravityConstant);
 
@@ -318,8 +319,8 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(const Shared<const Frame>& aFram
         }
     );
 
-    const Array<Real> massFlowRateProfile = states_.map<Real>(
-        [this](const State& aState) -> Real
+    const Array<double> massFlowRateProfile = states_.map<double>(
+        [this](const State& aState) -> double
         {
             return aState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
         }
@@ -437,7 +438,7 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
         const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
         const Shared<const Frame>& stateFrame = state.accessFrame();
 
-        const Real originalMagnitude = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
+        const double originalMagnitude = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
         const Vector3d newThrustAccelerationLof = meanDirectionInLof * originalMagnitude;
         const Transform transform = lofFrame->getTransformTo(stateFrame, instant);
         const Vector3d newThrustAcceleration = transform.applyToVector(newThrustAccelerationLof);
@@ -458,14 +459,14 @@ void Maneuver::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream) << "Interval:" << this->getInterval().toString();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Total delta-v:" << this->calculateDeltaV().toString() << " [m/s]";
+        << "Total delta-v:" << utility::DoubleToString(this->calculateDeltaV()) << " [m/s]";
     ostk::core::utils::Print::Line(anOutputStream) << "Total mass consumed:" << this->calculateDeltaMass().toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 Maneuver Maneuver::ConstantMassFlowRateProfile(
-    const Array<State>& aStateArray, const Real& aMassFlowRate, const Interpolator::Type& anInterpolationType
+    const Array<State>& aStateArray, double aMassFlowRate, const Interpolator::Type& anInterpolationType
 )
 {
     Array<State> maneuverStates = Array<State>::Empty();

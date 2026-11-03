@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_BrouwerLyddaneMean_BrouwerLyddaneMeanLong__
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -35,7 +34,6 @@ namespace blm
 {
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -70,7 +68,7 @@ class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
     /// @param aMeanAnomaly A mean anomaly
     BrouwerLyddaneMeanLong(
         const Length &aSemiMajorAxis,
-        const Real &anEccentricity,
+        const double &anEccentricity,
         const Angle &anInclination,
         const Angle &aRaan,
         const Angle &anAop,

@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
@@ -16,8 +14,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::object::Composite;
@@ -39,8 +35,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder : publ
 
     Mass dryMass_ = {100.0, Mass::Unit::Kilogram};
     Matrix3d inertiaTensor_ = Matrix3d::Identity();
-    Real crossSectionalSurfaceArea_ = 0.8;
-    Real dragCoefficient_ = 1.2;
+    double crossSectionalSurfaceArea_ = 0.8;
+    double dragCoefficient_ = 1.2;
     Composite geometry_ = Composite(Cuboid(
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));

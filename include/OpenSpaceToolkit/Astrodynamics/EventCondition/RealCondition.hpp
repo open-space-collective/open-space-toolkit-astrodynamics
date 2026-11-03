@@ -3,7 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -17,7 +16,6 @@ namespace astrodynamics
 namespace eventcondition
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::time::Duration;
@@ -45,16 +43,16 @@ class RealCondition : public EventCondition
     ///                  RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTargetValue};
     /// @endcode
     ///
-    /// @param aName A string representing the name of the Real Event Condition
-    /// @param aCriterion An enum indicating the criterion used to determine if the Real Event
+    /// @param aName A string representing the name of the double Event Condition
+    /// @param aCriterion An enum indicating the criterion used to determine if the double Event
     /// Condition is met
     /// @param anEvaluator A function evaluating a state
-    /// @param aTargetValue A target value associated with the Real Event Condition
+    /// @param aTargetValue A target value associated with the double Event Condition
     RealCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)>& anEvaluator,
-        const Real& aTargetValue = 0.0
+        const std::function<double(const State&)>& anEvaluator,
+        double aTargetValue = 0.0
     );
 
     /// @brief Constructor
@@ -63,15 +61,15 @@ class RealCondition : public EventCondition
     ///                  RealCondition RealCondition = {aName, aCriterion, anEvaluator, aTarget};
     /// @endcode
     ///
-    /// @param aName A string representing the name of the Real Event Condition
-    /// @param aCriterion An enum indicating the criterion used to determine if the Real Event
+    /// @param aName A string representing the name of the double Event Condition
+    /// @param aCriterion An enum indicating the criterion used to determine if the double Event
     /// Condition is met
     /// @param anEvaluator A function evaluating a state
-    /// @param aTarget A target associated with the Real Event Condition
+    /// @param aTarget A target associated with the double Event Condition
     RealCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const State&)>& anEvaluator,
+        const std::function<double(const State&)>& anEvaluator,
         const EventCondition::Target& aTarget
     );
 
@@ -100,12 +98,12 @@ class RealCondition : public EventCondition
     /// @code{.cpp}
     ///     RealCondition condition = { ... } ;
     ///     State state = { ... } ;
-    ///     Real value = condition.evaluate(state) ;
+    ///     double value = condition.evaluate(state) ;
     /// @endcode
     ///
     /// @param aState The current state.
-    /// @return Real number representing the evaluation result of the Event Condition.
-    Real evaluate(const State& state) const;
+    /// @return double number representing the evaluation result of the Event Condition.
+    double evaluate(const State& state) const;
 
     /// @brief Check if the Event Condition is satisfied based on current state and previous
     ///                  state/time
@@ -118,7 +116,7 @@ class RealCondition : public EventCondition
 
     /// @brief clone the Real Condition
     ///
-    /// @return Pointer to the cloned Real Condition
+    /// @return Pointer to the cloned double Condition
     virtual RealCondition* clone() const override;
 
     /// @brief Convert criterion to string.
@@ -146,9 +144,9 @@ class RealCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<bool(const Real&, const Real&)> comparator_;
+    std::function<bool(double, double)> comparator_;
 
-    static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
+    static std::function<bool(double, double)> GenerateComparator(const Criterion& aCriterion);
 };
 
 }  // namespace eventcondition

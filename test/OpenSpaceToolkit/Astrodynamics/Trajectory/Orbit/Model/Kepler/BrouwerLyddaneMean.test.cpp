@@ -2,8 +2,6 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -19,7 +17,6 @@
 
 using ostk::core::container::Tuple;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
@@ -39,7 +36,7 @@ class BrouwerLyddaneMeanMock : public BrouwerLyddaneMean
    public:
     BrouwerLyddaneMeanMock(
         const Length &aSemiMajorAxis,
-        const Real &anEccentricity,
+        const double &anEccentricity,
         const Angle &anInclination,
         const Angle &aRaan,
         const Angle &anAop,
@@ -56,7 +53,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddan
 {
    protected:
     const Length semiMajorAxis_ = Length::Kilometers(6973.743736075629);
-    const Real eccentricity_ = 0.001202049190851806;
+    const double eccentricity_ = 0.001202049190851806;
     const Angle inclination_ = Angle::Degrees(97.8128984109556);
     const Angle raan_ = Angle::Degrees(19.06531022901672);
     const Angle aop_ = Angle::Degrees(89.87616473223646);

@@ -5,7 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -24,7 +23,6 @@ namespace guidancelaw
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
@@ -89,7 +87,7 @@ class CompositeGuidanceLaw : public GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration,
+        double aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 

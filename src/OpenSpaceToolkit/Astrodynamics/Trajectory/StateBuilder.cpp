@@ -138,7 +138,7 @@ const State StateBuilder::reduce(const State& aState) const
     }
 
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
-    Integer nextIndex = 0;
+    int nextIndex = 0;
 
     for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
@@ -174,8 +174,8 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
     }
 
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
-    Integer nextIndex = 0;
-    Integer nonDefaultSubsetDetections = 0;
+    int nextIndex = 0;
+    int nonDefaultSubsetDetections = 0;
 
     const State stateInBrokerFrame = aState.inFrame(this->frameSPtr_);
     const State defaultStateInBrokerFrame = defaultState.inFrame(this->frameSPtr_);

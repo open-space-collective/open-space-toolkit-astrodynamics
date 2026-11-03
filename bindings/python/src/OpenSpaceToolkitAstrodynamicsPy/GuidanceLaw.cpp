@@ -8,7 +8,6 @@
 
 using namespace pybind11;
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -36,7 +35,7 @@ class PyGuidanceLaw : public GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration,
+        double aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
     ) const override
     {

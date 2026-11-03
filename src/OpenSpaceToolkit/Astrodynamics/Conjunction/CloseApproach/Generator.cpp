@@ -188,7 +188,7 @@ Generator Generator::Undefined()
     return Generator(Trajectory::Undefined());
 }
 
-Real Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2)
+double Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2)
 {
     if (!aState1.isDefined() || !aState2.isDefined())
     {
@@ -212,8 +212,8 @@ Real Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const S
     const Vector3d relativeVelocityCoordinates =
         relativeVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
-    const Real dotProduct = relativePositionCoordinates.dot(relativeVelocityCoordinates);
-    const Real relativePositionNorm = relativePositionCoordinates.norm();
+    const double dotProduct = relativePositionCoordinates.dot(relativeVelocityCoordinates);
+    const double relativePositionNorm = relativePositionCoordinates.norm();
 
     if (relativePositionNorm == 0.0)
     {

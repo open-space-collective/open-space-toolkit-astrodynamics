@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
@@ -25,7 +24,6 @@ namespace trajectory
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 

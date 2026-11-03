@@ -5,7 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -34,7 +33,6 @@ namespace flight
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -152,11 +150,11 @@ class Maneuver
     /// @brief Calculate the deltaV magnitude imparted during the maneuver
     ///
     /// @code{.cpp}
-    ///                  Real deltaV = maneuver.calculateDeltaV();
+    ///                  double deltaV = maneuver.calculateDeltaV();
     /// @endcode
     ///
     /// @return The deltaV (m/s)
-    Real calculateDeltaV() const;
+    double calculateDeltaV() const;
 
     /// @brief Calculate the delta Mass lost during the maneuver
     ///
@@ -170,25 +168,25 @@ class Maneuver
     /// @brief Calculate the average thrust imparted during the maneuver
     ///
     /// @code{.cpp}
-    ///                  Real averageThrust = maneuver.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram));
+    ///                  double averageThrust = maneuver.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram));
     /// @endcode
     ///
     /// @param anInitialSpacecraftMass The initial mass of the spacecraft
     ///
     /// @return The average thrust (N)
-    Real calculateAverageThrust(const Mass& anInitialSpacecraftMass) const;
+    double calculateAverageThrust(const Mass& anInitialSpacecraftMass) const;
 
     /// @brief Calculate the average specific impulse produced during the maneuver
     ///
     /// @code{.cpp}
-    ///                  Real averageSpecificImpulse = maneuver.calculateAverageSpecificImpulse(Mass(100.0,
+    ///                  double averageSpecificImpulse = maneuver.calculateAverageSpecificImpulse(Mass(100.0,
     ///                  Mass::Unit::Kilogram));
     /// @endcode
     ///
     /// @param anInitialSpacecraftMass The initial mass of the spacecraft
     ///
     /// @return The average specific impulse (s)
-    Real calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const;
+    double calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const;
 
     /// @brief Convert the maneuver to a Tabulated Dynamics object
     ///
@@ -259,7 +257,7 @@ class Maneuver
     /// @return A maneuver
     static Maneuver ConstantMassFlowRateProfile(
         const Array<State>& aStatearray,
-        const Real& aMassFlowRate,
+        double aMassFlowRate,
         const Interpolator::Type& anInterpolationType = DEFAULT_MANEUVER_INTERPOLATION_TYPE
     );
 

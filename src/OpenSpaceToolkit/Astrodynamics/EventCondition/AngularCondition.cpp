@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <cmath>
+#include <limits>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -17,26 +18,26 @@ namespace eventcondition
 AngularCondition::AngularCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)>& anEvaluator,
+    const std::function<double(const State&)>& anEvaluator,
     const Angle& aTargetAngle
 )
-    : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, Real::TwoPi())),
+    : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, 2.0 * M_PI)),
       criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion)),
-      targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
+      targetRange_(std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()))
 {
 }
 
 AngularCondition::AngularCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)>& anEvaluator,
+    const std::function<double(const State&)>& anEvaluator,
     const Target& aTarget
 )
     : EventCondition(aName, anEvaluator, aTarget),
       criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion)),
-      targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
+      targetRange_(std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()))
 {
 }
 
@@ -49,7 +50,7 @@ AngularCondition::Criterion AngularCondition::getCriterion() const
 
 Angle AngularCondition::getTargetAngle() const
 {
-    if (!target_.value.isDefined())
+    if (std::isnan(target_.value))
     {
         throw ostk::core::error::runtime::Undefined("Target");
     }
@@ -59,7 +60,7 @@ Angle AngularCondition::getTargetAngle() const
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
 {
-    if (!targetRange_.first.isDefined() || !targetRange_.second.isDefined())
+    if (std::isnan(targetRange_.first) || std::isnan(targetRange_.second))
     {
         throw ostk::core::error::runtime::Undefined("Target Range");
     }
@@ -99,7 +100,7 @@ AngularCondition* AngularCondition::clone() const
 }
 
 AngularCondition AngularCondition::WithinRange(
-    const String& aName, const std::function<Real(const State&)>& anEvaluator, const Pair<Angle, Angle>& aTargetRange
+    const String& aName, const std::function<double(const State&)>& anEvaluator, const Pair<Angle, Angle>& aTargetRange
 )
 {
     return AngularCondition(aName, Criterion::WithinRange, anEvaluator, aTargetRange);
@@ -122,10 +123,10 @@ String AngularCondition::StringFromCriterion(const Criterion& aCriterion)
     }
 }
 
-bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
+bool AngularCondition::IsPositiveCrossing(double currentValue, double previousValue, double targetValue)
 {
     // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+    const double deltaAngle = std::fmod(currentValue - previousValue + 3.0 * M_PI, 2.0 * M_PI) - M_PI;
 
     if (deltaAngle <= 0.0)
     {
@@ -140,10 +141,10 @@ bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& 
     return (currentValue < previousValue) && (targetValue >= previousValue || targetValue < currentValue);
 }
 
-bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
+bool AngularCondition::IsNegativeCrossing(double currentValue, double previousValue, double targetValue)
 {
     // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
+    const double deltaAngle = std::fmod(currentValue - previousValue + 3.0 * M_PI, 2.0 * M_PI) - M_PI;
 
     if (deltaAngle >= 0.0)
     {
@@ -158,24 +159,24 @@ bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& 
     return (currentValue > previousValue) && (targetValue <= previousValue || targetValue > currentValue);
 }
 
-std::function<bool(const Real&, const Real&, const Real&)> AngularCondition::GenerateComparator(
+std::function<bool(double, double, double)> AngularCondition::GenerateComparator(
     const AngularCondition::Criterion& aCriterion
 )
 {
     switch (aCriterion)
     {
         case Criterion::PositiveCrossing:
-            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
+            return [](double currentValue, double previousValue, double aTarget) -> bool
             {
                 return AngularCondition::IsPositiveCrossing(currentValue, previousValue, aTarget);
             };
         case Criterion::NegativeCrossing:
-            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
+            return [](double currentValue, double previousValue, double aTarget) -> bool
             {
                 return AngularCondition::IsNegativeCrossing(currentValue, previousValue, aTarget);
             };
         case Criterion::AnyCrossing:
-            return [](const Real& currentValue, const Real& previousValue, const Real& aTarget) -> bool
+            return [](double currentValue, double previousValue, double aTarget) -> bool
             {
                 return AngularCondition::IsPositiveCrossing(currentValue, previousValue, aTarget) ||
                        AngularCondition::IsNegativeCrossing(currentValue, previousValue, aTarget);
@@ -192,15 +193,15 @@ std::function<bool(const Real&, const Real&, const Real&)> AngularCondition::Gen
 AngularCondition::AngularCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)>& anEvaluator,
+    const std::function<double(const State&)>& anEvaluator,
     const Pair<Angle, Angle>& aTargetRange
 )
-    : EventCondition(aName, anEvaluator, Real::Undefined()),
+    : EventCondition(aName, anEvaluator, std::numeric_limits<double>::quiet_NaN()),
       criterion_(aCriterion),
       comparator_(
-          [lowerBound = aTargetRange.first.inRadians(0.0, Real::TwoPi()),
-           upperBound = aTargetRange.second.inRadians(0.0, Real::TwoPi())](
-              const Real& currentValue, [[maybe_unused]] const Real& previousValue, [[maybe_unused]] const Real& aTarget
+          [lowerBound = aTargetRange.first.inRadians(0.0, 2.0 * M_PI),
+           upperBound = aTargetRange.second.inRadians(0.0, 2.0 * M_PI)](
+              double currentValue, [[maybe_unused]] double previousValue, [[maybe_unused]] double aTarget
           ) -> bool
           {
               // For ranges that wrap around 0/360 (when lowerBound > upperBound)
@@ -213,9 +214,9 @@ AngularCondition::AngularCondition(
               return (currentValue >= lowerBound) && (currentValue <= upperBound);
           }
       ),
-      targetRange_(std::make_pair(
-          aTargetRange.first.inRadians(0.0, Real::TwoPi()), aTargetRange.second.inRadians(0.0, Real::TwoPi())
-      ))
+      targetRange_(
+          std::make_pair(aTargetRange.first.inRadians(0.0, 2.0 * M_PI), aTargetRange.second.inRadians(0.0, 2.0 * M_PI))
+      )
 {
 }
 

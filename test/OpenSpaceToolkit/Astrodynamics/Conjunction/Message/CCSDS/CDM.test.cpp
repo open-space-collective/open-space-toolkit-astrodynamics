@@ -1,12 +1,13 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
 using ostk::core::filesystem::File;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::MatrixXd;
@@ -118,8 +119,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                  97.8,
                  0.864,
                  5.2,
-                 Real::Undefined(),
-                 Real::Undefined(),
+                 std::numeric_limits<double>::quiet_NaN(),
+                 std::numeric_limits<double>::quiet_NaN(),
                  Mass::Kilograms(251.6),
                  0.045663,
                  0.0,
@@ -139,14 +140,14 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                  15,
                  97.8,
                  0.864,
-                 Real::Undefined(),
-                 Real::Undefined(),
-                 Real::Undefined(),
+                 std::numeric_limits<double>::quiet_NaN(),
+                 std::numeric_limits<double>::quiet_NaN(),
+                 std::numeric_limits<double>::quiet_NaN(),
                  Mass::Kilograms(20.0),
-                 Real::Undefined(),
-                 Real::Undefined(),
-                 Real::Undefined(),
-                 Real::Undefined(),
+                 std::numeric_limits<double>::quiet_NaN(),
+                 std::numeric_limits<double>::quiet_NaN(),
+                 std::numeric_limits<double>::quiet_NaN(),
+                 std::numeric_limits<double>::quiet_NaN(),
                  State::Undefined(),
                  MatrixXd(9, 9)
              }}
@@ -301,8 +302,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
         EXPECT_EQ(97.8, objectData.residualsAccepted);
         EXPECT_EQ(0.864, objectData.weightedRMS);
         EXPECT_EQ(5.2, objectData.areaPC);
-        // EXPECT_EQ(Real::Undefined(), objectData.areaDrag);
-        // EXPECT_EQ(Real::Undefined(), objectData.areaSRP);
+        // EXPECT_EQ(std::numeric_limits<double>::quiet_NaN(), objectData.areaDrag);
+        // EXPECT_EQ(std::numeric_limits<double>::quiet_NaN(), objectData.areaSRP);
         EXPECT_EQ(Mass::Kilograms(251.6), objectData.mass);
         EXPECT_EQ(0.045663, objectData.cdAreaOverMass);
         EXPECT_EQ(0.0, objectData.crAreaOverMass);

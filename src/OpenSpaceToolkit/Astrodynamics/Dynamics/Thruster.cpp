@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -35,7 +37,8 @@ Thruster::Thruster(
       satelliteSystem_(aSatelliteSystem),
       guidanceLaw_(aGuidanceLaw),
       massFlowRateCache_(
-          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate() : Real::Undefined()
+          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate()
+                                       : std::numeric_limits<double>::quiet_NaN()
       )
 {
 }
@@ -91,14 +94,14 @@ VectorXd Thruster::computeContribution(
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
-    const Real maximumAccelerationMagnitude =
+    const double maximumAccelerationMagnitude =
         satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6]));
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
         anInstant, positionCoordinates, velocityCoordinates, maximumAccelerationMagnitude, aFrameSPtr
     );
 
-    const Real effectiveAccelerationFraction = acceleration.norm() / maximumAccelerationMagnitude;
+    const double effectiveAccelerationFraction = acceleration.norm() / maximumAccelerationMagnitude;
 
     // Compute contribution
     VectorXd contribution(4);

@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <limits>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -23,14 +24,13 @@ namespace model
 namespace blm
 {
 
-using ostk::core::type::Integer;
 using ostk::core::type::Size;
 
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 BrouwerLyddaneMeanLong::BrouwerLyddaneMeanLong(
     const Length &aSemiMajorAxis,
-    const Real &anEccentricity,
+    const double &anEccentricity,
     const Angle &anInclination,
     const Angle &aRaan,
     const Angle &anAop,
@@ -423,7 +423,7 @@ BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::Undefined()
 {
     return {
         Length::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
         Angle::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),

@@ -5,7 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -32,7 +31,6 @@ namespace sgp4
 
 using ostk::core::container::Array;
 using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
@@ -95,11 +93,11 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aRaan,
-        const Real& anEccentricity,
+        double anEccentricity,
         const Angle& anAop,
         const Angle& aMeanAnomaly,
         const Derived& aMeanMotion,
-        const Real& aBStarDragTerm,
+        double aBStarDragTerm,
         const Integer& aRevolutionNumberAtEpoch = 1,
         const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
     );
@@ -205,11 +203,11 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the eccentricity.
     ///
     /// @code{.cpp}
-    ///     Real eccentricity = sgp4FullPrecision.getEccentricity();
+    ///     double eccentricity = sgp4FullPrecision.getEccentricity();
     /// @endcode
     ///
     /// @return The eccentricity.
-    Real getEccentricity() const;
+    double getEccentricity() const;
 
     /// @brief Get the argument of periapsis.
     ///
@@ -232,7 +230,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the mean motion.
     ///
     /// @code{.cpp}
-    ///     Real meanMotion_revPerDay = sgp4FullPrecision.getMeanMotion().in(
+    ///     double meanMotion_revPerDay = sgp4FullPrecision.getMeanMotion().in(
     ///         Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)
     ///     );
     /// @endcode
@@ -243,20 +241,20 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the B* drag term.
     ///
     /// @code{.cpp}
-    ///     Real bStarDragTerm = sgp4FullPrecision.getBStarDragTerm();
+    ///     double bStarDragTerm = sgp4FullPrecision.getBStarDragTerm();
     /// @endcode
     ///
     /// @return The B* drag term.
-    Real getBStarDragTerm() const;
+    double getBStarDragTerm() const;
 
     /// @brief Get the revolution number at epoch.
     ///
     /// @code{.cpp}
-    ///     Integer revolutionNumber = sgp4FullPrecision.getRevolutionNumberAtEpoch();
+    ///     int revolutionNumber = sgp4FullPrecision.getRevolutionNumberAtEpoch();
     /// @endcode
     ///
     /// @return The revolution number at epoch.
-    virtual Integer getRevolutionNumberAtEpoch() const override;
+    virtual int getRevolutionNumberAtEpoch() const override;
 
     /// @brief Get output frame.
     ///
@@ -333,11 +331,11 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     Instant epoch_;
     Angle inclination_;
     Angle raan_;
-    Real eccentricity_;
+    double eccentricity_;
     Angle aop_;
     Angle meanAnomaly_;
     Derived meanMotion_;
-    Real bStarDragTerm_;
+    double bStarDragTerm_;
     Integer revolutionNumberAtEpoch_;
     Shared<const Frame> outputFrameSPtr_;
 

@@ -93,9 +93,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 init<
                     const NumericalSolver::LogType&,
                     const NumericalSolver::StepperType&,
-                    const Real&,
-                    const Real&,
-                    const Real&,
+                    double,
+                    double,
+                    double,
                     const RootSolver&,
                     const std::function<void(const State&)>&>(),
                 R"doc(
@@ -164,7 +164,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Get the maximum step size.
 
                     Returns:
-                        Real: The maximum step size in seconds, or Real.undefined() if not set.
+                        float: The maximum step size in seconds, or NaN if not set.
                 )doc"
             )
             .def(
@@ -174,7 +174,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Set the maximum step size.
 
                     Args:
-                        maximum_step_size (Real): The maximum step size in seconds. Use Real.undefined() to remove the limit.
+                        maximum_step_size (float): The maximum step size in seconds. Use float('nan') to remove the limit.
                 )doc",
                 arg("maximum_step_size")
             )

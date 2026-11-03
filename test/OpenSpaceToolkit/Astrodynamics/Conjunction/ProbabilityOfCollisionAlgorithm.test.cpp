@@ -4,7 +4,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -28,7 +27,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -69,7 +67,7 @@ class AlwaysApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
         return Array<String>::Empty();
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -99,7 +97,7 @@ class NeverApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
         return {"Never applicable"};
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -118,7 +116,7 @@ class NeverApplicableAlgorithm : public ProbabilityOfCollisionAlgorithm
 class ConstantProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
-    ConstantProbabilityOfCollisionAlgorithm(const Real& aProbabilityOfCollision)
+    ConstantProbabilityOfCollisionAlgorithm(double aProbabilityOfCollision)
         : ProbabilityOfCollisionAlgorithm("Constant", false),
           probabilityOfCollision_(aProbabilityOfCollision)
     {
@@ -131,7 +129,7 @@ class ConstantProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlg
         return Array<String>::Empty();
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -145,7 +143,7 @@ class ConstantProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlg
     }
 
    private:
-    Real probabilityOfCollision_;
+    double probabilityOfCollision_;
 };
 
 /// @brief Mock probability of collision algorithm computing a maximum probability of collision (i.e. an upper bound),
@@ -153,7 +151,7 @@ class ConstantProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlg
 class MaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
-    MaximumProbabilityOfCollisionAlgorithm(const Real& aProbabilityOfCollision)
+    MaximumProbabilityOfCollisionAlgorithm(double aProbabilityOfCollision)
         : ProbabilityOfCollisionAlgorithm("Maximum", true),
           probabilityOfCollision_(aProbabilityOfCollision)
     {
@@ -166,7 +164,7 @@ class MaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgo
         return Array<String>::Empty();
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -180,7 +178,7 @@ class MaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgo
     }
 
    private:
-    Real probabilityOfCollision_;
+    double probabilityOfCollision_;
 };
 
 /// @brief Mock probability of collision algorithm returning a probability of collision that increases with the
@@ -203,7 +201,7 @@ class IncreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
         return Array<String>::Empty();
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -236,7 +234,7 @@ class DecreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
         return Array<String>::Empty();
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -256,7 +254,7 @@ class DecreasingProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionA
 class SingleMaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
-    SingleMaximumProbabilityOfCollisionAlgorithm(const Real& aMaximumProbabilityOfCollisionSigma)
+    SingleMaximumProbabilityOfCollisionAlgorithm(double aMaximumProbabilityOfCollisionSigma)
         : ProbabilityOfCollisionAlgorithm("Single Maximum", false),
           maximumProbabilityOfCollisionSigma_(aMaximumProbabilityOfCollisionSigma)
     {
@@ -269,7 +267,7 @@ class SingleMaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisi
         return Array<String>::Empty();
     }
 
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -278,7 +276,7 @@ class SingleMaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisi
         (void)aHardBody1SPtr;
         (void)aHardBody2SPtr;
 
-        const Real sigma = std::sqrt(aCloseApproach.getObject1State().getCovariance()->getCoordinates()(0, 0));
+        const double sigma = std::sqrt(aCloseApproach.getObject1State().getCovariance()->getCoordinates()(0, 0));
 
         if (sigma <= maximumProbabilityOfCollisionSigma_)
         {
@@ -298,7 +296,7 @@ class SingleMaximumProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisi
     static constexpr double ZeroProbabilityOfCollisionSigma = 10000.0;
 
    private:
-    Real maximumProbabilityOfCollisionSigma_;
+    double maximumProbabilityOfCollisionSigma_;
 };
 
 }  // namespace
@@ -463,7 +461,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
             std::make_shared<DecreasingProbabilityOfCollisionAlgorithm>();
 
         for (const auto& [algorithmSPtr, expectedProbabilityOfCollision] :
-             std::vector<std::pair<Shared<const ProbabilityOfCollisionAlgorithm>, Real>> {
+             std::vector<std::pair<Shared<const ProbabilityOfCollisionAlgorithm>, double>> {
                  {constantAlgorithmSPtr, 0.01},
                  {increasingAlgorithmSPtr, std::log(10.0)},
                  {decreasingAlgorithmSPtr, 1.0 / 10.0},

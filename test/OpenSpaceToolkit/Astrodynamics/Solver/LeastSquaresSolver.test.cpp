@@ -1,9 +1,10 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
 #include <random>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
@@ -25,7 +26,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
@@ -53,7 +53,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step : public ::t
 {
    protected:
     const VectorXd xHat_ = VectorXd::Ones(6);
-    const Real rmsError_ = 1.0;
+    const double rmsError_ = 1.0;
     const LeastSquaresSolver::Step step_ = LeastSquaresSolver::Step(rmsError_, xHat_);
 };
 
@@ -115,7 +115,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };
-    const Real rmsError_ = steps_.accessLast().rmsError;
+    const double rmsError_ = steps_.accessLast().rmsError;
 
     const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
         terminationCriteria_,
@@ -243,13 +243,13 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
 
         // Define observations (true states with noise)
         const Size observationCount = 100;
-        const Real timeStep = 0.1;  // seconds
+        const double timeStep = 0.1;  // seconds
 
         for (Size i = 0; i < observationCount; ++i)
         {
-            const Real time = timeStep * static_cast<Real>(i);
-            const Real position = std::cos(time);
-            const Real velocity = -std::sin(time);
+            const double time = timeStep * static_cast<double>(i);
+            const double position = std::cos(time);
+            const double velocity = -std::sin(time);
 
             const Vector3d truePositionCoordinates = {position, 0.0, 0.0};
             const Vector3d trueVelocityCoordinates = {velocity, 0.0, 0.0};
@@ -311,7 +311,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
 
     Array<State> observationStates_;
     const Size maxIterationCount_ = 20;
-    const Real rmsUpdateThreshold_ = 1e-2;
+    const double rmsUpdateThreshold_ = 1e-2;
     const FiniteDifferenceSolver finiteDifferenceSolver_ = FiniteDifferenceSolver::Default();
     const LeastSquaresSolver solver_ = {maxIterationCount_, rmsUpdateThreshold_, finiteDifferenceSolver_};
 
@@ -321,14 +321,14 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         Array<State> states;
         states.reserve(instants.getSize());
 
-        const Real initialPosition = state.getPosition().accessCoordinates().x();
-        const Real initialVelocity = state.getVelocity().accessCoordinates().x();
+        const double initialPosition = state.getPosition().accessCoordinates().x();
+        const double initialVelocity = state.getVelocity().accessCoordinates().x();
 
         for (const auto& instant : instants)
         {
-            const Real time = (instant - state.getInstant()).inSeconds();
-            const Real position = initialPosition * std::cos(time) + initialVelocity * std::sin(time);
-            const Real velocity = -initialPosition * std::sin(time) + initialVelocity * std::cos(time);
+            const double time = (instant - state.getInstant()).inSeconds();
+            const double position = initialPosition * std::cos(time) + initialVelocity * std::sin(time);
+            const double velocity = -initialPosition * std::sin(time) + initialVelocity * std::cos(time);
 
             const Position newPosition = Position::Meters({position, 0.0, 0.0}, Frame::GCRF());
             const Velocity newVelocity = Velocity::MetersPerSecond({velocity, 0.0, 0.0}, Frame::GCRF());

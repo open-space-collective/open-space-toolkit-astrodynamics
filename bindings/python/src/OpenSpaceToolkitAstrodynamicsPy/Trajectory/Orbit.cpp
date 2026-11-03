@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp>
@@ -15,7 +17,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Integer;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
@@ -77,7 +78,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def(
-                init<const Array<State>&, const Integer&, const Shared<const Celestial>&>(),
+                init<const Array<State>&, int, const Shared<const Celestial>&>(),
                 arg("states"),
                 arg("initial_revolution_number"),
                 arg("celestial_object"),
@@ -86,7 +87,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         states (Array<State>): The states. States are interpolated with barycentric rational interpolation, which requires at least 4 states.
-                        initial_revolution_number (Integer): The initial revolution number.
+                        initial_revolution_number (int): The initial revolution number.
                         celestial_object (Celestial): The celestial object.
 
                 )doc"
@@ -399,7 +400,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("epoch"),
                 arg("altitude"),
                 arg("celestial_object"),
-                arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
+                arg_v("eccentricity", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
                 arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
                 arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
                 arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
@@ -451,7 +452,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
 
                     Args:
                         states (Array<State>): The states.
-                        initial_revolution_number (Integer): The initial revolution number.
+                        initial_revolution_number (int): The initial revolution number.
 
                     Returns:
                         list[tuple[int, Pass]]: List of index-pass pairs.

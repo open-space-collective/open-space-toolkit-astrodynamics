@@ -10,8 +10,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
-    using ostk::core::type::Integer;
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
     using ostk::core::type::String;
 
@@ -79,7 +77,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
     tleSolver
         .def(
-            init<const LeastSquaresSolver&, const Integer&, const String&, const Integer&, const bool>(),
+            init<const LeastSquaresSolver&, int, const String&, int, const bool>(),
             arg_v("solver", LeastSquaresSolver::Default(), "LeastSquaresSolver.default()"),
             arg("satellite_number") = 0,
             arg("international_designator") = "00001A",
@@ -225,7 +223,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
                const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
             {
-                std::variant<TLE, Pair<State, Real>, State> cppInitialGuess = State::Undefined();
+                std::variant<TLE, Pair<State, double>, State> cppInitialGuess = State::Undefined();
 
                 if (isinstance<TLE>(anInitialGuess))
                 {
@@ -234,7 +232,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
                 {
                     auto t = anInitialGuess.cast<tuple>();
-                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
+                    cppInitialGuess = Pair<State, double>(t[0].cast<State>(), t[1].cast<double>());
                 }
                 else if (isinstance<State>(anInitialGuess))
                 {
@@ -274,7 +272,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
                const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
             {
-                std::variant<TLE, Pair<State, Real>, State> cppInitialGuess = State::Undefined();
+                std::variant<TLE, Pair<State, double>, State> cppInitialGuess = State::Undefined();
 
                 if (isinstance<TLE>(anInitialGuess))
                 {
@@ -283,7 +281,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
                 {
                     auto t = anInitialGuess.cast<tuple>();
-                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
+                    cppInitialGuess = Pair<State, double>(t[0].cast<State>(), t[1].cast<double>());
                 }
                 else if (isinstance<State>(anInitialGuess))
                 {

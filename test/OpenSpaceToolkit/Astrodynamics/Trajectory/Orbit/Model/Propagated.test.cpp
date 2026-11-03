@@ -1,11 +1,10 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <numeric>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -36,8 +35,6 @@ using ostk::core::container::Array;
 using ostk::core::container::Table;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -97,7 +94,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public 
 
     const Instant defaultInstant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
 
-    const Integer defaultRevolutionNumber_ = 5;
+    const int defaultRevolutionNumber_ = 5;
 
     Position defaultPosition_ = Position::Undefined();
     Velocity defaultVelocity_ = Velocity::Undefined();
@@ -587,7 +584,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         const State state = {startInstant, defaultPosition_, defaultVelocity_};
 
         // Setup Propagated model and orbit
-        const Integer initialRevolutionNumber = 0;
+        const int initialRevolutionNumber = 0;
         const Propagated propagatedModel_twobody = {propagator_, state, initialRevolutionNumber};
         const Propagated propagatedModel_fullgrav = {
             {defaultNumericalSolver_, dynamics}, state, initialRevolutionNumber
@@ -597,7 +594,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         const Derived gravitationalParameter = EarthGravitationalModel::Spherical.gravitationalParameter_;
         const Derived::Unit GravitationalParameterSIUnit =
             Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
-        const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);
+        const double gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);
 
         // Get position and velocity coordinates from starting state
         Position currentPosition = state.getPosition();
@@ -612,14 +609,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
             (currentPositionCoordinates.norm() * std::pow(currentVelocityCoordinates.norm(), 2) -
              2.0 * gravitationalParameter_SI);
         const Duration currentOrbitalPeriod =
-            Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI));
+            Duration::Seconds(2.0 * M_PI * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI));
 
         // Calculate revolution number at instant
         const int propagationRevolutions = 5;
         const Instant endInstant = startInstant - currentOrbitalPeriod * propagationRevolutions;
 
-        const Integer revolutionNumber_twobody = propagatedModel_twobody.calculateRevolutionNumberAt(endInstant);
-        const Integer revolutionNumber_fullgrav = propagatedModel_fullgrav.calculateRevolutionNumberAt(endInstant);
+        const int revolutionNumber_twobody = propagatedModel_twobody.calculateRevolutionNumberAt(endInstant);
+        const int revolutionNumber_fullgrav = propagatedModel_fullgrav.calculateRevolutionNumberAt(endInstant);
 
         EXPECT_EQ(initialRevolutionNumber - propagationRevolutions, revolutionNumber_twobody);
         EXPECT_EQ(initialRevolutionNumber - propagationRevolutions, revolutionNumber_fullgrav);

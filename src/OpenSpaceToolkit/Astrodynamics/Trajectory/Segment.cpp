@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <numeric>
 #include <optional>
 
@@ -397,7 +398,7 @@ Shared<Thruster> Segment::Solution::getThrusterDynamics() const
     return thrusterDynamics;
 }
 
-Real Segment::Solution::computeDeltaV(const Real& aSpecificImpulse) const
+double Segment::Solution::computeDeltaV(double aSpecificImpulse) const
 {
     // TBM: This is only valid for constant thrust, constant Isp
     if (this->segmentType != Segment::Type::Maneuver)
@@ -451,8 +452,8 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
 
     for (const Interval& maneuverInterval : this->maneuverIntervals)
     {
-        Integer blockStart = Integer::Undefined();
-        Integer blockEnd = Integer::Undefined();
+        std::optional<Size> blockStart = std::nullopt;
+        std::optional<Size> blockEnd = std::nullopt;
 
         for (Size i = 0; i < numberOfStates; i++)
         {
@@ -460,7 +461,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
 
             if (maneuverInterval.contains(stateInstant))
             {
-                if (!blockStart.isDefined())
+                if (!blockStart.has_value())
                 {
                     blockStart = i;
                 }
@@ -468,9 +469,9 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
             }
         }
 
-        if (blockStart.isDefined() && blockEnd.isDefined())
+        if (blockStart.has_value() && blockEnd.has_value())
         {
-            maneuverBlockStartStopIndices.add(Pair<Size, Size>(blockStart, blockEnd));
+            maneuverBlockStartStopIndices.add(Pair<Size, Size>(blockStart.value(), blockEnd.value()));
         }
     }
 
@@ -1612,9 +1613,10 @@ Segment::Solution Segment::solveWithDynamics_(
     NumericalSolver numericalSolver = numericalSolver_;
     if (limitMaxStepSize)
     {
-        Real maxStepSize = std::min(Real(120.0), (anEndInstant - aState.accessInstant()).inSeconds() / 10.0);
-        const Real originalMaxStepSize = numericalSolver_.getMaxStepSize();
-        if (originalMaxStepSize.isDefined())
+        double maxStepSize =
+            std::min(120.0, static_cast<double>((anEndInstant - aState.accessInstant()).inSeconds() / 10.0));
+        const double originalMaxStepSize = numericalSolver_.getMaxStepSize();
+        if (!std::isnan(originalMaxStepSize))
         {
             maxStepSize = std::min(maxStepSize, originalMaxStepSize);
         }
@@ -1705,7 +1707,8 @@ Shared<RealCondition> Segment::getThrusterToggleCondition_(const Shared<Thruster
 {
     const Shared<const GuidanceLaw> guidanceLaw = thrusterDynamics->getGuidanceLaw();
 
-    const std::function<Real(const State&)> thrustAccelerationNormEvaluator = [guidanceLaw](const State& state) -> Real
+    const std::function<double(const State&)> thrustAccelerationNormEvaluator = [guidanceLaw](const State& state
+                                                                                ) -> double
     {
         const Vector3d positionCoordinates = state.getPosition().inMeters().accessCoordinates();
         const Vector3d velocityCoordinates =
