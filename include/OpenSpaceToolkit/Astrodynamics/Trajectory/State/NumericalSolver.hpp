@@ -124,27 +124,45 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief Perform numerical integration from a start time to an end time.
     ///
+    /// @details The observed states are cleared before the integration, unless they are to be appended: the integration
+    /// is then a continuation of the previous one. The observed states beyond the initial state (in the direction of
+    /// the integration) are discarded, the initial state is observed unless it already is the last observed state, and
+    /// the states observed by this integration are appended.
+    ///
     /// @param aState Initial state for integration.
     /// @param anInstant Time to integrate to.
     /// @param aSystemOfEquations System of equations to integrate.
+    /// @param appendObservedStates (optional) If true, append to the observed states, otherwise clear them. Defaults
+    /// to false.
     /// @return Final state after integration.
     State integrateTime(
-        const State& aState, const Instant& anInstant, const SystemOfEquationsWrapper& aSystemOfEquations
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const bool& appendObservedStates = false
     );
 
     /// @brief Perform numerical integration from a start time until either a condition or an end time
     /// is reached.
     ///
+    /// @details The observed states are cleared before the integration, unless they are to be appended: the integration
+    /// is then a continuation of the previous one. The observed states beyond the initial state (in the direction of
+    /// the integration) are discarded, the initial state is observed unless it already is the last observed state, and
+    /// the states observed by this integration are appended.
+    ///
     /// @param aState Initial state for integration.
     /// @param anInstant Maximum time to integrate to.
     /// @param aSystemOfEquations System of equations to integrate.
     /// @param anEventCondition Condition to be checked.
+    /// @param appendObservedStates (optional) If true, append to the observed states, otherwise clear them. Defaults
+    /// to false.
     /// @return Structure containing the final state and condition-related information.
     ConditionSolution integrateTime(
         const State& aState,
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
+        const EventCondition& anEventCondition,
+        const bool& appendObservedStates = false
     );
 
     /// @brief Construct an undefined numerical solver.
@@ -221,18 +239,29 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aState The state to observe
     void observeState(const State& aState);
 
+    /// @brief Resume the observed states from a state, to continue a previous integration.
+    ///
+    /// @details Discards the observed states beyond the state (in the direction of the integration), and observes the
+    /// state unless it already is the last observed state.
+    ///
+    /// @param aState The initial state of the integration
+    /// @param anInstant The instant the integration goes to
+    void resumeObservedStates(const State& aState, const Instant& anInstant);
+
     /// @brief Integrate with controlled stepper using the unified dense-output refinement.
     ///
     /// @param aState The initial state for integration
     /// @param anInstant The instant to integrate to
     /// @param aSystemOfEquations The system of equations to integrate
     /// @param anEventCondition The event condition to check
+    /// @param appendObservedStates True to append to the observed states, false to clear them
     /// @return The condition solution
     ConditionSolution integrateTimeWithControlledStepper(
         const State& aState,
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
+        const EventCondition& anEventCondition,
+        const bool& appendObservedStates
     );
 
     /// @brief Templated implementation of conditional integration. Defined out-of-line in
@@ -244,6 +273,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aSystemOfEquations System of equations to integrate.
     /// @param anEventCondition Condition to detect.
     /// @param aSignedTimeStep Signed initial step size (negative for backward integration).
+    /// @param appendObservedStates True to append to the observed states, false to clear them.
     template <typename Stepper>
     ConditionSolution integrateTimeWithStepperImpl_(
         Stepper& aStepper,
@@ -251,7 +281,8 @@ class NumericalSolver : public MathNumericalSolver
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
         const EventCondition& anEventCondition,
-        double aSignedTimeStep
+        double aSignedTimeStep,
+        const bool& appendObservedStates
     );
 };
 

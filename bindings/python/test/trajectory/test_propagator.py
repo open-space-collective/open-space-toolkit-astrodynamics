@@ -380,6 +380,21 @@ class TestPropagator:
                 [maneuver, maneuver],
             )
 
+    def test_observed_states_cover_propagation_with_maneuvers(
+        self, propagator: Propagator, state_with_mass: State, maneuver: Maneuver
+    ):
+        start_instant: Instant = state_with_mass.get_instant()
+        end_instant: Instant = Instant.J2000() + Duration.seconds(200.0)
+
+        propagator.calculate_state_at(state_with_mass, end_instant, [maneuver])
+
+        observed_states: list[State] = (
+            propagator.access_numerical_solver().get_observed_states()
+        )
+
+        assert observed_states[0].get_instant() == start_instant
+        assert observed_states[-1].get_instant() == end_instant
+
     def test_calculate_state_to_condition_with_maneuvers(
         self,
         conditional_numerical_solver: NumericalSolver,

@@ -1466,6 +1466,192 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ObservedStatesWithManeuvers)
+{
+    // The numerical solver is called once per stretch of integration (between maneuver starts / ends): its observed
+    // states have to cover the whole propagation, as the segments rely on them
+    const Instant epoch = Instant::J2000();
+    const Real acceleration = 1.0;
+    const Real massFlowRate = -1.0e-3;
+    const Real initialMass = 100.0;
+
+    const Maneuver maneuver = {
+        {
+            stateGenerator(epoch + Duration::Seconds(31.0), {acceleration, 0.0, 0.0}, massFlowRate),
+            stateGenerator(epoch + Duration::Seconds(32.0), {acceleration, 0.0, 0.0}, massFlowRate),
+            stateGenerator(epoch + Duration::Seconds(33.0), {acceleration, 0.0, 0.0}, massFlowRate),
+        },
+        Interpolator::Type::Linear
+    };
+
+    const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinateSubset::Mass(),
+    };
+
+    const auto stateAt = [&](const Duration& anOffset, const Real& aMass) -> State
+    {
+        VectorXd coordinates(7);
+        coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, aMass;
+
+        return {epoch + anOffset, coordinates, gcrfSPtr_, coordinateSubsets};
+    };
+
+    // The observed states are strictly ordered in the direction of propagation, span the propagation, and include the
+    // exact start and end of the maneuver
+    const auto expectObservedStates = [&](const Array<State>& anObservedStateArray,
+                                          const Instant& aStartInstant,
+                                          const Instant& anEndInstant,
+                                          const bool& aManeuverIsInside)
+    {
+        ASSERT_GT(anObservedStateArray.getSize(), 2);
+
+        EXPECT_EQ(anObservedStateArray.accessFirst().accessInstant(), aStartInstant);
+        EXPECT_EQ(anObservedStateArray.accessLast().accessInstant(), anEndInstant);
+
+        const bool isForward = anEndInstant > aStartInstant;
+
+        bool hasManeuverStart = false;
+        bool hasManeuverEnd = false;
+
+        for (Size i = 0; i < anObservedStateArray.getSize(); ++i)
+        {
+            const Instant& instant = anObservedStateArray[i].accessInstant();
+
+            hasManeuverStart = hasManeuverStart || instant == epoch + Duration::Seconds(31.0);
+            hasManeuverEnd = hasManeuverEnd || instant == epoch + Duration::Seconds(33.0);
+
+            if (i > 0)
+            {
+                const Instant& previousInstant = anObservedStateArray[i - 1].accessInstant();
+
+                EXPECT_TRUE(isForward ? previousInstant < instant : previousInstant > instant) << "state index " << i;
+            }
+        }
+
+        if (aManeuverIsInside)
+        {
+            EXPECT_TRUE(hasManeuverStart);
+            EXPECT_TRUE(hasManeuverEnd);
+        }
+    };
+
+    const Array<NumericalSolver> numericalSolvers = {
+        NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKutta4, 30.0),
+        defaultRKD5_,
+        defaultNumericalSolver_,
+    };
+
+    for (const NumericalSolver& numericalSolver : numericalSolvers)
+    {
+        const Propagator propagator = {numericalSolver, defaultDynamics_};
+
+        // calculateStateAt
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const Instant endInstant = epoch + Duration::Seconds(100.0);
+
+            propagator.calculateStateAt(initialState, endInstant, {maneuver});
+            expectObservedStates(propagator.accessNumericalSolver().accessObservedStates(), epoch, endInstant, true);
+
+            // Without maneuvers, the observed states do not change
+            propagator.calculateStateAt(initialState, endInstant);
+            expectObservedStates(propagator.accessNumericalSolver().accessObservedStates(), epoch, endInstant, false);
+        }
+
+        // calculateStateAt backwards
+        {
+            const State initialState = stateAt(Duration::Seconds(100.0), initialMass);
+
+            propagator.calculateStateAt(initialState, epoch, {maneuver});
+            expectObservedStates(
+                propagator.accessNumericalSolver().accessObservedStates(), epoch + Duration::Seconds(100.0), epoch, true
+            );
+        }
+
+        // calculateStateToCondition: the condition is reached after the maneuver
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const InstantCondition condition = {
+                InstantCondition::Criterion::StrictlyPositive,
+                epoch + Duration::Seconds(40.0),
+            };
+
+            const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+                initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
+            );
+
+            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            expectObservedStates(observedStates, epoch, conditionSolution.state.accessInstant(), true);
+            EXPECT_EQ(observedStates.accessLast().accessInstant(), conditionSolution.state.accessInstant());
+        }
+
+        // calculateStateToCondition: the condition is reached in the middle of the maneuver, so the states stop there
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const InstantCondition condition = {
+                InstantCondition::Criterion::StrictlyPositive,
+                epoch + Duration::Seconds(32.0),
+            };
+
+            const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+                initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
+            );
+
+            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            expectObservedStates(observedStates, epoch, conditionSolution.state.accessInstant(), false);
+            EXPECT_EQ(observedStates.accessLast(), conditionSolution.state);
+            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+        }
+
+        // calculateStateToCondition: the condition is reached right after the maneuver. A solver that lets its last
+        // step run past the end of the maneuver arc finds the event with the dynamics of that arc: it is discarded, and
+        // so are the states that were observed past the end of the arc
+        {
+            const State initialState = stateAt(Duration::Seconds(0.0), initialMass);
+            const InstantCondition condition = {
+                InstantCondition::Criterion::StrictlyPositive,
+                epoch + Duration::Seconds(33.5),
+            };
+
+            const NumericalSolver::ConditionSolution conditionSolution = propagator.calculateStateToCondition(
+                initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
+            );
+
+            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            expectObservedStates(observedStates, epoch, conditionSolution.state.accessInstant(), true);
+            EXPECT_EQ(observedStates.accessLast(), conditionSolution.state);
+        }
+
+        // calculateStateToCondition backwards
+        {
+            const State initialState = stateAt(Duration::Seconds(100.0), initialMass);
+            const InstantCondition condition = {
+                InstantCondition::Criterion::StrictlyNegative,
+                epoch + Duration::Seconds(20.0),
+            };
+
+            const NumericalSolver::ConditionSolution conditionSolution =
+                propagator.calculateStateToCondition(initialState, epoch, condition, {maneuver});
+
+            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            expectObservedStates(
+                observedStates, epoch + Duration::Seconds(100.0), conditionSolution.state.accessInstant(), true
+            );
+        }
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Default)
 {
     {

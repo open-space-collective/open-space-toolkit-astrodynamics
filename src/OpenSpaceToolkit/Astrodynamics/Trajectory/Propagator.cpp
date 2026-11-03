@@ -186,13 +186,20 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     State solverOutputState = solverInputState;
 
+    // Each arc is a separate call to the numerical solver: the first one starts the observed states, the following ones
+    // append to them
+    bool appendObservedStates = false;
+
     for (const ManeuverSchedule::Arc& arc : maneuverSchedule.generateArcs(solverInputState.accessInstant(), anInstant))
     {
         solverOutputState = numericalSolver_.integrateTime(
             solverOutputState,
             arc.endInstant,
-            Dynamics::GetSystemOfEquations(arc.contexts, arc.startInstant, Propagator::IntegrationFrameSPtr)
+            Dynamics::GetSystemOfEquations(arc.contexts, arc.startInstant, Propagator::IntegrationFrameSPtr),
+            appendObservedStates
         );
+
+        appendObservedStates = true;
     }
 
     const StateBuilder outputStateBuilder = {aState};
@@ -229,6 +236,10 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     State arcInputState = solverInputState;
     NumericalSolver::ConditionSolution conditionSolution = {solverInputState, false, 0, false};
 
+    // Each arc is a separate call to the numerical solver: the first one starts the observed states, the following ones
+    // append to them
+    bool appendObservedStates = false;
+
     for (Index i = 0; i < arcs.getSize(); ++i)
     {
         const ManeuverSchedule::Arc& arc = arcs[i];
@@ -259,8 +270,9 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
                       }
                   );
 
-        conditionSolution =
-            numericalSolver_.integrateTime(arcInputState, arc.endInstant, systemOfEquations, anEventCondition);
+        conditionSolution = numericalSolver_.integrateTime(
+            arcInputState, arc.endInstant, systemOfEquations, anEventCondition, appendObservedStates
+        );
 
         if (isLastArc)
         {
@@ -280,9 +292,13 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
             // The solver's last step can overshoot the end of the arc, and an event found there was computed with the
             // dynamics of this arc rather than those of the next one: discard it and carry on from the end of the arc.
-            conditionSolution.state = numericalSolver_.integrateTime(arcInputState, arc.endInstant, systemOfEquations);
+            // The solver appending from the start of the arc also discards the states observed past it
+            conditionSolution.state =
+                numericalSolver_.integrateTime(arcInputState, arc.endInstant, systemOfEquations, appendObservedStates);
             conditionSolution.conditionIsSatisfied = false;
         }
+
+        appendObservedStates = true;
 
         // The solver rebuilds the end instant from a floating-point duration: pin it to the exact arc boundary
         arcInputState = conditionSolution.state.accessInstant() == arc.endInstant
