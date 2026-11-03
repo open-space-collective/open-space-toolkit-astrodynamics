@@ -5,9 +5,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/VisibilityCriterion.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Access(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::physics::time::Instant;
     using ostk::physics::unit::Angle;
@@ -65,8 +65,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 arg("max_elevation")
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const Access& self, const Access& other)
+                {
+                    return self == other;
+                },
+                nanobind::is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const Access& self, const Access& other)
+                {
+                    return self != other;
+                },
+                nanobind::is_operator()
+            )
 
             .def("__str__", &(shiftToString<Access>))
             .def("__repr__", &(shiftToString<Access>))

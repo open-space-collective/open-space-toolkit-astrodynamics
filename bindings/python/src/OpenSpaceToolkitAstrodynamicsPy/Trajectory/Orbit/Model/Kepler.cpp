@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/COE.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
 
@@ -100,8 +100,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                 arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const Kepler& self, const Kepler& other)
+                {
+                    return self == other;
+                },
+                nanobind::is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const Kepler& self, const Kepler& other)
+                {
+                    return self != other;
+                },
+                nanobind::is_operator()
+            )
 
             .def("__str__", &(shiftToString<Kepler>))
             .def("__repr__", &(shiftToString<Kepler>))

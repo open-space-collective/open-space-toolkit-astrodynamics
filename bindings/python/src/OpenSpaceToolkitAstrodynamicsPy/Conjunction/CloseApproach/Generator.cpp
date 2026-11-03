@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
 
@@ -42,8 +42,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(
                         means that objects moving at 7km/s will be up to 7m away from their “true” position.
             )doc",
             arg("reference_trajectory"),
-            arg_v("step", Duration::Minutes(20.0), "Duration.minutes(20.0)"),
-            arg_v("tolerance", Duration::Milliseconds(1.0), "Duration.milliseconds(1.0)")
+            arg("step").sig("Duration.minutes(20.0)") = Duration::Minutes(20.0),
+            arg("tolerance").sig("Duration.milliseconds(1.0)") = Duration::Milliseconds(1.0)
         )
 
         .def(

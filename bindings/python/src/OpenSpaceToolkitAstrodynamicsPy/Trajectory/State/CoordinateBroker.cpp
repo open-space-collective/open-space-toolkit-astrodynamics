@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -13,7 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-    class_<CoordinateBroker, Shared<CoordinateBroker>>(
+    class_<CoordinateBroker>(
         aModule,
         "CoordinateBroker",
         R"doc(
@@ -40,8 +40,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const CoordinateBroker& self, const CoordinateBroker& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const CoordinateBroker& self, const CoordinateBroker& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def(
             "access_subsets",

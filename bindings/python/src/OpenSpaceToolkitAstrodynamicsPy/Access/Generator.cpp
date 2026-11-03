@@ -1,12 +1,12 @@
 /// Apache License 2.0
 
-#include <pybind11/functional.h>  // To pass anonymous functions directly
+#include <nanobind/stl/function.h>  // To pass anonymous functions directly
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Map;
@@ -174,7 +174,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
             )doc"
         );
 
-    class_<Generator, Shared<Generator>>(
+    class_<Generator>(
         aModule,
         "Generator",
         R"doc(
@@ -202,8 +202,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
             )doc",
             arg("environment"),
-            arg_v("step", DEFAULT_STEP, "Duration.minutes(1.0)"),
-            arg_v("tolerance", DEFAULT_TOLERANCE, "Duration.microseconds(1.0)"),
+            arg("step").sig("Duration.minutes(1.0)") = DEFAULT_STEP,
+            arg("tolerance").sig("Duration.microseconds(1.0)") = DEFAULT_TOLERANCE,
             arg("access_filter") = none(),
             arg("state_filter") = none()
         )

@@ -1,12 +1,12 @@
 /// Apache License 2.0
 
-#include <pybind11/functional.h>  // To pass anonymous functions directly
+#include <nanobind/stl/function.h>  // To pass anonymous functions directly
 
 #include <OpenSpaceToolkit/Astrodynamics/Solver/TemporalConditionSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Solver_TemporalConditionSolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Size;

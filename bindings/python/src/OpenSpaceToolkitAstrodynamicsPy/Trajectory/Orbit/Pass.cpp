@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Integer;
 
@@ -73,8 +73,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Pass& self, const Pass& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Pass& self, const Pass& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<Pass>))
         .def("__repr__", &(shiftToString<Pass>))

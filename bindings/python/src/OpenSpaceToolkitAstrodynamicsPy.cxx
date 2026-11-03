@@ -1,12 +1,25 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Utility/ArrayCasting.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utility/BooleanFunctionCasting.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utility/EigenSequenceCasting.hpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Utility/ShiftToString.hpp>
-#include <pybind11/eigen.h>
-#include <pybind11/numpy.h>
-#include <pybind11/operators.h>
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
+#include <nanobind/eigen/dense.h>
+#include <nanobind/nanobind.h>
+#include <nanobind/ndarray.h>
+#include <nanobind/stl/array.h>
+#include <nanobind/stl/complex.h>
+#include <nanobind/stl/map.h>
+#include <nanobind/stl/optional.h>
+#include <nanobind/stl/pair.h>
+#include <nanobind/stl/set.h>
+#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/tuple.h>
+#include <nanobind/stl/unique_ptr.h>
+#include <nanobind/stl/unordered_map.h>
+#include <nanobind/stl/unordered_set.h>
+#include <nanobind/stl/vector.h>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction.cpp>
@@ -21,7 +34,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Solver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
 
-PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
+NB_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 {
     // Add optional docstring for package OpenSpaceToolkitAstrodynamicsPy
     m.doc() = "Orbit, attitude, access for OpenSpaceToolkit";

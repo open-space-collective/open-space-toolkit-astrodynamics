@@ -13,9 +13,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/StateBuilder.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -30,7 +30,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<Trajectory, Shared<Trajectory>>(
+    class_<Trajectory>(
         aModule,
         "Trajectory",
         R"doc(
@@ -67,8 +67,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
             arg("states")
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Trajectory& self, const Trajectory& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Trajectory& self, const Trajectory& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def("__str__", &(shiftToString<Trajectory>))
         .def("__repr__", &(shiftToString<Trajectory>))
@@ -87,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         .def(
             "access_model",
             &Trajectory::accessModel,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the model of the trajectory.
 

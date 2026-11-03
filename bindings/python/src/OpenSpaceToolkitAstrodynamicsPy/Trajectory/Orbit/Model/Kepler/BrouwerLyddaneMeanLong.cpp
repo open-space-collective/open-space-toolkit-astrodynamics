@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean_BrouwerLyddaneMeanLong(
-    pybind11::module& aModule
+    nanobind::module_& aModule
 )
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
 

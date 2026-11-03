@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
@@ -33,8 +33,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const LocalOrbitalFrameDirection& self, const LocalOrbitalFrameDirection& other)
+            {
+                return self == other;
+            },
+            nanobind::is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const LocalOrbitalFrameDirection& self, const LocalOrbitalFrameDirection& other)
+            {
+                return self != other;
+            },
+            nanobind::is_operator()
+        )
 
         .def(
             "is_defined",

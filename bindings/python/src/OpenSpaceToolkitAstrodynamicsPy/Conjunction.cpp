@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Message.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction(nanobind::module_& aModule)
 {
     // Create "conjunction" python submodule
     auto conjunction = aModule.def_submodule("conjunction");

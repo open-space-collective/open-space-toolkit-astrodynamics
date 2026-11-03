@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Real;
     using ostk::core::type::Size;
@@ -30,7 +30,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
 
         )doc"
     )
-        .def_readwrite(
+        .def_rw(
             "root",
             &RootSolver::Solution::root,
             R"doc(
@@ -40,7 +40,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     float
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "lower_bound",
             &RootSolver::Solution::lowerBound,
             R"doc(
@@ -50,7 +50,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     float
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "upper_bound",
             &RootSolver::Solution::upperBound,
             R"doc(
@@ -60,7 +60,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     float
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "iteration_count",
             &RootSolver::Solution::iterationCount,
             R"doc(
@@ -70,7 +70,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     int
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "has_converged",
             &RootSolver::Solution::hasConverged,
             R"doc(

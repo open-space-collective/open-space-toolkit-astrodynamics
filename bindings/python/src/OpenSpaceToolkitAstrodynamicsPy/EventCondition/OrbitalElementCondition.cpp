@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/OrbitalElementCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Pair;
 using ostk::core::type::Shared;
@@ -16,7 +16,7 @@ using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::eventcondition::OrbitalElementCondition;
 using ostk::astrodynamics::eventcondition::RealCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_OrbitalElementCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_OrbitalElementCondition(nanobind::module_& aModule)
 {
     {
         class_<OrbitalElementCondition> orbitalElementCondition(

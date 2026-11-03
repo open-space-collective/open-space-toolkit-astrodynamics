@@ -1,12 +1,24 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
+#include <nanobind/stl/array.h>
+#include <nanobind/stl/complex.h>
+#include <nanobind/stl/map.h>
+#include <nanobind/stl/optional.h>
+#include <nanobind/stl/pair.h>
+#include <nanobind/stl/set.h>
+#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/tuple.h>
+#include <nanobind/stl/unique_ptr.h>
+#include <nanobind/stl/unordered_map.h>
+#include <nanobind/stl/unordered_set.h>
+#include <nanobind/stl/vector.h>
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -56,7 +68,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         )
         .def("__str__", &(shiftToString<TLESolver::Analysis>))
         .def("__repr__", &(shiftToString<TLESolver::Analysis>))
-        .def_readonly(
+        .def_ro(
             "estimated_tle",
             &TLESolver::Analysis::estimatedTLE,
             R"doc(
@@ -65,7 +77,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 :type: TLE
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "solver_analysis",
             &TLESolver::Analysis::solverAnalysis,
             R"doc(
@@ -86,12 +98,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
                 const Integer&,
                 const bool,
                 const Shared<const Frame>&>(),
-            arg_v("solver", LeastSquaresSolver::Default(), "LeastSquaresSolver.default()"),
+            arg("solver").sig("LeastSquaresSolver.default()") = LeastSquaresSolver::Default(),
             arg("satellite_number") = 0,
             arg("international_designator") = "00001A",
             arg("revolution_number") = 0,
             arg("estimate_b_star") = true,
-            arg_v("estimation_frame", Frame::TEME(), "Frame.TEME()"),
+            arg("estimation_frame").sig("Frame.TEME()") = Frame::TEME(),
             R"doc(
                 Construct a new TLESolver object.
 
@@ -107,7 +119,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_solver",
             &TLESolver::accessSolver,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the solver.
 
@@ -118,7 +130,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_satellite_number",
             &TLESolver::accessSatelliteNumber,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the satellite number.
 
@@ -129,7 +141,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_international_designator",
             &TLESolver::accessInternationalDesignator,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the international designator.
 
@@ -140,7 +152,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_revolution_number",
             &TLESolver::accessRevolutionNumber,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the revolution number.
 
@@ -151,7 +163,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_default_b_star",
             &TLESolver::accessDefaultBStar,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the default B* value.
 
@@ -162,7 +174,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_first_derivative_mean_motion_divided_by_2",
             &TLESolver::accessFirstDerivativeMeanMotionDividedBy2,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the first derivative of mean motion divided by 2.
 
@@ -173,7 +185,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_second_derivative_mean_motion_divided_by_6",
             &TLESolver::accessSecondDerivativeMeanMotionDividedBy6,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the second derivative of mean motion divided by 6.
 
@@ -184,7 +196,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_ephemeris_type",
             &TLESolver::accessEphemerisType,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the ephemeris type.
 
@@ -195,7 +207,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_element_set_number",
             &TLESolver::accessElementSetNumber,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the element set number.
 
@@ -206,7 +218,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_estimate_b_star",
             &TLESolver::accessEstimateBStar,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access whether to estimate B*.
 
@@ -217,7 +229,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
         .def(
             "access_tle_state_builder",
             &TLESolver::accessTLEStateBuilder,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Access the TLE state builder.
 
@@ -237,16 +249,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
                 if (isinstance<TLE>(anInitialGuess))
                 {
-                    cppInitialGuess = anInitialGuess.cast<TLE>();
+                    cppInitialGuess = nanobind::cast<TLE>(anInitialGuess);
                 }
-                else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
+                else if (isinstance<tuple>(anInitialGuess) && len(nanobind::cast<tuple>(anInitialGuess)) == 2)
                 {
-                    auto t = anInitialGuess.cast<tuple>();
-                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
+                    auto t = nanobind::cast<tuple>(anInitialGuess);
+                    cppInitialGuess = Pair<State, Real>(nanobind::cast<State>(t[0]), nanobind::cast<Real>(t[1]));
                 }
                 else if (isinstance<State>(anInitialGuess))
                 {
-                    cppInitialGuess = anInitialGuess.cast<State>();
+                    cppInitialGuess = nanobind::cast<State>(anInitialGuess);
                 }
                 else
                 {
@@ -259,8 +271,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             },
             arg("initial_guess"),
             arg("observations"),
-            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
-            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
+            arg("initial_guess_sigmas").sig("{}") = DEFAULT_INITIAL_GUESS_SIGMAS,
+            arg("observation_sigmas").sig("{}") = DEFAULT_OBSERVATION_SIGMAS,
             R"doc(
                 Estimate TLE from observations.
 
@@ -286,16 +298,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
 
                 if (isinstance<TLE>(anInitialGuess))
                 {
-                    cppInitialGuess = anInitialGuess.cast<TLE>();
+                    cppInitialGuess = nanobind::cast<TLE>(anInitialGuess);
                 }
-                else if (isinstance<tuple>(anInitialGuess) && len(anInitialGuess.cast<tuple>()) == 2)
+                else if (isinstance<tuple>(anInitialGuess) && len(nanobind::cast<tuple>(anInitialGuess)) == 2)
                 {
-                    auto t = anInitialGuess.cast<tuple>();
-                    cppInitialGuess = Pair<State, Real>(t[0].cast<State>(), t[1].cast<Real>());
+                    auto t = nanobind::cast<tuple>(anInitialGuess);
+                    cppInitialGuess = Pair<State, Real>(nanobind::cast<State>(t[0]), nanobind::cast<Real>(t[1]));
                 }
                 else if (isinstance<State>(anInitialGuess))
                 {
-                    cppInitialGuess = anInitialGuess.cast<State>();
+                    cppInitialGuess = nanobind::cast<State>(anInitialGuess);
                 }
                 else
                 {
@@ -308,8 +320,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             },
             arg("initial_guess"),
             arg("observations"),
-            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
-            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}"),
+            arg("initial_guess_sigmas").sig("{}") = DEFAULT_INITIAL_GUESS_SIGMAS,
+            arg("observation_sigmas").sig("{}") = DEFAULT_OBSERVATION_SIGMAS,
             R"doc(
                 Estimate an SGP4-based orbit from observations.
 

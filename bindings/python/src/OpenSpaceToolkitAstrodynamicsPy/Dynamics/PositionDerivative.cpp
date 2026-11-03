@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(pybind11
     using ostk::astrodynamics::dynamics::PositionDerivative;
 
     {
-        class_<PositionDerivative, Dynamics, Shared<PositionDerivative>>(
+        class_<PositionDerivative, Dynamics>(
             aModule,
             "PositionDerivative",
             R"doc(
