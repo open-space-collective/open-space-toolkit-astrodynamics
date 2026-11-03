@@ -71,9 +71,7 @@ bool containsMessage(const Array<String>& aMessageArray, const String& aMessageC
 class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Foster1992 : public ::testing::Test
 {
    protected:
-    const Foster1992 algorithm_ = {
-        Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 100
-    };
+    const Foster1992 algorithm_ = {};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Foster1992, Constructor)
@@ -89,6 +87,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_NO_THROW(
             Foster1992(Derived(10.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.7), 24)
+        );
+    }
+
+    {
+        EXPECT_NO_THROW(
+            Foster1992(Derived(10.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 12, false)
         );
     }
 
@@ -145,7 +149,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
             try {
                 Foster1992(Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 0);
             } catch (const ostk::core::error::runtime::Wrong& e) {
-                EXPECT_EQ("Number of annular sectors = 0 is wrong.", e.getMessage());
+                EXPECT_EQ("Number of radial steps = 0 is wrong.", e.getMessage());
                 throw;
             },
             ostk::core::error::runtime::Wrong
@@ -327,12 +331,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
     : public ::testing::TestWithParam<PoCTestCase>
 {
    protected:
-    // 100 annular sectors (instead of the default 12) to increase the accuracy when the combined hard-body radius is
-    // large compared to the smaller standard deviation (e.g. Orekit Alfano test case 5), where Alfano (2007) suggests
-    // smaller step sizes
-    const Foster1992 algorithm_ = {
-        Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 100
-    };
+    const Foster1992 algorithm_ = {};
     const Real relativeTolerance_ = 0.01;
 };
 
@@ -378,9 +377,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
     : public ::testing::TestWithParam<PoCAnalysisTestCase>
 {
    protected:
-    const Shared<const Foster1992> algorithmSPtr_ = std::make_shared<Foster1992>(
-        Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 100
-    );
+    const Shared<const Foster1992> algorithmSPtr_ = std::make_shared<Foster1992>();
     const Real relativeTolerance_ = 0.01;
 };
 
@@ -400,23 +397,6 @@ TEST_P(
 )
 {
     const PoCAnalysisTestCase& testCase = GetParam();
-
-    // Alfano (2007) reports that Foster's method with fixed step sizes produced inaccurate results in some cases:
-    // "Further investigation showed that these incursions occurred when the object radius was smaller than the miss
-    // distance but larger than the standard deviation of the minor axis. [...] If needed, Foster's method can handle
-    // these cases by decreasing the step sizes of theta and r."
-    //
-    // In NASA CARA Dilution Test Case 2, the miss distance (91 m) is within the combined hard-body radius (100 m), but
-    // locating the maximum probability of collision scales the covariances down to standard deviations orders of
-    // magnitude smaller than the combined hard-body radius, which the polar grid cannot resolve: the probability of
-    // collision drops to zero instead of reaching its plateau at 1, yielding a spurious maximum (~0.95 with 100 annular
-    // sectors, ~0.89 with 200). The required step sizes would make the test too slow, hence it is skipped.
-    if (testCase.name == "NASA CARA Dilution Test Case 2")
-    {
-        GTEST_SKIP() << testCase.getDescription()
-                     << ": the standard deviations reached while locating the maximum probability of collision are "
-                        "too small compared to the combined hard-body radius for the polar grid (Alfano, 2007)";
-    }
 
     const ProbabilityOfCollisionAlgorithm::Analysis analysis =
         ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis(

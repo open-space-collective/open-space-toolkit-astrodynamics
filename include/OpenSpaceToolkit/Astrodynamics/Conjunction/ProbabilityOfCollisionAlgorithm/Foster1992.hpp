@@ -49,11 +49,11 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 ///
 /// @details The two-dimensional probability density function of the relative position is integrated over the
 /// combined hard-body circle in the encounter plane, in polar coordinates centered on the hard-body circle, as
-/// described in (Equation 2):
+/// described in Equation 2 of:
 ///
 /// Alfano, Salvatore. (2007). Review of Conjunction Probability Methods for Short-term Encounters. AAS 07-148.
 ///
-/// The hard-body circle is sectioned into annular sectors (along its radius) and angular slices, and the probability
+/// The hard-body circle is sectioned into radial steps (annular sectors) and angular slices, and the probability
 /// density function is evaluated at the center of each resulting cell (midpoint rule).
 ///
 /// The algorithm relies on the following assumptions:
@@ -66,7 +66,7 @@ class Foster1992 : public ProbabilityOfCollisionAlgorithm
     /// @code{.cpp}
     ///     Foster1992 algorithm = {} ;
     ///     Foster1992 algorithm = {
-    ///         Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 12
+    ///         Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.5), 12, true
     ///     } ;
     /// @endcode
     ///
@@ -82,13 +82,19 @@ class Foster1992 : public ProbabilityOfCollisionAlgorithm
     /// @param anAngularStepSize An angular step size of the polar integration, within (0, 360] deg. If it does not
     /// divide a full turn evenly, the number of angular slices is rounded up (and the step size reduced accordingly).
     /// Defaults to 0.5 deg
-    /// @param aNumberOfAnnularSectors A number of annular sectors of the polar integration (i.e. the radial step size
-    /// is the combined hard-body radius divided by this number), strictly positive. Defaults to 12
+    /// @param aNumberOfRadialSteps A number of radial steps of the polar integration (i.e. the radial step size is the
+    /// combined hard-body radius divided by this number), strictly positive. Defaults to 12
+    /// @param increaseNumberOfRadialStepsIfNeeded Whether to increase the number of radial steps (i.e. reduce the
+    /// radial step size) if needed so that the smaller standard deviation also spans at least the given number of
+    /// radial steps, so that the probability density function is resolved when the combined hard-body radius is large
+    /// compared to the smaller standard deviation. This avoids the above-mentioned accuracy degradation at the expense
+    /// of a slower computation. However, this type of scenarios are rare in practice. Defaults to true
     Foster1992(
         const Derived& aRelativeSpeedThreshold = Derived(100.0, Derived::Unit::MeterPerSecond()),
         const Shared<const Frame>& aFrameSPtr = Frame::GCRF(),
         const Angle& anAngularStepSize = Angle::Degrees(0.5),
-        const Size& aNumberOfAnnularSectors = 12
+        const Size& aNumberOfRadialSteps = 12,
+        const bool& increaseNumberOfRadialStepsIfNeeded = true
     );
 
     /// @brief Destructor
@@ -137,7 +143,8 @@ class Foster1992 : public ProbabilityOfCollisionAlgorithm
 
     Derived relativeSpeedThreshold_;
     Shared<const Frame> frameSPtr_;
-    Size numberOfAnnularSectors_;
+    Size numberOfRadialSteps_;
+    bool increaseNumberOfRadialStepsIfNeeded_;
     Real angularStepSize_;               ///< Angular step size (dTheta), dividing a full turn evenly [rad]
     Array<double> angularSliceSines_;    ///< Sines of the angles at the center of the angular slices
     Array<double> angularSliceCosines_;  ///< Cosines of the angles at the center of the angular slices

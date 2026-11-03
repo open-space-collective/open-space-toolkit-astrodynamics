@@ -29,11 +29,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
 
             The two-dimensional probability density function of the relative position is integrated over the
             combined hard-body circle in the encounter plane, in polar coordinates centered on the hard-body circle, as
-            described in (Equation 2):
+            described in Equation 2 of:
 
             Alfano, Salvatore. (2007). Review of Conjunction Probability Methods for Short-term Encounters. AAS 07-148.
 
-            The hard-body circle is sectioned into annular sectors (along its radius) and angular slices, and the
+            The hard-body circle is sectioned into radial steps (annular sectors) and angular slices, and the
             probability density function is evaluated at the center of each resulting cell (midpoint rule).
 
             The algorithm relies on the following assumptions:
@@ -42,7 +42,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     )
 
         .def(
-            init<const Derived&, const Shared<const Frame>&, const Angle&, const Size&>(),
+            init<const Derived&, const Shared<const Frame>&, const Angle&, const Size&, const bool&>(),
             R"doc(
                 Constructor.
 
@@ -58,15 +58,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         Defaults to 100 m/s.
                     frame (Frame, optional): An inertial (or quasi-inertial) frame to use. Defaults to GCRF.
                     angular_step_size (Angle, optional): An angular step size of the polar integration, within
-                        ]0, 360] deg. If it does not divide a full turn evenly, the number of angular slices is rounded
+                        (0, 360] deg. If it does not divide a full turn evenly, the number of angular slices is rounded
                         up (and the step size reduced accordingly). Defaults to 0.5 deg.
-                    number_of_annular_sectors (int, optional): A number of annular sectors of the polar integration
-                        (i.e. the radial step size is the combined hard-body radius divided by this number), strictly
+                    number_of_radial_steps (int, optional): A number of radial steps of the polar integration (i.e.
+                        the radial step size is the combined hard-body radius divided by this number), strictly
                         positive. Defaults to 12.
+                    increase_number_of_radial_steps_if_needed (bool, optional): Whether to increase the number of
+                        radial steps (i.e. reduce the radial step size) if needed so that the smaller standard
+                        deviation also spans at least the given number of radial steps, so that the probability
+                        density function is resolved when the combined hard-body radius is large compared to the
+                        smaller standard deviation. This avoids the above-mentioned accuracy degradation at the expense
+                        of a slower computation. However, this type of scenarios are rare in practice.
+                        Defaults to True.
 
                 Raises:
                     RuntimeError: If the frame is undefined or not quasi-inertial, if the angular step size is
-                        undefined or not within ]0, 360] deg, or if the number of annular sectors is zero.
+                        undefined or not within (0, 360] deg, or if the number of radial steps is zero.
             )doc",
             arg_v(
                 "relative_speed_threshold",
@@ -75,7 +82,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
             ),
             arg_v("frame", Frame::GCRF(), "Frame.GCRF()"),
             arg_v("angular_step_size", Angle::Degrees(0.5), "Angle.degrees(0.5)"),
-            arg("number_of_annular_sectors") = 12
+            arg("number_of_radial_steps") = 12,
+            arg("increase_number_of_radial_steps_if_needed") = true
         )
 
         .def(

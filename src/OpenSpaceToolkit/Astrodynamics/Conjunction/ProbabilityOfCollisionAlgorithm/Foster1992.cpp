@@ -31,12 +31,14 @@ Foster1992::Foster1992(
     const Derived& aRelativeSpeedThreshold,
     const Shared<const Frame>& aFrameSPtr,
     const Angle& anAngularStepSize,
-    const Size& aNumberOfAnnularSectors
+    const Size& aNumberOfRadialSteps,
+    const bool& increaseNumberOfRadialStepsIfNeeded
 )
     : ProbabilityOfCollisionAlgorithm("Foster 1992", false),
       relativeSpeedThreshold_(aRelativeSpeedThreshold),
       frameSPtr_(aFrameSPtr),
-      numberOfAnnularSectors_(aNumberOfAnnularSectors),
+      numberOfRadialSteps_(aNumberOfRadialSteps),
+      increaseNumberOfRadialStepsIfNeeded_(increaseNumberOfRadialStepsIfNeeded),
       angularStepSize_(Real::Undefined()),
       angularSliceSines_(Array<double>::Empty()),
       angularSliceCosines_(Array<double>::Empty())
@@ -63,9 +65,9 @@ Foster1992::Foster1992(
         throw ostk::core::error::runtime::Wrong("Angular step size", anAngularStepSize.toString());
     }
 
-    if (aNumberOfAnnularSectors == 0)
+    if (aNumberOfRadialSteps == 0)
     {
-        throw ostk::core::error::runtime::Wrong("Number of annular sectors", std::to_string(aNumberOfAnnularSectors));
+        throw ostk::core::error::runtime::Wrong("Number of radial steps", std::to_string(aNumberOfRadialSteps));
     }
 
     // Number of angular slices covering a full turn, rounded up if the angular step size does not divide it evenly (the
@@ -182,16 +184,33 @@ Real Foster1992::computeProbabilityOfCollision_(
     const double w0 = aR0 * std::cos(aPhi.inRadians());
 
     const double dTheta = angularStepSize_;
-    const double dR = obj / numberOfAnnularSectors_;
+
+    // Radial step size: the combined hard-body radius divided by the number of radial steps, reduced if needed (and
+    // enabled) so that the smaller standard deviation also spans at least the number of radial steps (i.e. so that the
+    // probability density function is resolved when the combined hard-body radius is large compared to the smaller
+    // standard deviation). The number of radial steps is then rounded up, so that they cover the hard-body circle
+    // evenly.
+    Size numberOfRadialStepsToUse = numberOfRadialSteps_;
+    double dRToUse = obj / numberOfRadialStepsToUse;
+
+    const double minimumDRToUse = std::min(sigmaU, sigmaW) / numberOfRadialSteps_;
+
+    // (a zero standard deviation, i.e. a degenerate combined covariance, would require an infinite number of radial
+    // steps)
+    if (increaseNumberOfRadialStepsIfNeeded_ && (minimumDRToUse > 0.0) && (minimumDRToUse < dRToUse))
+    {
+        numberOfRadialStepsToUse = static_cast<Size>(std::ceil(obj / minimumDRToUse));
+        dRToUse = obj / numberOfRadialStepsToUse;
+    }
 
     // Alfano (2007), Equation 2: polar coordinates (r, theta) centered on the hard-body circle. The probability density
-    // function is evaluated at the center of each cell (annular sector and angular slice), with the midpoint rule, the
-    // area of a cell being r * dR * dTheta.
+    // function is evaluated at the center of each cell (radial step and angular slice), with the midpoint rule, the
+    // area of a cell being r * dRToUse * dTheta.
     double sum = 0.0;
 
-    for (Size i = 0; i < numberOfAnnularSectors_; ++i)
+    for (Size i = 0; i < numberOfRadialStepsToUse; ++i)
     {
-        const double r = (i + 0.5) * dR;
+        const double r = (i + 0.5) * dRToUse;
 
         for (Size j = 0; j < angularSliceSines_.getSize(); ++j)
         {
@@ -202,7 +221,7 @@ Real Foster1992::computeProbabilityOfCollision_(
         }
     }
 
-    const double probabilityOfCollision = sum * dR * dTheta / (2.0 * M_PI * sigmaU * sigmaW);
+    const double probabilityOfCollision = sum * dRToUse * dTheta / (2.0 * M_PI * sigmaU * sigmaW);
 
     // The midpoint rule may overestimate the probability of collision, up to values greater than 1, when the
     // probability density function is poorly resolved by the slices: if a standard deviation is small compared to the

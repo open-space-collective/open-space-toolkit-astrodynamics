@@ -81,7 +81,8 @@ class TestFoster1992:
                 relative_speed_threshold=Derived(100.0, Derived.Unit.meter_per_second()),
                 frame=Frame.GCRF(),
                 angular_step_size=Angle.degrees(0.5),
-                number_of_annular_sectors=100,
+                number_of_radial_steps=100,
+                increase_number_of_radial_steps_if_needed=False,
             ),
             Foster1992,
         )
