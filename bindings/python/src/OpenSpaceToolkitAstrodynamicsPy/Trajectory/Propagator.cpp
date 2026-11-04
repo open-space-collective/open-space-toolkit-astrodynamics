@@ -9,8 +9,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
 
-    using ostk::mathematics::curvefitting::Interpolator;
-
     using ostk::physics::Environment;
     using ostk::physics::time::Instant;
 
@@ -32,20 +30,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     )
 
         .def(
-            init<const NumericalSolver&, const Array<Shared<Dynamics>>&, const Array<Maneuver>&>(),
+            init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
             arg("numerical_solver"),
             arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
-            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Construct a new `Propagator` object.
 
                 Args:
                     numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (list[Dynamics], optional) The dynamics (only non-maneuvering dynamics should be added here). Defaults to an empty list.
-                    maneuvers (list[Maneuver], optional) The maneuvers (don't add tabulated dynamics extracted from maneuvers to the dynamics array, add them here in the form of maneuvers instead). Each maneuver is interpolated with its own interpolation type. Defaults to an empty list.
+                    dynamics (list[Dynamics], optional) The dynamics.
 
                 Returns:
                     Propagator: The new `Propagator` object.
+
             )doc"
         )
 
@@ -135,29 +132,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         )
 
         .def(
-            "add_maneuver",
-            &Propagator::addManeuver,
-            arg("maneuver"),
-            R"doc(
-                Add a maneuver.
-
-                Args:
-                    maneuver (Maneuver) The maneuver, interpolated with its own interpolation type.
-
-            )doc"
-        )
-
-        .def(
             "calculate_state_at",
             &Propagator::calculateStateAt,
             arg("state"),
             arg("instant"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Calculate the state at a given instant.
+
+                When propagating across a maneuver, the integration is split at its exact start and end, so that a maneuver is never stepped over, however short it is.
 
                 Args:
                     state (State) The state.
                     instant (Instant) The instant.
+                    maneuvers (list[Maneuver], optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. The state must contain the mass.
 
                 Returns:
                     State: The state at the given instant.
@@ -170,13 +158,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             arg("state"),
             arg("instant"),
             arg("event_condition"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Calculate the state up to a given event condition.
+
+                When propagating across a maneuver, the integration is split at its exact start and end, so that a maneuver is never stepped over, however short it is.
 
                 Args:
                     state (State) The state.
                     instant (Instant) The instant.
                     event_condition (EventCondition) The event condition.
+                    maneuvers (list[Maneuver], optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. The state must contain the mass.
 
                 Returns:
                     State: The state up to the given event condition.
@@ -189,12 +181,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             &Propagator::calculateStatesAt,
             arg("state"),
             arg("instants"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Calculate the states at given instants. It is more performant than looping `calculate_state_at` for multiple instants.
+
+                When propagating across a maneuver, the integration is split at its exact start and end, so that a maneuver is never stepped over, however short it is.
 
                 Args:
                     state (State) The state.
                     instants (list[Instant]) The instants.
+                    maneuvers (list[Maneuver], optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. The state must contain the mass.
 
                 Returns:
                     list[State]: The states at the given instants.

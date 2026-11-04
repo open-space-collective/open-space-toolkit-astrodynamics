@@ -7,8 +7,6 @@
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
-
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -31,8 +29,6 @@ using ostk::core::container::Array;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
-using ostk::mathematics::curvefitting::Interpolator;
-
 using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 
@@ -44,6 +40,11 @@ using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /// @brief Define a propagator to be used for numerical propagation
+///
+/// @details Maneuvers are given to each propagation call, they are not stored in the propagator. When propagating
+/// across a maneuver, the integration is split at the exact start and end of the maneuver: the propagator coasts up to
+/// the start of the maneuver, applies the maneuver dynamics until its end, then continues. A maneuver is therefore
+/// never stepped over by the integrator, however short it is.
 class Propagator
 {
    public:
@@ -54,18 +55,13 @@ class Propagator
     ///
     /// @code{.cpp}
     ///              Propagator propagator = { aNumericalSolver, aDynamicsArray };
-    ///              Propagator propagator = { aNumericalSolver, aDynamicsArray, aManeuverArray };
     /// @endcode
     ///
     /// @param aNumericalSolver A numerical solver
-    /// @param aDynamicsArray A dynamics array (only non-maneuvering dynamics should be added here). Defaults to empty.
-    /// @param aManeuverArray A maneuver array (don't add tabulated dynamics extracted from maneuvers to the dynamics
-    /// array, add them here in the form of maneuvers instead). Each maneuver is interpolated with its own
-    /// interpolation type. Defaults to empty.
+    /// @param aDynamicsArray A dynamics array
     Propagator(
         const NumericalSolver& aNumericalSolver,
-        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
+        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
     );
 
     /// @brief Copy constructor
@@ -145,49 +141,59 @@ class Propagator
     /// @endcode
     void clearDynamics();
 
-    /// @brief Add a maneuver to be taken into account during propagation in the form of tabulated dynamics
-    /// @code{.cpp}
-    ///              propagator.addManeuver(aManeuver);
-    /// @endcode
-    /// @param aManeuver A maneuver, interpolated with its own interpolation type
-    void addManeuver(const Maneuver& aManeuver);
-
     /// @brief Calculate the state at an instant, given initial state
     /// @code{.cpp}
     ///              State state = propagator.calculateStateAt(aState, anInstant);
+    ///              State stateWithManeuvers = propagator.calculateStateAt(aState, anInstant, aManeuverArray);
     /// @endcode
-    /// @param aState An initial state
+    /// @param aState An initial state. If there are maneuvers, it must contain the mass.
     /// @param anInstant An instant
+    /// @param aManeuverArray (optional) Maneuvers to apply, exactly between their first and last instants. They must
+    /// not overlap in time, nor be duplicated.
     /// @return State
-    State calculateStateAt(const State& aState, const Instant& anInstant) const;
+    State calculateStateAt(
+        const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
+    ) const;
 
     /// @brief Calculate the state subject to an Event Condition, given initial state and maximum end time
     /// @code{.cpp}
     ///              NumericalSolver::ConditionSolution state = propagator.calculateStateToCondition(aState, anInstant,
-    ///              anEventCondition);
+    ///              anEventCondition, aManeuverArray);
     /// @endcode
-    /// @param aState An initial state
+    /// @param aState An initial state. If there are maneuvers, it must contain the mass.
     /// @param anInstant An instant
     /// @param anEventCondition An event condition
+    /// @param aManeuverArray (optional) Maneuvers to apply, exactly between their first and last instants. They must
+    /// not overlap in time, nor be duplicated.
     /// @return NumericalSolver::ConditionSolution
     NumericalSolver::ConditionSolution calculateStateToCondition(
-        const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
+        const State& aState,
+        const Instant& anInstant,
+        const EventCondition& anEventCondition,
+        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
     ) const;
 
     /// @brief Calculate the states at an array of instants, given an initial state
     /// @brief Can only be used with sorted instants array
     ///
     /// @code{.cpp}
-    ///              Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);
+    ///              Array<State> states = propagator.calculateStatesAt(aState, anInstantArray, aManeuverArray);
     /// @endcode
+    /// @param aState An initial state. If there are maneuvers, it must contain the mass.
     /// @param anInstantArray An instant array
+    /// @param aManeuverArray (optional) Maneuvers to apply, exactly between their first and last instants. They must
+    /// not overlap in time, nor be duplicated.
     /// @return Array<State>
-    Array<State> calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const;
+    Array<State> calculateStatesAt(
+        const State& aState,
+        const Array<Instant>& anInstantArray,
+        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
+    ) const;
 
     /// @brief Print propagator
     ///
     /// @param anOutputStream An output stream
-    /// @param (optional) displayDecorators If true, display decorators
+    /// @param (optional) displayDecorator If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief Undefined
@@ -216,11 +222,85 @@ class Propagator
     static Propagator FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment);
 
    private:
+    /// @brief The maneuvers of a propagation call, prepared to be applied, together with the dynamics they are applied
+    /// to and the coordinate broker that includes what they write to
+    struct ManeuverSchedule
+    {
+        /// @brief A maneuver, together with the context needed to apply it during integration
+        struct ManeuverContext
+        {
+            Instant startInstant;
+            Instant endInstant;
+            Dynamics::Context context;
+        };
+
+        /// @brief A stretch of integration between two consecutive breakpoints (maneuver starts / ends), over which
+        /// the set of applied dynamics is constant
+        struct Arc
+        {
+            Instant startInstant;
+            Instant endInstant;
+            bool hasManeuver;
+            Array<Dynamics::Context> contexts;
+        };
+
+        Shared<CoordinateBroker>
+            maneuverCoordinateBrokerSPtr;               ///< The propagator's broker, plus what maneuvers write to
+        Array<Dynamics::Context> freeDynamicsContexts;  ///< The regular dynamics of the propagator
+        Array<ManeuverContext> maneuvers;               ///< Sorted by start instant
+
+        /// @brief Split the propagation between two instants into arcs, in propagation order (also when going
+        /// backwards)
+        ///
+        /// @details Coasting arcs only carry the regular dynamics. Maneuver arcs span exactly the interval of
+        /// a maneuver, and carry the regular dynamics + maneuver's dynamics. Atleast one arc is always generated.
+        ///
+        /// @param aStartInstant The instant the propagation starts at
+        /// @param anEndInstant The instant the propagation ends at (can be before the start instant)
+        /// @return The arcs, in propagation order
+        Array<Arc> generateArcs(const Instant& aStartInstant, const Instant& anEndInstant) const;
+    };
+
     Shared<CoordinateBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
     Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
+    /// @brief Validate that the dynamics set has the mandatory dynamics, and no more than the allowed number of
+    /// optional ones
+    ///
+    /// @throw ostk::core::error::RuntimeError If the dynamics set is invalid
     void validateDynamicsSet() const;
+
+    /// @brief Validate the maneuvers of a propagation call, and prepare them to be applied
+    ///
+    /// @details The propagator's coordinate broker is left untouched: if there are maneuvers, the schedule carries a
+    /// copy of it that also includes the coordinate subsets the maneuvers write to.
+    ///
+    /// @param aManeuverArray The maneuvers to apply. They must not overlap in time, nor be duplicated.
+    /// @return The maneuver schedule
+    /// @throw ostk::core::error::RuntimeError If the maneuvers overlap in time or are duplicated
+    ManeuverSchedule generateManeuverSchedule(const Array<Maneuver>& aManeuverArray) const;
+
+    /// @brief Propagate through the arcs of a maneuver schedule up to each of the instants
+    ///
+    /// @param aState A state in the integration frame, reduced to the coordinates of the schedule's broker
+    /// @param anInstantArray Instants sorted in the direction of propagation, all on the same side of the state's
+    /// instant (an instant equal to the state's instant is allowed)
+    /// @param aManeuverSchedule The maneuver schedule
+    /// @return The states at the instants
+    Array<State> propagateThroughManeuverSchedule(
+        const State& aState, const Array<Instant>& anInstantArray, const ManeuverSchedule& aManeuverSchedule
+    ) const;
+
+    /// @brief Create the context of a dynamics, registering the coordinate subsets it reads and writes with a
+    /// coordinate broker
+    ///
+    /// @param aDynamicsSPtr A dynamics shared pointer
+    /// @param aCoordinateBrokerSPtr The coordinate broker to register the dynamics' coordinate subsets with
+    /// @return The context of the dynamics
+    static Dynamics::Context CreateContext(
+        const Shared<Dynamics>& aDynamicsSPtr, const Shared<CoordinateBroker>& aCoordinateBrokerSPtr
+    );
 };
 
 }  // namespace trajectory

@@ -284,6 +284,57 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
+    def test_integrate_time_append_observed_states(
+        self,
+        initial_state: State,
+        numerical_solver: NumericalSolver,
+        numerical_solver_conditional: NumericalSolver,
+        custom_condition: RealCondition,
+    ):
+        middle_instant: Instant = initial_state.get_instant() + Duration.seconds(2.0)
+        end_instant: Instant = initial_state.get_instant() + Duration.seconds(10.0)
+
+        # Without a condition
+        middle_state: State = numerical_solver.integrate_time(
+            initial_state, middle_instant, oscillator
+        )
+        first_observed_states: list[State] = numerical_solver.get_observed_states()
+
+        numerical_solver.integrate_time(
+            middle_state,
+            end_instant,
+            oscillator,
+            append_observed_states=True,
+        )
+
+        observed_states: list[State] = numerical_solver.get_observed_states()
+
+        assert len(observed_states) > len(first_observed_states)
+        assert observed_states[0].get_instant() == initial_state.get_instant()
+        assert observed_states[-1].get_instant() == end_instant
+
+        # With a condition
+        condition_solution = numerical_solver_conditional.integrate_time(
+            initial_state, middle_instant, oscillator, custom_condition
+        )
+        first_observed_states = numerical_solver_conditional.get_observed_states()
+
+        assert not condition_solution.condition_is_satisfied
+
+        condition_solution = numerical_solver_conditional.integrate_time(
+            condition_solution.state,
+            end_instant,
+            oscillator,
+            custom_condition,
+            append_observed_states=True,
+        )
+
+        observed_states = numerical_solver_conditional.get_observed_states()
+
+        assert condition_solution.condition_is_satisfied
+        assert len(observed_states) > len(first_observed_states)
+        assert observed_states[0].get_instant() == initial_state.get_instant()
+
     def test_default(self):
         assert NumericalSolver.default() is not None
 
