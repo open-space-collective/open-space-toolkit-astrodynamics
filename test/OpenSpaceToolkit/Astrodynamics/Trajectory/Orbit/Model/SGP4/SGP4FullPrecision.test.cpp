@@ -4,7 +4,6 @@
 #include <vector>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -28,7 +27,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -171,18 +169,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_TRUE(deepSpaceSGP4FullPrecision_.isDefined());
     EXPECT_FALSE(SGP4FullPrecision::Undefined().isDefined());
 
-    EXPECT_FALSE(SGP4FullPrecision(
-                     tle_.getEpoch(),
-                     tle_.getInclination(),
-                     tle_.getRaan(),
-                     tle_.getEccentricity(),
-                     tle_.getAop(),
-                     tle_.getMeanAnomaly(),
-                     tle_.getMeanMotion(),
-                     tle_.getBStarDragTerm(),
-                     Integer::Undefined()
-    )
-                     .isDefined());
+    {
+        const SGP4FullPrecision sgp4FullPrecision = {
+            tle_.getEpoch(),
+            tle_.getInclination(),
+            tle_.getRaan(),
+            tle_.getEccentricity(),
+            tle_.getAop(),
+            tle_.getMeanAnomaly(),
+            tle_.getMeanMotion(),
+            tle_.getBStarDragTerm(),
+            12345,
+        };
+
+        EXPECT_TRUE(sgp4FullPrecision.isDefined());
+        EXPECT_EQ(12345, sgp4FullPrecision.getRevolutionNumberAtEpoch());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Getters)
