@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <cmath>
+#include <optional>
 #include <unordered_set>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
@@ -113,7 +114,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
     }
 
     Orbit orbit_ = Orbit::Undefined();
-    Profile profile_ = Profile::Undefined();
+    Profile profile_ = Profile(Transform::Undefined());
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Constructor)
@@ -150,7 +151,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, StreamOperator)
     {
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << Profile::Undefined() << std::endl);
+        EXPECT_NO_THROW(std::cout << Profile(Transform::Undefined()) << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -163,7 +164,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
     }
 
     {
-        EXPECT_FALSE(Profile::Undefined().isDefined());
+        EXPECT_FALSE(Profile(Transform::Undefined()).isDefined());
     }
 }
 
@@ -174,7 +175,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AccessModel)
     }
 
     {
-        EXPECT_THROW(Profile::Undefined().accessModel(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Profile(Transform::Undefined()).accessModel(), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -194,8 +195,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
     }
 
     {
-        EXPECT_ANY_THROW(Profile::Undefined().getStateAt(Instant::Undefined()));
-        EXPECT_ANY_THROW(Profile::Undefined().getStateAt(Instant::J2000()));
+        EXPECT_ANY_THROW(Profile(Transform::Undefined()).getStateAt(Instant::Undefined()));
+        EXPECT_ANY_THROW(Profile(Transform::Undefined()).getStateAt(Instant::J2000()));
         EXPECT_ANY_THROW(profile_.getStateAt(Instant::Undefined()));
     }
 }
@@ -251,7 +252,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
+        const Profile undefinedProfile = {Transform::Undefined()};
+
+        EXPECT_ANY_THROW(undefinedProfile.getStatesAt(
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
              Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
         ));
@@ -268,7 +271,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstructBodyFrame)
         EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
 
         // undefined constructor throws
-        EXPECT_THROW(Profile::Undefined().constructBodyFrame(frameName), ostk::core::error::RuntimeError);
+        EXPECT_THROW(Profile(Transform::Undefined()).constructBodyFrame(frameName), ostk::core::error::RuntimeError);
 
         // calling again without overwrite (default false) throws
         EXPECT_THROW(profile_.constructBodyFrame(frameName), ostk::core::error::RuntimeError);
@@ -281,14 +284,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstructBodyFrame)
 
         // frame still exists after overwrite
         EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
-{
-    {
-        EXPECT_NO_THROW(Profile::Undefined());
-        EXPECT_FALSE(Profile::Undefined().isDefined());
     }
 }
 
@@ -1301,7 +1296,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignedAndConstrainedPoint
 
     // Regression test for dangling orbit reference when a constrained pointing profile
     {
-        Profile profile = Profile::Undefined();
+        std::optional<Profile> profile = std::nullopt;
         {
             const Orbit anotherOrbit =
                 Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), Time(6, 0, 0), earthSPtr);
@@ -1311,7 +1306,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AlignedAndConstrainedPoint
             );
         }
 
-        EXPECT_NO_THROW(profile.getStateAt(epoch));
+        ASSERT_TRUE(profile.has_value());
+        EXPECT_NO_THROW(profile->getStateAt(epoch));
     }
 
     {
