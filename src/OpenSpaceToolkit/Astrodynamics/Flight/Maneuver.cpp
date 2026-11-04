@@ -158,18 +158,6 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
                   << Maneuver::MaximumRecommendedInterpolationInterval.inSeconds() << " seconds." << std::endl;
     }
 
-    // Check the maneuver duration is within the recommended limits
-    const Duration maneuverDuration =
-        sanitizedStates.accessLast().accessInstant() - sanitizedStates.accessFirst().accessInstant();
-    if (maneuverDuration < Maneuver::MinimumRecommendedDuration)
-    {
-        std::cout
-            << "WARNING: maneuver duration is less than " << Maneuver::MinimumRecommendedDuration.inSeconds()
-            << " seconds, it may be 'skipped over' and not taken into "
-               "account during numerical propagation if the integrator's timestep is longer than the maneuver duration."
-            << std::endl;
-    }
-
     states_ = sanitizedStates;
 }
 

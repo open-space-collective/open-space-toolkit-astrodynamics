@@ -104,8 +104,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         EXPECT_NO_THROW(Maneuver {defaultStates_});
     }
 
+    // The interpolation type defaults to barycentric rational, and can be set
     {
-        EXPECT_NO_THROW(Maneuver(defaultStates_, Interpolator::Type::Linear));
+        EXPECT_EQ(Maneuver(defaultStates_).getInterpolationType(), Interpolator::Type::BarycentricRational);
+        EXPECT_EQ(
+            Maneuver(defaultStates_, Interpolator::Type::Linear).getInterpolationType(), Interpolator::Type::Linear
+        );
     }
 
     // No states provided
@@ -402,20 +406,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
         Maneuver {spacedOutStates};
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
-
-    // Maneuver with duration of less than minimum recommended duration
-    {
-        const Array<State> shortStates = {
-            stateGenerator(Instant::J2000()),
-            stateGenerator(Instant::J2000() + Maneuver::MinimumRecommendedDuration / 4),
-            stateGenerator(Instant::J2000() + Maneuver::MinimumRecommendedDuration / 3),
-            stateGenerator(Instant::J2000() + Maneuver::MinimumRecommendedDuration / 2),
-        };
-
-        testing::internal::CaptureStdout();
-        Maneuver {shortStates};
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, EqualToOperator)
@@ -424,6 +414,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, EqualToOperator)
         EXPECT_TRUE(defaultManeuver_ == defaultManeuver_);
     }
 
+    // Same states, different interpolation type
     {
         EXPECT_FALSE(defaultManeuver_ == Maneuver(defaultStates_, Interpolator::Type::Linear));
     }
@@ -433,6 +424,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, NotEqualToOperator)
 {
     {
         EXPECT_FALSE(defaultManeuver_ != defaultManeuver_);
+    }
+
+    {
+        EXPECT_TRUE(defaultManeuver_ != Maneuver(defaultStates_, Interpolator::Type::Linear));
     }
 }
 
@@ -469,10 +464,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
     }
 
     {
-        EXPECT_EQ(defaultManeuver_.getInterpolationType(), DEFAULT_MANEUVER_INTERPOLATION_TYPE);
-        EXPECT_EQ(
-            Maneuver(defaultStates_, Interpolator::Type::Linear).getInterpolationType(), Interpolator::Type::Linear
-        );
+        EXPECT_EQ(defaultManeuver_.getInterpolationType(), Interpolator::Type::BarycentricRational);
     }
 
     {
@@ -549,19 +541,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
         EXPECT_DOUBLE_EQ(
             96.9375,  // Higher than evenlySpacedManeuverWithConstantMassFlowRate because acceleration is higher for a
                       // greater portion of the burn
-            unevenlySpacedManeuverWithConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+            unevenlySpacedManeuverWithConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
 
         EXPECT_DOUBLE_EQ(
             87.90625,  // Very slightly lower than evenlySpacedManeuverWithConstantMassFlowRate's because non-constantly
                        // decreasing spacecraft mass
-            evenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+            evenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
 
         EXPECT_DOUBLE_EQ(
             94.4765625,  // Very slightly lower than unevenlySpacedManeuverWithConstantMassFlowRate's because
                          // non-constantly decreasing spacecraft mass
-            unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass ::Unit::Kilogram))
+            unevenlySpacedManeuverWithNonConstantMassFlowRate.calculateAverageThrust(Mass(100.0, Mass::Unit::Kilogram))
         );
     }
 
@@ -976,6 +968,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         EXPECT_TRUE(newManeuver.isDefined());
         EXPECT_EQ(newManeuver.getStates().getSize(), defaultStates_.getSize());
         EXPECT_EQ(newManeuver.getInterval(), defaultManeuver_.getInterval());
+        EXPECT_EQ(newManeuver.getInterpolationType(), defaultManeuver_.getInterpolationType());
 
         for (Size i = 0; i < newManeuver.getStates().getSize(); i++)
         {
@@ -987,6 +980,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
             EXPECT_EQ(originalState.getPosition(), newState.getPosition());
             EXPECT_EQ(originalState.getVelocity(), newState.getVelocity());
         }
+    }
+
+    // The interpolation type is preserved
+    {
+        const Maneuver newManeuver = Maneuver(defaultStates_, Interpolator::Type::Linear)
+                                         .toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
+
+        EXPECT_EQ(newManeuver.getInterpolationType(), Interpolator::Type::Linear);
     }
 
     // Consider maximum allowed angular offset, but it's not violated
@@ -1170,6 +1171,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfi
         const Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(defaultStates_, defaultConstantMassFlowRate_);
 
         EXPECT_EQ(maneuver.getStates().getSize(), defaultStates_.getSize());
+        EXPECT_EQ(maneuver.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
         for (const auto& state : maneuver.getStates())
         {
@@ -1177,6 +1179,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfi
                 state.extractCoordinate(CoordinateSubset::MassFlowRate())[0], defaultConstantMassFlowRate_
             );
         }
+    }
+
+    {
+        const Maneuver maneuver = Maneuver::ConstantMassFlowRateProfile(
+            defaultStates_, defaultConstantMassFlowRate_, Interpolator::Type::Linear
+        );
+
+        EXPECT_EQ(maneuver.getInterpolationType(), Interpolator::Type::Linear);
     }
 
     // Single state maneuver

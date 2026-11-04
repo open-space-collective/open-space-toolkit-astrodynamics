@@ -184,7 +184,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 +[](NumericalSolver& aNumericalSolver,
                     const State& aState,
                     const Instant& anInstant,
-                    const object& aSystemOfEquationsObject) -> State
+                    const object& aSystemOfEquationsObject,
+                    const bool& appendObservedStates) -> State
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
@@ -196,15 +197,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateTime(aState, anInstant, systemOfEquations);
+                    return aNumericalSolver.integrateTime(aState, anInstant, systemOfEquations, appendObservedStates);
                 },
                 R"doc(
                     Integrate the trajectory to a given instant.
+
+                    The observed states are cleared before the integration, unless they are to be appended: the integration is then a continuation of the previous one. The observed states beyond the initial state (in the direction of the integration) are discarded, the initial state is observed unless it already is the last observed state, and the states observed by this integration are appended.
 
                     Args:
                         state (State): The initial state of the trajectory.
                         instant (Instant): The instant to integrate to.
                         system_of_equations (callable): The system of equations.
+                        append_observed_states (bool, optional): If true, append to the observed states, otherwise clear them. Defaults to False.
 
                     Returns:
                        State: The state at the requested time.
@@ -212,7 +216,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 )doc",
                 arg("state"),
                 arg("instant"),
-                arg("system_of_equations")
+                arg("system_of_equations"),
+                arg("append_observed_states") = false
             )
 
             .def(
@@ -257,7 +262,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const State& aState,
                     const Instant& anInstant,
                     const object& aSystemOfEquationsObject,
-                    const EventCondition& anEventCondition) -> NumericalSolver::ConditionSolution
+                    const EventCondition& anEventCondition,
+                    const bool& appendObservedStates) -> NumericalSolver::ConditionSolution
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
@@ -269,16 +275,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateTime(aState, anInstant, systemOfEquations, anEventCondition);
+                    return aNumericalSolver.integrateTime(
+                        aState, anInstant, systemOfEquations, anEventCondition, appendObservedStates
+                    );
                 },
                 R"doc(
                     Integrate the trajectory to a given instant, with an event condition.
+
+                    The observed states are cleared before the integration, unless they are to be appended: the integration is then a continuation of the previous one. The observed states beyond the initial state (in the direction of the integration) are discarded, the initial state is observed unless it already is the last observed state, and the states observed by this integration are appended.
 
                     Args:
                         state (State): The initial state of the trajectory.
                         instant (Instant): The instant to integrate to.
                         system_of_equations (callable): The system of equations.
                         event_condition (EventCondition): The event condition.
+                        append_observed_states (bool, optional): If true, append to the observed states, otherwise clear them. Defaults to False.
 
                     Returns:
                         ConditionSolution: The solution to the event condition.
@@ -287,7 +298,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("state"),
                 arg("instant"),
                 arg("system_of_equations"),
-                arg("event_condition")
+                arg("event_condition"),
+                arg("append_observed_states") = false
             )
 
             .def_static(

@@ -192,10 +192,20 @@ Array<State> NumericalSolver::integrateTime(
 }
 
 State NumericalSolver::integrateTime(
-    const State& aState, const Instant& anEndTime, const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
+    const State& aState,
+    const Instant& anEndTime,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
+    const bool& appendObservedStates
 )
 {
-    observedStates_ = {};
+    if (appendObservedStates)
+    {
+        this->resumeObservedStates(aState, anEndTime);
+    }
+    else
+    {
+        observedStates_ = {};
+    }
 
     const StateBuilder stateBuilder = {aState};
 
@@ -203,8 +213,18 @@ State NumericalSolver::integrateTime(
         aState.accessCoordinates(), (anEndTime - aState.accessInstant()).inSeconds(), aSystemOfEquations
     );
 
+    bool isInitialState = true;
     for (const auto& state : MathNumericalSolver::getObservedStateVectors())
     {
+        // When continuing a previous integration, the initial state is already observed
+        if (isInitialState && appendObservedStates && state.second == 0.0)
+        {
+            isInitialState = false;
+            continue;
+        }
+
+        isInitialState = false;
+
         observeState(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
     }
 
@@ -215,7 +235,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     const State& aState,
     const Instant& anInstant,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const EventCondition& anEventCondition
+    const EventCondition& anEventCondition,
+    const bool& appendObservedStates
 )
 {
     // Multistep Adams-Bashforth-Moulton steppers are not supported with event conditions.
@@ -233,7 +254,14 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         );
     }
 
-    observedStates_ = {aState};
+    if (appendObservedStates)
+    {
+        this->resumeObservedStates(aState, anInstant);
+    }
+    else
+    {
+        observedStates_ = {aState};
+    }
 
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
 
@@ -259,7 +287,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
-    return integrateTimeWithControlledStepper(aState, anInstant, aSystemOfEquations, anEventCondition);
+    return integrateTimeWithControlledStepper(
+        aState, anInstant, aSystemOfEquations, anEventCondition, appendObservedStates
+    );
 }
 
 NumericalSolver NumericalSolver::Undefined()
@@ -313,6 +343,24 @@ void NumericalSolver::observeState(const State& aState)
     if (stateLogger_ != nullptr && getLogType() != NumericalSolver::LogType::NoLog)
     {
         stateLogger_(aState);
+    }
+}
+
+void NumericalSolver::resumeObservedStates(const State& aState, const Instant& anInstant)
+{
+    const Instant& startInstant = aState.accessInstant();
+    const bool isForward = anInstant >= startInstant;
+
+    // Discard the states beyond the initial state, e.g. an event state found past the end of a previous integration
+    while (!observedStates_.isEmpty() && (isForward ? observedStates_.accessLast().accessInstant() > startInstant
+                                                    : observedStates_.accessLast().accessInstant() < startInstant))
+    {
+        observedStates_.pop_back();
+    }
+
+    if (observedStates_.isEmpty() || observedStates_.accessLast().accessInstant() != startInstant)
+    {
+        this->observeState(aState);
     }
 }
 
@@ -374,10 +422,15 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     const Instant& anInstant,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
     const EventCondition& anEventCondition,
-    double aSignedTimeStep
+    double aSignedTimeStep,
+    const bool& appendObservedStates
 )
 {
-    observedStates_ = {};
+    // When appending, the initial state was already resolved by the caller
+    if (!appendObservedStates)
+    {
+        observedStates_ = {};
+    }
 
     const StateBuilder stateBuilder = {aState};
 
@@ -402,6 +455,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     State currentState = State::Undefined();
     State previousState = aState;
     bool conditionSatisfied = false;
+    bool isInitialState = true;
 
     const double maxStepSizeDouble =
         maxStepSize_.isDefined() ? static_cast<double>(maxStepSize_) : std::numeric_limits<double>::infinity();
@@ -412,7 +466,13 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         previousStateVector = currentStateVector;
         previousTime = currentTime;
 
-        observeState(previousState);
+        // When continuing a previous integration, the initial state is already observed
+        if (!(isInitialState && appendObservedStates))
+        {
+            observeState(previousState);
+        }
+
+        isInitialState = false;
 
         // Limit the step size to prevent massive overshoots past the target end time.
         // When a maxStepSize is specified, also enforce that as an upper bound. This is critical
@@ -590,7 +650,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
     const State& aState,
     const Instant& anInstant,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const EventCondition& anEventCondition
+    const EventCondition& anEventCondition,
+    const bool& appendObservedStates
 )
 {
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
@@ -600,7 +661,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
     {
         using DispatchStepperType = std::decay_t<decltype(aStepper)>;
         return integrateTimeWithStepperImpl_<DispatchStepperType>(
-            aStepper, aState, anInstant, aSystemOfEquations, anEventCondition, signedTimeStep
+            aStepper, aState, anInstant, aSystemOfEquations, anEventCondition, signedTimeStep, appendObservedStates
         );
     };
 
