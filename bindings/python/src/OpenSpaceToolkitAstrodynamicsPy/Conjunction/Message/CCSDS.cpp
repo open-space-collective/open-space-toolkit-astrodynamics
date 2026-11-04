@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Message/CCSDS/CDM.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS(nanobind::module_& aModule)
 {
     // Create "ccsds" python submodule
     auto ccsds = aModule.def_submodule("ccsds");

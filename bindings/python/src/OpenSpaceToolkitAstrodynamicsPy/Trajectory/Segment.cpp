@@ -1,12 +1,10 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -141,7 +139,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .def("__str__", &(shiftToString<Segment::Solution>))
         .def("__repr__", &(shiftToString<Segment::Solution>))
 
-        .def_readonly(
+        .def_ro(
             "name",
             &Segment::Solution::name,
             R"doc(
@@ -150,7 +148,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: str
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "dynamics",
             &Segment::Solution::dynamics,
             R"doc(
@@ -159,7 +157,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: Dynamics
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "states",
             &Segment::Solution::states,
             R"doc(
@@ -168,7 +166,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: list[State]
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "condition_is_satisfied",
             &Segment::Solution::conditionIsSatisfied,
             R"doc(
@@ -177,7 +175,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: bool
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "segment_type",
             &Segment::Solution::segmentType,
             R"doc(
@@ -186,7 +184,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: Type
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "maneuver_intervals",
             &Segment::Solution::maneuverIntervals,
             R"doc(
@@ -336,7 +334,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             &Segment::Solution::getDynamicsContribution,
             arg("dynamics"),
             arg("frame"),
-            arg_v("coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
+            arg("coordinate_subsets").sig("[]") = Array<Shared<const CoordinateSubset>>::Empty(),
             R"doc(
                 Compute the contribution of the provided dynamics in the provided frame for all states associated with the segment.
 
@@ -424,7 +422,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         .def("__str__", &(shiftToString<Segment::ManeuverConstraints>))
         .def("__repr__", &(shiftToString<Segment::ManeuverConstraints>))
 
-        .def_readwrite(
+        .def_rw(
             "minimum_duration",
             &Segment::ManeuverConstraints::minimumDuration,
             R"doc(
@@ -433,7 +431,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: Duration | None
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "maximum_maneuver_duration_and_strategy",
             &Segment::ManeuverConstraints::maximumManeuverDurationAndStrategy,
             R"doc(
@@ -442,7 +440,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: tuple[Duration, MaximumManeuverDurationViolationStrategy] | None
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "minimum_separation",
             &Segment::ManeuverConstraints::minimumSeparation,
             R"doc(
@@ -451,7 +449,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: Duration | None
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "maximum_duty_cycle",
             &Segment::ManeuverConstraints::maximumDutyCycle,
             R"doc(
@@ -460,7 +458,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 :type: tuple[Duration, Duration] | None
             )doc"
         )
-        .def_readwrite(
+        .def_rw(
             "constant_local_orbital_frame_enforcement",
             &Segment::ManeuverConstraints::constantLocalOrbitalFrameEnforcement,
             R"doc(
@@ -596,8 +594,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             "solve",
             &Segment::solve,
             arg("state"),
-            arg_v("maximum_propagation_duration", Duration::Days(30.0), "Duration.days(30.0)"),
-            arg_v("previous_maneuver_intervals", Array<Interval>::Empty(), "[]"),
+            arg("maximum_propagation_duration").sig("Duration.days(30.0)") = Duration::Days(30.0),
+            arg("previous_maneuver_intervals").sig("[]") = Array<Interval>::Empty(),
             R"doc(
                 Solve the segment until its event condition is satisfied or the maximum propagation duration is reached, considering the previous maneuver intervals.
 

@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -13,7 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
     using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
-    class_<CoordinateBroker, Shared<CoordinateBroker>>(
+    class_<CoordinateBroker>(
         aModule,
         "CoordinateBroker",
         R"doc(
@@ -24,7 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
 
         .def(
             init<const Array<Shared<const CoordinateSubset>>&>(),
-            arg_v("coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
+            arg("coordinate_subsets").sig("[]") = Array<Shared<const CoordinateSubset>>::Empty(),
             R"doc(
                 Create a broker for the provided coordinate subsets.
 
@@ -34,8 +34,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const CoordinateBroker& self, const CoordinateBroker& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const CoordinateBroker& self, const CoordinateBroker& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
 
         .def(
             "get_number_of_coordinates",

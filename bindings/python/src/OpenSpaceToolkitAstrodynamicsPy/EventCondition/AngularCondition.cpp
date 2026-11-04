@@ -4,7 +4,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Shared;
 using ostk::core::type::String;
@@ -17,10 +17,10 @@ using ostk::astrodynamics::EventCondition;
 using ostk::astrodynamics::eventcondition::AngularCondition;
 using ostk::astrodynamics::trajectory::State;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(nanobind::module_& aModule)
 {
     {
-        class_<AngularCondition, EventCondition, Shared<AngularCondition>> angularCondition(
+        class_<AngularCondition, EventCondition> angularCondition(
             aModule,
             "AngularCondition",
             R"doc(

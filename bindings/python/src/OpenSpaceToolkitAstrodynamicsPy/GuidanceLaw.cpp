@@ -6,7 +6,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/ConstantThrust.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/GuidanceLaw/QLaw.cpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Shared;
 using ostk::core::type::String;
@@ -22,13 +22,13 @@ using ostk::astrodynamics::GuidanceLaw;
 class PyGuidanceLaw : public GuidanceLaw
 {
    public:
-    using GuidanceLaw::GuidanceLaw;
+    NB_TRAMPOLINE(GuidanceLaw);
 
     // Trampoline (need one for each virtual function)
 
     void print(std::ostream& anOutputStream, bool displayDecorator) const override
     {
-        PYBIND11_OVERRIDE(void, GuidanceLaw, print, anOutputStream, displayDecorator);
+        NB_OVERRIDE(print, anOutputStream, displayDecorator);
     }
 
     Vector3d calculateThrustAccelerationAt(
@@ -39,9 +39,7 @@ class PyGuidanceLaw : public GuidanceLaw
         const Shared<const Frame>& outputFrameSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            Vector3d,
-            GuidanceLaw,
+        NB_OVERRIDE_PURE_NAME(
             "calculate_thrust_acceleration_at",
             calculateThrustAccelerationAt,
             anInstant,
@@ -54,15 +52,13 @@ class PyGuidanceLaw : public GuidanceLaw
 
     Shared<GuidanceLaw> constructUngatedGuidanceLaw() const override
     {
-        PYBIND11_OVERRIDE_NAME(
-            Shared<GuidanceLaw>, GuidanceLaw, "construct_ungated_guidance_law", constructUngatedGuidanceLaw,
-        );
+        NB_OVERRIDE_NAME("construct_ungated_guidance_law", constructUngatedGuidanceLaw);
     }
 };
 
-void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
+void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(nanobind::module_& aModule)
 {
-    class_<GuidanceLaw, PyGuidanceLaw, Shared<GuidanceLaw>>(
+    class_<GuidanceLaw, PyGuidanceLaw>(
         aModule,
         "GuidanceLaw",
         R"doc(
@@ -121,7 +117,13 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw(pybind11::module& aModule)
 
         .def(
             "construct_ungated_guidance_law",
-            &GuidanceLaw::constructUngatedGuidanceLaw,
+            // Take self as a shared pointer: GuidanceLaw::constructUngatedGuidanceLaw calls shared_from_this(), and
+            // nanobind (unlike pybind11's shared_ptr holder) only gives a Python-created instance a shared owner when
+            // it is converted to a shared pointer
+            [](const Shared<GuidanceLaw>& aGuidanceLawSPtr) -> Shared<GuidanceLaw>
+            {
+                return aGuidanceLawSPtr->constructUngatedGuidanceLaw();
+            },
             R"doc(
                 Construct an ungated version of the instance.
 

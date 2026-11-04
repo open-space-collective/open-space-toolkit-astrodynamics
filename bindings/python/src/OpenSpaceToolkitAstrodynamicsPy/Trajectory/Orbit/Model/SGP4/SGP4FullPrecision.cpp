@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -64,11 +64,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
             arg("mean_motion"),
             arg("b_star_drag_term"),
             arg("revolution_number_at_epoch") = 1,
-            arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
+            arg("output_frame").sig("Frame.TEME()") = Frame::TEME()
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const SGP4FullPrecision& self, const SGP4FullPrecision& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const SGP4FullPrecision& self, const SGP4FullPrecision& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<SGP4FullPrecision>))
         .def("__repr__", &(shiftToString<SGP4FullPrecision>))
@@ -253,7 +267,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
             "from_tle",
             &SGP4FullPrecision::FromTLE,
             arg("tle"),
-            arg_v("output_frame", Frame::TEME(), "Frame.TEME()"),
+            arg("output_frame").sig("Frame.TEME()") = Frame::TEME(),
             R"doc(
                 Construct a mean element set from a TLE.
 

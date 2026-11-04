@@ -4,7 +4,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Solver/LeastSquaresSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Solver/TemporalConditionSolver.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Solver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Solver(nanobind::module_& aModule)
 {
     // Create "solver" python submodule
     auto solver = aModule.def_submodule("solver");

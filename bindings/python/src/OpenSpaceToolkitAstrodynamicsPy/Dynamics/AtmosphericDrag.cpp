@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
     using ostk::core::type::String;
@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
     using ostk::astrodynamics::dynamics::AtmosphericDrag;
 
     {
-        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(
+        class_<AtmosphericDrag, Dynamics>(
             aModule,
             "AtmosphericDrag",
             R"doc(

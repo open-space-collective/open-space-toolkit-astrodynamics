@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Eclipse/Generator.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse(nanobind::module_& aModule)
 {
     // Create "eclipse" python submodule
     auto eclipse = aModule.def_submodule("eclipse");

@@ -6,9 +6,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/NumericalSolver.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -113,10 +113,38 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         )
         .def(init<const State&>(), arg("state"))
 
-        .def(self == self)
-        .def(self != self)
-        .def(self + self)
-        .def(self - self)
+        .def(
+            "__eq__",
+            [](const State& self, const State& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const State& self, const State& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
+        .def(
+            "__add__",
+            [](const State& self, const State& other)
+            {
+                return self + other;
+            },
+            is_operator()
+        )
+        .def(
+            "__sub__",
+            [](const State& self, const State& other)
+            {
+                return self - other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<State>))
         .def("__repr__", &(shiftToString<State>))

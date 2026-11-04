@@ -10,7 +10,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp>
 
-namespace py = pybind11;
+namespace py = nanobind;
 
 using ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial;
 
@@ -24,11 +24,12 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial(nanobind::module_& aModule
+)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
-    py::class_<ModifiedEquinoctial, Shared<ModifiedEquinoctial>>(
+    py::class_<ModifiedEquinoctial>(
         aModule,
         "ModifiedEquinoctial",
         R"doc(
@@ -68,8 +69,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const ModifiedEquinoctial& self, const ModifiedEquinoctial& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const ModifiedEquinoctial& self, const ModifiedEquinoctial& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<ModifiedEquinoctial>))
         .def("__repr__", &(shiftToString<ModifiedEquinoctial>))

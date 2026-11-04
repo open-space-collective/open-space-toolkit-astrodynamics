@@ -1,14 +1,12 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach/Generator.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Tuple;
     using ostk::core::type::Shared;
@@ -46,27 +44,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )doc"
     )
 
-        .def_readonly(
+        .def_ro(
             "rotated_encounter_frame",
             &CloseApproach::RotatedEncounterFrameParameters::rotatedEncounterFrameSPtr,
             "Frame: The rotated encounter frame (child of the encounter frame)."
         )
-        .def_readonly(
+        .def_ro(
             "x_m",
             &CloseApproach::RotatedEncounterFrameParameters::xM,
             "Length: The miss distance component along the x-axis (absolute value)."
         )
-        .def_readonly(
+        .def_ro(
             "y_m",
             &CloseApproach::RotatedEncounterFrameParameters::yM,
             "Length: The miss distance component along the y-axis (absolute value)."
         )
-        .def_readonly(
+        .def_ro(
             "sigma_x",
             &CloseApproach::RotatedEncounterFrameParameters::sigmaX,
             "Length: The combined position standard deviation along the x-axis."
         )
-        .def_readonly(
+        .def_ro(
             "sigma_y",
             &CloseApproach::RotatedEncounterFrameParameters::sigmaY,
             "Length: The combined position standard deviation along the y-axis."
@@ -249,7 +247,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                 Returns:
                     Frame: The encounter frame.
             )doc",
-            arg_v("frame", Frame::GCRF(), "GCRF")
+            arg("frame").sig("GCRF") = Frame::GCRF()
         )
 
         .def(

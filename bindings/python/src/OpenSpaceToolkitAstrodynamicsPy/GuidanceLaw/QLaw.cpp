@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
@@ -21,9 +21,9 @@ using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::guidancelaw::QLaw;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 
-void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
+void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(nanobind::module_& aModule)
 {
-    class_<QLaw, GuidanceLaw, Shared<QLaw>> qLaw(
+    class_<QLaw, GuidanceLaw> qLaw(
         aModule,
         "QLaw",
         R"doc(
@@ -50,7 +50,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
         )doc"
     )
-        .def_readonly(
+        .def_ro(
             "m",
             &QLaw::Parameters::m,
             R"doc(
@@ -60,7 +60,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "n",
             &QLaw::Parameters::n,
             R"doc(
@@ -70,7 +70,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "r",
             &QLaw::Parameters::r,
             R"doc(
@@ -80,7 +80,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "b",
             &QLaw::Parameters::b,
             R"doc(
@@ -90,7 +90,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     float
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "k",
             &QLaw::Parameters::k,
             R"doc(
@@ -100,7 +100,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "periapsis_weight",
             &QLaw::Parameters::periapsisWeight,
             R"doc(
@@ -110,7 +110,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     float
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "absolute_effectivity_threshold",
             &QLaw::Parameters::absoluteEffectivityThreshold,
             R"doc(
@@ -120,7 +120,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     float | None
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "relative_effectivity_threshold",
             &QLaw::Parameters::relativeEffectivityThreshold,
             R"doc(
@@ -166,7 +166,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("b") = 0.01,
             arg("k") = 100,
             arg("periapsis_weight") = 0.0,
-            arg_v("minimum_periapsis_radius", Length::Kilometers(6578.0), "Length.kilometers(6578.0)"),
+            arg("minimum_periapsis_radius").sig("Length.kilometers(6578.0)") = Length::Kilometers(6578.0),
             arg("absolute_effectivity_threshold") = none(),
             arg("relative_effectivity_threshold") = none()
         )
@@ -263,7 +263,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("parameters"),
             arg("coe_domain"),
             arg("gradient_strategy") = QLaw::GradientStrategy::FiniteDifference,
-            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
+            arg("frame").sig("Frame.GCRF()") = Frame::GCRF()
         )
 
         .def(

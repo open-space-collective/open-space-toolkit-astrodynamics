@@ -1,14 +1,12 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Array;
 using ostk::core::type::Shared;
@@ -23,6 +21,8 @@ using ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm;
 class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
 {
    public:
+    NB_TRAMPOLINE(ProbabilityOfCollisionAlgorithm);
+
     // Public constructor (the base class constructor is protected)
     PyProbabilityOfCollisionAlgorithm(const String& aName, const bool& isMaximum)
         : ProbabilityOfCollisionAlgorithm(aName, isMaximum)
@@ -33,13 +33,7 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
 
     Array<String> identifyUnsatisfiedAssumptions(const CloseApproach& aCloseApproach) const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            Array<String>,
-            ProbabilityOfCollisionAlgorithm,
-            "identify_unsatisfied_assumptions",
-            identifyUnsatisfiedAssumptions,
-            aCloseApproach
-        );
+        NB_OVERRIDE_PURE_NAME("identify_unsatisfied_assumptions", identifyUnsatisfiedAssumptions, aCloseApproach);
     }
 
     double computeProbabilityOfCollision(
@@ -48,9 +42,7 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
         const Shared<const HardBody>& aHardBody2SPtr
     ) const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            double,
-            ProbabilityOfCollisionAlgorithm,
+        NB_OVERRIDE_PURE_NAME(
             "compute_probability_of_collision",
             computeProbabilityOfCollision,
             aCloseApproach,
@@ -60,13 +52,12 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm(nanobind::module_& aModule)
 {
-    class_<ProbabilityOfCollisionAlgorithm, PyProbabilityOfCollisionAlgorithm, Shared<ProbabilityOfCollisionAlgorithm>>
-        probabilityOfCollisionAlgorithm(
-            aModule,
-            "ProbabilityOfCollisionAlgorithm",
-            R"doc(
+    class_<ProbabilityOfCollisionAlgorithm, PyProbabilityOfCollisionAlgorithm> probabilityOfCollisionAlgorithm(
+        aModule,
+        "ProbabilityOfCollisionAlgorithm",
+        R"doc(
             Probability of collision algorithm (abstract).
 
             Base class for algorithms that compute the probability of collision for a close approach.
@@ -112,7 +103,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                 ...         break
                 ...     # ProbabilityRegion.Unknown: try the next algorithm
         )doc"
-        );
+    );
 
     enum_<ProbabilityOfCollisionAlgorithm::ProbabilityRegion>(
         probabilityOfCollisionAlgorithm,
@@ -148,24 +139,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
         )doc"
     )
 
-        .def_readonly(
+        .def_ro(
             "probability_of_collision",
             &ProbabilityOfCollisionAlgorithm::Analysis::probabilityOfCollision,
             "The probability of collision."
         )
-        .def_readonly("region", &ProbabilityOfCollisionAlgorithm::Analysis::region, "The probability region.")
-        .def_readonly(
+        .def_ro("region", &ProbabilityOfCollisionAlgorithm::Analysis::region, "The probability region.")
+        .def_ro(
             "maximum_probability_of_collision",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollision,
             "The maximum probability of collision (None in the unknown region)."
         )
-        .def_readonly(
+        .def_ro(
             "maximum_probability_of_collision_scaling_factor",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionScalingFactor,
             "The covariance scaling factor yielding the maximum probability of collision (None in the unknown "
             "region)."
         )
-        .def_readonly(
+        .def_ro(
             "maximum_probability_of_collision_sigma_scaling_factor",
             &ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionSigmaScalingFactor,
             "The sigma scaling factor (i.e. the square root of the covariance scaling factor) yielding the maximum "

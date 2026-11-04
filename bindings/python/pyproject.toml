@@ -7,7 +7,7 @@
 name = "open-space-toolkit-astrodynamics-dev"
 version = "0.0.0"
 description = "Development environment for Open Space Toolkit Astrodynamics"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 # No runtime dependencies - this is not for distribution
 

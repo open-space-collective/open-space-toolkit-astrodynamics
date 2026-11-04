@@ -8,7 +8,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianPosition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset/CartesianVelocity.cpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -21,7 +21,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class PyCoordinateSubset : public CoordinateSubset
 {
    public:
-    using CoordinateSubset::CoordinateSubset;
+    NB_TRAMPOLINE(CoordinateSubset);
 
     // Trampoline (need one for each virtual function)
 
@@ -33,15 +33,8 @@ class PyCoordinateSubset : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE(
-            VectorXd,
-            CoordinateSubset,
-            add,
-            anInstant,
-            aFullCoordinatesVector,
-            anotherFullCoordinatesVector,
-            aFrameSPtr,
-            aCoordinateBrokerSPtr
+        NB_OVERRIDE(
+            add, anInstant, aFullCoordinatesVector, anotherFullCoordinatesVector, aFrameSPtr, aCoordinateBrokerSPtr
         );
     }
 
@@ -53,15 +46,8 @@ class PyCoordinateSubset : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE(
-            VectorXd,
-            CoordinateSubset,
-            subtract,
-            anInstant,
-            aFullCoordinatesVector,
-            anotherFullCoordinatesVector,
-            aFrameSPtr,
-            aCoordinateBrokerSPtr
+        NB_OVERRIDE(
+            subtract, anInstant, aFullCoordinatesVector, anotherFullCoordinatesVector, aFrameSPtr, aCoordinateBrokerSPtr
         );
     }
 
@@ -73,22 +59,13 @@ class PyCoordinateSubset : public CoordinateSubset
         const Shared<const CoordinateBroker>& aCoordinateBrokerSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE(
-            VectorXd,
-            CoordinateSubset,
-            inFrame,
-            anInstant,
-            aFullCoordinatesVector,
-            fromFrameSPtr,
-            toFrameSPtr,
-            aCoordinateBrokerSPtr
-        );
+        NB_OVERRIDE(inFrame, anInstant, aFullCoordinatesVector, fromFrameSPtr, toFrameSPtr, aCoordinateBrokerSPtr);
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateSubset(nanobind::module_& aModule)
 {
-    class_<CoordinateSubset, PyCoordinateSubset, Shared<CoordinateSubset>>(
+    class_<CoordinateSubset, PyCoordinateSubset>(
         aModule,
         "CoordinateSubset",
         R"doc(

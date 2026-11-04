@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::mathematics::geometry::d3::object::Composite;
     using ostk::mathematics::object::Matrix3d;
@@ -55,8 +55,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                 arg("propulsion_system") = none()
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const SatelliteSystem& self, const SatelliteSystem& other)
+                {
+                    return self == other;
+                },
+                is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const SatelliteSystem& self, const SatelliteSystem& other)
+                {
+                    return self != other;
+                },
+                is_operator()
+            )
 
             .def("__str__", &(shiftToString<SatelliteSystem>))
             .def("__repr__", &(shiftToString<SatelliteSystem>))

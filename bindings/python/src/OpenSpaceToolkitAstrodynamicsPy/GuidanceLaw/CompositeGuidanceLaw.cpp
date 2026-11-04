@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 
-using namespace pybind11;
+using namespace nanobind;
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
@@ -17,9 +17,9 @@ using ostk::physics::time::Interval;
 using ostk::astrodynamics::GuidanceLaw;
 using ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_CompositeGuidanceLaw(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_CompositeGuidanceLaw(nanobind::module_& aModule)
 {
-    class_<CompositeGuidanceLaw, GuidanceLaw, Shared<CompositeGuidanceLaw>>(
+    class_<CompositeGuidanceLaw, GuidanceLaw>(
         aModule,
         "CompositeGuidanceLaw",
         R"doc(
@@ -34,7 +34,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_CompositeGuidanceLaw(pyb
 
         .def(
             init<const Array<Pair<Shared<const GuidanceLaw>, Interval>>&>(),
-            arg_v("guidance_laws_with_intervals", Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty(), "[]"),
+            arg("guidance_laws_with_intervals").sig("[]") = Array<Pair<Shared<const GuidanceLaw>, Interval>>::Empty(),
             R"doc(
                 Constructor.
 

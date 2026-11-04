@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -41,8 +41,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(pybind11::mo
             arg("output_frame") = none()
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Static& self, const Static& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Static& self, const Static& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<Static>))
         .def("__repr__", &(shiftToString<Static>))
