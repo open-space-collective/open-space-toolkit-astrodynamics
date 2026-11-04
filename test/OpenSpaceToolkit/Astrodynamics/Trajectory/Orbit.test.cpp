@@ -1545,6 +1545,20 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, StringFromFrameType)
+{
+    {
+        EXPECT_EQ("NED", Orbit::StringFromFrameType(Orbit::FrameType::NED));
+        EXPECT_EQ("LVLH", Orbit::StringFromFrameType(Orbit::FrameType::LVLH));
+        EXPECT_EQ("VVLH", Orbit::StringFromFrameType(Orbit::FrameType::VVLH));
+        EXPECT_EQ("LVLHGD", Orbit::StringFromFrameType(Orbit::FrameType::LVLHGD));
+        EXPECT_EQ("LVLHGDGT", Orbit::StringFromFrameType(Orbit::FrameType::LVLHGDGT));
+        EXPECT_EQ("QSW", Orbit::StringFromFrameType(Orbit::FrameType::QSW));
+        EXPECT_EQ("TNW", Orbit::StringFromFrameType(Orbit::FrameType::TNW));
+        EXPECT_EQ("VNC", Orbit::StringFromFrameType(Orbit::FrameType::VNC));
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
 {
     {

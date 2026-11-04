@@ -175,11 +175,6 @@ Transform Transform::LocalOrbitalFramePointing(
         throw ostk::core::error::runtime::Undefined("Orbit");
     }
 
-    if (anOrbitalFrameType == trajectory::Orbit::FrameType::Undefined)
-    {
-        throw ostk::core::error::runtime::Undefined("Orbital frame type");
-    }
-
     const Shared<const Frame> orbitalFrameSPtr = anOrbit.getOrbitalFrame(anOrbitalFrameType);
 
     const DynamicProvider dynamicTransformProvider = {

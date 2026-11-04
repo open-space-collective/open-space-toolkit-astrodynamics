@@ -61,10 +61,9 @@ class Orbit : public Trajectory
     enum class FrameType
     {
 
-        Undefined,  ///< Undefined frame
-        NED,        ///< North-East-Down (NED) frame
-        LVLH,       ///< Local Vertical-Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
-                    ///< orbital momentum)
+        NED,       ///< North-East-Down (NED) frame
+        LVLH,      ///< Local Vertical-Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with
+                   ///< orbital momentum)
         VVLH,      ///< Vehicle Velocity-Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis
                    ///< aligned with opposite of orbital momentum)
         LVLHGD,    ///< Local Vertical-Local Horizontal-GeoDetic (LVLHGD) frame

@@ -1023,9 +1023,6 @@ String Orbit::StringFromFrameType(const Orbit::FrameType& aFrameType)
 {
     switch (aFrameType)
     {
-        case Orbit::FrameType::Undefined:
-            return "Undefined";
-
         case Orbit::FrameType::NED:
             return "NED";
 

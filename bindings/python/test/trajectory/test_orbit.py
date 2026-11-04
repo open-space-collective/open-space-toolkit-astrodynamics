@@ -81,6 +81,9 @@ class TestOrbit:
     def test_get_orbital_frame(self, orbit: Orbit, frame_type: Orbit.FrameType):
         assert orbit.get_orbital_frame(frame_type) is not None
 
+    def test_frame_type_has_no_undefined(self):
+        assert not hasattr(Orbit.FrameType, "Undefined")
+
     def test_get_revolution_number_at(self, orbit: Orbit):
         assert (
             orbit.get_revolution_number_at(

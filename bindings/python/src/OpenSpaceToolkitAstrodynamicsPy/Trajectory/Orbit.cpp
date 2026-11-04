@@ -49,7 +49,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )doc"
         )
 
-            .value("Undefined", Orbit::FrameType::Undefined, "Undefined")
             .value("NED", Orbit::FrameType::NED, "North-East-Down")
             .value("LVLH", Orbit::FrameType::LVLH, "Local Vertical-Local Horizontal")
             .value("LVLHGD", Orbit::FrameType::LVLHGD, "Local Vertical-Local Horizontal GeoDetic")
