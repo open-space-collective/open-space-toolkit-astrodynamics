@@ -78,8 +78,13 @@ class TestTLE:
         assert (tle == tle) is True
         assert (tle != tle) is False
 
-    def test_is_defined(self, tle: TLE):
-        assert tle.is_defined()
+    def test_has_no_undefined(self):
+        assert not hasattr(TLE, "undefined")
+        assert not hasattr(TLE, "is_defined")
+
+    def test_constructor_with_empty_lines(self):
+        with pytest.raises(RuntimeError):
+            TLE("", "")
 
     def test_get_satellite_name(self, tle: TLE):
         assert tle.get_satellite_name() == "Satellite"

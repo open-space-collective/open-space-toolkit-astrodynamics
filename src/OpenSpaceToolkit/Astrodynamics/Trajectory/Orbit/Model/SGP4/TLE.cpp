@@ -115,7 +115,7 @@ TLE::TLE(const String& aFirstLine, const String& aSecondLine, const std::optiona
       firstLine_(aFirstLine),
       secondLine_(aSecondLine)
 {
-    if (((!aFirstLine.isEmpty()) || (!aSecondLine.isEmpty())) && (!TLE::CanParse(aFirstLine, aSecondLine)))
+    if (!TLE::CanParse(aFirstLine, aSecondLine))
     {
         throw ostk::core::error::runtime::Wrong(
             "TLE", String::Format("First line: [{}], Second line: [{}]", aFirstLine, aSecondLine)
@@ -125,22 +125,12 @@ TLE::TLE(const String& aFirstLine, const String& aSecondLine, const std::optiona
 
 bool TLE::operator==(const TLE& aTle) const
 {
-    if ((!this->isDefined()) || (!aTle.isDefined()))
-    {
-        return false;
-    }
-
     return (satelliteName_ == aTle.satelliteName_) && (firstLine_ == aTle.firstLine_) &&
            (secondLine_ == aTle.secondLine_);
 }
 
 bool TLE::operator!=(const TLE& aTle) const
 {
-    if ((!this->isDefined()) || (!aTle.isDefined()))
-    {
-        return true;
-    }
-
     return (satelliteName_ != aTle.satelliteName_) || (firstLine_ != aTle.firstLine_) ||
            (secondLine_ != aTle.secondLine_);
 }
@@ -150,11 +140,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const TLE& aTle)
     aTle.print(anOutputStream);
 
     return anOutputStream;
-}
-
-bool TLE::isDefined() const
-{
-    return (!firstLine_.isEmpty()) && (!secondLine_.isEmpty());
 }
 
 std::optional<String> TLE::getSatelliteName() const
@@ -174,41 +159,21 @@ String TLE::getSecondLine() const
 
 int TLE::getSatelliteNumber() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return TLE::Alpha5ToSatelliteNumber(firstLine_.getSubstring(2, 5));
 }
 
 String TLE::getRawSatelliteNumber() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return firstLine_.getSubstring(2, 5);
 }
 
 String TLE::getClassification() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return firstLine_.getSubstring(7, 1);
 }
 
 String TLE::getInternationalDesignator() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return firstLine_.getSubstring(9, 8).trim();
 }
 
@@ -217,11 +182,6 @@ Instant TLE::getEpoch() const
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Scale;
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
 
     const String epochYearTwoDigitsString = firstLine_.getSubstring(18, 2).trim();
     const String epochDayString = firstLine_.getSubstring(20, 12).trim();
@@ -239,121 +199,61 @@ Instant TLE::getEpoch() const
 
 double TLE::getMeanMotionFirstTimeDerivativeDividedByTwo() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseDouble(firstLine_.getSubstring(33, 10).trim());
 }
 
 double TLE::getMeanMotionSecondTimeDerivativeDividedBySix() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return TLE::ParseReal(firstLine_.getSubstring(44, 8).trim(), true);
 }
 
 double TLE::getBStarDragTerm() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return TLE::ParseReal(firstLine_.getSubstring(53, 8).trim(), true);
 }
 
 int TLE::getEphemerisType() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseInt(firstLine_.getSubstring(62, 1));
 }
 
 int TLE::getElementSetNumber() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseInt(firstLine_.getSubstring(64, 4).trim());
 }
 
 int TLE::getFirstLineChecksum() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseInt(firstLine_.getSubstring(68, 1));
 }
 
 Angle TLE::getInclination() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return Angle::Degrees(ParseDouble(secondLine_.getSubstring(8, 8).trim()));
 }
 
 Angle TLE::getRaan() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return Angle::Degrees(ParseDouble(secondLine_.getSubstring(17, 8).trim()));
 }
 
 double TLE::getEccentricity() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseDouble("0." + secondLine_.getSubstring(26, 7).trim());
 }
 
 Angle TLE::getAop() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return Angle::Degrees(ParseDouble(secondLine_.getSubstring(34, 8).trim()));
 }
 
 Angle TLE::getMeanAnomaly() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return Angle::Degrees(ParseDouble(secondLine_.getSubstring(43, 8).trim()));
 }
 
 Derived TLE::getMeanMotion() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return Derived(
         ParseDouble(secondLine_.getSubstring(52, 11).trim()),
         Derived::Unit::AngularVelocity(Angle::Unit::Revolution, physics::unit::Time::Unit::Day)
@@ -362,21 +262,11 @@ Derived TLE::getMeanMotion() const
 
 int TLE::getRevolutionNumberAtEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseInt(secondLine_.getSubstring(63, 5).trim());
 }
 
 int TLE::getSecondLineChecksum() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return ParseInt(secondLine_.getSubstring(68, 1));
 }
 
@@ -421,11 +311,6 @@ void TLE::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 void TLE::setSatelliteNumber(int aSatelliteNumber)
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     if ((aSatelliteNumber <= 0) || aSatelliteNumber > TLE::MaximumSatelliteNumber)
     {
         throw ostk::core::error::runtime::Wrong(
@@ -453,11 +338,6 @@ void TLE::setEpoch(const Instant& anInstant)
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Scale;
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
 
     const DateTime epochDateTime = anInstant.getDateTime(Scale::UTC);
     const int epochYear = epochDateTime.getDate().getYear();
@@ -494,20 +374,10 @@ void TLE::setEpoch(const Instant& anInstant)
     int firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine);
 
     firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + std::to_string(firstLineNewChecksum);
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
 }
 
 void TLE::setRevolutionNumberAtEpoch(int aRevolutionNumberAtEpoch)
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     if (aRevolutionNumberAtEpoch > 99999 || (aRevolutionNumberAtEpoch <= 0))
     {
         throw ostk::core::error::runtime::Wrong("Provided Revolution Number at Epoch");
@@ -522,16 +392,6 @@ void TLE::setRevolutionNumberAtEpoch(int aRevolutionNumberAtEpoch)
     const int secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine);
 
     secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + std::to_string(secondLineNewChecksum);
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-}
-
-TLE TLE::Undefined()
-{
-    return {String::Empty(), String::Empty()};
 }
 
 bool TLE::CanParse(const String& aString)
@@ -630,8 +490,6 @@ TLE TLE::Parse(const String& aString)
     }
 
     throw ostk::core::error::runtime::Wrong("String", aString);
-
-    return TLE::Undefined();
 }
 
 TLE TLE::Load(const File& aFile)

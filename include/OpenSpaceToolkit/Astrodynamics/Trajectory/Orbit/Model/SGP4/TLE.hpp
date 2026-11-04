@@ -52,6 +52,7 @@ class TLE
     /// @param aFirstLine A first line
     /// @param aSecondLine A second line
     /// @param aSatelliteName A satellite name. Defaults to none.
+    /// @throw ostk::core::error::runtime::Wrong If the lines cannot be parsed (including when they are empty).
     TLE(const String& aFirstLine, const String& aSecondLine, const std::optional<String>& aSatelliteName = std::nullopt
     );
 
@@ -90,17 +91,6 @@ class TLE
     /// @param aTle A TLE
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const TLE& aTle);
-
-    /// @brief Check if TLE is defined
-    ///
-    /// @code{.cpp}
-    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                  "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537").isDefined();
-    ///                  // True
-    /// @endcode
-    ///
-    /// @return True if TLE is defined
-    bool isDefined() const;
 
     /// @brief Get satellite name
     ///
@@ -263,15 +253,6 @@ class TLE
     /// @param aRevolutionNumberAtEpoch a Revolution Number at Epoch
     /// @return void
     void setRevolutionNumberAtEpoch(int aRevolutionNumberAtEpoch);
-
-    /// @brief Constructs an undefined TLE
-    ///
-    /// @code{.cpp}
-    ///              TLE tle = TLE::Undefined(); // Undefined
-    /// @endcode
-    ///
-    /// @return Undefined TLE
-    static TLE Undefined();
 
     /// @brief Returns true if TLE can be generated from the given string
     ///

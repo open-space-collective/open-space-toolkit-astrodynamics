@@ -461,11 +461,6 @@ SGP4FullPrecision SGP4FullPrecision::Undefined()
 
 SGP4FullPrecision SGP4FullPrecision::FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr)
 {
-    if (!aTLE.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return {
         aTLE.getEpoch(),
         aTLE.getInclination(),

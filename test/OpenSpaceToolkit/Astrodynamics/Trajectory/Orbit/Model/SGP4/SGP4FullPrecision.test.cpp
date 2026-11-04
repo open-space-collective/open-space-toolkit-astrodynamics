@@ -329,8 +329,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_EQ(*sgp4FullPrecision_.getOutputFrame(), *Frame::TEME());
 
     EXPECT_EQ(*SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).getOutputFrame(), *Frame::GCRF());
-
-    EXPECT_ANY_THROW(SGP4FullPrecision::FromTLE(TLE::Undefined()));
 }
 
 /// The reason this class exists. A step in eccentricity below the TLE's 1e-7 quantization must

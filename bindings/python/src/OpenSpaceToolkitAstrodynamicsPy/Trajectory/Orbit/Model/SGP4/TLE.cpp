@@ -41,6 +41,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
                     second_line (str): The second line of the TLE.
                     satellite_name (str, optional): The name of the satellite. Defaults to None.
 
+                Raises:
+                    RuntimeError: If the lines cannot be parsed (including when they are empty).
+
             )doc"
         )
 
@@ -49,18 +52,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
 
         .def("__str__", &(shiftToString<TLE>))
         .def("__repr__", &(shiftToString<TLE>))
-
-        .def(
-            "is_defined",
-            &TLE::isDefined,
-            R"doc(
-                Check if the `TLE` object is defined.
-
-                Returns:
-                    bool: True if the `TLE` object is defined, False otherwise.
-
-            )doc"
-        )
 
         .def(
             "get_satellite_name",
@@ -348,17 +339,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
                 Args:
                     revolution_number (int): The revolution number at epoch.
 
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &TLE::Undefined,
-            R"doc(
-                Create an undefined `TLE` object.
-
-                Returns:
-                    TLE: The undefined `TLE` object.
             )doc"
         )
 
