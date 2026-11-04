@@ -9,7 +9,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Integer;
     using ostk::core::type::String;
 
     using ostk::mathematics::object::MatrixXd;
@@ -876,10 +875,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const Instant&,
                 const Duration&,
                 const Duration&,
-                const Integer&,
-                const Integer&,
-                const Integer&,
-                const Integer&,
+                const std::optional<int>&,
+                const std::optional<int>&,
+                const std::optional<int>&,
+                const std::optional<int>&,
                 double,
                 double,
                 double,
@@ -900,10 +899,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 time_last_observation_end (Instant): The time of the last observation end.
                 recommended_od_span (Duration): The recommended OD span.
                 actual_od_span (Duration): The actual OD span.
-                observations_available (int): The number of observations available.
-                observations_used (int): The number of observations used.
-                tracks_available (int): The number of tracks available.
-                tracks_used (int): The number of tracks used.
+                observations_available (int | None): The number of observations available. None if unknown.
+                observations_used (int | None): The number of observations used. None if unknown.
+                tracks_available (int | None): The number of tracks available. None if unknown.
+                tracks_used (int | None): The number of tracks used. None if unknown.
                 residuals_accepted (float): The residuals accepted.
                 weighted_rms (float): The weighted RMS.
                 area_pc (float): The area PC.
@@ -972,28 +971,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             "observations_available",
             &CDM::Data::obsAvailable,
             R"doc(
-                The number of observations available.
+                The number of observations available, or None if unknown.
             )doc"
         )
         .def_readonly(
             "observations_used",
             &CDM::Data::obsUsed,
             R"doc(
-                The number of observations used.
+                The number of observations used, or None if unknown.
             )doc"
         )
         .def_readonly(
             "tracks_available",
             &CDM::Data::tracksAvailable,
             R"doc(
-                The number of tracks available.
+                The number of tracks available, or None if unknown.
             )doc"
         )
         .def_readonly(
             "tracks_used",
             &CDM::Data::tracksUsed,
             R"doc(
-                The number of tracks used.
+                The number of tracks used, or None if unknown.
             )doc"
         )
         .def_readonly(

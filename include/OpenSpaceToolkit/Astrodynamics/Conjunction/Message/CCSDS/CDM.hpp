@@ -4,13 +4,13 @@
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM__
 
 #include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Dictionary.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -43,7 +43,6 @@ using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::filesystem::File;
 using ostk::core::type::Index;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -167,10 +166,10 @@ class CDM
         Instant timeLastObEnd = Instant::Undefined();
         Duration recommendedODSpan = Duration::Undefined();
         Duration actualODSpan = Duration::Undefined();
-        Integer obsAvailable = Integer::Undefined();
-        Integer obsUsed = Integer::Undefined();
-        Integer tracksAvailable = Integer::Undefined();
-        Integer tracksUsed = Integer::Undefined();
+        std::optional<int> obsAvailable = std::nullopt;
+        std::optional<int> obsUsed = std::nullopt;
+        std::optional<int> tracksAvailable = std::nullopt;
+        std::optional<int> tracksUsed = std::nullopt;
         double residualsAccepted = std::numeric_limits<double>::quiet_NaN();
         double weightedRMS = std::numeric_limits<double>::quiet_NaN();
 

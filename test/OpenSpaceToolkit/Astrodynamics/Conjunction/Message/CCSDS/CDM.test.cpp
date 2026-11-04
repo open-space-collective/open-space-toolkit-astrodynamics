@@ -295,10 +295,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC), objectData.timeLastObEnd);
         EXPECT_EQ(Duration::Days(7.88), objectData.recommendedODSpan);
         EXPECT_EQ(Duration::Days(5.50), objectData.actualODSpan);
-        EXPECT_EQ(592, objectData.obsAvailable);
-        EXPECT_EQ(579, objectData.obsUsed);
-        EXPECT_EQ(123, objectData.tracksAvailable);
-        EXPECT_EQ(119, objectData.tracksUsed);
+        EXPECT_EQ(std::optional<int>(592), objectData.obsAvailable);
+        EXPECT_EQ(std::optional<int>(579), objectData.obsUsed);
+        EXPECT_EQ(std::optional<int>(123), objectData.tracksAvailable);
+        EXPECT_EQ(std::optional<int>(119), objectData.tracksUsed);
         EXPECT_EQ(97.8, objectData.residualsAccepted);
         EXPECT_EQ(0.864, objectData.weightedRMS);
         EXPECT_EQ(5.2, objectData.areaPC);
@@ -323,6 +323,48 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
 
     {
         EXPECT_ANY_THROW(CDM::Undefined().getObjectDataAt(0));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, DataWithoutObservationCounts)
+{
+    {
+        const CDM::Data objectData = {
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Duration::Undefined(),
+            Duration::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            Mass::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
+            State::Undefined(),
+            MatrixXd(9, 9)
+        };
+
+        EXPECT_FALSE(objectData.obsAvailable.has_value());
+        EXPECT_FALSE(objectData.obsUsed.has_value());
+        EXPECT_FALSE(objectData.tracksAvailable.has_value());
+        EXPECT_FALSE(objectData.tracksUsed.has_value());
+    }
+
+    {
+        const CDM::Data objectData = this->cdm_.getObjectDataAt(1);
+
+        EXPECT_EQ(std::optional<int>(59), objectData.obsAvailable);
+        EXPECT_EQ(std::optional<int>(58), objectData.obsUsed);
+        EXPECT_EQ(std::optional<int>(15), objectData.tracksAvailable);
+        EXPECT_EQ(std::optional<int>(15), objectData.tracksUsed);
     }
 }
 

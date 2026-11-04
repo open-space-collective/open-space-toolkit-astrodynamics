@@ -314,6 +314,33 @@ class TestCDM:
         with pytest.raises(Exception) as e:
             cdm.get_object_data_at(2)
 
+    def test_data_without_observation_counts(self):
+        data = CDM.Data(
+            time_last_observation_start=Instant.undefined(),
+            time_last_observation_end=Instant.undefined(),
+            recommended_od_span=Duration.undefined(),
+            actual_od_span=Duration.undefined(),
+            observations_available=None,
+            observations_used=None,
+            tracks_available=None,
+            tracks_used=None,
+            residuals_accepted=0.0,
+            weighted_rms=0.0,
+            area_pc=0.0,
+            area_drag=0.0,
+            area_srp=0.0,
+            mass=Mass.kilograms(1.0),
+            cd_area_over_mass=0.0,
+            cr_area_over_mass=0.0,
+            thrust_acceleration=0.0,
+            sedr=0.0,
+        )
+
+        assert data.observations_available is None
+        assert data.observations_used is None
+        assert data.tracks_available is None
+        assert data.tracks_used is None
+
     def test_get_ccsds_cdm_version(self, cdm: CDM):
         assert cdm.get_ccsds_cdm_version() == "1.0"
 
@@ -389,6 +416,13 @@ class TestCDM:
         assert object_1_metadata.covariance_method == "CALCULATED"
         assert object_1_metadata.maneuverable == "N/A"
         assert object_1_metadata.reference_frame == "ITRF"
+
+        object_1_data_counts: CDM.Data = cdm.get_object_data_at(0)
+
+        assert object_1_data_counts.observations_available is None
+        assert object_1_data_counts.observations_used is None
+        assert object_1_data_counts.tracks_available is None
+        assert object_1_data_counts.tracks_used is None
 
         # object_1_data: CDM.Data = cdm.get_object_data_at(0)
 
