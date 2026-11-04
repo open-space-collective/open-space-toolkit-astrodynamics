@@ -73,3 +73,6 @@ class TestPass:
 
     def test_string_from_phase(self):
         assert Pass.string_from_phase(Pass.Phase.Ascending) is not None
+
+    def test_phase_has_no_undefined(self):
+        assert not hasattr(Pass.Phase, "Undefined")

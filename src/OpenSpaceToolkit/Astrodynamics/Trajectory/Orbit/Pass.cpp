@@ -375,9 +375,6 @@ String Pass::StringFromPhase(const Pass::Phase& aPhase)
 {
     switch (aPhase)
     {
-        case Pass::Phase::Undefined:
-            return "Undefined";
-
         case Pass::Phase::Ascending:
             return "Ascending";
 

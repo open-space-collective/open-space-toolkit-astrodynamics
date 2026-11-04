@@ -43,7 +43,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
         )doc"
     )
 
-        .value("Undefined", Pass::Phase::Undefined, "Undefined")
         .value("Ascending", Pass::Phase::Ascending, "Ascending")
         .value("Descending", Pass::Phase::Descending, "Descending")
 

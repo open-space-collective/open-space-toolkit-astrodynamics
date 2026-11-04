@@ -49,7 +49,6 @@ class Pass
     /// @brief The phase of the pass.
     enum class Phase
     {
-        Undefined,  ///< The phase is undefined.
         Ascending,  ///< The pass is in the ascending phase.
         Descending  ///< The pass is in the descending phase.
     };

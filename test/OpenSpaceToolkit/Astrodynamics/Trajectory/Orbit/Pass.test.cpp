@@ -793,7 +793,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, StringFromType)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, StringFromPhase)
 {
-    EXPECT_EQ(Pass::StringFromPhase(Pass::Phase::Undefined), "Undefined");
     EXPECT_EQ(Pass::StringFromPhase(Pass::Phase::Ascending), "Ascending");
     EXPECT_EQ(Pass::StringFromPhase(Pass::Phase::Descending), "Descending");
 }
