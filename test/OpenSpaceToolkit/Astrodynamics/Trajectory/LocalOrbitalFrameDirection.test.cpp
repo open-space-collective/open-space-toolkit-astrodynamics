@@ -117,18 +117,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, isD
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, AccessLocalOrbitalFrameFactory)
-{
-    {
-        EXPECT_EQ(LOFFactory_, localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory());
-    }
-
-    {
-        EXPECT_ANY_THROW(LocalOrbitalFrameDirection(anotherDirection_, LocalOrbitalFrameFactory::Undefined())
-                             .accessLocalOrbitalFrameFactory());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Getters)
 {
     {

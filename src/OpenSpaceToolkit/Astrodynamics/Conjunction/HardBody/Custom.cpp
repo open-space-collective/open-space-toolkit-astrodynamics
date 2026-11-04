@@ -51,7 +51,7 @@ Custom::Custom(
     }
 }
 
-Custom::VertexGenerator Custom::getVertexGenerator() const
+const Custom::VertexGenerator& Custom::getVertexGenerator() const
 {
     return vertexGenerator_;
 }
@@ -71,7 +71,7 @@ HardBody::CrossSection Custom::calculateCrossSectionAt(const State& aState, cons
             : std::get<LocalOrbitalFrameFactory>(frameOrLOF_).generateFrame(aState);
 
     // The vertices are offsets from the object center: they are only rotated into the given frame, not translated
-    const Transform transform = vertexFrameSPtr->getTransformTo(aFrameSPtr, aState.accessInstant());
+    const Transform transform = vertexFrameSPtr->getTransformTo(aFrameSPtr, aState.getInstant());
 
     // Projecting along the Z axis onto the X-Y plane drops the Z coordinate
     Array<Point> projectedPoints = Array<Point>::Empty();

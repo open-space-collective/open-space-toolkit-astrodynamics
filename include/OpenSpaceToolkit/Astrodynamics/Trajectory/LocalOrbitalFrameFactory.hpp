@@ -79,10 +79,10 @@ class LocalOrbitalFrameFactory
     /// @return True if local orbital frame factory is defined.
     bool isDefined() const;
 
-    /// @brief Accessor for the parent frame.
+    /// @brief Get the parent frame.
     ///
     /// @return The parent frame
-    const Shared<const Frame>& accessParentFrame() const;
+    const Shared<const Frame>& getParentFrame() const;
 
     /// @brief Get type
     ///

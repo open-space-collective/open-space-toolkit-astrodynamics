@@ -50,14 +50,14 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
         {
             MatrixXd statesCoordinates(2, anInstantArray.size());
 
-            double x0 = aState.accessCoordinates()(0);  // Initial position
-            double v0 = aState.accessCoordinates()(1);  // Initial position
-            const double omega = std::sqrt(1.0);        // Angular frequency, assuming unit mass and spring constant
+            double x0 = aState.getCoordinates()(0);  // Initial position
+            double v0 = aState.getCoordinates()(1);  // Initial position
+            const double omega = std::sqrt(1.0);     // Angular frequency, assuming unit mass and spring constant
 
             Size i = 0;
             for (const Instant& instant : anInstantArray)
             {
-                const double t = (instant - aState.accessInstant()).inSeconds();
+                const double t = (instant - aState.getInstant()).inSeconds();
                 const double x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
                 const double v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
@@ -73,11 +73,11 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
 
         generateStateCoordinates_ = [](const State& aState, const Instant& anInstant) -> VectorXd
         {
-            double x0 = aState.accessCoordinates()(0);  // Initial position
-            double v0 = aState.accessCoordinates()(1);  // Initial position
-            const double omega = std::sqrt(1.0);        // Angular frequency, assuming unit mass and spring constant
+            double x0 = aState.getCoordinates()(0);  // Initial position
+            double v0 = aState.getCoordinates()(1);  // Initial position
+            const double omega = std::sqrt(1.0);     // Angular frequency, assuming unit mass and spring constant
 
-            const double t = (anInstant - aState.accessInstant()).inSeconds();
+            const double t = (anInstant - aState.getInstant()).inSeconds();
             const double x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
             const double v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
@@ -320,7 +320,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
         // 0.1 |     ---    | (1.0, 0.1)
         const auto generateStateCoordinates = [](const State& aState, const Instant& anInstant) -> VectorXd
         {
-            const double offset = (anInstant - aState.accessInstant()).inSeconds();
+            const double offset = (anInstant - aState.getInstant()).inSeconds();
 
             VectorXd coordinates(2, 1);
             coordinates << aState.getCoordinates(), offset;
@@ -384,7 +384,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
 
     const auto generateStateCoordinates = [&propagator](const State& aState, const Instant& anInstant) -> VectorXd
     {
-        return propagator.calculateStateAt(aState, anInstant).accessCoordinates();
+        return propagator.calculateStateAt(aState, anInstant).getCoordinates();
     };
 
     const double mu =
@@ -457,11 +457,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJac
 
     const auto generateStateCoordinates = [](const State& aState, const Instant& anInstant) -> VectorXd
     {
-        double x0 = aState.accessCoordinates()(0);  // Initial position
-        double v0 = aState.accessCoordinates()(1);  // Initial position
-        const double omega = std::sqrt(1.0);        // Angular frequency, assuming unit mass and spring constant
+        double x0 = aState.getCoordinates()(0);  // Initial position
+        double v0 = aState.getCoordinates()(1);  // Initial position
+        const double omega = std::sqrt(1.0);     // Angular frequency, assuming unit mass and spring constant
 
-        const double t = (anInstant - aState.accessInstant()).inSeconds();
+        const double t = (anInstant - aState.getInstant()).inSeconds();
         const double x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
         const double v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
@@ -527,7 +527,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJac
 
     const auto generateStateCoordinates = [&propagator](const State& aState, const Instant& anInstant) -> VectorXd
     {
-        return propagator.calculateStateAt(aState, anInstant).accessCoordinates();
+        return propagator.calculateStateAt(aState, anInstant).getCoordinates();
     };
 
     const double mu =

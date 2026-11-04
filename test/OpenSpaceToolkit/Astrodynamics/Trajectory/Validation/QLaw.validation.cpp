@@ -209,8 +209,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
         {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
     };
 
-    const State state =
-        propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Days(14.86522));
+    const State state = propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Days(14.86522));
 
     const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -307,7 +306,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_Paper_Case
     };
 
     const State state =
-        propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Days(72.49716435185185187));
+        propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Days(72.49716435185185187));
 
     const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -404,7 +403,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         const Propagator propagator = {numericalSolver, dynamics};
 
         const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(15.0));
+            propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Minutes(15.0));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -442,7 +441,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         const Propagator propagator = {numericalSolver, dynamics};
 
         const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(21.0));
+            propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Minutes(21.0));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -479,8 +478,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
 
         const Propagator propagator = {numericalSolver, dynamics};
 
-        const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.5));
+        const State state = propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Hours(1.5));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -517,8 +515,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
 
         const Propagator propagator = {numericalSolver, dynamics};
 
-        const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.5));
+        const State state = propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Hours(1.5));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -555,8 +552,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
 
         const Propagator propagator = {numericalSolver, dynamics};
 
-        const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Hours(1.7));
+        const State state = propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Hours(1.7));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -595,7 +591,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         const Propagator propagator = {numericalSolver, dynamics};
 
         const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(40.0));
+            propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Minutes(40.0));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -636,7 +632,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         const Propagator propagator = {numericalSolver, dynamics};
 
         const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(130.0));
+            propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Minutes(130.0));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -679,7 +675,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, SSO_targeting)
         const Propagator propagator = {numericalSolver, dynamics};
 
         const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(145.5));
+            propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Minutes(145.5));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 
@@ -775,7 +771,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_QLawValidation, QLaw_BrouwerLyd
         const Propagator propagator = {numericalSolver, dynamics};
 
         const State state =
-            propagator.calculateStateAt(initialState, initialState.accessInstant() + Duration::Minutes(140.0));
+            propagator.calculateStateAt(initialState, initialState.getInstant() + Duration::Minutes(140.0));
 
         const COE endCOE = COE::Cartesian({state.getPosition(), state.getVelocity()}, gravitationalParameter);
 

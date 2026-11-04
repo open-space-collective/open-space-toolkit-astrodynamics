@@ -318,7 +318,7 @@ Instant Segment::Solution::getStartInstant() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return this->states.accessFirst().accessInstant();
+    return this->states.accessFirst().getInstant();
 }
 
 Instant Segment::Solution::getEndInstant() const
@@ -328,7 +328,7 @@ Instant Segment::Solution::getEndInstant() const
         throw ostk::core::error::RuntimeError("No solution available.");
     }
 
-    return this->states.accessLast().accessInstant();
+    return this->states.accessLast().getInstant();
 }
 
 Interval Segment::Solution::getInterval() const
@@ -457,7 +457,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
 
         for (Size i = 0; i < numberOfStates; i++)
         {
-            const Instant& stateInstant = this->states[i].accessInstant();
+            const Instant& stateInstant = this->states[i].getInstant();
 
             if (maneuverInterval.contains(stateInstant))
             {
@@ -528,7 +528,7 @@ Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Fra
             coordinates.segment<3>(6) = thrusterContribution.segment<3>(0);
             coordinates(9) = thrusterContribution(3);
 
-            maneuverStatesBlock.add(stateBuilder.build(state.accessInstant(), coordinates));
+            maneuverStatesBlock.add(stateBuilder.build(state.getInstant(), coordinates));
         }
 
         extractedManeuvers.add(FlightManeuver(maneuverStatesBlock));
@@ -795,12 +795,12 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Segment& aSegment)
     return anOutputStream;
 }
 
-String Segment::getName() const
+const String& Segment::getName() const
 {
     return name_;
 }
 
-Shared<EventCondition> Segment::getEventCondition() const
+const Shared<EventCondition>& Segment::getEventCondition() const
 {
     return eventCondition_;
 }
@@ -815,12 +815,12 @@ Array<Shared<Dynamics>> Segment::getDynamics() const
     return allDynamics;
 }
 
-Array<Shared<Dynamics>> Segment::getFreeDynamics() const
+const Array<Shared<Dynamics>>& Segment::getFreeDynamics() const
 {
     return freeDynamicsArray_;
 }
 
-NumericalSolver Segment::getNumericalSolver() const
+const NumericalSolver& Segment::getNumericalSolver() const
 {
     return numericalSolver_;
 }
@@ -830,7 +830,7 @@ Segment::Type Segment::getType() const
     return type_;
 }
 
-Shared<Thruster> Segment::getThrusterDynamics() const
+const Shared<Thruster>& Segment::getThrusterDynamics() const
 {
     if (type_ == Segment::Type::Coast)
     {
@@ -839,7 +839,7 @@ Shared<Thruster> Segment::getThrusterDynamics() const
     return thrusterDynamicsSPtr_;
 }
 
-std::optional<Segment::ManeuverConstraints> Segment::getManeuverConstraints() const
+const std::optional<Segment::ManeuverConstraints>& Segment::getManeuverConstraints() const
 {
     return maneuverConstraints_;
 }
@@ -854,7 +854,7 @@ Segment::Solution Segment::solve(
     // Check that inputs are not ill-posed
     for (const Interval& previousManeuverInterval : sortedPreviousManeuverIntervals)
     {
-        if (previousManeuverInterval.getEnd() > aState.accessInstant())
+        if (previousManeuverInterval.getEnd() > aState.getInstant())
         {
             throw ostk::core::error::RuntimeError(String::Format(
                 "All maneuver intervals must be before the initial state instant. Maneuver interval [{}] ends "
@@ -867,7 +867,7 @@ Segment::Solution Segment::solve(
 
     if (type_ == Segment::Type::Coast)
     {
-        return solveCoast_(aState, aState.accessInstant() + maximumPropagationDuration);
+        return solveCoast_(aState, aState.getInstant() + maximumPropagationDuration);
     }
 
     // A maneuver segment without maneuver constraints is solved as if no constraint was defined
@@ -900,7 +900,7 @@ Segment::Solution Segment::solve(
     bool segmentConditionIsSatisfied = eventCondition_->isSatisfied(aState, aState);
 
     // Helper lambda to solve a coast segment and update segmentStates
-    const Instant maximumInstant = aState.accessInstant() + maximumPropagationDuration;
+    const Instant maximumInstant = aState.getInstant() + maximumPropagationDuration;
     const auto solveAndAcceptCoast = [&](const Instant& endInstant) -> bool
     {
         const State& lastState = segmentStates.accessLast();
@@ -959,7 +959,7 @@ Segment::Solution Segment::solve(
             }
 
             maximumManeuverSolutionInstant =
-                std::min(segmentStates.accessLast().accessInstant() + optimizedTriming, maximumManeuverSolutionInstant);
+                std::min(segmentStates.accessLast().getInstant() + optimizedTriming, maximumManeuverSolutionInstant);
         }
 
         const Segment::Solution maneuverSolution =
@@ -970,7 +970,7 @@ Segment::Solution Segment::solve(
             return {maneuverSolution, std::nullopt};
         }
 
-        const Array<FlightManeuver> maneuvers = maneuverSolution.extractManeuvers(aState.accessFrame());
+        const Array<FlightManeuver> maneuvers = maneuverSolution.extractManeuvers(aState.getFrame());
 
         if (maneuvers.isEmpty())
         {
@@ -1030,7 +1030,7 @@ Segment::Solution Segment::solve(
         const Shared<Thruster> slicedThruster = buildThrusterDynamicsWithinInterval(validManeuverInterval);
         const Segment::Solution maneuverSolution =
             solveManeuverForInterval_(segmentStates.accessLast(), slicedThruster, validManeuverInterval);
-        const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.accessFrame()).accessFirst();
+        const FlightManeuver validManeuver = maneuverSolution.extractManeuvers(aState.getFrame()).accessFirst();
         const Segment::Solution maneuverLOFCompliantSolution =
             constructLOFCompliantManeuverSolution(maneuverSolution, validManeuver);
 
@@ -1382,7 +1382,7 @@ Segment::Solution Segment::solve(
     };
 
     // Main loop: solve maneuver by maneuver, applying constraints
-    while (segmentStates.accessLast().accessInstant() < maximumInstant && !segmentConditionIsSatisfied)
+    while (segmentStates.accessLast().getInstant() < maximumInstant && !segmentConditionIsSatisfied)
     {
         // Check minimum maneuver separation constraint from previous maneuver
         if (maneuverConstraints.minimumSeparation.has_value() && previousManeuverInterval.isDefined())
@@ -1391,7 +1391,7 @@ Segment::Solution Segment::solve(
                 previousManeuverInterval.getEnd() + maneuverConstraints.minimumSeparation.value();
 
             // No need to coast if we are already past the minimum separation target
-            if (segmentStates.accessLast().accessInstant() < endInstant)
+            if (segmentStates.accessLast().getInstant() < endInstant)
             {
                 if (solveAndAcceptCoast(endInstant))
                 {
@@ -1614,7 +1614,7 @@ Segment::Solution Segment::solveWithDynamics_(
     if (limitMaxStepSize)
     {
         double maxStepSize =
-            std::min(120.0, static_cast<double>((anEndInstant - aState.accessInstant()).inSeconds() / 10.0));
+            std::min(120.0, static_cast<double>((anEndInstant - aState.getInstant()).inSeconds() / 10.0));
         const std::optional<double> originalMaxStepSize = numericalSolver_.getMaxStepSize();
         if (originalMaxStepSize.has_value())
         {
@@ -1635,11 +1635,11 @@ Segment::Solution Segment::solveWithDynamics_(
     const StateBuilder stateBuilder = {aState};
 
     Array<State> states = Array<State>::Empty();
-    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+    states.reserve(propagator.getNumericalSolver().getObservedStates().getSize());
 
-    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    for (const State& state : propagator.getNumericalSolver().getObservedStates())
     {
-        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+        states.add(stateBuilder.expand(state.inFrame(aState.getFrame()), aState));
     }
 
     return {
@@ -1666,11 +1666,11 @@ Array<State> Segment::propagateWithDynamics_(
     const StateBuilder stateBuilder = {aState};
 
     Array<State> states = Array<State>::Empty();
-    states.reserve(propagator.accessNumericalSolver().accessObservedStates().getSize());
+    states.reserve(propagator.getNumericalSolver().getObservedStates().getSize());
 
-    for (const State& state : propagator.accessNumericalSolver().accessObservedStates())
+    for (const State& state : propagator.getNumericalSolver().getObservedStates())
     {
-        states.add(stateBuilder.expand(state.inFrame(aState.accessFrame()), aState));
+        states.add(stateBuilder.expand(state.inFrame(aState.getFrame()), aState));
     }
 
     return states;
@@ -1715,7 +1715,7 @@ Shared<RealCondition> Segment::getThrusterToggleCondition_(const Shared<Thruster
             state.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
         const Vector3d thrustAcceleration = guidanceLaw->calculateThrustAccelerationAt(
-            state.accessInstant(), positionCoordinates, velocityCoordinates, 1.0, state.accessFrame()
+            state.getInstant(), positionCoordinates, velocityCoordinates, 1.0, state.getFrame()
         );
 
         return thrustAcceleration.norm();

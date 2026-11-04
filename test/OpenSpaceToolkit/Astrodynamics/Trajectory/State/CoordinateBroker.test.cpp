@@ -213,23 +213,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker, NotEqua
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker, Accessors)
-{
-    {
-        CoordinateBroker broker = CoordinateBroker();
-
-        EXPECT_EQ(0, broker.accessSubsets().size());
-    }
-
-    {
-        CoordinateBroker broker = CoordinateBroker({subset_1, subset_2, subsetDuplicate});
-
-        EXPECT_EQ(2, broker.accessSubsets().size());
-        EXPECT_EQ(subset_1, broker.accessSubsets()[0]);
-        EXPECT_EQ(subset_2, broker.accessSubsets()[1]);
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker, Getters)
 {
     {
@@ -248,6 +231,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateBroker, Getters
         EXPECT_EQ(2, broker.getSubsets().size());
         EXPECT_EQ(subset_1, broker.getSubsets()[0]);
         EXPECT_EQ(subset_2, broker.getSubsets()[1]);
+        EXPECT_EQ(&broker.getSubsets(), &broker.getSubsets());
     }
 }
 

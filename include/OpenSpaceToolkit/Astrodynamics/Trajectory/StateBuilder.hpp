@@ -148,25 +148,20 @@ class StateBuilder
     /// @return A State with the CoordinateSubsets of the StateBuilder.
     const State expand(const State& aState, const State& defaultState) const;
 
-    /// @brief Accessor for the reference frame.
-    ///
-    /// @return The reference frame
-    const Shared<const Frame> accessFrame() const;
-
-    /// @brief Access the coordinate broker associated with the  StateBuilder.
+    /// @brief Get the coordinate broker associated with the  StateBuilder.
     ///
     /// @return The coordinate broker associated to the State
-    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
+    const Shared<const CoordinateBroker>& getCoordinateBroker() const;
 
     /// @brief Get the reference frame associated with the  StateBuilder.
     ///
     /// @return The reference frame
-    Shared<const Frame> getFrame() const;
+    const Shared<const Frame>& getFrame() const;
 
     /// @brief Get the coordinate subsets of the  StateBuilder.
     ///
     /// @return The coordinate subsets
-    const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
+    const Array<Shared<const CoordinateSubset>>& getCoordinateSubsets() const;
 
     /// @brief Get the total size of all coordinates from all subsets.
     ///

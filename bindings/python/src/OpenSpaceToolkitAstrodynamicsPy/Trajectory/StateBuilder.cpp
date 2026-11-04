@@ -205,10 +205,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
         .def(
-            "access_coordinate_broker",
-            &StateBuilder::accessCoordinateBroker,
+            "get_coordinate_broker",
+            &StateBuilder::getCoordinateBroker,
             R"doc(
-                Access the coordinate broker of the `StateBuilder`.
+                Get the coordinate broker of the `StateBuilder`.
 
                 Returns:
                     CoordinateBroker: The coordinate broker of the `StateBuilder`.

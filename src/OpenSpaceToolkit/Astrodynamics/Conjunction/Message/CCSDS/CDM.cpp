@@ -110,7 +110,7 @@ bool CDM::isDefined() const
     );
 }
 
-CDM::Header CDM::getHeader() const
+const CDM::Header& CDM::getHeader() const
 {
     if (!this->isDefined())
     {
@@ -120,7 +120,7 @@ CDM::Header CDM::getHeader() const
     return this->header_;
 }
 
-CDM::RelativeMetadata CDM::getRelativeMetadata() const
+const CDM::RelativeMetadata& CDM::getRelativeMetadata() const
 {
     if (!this->isDefined())
     {
@@ -130,7 +130,7 @@ CDM::RelativeMetadata CDM::getRelativeMetadata() const
     return this->relativeMetadata_;
 }
 
-Array<CDM::Metadata> CDM::getMetadataArray() const
+const Array<CDM::Metadata>& CDM::getMetadataArray() const
 {
     if (!this->isDefined())
     {
@@ -140,7 +140,7 @@ Array<CDM::Metadata> CDM::getMetadataArray() const
     return this->objectsMetadata_;
 }
 
-Array<CDM::Data> CDM::getDataArray() const
+const Array<CDM::Data>& CDM::getDataArray() const
 {
     if (!this->isDefined())
     {
@@ -150,7 +150,7 @@ Array<CDM::Data> CDM::getDataArray() const
     return this->objectsData_;
 }
 
-CDM::Metadata CDM::getObjectMetadataAt(const Index& anIndex) const
+const CDM::Metadata& CDM::getObjectMetadataAt(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
@@ -160,7 +160,7 @@ CDM::Metadata CDM::getObjectMetadataAt(const Index& anIndex) const
     return this->objectsMetadata_.at(anIndex);
 }
 
-CDM::Data CDM::getObjectDataAt(const Index& anIndex) const
+const CDM::Data& CDM::getObjectDataAt(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
@@ -170,7 +170,7 @@ CDM::Data CDM::getObjectDataAt(const Index& anIndex) const
     return this->objectsData_.at(anIndex);
 }
 
-String CDM::getCCSDSCDMVersion() const
+const String& CDM::getCCSDSCDMVersion() const
 {
     if (!this->isDefined())
     {
@@ -180,7 +180,7 @@ String CDM::getCCSDSCDMVersion() const
     return this->header_.ccsdsCdmVersion;
 }
 
-Instant CDM::getCreationDate() const
+const Instant& CDM::getCreationDate() const
 {
     if (!this->isDefined())
     {
@@ -190,7 +190,7 @@ Instant CDM::getCreationDate() const
     return this->header_.creationDate;
 }
 
-String CDM::getOriginator() const
+const String& CDM::getOriginator() const
 {
     if (!this->isDefined())
     {
@@ -200,7 +200,7 @@ String CDM::getOriginator() const
     return this->header_.originator;
 }
 
-String CDM::getMessageFor() const
+const String& CDM::getMessageFor() const
 {
     if (!this->isDefined())
     {
@@ -210,7 +210,7 @@ String CDM::getMessageFor() const
     return this->header_.messageFor;
 }
 
-String CDM::getMessageId() const
+const String& CDM::getMessageId() const
 {
     if (!this->isDefined())
     {
@@ -220,7 +220,7 @@ String CDM::getMessageId() const
     return this->header_.messageId;
 }
 
-Instant CDM::getTCA() const
+const Instant& CDM::getTCA() const
 {
     if (!this->isDefined())
     {
@@ -230,7 +230,7 @@ Instant CDM::getTCA() const
     return this->relativeMetadata_.TCA;
 }
 
-Length CDM::getMissDistance() const
+const Length& CDM::getMissDistance() const
 {
     if (!this->isDefined())
     {
@@ -240,7 +240,7 @@ Length CDM::getMissDistance() const
     return this->relativeMetadata_.missDistance;
 }
 
-Position CDM::getRelativePosition() const
+const Position& CDM::getRelativePosition() const
 {
     if (!this->isDefined())
     {
@@ -250,7 +250,7 @@ Position CDM::getRelativePosition() const
     return this->relativeMetadata_.relativePosition;
 }
 
-Velocity CDM::getRelativeVelocity() const
+const Velocity& CDM::getRelativeVelocity() const
 {
     if (!this->isDefined())
     {
@@ -270,7 +270,7 @@ std::optional<double> CDM::getCollisionProbability() const
     return this->relativeMetadata_.collisionProbability;
 }
 
-String CDM::getCollisionProbabilityMethod() const
+const String& CDM::getCollisionProbabilityMethod() const
 {
     if (!this->isDefined())
     {
@@ -287,31 +287,31 @@ int CDM::getObjectDesignator(const Index& anIndex) const
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.objectDesignator;
 }
 
-String CDM::getObjectName(const Index& anIndex) const
+const String& CDM::getObjectName(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.objectName;
 }
 
-String CDM::getObjectInternationalDesignator(const Index& anIndex) const
+const String& CDM::getObjectInternationalDesignator(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.internationalDesignator;
 }
@@ -323,55 +323,55 @@ CDM::ObjectType CDM::getObjectType(const Index& anIndex) const
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.objectType;
 }
 
-String CDM::getObjectEphemerisName(const Index& anIndex) const
+const String& CDM::getObjectEphemerisName(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.ephemerisName;
 }
 
-String CDM::getObjectCovarianceMethod(const Index& anIndex) const
+const String& CDM::getObjectCovarianceMethod(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.covarianceMethod;
 }
 
-String CDM::getObjectManeuverability(const Index& anIndex) const
+const String& CDM::getObjectManeuverability(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.maneuverable;
 }
 
-String CDM::getObjectReferenceFrame(const Index& anIndex) const
+const String& CDM::getObjectReferenceFrame(const Index& anIndex) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("CDM");
     }
 
-    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex);
+    const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.refFrame;
 }

@@ -82,7 +82,7 @@ class Generator
     /// @endcode
     ///
     /// @return The reference trajectory
-    Trajectory getReferenceTrajectory() const;
+    const Trajectory& getReferenceTrajectory() const;
 
     /// @brief Get the step
     ///
@@ -92,7 +92,7 @@ class Generator
     /// @endcode
     ///
     /// @return The step
-    Duration getStep() const;
+    const Duration& getStep() const;
 
     /// @brief Get the tolerance
     ///
@@ -102,7 +102,7 @@ class Generator
     /// @endcode
     ///
     /// @return The tolerance
-    Duration getTolerance() const;
+    const Duration& getTolerance() const;
 
     /// @brief Compute close approaches between the reference trajectory and another object over a search interval
     ///

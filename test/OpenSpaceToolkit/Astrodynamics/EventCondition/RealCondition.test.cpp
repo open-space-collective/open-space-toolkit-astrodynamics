@@ -42,7 +42,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
     const String defaultName_ = "Test Real Condition";
     const std::function<double(const State&)> defaultEvaluator_ = [](const State& aState) -> double
     {
-        return aState.accessCoordinates()[0];
+        return aState.getCoordinates()[0];
     };
     const double defaultTarget_ = 1.0;
     const RealCondition defaultCondition_ = {defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_};

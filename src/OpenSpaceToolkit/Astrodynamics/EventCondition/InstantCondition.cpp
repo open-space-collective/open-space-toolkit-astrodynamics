@@ -17,7 +17,7 @@ InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& a
           aCriterion,
           [anInstant](const State& aState) -> double
           {
-              return (aState.accessInstant() - anInstant).inSeconds();
+              return (aState.getInstant() - anInstant).inSeconds();
           },
           0.0
       ),
@@ -27,7 +27,7 @@ InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& a
 
 InstantCondition::~InstantCondition() {}
 
-Instant InstantCondition::getInstant() const
+const Instant& InstantCondition::getInstant() const
 {
     return instant_;
 }

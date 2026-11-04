@@ -76,35 +76,35 @@ class AccessTarget
         Trajectory
     };
 
-    /// @brief Access the type
+    /// @brief Get the type
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              AccessTarget::Type type = accessTarget.accessType();
+    ///              AccessTarget::Type type = accessTarget.getType();
     /// @endcode
     ///
     /// @return The type
-    const Type& accessType() const;
+    Type getType() const;
 
-    /// @brief Access the visibility criteria
+    /// @brief Get the visibility criteria
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              VisibilityCriterion visibilityCriterion = accessTarget.accessVisibilityCriterion();
+    ///              VisibilityCriterion visibilityCriterion = accessTarget.getVisibilityCriterion();
     /// @endcode
     ///
     /// @return The visibility criteria
-    const VisibilityCriterion& accessVisibilityCriterion() const;
+    const VisibilityCriterion& getVisibilityCriterion() const;
 
-    /// @brief Access the trajectory
+    /// @brief Get the trajectory
     ///
     /// @code{.cpp}
     ///              AccessTarget accessTarget = { ... } ;
-    ///              const Trajectory& trajectory = accessTarget.accessTrajectory();
+    ///              const Trajectory& trajectory = accessTarget.getTrajectory();
     /// @endcode
     ///
     /// @return The trajectory
-    const Trajectory& accessTrajectory() const;
+    const Trajectory& getTrajectory() const;
 
     /// @brief Get the position
     ///
@@ -248,7 +248,7 @@ class Generator
     /// @endcode
     ///
     /// @return The sampling time step.
-    Duration getStep() const;
+    const Duration& getStep() const;
 
     /// @brief Get the temporal tolerance used for crossing refinement.
     ///
@@ -258,7 +258,7 @@ class Generator
     /// @endcode
     ///
     /// @return The crossing refinement tolerance.
-    Duration getTolerance() const;
+    const Duration& getTolerance() const;
 
     /// @brief Get the access filter predicate.
     ///
@@ -268,7 +268,7 @@ class Generator
     /// @endcode
     ///
     /// @return The access filter function, or an empty function if none was set.
-    std::function<bool(const Access&)> getAccessFilter() const;
+    const std::function<bool(const Access&)>& getAccessFilter() const;
 
     /// @brief Get the state filter predicate.
     ///
@@ -278,7 +278,7 @@ class Generator
     /// @endcode
     ///
     /// @return The state filter function, or an empty function if none was set.
-    std::function<bool(const State&, const State&)> getStateFilter() const;
+    const std::function<bool(const State&, const State&)>& getStateFilter() const;
 
     /// @brief Get a boolean condition function that evaluates visibility at a given instant.
     ///

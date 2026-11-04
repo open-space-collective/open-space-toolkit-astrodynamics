@@ -45,7 +45,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::
     const String defaultName_ = "Test Angular Condition";
     const std::function<double(const State&)> defaultEvaluator_ = [](const State& aState) -> double
     {
-        return aState.accessCoordinates()[0];
+        return aState.getCoordinates()[0];
     };
     const Angle defaultTargetAngle_ = Angle::Degrees(1.0);
     const Pair<Angle, Angle> defaultTargetRange_ = {Angle::Degrees(0.0), Angle::Degrees(2.0)};

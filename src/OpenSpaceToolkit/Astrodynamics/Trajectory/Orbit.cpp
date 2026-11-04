@@ -69,7 +69,7 @@ static const RootSolver rootSolver = RootSolver::Default();
 
 Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr)
     : Trajectory(aModel),
-      modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
+      modelPtr_(dynamic_cast<const orbit::Model*>(&this->getModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
 }
@@ -83,14 +83,14 @@ Orbit::Orbit(
           DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
           anInitialRevolutionNumber
       )),
-      modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
+      modelPtr_(dynamic_cast<const orbit::Model*>(&this->getModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
 }
 
 Orbit::Orbit(const Orbit& anOrbit)
     : Trajectory(anOrbit),
-      modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
+      modelPtr_(dynamic_cast<const orbit::Model*>(&this->getModel())),
       celestialObjectSPtr_(anOrbit.celestialObjectSPtr_)
 {
 }
@@ -127,7 +127,7 @@ Orbit& Orbit::operator=(const Orbit& anOrbit)
     {
         Trajectory::operator=(anOrbit);
 
-        this->modelPtr_ = dynamic_cast<const orbit::Model*>(&this->accessModel());
+        this->modelPtr_ = dynamic_cast<const orbit::Model*>(&this->getModel());
         this->celestialObjectSPtr_ = anOrbit.celestialObjectSPtr_;
 
         this->passMap_.clear();
@@ -157,7 +157,7 @@ bool Orbit::isDefined() const
            this->celestialObjectSPtr_->isDefined();
 }
 
-const Shared<const Celestial> Orbit::accessCelestialObject() const
+const Shared<const Celestial>& Orbit::getCelestialObject() const
 {
     if (!this->isDefined())
     {
@@ -298,10 +298,10 @@ Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& a
         if (currentPass.isComplete())
         {
             Array<Duration> durations = {
-                (currentPass.accessInstantAtNorthPoint() - currentPass.accessInstantAtAscendingNode()),
-                (currentPass.accessInstantAtDescendingNode() - currentPass.accessInstantAtNorthPoint()),
-                (currentPass.accessInstantAtSouthPoint() - currentPass.accessInstantAtDescendingNode()),
-                (currentPass.accessInstantAtPassBreak() - currentPass.accessInstantAtSouthPoint()),
+                (currentPass.getInstantAtNorthPoint() - currentPass.getInstantAtAscendingNode()),
+                (currentPass.getInstantAtDescendingNode() - currentPass.getInstantAtNorthPoint()),
+                (currentPass.getInstantAtSouthPoint() - currentPass.getInstantAtDescendingNode()),
+                (currentPass.getInstantAtPassBreak() - currentPass.getInstantAtSouthPoint()),
             };
             stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
         }
@@ -316,8 +316,8 @@ Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& a
         currentRevolutionNumber += propagationSign;
 
         const Instant ascendingNodeCrossing =
-            isForwardPropagated ? currentPass.accessInstantAtPassBreak() : passBreakCrossing;
-        passBreakCrossing = isForwardPropagated ? passBreakCrossing : currentPass.accessInstantAtAscendingNode();
+            isForwardPropagated ? currentPass.getInstantAtPassBreak() : passBreakCrossing;
+        passBreakCrossing = isForwardPropagated ? passBreakCrossing : currentPass.getInstantAtAscendingNode();
 
         currentPass = {
             currentRevolutionNumber,
@@ -378,7 +378,7 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
 
         passes.add(pass);
 
-        currentInstant = pass.accessInstantAtPassBreak();
+        currentInstant = pass.getInstantAtPassBreak();
         currentRevolutionNumber++;
     }
 
@@ -633,7 +633,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 };
 
                 const Vector3d xAxis =
-                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.accessInstant()))
+                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.getInstant()))
                          .applyToVector(nadir_ITRF)
                          .normalized();
 
@@ -683,7 +683,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 };
 
                 const Vector3d xAxis =
-                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.accessInstant()))
+                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.getInstant()))
                          .applyToVector(nadir_ITRF)
                          .normalized();
 
@@ -708,7 +708,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const bool isPassDescending = v_GCRF.z() < 0.0;
 
                 const double w_ITRF_GCRF_in_ITRF_z =
-                    (Frame::GCRF()->getTransformTo(this->celestialObjectSPtr_->accessFrame(), aState.accessInstant()))
+                    (Frame::GCRF()->getTransformTo(this->celestialObjectSPtr_->accessFrame(), aState.getInstant()))
                         .getAngularVelocity()
                         .z();
 
@@ -1076,7 +1076,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, i
 
     for (Index i = 1; i < aStateArray.getSize(); ++i)
     {
-        if (aStateArray[i - 1].accessInstant() > aStateArray[i].accessInstant())
+        if (aStateArray[i - 1].getInstant() > aStateArray[i].getInstant())
         {
             throw ostk::core::error::RuntimeError("States are not in chronological order.");
         }
@@ -1091,8 +1091,8 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, i
 
     const Array<Pass> passes = Orbit::ComputePassesWithModel(
         tabulated,
-        aStateArray.accessFirst().accessInstant(),
-        aStateArray.accessLast().accessInstant(),
+        aStateArray.accessFirst().getInstant(),
+        aStateArray.accessLast().getInstant(),
         anInitialRevolutionNumber
     );
 
@@ -1104,10 +1104,10 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, i
 
     while (stateIndex < aStateArray.getSize())
     {
-        const Instant& stateInstant = aStateArray[stateIndex].accessInstant();
+        const Instant& stateInstant = aStateArray[stateIndex].getInstant();
 
-        if (passes[passIndex].accessInstantAtPassBreak().isDefined() &&
-            stateInstant >= passes[passIndex].accessInstantAtPassBreak())
+        if (passes[passIndex].getInstantAtPassBreak().isDefined() &&
+            stateInstant >= passes[passIndex].getInstantAtPassBreak())
         {
             passMap.add({stateIndex, passes[passIndex]});
             ++passIndex;
@@ -1139,7 +1139,7 @@ Array<Pass> Orbit::ComputePassesWithModel(
     State previousState = aModel.calculateStateAt(previousInstant);
 
     Instant previousPassEndInstant = (std::abs(previousState.getPosition().accessCoordinates().z()) <= epsilon)
-                                       ? previousState.accessInstant()
+                                       ? previousState.getInstant()
                                        : Instant::Undefined();
 
     Instant northPointCrossing = Instant::Undefined();
@@ -1175,8 +1175,8 @@ Array<Pass> Orbit::ComputePassesWithModel(
         // if forward propagating and the pass has an undefined PassBreak, then we have crossed the end of the interval
         // if backward propagating and the pass has an undefined AscendingNode, then we have crossed the end of the
         // interval
-        if ((isForwardPropagated && !pass.accessInstantAtPassBreak().isDefined()) ||
-            (!isForwardPropagated && !pass.accessInstantAtAscendingNode().isDefined()))
+        if ((isForwardPropagated && !pass.getInstantAtPassBreak().isDefined()) ||
+            (!isForwardPropagated && !pass.getInstantAtAscendingNode().isDefined()))
         {
             break;
         }
@@ -1187,16 +1187,16 @@ Array<Pass> Orbit::ComputePassesWithModel(
         if (pass.isComplete())
         {
             Array<Duration> durations = {
-                (pass.accessInstantAtNorthPoint() - pass.accessInstantAtAscendingNode()),
-                (pass.accessInstantAtDescendingNode() - pass.accessInstantAtNorthPoint()),
-                (pass.accessInstantAtSouthPoint() - pass.accessInstantAtDescendingNode()),
-                (pass.accessInstantAtPassBreak() - pass.accessInstantAtSouthPoint()),
+                (pass.getInstantAtNorthPoint() - pass.getInstantAtAscendingNode()),
+                (pass.getInstantAtDescendingNode() - pass.getInstantAtNorthPoint()),
+                (pass.getInstantAtSouthPoint() - pass.getInstantAtDescendingNode()),
+                (pass.getInstantAtPassBreak() - pass.getInstantAtSouthPoint()),
             };
             stepDuration = *std::min_element(durations.begin(), durations.end()) / 2.0;
         }
 
-        previousInstant = isForwardPropagated ? pass.accessInstantAtPassBreak() + Duration::Microseconds(1.0)
-                                              : pass.accessInstantAtAscendingNode() - Duration::Microseconds(1.0);
+        previousInstant = isForwardPropagated ? pass.getInstantAtPassBreak() + Duration::Microseconds(1.0)
+                                              : pass.getInstantAtAscendingNode() - Duration::Microseconds(1.0);
     }
 
     return passes;

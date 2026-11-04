@@ -121,7 +121,7 @@ bool COE::isDefined() const
            anomaly_.isDefined();
 }
 
-Length COE::getSemiMajorAxis() const
+const Length& COE::getSemiMajorAxis() const
 {
     if (!this->isDefined())
     {
@@ -141,7 +141,7 @@ double COE::getEccentricity() const
     return eccentricity_;
 }
 
-Angle COE::getInclination() const
+const Angle& COE::getInclination() const
 {
     if (!this->isDefined())
     {
@@ -151,7 +151,7 @@ Angle COE::getInclination() const
     return inclination_;
 }
 
-Angle COE::getRaan() const
+const Angle& COE::getRaan() const
 {
     if (!this->isDefined())
     {
@@ -161,7 +161,7 @@ Angle COE::getRaan() const
     return raan_;
 }
 
-Angle COE::getAop() const
+const Angle& COE::getAop() const
 {
     if (!this->isDefined())
     {

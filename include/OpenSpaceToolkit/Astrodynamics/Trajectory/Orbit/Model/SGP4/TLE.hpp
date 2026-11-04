@@ -101,7 +101,7 @@ class TLE
     /// @endcode
     ///
     /// @return Satellite name, or std::nullopt if not set
-    std::optional<String> getSatelliteName() const;
+    const std::optional<String>& getSatelliteName() const;
 
     /// @brief Get first line
     ///
@@ -113,7 +113,7 @@ class TLE
     /// @endcode
     ///
     /// @return First line
-    String getFirstLine() const;
+    const String& getFirstLine() const;
 
     /// @brief Get second line
     ///
@@ -124,7 +124,7 @@ class TLE
     /// @endcode
     ///
     /// @return Second line
-    String getSecondLine() const;
+    const String& getSecondLine() const;
 
     /// @brief Get satellite number
     ///

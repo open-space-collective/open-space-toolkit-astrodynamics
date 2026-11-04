@@ -80,17 +80,17 @@ std::ostream& operator<<(std::ostream& anOutputStream, const EventCondition& anE
     return anOutputStream;
 }
 
-String EventCondition::getName() const
+const String& EventCondition::getName() const
 {
     return name_;
 }
 
-std::function<double(const State&)> EventCondition::getEvaluator() const
+const std::function<double(const State&)>& EventCondition::getEvaluator() const
 {
     return evaluator_;
 }
 
-EventCondition::Target EventCondition::getTarget() const
+const EventCondition::Target& EventCondition::getTarget() const
 {
     if (!target_.has_value())
     {

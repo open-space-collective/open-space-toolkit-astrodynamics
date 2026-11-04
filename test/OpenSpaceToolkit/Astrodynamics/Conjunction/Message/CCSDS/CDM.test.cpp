@@ -251,7 +251,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetDataArra
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectMetadataAt)
 {
     {
-        const CDM::Metadata objectMetadata = this->cdm_.getObjectMetadataAt(0);
+        const CDM::Metadata& objectMetadata = this->cdm_.getObjectMetadataAt(0);
+
+        EXPECT_EQ(&objectMetadata, &this->cdm_.getObjectMetadataAt(0));
+        EXPECT_EQ(&objectMetadata.objectName, &this->cdm_.getObjectName(0));
 
         EXPECT_EQ(String::Empty(), objectMetadata.comment);
         EXPECT_EQ("OBJECT1", objectMetadata.object);

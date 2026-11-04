@@ -69,17 +69,7 @@ void LocalOrbitalFrameDirection::print(std::ostream& anOutputStream, bool displa
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-const LocalOrbitalFrameFactory& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local orbital frame direction");
-    }
-
-    return localOrbitalFrameFactory_;
-}
-
-Vector3d LocalOrbitalFrameDirection::getValue() const
+const Vector3d& LocalOrbitalFrameDirection::getValue() const
 {
     if (!this->isDefined())
     {
@@ -89,9 +79,14 @@ Vector3d LocalOrbitalFrameDirection::getValue() const
     return value_;
 }
 
-LocalOrbitalFrameFactory LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory() const
+const LocalOrbitalFrameFactory& LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory() const
 {
-    return this->accessLocalOrbitalFrameFactory();
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local orbital frame direction");
+    }
+
+    return localOrbitalFrameFactory_;
 }
 
 LocalOrbitalFrameDirection LocalOrbitalFrameDirection::Undefined()

@@ -104,9 +104,7 @@ Interval Tabulated::getInterval() const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return Interval::Closed(
-        this->stateArray_.accessFirst().accessInstant(), this->stateArray_.accessLast().accessInstant()
-    );
+    return Interval::Closed(this->stateArray_.accessFirst().getInstant(), this->stateArray_.accessLast().getInstant());
 }
 
 Interpolator::Type Tabulated::getInterpolationType() const
@@ -163,7 +161,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         anInstant,
         [](const State& state, const Instant& instant)
         {
-            return state.accessInstant() < instant;
+            return state.getInstant() < instant;
         }
     );
 
@@ -185,8 +183,8 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         const Quaternion qBefore = stateBefore.getAttitude();
         const Quaternion qAfter = stateAfter.getAttitude();
 
-        const double ratio = (anInstant - stateBefore.accessInstant()).inSeconds() /
-                             (stateAfter.accessInstant() - stateBefore.accessInstant()).inSeconds();
+        const double ratio = (anInstant - stateBefore.getInstant()).inSeconds() /
+                             (stateAfter.getInstant() - stateBefore.getInstant()).inSeconds();
         qAtInstant = Quaternion::SLERP(qBefore, qAfter, ratio);
     }
 
@@ -195,7 +193,7 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     const State attitudeQuaternionState = {
         anInstant,
         qAtInstant.toNormalized().toVector(Quaternion::Format::XYZS),
-        reducedStateBuilder_.accessFrame(),
+        reducedStateBuilder_.getFrame(),
         {AttitudeQuaternion::Default()},
     };
 
@@ -221,7 +219,7 @@ Axes Tabulated::getAxesAt(const Instant& anInstant) const
     const Vector3d yAxis = q_GCRF_B * Vector3d::Y();
     const Vector3d zAxis = q_GCRF_B * Vector3d::Z();
 
-    return {xAxis, yAxis, zAxis, state.accessFrame()};
+    return {xAxis, yAxis, zAxis, state.getFrame()};
 }
 
 Shared<const Frame> Tabulated::constructBodyFrame(const String& aFrameName) const
@@ -254,7 +252,7 @@ Shared<const Frame> Tabulated::constructBodyFrame(const String& aFrameName) cons
     return Frame::Construct(
         aFrameName,
         false,
-        this->stateBuilder_.accessFrame(),
+        this->stateBuilder_.getFrame(),
         std::make_shared<const DynamicProvider>(dynamicTransformProvider)
     );
 }
@@ -277,7 +275,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << "First state:"
             << (firstState.isDefined() ? String::Format(
                                              "{} - {} - {}",
-                                             firstState.accessInstant().toString(),
+                                             firstState.getInstant().toString(),
                                              firstState.getPosition().toString(),
                                              firstState.getVelocity().toString()
                                          )
@@ -291,7 +289,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << "Last state:"
             << (lastState.isDefined() ? String::Format(
                                             "{} - {} - {}",
-                                            lastState.accessInstant().toString(),
+                                            lastState.getInstant().toString(),
                                             lastState.getPosition().toString(),
                                             lastState.getVelocity().toString()
                                         )
@@ -412,7 +410,7 @@ void Tabulated::computeReducedInterpolationData(
 
     Array<Shared<const CoordinateSubset>> reducedCoordinateSubsets = firstState.getCoordinateSubsets();
     reducedCoordinateSubsets.remove(AttitudeQuaternion::Default());
-    reducedStateBuilder_ = StateBuilder(firstState.accessFrame(), reducedCoordinateSubsets);
+    reducedStateBuilder_ = StateBuilder(firstState.getFrame(), reducedCoordinateSubsets);
 
     // Ensure the states are sorted by instant
     stateArray_ = aStateArray;
@@ -431,9 +429,9 @@ void Tabulated::computeReducedInterpolationData(
 
     for (Index i = 0; i < stateArray_.getSize(); ++i)
     {
-        aTimestampVector(i) = (stateArray_[i].accessInstant() - firstState.accessInstant()).inSeconds();
+        aTimestampVector(i) = (stateArray_[i].getInstant() - firstState.getInstant()).inSeconds();
 
-        aReducedCoordinateMatrix.row(i) = reducedStateBuilder_.reduce(stateArray_[i]).accessCoordinates();
+        aReducedCoordinateMatrix.row(i) = reducedStateBuilder_.reduce(stateArray_[i]).getCoordinates();
     }
 }
 

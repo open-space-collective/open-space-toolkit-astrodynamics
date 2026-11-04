@@ -147,7 +147,7 @@ Transform LocalOrbitalFrameTransformProvider::GenerateTransform(
     const LocalOrbitalFrameTransformProvider::Type& aType, const State& aState
 )
 {
-    const Instant& instant = aState.accessInstant();
+    const Instant& instant = aState.getInstant();
     const Vector3d positionCoordinates = aState.getPosition().accessCoordinates();
     const Vector3d velocityCoordinates = aState.getVelocity().accessCoordinates();
 

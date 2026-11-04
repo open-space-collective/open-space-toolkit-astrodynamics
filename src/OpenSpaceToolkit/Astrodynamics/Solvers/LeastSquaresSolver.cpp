@@ -126,7 +126,7 @@ Array<State> LeastSquaresSolver::Analysis::computeResidualStates(const Array<Sta
     for (Size i = 0; i < anObservationStateArray.getSize(); ++i)
     {
         residualStates.add(
-            anObservationStateArray[i] - computedObservationStates[i].inFrame(anObservationStateArray[i].accessFrame())
+            anObservationStateArray[i] - computedObservationStates[i].inFrame(anObservationStateArray[i].getFrame())
         );
     }
 
@@ -170,12 +170,12 @@ double LeastSquaresSolver::getRmsUpdateThreshold() const
     return rmsUpdateThreshold_;
 }
 
-FiniteDifferenceSolver LeastSquaresSolver::getFiniteDifferenceSolver() const
+const FiniteDifferenceSolver& LeastSquaresSolver::getFiniteDifferenceSolver() const
 {
     return finiteDifferenceSolver_;
 }
 
-LeastSquaresSolver::ScaleFactorGenerator LeastSquaresSolver::getScaleFactorGenerator() const
+const LeastSquaresSolver::ScaleFactorGenerator& LeastSquaresSolver::getScaleFactorGenerator() const
 {
     return scaleFactorGenerator_;
 }
@@ -234,7 +234,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     // Setup state builders
     const Instant estimatedStateInstant = normalizedInitialGuess.getInstant();
     const StateBuilder estimationStateBuilder(normalizedInitialGuess);
-    const Shared<const Frame>& estimationStateFrame = normalizedInitialGuess.accessFrame();
+    const Shared<const Frame>& estimationStateFrame = normalizedInitialGuess.getFrame();
     const StateBuilder observationStateBuilder(anObservationStateArray[0]);
     const Array<Shared<const CoordinateSubset>> observationStateSubsets =
         observationStateBuilder.getCoordinateSubsets();
@@ -257,8 +257,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     }
 
     // Get dimensions
-    const Size estimationStateDimension = anInitialGuessState.accessCoordinates().size();
-    const Size observationStateDimension = anObservationStateArray[0].accessCoordinates().size();
+    const Size estimationStateDimension = anInitialGuessState.getCoordinates().size();
+    const Size observationStateDimension = anObservationStateArray[0].getCoordinates().size();
     const Size observationCount = anObservationStateArray.size();
 
     // Validate dimensions
@@ -296,7 +296,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     // Initialize state vectors
     // X∗ (nominal trajectory)
-    VectorXd XNom = normalizedInitialGuess.accessCoordinates();
+    VectorXd XNom = normalizedInitialGuess.getCoordinates();
     // x̂ = X - X∗
     VectorXd xHat = VectorXd::Zero(estimationStateDimension);
 
@@ -312,7 +312,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     MatrixXd observationCoordinates(observationStateDimension, observationCount);
     for (Size i = 0; i < observationCount; ++i)
     {
-        observationCoordinates.col(i) = anObservationStateArray[i].accessCoordinates();
+        observationCoordinates.col(i) = anObservationStateArray[i].getCoordinates();
     }
 
     // Compute observation coordinates in the estimation frame
@@ -454,8 +454,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     return Analysis(
         terminationCriteria,
         currentEstimatedState,
-        Covariance(estimatedStateInstant, PHat, currentEstimatedState.accessFrame(), estimatedStateSubsets),
-        Covariance(estimatedStateInstant, PHatFrisbee, currentEstimatedState.accessFrame(), estimatedStateSubsets),
+        Covariance(estimatedStateInstant, PHat, currentEstimatedState.getFrame(), estimatedStateSubsets),
+        Covariance(estimatedStateInstant, PHatFrisbee, currentEstimatedState.getFrame(), estimatedStateSubsets),
         computedObservationStates,
         steps
     );
@@ -468,13 +468,13 @@ MatrixXd LeastSquaresSolver::calculateEmpiricalCovariance(const Array<State>& aR
         throw ostk::core::error::runtime::Undefined("Residual state array");
     }
 
-    const Size dimension = aResidualStateArray[0].accessCoordinates().size();
+    const Size dimension = aResidualStateArray[0].getCoordinates().size();
     const Size count = aResidualStateArray.getSize();
 
     MatrixXd coordinates(count, dimension);
     for (Size i = 0; i < count; ++i)
     {
-        coordinates.row(i) = aResidualStateArray[i].accessCoordinates();
+        coordinates.row(i) = aResidualStateArray[i].getCoordinates();
     }
 
     return (coordinates.transpose() * coordinates) / count;

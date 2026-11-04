@@ -60,7 +60,7 @@ bool Generator::isDefined() const
     return referenceTrajectory_.isDefined() && step_.isDefined() && tolerance_.isDefined();
 }
 
-Trajectory Generator::getReferenceTrajectory() const
+const Trajectory& Generator::getReferenceTrajectory() const
 {
     if (!this->isDefined())
     {
@@ -70,7 +70,7 @@ Trajectory Generator::getReferenceTrajectory() const
     return referenceTrajectory_;
 }
 
-Duration Generator::getStep() const
+const Duration& Generator::getStep() const
 {
     if (!this->isDefined())
     {
@@ -80,7 +80,7 @@ Duration Generator::getStep() const
     return step_;
 }
 
-Duration Generator::getTolerance() const
+const Duration& Generator::getTolerance() const
 {
     if (!this->isDefined())
     {

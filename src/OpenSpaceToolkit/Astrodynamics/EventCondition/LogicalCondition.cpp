@@ -26,7 +26,7 @@ LogicalCondition::Type LogicalCondition::getType() const
     return type_;
 }
 
-Array<Shared<EventCondition>> LogicalCondition::getEventConditions() const
+const Array<Shared<EventCondition>>& LogicalCondition::getEventConditions() const
 {
     return eventConditions_;
 }

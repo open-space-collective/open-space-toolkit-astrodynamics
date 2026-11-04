@@ -291,7 +291,7 @@ Instant SGP4FullPrecision::getEpoch() const
     return epoch_;
 }
 
-Angle SGP4FullPrecision::getInclination() const
+const Angle& SGP4FullPrecision::getInclination() const
 {
     if (!this->isDefined())
     {
@@ -301,7 +301,7 @@ Angle SGP4FullPrecision::getInclination() const
     return inclination_;
 }
 
-Angle SGP4FullPrecision::getRaan() const
+const Angle& SGP4FullPrecision::getRaan() const
 {
     if (!this->isDefined())
     {
@@ -321,7 +321,7 @@ double SGP4FullPrecision::getEccentricity() const
     return eccentricity_;
 }
 
-Angle SGP4FullPrecision::getAop() const
+const Angle& SGP4FullPrecision::getAop() const
 {
     if (!this->isDefined())
     {
@@ -331,7 +331,7 @@ Angle SGP4FullPrecision::getAop() const
     return aop_;
 }
 
-Angle SGP4FullPrecision::getMeanAnomaly() const
+const Angle& SGP4FullPrecision::getMeanAnomaly() const
 {
     if (!this->isDefined())
     {
@@ -341,7 +341,7 @@ Angle SGP4FullPrecision::getMeanAnomaly() const
     return meanAnomaly_;
 }
 
-Derived SGP4FullPrecision::getMeanMotion() const
+const Derived& SGP4FullPrecision::getMeanMotion() const
 {
     if (!this->isDefined())
     {
@@ -371,7 +371,7 @@ int SGP4FullPrecision::getRevolutionNumberAtEpoch() const
     return revolutionNumberAtEpoch_;
 }
 
-Shared<const Frame> SGP4FullPrecision::getOutputFrame() const
+const Shared<const Frame>& SGP4FullPrecision::getOutputFrame() const
 {
     if (!this->isDefined())
     {

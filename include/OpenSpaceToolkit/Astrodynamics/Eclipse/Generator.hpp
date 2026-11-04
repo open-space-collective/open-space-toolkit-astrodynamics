@@ -73,7 +73,7 @@ class Generator
     /// @endcode
     ///
     /// @return The environment.
-    Environment getEnvironment() const;
+    const Environment& getEnvironment() const;
 
     /// @brief Get the search step size.
     ///
@@ -83,7 +83,7 @@ class Generator
     /// @endcode
     ///
     /// @return The search step size.
-    Duration getSearchStepSize() const;
+    const Duration& getSearchStepSize() const;
 
     /// @brief Get the search tolerance.
     ///
@@ -93,7 +93,7 @@ class Generator
     /// @endcode
     ///
     /// @return The search tolerance.
-    Duration getSearchTolerance() const;
+    const Duration& getSearchTolerance() const;
 
     /// @brief Generate eclipses for a given trajectory over the provided analysis interval
     ///

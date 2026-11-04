@@ -112,11 +112,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def(
-                "access_celestial_object",
-                &Orbit::accessCelestialObject,
+                "get_celestial_object",
+                &Orbit::getCelestialObject,
                 return_value_policy::reference,
                 R"doc(
-                    Access the celestial object.
+                    Get the celestial object.
 
                     Returns:
                         Celestial: The celestial object.
@@ -125,11 +125,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )
 
             .def(
-                "access_model",
-                &Orbit::accessModel,
+                "get_model",
+                &Orbit::getModel,
                 return_value_policy::reference,
                 R"doc(
-                    Access the orbit model.
+                    Get the orbit model.
 
                     Returns:
                         orbit.Model: The orbit model.
@@ -137,14 +137,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
             .def(
-                "access_kepler_model",
+                "get_kepler_model",
                 +[](const Orbit& anOrbit) -> const Kepler&
                 {
-                    return anOrbit.accessModel().as<Kepler>();
+                    return anOrbit.getModel().as<Kepler>();
                 },
                 return_value_policy::reference,
                 R"doc(
-                    Access the Kepler orbit model.
+                    Get the Kepler orbit model.
 
                     Returns:
                        Kepler: The Kepler orbit model.
@@ -152,14 +152,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
             .def(
-                "access_sgp4_model",
+                "get_sgp4_model",
                 +[](const Orbit& anOrbit) -> const SGP4&
                 {
-                    return anOrbit.accessModel().as<SGP4>();
+                    return anOrbit.getModel().as<SGP4>();
                 },
                 return_value_policy::reference,
                 R"doc(
-                    Access the SGP4 orbit model.
+                    Get the SGP4 orbit model.
 
                     Returns:
                         SGP4: The SGP4 orbit model.
@@ -167,14 +167,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
             .def(
-                "access_propagated_model",
+                "get_propagated_model",
                 +[](const Orbit& anOrbit) -> const Propagated&
                 {
-                    return anOrbit.accessModel().as<Propagated>();
+                    return anOrbit.getModel().as<Propagated>();
                 },
                 return_value_policy::reference,
                 R"doc(
-                    Access the propagated orbit model.
+                    Get the propagated orbit model.
 
                     Returns:
                         Propagated: The propagated orbit model.
@@ -182,14 +182,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 )doc"
             )
             .def(
-                "access_tabulated_model",
+                "get_tabulated_model",
                 +[](const Orbit& anOrbit) -> const Tabulated&
                 {
-                    return anOrbit.accessModel().as<Tabulated>();
+                    return anOrbit.getModel().as<Tabulated>();
                 },
                 return_value_policy::reference,
                 R"doc(
-                    Access the tabulated orbit model.
+                    Get the tabulated orbit model.
 
                     Returns:
                         Tabulated: The tabulated orbit model.

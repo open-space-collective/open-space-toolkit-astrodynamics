@@ -183,7 +183,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
     Array<Instant> instants = Array<Instant>::Empty();
     for (; j < anInstantArray.getSize(); ++j)
     {
-        if (anInstantArray[j] > this->cachedStateArray_.accessFirst().accessInstant())
+        if (anInstantArray[j] > this->cachedStateArray_.accessFirst().getInstant())
         {
             break;
         }
@@ -197,8 +197,8 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
 
     for (Size i = 0; i < this->cachedStateArray_.getSize() - 1; ++i)
     {
-        const Instant& thisStateInstant = this->cachedStateArray_[i].accessInstant();
-        const Instant& nextStateInstant = this->cachedStateArray_[i + 1].accessInstant();
+        const Instant& thisStateInstant = this->cachedStateArray_[i].getInstant();
+        const Instant& nextStateInstant = this->cachedStateArray_[i + 1].getInstant();
 
         instants = Array<Instant>::Empty();
 
@@ -237,13 +237,13 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         for (Size k = 0; k < instants.getSize(); ++k)
         {
             double forwardWeight =
-                (this->cachedStateArray_[i + 1].accessInstant() - instants[k]).inSeconds() / durationBetweenStates;
+                (this->cachedStateArray_[i + 1].getInstant() - instants[k]).inSeconds() / durationBetweenStates;
             double backwardWeight =
-                (instants[k] - this->cachedStateArray_[i].accessInstant()).inSeconds() / durationBetweenStates;
+                (instants[k] - this->cachedStateArray_[i].getInstant()).inSeconds() / durationBetweenStates;
 
             VectorXd coordinates =
-                (forwardStates[k].accessCoordinates() * forwardWeight +
-                 backwardStates[k].accessCoordinates() * backwardWeight);
+                (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight
+                );
 
             averagedStates.add(outputStateBuilder.build(instants[k], coordinates));
         }
@@ -300,7 +300,7 @@ int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     const int durationSign = (anInstant > this->getEpoch()) ? 1 : -1;
 
     State currentState = stateAtEpoch;
-    Instant currentInstant = stateAtEpoch.accessInstant();
+    Instant currentInstant = stateAtEpoch.getInstant();
     int revolutionNumber = this->getRevolutionNumberAtEpoch();
 
     // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired
@@ -314,7 +314,7 @@ int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
         // Propagate for duration of this orbital period
         currentState = propagator_.calculateStateAt(currentState, currentInstant + (durationSign * orbitalPeriod));
-        currentInstant = currentState.accessInstant();
+        currentInstant = currentState.getInstant();
 
         // If we have passed the desired instant during our progration, break from the loop
         if ((durationSign >= 0) && currentInstant > anInstant)
@@ -329,7 +329,7 @@ int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     return revolutionNumber;
 }
 
-const Array<State>& Propagated::accessCachedStateArray() const
+const Array<State>& Propagated::getCachedStateArray() const
 {
     if (!this->isDefined())
     {
@@ -339,7 +339,7 @@ const Array<State>& Propagated::accessCachedStateArray() const
     return cachedStateArray_;
 }
 
-const Propagator& Propagated::accessPropagator() const
+const Propagator& Propagated::getPropagator() const
 {
     if (!this->isDefined())
     {
@@ -400,7 +400,7 @@ void Propagated::sanitizeCachedArray() const
         cachedStateArray_.end(),
         [](const auto& lhs, const auto& rhs)
         {
-            return lhs.accessInstant() < rhs.accessInstant();
+            return lhs.getInstant() < rhs.getInstant();
         }
     );
 
@@ -414,7 +414,7 @@ void Propagated::sanitizeCachedArray() const
             cachedStateArrayUnique.end(),
             [](const auto& lhs, const auto& rhs)
             {
-                return lhs.accessInstant() == rhs.accessInstant();
+                return lhs.getInstant() == rhs.getInstant();
             }
         ),
         cachedStateArrayUnique.end()

@@ -124,7 +124,7 @@ class TestPropagated:
 
         assert propagated.get_revolution_number_at_epoch() == revolution_number
 
-        assert propagated.access_cached_state_array() == [state]
+        assert propagated.get_cached_state_array() == [state]
 
     def test_calculate_state_at(
         self,
@@ -197,32 +197,32 @@ class TestPropagated:
         assert revolution_number_orbit is not None
         assert isinstance(revolution_number_orbit, int)
 
-    def test_access_cached_state_array(
+    def test_get_cached_state_array(
         self,
         propagated: Propagated,
         state: State,
     ):
-        assert len(propagated.access_cached_state_array()) == 1
-        assert propagated.access_cached_state_array()[0] == state
+        assert len(propagated.get_cached_state_array()) == 1
+        assert propagated.get_cached_state_array()[0] == state
 
-    def test_access_propagator(
+    def test_get_propagator(
         self,
         propagated: Propagated,
     ):
-        assert propagated.access_propagator() is not None
-        assert isinstance(propagated.access_propagator(), Propagator)
+        assert propagated.get_propagator() is not None
+        assert isinstance(propagated.get_propagator(), Propagator)
 
     def test_set_cached_state_array(
         self,
         propagated: Propagated,
         state: State,
     ):
-        assert len(propagated.access_cached_state_array()) == 1
+        assert len(propagated.get_cached_state_array()) == 1
 
         propagated.set_cached_state_array([state, state, state])
 
-        assert len(propagated.access_cached_state_array()) == 1
-        assert propagated.access_cached_state_array()[0] == state
+        assert len(propagated.get_cached_state_array()) == 1
+        assert propagated.get_cached_state_array()[0] == state
 
         with pytest.raises(Exception) as e:
             propagated.set_cached_state_array([])

@@ -82,7 +82,7 @@ class System
     /// @endcode
     ///
     /// @return Mass
-    Mass getMass() const;
+    const Mass& getMass() const;
 
     /// @brief Get system's geometry
     ///
@@ -91,7 +91,7 @@ class System
     /// @endcode
     ///
     /// @return Composite
-    Composite getGeometry() const;
+    const Composite& getGeometry() const;
 
     /// @brief Construct an undefined system.
     ///

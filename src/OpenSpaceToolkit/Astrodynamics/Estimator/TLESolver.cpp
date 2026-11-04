@@ -112,57 +112,57 @@ TLESolver::TLESolver(
     tleStateBuilder_ = StateBuilder(Frame::TEME(), coordinateSubsets);
 }
 
-const LeastSquaresSolver& TLESolver::accessSolver() const
+const LeastSquaresSolver& TLESolver::getSolver() const
 {
     return solver_;
 }
 
-const int& TLESolver::accessSatelliteNumber() const
+int TLESolver::getSatelliteNumber() const
 {
     return satelliteNumber_;
 }
 
-const String& TLESolver::accessInternationalDesignator() const
+const String& TLESolver::getInternationalDesignator() const
 {
     return internationalDesignator_;
 }
 
-const int& TLESolver::accessRevolutionNumber() const
+int TLESolver::getRevolutionNumber() const
 {
     return revolutionNumber_;
 }
 
-const bool& TLESolver::accessEstimateBStar() const
+bool TLESolver::getEstimateBStar() const
 {
     return estimateBStar_;
 }
 
-const double& TLESolver::accessDefaultBStar() const
+double TLESolver::getDefaultBStar() const
 {
     return defaultBStar_;
 }
 
-const double& TLESolver::accessFirstDerivativeMeanMotionDividedBy2() const
+double TLESolver::getFirstDerivativeMeanMotionDividedBy2() const
 {
     return firstDerivativeMeanMotionDividedBy2_;
 }
 
-const double& TLESolver::accessSecondDerivativeMeanMotionDividedBy6() const
+double TLESolver::getSecondDerivativeMeanMotionDividedBy6() const
 {
     return secondDerivativeMeanMotionDividedBy6_;
 }
 
-const int& TLESolver::accessEphemerisType() const
+int TLESolver::getEphemerisType() const
 {
     return ephemerisType_;
 }
 
-const int& TLESolver::accessElementSetNumber() const
+int TLESolver::getElementSetNumber() const
 {
     return elementSetNumber_;
 }
 
-const StateBuilder& TLESolver::accessTLEStateBuilder() const
+const StateBuilder& TLESolver::getTLEStateBuilder() const
 {
     return tleStateBuilder_;
 }

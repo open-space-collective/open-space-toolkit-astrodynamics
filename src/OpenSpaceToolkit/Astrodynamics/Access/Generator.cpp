@@ -44,17 +44,17 @@ namespace astrodynamics
 namespace access
 {
 
-const AccessTarget::Type& AccessTarget::accessType() const
+AccessTarget::Type AccessTarget::getType() const
 {
     return type_;
 }
 
-const VisibilityCriterion& AccessTarget::accessVisibilityCriterion() const
+const VisibilityCriterion& AccessTarget::getVisibilityCriterion() const
 {
     return visibilityCriterion_;
 }
 
-const Trajectory& AccessTarget::accessTrajectory() const
+const Trajectory& AccessTarget::getTrajectory() const
 {
     return trajectory_;
 }
@@ -171,7 +171,7 @@ bool Generator::isDefined() const
     return this->environment_.isDefined() && this->step_.isDefined() && this->tolerance_.isDefined();
 }
 
-Duration Generator::getStep() const
+const Duration& Generator::getStep() const
 {
     if (!this->isDefined())
     {
@@ -181,7 +181,7 @@ Duration Generator::getStep() const
     return this->step_;
 }
 
-Duration Generator::getTolerance() const
+const Duration& Generator::getTolerance() const
 {
     if (!this->isDefined())
     {
@@ -191,7 +191,7 @@ Duration Generator::getTolerance() const
     return this->tolerance_;
 }
 
-std::function<bool(const Access&)> Generator::getAccessFilter() const
+const std::function<bool(const Access&)>& Generator::getAccessFilter() const
 {
     if (!this->isDefined())
     {
@@ -201,7 +201,7 @@ std::function<bool(const Access&)> Generator::getAccessFilter() const
     return this->accessFilter_;
 }
 
-std::function<bool(const State&, const State&)> Generator::getStateFilter() const
+const std::function<bool(const State&, const State&)>& Generator::getStateFilter() const
 {
     if (!this->isDefined())
     {
@@ -233,7 +233,7 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
 
     return [&anAccessTarget, &aToTrajectory, celestialSPtr, stateFilter](const Instant& anInstant) -> bool
     {
-        const State fromState = anAccessTarget.accessTrajectory().getStateAt(anInstant);
+        const State fromState = anAccessTarget.getTrajectory().getStateAt(anInstant);
         const State toState = aToTrajectory.getStateAt(anInstant);
 
         if (stateFilter && (!stateFilter(fromState, toState)))
@@ -247,7 +247,7 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
         const Position fromPosition_ITRF = fromPosition.inFrame(celestialSPtr->accessFrame(), anInstant);
         const Position toPosition_ITRF = toPosition.inFrame(celestialSPtr->accessFrame(), anInstant);
 
-        const VisibilityCriterion& visibilityCriterion = anAccessTarget.accessVisibilityCriterion();
+        const VisibilityCriterion& visibilityCriterion = anAccessTarget.getVisibilityCriterion();
 
         if (visibilityCriterion.is<VisibilityCriterion::LineOfSight>())
         {
@@ -296,7 +296,7 @@ Array<Access> Generator::computeAccesses(
         throw ostk::core::error::runtime::Undefined("To Trajectory");
     }
 
-    if (anAccessTarget.accessType() == AccessTarget::Type::Trajectory)
+    if (anAccessTarget.getType() == AccessTarget::Type::Trajectory)
     {
         if (coarse)
         {
@@ -338,7 +338,7 @@ Array<Array<Access>> Generator::computeAccesses(
             someAccessTargets.end(),
             [](const auto& accessTarget)
             {
-                return accessTarget.accessType() == AccessTarget::Type::Trajectory;
+                return accessTarget.getType() == AccessTarget::Type::Trajectory;
             }
         ))
     {
@@ -363,7 +363,7 @@ Array<Array<Access>> Generator::computeAccesses(
             someAccessTargets.end(),
             [](const auto& accessTarget)
             {
-                return accessTarget.accessType() == AccessTarget::Type::Fixed;
+                return accessTarget.getType() == AccessTarget::Type::Fixed;
             }
         ))
     {
@@ -419,7 +419,7 @@ Array<Access> Generator::computeAccessesForTrajectoryTarget(
     const Array<physics::time::Interval> accessIntervals =
         temporalConditionSolver.solve(this->getConditionFunction(anAccessTarget, aToTrajectory), anInterval);
 
-    const Trajectory& fromTrajectory = anAccessTarget.accessTrajectory();
+    const Trajectory& fromTrajectory = anAccessTarget.getTrajectory();
 
     return generateAccessesFromIntervals(accessIntervals, anInterval, fromTrajectory, aToTrajectory);
 }
@@ -461,7 +461,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.accessVisibilityCriterion().template is<VisibilityCriterion::AERMask>();
+            return accessTarget.getVisibilityCriterion().template is<VisibilityCriterion::AERMask>();
         }
     );
     const bool allAccessTargetsHaveAERIntervals = std::all_of(
@@ -469,7 +469,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.accessVisibilityCriterion().template is<VisibilityCriterion::AERInterval>();
+            return accessTarget.getVisibilityCriterion().template is<VisibilityCriterion::AERInterval>();
         }
     );
     const bool allAccessTargetsHaveLineOfSight = std::all_of(
@@ -477,7 +477,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.accessVisibilityCriterion().template is<VisibilityCriterion::LineOfSight>();
+            return accessTarget.getVisibilityCriterion().template is<VisibilityCriterion::LineOfSight>();
         }
     );
     const bool allAccessTargetsHaveElevationIntervals = std::all_of(
@@ -485,7 +485,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         someAccessTargets.end(),
         [](const auto& accessTarget)
         {
-            return accessTarget.accessVisibilityCriterion().template is<VisibilityCriterion::ElevationInterval>();
+            return accessTarget.getVisibilityCriterion().template is<VisibilityCriterion::ElevationInterval>();
         }
     );
 
@@ -546,7 +546,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         for (Index i = 0; i < targetCount; ++i)
         {
             const VisibilityCriterion::AERInterval visibilityCriterion =
-                someAccessTargets[i].accessVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
+                someAccessTargets[i].getVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
 
             aerLowerBounds(i, 0) = visibilityCriterion.azimuth.accessLowerBound();
             aerLowerBounds(i, 1) = visibilityCriterion.elevation.accessLowerBound();
@@ -593,7 +593,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
             for (Eigen::Index i = 0; i < mask.rows(); ++i)
             {
                 const VisibilityCriterion::AERMask visibilityCriterion =
-                    someAccessTargets[i].accessVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
+                    someAccessTargets[i].getVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
 
                 const double& azimuth_rad = azimuths_rad(i);
                 const double& elevation_rad = elevations_rad(i);
@@ -618,7 +618,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
             for (Eigen::Index i = 0; i < mask.rows(); ++i)
             {
                 const VisibilityCriterion::LineOfSight visibilityCriterion =
-                    someAccessTargets[i].accessVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
+                    someAccessTargets[i].getVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
 
                 const Vector3d& fromPositionCoordinate_ITRF = aFromPositionCoordinates_ITRF.col(i);
 
@@ -639,7 +639,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         for (Index i = 0; i < targetCount; ++i)
         {
             const VisibilityCriterion::ElevationInterval visibilityCriterion =
-                someAccessTargets[i].accessVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
+                someAccessTargets[i].getVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
 
             elevationLowerBounds(i) = visibilityCriterion.elevation.accessLowerBound();
             elevationUpperBounds(i) = visibilityCriterion.elevation.accessUpperBound();
@@ -690,7 +690,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
         {
             for (Index i = 0; i < targetCount; ++i)
             {
-                const State fromState = someAccessTargets[i].accessTrajectory().getStateAt(instant);
+                const State fromState = someAccessTargets[i].getTrajectory().getStateAt(instant);
 
                 inAccess(i) = inAccess(i) && stateFilter(fromState, toTrajectoryState);
             }
@@ -725,7 +725,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
     Array<Array<Access>> accesses = Array<Array<Access>>(targetCount, Array<Access>::Empty());
     for (Index i = 0; i < accessIntervalsPerTarget.getSize(); ++i)
     {
-        const Trajectory& fromTrajectory = someAccessTargets[i].accessTrajectory();
+        const Trajectory& fromTrajectory = someAccessTargets[i].getTrajectory();
         accesses[i] = this->generateAccessesFromIntervals(
             accessIntervalsPerTarget[i],
             anInterval,
@@ -813,10 +813,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         return {azimuth_rad, elevation_rad, range_m};
     };
 
-    if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::AERInterval>())
+    if (anAccessTarget.getVisibilityCriterion().is<VisibilityCriterion::AERInterval>())
     {
         const VisibilityCriterion::AERInterval visibilityCriterion =
-            anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
+            anAccessTarget.getVisibilityCriterion().as<VisibilityCriterion::AERInterval>().value();
 
         condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
         {
@@ -825,10 +825,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
             return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m) ? +1.0 : -1.0;
         };
     }
-    else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::AERMask>())
+    else if (anAccessTarget.getVisibilityCriterion().is<VisibilityCriterion::AERMask>())
     {
         const VisibilityCriterion::AERMask visibilityCriterion =
-            anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
+            anAccessTarget.getVisibilityCriterion().as<VisibilityCriterion::AERMask>().value();
 
         condition = [&computeAER, visibilityCriterion](const Instant& instant) -> double
         {
@@ -837,10 +837,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
             return visibilityCriterion.isSatisfied(azimuth_rad, elevation_rad, range_m) ? +1.0 : -1.0;
         };
     }
-    else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::LineOfSight>())
+    else if (anAccessTarget.getVisibilityCriterion().is<VisibilityCriterion::LineOfSight>())
     {
         const VisibilityCriterion::LineOfSight visibilityCriterion =
-            anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
+            anAccessTarget.getVisibilityCriterion().as<VisibilityCriterion::LineOfSight>().value();
 
         condition = [&fromPositionCoordinate_ITRF, &aToTrajectory, &aCelestialSPtr, visibilityCriterion](
                         const Instant& instant
@@ -856,10 +856,10 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
                      : -1.0;
         };
     }
-    else if (anAccessTarget.accessVisibilityCriterion().is<VisibilityCriterion::ElevationInterval>())
+    else if (anAccessTarget.getVisibilityCriterion().is<VisibilityCriterion::ElevationInterval>())
     {
         const VisibilityCriterion::ElevationInterval visibilityCriterion =
-            anAccessTarget.accessVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
+            anAccessTarget.getVisibilityCriterion().as<VisibilityCriterion::ElevationInterval>().value();
 
         const double lowerBound_rad = visibilityCriterion.elevation.accessLowerBound();
         const double upperBound_rad = visibilityCriterion.elevation.accessUpperBound();
@@ -889,7 +889,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
         throw ostk::core::error::RuntimeError("VisibilityCriterion type not supported.");
     }
 
-    const Trajectory& fromTrajectory = anAccessTarget.accessTrajectory();
+    const Trajectory& fromTrajectory = anAccessTarget.getTrajectory();
 
     const auto conditionWithStateFilter = [this, &condition, &fromTrajectory, &aToTrajectory](const Instant& instant
                                           ) -> double

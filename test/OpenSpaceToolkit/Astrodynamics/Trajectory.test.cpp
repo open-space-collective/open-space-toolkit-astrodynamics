@@ -265,7 +265,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetModel)
 {
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -283,7 +283,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
 
         const Trajectory trajectory = {model};
 
-        EXPECT_TRUE(trajectory.accessModel().is<Tabulated>());
+        EXPECT_TRUE(trajectory.getModel().is<Tabulated>());
     }
 }
 
@@ -305,8 +305,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
 
         const Trajectory trajectory = {model};
 
-        EXPECT_EQ(states.at(0), trajectory.getStateAt(states.at(0).accessInstant()));
-        EXPECT_EQ(states.at(1), trajectory.getStateAt(states.at(1).accessInstant()));
+        EXPECT_EQ(states.at(0), trajectory.getStateAt(states.at(0).getInstant()));
+        EXPECT_EQ(states.at(1), trajectory.getStateAt(states.at(1).getInstant()));
 
         EXPECT_EQ(
             State(
@@ -324,8 +324,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
         EXPECT_ANY_THROW(trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 3), Scale::UTC)));
         EXPECT_ANY_THROW(trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC)));
 
-        EXPECT_EQ(states.at(0), trajectory.getStateAt(states.at(0).accessInstant()));
-        EXPECT_EQ(states.at(1), trajectory.getStateAt(states.at(1).accessInstant()));
+        EXPECT_EQ(states.at(0), trajectory.getStateAt(states.at(0).getInstant()));
+        EXPECT_EQ(states.at(1), trajectory.getStateAt(states.at(1).getInstant()));
 
         EXPECT_EQ(
             State(
@@ -365,9 +365,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
 
         {
             const Array<Instant> referenceInstants = {
-                states.at(0).accessInstant(),
+                states.at(0).getInstant(),
                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                states.at(1).accessInstant()
+                states.at(1).getInstant()
             };
 
             const Array<State> referenceStates = {
@@ -388,8 +388,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
         {
             const Array<Instant> referenceInstants = {
                 Instant::DateTime(DateTime(2017, 12, 31, 23, 59, 59), Scale::UTC),
-                states.at(0).accessInstant(),
-                states.at(1).accessInstant(),
+                states.at(0).getInstant(),
+                states.at(1).getInstant(),
                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC)
             };
 
@@ -418,8 +418,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
         {
             const Array<Instant> desiredInstants = {
                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                states.at(1).accessInstant(),
-                states.at(0).accessInstant(),
+                states.at(1).getInstant(),
+                states.at(0).getInstant(),
                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1, 500), Scale::UTC),
             };
 
@@ -495,7 +495,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Position)
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
         const State state = trajectory.getStateAt(Instant::J2000());
-        EXPECT_TRUE(state.accessFrame() == Frame::ITRF());
+        EXPECT_TRUE(state.getFrame() == Frame::ITRF());
         EXPECT_EQ(state.getInstant(), Instant::J2000());
         EXPECT_EQ(state.getPosition(), Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
         EXPECT_EQ(state.getVelocity(), Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()));

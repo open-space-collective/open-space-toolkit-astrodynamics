@@ -116,7 +116,7 @@ class ModifiedEquinoctial
     /// @brief Get semi-latus rectum
     ///
     /// @return Semi-latus rectum
-    Length getSemiLatusRectum() const;
+    const Length& getSemiLatusRectum() const;
 
     /// @brief Get x-component of eccentricity vector
     ///
@@ -141,7 +141,7 @@ class ModifiedEquinoctial
     /// @brief Get true longitude
     ///
     /// @return True longitude
-    Angle getTrueLongitude() const;
+    const Angle& getTrueLongitude() const;
 
     /// @brief Get ModifiedEquinoctial elements as a 6D vector in SI units
     ///

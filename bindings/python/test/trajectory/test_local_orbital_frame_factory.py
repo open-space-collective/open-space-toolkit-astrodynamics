@@ -80,12 +80,12 @@ class TestLocalOrbitalFrameFactory:
             Frame.GCRF()
         )
 
-    def test_accessors(
+    def test_getters(
         self,
         parent_frame: Frame,
         local_orbital_frame_factory: LocalOrbitalFrameFactory,
     ):
-        assert parent_frame == local_orbital_frame_factory.access_parent_frame()
+        assert parent_frame == local_orbital_frame_factory.get_parent_frame()
         assert local_orbital_frame_factory.get_provider_type() is not None
 
     def test_generate_frame(

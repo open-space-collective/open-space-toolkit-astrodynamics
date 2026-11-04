@@ -290,11 +290,11 @@ class Segment
 
     /// @brief Get name
     /// @return Name of the segment
-    String getName() const;
+    const String& getName() const;
 
     /// @brief Get event condition
     /// @return Event condition
-    Shared<EventCondition> getEventCondition() const;
+    const Shared<EventCondition>& getEventCondition() const;
 
     /// @brief Get dynamics
     /// @return Dynamics
@@ -302,19 +302,19 @@ class Segment
 
     /// @brief Get free dynamics array
     /// @return Free dynamics array
-    Array<Shared<Dynamics>> getFreeDynamics() const;
+    const Array<Shared<Dynamics>>& getFreeDynamics() const;
 
     /// @brief Get numerical solver
     /// @return Numerical solver
-    NumericalSolver getNumericalSolver() const;
+    const NumericalSolver& getNumericalSolver() const;
 
     /// @brief Get thruster dynamics
     /// @return Thruster dynamics
-    Shared<Thruster> getThrusterDynamics() const;
+    const Shared<Thruster>& getThrusterDynamics() const;
 
     /// @brief Get maneuver constraints
     /// @return Maneuver constraints, if any
-    std::optional<ManeuverConstraints> getManeuverConstraints() const;
+    const std::optional<ManeuverConstraints>& getManeuverConstraints() const;
 
     /// @brief Get type
     /// @return Type of segment

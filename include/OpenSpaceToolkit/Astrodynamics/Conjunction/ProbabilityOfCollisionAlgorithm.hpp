@@ -113,7 +113,7 @@ class ProbabilityOfCollisionAlgorithm
     /// @brief Get the name of the probability of collision algorithm
     ///
     /// @return The name of the algorithm
-    String getName() const;
+    const String& getName() const;
 
     /// @brief Check if the probability of collision algorithm computes a maximum probability of collision (i.e. an
     /// upper bound)

@@ -196,13 +196,11 @@ class TestManeuver:
         )
 
         assert tabulated_dynamics.is_defined()
-        assert tabulated_dynamics.access_instants() == [
+        assert tabulated_dynamics.get_instants() == [
             state.get_instant() for state in maneuver.get_states()
         ]
 
-        contribution_profile: np.ndarray = (
-            tabulated_dynamics.access_contribution_profile()
-        )
+        contribution_profile: np.ndarray = tabulated_dynamics.get_contribution_profile()
 
         for i in range(len(instants)):
             assert contribution_profile[i][0:3] == pytest.approx(
@@ -212,7 +210,7 @@ class TestManeuver:
                 mass_flow_rate_profile[i], rel=1e-15
             )
 
-        assert tabulated_dynamics.access_frame() == frame
+        assert tabulated_dynamics.get_frame() == frame
 
     def test_calculate_mean_thrust_direction_and_maximum_angular_offset(
         self,

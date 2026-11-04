@@ -65,10 +65,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         )
 
         .def(
-            "access_numerical_solver",
-            &Propagator::accessNumericalSolver,
+            "get_numerical_solver",
+            &Propagator::getNumericalSolver,
             R"doc(
-                Access the numerical solver.
+                Get the numerical solver.
 
                 Returns:
                     NumericalSolver&: The numerical solver.

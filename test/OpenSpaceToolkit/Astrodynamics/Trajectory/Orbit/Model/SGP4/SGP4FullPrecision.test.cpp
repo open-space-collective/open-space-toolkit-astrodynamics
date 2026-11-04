@@ -268,11 +268,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 
     EXPECT_TRUE(state.isDefined());
     EXPECT_EQ(state.getInstant(), tle_.getEpoch());
-    EXPECT_EQ(*state.accessFrame(), *Frame::TEME());
+    EXPECT_EQ(*state.getFrame(), *Frame::TEME());
 
     const State stateGCRF = SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).calculateStateAt(tle_.getEpoch());
 
-    EXPECT_EQ(*stateGCRF.accessFrame(), *Frame::GCRF());
+    EXPECT_EQ(*stateGCRF.getFrame(), *Frame::GCRF());
     EXPECT_GT((stateGCRF.getPosition().getCoordinates() - state.getPosition().getCoordinates()).norm(), 1.0);
 
     EXPECT_ANY_THROW(sgp4FullPrecision_.calculateStateAt(Instant::Undefined()));
@@ -294,7 +294,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     for (Size i = 0; i < instants.getSize(); ++i)
     {
         EXPECT_EQ(states[i].getInstant(), instants[i]);
-        EXPECT_EQ(*states[i].accessFrame(), *Frame::TEME());
+        EXPECT_EQ(*states[i].getFrame(), *Frame::TEME());
         EXPECT_LT(
             (states[i].getPosition().getCoordinates() -
              sgp4FullPrecision_.calculateStateAt(instants[i]).getPosition().getCoordinates())
@@ -305,7 +305,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 
     for (const State& stateGCRF : SGP4FullPrecision::FromTLE(tle_, Frame::GCRF()).calculateStatesAt(instants))
     {
-        EXPECT_EQ(*stateGCRF.accessFrame(), *Frame::GCRF());
+        EXPECT_EQ(*stateGCRF.getFrame(), *Frame::GCRF());
     }
 
     EXPECT_EQ(sgp4FullPrecision_.calculateStatesAt({}).getSize(), 0);

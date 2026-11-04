@@ -508,7 +508,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRelative
         const State relativeState = closeApproach.computeRelativeState();
 
         EXPECT_EQ(instant, relativeState.getInstant());
-        EXPECT_EQ(gcrfFrame, relativeState.accessFrame());
+        EXPECT_EQ(gcrfFrame, relativeState.getFrame());
 
         const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
             CartesianPosition::Default(),

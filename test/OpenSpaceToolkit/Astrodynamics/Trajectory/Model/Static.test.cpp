@@ -125,7 +125,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, CalculateStateAt)
         const State state = Static(position_).calculateStateAt(instant_);
 
         EXPECT_EQ(state.getInstant(), instant_);
-        EXPECT_EQ(state.accessFrame(), Frame::ITRF());
+        EXPECT_EQ(state.getFrame(), Frame::ITRF());
         EXPECT_EQ(state.getPosition(), position_);
         EXPECT_EQ(state.getVelocity(), Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()));
     }
@@ -138,7 +138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, CalculateStateAt)
                 .inFrame(Frame::GCRF());
 
         EXPECT_EQ(state.getInstant(), instant_);
-        EXPECT_EQ(state.accessFrame(), Frame::GCRF());
+        EXPECT_EQ(state.getFrame(), Frame::GCRF());
         EXPECT_EQ(state, expectedState);
 
         const State stateInITRF = state.inFrame(Frame::ITRF());

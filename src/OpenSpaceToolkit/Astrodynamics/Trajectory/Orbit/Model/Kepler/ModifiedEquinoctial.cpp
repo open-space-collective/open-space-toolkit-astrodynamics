@@ -91,7 +91,7 @@ bool ModifiedEquinoctial::isDefined() const
     return semiLatusRectum_.isDefined() && trueLongitude_.isDefined();
 }
 
-Length ModifiedEquinoctial::getSemiLatusRectum() const
+const Length& ModifiedEquinoctial::getSemiLatusRectum() const
 {
     if (!this->isDefined())
     {
@@ -136,7 +136,7 @@ double ModifiedEquinoctial::getNodeY() const
     return nodeY_;
 }
 
-Angle ModifiedEquinoctial::getTrueLongitude() const
+const Angle& ModifiedEquinoctial::getTrueLongitude() const
 {
     if (!this->isDefined())
     {

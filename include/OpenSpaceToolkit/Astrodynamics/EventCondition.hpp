@@ -125,19 +125,19 @@ class EventCondition
     /// @brief Get the name of the Event Condition
     ///
     /// @return String representing the name of the Event Condition
-    String getName() const;
+    const String& getName() const;
 
     /// @brief Get evaluator
     ///
     /// @return Evaluator
-    std::function<double(const State&)> getEvaluator() const;
+    const std::function<double(const State&)>& getEvaluator() const;
 
     /// @brief Get the target
     ///
     /// @throw ostk::core::error::runtime::Undefined If the Event Condition has no target
     ///
     /// @return Target
-    Target getTarget() const;
+    const Target& getTarget() const;
 
     /// @brief Update the target value if the Event Condition is relative
     ///

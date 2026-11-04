@@ -170,15 +170,16 @@
 #define ASSERT_STATES_ARE_STRICTLY_MONOTONIC(states)                                                                   \
     do                                                                                                                 \
     {                                                                                                                  \
-        if ((states).size() < 2)                                                                                       \
+        const auto& statesToCheck = (states);                                                                          \
+        if (statesToCheck.size() < 2)                                                                                  \
         {                                                                                                              \
             break;                                                                                                     \
         }                                                                                                              \
-        const bool isIncreasing = (states)[1].getInstant() > (states)[0].getInstant();                                 \
-        for (size_t i = 1; i < (states).size(); ++i)                                                                   \
+        const bool isIncreasing = statesToCheck[1].getInstant() > statesToCheck[0].getInstant();                       \
+        for (size_t i = 1; i < statesToCheck.size(); ++i)                                                              \
         {                                                                                                              \
-            const auto& prevInstant = (states)[i - 1].getInstant();                                                    \
-            const auto& currInstant = (states)[i].getInstant();                                                        \
+            const auto& prevInstant = statesToCheck[i - 1].getInstant();                                               \
+            const auto& currInstant = statesToCheck[i].getInstant();                                                   \
             if (isIncreasing)                                                                                          \
             {                                                                                                          \
                 ASSERT_TRUE(currInstant > prevInstant)                                                                 \

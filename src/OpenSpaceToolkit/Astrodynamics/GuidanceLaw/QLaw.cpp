@@ -101,12 +101,12 @@ QLaw::Parameters::Parameters(
     }
 }
 
-Vector5d QLaw::Parameters::getControlWeights() const
+const Vector5d& QLaw::Parameters::getControlWeights() const
 {
     return controlWeights_;
 }
 
-Vector5d QLaw::Parameters::getConvergenceThresholds() const
+const Vector5d& QLaw::Parameters::getConvergenceThresholds() const
 {
     return convergenceThresholds_;
 }
@@ -171,7 +171,7 @@ void QLaw::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-QLaw::Parameters QLaw::getParameters() const
+const QLaw::Parameters& QLaw::getParameters() const
 {
     return parameters_;
 }
@@ -799,7 +799,7 @@ Vector5d QLaw::computeNumerical_dQ_dOE(const Vector5d& aCOEVector, const double&
     const auto getQ = [this,
                        &aThrustAcceleration](const State& aState, [[maybe_unused]] const Instant& anInstant) -> VectorXd
     {
-        const Vector5d& coeVector = aState.accessCoordinates();
+        const Vector5d& coeVector = aState.getCoordinates();
 
         VectorXd coordinates(1);
         coordinates << this->computeQ(coeVector, aThrustAcceleration);

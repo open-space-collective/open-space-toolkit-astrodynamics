@@ -1008,7 +1008,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, GetCoordinateBroker)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
@@ -1020,17 +1020,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 
         const State state = {instant, coordinates, Frame::GCRF(), brokerSPtr};
 
-        EXPECT_EQ(instant, state.accessInstant());
-        EXPECT_EQ(coordinates, state.accessCoordinates());
-        EXPECT_EQ(Frame::GCRF(), state.accessFrame());
-        EXPECT_EQ(brokerSPtr, state.accessCoordinateBroker());
+        EXPECT_EQ(instant, state.getInstant());
+        EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_EQ(Frame::GCRF(), state.getFrame());
+        EXPECT_EQ(brokerSPtr, state.getCoordinateBroker());
     }
 
     {
-        EXPECT_ANY_THROW(State::Undefined().accessInstant());
-        EXPECT_ANY_THROW(State::Undefined().accessCoordinates());
-        EXPECT_ANY_THROW(State::Undefined().accessFrame());
-        EXPECT_ANY_THROW(State::Undefined().accessCoordinateBroker());
+        EXPECT_ANY_THROW(State::Undefined().getInstant());
+        EXPECT_ANY_THROW(State::Undefined().getCoordinates());
+        EXPECT_ANY_THROW(State::Undefined().getFrame());
+        EXPECT_ANY_THROW(State::Undefined().getCoordinateBroker());
     }
 }
 
@@ -1067,6 +1067,33 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_TRUE(state.hasSubset(AttitudeQuaternion::Default()));
         EXPECT_TRUE(state.hasSubset(AngularVelocity::Default()));
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
+
+        EXPECT_EQ(&state.getInstant(), &state.getInstant());
+        EXPECT_EQ(&state.getFrame(), &state.getFrame());
+        EXPECT_EQ(&state.getCoordinates(), &state.getCoordinates());
+        EXPECT_EQ(&state.getCoordinateBroker(), &state.getCoordinateBroker());
+        EXPECT_EQ(&state.getCoordinateSubsets(), &brokerSPtr->getSubsets());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinateBroker> brokerSPtr = std::make_shared<CoordinateBroker>(
+            CoordinateBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
+
+        // Getters called on a temporary State return copies, so that they do not dangle
+        const VectorXd temporaryCoordinates = State(instant, coordinates, Frame::GCRF(), brokerSPtr).getCoordinates();
+        EXPECT_EQ(coordinates, temporaryCoordinates);
+
+        int subsetCount = 0;
+        for (const auto& subset : State(instant, coordinates, Frame::GCRF(), brokerSPtr).getCoordinateSubsets())
+        {
+            EXPECT_TRUE(brokerSPtr->hasSubset(subset));
+            ++subsetCount;
+        }
+        EXPECT_EQ(2, subsetCount);
     }
 
     {

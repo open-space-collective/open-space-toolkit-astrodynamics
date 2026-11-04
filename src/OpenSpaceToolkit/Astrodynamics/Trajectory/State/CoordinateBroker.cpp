@@ -59,11 +59,6 @@ bool CoordinateBroker::operator!=(const CoordinateBroker& aCoordinateBroker) con
     return !((*this) == aCoordinateBroker);
 }
 
-const Array<Shared<const CoordinateSubset>>& CoordinateBroker::accessSubsets() const
-{
-    return this->coordinateSubsets_;
-}
-
 Size CoordinateBroker::getNumberOfCoordinates() const
 {
     return this->nextCoordinateSubsetIndex_;
@@ -74,9 +69,9 @@ Size CoordinateBroker::getNumberOfSubsets() const
     return (size_t)this->coordinateSubsetsIndexMap_.size();
 }
 
-Array<Shared<const CoordinateSubset>> CoordinateBroker::getSubsets() const
+const Array<Shared<const CoordinateSubset>>& CoordinateBroker::getSubsets() const
 {
-    return this->accessSubsets();
+    return this->coordinateSubsets_;
 }
 
 Index CoordinateBroker::addSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr)

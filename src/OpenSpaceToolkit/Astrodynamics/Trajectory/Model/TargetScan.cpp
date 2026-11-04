@@ -165,32 +165,32 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
     return State(anInstant, position, velocity);
 }
 
-LLA TargetScan::getStartLLA() const
+const LLA& TargetScan::getStartLLA() const
 {
     return startLLA_;
 }
 
-LLA TargetScan::getEndLLA() const
+const LLA& TargetScan::getEndLLA() const
 {
     return endLLA_;
 }
 
-Instant TargetScan::getStartInstant() const
+const Instant& TargetScan::getStartInstant() const
 {
     return startInstant_;
 }
 
-Instant TargetScan::getEndInstant() const
+const Instant& TargetScan::getEndInstant() const
 {
     return endInstant_;
 }
 
-Celestial TargetScan::getCelestial() const
+const Celestial& TargetScan::getCelestial() const
 {
     return *celestialSPtr_;
 }
 
-Duration TargetScan::getStepSize() const
+const Duration& TargetScan::getStepSize() const
 {
     return stepSize_;
 }

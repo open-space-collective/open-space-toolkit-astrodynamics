@@ -624,7 +624,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, AccessCachedStateArray)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, GetCachedStateArray)
 {
     // Test cachedStateArray sorting during construction and accessing (not during propagation)
     {
@@ -646,7 +646,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, AccessC
         // Setup Propagated model
         const Propagated propagatedModel = {propagator_, stateArray};
 
-        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray();
+        const Array<State> cachedStateArray = propagatedModel.getCachedStateArray();
 
         // Check array chronological order
         EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant());
@@ -673,7 +673,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, AccessC
         // Setup Propagated model
         const Propagated propagatedModel = {propagator_, stateArray};
 
-        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray();
+        const Array<State> cachedStateArray = propagatedModel.getCachedStateArray();
 
         // Check array chronological order
         EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant());
@@ -715,7 +715,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCach
         EXPECT_TRUE(propagatedModel.isDefined());
 
         // Access cachedStateArray and verify
-        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray();
+        const Array<State> cachedStateArray = propagatedModel.getCachedStateArray();
 
         // Check array chronological order
         EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant());
@@ -747,7 +747,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCach
         EXPECT_TRUE(propagatedModel.isDefined());
 
         // Access cachedStateArray and verify
-        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray();
+        const Array<State> cachedStateArray = propagatedModel.getCachedStateArray();
 
         // Check array chronological order
         EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant());

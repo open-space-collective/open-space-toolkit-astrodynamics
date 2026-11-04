@@ -22,7 +22,7 @@ ProbabilityOfCollisionAlgorithm::ProbabilityOfCollisionAlgorithm(const String& a
 {
 }
 
-String ProbabilityOfCollisionAlgorithm::getName() const
+const String& ProbabilityOfCollisionAlgorithm::getName() const
 {
     return name_;
 }

@@ -349,7 +349,7 @@ static void RecordCounters(
     for (Size i = 1; i < aStateArray.getSize(); ++i)
     {
         const double stepSec =
-            static_cast<double>((aStateArray[i].accessInstant() - aStateArray[i - 1].accessInstant()).inSeconds());
+            static_cast<double>((aStateArray[i].getInstant() - aStateArray[i - 1].getInstant()).inSeconds());
 
         minStepSec = std::min(minStepSec, stepSec);
         maxStepSec = std::max(maxStepSec, stepSec);
@@ -362,7 +362,7 @@ static void RecordCounters(
         aStateArray.isEmpty()
             ? 0.0
             : static_cast<double>(
-                  (aStateArray.accessLast().accessInstant() - aStateArray.accessFirst().accessInstant()).inHours()
+                  (aStateArray.accessLast().getInstant() - aStateArray.accessFirst().getInstant()).inHours()
               );
 
     state.counters["converged"] = isComplete ? 1.0 : 0.0;

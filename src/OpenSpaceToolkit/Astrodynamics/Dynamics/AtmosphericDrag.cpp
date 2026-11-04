@@ -51,7 +51,7 @@ bool AtmosphericDrag::isDefined() const
     return celestialObjectSPtr_->isDefined();
 }
 
-Shared<const Celestial> AtmosphericDrag::getCelestial() const
+const Shared<const Celestial>& AtmosphericDrag::getCelestial() const
 {
     if (!celestialObjectSPtr_->isDefined())
     {

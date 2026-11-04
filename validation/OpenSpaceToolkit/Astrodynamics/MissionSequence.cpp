@@ -52,7 +52,7 @@ const State& MissionSequence::accessInitialState() const
     return initialState_;
 }
 
-const Environment& MissionSequence::accessEnvironment() const
+const Environment& MissionSequence::getEnvironment() const
 {
     if (!environment_.isDefined())
     {

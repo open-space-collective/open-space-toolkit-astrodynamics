@@ -39,7 +39,7 @@ bool Generator::isDefined() const
     return environment_.isDefined();
 }
 
-Environment Generator::getEnvironment() const
+const Environment& Generator::getEnvironment() const
 {
     if (!this->isDefined())
     {
@@ -49,7 +49,7 @@ Environment Generator::getEnvironment() const
     return environment_;
 }
 
-Duration Generator::getSearchStepSize() const
+const Duration& Generator::getSearchStepSize() const
 {
     if (!this->isDefined())
     {
@@ -59,7 +59,7 @@ Duration Generator::getSearchStepSize() const
     return temporalConditionSolver_.getTimeStep();
 }
 
-Duration Generator::getSearchTolerance() const
+const Duration& Generator::getSearchTolerance() const
 {
     if (!this->isDefined())
     {

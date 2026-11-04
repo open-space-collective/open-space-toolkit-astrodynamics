@@ -168,14 +168,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, AccessModel)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetModel)
 {
     {
-        EXPECT_TRUE(profile_.accessModel().isDefined());
+        EXPECT_TRUE(profile_.getModel().isDefined());
     }
 
     {
-        EXPECT_THROW(Profile(Transform::Undefined()).accessModel(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Profile(Transform::Undefined()).getModel(), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -1374,7 +1374,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimplePointingT
                         llaOnSurface.toCartesian(earthSPtr_->getEquatorialRadius(), earthSPtr_->getFlattening()),
                         Frame::ITRF()
                     )
-                        .inFrame(Frame::GCRF(), aState.accessInstant())
+                        .inFrame(Frame::GCRF(), aState.getInstant())
                         .getCoordinates();
                 return (positionOnSurface - aState.getPosition().getCoordinates()).normalized();
             }
@@ -1387,7 +1387,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimplePointingT
             case Profile::PointingTarget::Type::Sun:
             {
                 const Sun sun = Sun::Default();
-                return (sun.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
+                return (sun.getPositionIn(Frame::GCRF(), aState.getInstant()).getCoordinates() -
                         aState.getPosition().getCoordinates())
                     .normalized();
             }
@@ -1396,7 +1396,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Parametrized_SimplePointingT
             case Profile::PointingTarget::Type::Moon:
             {
                 const Moon moon = Moon::Default();
-                return (moon.getPositionIn(Frame::GCRF(), aState.accessInstant()).getCoordinates() -
+                return (moon.getPositionIn(Frame::GCRF(), aState.getInstant()).getCoordinates() -
                         aState.getPosition().getCoordinates())
                     .normalized();
             }

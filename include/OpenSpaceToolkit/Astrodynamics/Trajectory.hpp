@@ -122,10 +122,10 @@ class Trajectory
     /// @return True if the trajectory model is defined
     bool isDefined() const;
 
-    /// @brief Access trajectory model
+    /// @brief Get trajectory model
     ///
     /// @return Reference to trajectory model
-    const Model& accessModel() const;
+    const Model& getModel() const;
 
     /// @brief Get state at a given instant
     ///

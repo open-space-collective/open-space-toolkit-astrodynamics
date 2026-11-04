@@ -76,7 +76,7 @@ class TargetScan : public virtual Model
     /// @endcode
     ///
     /// @return The starting LLA of the target scan
-    LLA getStartLLA() const;
+    const LLA& getStartLLA() const;
 
     /// @brief Get the ending LLA of the target scan
     ///
@@ -86,7 +86,7 @@ class TargetScan : public virtual Model
     /// @endcode
     ///
     /// @return The ending LLA of the target scan
-    LLA getEndLLA() const;
+    const LLA& getEndLLA() const;
 
     /// @brief Get the starting instant of the target scan
     ///
@@ -96,7 +96,7 @@ class TargetScan : public virtual Model
     /// @endcode
     ///
     /// @return The starting instant of the target scan
-    Instant getStartInstant() const;
+    const Instant& getStartInstant() const;
 
     /// @brief Get the ending instant of the target scan
     ///
@@ -106,7 +106,7 @@ class TargetScan : public virtual Model
     /// @endcode
     ///
     /// @return The ending instant of the target scan
-    Instant getEndInstant() const;
+    const Instant& getEndInstant() const;
 
     /// @brief Get the celestial object of the target scan
     ///
@@ -116,7 +116,7 @@ class TargetScan : public virtual Model
     /// @endcode
     ///
     /// @return The celestial object of the target scan
-    Celestial getCelestial() const;
+    const Celestial& getCelestial() const;
 
     /// @brief Get the step size of the target scan
     ///
@@ -126,7 +126,7 @@ class TargetScan : public virtual Model
     /// @endcode
     ///
     /// @return The step size of the target scan
-    Duration getStepSize() const;
+    const Duration& getStepSize() const;
 
     /// @brief Equality operator
     ///

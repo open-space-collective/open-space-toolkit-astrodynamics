@@ -87,12 +87,12 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
     return anOutputStream;
 }
 
-const Array<Instant>& Tabulated::accessInstants() const
+const Array<Instant>& Tabulated::getInstants() const
 {
     return instants_;
 }
 
-const MatrixXd& Tabulated::accessContributionProfile() const
+const MatrixXd& Tabulated::getContributionProfile() const
 {
     return contributionProfile_;
 }
@@ -150,7 +150,7 @@ MatrixXd Tabulated::getContributionProfileFromCoordinateSubsets(
     return customContributionProfile;
 }
 
-const Shared<const Frame>& Tabulated::accessFrame() const
+const Shared<const Frame>& Tabulated::getFrame() const
 {
     return frameSPtr_;
 }

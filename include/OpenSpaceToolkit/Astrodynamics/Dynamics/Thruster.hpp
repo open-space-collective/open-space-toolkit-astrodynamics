@@ -60,7 +60,7 @@ class Thruster : public Dynamics
     /// @endcode
     ///
     /// @return Satellite system
-    SatelliteSystem getSatelliteSystem() const;
+    const SatelliteSystem& getSatelliteSystem() const;
 
     /// @brief Get guidance law
     ///
@@ -70,7 +70,7 @@ class Thruster : public Dynamics
     /// @endcode
     ///
     /// @return Guidance law
-    Shared<const GuidanceLaw> getGuidanceLaw() const;
+    const Shared<const GuidanceLaw>& getGuidanceLaw() const;
 
     /// @brief Return the coordinate subsets that the instance reads from
     ///

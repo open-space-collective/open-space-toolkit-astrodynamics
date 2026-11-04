@@ -163,7 +163,7 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @return The output reference frame.
-    Shared<const Frame> getFrame() const;
+    const Shared<const Frame>& getFrame() const;
 
     /// @brief Get the time interval spanned by the tabulated states.
     ///
@@ -193,7 +193,7 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @return The first state.
-    State getFirstState() const;
+    const State& getFirstState() const;
 
     /// @brief Get the last state in the tabulated trajectory.
     ///
@@ -202,7 +202,7 @@ class Tabulated : public virtual Model
     /// @endcode
     ///
     /// @return The last state.
-    State getLastState() const;
+    const State& getLastState() const;
 
     /// @brief Calculate the state at a given instant.
     ///

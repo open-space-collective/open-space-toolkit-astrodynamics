@@ -83,25 +83,25 @@ class Tabulated : public Dynamics
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aDynamics);
 
-    /// @brief Access the instants.
+    /// @brief Get the instants.
     ///
     /// @code{.cpp}
     ///     Tabulated tabulated = { ... } ;
-    ///     const Array<Instant>& instants = tabulated.accessInstants() ;
+    ///     const Array<Instant>& instants = tabulated.getInstants() ;
     /// @endcode
     ///
     /// @return A const reference to the array of instants.
-    const Array<Instant>& accessInstants() const;
+    const Array<Instant>& getInstants() const;
 
-    /// @brief Access the contribution profile.
+    /// @brief Get the contribution profile.
     ///
     /// @code{.cpp}
     ///     Tabulated tabulated = { ... } ;
-    ///     const MatrixXd& profile = tabulated.accessContributionProfile() ;
+    ///     const MatrixXd& profile = tabulated.getContributionProfile() ;
     /// @endcode
     ///
     /// @return A const reference to the contribution profile matrix.
-    const MatrixXd& accessContributionProfile() const;
+    const MatrixXd& getContributionProfile() const;
 
     /// @brief Get the contribution profile corresponding to a subset of coordinates.
     ///
@@ -117,15 +117,15 @@ class Tabulated : public Dynamics
         const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetArray
     ) const;
 
-    /// @brief Access the frame.
+    /// @brief Get the frame.
     ///
     /// @code{.cpp}
     ///     Tabulated tabulated = { ... } ;
-    ///     const Shared<const Frame>& frame = tabulated.accessFrame() ;
+    ///     const Shared<const Frame>& frame = tabulated.getFrame() ;
     /// @endcode
     ///
     /// @return A const reference to the shared pointer to the frame.
-    const Shared<const Frame>& accessFrame() const;
+    const Shared<const Frame>& getFrame() const;
 
     /// @brief Get the interpolation type.
     ///

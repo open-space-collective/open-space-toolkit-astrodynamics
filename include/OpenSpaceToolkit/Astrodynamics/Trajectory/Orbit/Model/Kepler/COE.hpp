@@ -138,7 +138,7 @@ class COE
     /// @brief Get Semi Major Axis
     ///
     /// @return Semi Major Axis
-    Length getSemiMajorAxis() const;
+    const Length& getSemiMajorAxis() const;
 
     /// @brief Get Eccentricity
     ///
@@ -148,17 +148,17 @@ class COE
     /// @brief Get Inclination
     ///
     /// @return Inclination
-    Angle getInclination() const;
+    const Angle& getInclination() const;
 
     /// @brief Get Right ascenscion of the ascending node
     ///
     /// @return Right ascenscion of the ascending node
-    Angle getRaan() const;
+    const Angle& getRaan() const;
 
     /// @brief Get Argument of periapsis
     ///
     /// @return Argument of periapsis
-    Angle getAop() const;
+    const Angle& getAop() const;
 
     /// @brief Get Argument of latitude
     ///

@@ -169,22 +169,22 @@ class Sequence
     /// @brief Get segments.
     ///
     /// @return Array of segments.
-    Array<Segment> getSegments() const;
+    const Array<Segment>& getSegments() const;
 
     /// @brief Get numerical solver.
     ///
     /// @return Numerical solver.
-    NumericalSolver getNumericalSolver() const;
+    const NumericalSolver& getNumericalSolver() const;
 
     /// @brief Get dynamics.
     ///
     /// @return Dynamics.
-    Array<Shared<Dynamics>> getDynamics() const;
+    const Array<Shared<Dynamics>>& getDynamics() const;
 
     /// @brief Get maximum propagation duration.
     ///
     /// @return Maximum propagation duration.
-    Duration getMaximumPropagationDuration() const;
+    const Duration& getMaximumPropagationDuration() const;
 
     /// @brief Add a trajectory segment.
     ///

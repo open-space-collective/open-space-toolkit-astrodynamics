@@ -65,7 +65,7 @@ bool Nadir::isDefined() const
     return orbit_.isDefined();
 }
 
-Orbit Nadir::getOrbit() const
+const Orbit& Nadir::getOrbit() const
 {
     if (!this->isDefined())
     {
@@ -75,7 +75,7 @@ Orbit Nadir::getOrbit() const
     return orbit_;
 }
 
-Duration Nadir::getStepSize() const
+const Duration& Nadir::getStepSize() const
 {
     if (!this->isDefined())
     {
@@ -112,7 +112,7 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
 
     Position position = Position::Undefined();
 
-    const Shared<const Frame> celestialBodyFrame = orbit_.accessCelestialObject()->accessFrame();
+    const Shared<const Frame> celestialBodyFrame = orbit_.getCelestialObject()->accessFrame();
 
     Size i = 0;
     for (const auto& instant : instants)
@@ -122,11 +122,11 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
         const State state = orbit_.getStateAt(instant);
 
         const LLA lla =
-            LLA::FromPosition(state.getPosition().inFrame(celestialBodyFrame, instant), orbit_.accessCelestialObject())
+            LLA::FromPosition(state.getPosition().inFrame(celestialBodyFrame, instant), orbit_.getCelestialObject())
                 .onSurface();
 
         const physics::coordinate::Position positionAtInstant =
-            physics::coordinate::Position::FromLLA(lla, orbit_.accessCelestialObject()).inFrame(Frame::GCRF(), instant);
+            physics::coordinate::Position::FromLLA(lla, orbit_.getCelestialObject()).inFrame(Frame::GCRF(), instant);
 
         if (instant == anInstant)
         {

@@ -144,7 +144,7 @@ class Access
     /// @endcode
     ///
     /// @return The acquisition of signal instant.
-    Instant getAcquisitionOfSignal() const;
+    const Instant& getAcquisitionOfSignal() const;
 
     /// @brief Get the time of closest approach instant.
     ///
@@ -154,7 +154,7 @@ class Access
     /// @endcode
     ///
     /// @return The time of closest approach instant.
-    Instant getTimeOfClosestApproach() const;
+    const Instant& getTimeOfClosestApproach() const;
 
     /// @brief Get the loss of signal instant.
     ///
@@ -164,7 +164,7 @@ class Access
     /// @endcode
     ///
     /// @return The loss of signal instant.
-    Instant getLossOfSignal() const;
+    const Instant& getLossOfSignal() const;
 
     /// @brief Get the time interval of the access window.
     ///
@@ -194,7 +194,7 @@ class Access
     /// @endcode
     ///
     /// @return The maximum elevation angle, or std::nullopt if not set (e.g., for satellite to satellite accesses).
-    std::optional<Angle> getMaxElevation() const;
+    const std::optional<Angle>& getMaxElevation() const;
 
     /// @brief Construct an undefined access.
     ///

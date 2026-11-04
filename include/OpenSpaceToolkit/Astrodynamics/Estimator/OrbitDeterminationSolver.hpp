@@ -92,25 +92,25 @@ class OrbitDeterminationSolver
         const Shared<const Frame>& anEstimationFrameSPtr = DEFAULT_ESTIMATION_FRAME
     );
 
-    /// @brief Access environment
+    /// @brief Get environment
     ///
     /// @return Environment
-    const Environment& accessEnvironment() const;
+    const Environment& getEnvironment() const;
 
-    /// @brief Access propagator
+    /// @brief Get propagator
     ///
     /// @return Propagator
-    const Propagator& accessPropagator() const;
+    const Propagator& getPropagator() const;
 
-    /// @brief Access solver
+    /// @brief Get solver
     ///
     /// @return Solver
-    const LeastSquaresSolver& accessSolver() const;
+    const LeastSquaresSolver& getSolver() const;
 
-    /// @brief Access estimation frame
+    /// @brief Get estimation frame
     ///
     /// @return Estimation frame
-    const Shared<const Frame>& accessEstimationFrame() const;
+    const Shared<const Frame>& getEstimationFrame() const;
 
     /// @brief Estimate state from observations
     ///

@@ -138,7 +138,7 @@ Access::Type Access::getType() const
     return type_;
 }
 
-Instant Access::getAcquisitionOfSignal() const
+const Instant& Access::getAcquisitionOfSignal() const
 {
     if (!this->isDefined())
     {
@@ -148,7 +148,7 @@ Instant Access::getAcquisitionOfSignal() const
     return acquisitionOfSignal_;
 }
 
-Instant Access::getTimeOfClosestApproach() const
+const Instant& Access::getTimeOfClosestApproach() const
 {
     if (!this->isDefined())
     {
@@ -158,7 +158,7 @@ Instant Access::getTimeOfClosestApproach() const
     return timeOfClosestApproach_;
 }
 
-Instant Access::getLossOfSignal() const
+const Instant& Access::getLossOfSignal() const
 {
     if (!this->isDefined())
     {
@@ -188,7 +188,7 @@ Duration Access::getDuration() const
     return Duration::Between(acquisitionOfSignal_, lossOfSignal_);
 }
 
-std::optional<Angle> Access::getMaxElevation() const
+const std::optional<Angle>& Access::getMaxElevation() const
 {
     if (!this->isDefined())
     {

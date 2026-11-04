@@ -93,7 +93,7 @@ class Custom : public HardBody
     /// @brief Get the vertex generator
     ///
     /// @return The vertex generator
-    VertexGenerator getVertexGenerator() const;
+    const VertexGenerator& getVertexGenerator() const;
 
     /// @brief Calculate the cross section of the hard body at a given state
     ///

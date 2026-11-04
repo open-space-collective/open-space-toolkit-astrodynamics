@@ -81,11 +81,6 @@ class LocalOrbitalFrameDirection
     /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Access local orbital frame factory
-    ///
-    /// @return The local orbital frame factory
-    const LocalOrbitalFrameFactory& accessLocalOrbitalFrameFactory() const;
-
     /// @brief Get the unit direction vector value.
     ///
     /// @code{.cpp}
@@ -94,7 +89,7 @@ class LocalOrbitalFrameDirection
     /// @endcode
     ///
     /// @return The vector value.
-    Vector3d getValue() const;
+    const Vector3d& getValue() const;
 
     /// @brief Get local orbital frame factory.
     ///
@@ -104,7 +99,7 @@ class LocalOrbitalFrameDirection
     /// @endcode
     ///
     /// @return The local orbital frame factory.
-    LocalOrbitalFrameFactory getLocalOrbitalFrameFactory() const;
+    const LocalOrbitalFrameFactory& getLocalOrbitalFrameFactory() const;
 
     /// @brief Construct an undefined local orbital frame direction.
     ///

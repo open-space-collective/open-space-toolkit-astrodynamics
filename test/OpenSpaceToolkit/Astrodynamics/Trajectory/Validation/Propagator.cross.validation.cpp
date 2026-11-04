@@ -743,8 +743,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     {
         const VectorXd thrusterContributionGCRF =
             dynamicsWithThruster[dynamicsWithThruster.getSize() - 1]->computeContribution(
-                propagatedStateArray_Thruster[i].accessInstant(),
-                propagatedStateArray_Thruster[i].accessCoordinates(),
+                propagatedStateArray_Thruster[i].getInstant(),
+                propagatedStateArray_Thruster[i].getCoordinates(),
                 gcrfSPtr_
             );
         thrusterContributionsGCRF.row(i) = thrusterContributionGCRF;

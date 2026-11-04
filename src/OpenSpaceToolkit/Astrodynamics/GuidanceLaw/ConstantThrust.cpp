@@ -42,7 +42,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
     return anOutputStream;
 }
 
-LocalOrbitalFrameDirection ConstantThrust::getLocalThrustDirection() const
+const LocalOrbitalFrameDirection& ConstantThrust::getLocalThrustDirection() const
 {
     if (!localOrbitalFrameDirection_.isDefined())
     {
@@ -61,7 +61,7 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
 ) const
 {
     const Shared<const Frame> parentFrameSPtr =
-        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory().accessParentFrame();
+        this->localOrbitalFrameDirection_.getLocalOrbitalFrameFactory().getParentFrame();
 
     const State state = {
         anInstant,
@@ -70,7 +70,7 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
     };
 
     const Shared<const Frame> localOrbitalFrameSPtr =
-        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory().generateFrame(state);
+        this->localOrbitalFrameDirection_.getLocalOrbitalFrameFactory().generateFrame(state);
 
     const Quaternion q_requestedFrame_LOF =
         localOrbitalFrameSPtr->getTransformTo(outputFrameSPtr, anInstant).getOrientation().normalize();

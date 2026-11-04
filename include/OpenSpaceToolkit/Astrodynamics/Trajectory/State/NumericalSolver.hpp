@@ -73,15 +73,6 @@ class NumericalSolver : public MathNumericalSolver
         const std::function<void(const State&)>& aStateLogger = nullptr
     );
 
-    /// @brief Access observed states
-    ///
-    /// @code{.cpp}
-    ///                  numericalSolver.accessObservedStates();
-    /// @endcode
-    ///
-    /// @return Observed states
-    const Array<State>& accessObservedStates() const;
-
     /// @brief Get root solver
     ///
     /// @code{.cpp}
@@ -89,7 +80,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @endcode
     ///
     /// @return RootSolver
-    RootSolver getRootSolver() const;
+    const RootSolver& getRootSolver() const;
 
     /// @brief Get observed states
     ///
@@ -98,7 +89,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @endcode
     ///
     /// @return Observed states
-    Array<State> getObservedStates() const;
+    const Array<State>& getObservedStates() const;
 
     /// @brief Get the maximum step size
     ///

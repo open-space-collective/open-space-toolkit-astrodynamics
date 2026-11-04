@@ -163,7 +163,7 @@ Pass::Type Pass::getType() const
     return type_;
 }
 
-std::optional<int> Pass::getRevolutionNumber() const
+const std::optional<int>& Pass::getRevolutionNumber() const
 {
     if (!this->isDefined())
     {
@@ -263,7 +263,7 @@ Interval Pass::getInterval() const
     return Interval::Undefined();
 }
 
-const Instant& Pass::accessInstantAtAscendingNode() const
+const Instant& Pass::getInstantAtAscendingNode() const
 {
     if (!this->isDefined())
     {
@@ -273,7 +273,7 @@ const Instant& Pass::accessInstantAtAscendingNode() const
     return instantAtAscendingNode_;
 }
 
-const Instant& Pass::accessInstantAtNorthPoint() const
+const Instant& Pass::getInstantAtNorthPoint() const
 {
     if (!this->isDefined())
     {
@@ -283,7 +283,7 @@ const Instant& Pass::accessInstantAtNorthPoint() const
     return instantAtNorthPoint_;
 }
 
-const Instant& Pass::accessInstantAtDescendingNode() const
+const Instant& Pass::getInstantAtDescendingNode() const
 {
     if (!this->isDefined())
     {
@@ -293,7 +293,7 @@ const Instant& Pass::accessInstantAtDescendingNode() const
     return instantAtDescendingNode_;
 }
 
-const Instant& Pass::accessInstantAtSouthPoint() const
+const Instant& Pass::getInstantAtSouthPoint() const
 {
     if (!this->isDefined())
     {
@@ -303,7 +303,7 @@ const Instant& Pass::accessInstantAtSouthPoint() const
     return instantAtSouthPoint_;
 }
 
-const Instant& Pass::accessInstantAtPassBreak() const
+const Instant& Pass::getInstantAtPassBreak() const
 {
     if (!this->isDefined())
     {

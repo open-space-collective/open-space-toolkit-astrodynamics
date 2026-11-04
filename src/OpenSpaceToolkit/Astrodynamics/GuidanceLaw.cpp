@@ -21,7 +21,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const GuidanceLaw& aGuida
     return anOutputStream;
 }
 
-String GuidanceLaw::getName() const
+const String& GuidanceLaw::getName() const
 {
     return name_;
 }

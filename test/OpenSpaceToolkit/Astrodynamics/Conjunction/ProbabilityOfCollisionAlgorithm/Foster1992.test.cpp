@@ -236,9 +236,9 @@ TEST_F(
     {
         const State object1StateWithVelocityCovarianceOnly = removeCovariance(object1State)
                                                                  .withCovariance(Covariance(
-                                                                     object1State.accessInstant(),
+                                                                     object1State.getInstant(),
                                                                      MatrixXd::Identity(3, 3),
-                                                                     object1State.accessFrame(),
+                                                                     object1State.getFrame(),
                                                                      {CartesianVelocity::Default()}
                                                                  ));
 

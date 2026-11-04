@@ -103,7 +103,7 @@ bool Propagator::isDefined() const
     return numericalSolver_.isDefined() && coordinatesBrokerSPtr_ != nullptr && !dynamicsContexts_.isEmpty();
 }
 
-const Shared<CoordinateBroker>& Propagator::accessCoordinateBroker() const
+const Shared<CoordinateBroker>& Propagator::getCoordinateBroker() const
 {
     if (!this->isDefined())
     {
@@ -113,7 +113,7 @@ const Shared<CoordinateBroker>& Propagator::accessCoordinateBroker() const
     return coordinatesBrokerSPtr_;
 }
 
-const NumericalSolver& Propagator::accessNumericalSolver() const
+const NumericalSolver& Propagator::getNumericalSolver() const
 {
     if (!this->isDefined())
     {
@@ -125,7 +125,7 @@ const NumericalSolver& Propagator::accessNumericalSolver() const
 
 Size Propagator::getNumberOfCoordinates() const
 {
-    return this->accessCoordinateBroker()->getNumberOfCoordinates();
+    return this->getCoordinateBroker()->getNumberOfCoordinates();
 }
 
 Array<Shared<Dynamics>> Propagator::getDynamics() const
@@ -190,7 +190,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     // they only encompass this arc. The following calls to the numerical solver append to observed states.
     bool appendObservedStates = false;
 
-    for (const ManeuverSchedule::Arc& arc : maneuverSchedule.generateArcs(solverInputState.accessInstant(), anInstant))
+    for (const ManeuverSchedule::Arc& arc : maneuverSchedule.generateArcs(solverInputState.getInstant(), anInstant))
     {
         solverOutputState = numericalSolver_.integrateTime(
             solverOutputState,
@@ -204,7 +204,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const StateBuilder outputStateBuilder = {aState};
 
-    return outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState);
+    return outputStateBuilder.expand(solverOutputState.inFrame(aState.getFrame()), aState);
 }
 
 NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
@@ -223,7 +223,7 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     const ManeuverSchedule maneuverSchedule = this->generateManeuverSchedule(aManeuverArray);
 
-    const Instant& startInstant = aState.accessInstant();
+    const Instant& startInstant = aState.getInstant();
 
     const StateBuilder solverStateBuilder = {
         Propagator::IntegrationFrameSPtr, maneuverSchedule.maneuverCoordinateBrokerSPtr
@@ -281,7 +281,7 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
         if (conditionSolution.conditionIsSatisfied)
         {
-            const Instant& eventInstant = conditionSolution.state.accessInstant();
+            const Instant& eventInstant = conditionSolution.state.getInstant();
             const bool isEventWithinArc =
                 arc.endInstant >= arc.startInstant ? eventInstant <= arc.endInstant : eventInstant >= arc.endInstant;
 
@@ -301,19 +301,19 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
         appendObservedStates = true;
 
         // The solver rebuilds the end instant from a floating-point duration: pin it to the exact arc boundary
-        arcInputState = conditionSolution.state.accessInstant() == arc.endInstant
+        arcInputState = conditionSolution.state.getInstant() == arc.endInstant
                           ? conditionSolution.state
                           : State(
                                 arc.endInstant,
-                                conditionSolution.state.accessCoordinates(),
-                                conditionSolution.state.accessFrame(),
-                                conditionSolution.state.accessCoordinateBroker()
+                                conditionSolution.state.getCoordinates(),
+                                conditionSolution.state.getFrame(),
+                                conditionSolution.state.getCoordinateBroker()
                             );
     }
 
     const StateBuilder outputStateBuilder = {aState};
 
-    conditionSolution.state = outputStateBuilder.expand(conditionSolution.state.inFrame(aState.accessFrame()), aState);
+    conditionSolution.state = outputStateBuilder.expand(conditionSolution.state.inFrame(aState.getFrame()), aState);
 
     return conditionSolution;
 }
@@ -364,7 +364,7 @@ Array<State> Propagator::calculateStatesAt(
 
     const State solverInputState = solverStateBuilder.reduce(aState.inFrame(Propagator::IntegrationFrameSPtr));
 
-    const Instant& startInstant = solverInputState.accessInstant();
+    const Instant& startInstant = solverInputState.getInstant();
 
     Array<Instant> forwardInstants;
     forwardInstants.reserve(anInstantArray.getSize());
@@ -402,7 +402,7 @@ Array<State> Propagator::calculateStatesAt(
 
     for (const State& solverOutputState : backwardPropagatedStates + forwardPropagatedStates)
     {
-        outputStates.add(outputStateBuilder.expand(solverOutputState.inFrame(aState.accessFrame()), aState));
+        outputStates.add(outputStateBuilder.expand(solverOutputState.inFrame(aState.getFrame()), aState));
     }
 
     return outputStates;
@@ -596,7 +596,7 @@ Array<State> Propagator::propagateThroughManeuverSchedule(
         return Array<State>::Empty();
     }
 
-    const bool isForward = anInstantArray.accessLast() > aState.accessInstant();
+    const bool isForward = anInstantArray.accessLast() > aState.getInstant();
 
     Array<State> states = Array<State>::Empty();
     states.reserve(anInstantArray.getSize());
@@ -605,7 +605,7 @@ Array<State> Propagator::propagateThroughManeuverSchedule(
     Index nextInstantIndex = 0;
 
     for (const ManeuverSchedule::Arc& arc :
-         aManeuverSchedule.generateArcs(aState.accessInstant(), anInstantArray.accessLast()))
+         aManeuverSchedule.generateArcs(aState.getInstant(), anInstantArray.accessLast()))
     {
         // The instants that fall within this arc (an instant on a boundary belongs to the arc that ends there)
         Array<Instant> arcInstants = Array<Instant>::Empty();

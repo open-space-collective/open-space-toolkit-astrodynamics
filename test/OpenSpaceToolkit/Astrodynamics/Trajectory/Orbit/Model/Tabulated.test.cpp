@@ -184,7 +184,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFrame)
 {
-    const Instant queryInstant = states_.accessFirst().accessInstant() + Duration::Seconds(30.0);
+    const Instant queryInstant = states_.accessFirst().getInstant() + Duration::Seconds(30.0);
 
     // The default output frame is GCRF (backward-compatible behavior).
     {
@@ -210,7 +210,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFr
         // Interpolation happens directly in the output frame: at a tabulated node the ITRF result matches the
         // input state expressed in ITRF (linear interpolation reproduces the nodes exactly).
         const State nodeState = states_[3];
-        EXPECT_TRUE(tabulatedITRF.calculateStateAt(nodeState.accessInstant())
+        EXPECT_TRUE(tabulatedITRF.calculateStateAt(nodeState.getInstant())
                         .getCoordinates()
                         .isApprox(nodeState.inFrame(Frame::ITRF()).getCoordinates(), 1e-8));
 
@@ -277,7 +277,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
     EXPECT_TRUE(tabulated.getInterval().isDefined());
     EXPECT_TRUE(
         tabulated.getInterval() ==
-        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant())
+        Interval::Closed(states_.accessFirst().getInstant(), states_.accessLast().getInstant())
     );
 }
 
@@ -316,9 +316,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
 
         for (Size i = 0; i < referenceStates_.getSize() - testStatesCount_; ++i)
         {
-            const Instant referenceInstant = referenceStates_[i].accessInstant();
+            const Instant referenceInstant = referenceStates_[i].getInstant();
 
-            if (i == 0 || referenceInstant >= states_.accessLast().accessInstant())
+            if (i == 0 || referenceInstant >= states_.accessLast().getInstant())
             {
                 continue;
             }
@@ -354,9 +354,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
 
         for (Index i = 0; i < referenceStates_.getSize() - testStatesCount_; ++i)
         {
-            const Instant referenceInstant = referenceStates_[i].accessInstant();
+            const Instant referenceInstant = referenceStates_[i].getInstant();
 
-            if (i == 0 || referenceInstant >= states_.accessLast().accessInstant())
+            if (i == 0 || referenceInstant >= states_.accessLast().getInstant())
             {
                 continue;
             }

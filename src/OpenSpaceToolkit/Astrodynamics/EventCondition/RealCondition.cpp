@@ -105,7 +105,7 @@ RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, cons
         aCriterion,
         [](const State& aState) -> double
         {
-            return (aState.accessInstant() - Instant::J2000()).inSeconds();
+            return (aState.getInstant() - Instant::J2000()).inSeconds();
         },
         {aDuration.inSeconds(), EventCondition::Target::Type::Relative}
     };

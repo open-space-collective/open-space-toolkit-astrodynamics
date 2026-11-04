@@ -645,6 +645,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, StreamOperator)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetSegments)
 {
     EXPECT_EQ(defaultSegments_.getSize(), defaultSequence_.getSegments().getSize());
+    EXPECT_EQ(&defaultSequence_.getSegments(), &defaultSequence_.getSegments());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetNumericalSolver)
@@ -816,7 +817,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
         };
 
         const InstantCondition eventCondition = InstantCondition(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Seconds(1.0)
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.getInstant() + Duration::Seconds(1.0)
         );
 
         const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
@@ -836,7 +837,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
         };
 
         const InstantCondition eventCondition = InstantCondition(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.getInstant() + Duration::Days(1.0)
         );
 
         const Sequence::Solution solution = sequence.solveToCondition(defaultState_, eventCondition);
@@ -857,7 +858,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, SolveToCondition)
         };
 
         const InstantCondition eventCondition = InstantCondition(
-            InstantCondition::Criterion::StrictlyPositive, defaultState_.accessInstant() + Duration::Days(1.0)
+            InstantCondition::Criterion::StrictlyPositive, defaultState_.getInstant() + Duration::Days(1.0)
         );
 
         const Sequence::Solution solution =
@@ -979,18 +980,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
     EXPECT_EQ(solution.getStartInstant(), Instant::J2000());
-    EXPECT_EQ(solution.getEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().accessInstant());
+    EXPECT_EQ(solution.getEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().getInstant());
 
     const Array<State> solutionStates = solution.getStates();
 
     for (Index i = 1; i < solutionStates.getSize(); ++i)
     {
-        EXPECT_TRUE(solutionStates[i].accessInstant() > solutionStates[i - 1].accessInstant());
+        EXPECT_TRUE(solutionStates[i].getInstant() > solutionStates[i - 1].getInstant());
     }
     EXPECT_DOUBLE_EQ(solution.getInitialMass().inKilograms(), mass + 100.0);
     EXPECT_DOUBLE_EQ(
         solution.getFinalMass().inKilograms(),
-        solution.segmentSolutions.accessLast().states.accessLast().accessCoordinates()[6]
+        solution.segmentSolutions.accessLast().states.accessLast().getCoordinates()[6]
     );
     EXPECT_EQ(solution.getPropagationDuration(), solution.getEndInstant() - solution.getStartInstant());
 
@@ -1082,9 +1083,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
         for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
         {
             EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
-            EXPECT_NEAR(
-                (segmentSolution.getEndInstant() - defaultState_.accessInstant()).inSeconds(), 30.0 * iter, 1e-6
-            );
+            EXPECT_NEAR((segmentSolution.getEndInstant() - defaultState_.getInstant()).inSeconds(), 30.0 * iter, 1e-6);
 
             ++iter;
         }

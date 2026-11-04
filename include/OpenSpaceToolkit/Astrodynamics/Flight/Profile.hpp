@@ -249,15 +249,15 @@ class Profile
     /// @return True if profile is defined
     bool isDefined() const;
 
-    /// @brief Access profile model
+    /// @brief Get profile model
     ///
     /// @code{.cpp}
     ///              Profile profile = { ... };
-    ///              const Model& model = profile.accessModel();
+    ///              const Model& model = profile.getModel();
     /// @endcode
     ///
     /// @return Const reference to the profile model
-    const Model& accessModel() const;
+    const Model& getModel() const;
 
     /// @brief Get the spacecraft state at a given instant
     ///

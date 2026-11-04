@@ -48,12 +48,12 @@ Size CoordinateSubset::hash() const
     return std::hash<String>()(id_);
 }
 
-String CoordinateSubset::getId() const
+const String& CoordinateSubset::getId() const
 {
     return id_;
 }
 
-String CoordinateSubset::getName() const
+const String& CoordinateSubset::getName() const
 {
     return name_;
 }

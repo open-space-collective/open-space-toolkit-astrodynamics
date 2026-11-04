@@ -166,8 +166,8 @@ class TestProfile:
         assert alignment_pointing_target is not None
         assert isinstance(alignment_pointing_target, Profile.PointingTarget)
 
-    def test_access_model(self, profile: Profile):
-        model = profile.access_model()
+    def test_get_model(self, profile: Profile):
+        model = profile.get_model()
 
         assert model is not None
 
@@ -271,7 +271,7 @@ class TestProfile:
         profile = Profile.custom_pointing(
             orbit=orbit,
             orientation_generator=Profile.align_and_constrain_generator(
-                orbit.access_celestial_object(),
+                orbit.get_celestial_object(),
                 alignment_pointing_target,
                 clocking_pointing_target,
             ),
@@ -288,7 +288,7 @@ class TestProfile:
         clocking_pointing_target: Profile.PointingTarget,
     ):
         orientation = Profile.align_and_constrain_generator(
-            celestial=orbit.access_celestial_object(),
+            celestial=orbit.get_celestial_object(),
             alignment_pointing_target=alignment_pointing_target,
             clocking_pointing_target=clocking_pointing_target,
         )
@@ -297,7 +297,7 @@ class TestProfile:
         assert orientation(orbit.get_state_at(instant)) is not None
 
         orientation = Profile.align_and_constrain_generator(
-            celestial=orbit.access_celestial_object(),
+            celestial=orbit.get_celestial_object(),
             alignment_pointing_target=alignment_pointing_target,
             clocking_pointing_target=clocking_pointing_target,
             angular_clocking_offset=Angle.degrees(90.0),

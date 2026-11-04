@@ -70,7 +70,7 @@ class MissionSequence
     const State& accessInitialState() const;
 
     /// @brief Access the environment.
-    const Environment& accessEnvironment() const;
+    const Environment& getEnvironment() const;
 
     /// @brief Access the dynamics.
     const Array<Shared<Dynamics>>& accessDynamics() const;

@@ -95,121 +95,121 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(pybind11::module
             )doc"
         )
         .def(
-            "access_solver",
-            &TLESolver::accessSolver,
+            "get_solver",
+            &TLESolver::getSolver,
             return_value_policy::reference_internal,
             R"doc(
-                Access the solver.
+                Get the solver.
 
                 Returns:
                     LeastSquaresSolver: The Least Squares solver.
             )doc"
         )
         .def(
-            "access_satellite_number",
-            &TLESolver::accessSatelliteNumber,
+            "get_satellite_number",
+            &TLESolver::getSatelliteNumber,
             return_value_policy::reference_internal,
             R"doc(
-                Access the satellite number.
+                Get the satellite number.
 
                 Returns:
                     int: The satellite number.
             )doc"
         )
         .def(
-            "access_international_designator",
-            &TLESolver::accessInternationalDesignator,
+            "get_international_designator",
+            &TLESolver::getInternationalDesignator,
             return_value_policy::reference_internal,
             R"doc(
-                Access the international designator.
+                Get the international designator.
 
                 Returns:
                     str: The international designator.
             )doc"
         )
         .def(
-            "access_revolution_number",
-            &TLESolver::accessRevolutionNumber,
+            "get_revolution_number",
+            &TLESolver::getRevolutionNumber,
             return_value_policy::reference_internal,
             R"doc(
-                Access the revolution number.
+                Get the revolution number.
 
                 Returns:
                     int: The revolution number.
             )doc"
         )
         .def(
-            "access_default_b_star",
-            &TLESolver::accessDefaultBStar,
+            "get_default_b_star",
+            &TLESolver::getDefaultBStar,
             return_value_policy::reference_internal,
             R"doc(
-                Access the default B* value.
+                Get the default B* value.
 
                 Returns:
                     float: The default B* value.
             )doc"
         )
         .def(
-            "access_first_derivative_mean_motion_divided_by_2",
-            &TLESolver::accessFirstDerivativeMeanMotionDividedBy2,
+            "get_first_derivative_mean_motion_divided_by_2",
+            &TLESolver::getFirstDerivativeMeanMotionDividedBy2,
             return_value_policy::reference_internal,
             R"doc(
-                Access the first derivative of mean motion divided by 2.
+                Get the first derivative of mean motion divided by 2.
 
                 Returns:
                     float: The first derivative of mean motion divided by 2.
             )doc"
         )
         .def(
-            "access_second_derivative_mean_motion_divided_by_6",
-            &TLESolver::accessSecondDerivativeMeanMotionDividedBy6,
+            "get_second_derivative_mean_motion_divided_by_6",
+            &TLESolver::getSecondDerivativeMeanMotionDividedBy6,
             return_value_policy::reference_internal,
             R"doc(
-                Access the second derivative of mean motion divided by 6.
+                Get the second derivative of mean motion divided by 6.
 
                 Returns:
                     float: The second derivative of mean motion divided by 6.
             )doc"
         )
         .def(
-            "access_ephemeris_type",
-            &TLESolver::accessEphemerisType,
+            "get_ephemeris_type",
+            &TLESolver::getEphemerisType,
             return_value_policy::reference_internal,
             R"doc(
-                Access the ephemeris type.
+                Get the ephemeris type.
 
                 Returns:
                     int: The ephemeris type.
             )doc"
         )
         .def(
-            "access_element_set_number",
-            &TLESolver::accessElementSetNumber,
+            "get_element_set_number",
+            &TLESolver::getElementSetNumber,
             return_value_policy::reference_internal,
             R"doc(
-                Access the element set number.
+                Get the element set number.
 
                 Returns:
                     int: The element set number.
             )doc"
         )
         .def(
-            "access_estimate_b_star",
-            &TLESolver::accessEstimateBStar,
+            "get_estimate_b_star",
+            &TLESolver::getEstimateBStar,
             return_value_policy::reference_internal,
             R"doc(
-                Access whether to estimate B*.
+                Get whether to estimate B*.
 
                 Returns:
                     bool: whether to estimate B*.
             )doc"
         )
         .def(
-            "access_tle_state_builder",
-            &TLESolver::accessTLEStateBuilder,
+            "get_tle_state_builder",
+            &TLESolver::getTLEStateBuilder,
             return_value_policy::reference_internal,
             R"doc(
-                Access the TLE state builder.
+                Get the TLE state builder.
 
                 Returns:
                     StateBuilder: The TLE state builder.

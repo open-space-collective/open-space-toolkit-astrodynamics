@@ -215,7 +215,7 @@ bool SGP4::isDefined() const
     return !this->tleArray_.isEmpty();
 }
 
-TLE SGP4::getTle() const
+const TLE& SGP4::getTle() const
 {
     if (!this->isDefined())
     {
@@ -230,7 +230,7 @@ TLE SGP4::getTle() const
     return this->tleArray_.accessFirst();
 }
 
-Array<TLE> SGP4::getTles() const
+const Array<TLE>& SGP4::getTles() const
 {
     if (!this->isDefined())
     {
@@ -240,7 +240,7 @@ Array<TLE> SGP4::getTles() const
     return this->tleArray_;
 }
 
-Array<Interval> SGP4::getValidityIntervals() const
+const Array<Interval>& SGP4::getValidityIntervals() const
 {
     if (!this->isDefined())
     {
@@ -250,7 +250,7 @@ Array<Interval> SGP4::getValidityIntervals() const
     return this->validityIntervals_;
 }
 
-Shared<const Frame> SGP4::getOutputFrame() const
+const Shared<const Frame>& SGP4::getOutputFrame() const
 {
     if (!this->isDefined())
     {

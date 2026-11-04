@@ -672,7 +672,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
     // Self-validated from the python code
     {
         const Vector3d acceleration = qlaw_.calculateThrustAccelerationAt(
-            initialState_.accessInstant(),
+            initialState_.getInstant(),
             initialState_.getPosition().getCoordinates(),
             initialState_.getVelocity().getCoordinates(),
             thrustAcceleration_,
@@ -742,7 +742,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
         };
 
         const Vector3d acceleration = qlaw.calculateThrustAccelerationAt(
-            initialState.accessInstant(),
+            initialState.getInstant(),
             initialState.getPosition().getCoordinates(),
             initialState.getVelocity().getCoordinates(),
             2.0 / 2000.0,

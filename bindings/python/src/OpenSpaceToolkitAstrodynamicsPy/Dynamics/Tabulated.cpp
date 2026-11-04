@@ -73,10 +73,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
-                "access_instants",
-                &Tabulated::accessInstants,
+                "get_instants",
+                &Tabulated::getInstants,
                 R"doc(
-                    Access the contribution instants.
+                    Get the contribution instants.
 
                     Returns:
                         list[Instant]: The contribution instants.
@@ -85,10 +85,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
-                "access_contribution_profile",
-                &Tabulated::accessContributionProfile,
+                "get_contribution_profile",
+                &Tabulated::getContributionProfile,
                 R"doc(
-                    Access the contribution profile.
+                    Get the contribution profile.
 
                     Returns:
                         np.ndarray: The contribution profile.
@@ -113,10 +113,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(pybind11::module&
             )
 
             .def(
-                "access_frame",
-                &Tabulated::accessFrame,
+                "get_frame",
+                &Tabulated::getFrame,
                 R"doc(
-                    Access the reference frame.
+                    Get the reference frame.
 
                     Returns:
                         Frame: The reference frame.

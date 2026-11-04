@@ -65,7 +65,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence, Constructor)
     {
         EXPECT_NO_THROW(defaultMissionSequence_.accessSatelliteSystem());
         EXPECT_NO_THROW(defaultMissionSequence_.accessInitialState());
-        EXPECT_NO_THROW(defaultMissionSequence_.accessEnvironment());
+        EXPECT_NO_THROW(defaultMissionSequence_.getEnvironment());
         EXPECT_NO_THROW(defaultMissionSequence_.accessDynamics());
         EXPECT_NO_THROW(defaultMissionSequence_.accessSequence());
     }
@@ -97,7 +97,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence, Run)
     {
         EXPECT_NO_THROW(defaultMissionSequence_.accessSatelliteSystem());
         EXPECT_NO_THROW(defaultMissionSequence_.accessInitialState());
-        EXPECT_NO_THROW(defaultMissionSequence_.accessEnvironment());
+        EXPECT_NO_THROW(defaultMissionSequence_.getEnvironment());
         EXPECT_NO_THROW(defaultMissionSequence_.accessDynamics());
         EXPECT_NO_THROW(defaultMissionSequence_.accessSequence());
         EXPECT_NO_THROW(defaultMissionSequence_.accessSolvedStates());
