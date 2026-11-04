@@ -166,8 +166,9 @@ void Propagator::clearDynamics()
     coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
-State Propagator::calculateStateAt(const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray)
-    const
+State Propagator::calculateStateAt(
+    const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray
+) const
 {
     if (!this->isDefined())
     {
@@ -186,8 +187,8 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     State solverOutputState = solverInputState;
 
-    // Each arc is a separate call to the numerical solver: the first one starts the observed states, the following ones
-    // append to them
+    // Each arc is a separate call to the numerical solver: the first one must reset the observed states to guarantee
+    // they only encompass this arc. The following calls to the numerical solver append to observed states.
     bool appendObservedStates = false;
 
     for (const ManeuverSchedule::Arc& arc : maneuverSchedule.generateArcs(solverInputState.accessInstant(), anInstant))
@@ -236,8 +237,8 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     State arcInputState = solverInputState;
     NumericalSolver::ConditionSolution conditionSolution = {solverInputState, false, 0, false};
 
-    // Each arc is a separate call to the numerical solver: the first one starts the observed states, the following ones
-    // append to them
+    // Each arc is a separate call to the numerical solver: the first one must reset the observed states to guarantee
+    // they only encompass this arc. The following calls to the numerical solver append to observed states.
     bool appendObservedStates = false;
 
     for (Index i = 0; i < arcs.getSize(); ++i)
