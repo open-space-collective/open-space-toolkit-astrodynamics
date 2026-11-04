@@ -57,7 +57,7 @@ int Model::calculateRevolutionNumberAt(const Instant& anInstant) const
         throw ostk::core::error::RuntimeError("No pass found");
     }
 
-    return passes.accessLast().getRevolutionNumber();
+    return passes.accessLast().getRevolutionNumber().value();
 }
 
 }  // namespace orbit

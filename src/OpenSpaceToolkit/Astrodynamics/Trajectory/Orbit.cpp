@@ -248,7 +248,7 @@ Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& a
 
     Pass currentPass = getClosestPass(aRevolutionNumber);
 
-    int currentRevolutionNumber = currentPass.isDefined() ? static_cast<int>(currentPass.getRevolutionNumber())
+    int currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber().value()
                                                           : this->modelPtr_->getRevolutionNumberAtEpoch();
 
     const bool isForwardPropagated = currentRevolutionNumber <= aRevolutionNumber;
@@ -289,7 +289,7 @@ Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& a
 
         if (currentPass.isComplete())
         {
-            this->passMap_.insert({currentPass.getRevolutionNumber(), currentPass});
+            this->passMap_.insert({currentPass.getRevolutionNumber().value(), currentPass});
         }
     }
 
@@ -328,7 +328,7 @@ Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& a
             passBreakCrossing,
         };
 
-        this->passMap_.insert({currentPass.getRevolutionNumber(), currentPass});
+        this->passMap_.insert({currentPass.getRevolutionNumber().value(), currentPass});
     }
 
     return currentPass;
@@ -357,7 +357,7 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
 
         if (pass.getInterval().contains(currentInstant))
         {
-            revolutionNumber = pass.getRevolutionNumber();
+            revolutionNumber = pass.getRevolutionNumber().value();
             break;
         }
     }
@@ -756,7 +756,9 @@ void Orbit::print(std::ostream& anOutputStream, bool displayDecorator) const
     {
         const Pass& pass = passIt.second;
 
-        ostk::core::utils::Print::Separator(anOutputStream, String::Format("Pass #{}", pass.getRevolutionNumber()));
+        ostk::core::utils::Print::Separator(
+            anOutputStream, String::Format("Pass #{}", pass.getRevolutionNumber().value())
+        );
 
         pass.print(anOutputStream, false);
     }

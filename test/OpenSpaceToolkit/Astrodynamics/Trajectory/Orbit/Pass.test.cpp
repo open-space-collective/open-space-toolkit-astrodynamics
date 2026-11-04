@@ -1,16 +1,14 @@
 // pass.test.cpp
 
-#include <gtest/gtest.h>
+#include <optional>
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <gtest/gtest.h>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp>
-
-using ostk::core::type::Integer;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -21,7 +19,7 @@ using ostk::astrodynamics::trajectory::orbit::Pass;
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass : public ::testing::Test
 {
    protected:
-    const Integer defaultRevolutionNumber_ = 1;
+    const int defaultRevolutionNumber_ = 1;
     const Instant defaultInstantAtAscendingNode_ = Instant::J2000();
     const Instant defaultInstantAtNorthPoint_ = Instant::J2000() + Duration::Minutes(15.0);
     const Instant defaultInstantAtDescendingNode_ = Instant::J2000() + Duration::Minutes(30.0);
@@ -192,7 +190,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
     // undefined
     {
         const Pass pass = {
-            Integer::Undefined(),
+            std::nullopt,
             Instant::Undefined(),
             Instant::Undefined(),
             Instant::Undefined(),
@@ -200,6 +198,114 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
             Instant::Undefined(),
         };
         EXPECT_FALSE(pass.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, ConstructorWithOptionalRevolutionNumber)
+{
+    // No revolution number and no instant: undefined
+    {
+        const Pass pass = {
+            std::nullopt,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+
+        EXPECT_FALSE(pass.isDefined());
+        EXPECT_FALSE(pass == Pass::Undefined());
+    }
+
+    // Revolution number and no instant: partial
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+
+        EXPECT_TRUE(pass.isDefined());
+        EXPECT_EQ(Pass::Type::Partial, pass.getType());
+        EXPECT_EQ(std::optional<int>(defaultRevolutionNumber_), pass.getRevolutionNumber());
+    }
+
+    // Revolution number and some instants: partial
+    {
+        const Pass pass = {
+            defaultRevolutionNumber_,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+
+        EXPECT_EQ(Pass::Type::Partial, pass.getType());
+        EXPECT_EQ(std::optional<int>(defaultRevolutionNumber_), pass.getRevolutionNumber());
+    }
+
+    // Revolution number and all instants: complete
+    {
+        EXPECT_EQ(Pass::Type::Complete, defaultPass_.getType());
+        EXPECT_EQ(std::optional<int>(defaultRevolutionNumber_), defaultPass_.getRevolutionNumber());
+    }
+
+    // No revolution number and all instants: complete, without a revolution number
+    {
+        const Pass pass = {
+            std::nullopt,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtSouthPoint_,
+            defaultInstantAtPassBreak_,
+        };
+
+        EXPECT_TRUE(pass.isDefined());
+        EXPECT_EQ(Pass::Type::Complete, pass.getType());
+        EXPECT_FALSE(pass.getRevolutionNumber().has_value());
+
+        // A pass without a revolution number is never equal to another pass
+        EXPECT_FALSE(pass == pass);
+        EXPECT_TRUE(pass != pass);
+        EXPECT_FALSE(pass == defaultPass_);
+        EXPECT_FALSE(defaultPass_ == pass);
+    }
+
+    // No revolution number and some instants: complete, without a revolution number
+    {
+        const Pass pass = {
+            std::nullopt,
+            defaultInstantAtAscendingNode_,
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+            Instant::Undefined(),
+        };
+
+        EXPECT_TRUE(pass.isDefined());
+        EXPECT_EQ(Pass::Type::Complete, pass.getType());
+        EXPECT_FALSE(pass.getRevolutionNumber().has_value());
+    }
+
+    // Implicit conversion from int
+    {
+        const Pass pass = {
+            2,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtSouthPoint_,
+            defaultInstantAtPassBreak_,
+        };
+
+        EXPECT_EQ(std::optional<int>(2), pass.getRevolutionNumber());
+        EXPECT_FALSE(pass == defaultPass_);
     }
 }
 
@@ -480,7 +586,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsDefined)
 
     {
         const Pass pass = {
-            Integer::Undefined(),
+            std::nullopt,
             Instant::Undefined(),
             Instant::Undefined(),
             Instant::Undefined(),
@@ -774,6 +880,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Print)
         EXPECT_NO_THROW(defaultPass_.print(std::cout, true));
         EXPECT_NO_THROW(defaultPass_.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
+    {
+        const Pass pass = {
+            std::nullopt,
+            defaultInstantAtAscendingNode_,
+            defaultInstantAtNorthPoint_,
+            defaultInstantAtDescendingNode_,
+            defaultInstantAtSouthPoint_,
+            defaultInstantAtPassBreak_,
+        };
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(pass.print(std::cout, true));
+
+        const std::string output = testing::internal::GetCapturedStdout();
+
+        EXPECT_NE(std::string::npos, output.find("Undefined"));
     }
 }
 

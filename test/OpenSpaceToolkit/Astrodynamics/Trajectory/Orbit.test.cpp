@@ -563,7 +563,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
 
             EXPECT_TRUE(pass.isDefined());
 
-            EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
+            EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].accessInteger());
             EXPECT_LT(std::fabs((referencePassStartInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6);
             EXPECT_LT(std::fabs((referencePassEndInstant - pass.accessInstantAtPassBreak()).inSeconds()), 1e-6);
             EXPECT_LT(
@@ -781,7 +781,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
 
                 EXPECT_TRUE(pass.isDefined());
 
-                EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
+                EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].accessInteger());
                 EXPECT_LT(
                     std::fabs((referencePassStartInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6
                 );

@@ -6,8 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 {
     using namespace pybind11;
 
-    using ostk::core::type::Integer;
-
     using ostk::physics::time::Interval;
 
     using ostk::astrodynamics::trajectory::orbit::Pass;
@@ -51,7 +49,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
     pass_class
 
         .def(
-            init<const Integer&, const Instant&, const Instant&, const Instant&, const Instant&, const Instant&>(),
+            init<
+                const std::optional<int>&,
+                const Instant&,
+                const Instant&,
+                const Instant&,
+                const Instant&,
+                const Instant&>(),
             arg("revolution_number"),
             arg("instant_at_ascending_node"),
             arg("instant_at_north_point"),
@@ -62,7 +66,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
                 Constructor.
 
                 Args:
-                    revolution_number (int): The revolution number of the pass.
+                    revolution_number (int | None): The revolution number of the pass. None if unknown.
                     instant_at_ascending_node (Instant): The instant at the ascending node of the pass.
                     instant_at_north_point (Instant): The instant at the north point of the pass.
                     instant_at_descending_node (Instant): The instant at the descending node of the pass.
@@ -119,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
                 Get the revolution number of the pass.
 
                 Returns:
-                    int: The revolution number of the pass.
+                    int | None: The revolution number of the pass, or None if it is unknown.
 
             )doc"
         )

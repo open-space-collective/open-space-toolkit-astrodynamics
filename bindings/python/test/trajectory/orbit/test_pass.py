@@ -37,6 +37,29 @@ class TestPass:
 
     def test_get_revolution_number(self, pass_: Pass):
         assert pass_.get_revolution_number() is not None
+        assert pass_.get_revolution_number() == 123
+
+    def test_constructor_without_revolution_number(self):
+        instants: list[Instant] = [
+            Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 15, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 45, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 1, 0, 0), Scale.UTC),
+        ]
+
+        pass_without_revolution_number = Pass(None, *instants)
+
+        assert pass_without_revolution_number.is_defined()
+        assert pass_without_revolution_number.get_type() == Pass.Type.Complete
+        assert pass_without_revolution_number.get_revolution_number() is None
+
+        assert Pass(None, *([Instant.undefined()] * 5)).is_defined() is False
+
+        partial_pass = Pass(123, *([Instant.undefined()] * 5))
+
+        assert partial_pass.get_type() == Pass.Type.Partial
+        assert partial_pass.get_revolution_number() == 123
 
     def test_get_duration(self, pass_: Pass):
         assert pass_.get_duration() is not None

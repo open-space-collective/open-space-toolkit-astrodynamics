@@ -3,7 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass__
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -19,7 +20,6 @@ namespace trajectory
 namespace orbit
 {
 
-using ostk::core::type::Integer;
 using ostk::core::type::String;
 
 using ostk::physics::time::Duration;
@@ -60,14 +60,14 @@ class Pass
     ///              instantAtSouthPoint, instantAtPassBreak } ;
     /// @endcode
     ///
-    /// @param aRevolutionNumber The revolution number of the pass.
+    /// @param aRevolutionNumber The revolution number of the pass (std::nullopt if unknown).
     /// @param anInstantAtAscendingNode The instant at the ascending node of the pass.
     /// @param anInstantAtNorthPoint The instant at the north point of the pass.
     /// @param anInstantAtDescendingNode The instant at the descending node of the pass.
     /// @param anInstantAtSouthPoint The instant at the south point of the pass.
     /// @param anInstantAtPassBreak The instant at the pass break, i.e. next ascending node.
     Pass(
-        const Integer& aRevolutionNumber,
+        const std::optional<int>& aRevolutionNumber,
         const Instant& anInstantAtAscendingNode,
         const Instant& anInstantAtNorthPoint,
         const Instant& anInstantAtDescendingNode,
@@ -111,8 +111,8 @@ class Pass
 
     /// @brief Gets the revolution number of the pass.
     ///
-    /// @return The revolution number of the pass.
-    Integer getRevolutionNumber() const;
+    /// @return The revolution number of the pass, or std::nullopt if it is unknown.
+    std::optional<int> getRevolutionNumber() const;
 
     /// @brief Gets the duration of the pass.
     ///
@@ -185,7 +185,7 @@ class Pass
    private:
     Pass::Type type_;
 
-    Integer revolutionNumber_;
+    std::optional<int> revolutionNumber_;
     Instant instantAtAscendingNode_;
     Instant instantAtNorthPoint_;
     Instant instantAtDescendingNode_;
