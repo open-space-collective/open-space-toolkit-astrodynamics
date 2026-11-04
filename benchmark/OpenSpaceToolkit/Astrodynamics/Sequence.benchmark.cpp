@@ -361,15 +361,13 @@ static void RecordCounters(
     state.counters["duration_h"] =
         aStateArray.isEmpty()
             ? 0.0
-            : static_cast<double>(
-                  (aStateArray.accessLast().getInstant() - aStateArray.accessFirst().getInstant()).inHours()
-              );
+            : static_cast<double>((aStateArray.getLast().getInstant() - aStateArray.getFirst().getInstant()).inHours());
 
     state.counters["converged"] = isComplete ? 1.0 : 0.0;
 
     if (!aStateArray.isEmpty())
     {
-        const State& finalState = aStateArray.accessLast();
+        const State& finalState = aStateArray.getLast();
 
         const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
             {finalState.getPosition(), finalState.getVelocity()}, aGravitationalParameter

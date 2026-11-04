@@ -48,7 +48,7 @@ tle = TLE(
     '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
 )  # Construct Two-Line Element set
 
-earth = Environment.default().access_celestial_object_with_name('Earth')  # Access Earth model
+earth = Environment.default().get_celestial_object_with_name('Earth')  # Access Earth model
 
 orbit = Orbit(SGP4(tle), earth)  # Construct orbit using SGP4 model
 

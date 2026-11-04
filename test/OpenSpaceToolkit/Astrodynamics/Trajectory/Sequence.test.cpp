@@ -714,7 +714,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
         );
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
-        EXPECT_FALSE(defaultSequence_.getSegments().accessLast().getManeuverConstraints().has_value());
+        EXPECT_FALSE(defaultSequence_.getSegments().getLast().getManeuverConstraints().has_value());
     }
 
     {
@@ -745,7 +745,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
 
         const std::optional<Segment::ManeuverConstraints> segmentManeuverConstraints =
-            defaultSequence_.getSegments().accessLast().getManeuverConstraints();
+            defaultSequence_.getSegments().getLast().getManeuverConstraints();
 
         ASSERT_TRUE(segmentManeuverConstraints.has_value());
         EXPECT_EQ(maneuverConstraints.minimumDuration, segmentManeuverConstraints->minimumDuration);
@@ -778,7 +778,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         {
             EXPECT_TRUE(segmentSolution.states.getSize() > 0);
 
-            const double targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
+            const double targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.getLast());
             EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, 2.0 * M_PI), 1e-6);
 
             statesSize += segmentSolution.states.getSize() - 1;
@@ -980,7 +980,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     ASSERT_STATES_ARE_STRICTLY_MONOTONIC(solution.getStates());
 
     EXPECT_EQ(solution.getStartInstant(), Instant::J2000());
-    EXPECT_EQ(solution.getEndInstant(), solution.segmentSolutions.accessLast().states.accessLast().getInstant());
+    EXPECT_EQ(solution.getEndInstant(), solution.segmentSolutions.getLast().states.getLast().getInstant());
 
     const Array<State> solutionStates = solution.getStates();
 
@@ -990,8 +990,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     }
     EXPECT_DOUBLE_EQ(solution.getInitialMass().inKilograms(), mass + 100.0);
     EXPECT_DOUBLE_EQ(
-        solution.getFinalMass().inKilograms(),
-        solution.segmentSolutions.accessLast().states.accessLast().getCoordinates()[6]
+        solution.getFinalMass().inKilograms(), solution.segmentSolutions.getLast().states.getLast().getCoordinates()[6]
     );
     EXPECT_EQ(solution.getPropagationDuration(), solution.getEndInstant() - solution.getStartInstant());
 
@@ -1049,7 +1048,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_3)
         {
             EXPECT_TRUE(segmentSolution.conditionIsSatisfied);
             const COE coe = COE::Cartesian(
-                {segmentSolution.states.accessLast().getPosition(), segmentSolution.states.accessLast().getVelocity()},
+                {segmentSolution.states.getLast().getPosition(), segmentSolution.states.getLast().getVelocity()},
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             );
             EXPECT_NEAR(coe.getTrueAnomaly().inDegrees() - initialCOE.getTrueAnomaly().inDegrees(), 5.0, 2e-5);

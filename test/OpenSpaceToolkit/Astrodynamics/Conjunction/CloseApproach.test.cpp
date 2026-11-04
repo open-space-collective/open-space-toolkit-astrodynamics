@@ -799,7 +799,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeEncounte
 
         EXPECT_TRUE(encounterFrame != nullptr);
         EXPECT_TRUE(encounterFrame->isDefined());
-        EXPECT_EQ(gcrfFrame, encounterFrame->accessParent());
+        EXPECT_EQ(gcrfFrame, encounterFrame->getParent());
 
         const Vector3d relativePosition = object2Position - object1Position;
         const Vector3d relativeVelocity = object2Velocity - object1Velocity;
@@ -956,7 +956,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedE
 
         ASSERT_TRUE(rotatedEncounterFrameSPtr != nullptr);
         EXPECT_TRUE(rotatedEncounterFrameSPtr->isDefined());
-        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->accessParent());
+        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->getParent());
 
         // In the rotated encounter frame, the miss distance lies in the x-y plane, with the 60 m component along x
         const Tuple<Length, Length, Length> missDistanceComponents =
@@ -1023,7 +1023,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedE
         const Shared<const Frame> rotatedEncounterFrameSPtr = parameters.rotatedEncounterFrameSPtr;
 
         ASSERT_TRUE(rotatedEncounterFrameSPtr != nullptr);
-        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->accessParent());
+        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->getParent());
 
         const Tuple<Length, Length, Length> missDistanceComponents =
             closeApproach.computeMissDistanceComponentsInFrame(rotatedEncounterFrameSPtr);

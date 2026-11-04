@@ -506,7 +506,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         );
 
         EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-        EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
+        EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().getLast());
     }
 
     {
@@ -549,7 +549,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             EXPECT_LT((conditionSolution.state.getInstant() - targetInstant).inSeconds(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
+            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().getLast());
 
             // Validate the output against an analytical function
 
@@ -596,7 +596,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
             EXPECT_EQ(conditionSolution.conditionIsSatisfied, expectedConditionIsSatisfied);
             EXPECT_EQ(conditionSolution.rootSolverHasConverged, expectedConditionIsSatisfied);
-            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
+            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().getLast());
             if (expectedConditionIsSatisfied)
             {
                 EXPECT_NEAR(propagatedTime, target, 1e-8);
@@ -672,7 +672,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             EXPECT_NEAR(propagatedTime, expectedPropagatedTime, 1e-8);
             EXPECT_EQ(conditionSolution.conditionIsSatisfied, expectedConditionIsSatisfied);
             EXPECT_EQ(conditionSolution.rootSolverHasConverged, expectedConditionIsSatisfied);
-            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
+            EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().getLast());
             EXPECT_NEAR(propagatedStateVector[0], std::sin(propagatedTime), 1e-8);
             EXPECT_NEAR(propagatedStateVector[1], std::cos(propagatedTime), 1e-8);
         }
@@ -850,7 +850,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperCo
 
         // Sanity: observed states are non-empty and last entry matches the solution state.
         EXPECT_FALSE(solver.getObservedStates().isEmpty());
-        EXPECT_EQ(conditionSolution.state, solver.getObservedStates().accessLast());
+        EXPECT_EQ(conditionSolution.state, solver.getObservedStates().getLast());
     }
 }
 

@@ -7,7 +7,6 @@
 #include <variant>
 
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -26,7 +25,6 @@ namespace access
 {
 
 using ostk::core::container::Map;
-using ostk::core::type::Real;
 
 using ostk::mathematics::object::Interval;
 using ostk::mathematics::object::Vector3d;
@@ -43,16 +41,18 @@ class VisibilityCriterion
     /// @brief Represents an AER interval visibility criterion.
     struct AERInterval
     {
-        Interval<Real> azimuth;    /// Azimuth interval in radians.
-        Interval<Real> elevation;  /// Elevation interval in radians.
-        Interval<Real> range;      /// Range interval in meters.
+        Interval<double> azimuth;    /// Azimuth interval in radians.
+        Interval<double> elevation;  /// Elevation interval in radians.
+        Interval<double> range;      /// Range interval in meters.
 
         /// @brief Constructs an AERInterval.
         ///
         /// @param anAzimuth The azimuth interval in degrees.
         /// @param anElevation The elevation interval in degrees.
         /// @param aRange The range interval in meters.
-        AERInterval(const Interval<Real>& anAzimuth, const Interval<Real>& anElevation, const Interval<Real>& aRange);
+        AERInterval(
+            const Interval<double>& anAzimuth, const Interval<double>& anElevation, const Interval<double>& aRange
+        );
 
         /// @brief Checks if the given AER satisfies the criterion.
         ///
@@ -85,13 +85,13 @@ class VisibilityCriterion
     struct AERMask
     {
         Map<double, double> azimuthElevationMask;  /// Map of azimuth angles to elevation angles in radians.
-        Interval<Real> range;                      /// Range interval in meters.
+        Interval<double> range;                    /// Range interval in meters.
 
         /// @brief Constructs an AERMask.
         ///
         /// @param anAzimuthElevationMask The azimuth-elevation mask in degrees.
         /// @param aRange The range interval in meters.
-        AERMask(const Map<double, double>& anAzimuthElevationMask, const Interval<Real>& aRange);
+        AERMask(const Map<double, double>& anAzimuthElevationMask, const Interval<double>& aRange);
 
         /// @brief Checks if the given AER satisfies the criterion.
         ///
@@ -156,12 +156,12 @@ class VisibilityCriterion
     /// @brief Represents an elevation interval visibility criterion.
     struct ElevationInterval
     {
-        Interval<Real> elevation;  /// Elevation interval in radians.
+        Interval<double> elevation;  /// Elevation interval in radians.
 
         /// @brief Constructs an ElevationInterval.
         ///
         /// @param anElevationInterval The elevation interval in degrees.
-        ElevationInterval(const Interval<Real>& anElevationInterval);
+        ElevationInterval(const Interval<double>& anElevationInterval);
 
         /// @brief Checks if the given elevation angle satisfies the criterion.
         ///
@@ -204,9 +204,9 @@ class VisibilityCriterion
     ///
     /// @code{.cpp}
     ///     VisibilityCriterion criterion = VisibilityCriterion::FromAERInterval(
-    ///         Interval<Real>::Closed(0.0, 360.0),
-    ///         Interval<Real>::Closed(0.0, 90.0),
-    ///         Interval<Real>::Closed(0.0, 1.0e7)
+    ///         Interval<double>::Closed(0.0, 360.0),
+    ///         Interval<double>::Closed(0.0, 90.0),
+    ///         Interval<double>::Closed(0.0, 1.0e7)
     ///     ) ;
     /// @endcode
     ///
@@ -215,9 +215,9 @@ class VisibilityCriterion
     /// @param aRangeInterval Range interval in meters.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromAERInterval(
-        const Interval<Real>& anAzimuthInterval,
-        const Interval<Real>& anElevationInterval,
-        const Interval<Real>& aRangeInterval
+        const Interval<double>& anAzimuthInterval,
+        const Interval<double>& anElevationInterval,
+        const Interval<double>& aRangeInterval
     );
 
     /// @brief Creates a visibility criterion from an azimuth-elevation mask and range interval.
@@ -225,7 +225,7 @@ class VisibilityCriterion
     /// @code{.cpp}
     ///     VisibilityCriterion criterion = VisibilityCriterion::FromAERMask(
     ///         {{0.0, 5.0}, {90.0, 10.0}, {180.0, 5.0}, {270.0, 10.0}},
-    ///         Interval<Real>::Closed(0.0, 1.0e7)
+    ///         Interval<double>::Closed(0.0, 1.0e7)
     ///     ) ;
     /// @endcode
     ///
@@ -233,7 +233,7 @@ class VisibilityCriterion
     /// @param aRangeInterval Range interval in meters.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromAERMask(
-        const Map<double, double>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
+        const Map<double, double>& anAzimuthElevationMask, const Interval<double>& aRangeInterval
     );
 
     /// @brief Creates a visibility criterion based on line-of-sight considerations.
@@ -250,13 +250,13 @@ class VisibilityCriterion
     ///
     /// @code{.cpp}
     ///     VisibilityCriterion criterion = VisibilityCriterion::FromElevationInterval(
-    ///         Interval<Real>::Closed(10.0, 90.0)
+    ///         Interval<double>::Closed(10.0, 90.0)
     ///     ) ;
     /// @endcode
     ///
     /// @param anElevationInterval The elevation interval in degrees.
     /// @return The visibility criterion instance.
-    static VisibilityCriterion FromElevationInterval(const Interval<Real>& anElevationInterval);
+    static VisibilityCriterion FromElevationInterval(const Interval<double>& anElevationInterval);
 
     /// @brief Checks if the visibility criterion is of type T.
     ///

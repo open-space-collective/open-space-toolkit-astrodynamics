@@ -115,7 +115,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
     const Array<LeastSquaresSolver::Step> steps_ = {
         LeastSquaresSolver::Step(2.0, VectorXd::Ones(6)), LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))
     };
-    const double rmsError_ = steps_.accessLast().rmsError;
+    const double rmsError_ = steps_.getLast().rmsError;
 
     const LeastSquaresSolver::Analysis analysis_ = LeastSquaresSolver::Analysis(
         terminationCriteria_,
@@ -321,8 +321,8 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         Array<State> states;
         states.reserve(instants.getSize());
 
-        const double initialPosition = state.getPosition().accessCoordinates().x();
-        const double initialVelocity = state.getVelocity().accessCoordinates().x();
+        const double initialPosition = state.getPosition().getCoordinates().x();
+        const double initialVelocity = state.getVelocity().getCoordinates().x();
 
         for (const auto& instant : instants)
         {

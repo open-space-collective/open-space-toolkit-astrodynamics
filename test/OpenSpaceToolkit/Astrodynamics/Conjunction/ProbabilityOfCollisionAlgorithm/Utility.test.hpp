@@ -69,7 +69,7 @@ inline ostk::astrodynamics::trajectory::State BuildJ2000StateWithRTNPositionCova
 
     const auto get = [&aRow, &anObjectPrefix](const String& aColumnSuffix) -> double
     {
-        return aRow[String::Format("{}_{}", anObjectPrefix, aColumnSuffix)].accessReal();
+        return aRow[String::Format("{}_{}", anObjectPrefix, aColumnSuffix)].getReal();
     };
 
     // EME2000 (J2000)
@@ -199,18 +199,18 @@ struct PoCTestCase
 
         for (const auto& row : table)
         {
-            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].getReal();
 
             // An empty comment cell is loaded as an undefined object
-            const String comment = row["COMMENT"].isString() ? row["COMMENT"].accessString() : String::Empty();
+            const String comment = row["COMMENT"].isString() ? row["COMMENT"].getString() : String::Empty();
 
             testCases.add({
-                row["NAME"].accessString(),
+                row["NAME"].getString(),
                 comment,
                 {PoCTestCase::BuildState(row, "OBJ_1"), PoCTestCase::BuildState(row, "OBJ_2")},
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
-                row["EXPECTED_POC"].accessReal(),
+                row["EXPECTED_POC"].getReal(),
             });
         }
 
@@ -263,21 +263,21 @@ struct PoCTestCase
 
         for (const auto& row : table)
         {
-            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].getReal();
 
             // An empty comment cell is loaded as an undefined object
-            const String comment = row["COMMENT"].isString() ? row["COMMENT"].accessString() : String::Empty();
+            const String comment = row["COMMENT"].isString() ? row["COMMENT"].getString() : String::Empty();
 
-            const Instant instant = Instant::DateTime(DateTime::Parse(row["TCA_UTC"].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(row["TCA_UTC"].getString()), Scale::UTC);
 
             testCases.add({
-                row["NAME"].accessString(),
+                row["NAME"].getString(),
                 comment,
                 {BuildJ2000StateWithRTNPositionCovariance(row, "OBJ_1", instant),
                  BuildJ2000StateWithRTNPositionCovariance(row, "OBJ_2", instant)},
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
-                row["EXPECTED_MAXIMUM_POC"].accessReal(),
+                row["EXPECTED_MAXIMUM_POC"].getReal(),
             });
         }
 
@@ -331,20 +331,17 @@ struct PoCTestCase
 
         for (const auto& row : table)
         {
-            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].getReal();
 
             testCases.add({
-                row["NAME"].accessString(),
+                row["NAME"].getString(),
                 String::Empty(),
                 PoCTestCase::BuildCloseApproachFromRotatedEncounterFrameParams(
-                    row["X_M"].accessReal(),
-                    row["Y_M"].accessReal(),
-                    row["SIGMA_X"].accessReal(),
-                    row["SIGMA_Y"].accessReal()
+                    row["X_M"].getReal(), row["Y_M"].getReal(), row["SIGMA_X"].getReal(), row["SIGMA_Y"].getReal()
                 ),
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
-                row[anExpectedProbabilityOfCollisionColumnName].accessReal(),
+                row[anExpectedProbabilityOfCollisionColumnName].getReal(),
             });
         }
 
@@ -473,7 +470,7 @@ struct PoCTestCase
 
         const auto get = [&aRow, &anObjectPrefix](const String& aColumnSuffix) -> double
         {
-            return aRow[String::Format("{}_{}", anObjectPrefix, aColumnSuffix)].accessReal();
+            return aRow[String::Format("{}_{}", anObjectPrefix, aColumnSuffix)].getReal();
         };
 
         const Instant instant = Instant::J2000();
@@ -598,22 +595,22 @@ struct PoCAnalysisTestCase
 
         for (const auto& row : table)
         {
-            const double combinedHardBodyRadius = row["COMBINED_HBR"].accessReal();
+            const double combinedHardBodyRadius = row["COMBINED_HBR"].getReal();
 
             // An empty comment cell is loaded as an undefined object
-            const String comment = row["COMMENT"].isString() ? row["COMMENT"].accessString() : String::Empty();
+            const String comment = row["COMMENT"].isString() ? row["COMMENT"].getString() : String::Empty();
 
-            const Instant instant = Instant::DateTime(DateTime::Parse(row["TCA_UTC"].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(row["TCA_UTC"].getString()), Scale::UTC);
 
             testCases.add({
-                row["NAME"].accessString(),
+                row["NAME"].getString(),
                 comment,
                 {BuildJ2000StateWithRTNPositionCovariance(row, "OBJ_1", instant),
                  BuildJ2000StateWithRTNPositionCovariance(row, "OBJ_2", instant)},
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
                 std::make_shared<Spherical>(combinedHardBodyRadius / 2.0),
-                parseRegion(row["EXPECTED_REGION"].accessString()),
-                row["EXPECTED_MAXIMUM_POC"].accessReal(),
+                parseRegion(row["EXPECTED_REGION"].getString()),
+                row["EXPECTED_MAXIMUM_POC"].getReal(),
             });
         }
 

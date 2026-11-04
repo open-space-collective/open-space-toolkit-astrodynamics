@@ -132,8 +132,8 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     }
 
     Vector6d cartesian;
-    cartesian.segment(0, 3) = aCartesianState.first.accessCoordinates();
-    cartesian.segment(3, 3) = aCartesianState.second.accessCoordinates();
+    cartesian.segment(0, 3) = aCartesianState.first.getCoordinates();
+    cartesian.segment(3, 3) = aCartesianState.second.getCoordinates();
 
     Vector6d coeVector = coe.getSIVector(COE::AnomalyType::Mean);
 

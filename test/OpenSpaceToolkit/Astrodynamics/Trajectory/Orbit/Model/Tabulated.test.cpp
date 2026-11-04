@@ -82,14 +82,13 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
         Size t = 0;
         for (const auto& row : referenceData)
         {
-            const Instant instant = Instant::DateTime(DateTime::Parse(row[0].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(row[0].getString()), Scale::UTC);
 
             const Position position =
-                Position::Meters({row[1].accessReal(), row[2].accessReal(), row[3].accessReal()}, Frame::GCRF());
+                Position::Meters({row[1].getReal(), row[2].getReal(), row[3].getReal()}, Frame::GCRF());
 
-            const Velocity velocity = Velocity::MetersPerSecond(
-                {row[4].accessReal(), row[5].accessReal(), row[6].accessReal()}, Frame::GCRF()
-            );
+            const Velocity velocity =
+                Velocity::MetersPerSecond({row[4].getReal(), row[5].getReal(), row[6].getReal()}, Frame::GCRF());
 
             const State state = State(instant, position, velocity);
 
@@ -184,7 +183,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFrame)
 {
-    const Instant queryInstant = states_.accessFirst().getInstant() + Duration::Seconds(30.0);
+    const Instant queryInstant = states_.getFirst().getInstant() + Duration::Seconds(30.0);
 
     // The default output frame is GCRF (backward-compatible behavior).
     {
@@ -276,8 +275,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 
     EXPECT_TRUE(tabulated.getInterval().isDefined());
     EXPECT_TRUE(
-        tabulated.getInterval() ==
-        Interval::Closed(states_.accessFirst().getInstant(), states_.accessLast().getInstant())
+        tabulated.getInterval() == Interval::Closed(states_.getFirst().getInstant(), states_.getLast().getInstant())
     );
 }
 
@@ -318,7 +316,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         {
             const Instant referenceInstant = referenceStates_[i].getInstant();
 
-            if (i == 0 || referenceInstant >= states_.accessLast().getInstant())
+            if (i == 0 || referenceInstant >= states_.getLast().getInstant())
             {
                 continue;
             }
@@ -356,7 +354,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         {
             const Instant referenceInstant = referenceStates_[i].getInstant();
 
-            if (i == 0 || referenceInstant >= states_.accessLast().getInstant())
+            if (i == 0 || referenceInstant >= states_.getLast().getInstant())
             {
                 continue;
             }

@@ -28,7 +28,7 @@ TLE = astrodynamics.trajectory.orbit.model.sgp4.TLE
 State = astrodynamics.trajectory.State
 Access = astrodynamics.Access
 
-earth = Environment.default().access_celestial_object_with_name("Earth")
+earth = Environment.default().get_celestial_object_with_name("Earth")
 
 
 def construct_kepler():

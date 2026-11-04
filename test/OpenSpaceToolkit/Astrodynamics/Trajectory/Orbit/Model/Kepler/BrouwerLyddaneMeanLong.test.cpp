@@ -290,8 +290,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
 
         for (Index i = 0; i < 3; ++i)
         {
-            EXPECT_LT(std::abs(position.accessCoordinates()(i) - expectedPositionCoordinates[i]), 1e-2);
-            EXPECT_LT(std::abs(velocity.accessCoordinates()(i) - expectedVelocityCoordinates[i]), 1e-2);
+            EXPECT_LT(std::abs(position.getCoordinates()(i) - expectedPositionCoordinates[i]), 1e-2);
+            EXPECT_LT(std::abs(velocity.getCoordinates()(i) - expectedVelocityCoordinates[i]), 1e-2);
         }
 
         const BrouwerLyddaneMeanLong brouwerLyddaneMeanLongConverted = BrouwerLyddaneMeanLong::Cartesian(

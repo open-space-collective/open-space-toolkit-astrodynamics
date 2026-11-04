@@ -10,7 +10,7 @@ from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory.orbit import Pass
 
-earth = Environment.default().access_celestial_object_with_name("Earth")
+earth = Environment.default().get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture

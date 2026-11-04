@@ -168,7 +168,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation : public ::testi
     const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
 
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite::Undefined();
+    Composite satelliteGeometry_ = Composite(Point::Undefined());
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
@@ -203,28 +203,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
 
         for (const auto& referenceRow : referenceData)
         {
-            instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
+            instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC));
 
             referencePositionArrayGCRF.add({
-                referenceRow[1].accessReal(),
-                referenceRow[2].accessReal(),
-                referenceRow[3].accessReal(),
+                referenceRow[1].getReal(),
+                referenceRow[2].getReal(),
+                referenceRow[3].getReal(),
             });
             referenceVelocityArrayGCRF.add({
-                referenceRow[4].accessReal(),
-                referenceRow[5].accessReal(),
-                referenceRow[6].accessReal(),
+                referenceRow[4].getReal(),
+                referenceRow[5].getReal(),
+                referenceRow[6].getReal(),
             });
 
             referencePositionArray_ITRF.add({
-                referenceRow[7].accessReal(),
-                referenceRow[8].accessReal(),
-                referenceRow[9].accessReal(),
+                referenceRow[7].getReal(),
+                referenceRow[8].getReal(),
+                referenceRow[9].getReal(),
             });
             referenceVelocityArray_ITRF.add({
-                referenceRow[10].accessReal(),
-                referenceRow[11].accessReal(),
-                referenceRow[12].accessReal(),
+                referenceRow[10].getReal(),
+                referenceRow[11].getReal(),
+                referenceRow[12].getReal(),
             });
         }
 
@@ -250,11 +250,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.getCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.getFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.getFrame());
 
             ASSERT_GT(5e-6, positionErrorGCRF);
             ASSERT_GT(5e-9, velocityErrorGCRF);
@@ -263,13 +263,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_Two
             const Position position_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).getPosition();
             const Velocity velocity_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).getVelocity();
 
-            const double positionError_ITRF =
-                (position_ITRF.accessCoordinates() - referencePositionArray_ITRF[i]).norm();
-            const double velocityError_ITRF =
-                (velocity_ITRF.accessCoordinates() - referenceVelocityArray_ITRF[i]).norm();
+            const double positionError_ITRF = (position_ITRF.getCoordinates() - referencePositionArray_ITRF[i]).norm();
+            const double velocityError_ITRF = (velocity_ITRF.getCoordinates() - referenceVelocityArray_ITRF[i]).norm();
 
-            ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
-            ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
+            ASSERT_EQ(*Frame::ITRF(), *position_ITRF.getFrame());
+            ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.getFrame());
 
             ASSERT_GT(2e-2, positionError_ITRF);
             ASSERT_GT(2e-5, velocityError_ITRF);
@@ -314,13 +312,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         for (const auto& referenceRow : referenceData)
         {
-            instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
+            instantArray.add(startInstant + Duration::Seconds(referenceRow[1].getReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].getReal(), referenceRow[3].getReal(), referenceRow[4].getReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].getReal(), referenceRow[6].getReal(), referenceRow[7].getReal())
             );
         }
 
@@ -351,11 +349,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.getCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.getFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.getFrame());
 
             ASSERT_GT(1.5e-1, positionErrorGCRF);
             ASSERT_GT(1.5e-4, velocityErrorGCRF);
@@ -393,13 +391,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_WGS
 
         for (const auto& referenceRow : referenceData)
         {
-            instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
+            instantArray.add(startInstant + Duration::Seconds(referenceRow[1].getReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].getReal(), referenceRow[3].getReal(), referenceRow[4].getReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].getReal(), referenceRow[6].getReal(), referenceRow[7].getReal())
             );
         }
 
@@ -430,11 +428,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_WGS
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.getCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.getFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.getFrame());
 
             ASSERT_GT(1.5e-4, positionErrorGCRF);
             ASSERT_GT(1.5e-7, velocityErrorGCRF);
@@ -472,13 +470,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 
         for (const auto& referenceRow : referenceData)
         {
-            instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
+            instantArray.add(startInstant + Duration::Seconds(referenceRow[1].getReal()));
 
             referencePositionArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+                1e3 * Vector3d(referenceRow[2].getReal(), referenceRow[3].getReal(), referenceRow[4].getReal())
             );
             referenceVelocityArrayGCRF.add(
-                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+                1e3 * Vector3d(referenceRow[5].getReal(), referenceRow[6].getReal(), referenceRow[7].getReal())
             );
         }
 
@@ -509,11 +507,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.getCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.getFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.getFrame());
 
             ASSERT_GT(7e-5, positionErrorGCRF);
             ASSERT_GT(7e-8, velocityErrorGCRF);
@@ -590,7 +588,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster : publi
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
-    Composite satelliteGeometry_ = Composite::Undefined();
+    Composite satelliteGeometry_ = Composite(Point::Undefined());
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
 
@@ -646,37 +644,37 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
          Table::Load(File::Path(Path::Parse(param_referenceDataFileName)), Table::Format::CSV, true))
     {
         instantArray.add(
-            Instant::DateTime(DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC)
+            Instant::DateTime(DateTime::Parse(referenceRow[0].getString(), DateTime::Format::ISO8601), Scale::UTC)
         );
 
         referencePositionArrayGCRF.add(
-            Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
+            Vector3d(referenceRow[1].getReal(), referenceRow[2].getReal(), referenceRow[3].getReal())
         );
         referenceVelocityArrayGCRF.add(
-            Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
+            Vector3d(referenceRow[4].getReal(), referenceRow[5].getReal(), referenceRow[6].getReal())
         );
         referenceManeuverAccelerationArrayGCRF.add(
-            Vector3d(referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal())
+            Vector3d(referenceRow[16].getReal(), referenceRow[17].getReal(), referenceRow[18].getReal())
         );
 
         referencePositionArrayLOF.add(
-            Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
+            Vector3d(referenceRow[7].getReal(), referenceRow[8].getReal(), referenceRow[9].getReal())
         );
         referenceVelocityArrayLOF.add(
-            Vector3d(referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal())
+            Vector3d(referenceRow[10].getReal(), referenceRow[11].getReal(), referenceRow[12].getReal())
         );
 
         if (!param_withAtmosphere)  // Different indices for the mass in the with and without atmosphere csv files
         {
             referenceManeuverAccelerationArrayLOF.add(
-                Vector3d(referenceRow[19].accessReal(), referenceRow[20].accessReal(), referenceRow[21].accessReal())
+                Vector3d(referenceRow[19].getReal(), referenceRow[20].getReal(), referenceRow[21].getReal())
             );
-            referenceMassArray.add(referenceRow[22].accessReal());
+            referenceMassArray.add(referenceRow[22].getReal());
         }
         else
         {
             referenceManeuverAccelerationArrayLOF.add(Vector3d::Zero());
-            referenceMassArray.add(referenceRow[28].accessReal());
+            referenceMassArray.add(referenceRow[28].getReal());
         }
     }
 
@@ -804,11 +802,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
         // Get GCRF Position Error
         const double positionErrorGCRF_Thruster =
-            (positionGCRF_Thruster.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            (positionGCRF_Thruster.getCoordinates() - referencePositionArrayGCRF[i]).norm();
         const double positionErrorGCRF_Tabulated =
-            (positionGCRF_Tabulated.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            (positionGCRF_Tabulated.getCoordinates() - referencePositionArrayGCRF[i]).norm();
         const double positionErrorGCRF_Maneuver =
-            (positionGCRF_Maneuver.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            (positionGCRF_Maneuver.getCoordinates() - referencePositionArrayGCRF[i]).norm();
 
         // Get GCRF Velocity
         const Velocity velocityGCRF_Thruster = propagatedStateArray_Thruster[i].inFrame(gcrfSPtr_).getVelocity();
@@ -817,11 +815,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
         // Get GCRF Velocity Error
         const double velocityErrorGCRF_Thruster =
-            (velocityGCRF_Thruster.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            (velocityGCRF_Thruster.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
         const double velocityErrorGCRF_Tabulated =
-            (velocityGCRF_Tabulated.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            (velocityGCRF_Tabulated.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
         const double velocityErrorGCRF_Maneuver =
-            (velocityGCRF_Maneuver.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+            (velocityGCRF_Maneuver.getCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
         // Get Mass
         const double mass_Thruster = propagatedStateArray_Thruster[i].extractCoordinate(CoordinateSubset::Mass())[0];
@@ -835,14 +833,14 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
         // Put position, velocity, and mass together into a state
         VectorXd OSTkStateCoordinatesGCRF_Thruster(7);
-        OSTkStateCoordinatesGCRF_Thruster << positionGCRF_Thruster.accessCoordinates(),
-            velocityGCRF_Thruster.accessCoordinates(), mass_Thruster;
+        OSTkStateCoordinatesGCRF_Thruster << positionGCRF_Thruster.getCoordinates(),
+            velocityGCRF_Thruster.getCoordinates(), mass_Thruster;
         VectorXd OSTkStateCoordinatesGCRF_Tabulated(7);
-        OSTkStateCoordinatesGCRF_Tabulated << positionGCRF_Tabulated.accessCoordinates(),
-            velocityGCRF_Tabulated.accessCoordinates(), mass_Tabulated;
+        OSTkStateCoordinatesGCRF_Tabulated << positionGCRF_Tabulated.getCoordinates(),
+            velocityGCRF_Tabulated.getCoordinates(), mass_Tabulated;
         VectorXd OSTkStateCoordinatesGCRF_Maneuver(7);
-        OSTkStateCoordinatesGCRF_Maneuver << positionGCRF_Maneuver.accessCoordinates(),
-            velocityGCRF_Maneuver.accessCoordinates(), mass_Maneuver;
+        OSTkStateCoordinatesGCRF_Maneuver << positionGCRF_Maneuver.getCoordinates(),
+            velocityGCRF_Maneuver.getCoordinates(), mass_Maneuver;
 
         // Get GCRF Acceleration
         const VectorXd maneuverContributionGCRF_Thruster =
@@ -873,19 +871,19 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
         // Get LOF Position Error
         const double positionErrorLOF_Thruster =
-            (lofState_Thruster.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+            (lofState_Thruster.getPosition().getCoordinates() - referencePositionArrayLOF[i]).norm();
         const double positionErrorLOF_Tabulated =
-            (lofState_Tabulated.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+            (lofState_Tabulated.getPosition().getCoordinates() - referencePositionArrayLOF[i]).norm();
         const double positionErrorLOF_Maneuver =
-            (lofState_Maneuver.getPosition().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+            (lofState_Maneuver.getPosition().getCoordinates() - referencePositionArrayLOF[i]).norm();
 
         // Get LOF Velocity Error
         const double velocityErrorLOF_Thruster =
-            (lofState_Thruster.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+            (lofState_Thruster.getVelocity().getCoordinates() - referencePositionArrayLOF[i]).norm();
         const double velocityErrorLOF_Tabulated =
-            (lofState_Tabulated.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+            (lofState_Tabulated.getVelocity().getCoordinates() - referencePositionArrayLOF[i]).norm();
         const double velocityErrorLOF_Maneuver =
-            (lofState_Maneuver.getVelocity().accessCoordinates() - referencePositionArrayLOF[i]).norm();
+            (lofState_Maneuver.getVelocity().getCoordinates() - referencePositionArrayLOF[i]).norm();
 
         // Get LOF Acceleration
         const VectorXd maneuverContributionLOF_Thruster =
@@ -908,22 +906,22 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         //     (maneuverContributionLOF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
 
         // Frames verification with Thruster Dynamics
-        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Thruster.accessFrame());
-        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Thruster.accessFrame());
-        ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getPosition()).accessFrame());
-        ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getVelocity()).accessFrame());
+        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Thruster.getFrame());
+        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Thruster.getFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getPosition()).getFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Thruster.getVelocity()).getFrame());
 
         // Frames verification with Tabulated Dynamics
-        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Tabulated.accessFrame());
-        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Tabulated.accessFrame());
-        ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getPosition()).accessFrame());
-        ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getVelocity()).accessFrame());
+        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Tabulated.getFrame());
+        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Tabulated.getFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getPosition()).getFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Tabulated.getVelocity()).getFrame());
 
         // Frames verification with Maneuver
-        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Maneuver.accessFrame());
-        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Maneuver.accessFrame());
-        ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getPosition()).accessFrame());
-        ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getVelocity()).accessFrame());
+        ASSERT_EQ(*Frame::GCRF(), *positionGCRF_Maneuver.getFrame());
+        ASSERT_EQ(*Frame::GCRF(), *velocityGCRF_Maneuver.getFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getPosition()).getFrame());
+        ASSERT_EQ(*lofSPtr, *(lofState_Maneuver.getVelocity()).getFrame());
 
         // GCRF Errors with Thruster Dynamics
         ASSERT_GT(param_positionErrorGCRFTolerance, positionErrorGCRF_Thruster);

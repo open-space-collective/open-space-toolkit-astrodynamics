@@ -179,7 +179,7 @@ Array<State> Trajectory::computeStates(
                 (nextPosition.getCoordinates() - previousPosition.getCoordinates()) / (2.0 * aStepSize.inSeconds());
         }
 
-        const Velocity currentVelocity = Velocity::MetersPerSecond(velocityCoordinates, currentPosition.accessFrame());
+        const Velocity currentVelocity = Velocity::MetersPerSecond(velocityCoordinates, currentPosition.getFrame());
 
         states.add(State(currentInstant, currentPosition, currentVelocity).inFrame(Frame::GCRF()));
     }

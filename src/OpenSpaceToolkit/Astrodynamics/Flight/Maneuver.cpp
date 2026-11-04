@@ -118,7 +118,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
             if (!sanitizedStates.isEmpty())
             {
                 largestInterval =
-                    std::max(largestInterval, state.getInstant() - sanitizedStates.accessLast().getInstant());
+                    std::max(largestInterval, state.getInstant() - sanitizedStates.getLast().getInstant());
             }
             sanitizedStates.add(state);
             continue;
@@ -139,7 +139,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
             if (!sanitizedStates.isEmpty())
             {
                 largestInterval =
-                    std::max(largestInterval, state.getInstant() - sanitizedStates.accessLast().getInstant());
+                    std::max(largestInterval, state.getInstant() - sanitizedStates.getLast().getInstant());
             }
             sanitizedStates.add(state);
             continue;
@@ -196,7 +196,7 @@ Interpolator::Type Maneuver::getInterpolationType() const
 
 Interval Maneuver::getInterval() const
 {
-    return Interval::Closed(states_.accessFirst().getInstant(), states_.accessLast().getInstant());
+    return Interval::Closed(states_.getFirst().getInstant(), states_.getLast().getInstant());
 }
 
 double Maneuver::calculateDeltaV() const
@@ -283,7 +283,7 @@ double Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) con
         weightedThrustSum += currentThrust * timeStep;
     }
 
-    return weightedThrustSum / (states_.accessLast().getInstant() - states_.accessFirst().getInstant()).inSeconds();
+    return weightedThrustSum / (states_.getLast().getInstant() - states_.getFirst().getInstant()).inSeconds();
 }
 
 double Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const

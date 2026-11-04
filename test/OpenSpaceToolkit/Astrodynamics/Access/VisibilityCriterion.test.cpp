@@ -12,7 +12,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Map;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::spherical::AER;
@@ -33,16 +32,16 @@ class OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion : public ::testi
 {
    protected:
     Environment defaultEnvironment_ = Environment::Default();
-    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.accessCelestialObjectWithName("Earth");
+    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.getCelestialObjectWithName("Earth");
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 {
     // FromAERInterval
     {
-        const Interval<Real> azimuthInterval = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> azimuthInterval = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
                             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval););
@@ -51,15 +50,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
         {
             EXPECT_THROW(
-                VisibilityCriterion::FromAERInterval(Interval<Real>::Undefined(), elevationInterval, rangeInterval),
+                VisibilityCriterion::FromAERInterval(Interval<double>::Undefined(), elevationInterval, rangeInterval),
                 ostk::core::error::runtime::Undefined
             );
             EXPECT_THROW(
-                VisibilityCriterion::FromAERInterval(azimuthInterval, Interval<Real>::Undefined(), rangeInterval),
+                VisibilityCriterion::FromAERInterval(azimuthInterval, Interval<double>::Undefined(), rangeInterval),
                 ostk::core::error::runtime::Undefined
             );
             EXPECT_THROW(
-                VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, Interval<Real>::Undefined()),
+                VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, Interval<double>::Undefined()),
                 ostk::core::error::runtime::Undefined
             );
         }
@@ -69,27 +68,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
             {
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERInterval(
-                        ostk::mathematics::object::Interval<Real>::Closed(-1.0, 350.0), elevationInterval, rangeInterval
+                        ostk::mathematics::object::Interval<double>::Closed(-1.0, 350.0),
+                        elevationInterval,
+                        rangeInterval
                     ),
                     ostk::core::error::RuntimeError
                 );
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERInterval(
-                        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.1), elevationInterval, rangeInterval
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-            }
-            {
-                EXPECT_THROW(
-                    VisibilityCriterion::FromAERInterval(
-                        azimuthInterval, ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0), rangeInterval
-                    ),
-                    ostk::core::error::RuntimeError
-                );
-                EXPECT_THROW(
-                    VisibilityCriterion::FromAERInterval(
-                        azimuthInterval, ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0), rangeInterval
+                        ostk::mathematics::object::Interval<double>::Closed(0.0, 360.1),
+                        elevationInterval,
+                        rangeInterval
                     ),
                     ostk::core::error::RuntimeError
                 );
@@ -97,7 +86,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
             {
                 EXPECT_THROW(
                     VisibilityCriterion::FromAERInterval(
-                        azimuthInterval, elevationInterval, ostk::mathematics::object::Interval<Real>::Closed(-1.0, 5.0)
+                        azimuthInterval, ostk::mathematics::object::Interval<double>::Closed(-91.0, 0.0), rangeInterval
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+                EXPECT_THROW(
+                    VisibilityCriterion::FromAERInterval(
+                        azimuthInterval, ostk::mathematics::object::Interval<double>::Closed(-45.0, 91.0), rangeInterval
+                    ),
+                    ostk::core::error::RuntimeError
+                );
+            }
+            {
+                EXPECT_THROW(
+                    VisibilityCriterion::FromAERInterval(
+                        azimuthInterval,
+                        elevationInterval,
+                        ostk::mathematics::object::Interval<double>::Closed(-1.0, 5.0)
                     ),
                     ostk::core::error::RuntimeError
                 );
@@ -109,7 +114,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
     {
         {
             const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
-            const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+            const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
             EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
                                 VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval););
@@ -117,12 +122,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
         // Incorrect bounds
         {
-            const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+            const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
             // empty map
             {
                 const Map<double, double> azimuthElevationMask = {};
                 EXPECT_THROW(
-                    VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<Real>::Undefined()),
+                    VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<double>::Undefined()),
                     ostk::core::error::runtime::Undefined
                 );
             }
@@ -158,7 +163,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
             {
                 const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
                 EXPECT_THROW(
-                    VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<Real>::Closed(-1.0, 1e6)),
+                    VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<double>::Closed(-1.0, 1e6)),
                     ostk::core::error::RuntimeError
                 );
             }
@@ -173,7 +178,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
 
     // FromElevationInterval
     {
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
 
         EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
                             VisibilityCriterion::FromElevationInterval(elevationInterval););
@@ -181,14 +186,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
         // Incorrect bounds
         {
             EXPECT_THROW(
-                VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(-91.0, 0.0)
+                VisibilityCriterion::FromElevationInterval(
+                    ostk::mathematics::object::Interval<double>::Closed(-91.0, 0.0)
                 ),
                 ostk::core::error::RuntimeError
             );
 
             EXPECT_THROW(
                 VisibilityCriterion::FromElevationInterval(
-                    ostk::mathematics::object::Interval<Real>::Closed(-45.0, 91.0)
+                    ostk::mathematics::object::Interval<double>::Closed(-45.0, 91.0)
                 ),
                 ostk::core::error::RuntimeError
             );
@@ -200,9 +206,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, EqualToOperato
 {
     // AERInterval
     {
-        const Interval<Real> azimuthInterval = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> azimuthInterval = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion1 =
             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
@@ -215,7 +221,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, EqualToOperato
     // AERMask
     {
         const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion1 =
             VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
@@ -235,7 +241,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, EqualToOperato
 
     // ElevationInterval
     {
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
 
         const VisibilityCriterion visibilityCriterion1 = VisibilityCriterion::FromElevationInterval(elevationInterval);
         const VisibilityCriterion visibilityCriterion2 = VisibilityCriterion::FromElevationInterval(elevationInterval);
@@ -248,13 +254,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, NotEqualToOper
 {
     // AERInterval
     {
-        const Interval<Real> azimuthInterval1 = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval1 = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval1 = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> azimuthInterval1 = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval1 = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval1 = Interval<double>::Closed(0.0, 1e6);
 
-        const Interval<Real> azimuthInterval2 = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval2 = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval2 = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> azimuthInterval2 = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval2 = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval2 = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion1 =
             VisibilityCriterion::FromAERInterval(azimuthInterval1, elevationInterval1, rangeInterval1);
@@ -267,10 +273,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, NotEqualToOper
     // AERMask
     {
         const Map<double, double> azimuthElevationMask1 = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
-        const Interval<Real> rangeInterval1 = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> rangeInterval1 = Interval<double>::Closed(0.0, 1e6);
 
         const Map<double, double> azimuthElevationMask2 = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
-        const Interval<Real> rangeInterval2 = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> rangeInterval2 = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion1 =
             VisibilityCriterion::FromAERMask(azimuthElevationMask1, rangeInterval1);
@@ -290,8 +296,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, NotEqualToOper
 
     // ElevationInterval
     {
-        const Interval<Real> elevationInterval1 = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> elevationInterval2 = Interval<Real>::Closed(0.0, 90.0);
+        const Interval<double> elevationInterval1 = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> elevationInterval2 = Interval<double>::Closed(0.0, 90.0);
 
         const VisibilityCriterion visibilityCriterion1 = VisibilityCriterion::FromElevationInterval(elevationInterval1);
         const VisibilityCriterion visibilityCriterion2 = VisibilityCriterion::FromElevationInterval(elevationInterval2);
@@ -304,9 +310,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Is)
 {
     // AERInterval
     {
-        const Interval<Real> azimuthInterval = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> azimuthInterval = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
@@ -317,7 +323,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Is)
     // AERMask
     {
         const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
@@ -334,7 +340,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Is)
 
     // ElevationInterval
     {
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
 
         const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromElevationInterval(elevationInterval);
 
@@ -346,9 +352,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, As)
 {
     // AERInterval
     {
-        const Interval<Real> azimuthInterval = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> azimuthInterval = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
@@ -365,7 +371,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, As)
     // AERMask
     {
         const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {90.0, 15.0}, {180.0, 20.0}};
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
@@ -390,7 +396,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, As)
 
     // ElevationInterval
     {
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
 
         const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromElevationInterval(elevationInterval);
 
@@ -408,9 +414,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, As)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, AERIntervalIsSatisfied)
 {
     {
-        const Interval<Real> azimuthInterval = Interval<Real>::Closed(0.0, 360.0);
-        const Interval<Real> elevationInterval = Interval<Real>::Closed(0.0, 90.0);
-        const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 500e3);
+        const Interval<double> azimuthInterval = Interval<double>::Closed(0.0, 360.0);
+        const Interval<double> elevationInterval = Interval<double>::Closed(0.0, 90.0);
+        const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 500e3);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
@@ -457,7 +463,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion_AERMaskIsSatisf
     const auto& param = GetParam();
 
     const Map<double, double> azimuthElevationMask = {{0.0, 10.0}, {45.0, 15.0}, {90.0, 20.0}};
-    const Interval<Real> rangeInterval = Interval<Real>::Closed(0.0, 1e6);
+    const Interval<double> rangeInterval = Interval<double>::Closed(0.0, 1e6);
 
     const VisibilityCriterion visibilityCriterion =
         VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval);
@@ -530,7 +536,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, LineOfSightIsS
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, ElevationIntervalIsSatisfied)
 {
-    const Interval<Real> elevationInterval = Interval<Real>::Closed(10.0, 80.0);
+    const Interval<double> elevationInterval = Interval<double>::Closed(10.0, 80.0);
 
     const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromElevationInterval(elevationInterval);
 

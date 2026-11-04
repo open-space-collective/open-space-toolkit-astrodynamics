@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -29,7 +28,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::filesystem::Directory;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -72,7 +70,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator : publi
 {
    protected:
     const Shared<const Celestial> earthSPtr_ = std::make_shared<Earth>(Earth::FromModels(
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModelType::EGM96, Directory::Undefined(), 20, 20),
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModelType::EGM96, std::nullopt, 20, 20),
         std::make_shared<EarthMagneticModel>(EarthMagneticModelType::Undefined),
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModelType::Undefined)
     ));

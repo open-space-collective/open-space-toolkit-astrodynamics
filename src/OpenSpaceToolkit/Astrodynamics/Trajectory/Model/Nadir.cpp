@@ -112,7 +112,7 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
 
     Position position = Position::Undefined();
 
-    const Shared<const Frame> celestialBodyFrame = orbit_.getCelestialObject()->accessFrame();
+    const Shared<const Frame> celestialBodyFrame = orbit_.getCelestialObject()->getFrame();
 
     Size i = 0;
     for (const auto& instant : instants)

@@ -63,7 +63,7 @@ def environment() -> Environment:
 
 @pytest.fixture
 def earth(environment: Environment) -> Celestial:
-    return environment.access_celestial_object_with_name("Earth")
+    return environment.get_celestial_object_with_name("Earth")
 
 
 class TestCOE:
@@ -335,7 +335,7 @@ class TestCOE:
 
         coe: COE = COE.frozen_orbit(
             semi_major_axis,
-            Environment.default().access_celestial_object_with_name("Earth"),
+            Environment.default().get_celestial_object_with_name("Earth"),
         )
 
         assert coe is not None

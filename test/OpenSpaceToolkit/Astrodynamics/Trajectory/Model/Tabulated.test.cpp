@@ -143,7 +143,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
         EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::Linear));
 
         const State state =
-            tabulatedFromMap.calculateStateAt(states_.accessFirst().getInstant() + Duration::Seconds(30.0));
+            tabulatedFromMap.calculateStateAt(states_.getFirst().getInstant() + Duration::Seconds(30.0));
 
         EXPECT_TRUE(state.isDefined());
         EXPECT_TRUE(state.getCoordinates().allFinite());
@@ -177,7 +177,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
 {
-    const Instant queryInstant = states_.accessFirst().getInstant() + Duration::Seconds(30.0);
+    const Instant queryInstant = states_.getFirst().getInstant() + Duration::Seconds(30.0);
 
     // The default output frame is GCRF (backward-compatible behavior).
     {

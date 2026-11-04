@@ -238,9 +238,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, ComputeContribu
             defaultThirdBodyGravity_.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
 
         EXPECT_EQ(3, contribution.size());
-        EXPECT_GT(1e-15, -4.620543790697659e-07 - contribution[0]);
-        EXPECT_GT(1e-15, 2.948717888154649e-07 - contribution[1]);
-        EXPECT_GT(1e-15, 1.301648617451192e-07 - contribution[2]);
+        EXPECT_GT(1e-15, -4.620543816713987e-07 - contribution[0]);
+        EXPECT_GT(1e-15, 2.948717837426017e-07 - contribution[1]);
+        EXPECT_GT(1e-15, 1.301648596261276e-07 - contribution[2]);
     }
 
     {
@@ -292,7 +292,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, ComputeContribu
         // valid for this configuration, so `computeContribution` must fall back to the original two-call
         // `getGravitationalFieldAt` + `inFrame` path. This proves that path is real/reachable (not dead code) and
         // that it is not silently short-circuited by the point-mass formula.
-        const Shared<Ephemeris> ephemerisSPtr(Moon::Default().accessEphemeris()->clone());
+        const Shared<Ephemeris> ephemerisSPtr(Moon::Default().getEphemeris()->clone());
 
         const Shared<Celestial> oblateThirdBodySPtr = std::make_shared<Celestial>(
             "TestOblateThirdBody",

@@ -88,7 +88,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSatelliteSystem)
 
     {
         const SatelliteSystem satelliteSystem =
-            Parser::CreateSatelliteSystem(dataTree["success-no-prop-system"].accessDictionary());
+            Parser::CreateSatelliteSystem(dataTree["success-no-prop-system"].getDictionary());
 
         EXPECT_EQ(satelliteSystem.getMass(), Mass::Kilograms(0.0));
         EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), 1.0);
@@ -98,7 +98,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSatelliteSystem)
 
     {
         const SatelliteSystem satelliteSystem =
-            Parser::CreateSatelliteSystem(dataTree["success-prop-system"].accessDictionary());
+            Parser::CreateSatelliteSystem(dataTree["success-prop-system"].getDictionary());
 
         EXPECT_EQ(satelliteSystem.getMass(), Mass::Kilograms(0.0));
         EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), 1.0);
@@ -131,13 +131,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
 
     {
         const State initialState =
-            Parser::CreateInitialState(dataTree["success-cartesian"].accessDictionary(), defaultSatelliteSystem_);
+            Parser::CreateInitialState(dataTree["success-cartesian"].getDictionary(), defaultSatelliteSystem_);
 
         EXPECT_EQ(initialState, defaultInitialState);
     }
 
     {
-        const Dictionary dictionary = dataTree["failure-keplerian"].accessDictionary();
+        const Dictionary dictionary = dataTree["failure-keplerian"].getDictionary();
 
         EXPECT_THROW(
             {
@@ -156,7 +156,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
     }
 
     {
-        const Dictionary dictionary = dataTree["failure-time-scale"].accessDictionary();
+        const Dictionary dictionary = dataTree["failure-time-scale"].getDictionary();
 
         EXPECT_THROW(
             {
@@ -175,7 +175,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateInitialState)
     }
 
     {
-        const Dictionary dictionary = dataTree["failure-frame"].accessDictionary();
+        const Dictionary dictionary = dataTree["failure-frame"].getDictionary();
 
         EXPECT_THROW(
             {
@@ -200,79 +200,79 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateEnvironment)
     const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
 
     {
-        const Environment environment = Parser::CreateEnvironment(dataTree["success-forces-all"].accessDictionary());
+        const Environment environment = Parser::CreateEnvironment(dataTree["success-forces-all"].getDictionary());
 
-        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+        const Shared<const Celestial> earthSPtr = environment.getCelestialObjectWithName("Earth");
 
         Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
-            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->getGravitationalModel());
         EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
         EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
         EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
 
         Shared<const EarthAtmosphericModel> earthAtmosphericModelSPtr =
-            std::dynamic_pointer_cast<const EarthAtmosphericModel>(earthSPtr->accessAtmosphericModel());
+            std::dynamic_pointer_cast<const EarthAtmosphericModel>(earthSPtr->getAtmosphericModel());
         EXPECT_EQ(earthAtmosphericModelSPtr->getType(), EarthAtmosphericModel::Type::NRLMSISE00);
 
-        EXPECT_NO_THROW(environment.accessCelestialObjectWithName("Sun"));
-        EXPECT_NO_THROW(environment.accessCelestialObjectWithName("Moon"));
+        EXPECT_NO_THROW(environment.getCelestialObjectWithName("Sun"));
+        EXPECT_NO_THROW(environment.getCelestialObjectWithName("Moon"));
     }
 
     {
         const Environment environment =
-            Parser::CreateEnvironment(dataTree["success-forces-central-grav-only"].accessDictionary());
+            Parser::CreateEnvironment(dataTree["success-forces-central-grav-only"].getDictionary());
 
-        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+        const Shared<const Celestial> earthSPtr = environment.getCelestialObjectWithName("Earth");
 
         Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
-            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->getGravitationalModel());
         EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
         EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 10);
         EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 10);
 
-        EXPECT_FALSE(earthSPtr->accessAtmosphericModel()->isDefined());
+        EXPECT_FALSE(earthSPtr->getAtmosphericModel()->isDefined());
 
-        EXPECT_THROW(environment.accessCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
-        EXPECT_THROW(environment.accessCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
+        EXPECT_THROW(environment.getCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
+        EXPECT_THROW(environment.getCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
     }
 
     {
         const Environment environment =
-            Parser::CreateEnvironment(dataTree["success-forces-central-grav-and-one-third-body"].accessDictionary());
+            Parser::CreateEnvironment(dataTree["success-forces-central-grav-and-one-third-body"].getDictionary());
 
-        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+        const Shared<const Celestial> earthSPtr = environment.getCelestialObjectWithName("Earth");
 
         Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
-            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->getGravitationalModel());
 
         EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
         EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
         EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
 
-        EXPECT_FALSE(earthSPtr->accessAtmosphericModel()->isDefined());
+        EXPECT_FALSE(earthSPtr->getAtmosphericModel()->isDefined());
 
-        EXPECT_THROW(environment.accessCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
-        EXPECT_NO_THROW(environment.accessCelestialObjectWithName("Moon"));
+        EXPECT_THROW(environment.getCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
+        EXPECT_NO_THROW(environment.getCelestialObjectWithName("Moon"));
     }
 
     {
         const Environment environment =
-            Parser::CreateEnvironment(dataTree["success-atmosphere-exponential"].accessDictionary());
+            Parser::CreateEnvironment(dataTree["success-atmosphere-exponential"].getDictionary());
 
-        const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+        const Shared<const Celestial> earthSPtr = environment.getCelestialObjectWithName("Earth");
 
         Shared<const EarthGravitationalModel> earthGravitationalModelSPtr =
-            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->accessGravitationalModel());
+            std::dynamic_pointer_cast<const EarthGravitationalModel>(earthSPtr->getGravitationalModel());
         EXPECT_EQ(earthGravitationalModelSPtr->getType(), EarthGravitationalModel::Type::EGM96);
         EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
         EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
 
         Shared<const EarthAtmosphericModel> earthAtmosphericModelSPtr =
-            std::dynamic_pointer_cast<const EarthAtmosphericModel>(earthSPtr->accessAtmosphericModel());
+            std::dynamic_pointer_cast<const EarthAtmosphericModel>(earthSPtr->getAtmosphericModel());
         EXPECT_EQ(earthAtmosphericModelSPtr->getType(), EarthAtmosphericModel::Type::Exponential);
 
-        EXPECT_THROW(environment.accessCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
-        EXPECT_THROW(environment.accessCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
+        EXPECT_THROW(environment.getCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
+        EXPECT_THROW(environment.getCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
     }
 }
 
@@ -313,7 +313,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
 
     {
         const Sequence sequence = Parser::CreateSequence(
-            dataTree["success-multiple-coast-and-burn"].accessDictionary(), defaultSatelliteSystem_, defaultDynamics_
+            dataTree["success-multiple-coast-and-burn"].getDictionary(), defaultSatelliteSystem_, defaultDynamics_
         );
 
         EXPECT_EQ(sequence.getSegments().getSize(), 4);
@@ -402,7 +402,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
         NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKutta4, 20.0);
     {
         const Sequence sequence = Parser::CreateSequence(
-            dataTree["success-fixed-propagator"].accessDictionary(), defaultSatelliteSystem_, defaultDynamics_
+            dataTree["success-fixed-propagator"].getDictionary(), defaultSatelliteSystem_, defaultDynamics_
         );
 
         EXPECT_EQ(sequence.getSegments().getSize(), 1);
@@ -414,7 +414,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateComparisonInstant
 {
     const String testScenario = {"test_parser_create_comparison_instants"};
     const Dictionary dataTree = Parser::ParseYaml(pathToData_, testScenario);
-    const Dictionary outputStep = dataTree["success"].accessDictionary();
+    const Dictionary outputStep = dataTree["success"].getDictionary();
 
     const Instant defaultInitialInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
     const Instant defaultFinalInstant = defaultInitialInstant + Duration::Seconds(120.0);

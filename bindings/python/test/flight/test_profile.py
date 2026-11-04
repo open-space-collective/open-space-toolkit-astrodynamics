@@ -48,7 +48,7 @@ def orbit(instant: Instant, environment: Environment) -> Orbit:
         epoch=instant,
         altitude=Length.kilometers(500.0),
         local_time_at_descending_node=Time(14, 0, 0),
-        celestial_object=environment.access_celestial_object_with_name("Earth"),
+        celestial_object=environment.get_celestial_object_with_name("Earth"),
     )
 
 

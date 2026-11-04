@@ -12,9 +12,9 @@ namespace access
 {
 
 VisibilityCriterion::AERInterval::AERInterval(
-    const Interval<Real>& anAzimuthInterval,
-    const Interval<Real>& anElevationInterval,
-    const Interval<Real>& aRangeInterval
+    const Interval<double>& anAzimuthInterval,
+    const Interval<double>& anElevationInterval,
+    const Interval<double>& aRangeInterval
 )
     : azimuth(anAzimuthInterval),
       elevation(anElevationInterval),
@@ -29,8 +29,8 @@ VisibilityCriterion::AERInterval::AERInterval(
     {
         throw ostk::core::error::RuntimeError(
             "The azimuth interval [{}, {}] must be in the range [0, 360] deg",
-            azimuth.accessLowerBound(),
-            azimuth.accessUpperBound()
+            azimuth.getLowerBound(),
+            azimuth.getUpperBound()
         );
     }
 
@@ -38,24 +38,24 @@ VisibilityCriterion::AERInterval::AERInterval(
     {
         throw ostk::core::error::RuntimeError(
             "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
-            elevation.accessLowerBound(),
-            elevation.accessUpperBound()
+            elevation.getLowerBound(),
+            elevation.getUpperBound()
         );
     }
 
     if (range.getLowerBound() < 0.0)
     {
         throw ostk::core::error::RuntimeError(
-            "The range interval [{}, {}] must be positive.", range.accessLowerBound(), range.accessUpperBound()
+            "The range interval [{}, {}] must be positive.", range.getLowerBound(), range.getUpperBound()
         );
     }
 
-    azimuth = Interval<Real>(
+    azimuth = Interval<double>(
         anAzimuthInterval.getLowerBound() * M_PI / 180.0,
         anAzimuthInterval.getUpperBound() * M_PI / 180.0,
         anAzimuthInterval.getType()
     );
-    elevation = Interval<Real>(
+    elevation = Interval<double>(
         anElevationInterval.getLowerBound() * M_PI / 180.0,
         anElevationInterval.getUpperBound() * M_PI / 180.0,
         anElevationInterval.getType()

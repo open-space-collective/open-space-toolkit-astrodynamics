@@ -17,12 +17,12 @@ namespace model
 Static::Static(const Position& aPosition, const Shared<const Frame>& aFrameSPtr)
     : Model(),
       position_(aPosition),
-      outputFrameSPtr_((aFrameSPtr != nullptr) ? aFrameSPtr : aPosition.accessFrame())
+      outputFrameSPtr_((aFrameSPtr != nullptr) ? aFrameSPtr : aPosition.getFrame())
 {
-    if (aPosition.accessFrame()->isQuasiInertial())
+    if (aPosition.getFrame()->isQuasiInertial())
     {
         throw ostk::core::error::runtime::Wrong(
-            "Position Frame Quasi Inertial", aPosition.accessFrame()->isQuasiInertial()
+            "Position Frame Quasi Inertial", aPosition.getFrame()->isQuasiInertial()
         );
     }
 
@@ -83,7 +83,7 @@ State Static::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Static");
     }
 
-    return State(anInstant, position_, Velocity::MetersPerSecond({0.0, 0.0, 0.0}, position_.accessFrame()))
+    return State(anInstant, position_, Velocity::MetersPerSecond({0.0, 0.0, 0.0}, position_.getFrame()))
         .inFrame(outputFrameSPtr_);
 }
 

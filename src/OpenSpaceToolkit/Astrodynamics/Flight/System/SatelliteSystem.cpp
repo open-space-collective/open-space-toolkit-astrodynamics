@@ -134,7 +134,7 @@ SatelliteSystem SatelliteSystem::Undefined()
 {
     return {
         Mass::Undefined(),
-        Composite::Undefined(),
+        Composite(Point::Undefined()),  // A composite holding an undefined object is undefined
         Matrix3d::Undefined(),
         std::nullopt,
         std::nullopt,

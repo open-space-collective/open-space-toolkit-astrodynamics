@@ -17,7 +17,7 @@ from ostk.physics.time import DateTime, Duration, Instant, Scale
 
 @pytest.fixture
 def earth():
-    return Environment.default().access_celestial_object_with_name("Earth")
+    return Environment.default().get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture

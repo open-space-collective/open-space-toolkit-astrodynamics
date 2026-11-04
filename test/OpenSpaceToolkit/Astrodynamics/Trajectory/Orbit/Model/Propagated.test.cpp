@@ -329,17 +329,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
 
     for (const auto& referenceRow : referenceData)
     {
-        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
+        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC));
 
         referencePositionArray.add({
-            referenceRow[1].accessReal(),
-            referenceRow[2].accessReal(),
-            referenceRow[3].accessReal(),
+            referenceRow[1].getReal(),
+            referenceRow[2].getReal(),
+            referenceRow[3].getReal(),
         });
         referenceVelocityArray.add({
-            referenceRow[4].accessReal(),
-            referenceRow[5].accessReal(),
-            referenceRow[6].accessReal(),
+            referenceRow[4].getReal(),
+            referenceRow[5].getReal(),
+            referenceRow[6].getReal(),
         });
     }
 
@@ -369,8 +369,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -599,9 +599,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
         // Get position and velocity coordinates from starting state
         Position currentPosition = state.getPosition();
         Velocity currentVelocity = state.getVelocity();
-        Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-        Vector3d currentVelocityCoordinates =
-            currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+        Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).getCoordinates();
+        Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
         // Calculate orbital period
         const double semiMajorAxis =

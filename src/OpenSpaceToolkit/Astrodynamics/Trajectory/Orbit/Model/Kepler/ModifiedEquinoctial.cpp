@@ -295,23 +295,22 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
         throw ostk::core::error::runtime::Undefined("Gravitational Parameter");
     }
 
-    if (!aCartesianState.first.accessFrame()->isQuasiInertial() ||
-        !aCartesianState.second.accessFrame()->isQuasiInertial())
+    if (!aCartesianState.first.getFrame()->isQuasiInertial() || !aCartesianState.second.getFrame()->isQuasiInertial())
     {
         throw ostk::core::error::runtime::Wrong(
             "Frame",
             String::Format(
                 "Position frame: {}, Velocity frame: {}",
-                aCartesianState.first.accessFrame()->getName(),
-                aCartesianState.second.accessFrame()->getName()
+                aCartesianState.first.getFrame()->getName(),
+                aCartesianState.second.getFrame()->getName()
             )
         );
     }
 
     const double mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
-    const Vector3d positionCoordinates = aCartesianState.first.accessCoordinates();
-    const Vector3d velocityCoordinates = aCartesianState.second.accessCoordinates();
+    const Vector3d positionCoordinates = aCartesianState.first.getCoordinates();
+    const Vector3d velocityCoordinates = aCartesianState.second.getCoordinates();
 
     const Vector3d positionDirection = positionCoordinates.normalized();
 

@@ -93,9 +93,9 @@ Array<Eclipse> Generator::generate(
 
     // Get celestial objects
     const Shared<const Celestial> occultedCelestialObject =
-        environment_.accessCelestialObjectWithName(anOccultedCelestialObjectName);
+        environment_.getCelestialObjectWithName(anOccultedCelestialObjectName);
     const Shared<const Celestial> occultingCelestialObject =
-        environment_.accessCelestialObjectWithName(anOccultingCelestialObjectName);
+        environment_.getCelestialObjectWithName(anOccultingCelestialObjectName);
 
     // Define condition for penumbra and umbra (shadow factor < 1.0)
     const auto penumbraAndUmbraCondition =
@@ -171,8 +171,8 @@ Array<Eclipse> Generator::generate(
         eclipses.end(),
         [](const Eclipse& firstEclipse, const Eclipse& secondEclipse) -> bool
         {
-            return firstEclipse.getPhases().accessFirst().getInterval().getStart() <
-                   secondEclipse.getPhases().accessFirst().getInterval().getStart();
+            return firstEclipse.getPhases().getFirst().getInterval().getStart() <
+                   secondEclipse.getPhases().getFirst().getInterval().getStart();
         }
     );
 

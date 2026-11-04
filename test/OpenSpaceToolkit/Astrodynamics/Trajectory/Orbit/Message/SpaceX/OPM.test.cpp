@@ -297,10 +297,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Load)
         EXPECT_EQ(Angle::Degrees(-127.164), opm.getDeployments()[1].meanMeanAnomaly);
         EXPECT_EQ(44.26, opm.getDeployments()[1].ballisticCoefficient);
     }
-
-    {
-        EXPECT_ANY_THROW(OPM::Load(File::Undefined()));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, DeploymentToState)

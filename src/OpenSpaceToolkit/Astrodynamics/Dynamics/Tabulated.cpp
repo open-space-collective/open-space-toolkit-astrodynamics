@@ -67,7 +67,7 @@ Tabulated::Tabulated(
     Index i = 0;
     for (const auto& instant : anInstantArray)
     {
-        timestamps(i) = (instant - anInstantArray.accessFirst()).inSeconds();
+        timestamps(i) = (instant - anInstantArray.getFirst()).inSeconds();
         ++i;
     }
 
@@ -187,12 +187,12 @@ VectorXd Tabulated::computeContribution(
         throw ostk::core::error::RuntimeError("Contribution Frame conversion to non-inertial not yet supported.");
     }
 
-    if (anInstant < instants_.accessFirst() || anInstant > instants_.accessLast())
+    if (anInstant < instants_.getFirst() || anInstant > instants_.getLast())
     {
         return VectorXd::Zero(interpolators_.getSize());
     }
 
-    const double epoch = (anInstant - instants_.accessFirst()).inSeconds();
+    const double epoch = (anInstant - instants_.getFirst()).inSeconds();
 
     VectorXd contribution(interpolators_.getSize());
     for (Index i = 0; i < interpolators_.getSize(); ++i)
@@ -218,8 +218,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream) << "Contribution Profile:" << profileDimensions;
 
-    const String interval =
-        String::Format("[{}, {}]", instants_.accessFirst().toString(), instants_.accessLast().toString());
+    const String interval = String::Format("[{}, {}]", instants_.getFirst().toString(), instants_.getLast().toString());
 
     ostk::core::utils::Print::Line(anOutputStream) << "Interval:" << interval;
 

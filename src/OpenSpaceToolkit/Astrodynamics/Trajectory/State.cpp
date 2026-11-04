@@ -77,14 +77,14 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
         throw ostk::core::error::runtime::Undefined("Velocity");
     }
 
-    if ((*aPosition.accessFrame()) != (*aVelocity.accessFrame()))
+    if ((*aPosition.getFrame()) != (*aVelocity.getFrame()))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity Frames");
     }
 
     VectorXd coordinates(6);
-    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).getCoordinates();
+    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
     static const Shared<CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
         CartesianPosition::Default(),
@@ -92,7 +92,7 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     }));
 
     this->coordinates_ = coordinates;
-    this->frameSPtr_ = aPosition.accessFrame();
+    this->frameSPtr_ = aPosition.getFrame();
     this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
 }
 
@@ -131,15 +131,15 @@ State::State(
         throw ostk::core::error::runtime::Undefined("Angular Velocity");
     }
 
-    if (((*aPosition.accessFrame()) != (*aVelocity.accessFrame())) ||
-        ((*aPosition.accessFrame()) != (*anAttitudeReferenceFrame)))
+    if (((*aPosition.getFrame()) != (*aVelocity.getFrame())) ||
+        ((*aPosition.getFrame()) != (*anAttitudeReferenceFrame)))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity-Attitude Frames");
     }
 
     VectorXd coordinates(13);
-    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).getCoordinates();
+    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
     coordinates.segment(6, 4) = anAttitude.toVector(Quaternion::Format::XYZS);
     coordinates.segment(10, 3) = anAngularVelocity;
 
@@ -151,7 +151,7 @@ State::State(
     ));
 
     this->coordinates_ = coordinates;
-    this->frameSPtr_ = aPosition.accessFrame();
+    this->frameSPtr_ = aPosition.getFrame();
     this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
 }
 

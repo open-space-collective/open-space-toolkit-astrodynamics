@@ -73,7 +73,7 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
         this->localOrbitalFrameDirection_.getLocalOrbitalFrameFactory().generateFrame(state);
 
     const Quaternion q_requestedFrame_LOF =
-        localOrbitalFrameSPtr->getTransformTo(outputFrameSPtr, anInstant).getOrientation().normalize();
+        localOrbitalFrameSPtr->getTransformTo(outputFrameSPtr, anInstant).getOrientation().toNormalized();
 
     const Vector3d acceleration_LOF = aThrustAcceleration * this->localOrbitalFrameDirection_.getValue();
 

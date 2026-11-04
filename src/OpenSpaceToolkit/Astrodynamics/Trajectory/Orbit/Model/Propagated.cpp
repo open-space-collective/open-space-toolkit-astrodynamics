@@ -170,7 +170,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
     }
 
     // Builder for output states based on cached array
-    StateBuilder outputStateBuilder = {this->cachedStateArray_.accessFirst()};
+    StateBuilder outputStateBuilder = {this->cachedStateArray_.getFirst()};
 
     Array<State> allStates = Array<State>::Empty();
 
@@ -183,7 +183,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
     Array<Instant> instants = Array<Instant>::Empty();
     for (; j < anInstantArray.getSize(); ++j)
     {
-        if (anInstantArray[j] > this->cachedStateArray_.accessFirst().getInstant())
+        if (anInstantArray[j] > this->cachedStateArray_.getFirst().getInstant())
         {
             break;
         }
@@ -191,7 +191,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         instants.add(anInstantArray[j]);
     }
 
-    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.accessFirst(), instants));
+    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.getFirst(), instants));
 
     // Propagate all instants between states
 
@@ -260,7 +260,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         instants.add(anInstantArray[j]);
     }
 
-    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.accessLast(), instants));
+    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.getLast(), instants));
 
     return allStates;
 }

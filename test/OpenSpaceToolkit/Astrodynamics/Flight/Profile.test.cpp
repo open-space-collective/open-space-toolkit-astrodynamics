@@ -108,7 +108,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        this->orbit_ = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         this->profile_ = Profile::ConstantLocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
     }
@@ -311,7 +311,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         const Profile profile = Profile::ConstantInertialPointing(orbit, Quaternion::Unit());
 
@@ -331,29 +331,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
         for (const auto& referenceRow : referenceData)
         {
             const Instant instant_ref =
-                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].getString()), Scale::UTC);
 
             const Vector3d x_BODY_GCRF_ref = {
-                referenceRow["x (m)"].accessReal(),
-                referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()
+                referenceRow["x (m)"].getReal(), referenceRow["y (m)"].getReal(), referenceRow["z (m)"].getReal()
             };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
-                referenceRow["vx (m/sec)"].accessReal(),
-                referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()
+                referenceRow["vx (m/sec)"].getReal(),
+                referenceRow["vy (m/sec)"].getReal(),
+                referenceRow["vz (m/sec)"].getReal()
             };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
-                                                   referenceRow["q1"].accessReal(),
-                                                   referenceRow["q2"].accessReal(),
-                                                   referenceRow["q3"].accessReal(),
-                                                   referenceRow["q4"].accessReal()
+                                                   referenceRow["q1"].getReal(),
+                                                   referenceRow["q2"].getReal(),
+                                                   referenceRow["q3"].getReal(),
+                                                   referenceRow["q4"].getReal()
             )
                                                    .normalize();
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
-                referenceRow["wx (rad/sec)"].accessReal(),
-                referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()
+                referenceRow["wx (rad/sec)"].getReal(),
+                referenceRow["wy (rad/sec)"].getReal(),
+                referenceRow["wz (rad/sec)"].getReal()
             };
 
             const State state = profile.getStateAt(instant_ref);
@@ -384,7 +382,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantInertialPointing)
                        instant_ref.toString(),
                        q_BODY_GCRF_ref.toString(),
                        q_BODY_GCRF.toString(),
-                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds()
                    );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
                 << String::Format(
@@ -425,7 +423,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
@@ -446,29 +444,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         for (const auto& referenceRow : referenceData)
         {
             const Instant instant_ref =
-                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].getString()), Scale::UTC);
 
             const Vector3d x_BODY_GCRF_ref = {
-                referenceRow["x (m)"].accessReal(),
-                referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()
+                referenceRow["x (m)"].getReal(), referenceRow["y (m)"].getReal(), referenceRow["z (m)"].getReal()
             };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
-                referenceRow["vx (m/sec)"].accessReal(),
-                referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()
+                referenceRow["vx (m/sec)"].getReal(),
+                referenceRow["vy (m/sec)"].getReal(),
+                referenceRow["vz (m/sec)"].getReal()
             };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
-                                                   referenceRow["q1"].accessReal(),
-                                                   referenceRow["q2"].accessReal(),
-                                                   referenceRow["q3"].accessReal(),
-                                                   referenceRow["q4"].accessReal()
+                                                   referenceRow["q1"].getReal(),
+                                                   referenceRow["q2"].getReal(),
+                                                   referenceRow["q3"].getReal(),
+                                                   referenceRow["q4"].getReal()
             )
                                                    .normalize();
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
-                referenceRow["wx (rad/sec)"].accessReal(),
-                referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()
+                referenceRow["wx (rad/sec)"].getReal(),
+                referenceRow["wy (rad/sec)"].getReal(),
+                referenceRow["wz (rad/sec)"].getReal()
             };
 
             const State state = profile.getStateAt(instant_ref);
@@ -499,7 +495,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
                        instant_ref.toString(),
                        q_BODY_GCRF_ref.toString(),
                        q_BODY_GCRF.toString(),
-                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds()
                    );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
                 << String::Format(
@@ -536,7 +532,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
@@ -557,29 +553,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         for (const auto& referenceRow : referenceData)
         {
             const Instant instant_ref =
-                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].getString()), Scale::UTC);
 
             const Vector3d x_BODY_GCRF_ref = {
-                referenceRow["x (m)"].accessReal(),
-                referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()
+                referenceRow["x (m)"].getReal(), referenceRow["y (m)"].getReal(), referenceRow["z (m)"].getReal()
             };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
-                referenceRow["vx (m/sec)"].accessReal(),
-                referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()
+                referenceRow["vx (m/sec)"].getReal(),
+                referenceRow["vy (m/sec)"].getReal(),
+                referenceRow["vz (m/sec)"].getReal()
             };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
-                                                   referenceRow["q1"].accessReal(),
-                                                   referenceRow["q2"].accessReal(),
-                                                   referenceRow["q3"].accessReal(),
-                                                   referenceRow["q4"].accessReal()
+                                                   referenceRow["q1"].getReal(),
+                                                   referenceRow["q2"].getReal(),
+                                                   referenceRow["q3"].getReal(),
+                                                   referenceRow["q4"].getReal()
             )
                                                    .normalize();
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
-                referenceRow["wx (rad/sec)"].accessReal(),
-                referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()
+                referenceRow["wx (rad/sec)"].getReal(),
+                referenceRow["wy (rad/sec)"].getReal(),
+                referenceRow["wz (rad/sec)"].getReal()
             };
 
             const State state = profile.getStateAt(instant_ref);
@@ -610,7 +604,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
                        instant_ref.toString(),
                        q_BODY_GCRF_ref.toString(),
                        q_BODY_GCRF.toString(),
-                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds()
                    );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
                 << String::Format(
@@ -647,7 +641,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         const Profile profile = Profile::ConstantLocalOrbitalFramePointing(orbit, Orbit::FrameType::VVLH);
 
@@ -668,29 +662,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
         for (const auto& referenceRow : referenceData)
         {
             const Instant instant_ref =
-                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].getString()), Scale::UTC);
 
             const Vector3d x_BODY_GCRF_ref = {
-                referenceRow["x (m)"].accessReal(),
-                referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()
+                referenceRow["x (m)"].getReal(), referenceRow["y (m)"].getReal(), referenceRow["z (m)"].getReal()
             };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
-                referenceRow["vx (m/sec)"].accessReal(),
-                referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()
+                referenceRow["vx (m/sec)"].getReal(),
+                referenceRow["vy (m/sec)"].getReal(),
+                referenceRow["vz (m/sec)"].getReal()
             };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
-                                                   referenceRow["q1"].accessReal(),
-                                                   referenceRow["q2"].accessReal(),
-                                                   referenceRow["q3"].accessReal(),
-                                                   referenceRow["q4"].accessReal()
+                                                   referenceRow["q1"].getReal(),
+                                                   referenceRow["q2"].getReal(),
+                                                   referenceRow["q3"].getReal(),
+                                                   referenceRow["q4"].getReal()
             )
                                                    .normalize();
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
-                referenceRow["wx (rad/sec)"].accessReal(),
-                referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()
+                referenceRow["wx (rad/sec)"].getReal(),
+                referenceRow["wy (rad/sec)"].getReal(),
+                referenceRow["wz (rad/sec)"].getReal()
             };
 
             const State state = profile.getStateAt(instant_ref);
@@ -721,7 +713,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstantLocalOrbitalFrameP
                        instant_ref.toString(),
                        q_BODY_GCRF_ref.toString(),
                        q_BODY_GCRF.toString(),
-                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds()
                    );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
                 << String::Format(

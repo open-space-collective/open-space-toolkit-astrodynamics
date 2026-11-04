@@ -62,7 +62,7 @@ ThirdBodyGravity::ThirdBodyGravity(
         throw ostk::core::error::RuntimeError("Cannot calculate third body acceleration for the Earth yet.");
     }
 
-    usesPointMassGravitationalModel_ = celestialObjectSPtr_->accessGravitationalModel()->isPointMass();
+    usesPointMassGravitationalModel_ = celestialObjectSPtr_->getGravitationalModel()->isPointMass();
 }
 
 ThirdBodyGravity::~ThirdBodyGravity() {}

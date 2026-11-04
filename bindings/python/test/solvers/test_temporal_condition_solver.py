@@ -95,7 +95,7 @@ class TestTemporalConditionSolver:
             environment=environment,
         )
 
-        earth = environment.access_celestial_object_with_name("Earth")
+        earth = environment.get_celestial_object_with_name("Earth")
 
         trajectory = Orbit(
             model=Kepler(

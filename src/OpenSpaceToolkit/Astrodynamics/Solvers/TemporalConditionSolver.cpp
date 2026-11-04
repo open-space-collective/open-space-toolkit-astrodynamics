@@ -143,7 +143,7 @@ Array<Interval> TemporalConditionSolver::solve(
     // Add interval if condition is met on the last iteration
     if (conditionIsMetCache)
     {
-        intervals.add(Interval::Closed(conditionStartInstantCache, instants.accessLast()));
+        intervals.add(Interval::Closed(conditionStartInstantCache, instants.getLast()));
     }
 
     return intervals;

@@ -96,7 +96,7 @@ VectorXd AtmosphericDrag::computeContribution(
             .getValue();
 
     const Vector3d earthAngularVelocity =
-        aFrameSPtr->getTransformTo(celestialObjectSPtr_->accessFrame(), anInstant).getAngularVelocity();  // rad/s
+        aFrameSPtr->getTransformTo(celestialObjectSPtr_->getFrame(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 

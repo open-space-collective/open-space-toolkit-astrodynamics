@@ -65,7 +65,7 @@ int main()
     // Environment
 
     const Environment environment = Environment::Default();
-    const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth");
+    const Shared<const Celestial> earthSPtr = environment.getCelestialObjectWithName("Earth");
 
     // Orbital parameters
 
@@ -187,8 +187,7 @@ int main()
 
         Array<Point2d> intersectionPoints_LL = Array<Point2d>::Empty();
 
-        for (const auto& intersectionPoint_ITRF :
-             intersectionGeometry.accessComposite().accessObjectAt(0).as<LineString3d>())
+        for (const auto& intersectionPoint_ITRF : intersectionGeometry.getComposite().getObjectAt(0).as<LineString3d>())
         {
             const LLA intersectionPoint_LLA =
                 LLA::Cartesian(intersectionPoint_ITRF.asVector(), Earth::EquatorialRadius, Earth::Flattening);

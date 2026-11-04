@@ -191,7 +191,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
     const Mass satelliteWetMass_ =
         Mass(satelliteDryMass_.inKilograms() + propellantMass_.inKilograms(), Mass::Unit::Kilogram);
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite::Undefined();
+    Composite satelliteGeometry_ = Composite(Point::Undefined());
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
@@ -732,17 +732,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
     for (const auto& referenceRow : referenceData)
     {
-        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
+        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC));
 
         referencePositionArray.add({
-            referenceRow[1].accessReal(),
-            referenceRow[2].accessReal(),
-            referenceRow[3].accessReal(),
+            referenceRow[1].getReal(),
+            referenceRow[2].getReal(),
+            referenceRow[3].getReal(),
         });
         referenceVelocityArray.add({
-            referenceRow[4].accessReal(),
-            referenceRow[5].accessReal(),
-            referenceRow[6].accessReal(),
+            referenceRow[4].getReal(),
+            referenceRow[5].getReal(),
+            referenceRow[6].getReal(),
         });
     }
 
@@ -765,8 +765,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -801,8 +801,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -837,8 +837,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -975,10 +975,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position positionWithManeuvers = propagatedStateArrayWithManeuvers[i].getPosition();
             const Velocity velocityWithManeuvers = propagatedStateArrayWithManeuvers[i].getVelocity();
 
-            const double positionError =
-                (position.accessCoordinates() - positionWithManeuvers.accessCoordinates()).norm();
-            const double velocityError =
-                (velocity.accessCoordinates() - velocityWithManeuvers.accessCoordinates()).norm();
+            const double positionError = (position.getCoordinates() - positionWithManeuvers.getCoordinates()).norm();
+            const double velocityError = (velocity.getCoordinates() - velocityWithManeuvers.getCoordinates()).norm();
 
             ASSERT_GT(positionError, 1.0e-15);
             ASSERT_GT(velocityError, 1.0e-15);

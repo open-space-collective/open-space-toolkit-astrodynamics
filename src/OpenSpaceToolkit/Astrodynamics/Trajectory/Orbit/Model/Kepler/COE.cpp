@@ -426,18 +426,22 @@ void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Semi-major axis:"
-        << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined");
+        << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", utility::DoubleToString(semiMajorAxis_.inMeters()))
+                                       : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << utility::DoubleToString(eccentricity_);
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inclination:"
-        << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString())
-                                     : "Undefined");
+        << (inclination_.isDefined()
+                ? String::Format("{} [deg]", utility::DoubleToString(inclination_.inDegrees(0.0, 360.0)))
+                : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Right ascension of the ascending node:"
-        << (raan_.isDefined() ? String::Format("{} [deg]", raan_.inDegrees(0.0, 360.0).toString()) : "Undefined");
+        << (raan_.isDefined() ? String::Format("{} [deg]", utility::DoubleToString(raan_.inDegrees(0.0, 360.0)))
+                              : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Argument of periapsis:"
-        << (aop_.isDefined() ? String::Format("{} [deg]", aop_.inDegrees(0.0, 360.0).toString()) : "Undefined");
+        << (aop_.isDefined() ? String::Format("{} [deg]", utility::DoubleToString(aop_.inDegrees(0.0, 360.0)))
+                             : "Undefined");
     String anomalyType = String::Empty();
     switch (anomalyType_)
     {
@@ -455,7 +459,8 @@ void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
     ostk::core::utils::Print::Line(anOutputStream)
         << String::Format("{} anomaly:", anomalyType)
-        << (anomaly_.isDefined() ? String::Format("{} [deg]", anomaly_.inDegrees(0.0, 360.0).toString()) : "Undefined");
+        << (anomaly_.isDefined() ? String::Format("{} [deg]", utility::DoubleToString(anomaly_.inDegrees(0.0, 360.0)))
+                                 : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -493,8 +498,8 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
         throw ostk::core::error::runtime::Wrong("Gravitational parameter", String::Format("{}", mu));
     }
 
-    const Vector3d& positionVector = aCartesianState.first.accessCoordinates();
-    const Vector3d& velocityVector = aCartesianState.second.accessCoordinates();
+    const Vector3d& positionVector = aCartesianState.first.getCoordinates();
+    const Vector3d& velocityVector = aCartesianState.second.getCoordinates();
 
     const double position = positionVector.norm();
     const double velocity = velocityVector.norm();
@@ -699,8 +704,8 @@ COE COE::FrozenOrbit(
     }
 
     const Length equatorialRadius = aCelestialObjectSPtr->getEquatorialRadius();
-    const double j2 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J2_;
-    const double j3 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J3_;
+    const double j2 = aCelestialObjectSPtr->getGravitationalModel()->getParameters().J2_;
+    const double j3 = aCelestialObjectSPtr->getGravitationalModel()->getParameters().J3_;
 
     return COE::FrozenOrbit(
         aSemiMajorAxis, equatorialRadius, j2, j3, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
@@ -773,8 +778,8 @@ COE COE::FrozenOrbit(
     {
         const double epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
 
-        return (angle.inRadians().isNear(criticalAngles[0].inRadians(), epsilon)) ||
-               (angle.inRadians().isNear(criticalAngles[1].inRadians(), epsilon));
+        return (std::abs(angle.inRadians() - criticalAngles[0].inRadians()) <= epsilon) ||
+               (std::abs(angle.inRadians() - criticalAngles[1].inRadians()) <= epsilon);
     };
 
     // Use the provided AoP, or default to a critical value
@@ -1293,11 +1298,6 @@ Angle COE::ComputeRaanFromLTAN(
     const Shared<const Frame>& aFrameSPtr
 )
 {
-    if (!aLocalTimeAtAscendingNode.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local time at ascending node");
-    }
-
     if (!anEpoch.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Epoch");
@@ -1357,11 +1357,6 @@ COE COE::SunSynchronous(
     if (!aSemiMajorAxis.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Semi-major axis");
-    }
-
-    if (!aLocalTimeAtAscendingNode.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local time at ascending node");
     }
 
     if (!anEpoch.isDefined())
@@ -1444,7 +1439,7 @@ COE COE::GeoSynchronous(
     const Vector3d ascendingNodeVectorITRF =
         lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
     const Position ascendingNodePositionBodyFrame =
-        Position::Meters(ascendingNodeVectorITRF, aCelestialObjectSPtr->accessFrame());
+        Position::Meters(ascendingNodeVectorITRF, aCelestialObjectSPtr->getFrame());
     const Vector3d ascendingNodeVector = ascendingNodePositionBodyFrame.inFrame(aFrameSPtr, anEpoch).getCoordinates();
 
     // Define COEs that make up this orbit

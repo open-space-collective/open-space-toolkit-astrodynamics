@@ -269,8 +269,7 @@ Pass Orbit::getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& a
             Orbit::ComputeCrossings(*this->modelPtr_, previousInstant, stepDuration, isForwardPropagated);
 
         const Instant crossingInstant =
-            (std::abs(
-                 this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch()).getPosition().accessCoordinates().z()
+            (std::abs(this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch()).getPosition().getCoordinates().z()
              ) <= epsilon)
                 ? this->modelPtr_->getEpoch()
                 : Instant::Undefined();
@@ -372,7 +371,7 @@ Array<Pass> Orbit::getPassesWithinInterval(const Interval& anInterval) const
 
     Array<Pass> passes = {};
 
-    while (currentInstant <= anInterval.accessEnd())
+    while (currentInstant <= anInterval.getEnd())
     {
         const Pass pass = this->getPassWithRevolutionNumber(currentRevolutionNumber);
 
@@ -407,7 +406,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
     if (FrameManager::Get().hasFrameWithName(frameName))
     {
-        return FrameManager::Get().accessFrameWithName(frameName);
+        return FrameManager::Get().getFrameWithName(frameName);
     }
 
     const auto generateDynamicProvider =
@@ -419,8 +418,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             {
                 const State state = this->getStateAt(anInstant).inFrame(aReferenceFrame);
 
-                const Vector3d x_GCRF = state.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = state.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = state.getPosition().getCoordinates();
+                const Vector3d v_GCRF = state.getVelocity().getCoordinates();
 
                 const Quaternion q_LOF_GCRF = anAttitudeGenerator(state);  // LOF -> Local Orbital Frame
 
@@ -460,12 +459,12 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 // Get state in central body centered, central body fixed frame
 
                 const State state =
-                    this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->accessFrame());
+                    this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->getFrame());
 
                 // Express the state position in geodetic coordinates
 
                 const LLA lla = LLA::Cartesian(
-                    state.getPosition().accessCoordinates(),
+                    state.getPosition().getCoordinates(),
                     this->celestialObjectSPtr_->getEquatorialRadius(),
                     this->celestialObjectSPtr_->getFlattening()
                 );
@@ -486,8 +485,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             orbitalFrameSPtr = Frame::Construct(
                 frameName,
                 false,
-                this->celestialObjectSPtr_->accessFrame(),
-                generateDynamicProvider(calculateAttitude, this->celestialObjectSPtr_->accessFrame())
+                this->celestialObjectSPtr_->getFrame(),
+                generateDynamicProvider(calculateAttitude, this->celestialObjectSPtr_->getFrame())
             );
 
             break;
@@ -502,8 +501,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
-                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = aState.getPosition().getCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().getCoordinates();
 
                 const Vector3d xAxis = x_GCRF.normalized();
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized();
@@ -530,8 +529,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
-                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = aState.getPosition().getCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().getCoordinates();
 
                 const Vector3d zAxis = -x_GCRF.normalized();
                 const Vector3d yAxis = -x_GCRF.cross(v_GCRF).normalized();
@@ -557,8 +556,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
-                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = aState.getPosition().getCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().getCoordinates();
 
                 const Vector3d xAxis = v_GCRF.normalized();
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized();
@@ -584,8 +583,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
-                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = aState.getPosition().getCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().getCoordinates();
 
                 const Vector3d xAxis = v_GCRF.normalized();
                 const Vector3d yAxis = x_GCRF.cross(v_GCRF).normalized();
@@ -615,13 +614,13 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 // Express the state position in geodetic coordinates
 
                 const LLA lla = LLA::Cartesian(
-                    aState.inFrame(this->celestialObjectSPtr_->accessFrame()).getPosition().accessCoordinates(),
+                    aState.inFrame(this->celestialObjectSPtr_->getFrame()).getPosition().getCoordinates(),
                     this->celestialObjectSPtr_->getEquatorialRadius(),
                     this->celestialObjectSPtr_->getFlattening()
                 );
 
-                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = aState.getPosition().getCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().getCoordinates();
 
                 const double latitude_radians = lla.getLatitude().inRadians();
                 const double longitude_radians = lla.getLongitude().inRadians();
@@ -633,7 +632,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 };
 
                 const Vector3d xAxis =
-                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.getInstant()))
+                    -(this->celestialObjectSPtr_->getFrame()->getTransformTo(Frame::GCRF(), aState.getInstant()))
                          .applyToVector(nadir_ITRF)
                          .normalized();
 
@@ -665,13 +664,13 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
                 // Express the state position in geodetic coordinates
                 const LLA lla = LLA::Cartesian(
-                    aState.inFrame(this->celestialObjectSPtr_->accessFrame()).getPosition().accessCoordinates(),
+                    aState.inFrame(this->celestialObjectSPtr_->getFrame()).getPosition().getCoordinates(),
                     this->celestialObjectSPtr_->getEquatorialRadius(),
                     this->celestialObjectSPtr_->getFlattening()
                 );
 
-                const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
+                const Vector3d x_GCRF = aState.getPosition().getCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().getCoordinates();
 
                 const double latitude_radians = lla.getLatitude().inRadians();
                 const double longitude_radians = lla.getLongitude().inRadians();
@@ -683,7 +682,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 };
 
                 const Vector3d xAxis =
-                    -(this->celestialObjectSPtr_->accessFrame()->getTransformTo(Frame::GCRF(), aState.getInstant()))
+                    -(this->celestialObjectSPtr_->getFrame()->getTransformTo(Frame::GCRF(), aState.getInstant()))
                          .applyToVector(nadir_ITRF)
                          .normalized();
 
@@ -708,7 +707,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const bool isPassDescending = v_GCRF.z() < 0.0;
 
                 const double w_ITRF_GCRF_in_ITRF_z =
-                    (Frame::GCRF()->getTransformTo(this->celestialObjectSPtr_->accessFrame(), aState.getInstant()))
+                    (Frame::GCRF()->getTransformTo(this->celestialObjectSPtr_->getFrame(), aState.getInstant()))
                         .getAngularVelocity()
                         .z();
 
@@ -932,11 +931,6 @@ Orbit Orbit::SunSynchronous(
         throw ostk::core::error::runtime::Undefined("Altitude");
     }
 
-    if (!aLocalTimeAtDescendingNode.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("LTDN");
-    }
-
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
         throw ostk::core::error::runtime::Undefined("Celestial object");
@@ -1090,10 +1084,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, i
     );
 
     const Array<Pass> passes = Orbit::ComputePassesWithModel(
-        tabulated,
-        aStateArray.accessFirst().getInstant(),
-        aStateArray.accessLast().getInstant(),
-        anInitialRevolutionNumber
+        tabulated, aStateArray.getFirst().getInstant(), aStateArray.getLast().getInstant(), anInitialRevolutionNumber
     );
 
     Array<Pair<Index, Pass>> passMap;
@@ -1116,7 +1107,7 @@ Array<Pair<Index, Pass>> Orbit::ComputePasses(const Array<State>& aStateArray, i
         stateIndex++;
     }
 
-    passMap.add({stateIndex, passes.accessLast()});
+    passMap.add({stateIndex, passes.getLast()});
 
     return passMap;
 }
@@ -1138,7 +1129,7 @@ Array<Pass> Orbit::ComputePassesWithModel(
     Instant previousInstant = aStartInstant;
     State previousState = aModel.calculateStateAt(previousInstant);
 
-    Instant previousPassEndInstant = (std::abs(previousState.getPosition().accessCoordinates().z()) <= epsilon)
+    Instant previousPassEndInstant = (std::abs(previousState.getPosition().getCoordinates().z()) <= epsilon)
                                        ? previousState.getInstant()
                                        : Instant::Undefined();
 
@@ -1245,14 +1236,14 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
     const Instant epoch = aModel.getEpoch();
 
     const State previousState = aModel.calculateStateAt(previousInstant);
-    double previousStateCoordinates_ECI_z = previousState.getPosition().accessCoordinates().z();
-    double previousStateCoordinates_ECI_zdot = previousState.getVelocity().accessCoordinates().z();
+    double previousStateCoordinates_ECI_z = previousState.getPosition().getCoordinates().z();
+    double previousStateCoordinates_ECI_zdot = previousState.getVelocity().getCoordinates().z();
 
     const auto getZ = [&aModel, &epoch](const double& aDurationInSeconds) -> double
     {
         return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getPosition()
-            .accessCoordinates()
+            .getCoordinates()
             .z();
     };
 
@@ -1260,7 +1251,7 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
     {
         return aModel.calculateStateAt(epoch + Duration::Seconds(aDurationInSeconds))
             .getVelocity()
-            .accessCoordinates()
+            .getCoordinates()
             .z();
     };
 
@@ -1283,8 +1274,8 @@ Tuple<Instant, Instant, Instant, Instant> Orbit::ComputeCrossings(
         }
 
         const State currentState = aModel.calculateStateAt(currentInstant);
-        const double currentStateCoordinates_ECI_z = currentState.getPosition().accessCoordinates().z();
-        const double currentStateCoordinates_ECI_zdot = currentState.getVelocity().accessCoordinates().z();
+        const double currentStateCoordinates_ECI_z = currentState.getPosition().getCoordinates().z();
+        const double currentStateCoordinates_ECI_zdot = currentState.getVelocity().getCoordinates().z();
 
         if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
         {

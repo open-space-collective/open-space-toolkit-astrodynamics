@@ -17,7 +17,7 @@ namespace system
 
 SatelliteSystemBuilder::SatelliteSystemBuilder()
     : dryMass_(Mass::Undefined()),
-      geometry_(Composite::Undefined()),
+      geometry_(Composite(Point::Undefined())),  // A composite holding an undefined object is undefined
       inertiaTensor_(Matrix3d::Undefined()),
       crossSectionalSurfaceArea_(std::nullopt),
       dragCoefficient_(std::nullopt),

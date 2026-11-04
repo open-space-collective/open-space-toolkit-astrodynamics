@@ -73,7 +73,7 @@ Instant Tabulated::getEpoch() const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return this->getInterval().accessStart();
+    return this->getInterval().getStart();
 }
 
 int Tabulated::getRevolutionNumberAtEpoch() const

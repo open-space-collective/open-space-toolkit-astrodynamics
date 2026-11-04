@@ -299,7 +299,7 @@ static void BM_Segment_ConstantThrust_Intrack_550_to_580(benchmark::State& state
         const Segment::Solution solution = SolveAndRecord(state, segment, initialState);
 
         const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
-            {solution.states.accessLast().getPosition(), solution.states.accessLast().getVelocity()}, mu
+            {solution.states.getLast().getPosition(), solution.states.getLast().getVelocity()}, mu
         );
 
         state.counters["final_sma_difference"] =
@@ -369,7 +369,7 @@ static void BM_Segment_QLaw_Analytical_SMA_550_to_580(benchmark::State& state)
         const Segment::Solution solution = SolveAndRecord(state, segment, initialState);
 
         const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
-            {solution.states.accessLast().getPosition(), solution.states.accessLast().getVelocity()}, mu
+            {solution.states.getLast().getPosition(), solution.states.getLast().getVelocity()}, mu
         );
 
         state.counters["final_sma_difference"] =
@@ -439,7 +439,7 @@ static void BM_Segment_QLaw_FiniteDifference_SMA_550_to_580(benchmark::State& st
         const Segment::Solution solution = SolveAndRecord(state, segment, initialState);
 
         const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
-            {solution.states.accessLast().getPosition(), solution.states.accessLast().getVelocity()}, mu
+            {solution.states.getLast().getPosition(), solution.states.getLast().getVelocity()}, mu
         );
 
         state.counters["final_sma_difference"] =
@@ -514,7 +514,7 @@ static void BM_Segment_QLaw_Analytical_Frozen_550_to_580(benchmark::State& state
         const Segment::Solution solution = SolveAndRecord(state, segment, initialState);
 
         const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
-            {solution.states.accessLast().getPosition(), solution.states.accessLast().getVelocity()}, mu
+            {solution.states.getLast().getPosition(), solution.states.getLast().getVelocity()}, mu
         );
 
         state.counters["final_sma_difference"] =
@@ -570,7 +570,7 @@ static void BM_Segment_ConstantThrust_Intrack_DutyCycle_550_to_580(benchmark::St
         const Segment::Solution solution = SolveAndRecord(state, segment, initialState);
 
         const BrouwerLyddaneMeanLong finalCOE = BrouwerLyddaneMeanLong::Cartesian(
-            {solution.states.accessLast().getPosition(), solution.states.accessLast().getVelocity()}, mu
+            {solution.states.getLast().getPosition(), solution.states.getLast().getVelocity()}, mu
         );
 
         state.counters["final_sma_difference"] =

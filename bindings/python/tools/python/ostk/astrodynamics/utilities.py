@@ -210,7 +210,7 @@ def lla_from_position(
         LLA: The LLA.
     """
 
-    if position.access_frame() != Frame.ITRF():
+    if position.get_frame() != Frame.ITRF():
         if instant is None:
             raise ValueError(
                 "Instant must be provided if position is not expressed in ECEF."
@@ -265,7 +265,7 @@ def compute_aer(
 
     from_lla: LLA = lla_from_position(from_position, instant)
 
-    earth: Earth = environment.access_celestial_object_with_name("Earth")
+    earth: Earth = environment.get_celestial_object_with_name("Earth")
     ned_frame: Frame = earth.get_frame_at(from_lla, Earth.FrameType.NED)
 
     from_position_NED: Position = from_position.in_frame(ned_frame, instant)

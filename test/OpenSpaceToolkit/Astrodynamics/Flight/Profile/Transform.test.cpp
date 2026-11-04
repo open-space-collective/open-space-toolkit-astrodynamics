@@ -73,7 +73,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform : public ::
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        this->orbit_ = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         this->transform_ = Transform::LocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
     }
@@ -93,8 +93,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Construct
 
         return CoordinateTransform::Active(
             anInstant,
-            -position_GCRF.accessCoordinates(),
-            -velocity_GCRF.accessCoordinates(),
+            -position_GCRF.getCoordinates(),
+            -velocity_GCRF.getCoordinates(),
             Quaternion::Unit(),
             Vector3d(0.0, 0.0, 0.0)  // TBM: Artificially set to 0 for now.
         );

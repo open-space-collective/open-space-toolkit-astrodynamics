@@ -4,7 +4,6 @@
 #include <pybind11/stl.h>
 
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Interval.hpp>
 
@@ -19,7 +18,6 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
     using namespace pybind11;
 
     using ostk::core::container::Map;
-    using ostk::core::type::Real;
 
     using ostk::mathematics::object::Interval;
 
@@ -45,7 +43,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )doc"
     )
         .def(
-            init<const Interval<Real>&, const Interval<Real>&, const Interval<Real>&>(),
+            init<const Interval<double>&, const Interval<double>&, const Interval<double>&>(),
             arg("azimuth_interval"),
             arg("elevation_interval"),
             arg("range_interval"),
@@ -126,7 +124,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )doc"
     )
         .def(
-            init<const Map<double, double>&, const Interval<Real>&>(),
+            init<const Map<double, double>&, const Interval<double>&>(),
             arg("azimuth_elevation_mask"),
             arg("range_interval"),
             R"doc(
@@ -232,7 +230,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )doc"
     )
         .def(
-            init<const Interval<Real>&>(),
+            init<const Interval<double>&>(),
             arg("elevation_interval"),
             R"doc(
                 Constructs an ElevationInterval visibility criterion.

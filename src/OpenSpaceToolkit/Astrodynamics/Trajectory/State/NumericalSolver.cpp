@@ -87,23 +87,6 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 using stepper_type_4 = runge_kutta4<NumericalSolver::StateVector>;
 
-namespace
-{
-
-/// @brief Convert a double into the ostk::core::type::Real expected by MathNumericalSolver
-///
-/// NaN maps to Real::Undefined(), which is how the base solver (ostk-mathematics, which still takes Real) represents
-/// an undefined solver: NumericalSolver::Undefined() relies on it. This is the only place NaN is interpreted.
-///
-/// @param [in] aValue A value
-/// @return Real value
-ostk::core::type::Real ToMathNumericalSolverReal(double aValue)
-{
-    return std::isnan(aValue) ? ostk::core::type::Real::Undefined() : ostk::core::type::Real(aValue);
-}
-
-}  // namespace
-
 template <size_t Order>
 auto make_controlled_adam_bashforth_moulton(double abs_tol, double rel_tol)
 {
@@ -130,13 +113,7 @@ NumericalSolver::NumericalSolver(
     const RootSolver& aRootSolver,
     const std::function<void(const State&)>& aStateLogger
 )
-    : MathNumericalSolver(
-          aLogType,
-          aStepperType,
-          ToMathNumericalSolverReal(aTimeStep),
-          ToMathNumericalSolverReal(aRelativeTolerance),
-          ToMathNumericalSolverReal(anAbsoluteTolerance)
-      ),
+    : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
       rootSolver_(aRootSolver),
       observedStates_(),
       stateLogger_(aStateLogger)
@@ -184,9 +161,8 @@ Array<State> NumericalSolver::integrateTime(
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    // MathNumericalSolver::integrateDuration takes an Array<Real>
-    const Array<ostk::core::type::Real> durationArray = anInstantArray.map<ostk::core::type::Real>(
-        [&aState](const Instant& anInstant) -> ostk::core::type::Real
+    const Array<double> durationArray = anInstantArray.map<double>(
+        [&aState](const Instant& anInstant) -> double
         {
             return (anInstant - aState.getInstant()).inSeconds();
         }
@@ -544,7 +520,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         // the trim integration above can produce a state at the exact same instant as the
         // last observed entry (e.g. when currentTime already coincided with endTime within
         // tolerance), and emitting a duplicate would silently regress monotonicity downstream.
-        if (observedStates_.isEmpty() || finalState.getInstant() != observedStates_.accessLast().getInstant())
+        if (observedStates_.isEmpty() || finalState.getInstant() != observedStates_.getLast().getInstant())
         {
             observeState(finalState);
         }

@@ -31,7 +31,7 @@ def environment() -> Environment:
 
 @pytest.fixture
 def earth(environment: Environment) -> Celestial:
-    return environment.access_celestial_object_with_name("Earth")
+    return environment.get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -91,7 +91,7 @@ def access_target(
         VisibilityCriterion.from_line_of_sight(environment),
         Position.from_lla(
             ground_station_lla,
-            environment.access_celestial_object_with_name("Earth"),
+            environment.get_celestial_object_with_name("Earth"),
         ),
     )
 

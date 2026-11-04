@@ -227,7 +227,7 @@ const TLE& SGP4::getTle() const
         throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Use getTles() instead.");
     }
 
-    return this->tleArray_.accessFirst();
+    return this->tleArray_.getFirst();
 }
 
 const Array<TLE>& SGP4::getTles() const
@@ -272,7 +272,7 @@ Instant SGP4::getEpoch() const
         throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get epoch.");
     }
 
-    return this->tleArray_.accessFirst().getEpoch();
+    return this->tleArray_.getFirst().getEpoch();
 }
 
 int SGP4::getRevolutionNumberAtEpoch() const
@@ -288,7 +288,7 @@ int SGP4::getRevolutionNumberAtEpoch() const
         );
     }
 
-    return this->tleArray_.accessFirst().getRevolutionNumberAtEpoch();
+    return this->tleArray_.getFirst().getRevolutionNumberAtEpoch();
 }
 
 State SGP4::calculateStateAt(const Instant& anInstant) const

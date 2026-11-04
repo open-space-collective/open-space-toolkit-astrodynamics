@@ -71,7 +71,7 @@ Trajectory buildTrajectory(
         Angle::Degrees(0.0)   // true anomaly
     };
 
-    const Shared<const Celestial> earth = anEnvironment.accessCelestialObjectWithName("Earth");
+    const Shared<const Celestial> earth = anEnvironment.getCelestialObjectWithName("Earth");
 
     const Kepler kepler = {coe, anEpoch, *earth, Kepler::PerturbationType::None, false};
 

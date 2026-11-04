@@ -317,9 +317,9 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Open Space Toolkit ▸ Core [5.x.y]
+### Open Space Toolkit ▸ Core [6.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitCore" "5" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "6" REQUIRED)
 
 IF (NOT OpenSpaceToolkitCore_FOUND)
 
@@ -327,9 +327,9 @@ IF (NOT OpenSpaceToolkitCore_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ I/O [4.x.y]
+### Open Space Toolkit ▸ I/O [5.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitIO" "4" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitIO" "5" REQUIRED)
 
 IF (NOT OpenSpaceToolkitIO_FOUND)
 
@@ -337,9 +337,9 @@ IF (NOT OpenSpaceToolkitIO_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ Mathematics [4.x.y]
+### Open Space Toolkit ▸ Mathematics [5.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitMathematics" "4" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" "5" REQUIRED)
 
 IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
@@ -347,9 +347,9 @@ IF (NOT OpenSpaceToolkitMathematics_FOUND)
 
 ENDIF ()
 
-### Open Space Toolkit ▸ Physics [14.x.y]
+### Open Space Toolkit ▸ Physics [15.x.y]
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "14" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "15" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 

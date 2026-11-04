@@ -395,13 +395,13 @@ TEST_F(
     const Pair<Position, Velocity> cartesianComputed =
         modifiedEquinoctial.getCartesianState(earthGravitationalParameter_, gcrf_);
 
-    EXPECT_NEAR(position.accessCoordinates()[0], cartesianComputed.first.accessCoordinates()[0], POSITION_TOLERANCE);
-    EXPECT_NEAR(position.accessCoordinates()[1], cartesianComputed.first.accessCoordinates()[1], POSITION_TOLERANCE);
-    EXPECT_NEAR(position.accessCoordinates()[2], cartesianComputed.first.accessCoordinates()[2], POSITION_TOLERANCE);
+    EXPECT_NEAR(position.getCoordinates()[0], cartesianComputed.first.getCoordinates()[0], POSITION_TOLERANCE);
+    EXPECT_NEAR(position.getCoordinates()[1], cartesianComputed.first.getCoordinates()[1], POSITION_TOLERANCE);
+    EXPECT_NEAR(position.getCoordinates()[2], cartesianComputed.first.getCoordinates()[2], POSITION_TOLERANCE);
 
-    EXPECT_NEAR(velocity.accessCoordinates()[0], cartesianComputed.second.accessCoordinates()[0], VELOCITY_TOLERANCE);
-    EXPECT_NEAR(velocity.accessCoordinates()[1], cartesianComputed.second.accessCoordinates()[1], VELOCITY_TOLERANCE);
-    EXPECT_NEAR(velocity.accessCoordinates()[2], cartesianComputed.second.accessCoordinates()[2], VELOCITY_TOLERANCE);
+    EXPECT_NEAR(velocity.getCoordinates()[0], cartesianComputed.second.getCoordinates()[0], VELOCITY_TOLERANCE);
+    EXPECT_NEAR(velocity.getCoordinates()[1], cartesianComputed.second.getCoordinates()[1], VELOCITY_TOLERANCE);
+    EXPECT_NEAR(velocity.getCoordinates()[2], cartesianComputed.second.getCoordinates()[2], VELOCITY_TOLERANCE);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, RoundTrip_MEOE_Cartesian_MEOE)
@@ -545,13 +545,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const double expectedVelY = 1704.1585429854;
     const double expectedVelZ = 0.5013093399;
 
-    EXPECT_NEAR(expectedPosX, cartesianState.first.accessCoordinates()[0], POSITION_TOLERANCE);
-    EXPECT_NEAR(expectedPosY, cartesianState.first.accessCoordinates()[1], POSITION_TOLERANCE);
-    EXPECT_NEAR(expectedPosZ, cartesianState.first.accessCoordinates()[2], POSITION_TOLERANCE);
+    EXPECT_NEAR(expectedPosX, cartesianState.first.getCoordinates()[0], POSITION_TOLERANCE);
+    EXPECT_NEAR(expectedPosY, cartesianState.first.getCoordinates()[1], POSITION_TOLERANCE);
+    EXPECT_NEAR(expectedPosZ, cartesianState.first.getCoordinates()[2], POSITION_TOLERANCE);
 
-    EXPECT_NEAR(expectedVelX, cartesianState.second.accessCoordinates()[0], VELOCITY_TOLERANCE);
-    EXPECT_NEAR(expectedVelY, cartesianState.second.accessCoordinates()[1], VELOCITY_TOLERANCE);
-    EXPECT_NEAR(expectedVelZ, cartesianState.second.accessCoordinates()[2], VELOCITY_TOLERANCE);
+    EXPECT_NEAR(expectedVelX, cartesianState.second.getCoordinates()[0], VELOCITY_TOLERANCE);
+    EXPECT_NEAR(expectedVelY, cartesianState.second.getCoordinates()[1], VELOCITY_TOLERANCE);
+    EXPECT_NEAR(expectedVelZ, cartesianState.second.getCoordinates()[2], VELOCITY_TOLERANCE);
 }
 
 // Test based on Orekit testEquinoctialToKeplerian

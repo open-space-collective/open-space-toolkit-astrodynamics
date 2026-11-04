@@ -101,7 +101,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit.isDefined());
     }
@@ -130,7 +130,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 
         // The default (barycentric rational) interpolation requires at least 4 states.
 
-        const Orbit orbit = {states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {states, initialRevolutionNumber, environment.getCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit.isDefined());
     }
@@ -160,7 +160,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit == orbit);
 
@@ -197,7 +197,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         EXPECT_FALSE(orbit != orbit);
 
@@ -234,7 +234,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit.isDefined());
     }
@@ -268,7 +268,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, getCelestialObject)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         EXPECT_TRUE(orbit.getCelestialObject()->isDefined());
     }
@@ -306,7 +306,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -322,11 +322,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         for (const auto &referenceRow : referenceData)
         {
-            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].getInteger();
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Instant instant =
                 referencePassStartInstant + Duration::Between(referencePassStartInstant, referencePassEndInstant) / 2.0;
@@ -364,7 +364,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -381,9 +381,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         for (const auto &referenceRow : referenceData)
         {
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Instant instant =
                 referencePassStartInstant + Duration::Between(referencePassStartInstant, referencePassEndInstant) / 2.0;
@@ -462,7 +462,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Pass test
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
@@ -480,7 +480,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
             EXPECT_TRUE(pass.isDefined());
         }
 
-        EXPECT_EQ(passMap.accessLast().second.getType(), Pass::Type::Partial);
+        EXPECT_EQ(passMap.getLast().second.getType(), Pass::Type::Partial);
     }
 
     {
@@ -509,7 +509,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -547,23 +547,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
             const auto &referenceRow = referenceData[i];
 
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Instant referencePassAscendingNodeInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[3].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[3].getString()), Scale::UTC);
             const Instant referencePassDescendingNodeInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[5].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[5].getString()), Scale::UTC);
 
             const Instant referencePassNorthPointInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[4].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[4].getString()), Scale::UTC);
             const Instant referencePassSouthPointInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[6].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[6].getString()), Scale::UTC);
 
             EXPECT_TRUE(pass.isDefined());
 
-            EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].accessInteger());
+            EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].getInteger());
             EXPECT_LT(std::fabs((referencePassStartInstant - pass.getInstantAtAscendingNode()).inSeconds()), 1e-6);
             EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInstantAtPassBreak()).inSeconds()), 1e-6);
             EXPECT_LT(
@@ -592,7 +592,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
         const Instant endInstant = Instant::DateTime(DateTime::Parse("2020-07-18 22:26:11.102.455"), Scale::UTC);
 
         Array<Instant> instants = Interval::Closed(startInstant, endInstant).generateGrid(Duration::Seconds(60.0));
-        if (instants.accessLast() != endInstant)
+        if (instants.getLast() != endInstant)
         {
             instants.add(endInstant);
         }
@@ -665,7 +665,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
                 {
                     EXPECT_TRUE(pass.isDefined());
                 }
-                EXPECT_EQ(passes.accessLast().getType(), Pass::Type::Partial);
+                EXPECT_EQ(passes.getLast().getType(), Pass::Type::Partial);
             }
 
             // backward
@@ -680,7 +680,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
                     EXPECT_TRUE(pass.isDefined());
                 }
 
-                EXPECT_EQ(passes.accessLast().getType(), Pass::Type::Complete);
+                EXPECT_EQ(passes.getLast().getType(), Pass::Type::Complete);
             }
         }
 
@@ -761,23 +761,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
                 const auto &referenceRow = referenceData[i];
 
                 const Instant referencePassStartInstant =
-                    Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                    Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
                 const Instant referencePassEndInstant =
-                    Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                    Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
                 const Instant referencePassAscendingNodeInstant =
-                    Instant::DateTime(DateTime::Parse(referenceRow[3].accessString()), Scale::UTC);
+                    Instant::DateTime(DateTime::Parse(referenceRow[3].getString()), Scale::UTC);
                 const Instant referencePassDescendingNodeInstant =
-                    Instant::DateTime(DateTime::Parse(referenceRow[5].accessString()), Scale::UTC);
+                    Instant::DateTime(DateTime::Parse(referenceRow[5].getString()), Scale::UTC);
 
                 const Instant referencePassNorthPointInstant =
-                    Instant::DateTime(DateTime::Parse(referenceRow[4].accessString()), Scale::UTC);
+                    Instant::DateTime(DateTime::Parse(referenceRow[4].getString()), Scale::UTC);
                 const Instant referencePassSouthPointInstant =
-                    Instant::DateTime(DateTime::Parse(referenceRow[6].accessString()), Scale::UTC);
+                    Instant::DateTime(DateTime::Parse(referenceRow[6].getString()), Scale::UTC);
 
                 EXPECT_TRUE(pass.isDefined());
 
-                EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].accessInteger());
+                EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].getInteger());
                 EXPECT_LT(std::fabs((referencePassStartInstant - pass.getInstantAtAscendingNode()).inSeconds()), 1e-6);
                 EXPECT_LT(std::fabs((referencePassEndInstant - pass.getInstantAtPassBreak()).inSeconds()), 1e-6);
                 EXPECT_LT(
@@ -830,8 +830,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
 
         const Propagated propagated = {propagator, states, 5};
 
-        const Instant startInstant = states.accessFirst().getInstant() + Duration::Hours(1.0);
-        const Instant endInstant = states.accessFirst().getInstant() + Duration::Hours(3.0);
+        const Instant startInstant = states.getFirst().getInstant() + Duration::Hours(1.0);
+        const Instant endInstant = states.getFirst().getInstant() + Duration::Hours(3.0);
 
         const Array<Pass> passes = Orbit::ComputePassesWithModel(propagated, startInstant, endInstant, 1);
 
@@ -872,7 +872,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -887,11 +887,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         for (const auto &referenceRow : referenceData)
         {
-            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].getInteger();
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
 
@@ -936,7 +936,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -951,11 +951,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         for (const auto &referenceRow : referenceData)
         {
-            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].getInteger();
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
 
@@ -1000,7 +1000,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -1015,11 +1015,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         for (const auto &referenceRow : referenceData)
         {
-            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].getInteger();
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
 
@@ -1054,7 +1054,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         // Forward propagation (Validated with STK)
         {
-            const Orbit orbit = {sgp4, environment.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit = {sgp4, environment.getCelestialObjectWithName("Earth")};
 
             {
                 const Pass pass = orbit.getPassWithRevolutionNumber(22273, Duration::Minutes(10.0));
@@ -1104,7 +1104,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         // Backward propagation (Validated with STK)
         {
-            const Orbit orbit = {sgp4, environment.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit = {sgp4, environment.getCelestialObjectWithName("Earth")};
 
             {
                 const Pass pass = orbit.getPassWithRevolutionNumber(22267, Duration::Minutes(10.0));
@@ -1170,7 +1170,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Time::Parse("12:00:00"),
-                Environment::Default().accessCelestialObjectWithName("Earth")
+                Environment::Default().getCelestialObjectWithName("Earth")
             );
             EXPECT_THROW(orbit.getPassesWithinInterval(Interval::Undefined()), ostk::core::error::runtime::Undefined);
         }
@@ -1203,7 +1203,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -1232,11 +1232,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassesWithinInterval)
 
         for (const auto &referenceRow : referenceData)
         {
-            const int referenceRevolutionNumber = referenceRow[0].accessInteger();
+            const int referenceRevolutionNumber = referenceRow[0].getInteger();
             const Instant referencePassStartInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant referencePassEndInstant =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
 
             const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber);
 
@@ -1288,7 +1288,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         };
 
         const Shared<const Earth> earthSPtr =
-            std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth"));
+            std::dynamic_pointer_cast<const Earth>(environment.getObjectWithName("Earth"));
 
         const Orbit orbit = {keplerianModel, earthSPtr};
 
@@ -1304,24 +1304,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
         for (const auto &referenceRow : referenceData)
         {
-            const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
 
             const Vector3d x_NED_ITRF_ref = {
-                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()
+                referenceRow[1].getReal(), referenceRow[2].getReal(), referenceRow[3].getReal()
             };
             const Vector3d v_NED_ITRF_in_ITRF_ref = {
-                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()
+                referenceRow[4].getReal(), referenceRow[5].getReal(), referenceRow[6].getReal()
             };
 
             const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(
-                                                  referenceRow[7].accessReal(),
-                                                  referenceRow[8].accessReal(),
-                                                  referenceRow[9].accessReal(),
-                                                  referenceRow[10].accessReal()
+                                                  referenceRow[7].getReal(),
+                                                  referenceRow[8].getReal(),
+                                                  referenceRow[9].getReal(),
+                                                  referenceRow[10].getReal()
             )
                                                   .normalize();
             const Vector3d w_NED_ITRF_in_NED_ref = {
-                referenceRow[11].accessReal(), referenceRow[12].accessReal(), referenceRow[13].accessReal()
+                referenceRow[11].getReal(), referenceRow[12].getReal(), referenceRow[13].getReal()
             };
 
             const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate();
@@ -1355,7 +1355,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
                 instant.toString(),
                 q_ITRF_NED_ref.toString(),
                 q_ITRF_NED.toString(),
-                q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()
+                q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds()
             );
             EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-7)) << String::Format(
                 "@ {}: {} - {} = {} [rad/s]",
@@ -1397,7 +1397,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         };
 
         const Shared<const Earth> earthSPtr =
-            std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth"));
+            std::dynamic_pointer_cast<const Earth>(environment.getObjectWithName("Earth"));
 
         const Orbit orbit = {
             keplerianModel,
@@ -1430,19 +1430,19 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
             for (const auto &referenceRow : referenceData)
             {
-                const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+                const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
 
                 const Quaternion q_Target_GCRF_ref = Quaternion::XYZS(
-                                                         referenceRow[1].accessReal(),
-                                                         referenceRow[2].accessReal(),
-                                                         referenceRow[3].accessReal(),
-                                                         referenceRow[4].accessReal()
+                                                         referenceRow[1].getReal(),
+                                                         referenceRow[2].getReal(),
+                                                         referenceRow[3].getReal(),
+                                                         referenceRow[4].getReal()
                 )
                                                          .normalize();
                 const Vector3d w_Target_GCRF_in_Target_ref = {
-                    referenceRow[5].accessReal(),
-                    referenceRow[6].accessReal(),
-                    referenceRow[7].accessReal(),
+                    referenceRow[5].getReal(),
+                    referenceRow[6].getReal(),
+                    referenceRow[7].getReal(),
                 };
 
                 const Quaternion q_GCRF_Target_ref = q_Target_GCRF_ref.toConjugate();
@@ -1459,7 +1459,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
                     instant.toString(),
                     q_GCRF_Target_ref.toString(),
                     q_GCRF_Target.toString(),
-                    q_GCRF_Target.angularDifferenceWith(q_GCRF_Target_ref).inArcseconds().toString()
+                    q_GCRF_Target.angularDifferenceWith(q_GCRF_Target_ref).inArcseconds()
                 );
 
                 EXPECT_TRUE(
@@ -1519,7 +1519,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
 
         testing::internal::CaptureStdout();
 
@@ -1680,10 +1680,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
             // Orbit setup
 
             const Orbit orbit = Orbit::Circular(
-                scenario.epoch,
-                scenario.altitude,
-                scenario.inclination,
-                environment.accessCelestialObjectWithName("Earth")
+                scenario.epoch, scenario.altitude, scenario.inclination, environment.getCelestialObjectWithName("Earth")
             );
 
             // Test
@@ -1820,7 +1817,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
                 scenario.epoch,
                 scenario.apoapsisAltitude,
                 scenario.periapsisAltitude,
-                environment.accessCelestialObjectWithName("Earth")
+                environment.getCelestialObjectWithName("Earth")
             );
 
             // Test
@@ -1875,7 +1872,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
             // Orbit setup
 
             const Orbit orbit = Orbit::CircularEquatorial(
-                scenario.epoch, scenario.altitude, environment.accessCelestialObjectWithName("Earth")
+                scenario.epoch, scenario.altitude, environment.getCelestialObjectWithName("Earth")
             );
 
             // Test
@@ -1915,7 +1912,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
 
         // Orbit setup
         const Orbit orbit =
-            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.getCelestialObjectWithName("Earth"));
 
         // Test
         const State state = orbit.getStateAt(epoch);
@@ -1942,7 +1939,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
 
         // Orbit setup
         const Orbit orbit =
-            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.getCelestialObjectWithName("Earth"));
 
         // Test
         const State state = orbit.getStateAt(epoch);
@@ -1969,7 +1966,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
 
         // Orbit setup
         const Orbit orbit =
-            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.getCelestialObjectWithName("Earth"));
 
         // Test
         const State state = orbit.getStateAt(epoch);
@@ -1991,7 +1988,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Time::Parse("12:00:00"),
-                Environment::Default().accessCelestialObjectWithName("Earth")
+                Environment::Default().getCelestialObjectWithName("Earth")
             );
 
             EXPECT_TRUE(orbit.isDefined());
@@ -2003,7 +2000,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Time::Parse("12:00:00"),
-                Environment::Default().accessCelestialObjectWithName("Earth"),
+                Environment::Default().getCelestialObjectWithName("Earth"),
                 angle
             );
 
@@ -2019,7 +2016,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
                     Instant::Undefined(),
                     Length::Kilometers(500.0),
                     Time::Parse("12:00:00"),
-                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Environment::Default().getCelestialObjectWithName("Earth"),
                     Angle::Degrees(50.0)
                 ),
                 ostk::core::error::runtime::Undefined
@@ -2032,20 +2029,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
                     Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                     Length::Undefined(),
                     Time::Parse("12:00:00"),
-                    Environment::Default().accessCelestialObjectWithName("Earth"),
-                    Angle::Degrees(50.0)
-                ),
-                ostk::core::error::runtime::Undefined
-            );
-        }
-
-        {
-            EXPECT_THROW(
-                Orbit::SunSynchronous(
-                    Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-                    Length::Kilometers(500.0),
-                    Time::Undefined(),
-                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Environment::Default().getCelestialObjectWithName("Earth"),
                     Angle::Degrees(50.0)
                 ),
                 ostk::core::error::runtime::Undefined
@@ -2086,7 +2070,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
                     Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                     Length::Kilometers(500.0),
                     Time::Parse("12:00:00"),
-                    Environment::Default().accessCelestialObjectWithName("Earth"),
+                    Environment::Default().getCelestialObjectWithName("Earth"),
                     Angle::Undefined()
                 ),
                 ostk::core::error::runtime::Undefined
@@ -2137,7 +2121,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
     //             scenario.epoch,
     //             scenario.altitude,
     //             scenario.localTimeAtDescendingNode,
-    //             environment.accessCelestialObjectWithName("Earth")
+    //             environment.getCelestialObjectWithName("Earth")
     //         );
 
     //         // Test
@@ -2162,7 +2146,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
     {
         {
             const Orbit orbit =
-                Orbit::Frozen(epoch, altitude, Environment::Default().accessCelestialObjectWithName("Earth"));
+                Orbit::Frozen(epoch, altitude, Environment::Default().getCelestialObjectWithName("Earth"));
 
             EXPECT_TRUE(orbit.isDefined());
         }
@@ -2172,7 +2156,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
             const Orbit orbit = Orbit::Frozen(
                 epoch,
                 altitude,
-                Environment::Default().accessCelestialObjectWithName("Earth"),
+                Environment::Default().getCelestialObjectWithName("Earth"),
                 std::nullopt,
                 Angle::Degrees(60.0)
             );
@@ -2201,7 +2185,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
         {
             EXPECT_THROW(
                 Orbit::Frozen(
-                    Instant::Undefined(), altitude, Environment::Default().accessCelestialObjectWithName("Earth")
+                    Instant::Undefined(), altitude, Environment::Default().getCelestialObjectWithName("Earth")
                 ),
                 ostk::core::error::runtime::Undefined
             );
@@ -2210,9 +2194,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
         // Undefined altitude
         {
             EXPECT_THROW(
-                Orbit::Frozen(
-                    epoch, Length::Undefined(), Environment::Default().accessCelestialObjectWithName("Earth")
-                ),
+                Orbit::Frozen(epoch, Length::Undefined(), Environment::Default().getCelestialObjectWithName("Earth")),
                 ostk::core::error::runtime::Undefined
             );
         }

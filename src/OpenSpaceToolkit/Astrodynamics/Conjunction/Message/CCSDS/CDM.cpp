@@ -473,7 +473,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
     CDM::RelativeMetadata relativeMetadata = CDM::RelativeMetadata {
         String::Empty(),
         Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
-        Length::Meters(ParseDouble(aDictionary["MISS_DISTANCE"].accessString())),
+        Length::Meters(ParseDouble(aDictionary["MISS_DISTANCE"].getString())),
         Position::Undefined(),
         Velocity::Undefined(),
         Instant::Undefined(),
@@ -486,7 +486,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         Instant::Undefined(),
         Instant::Undefined(),
         collisionProbability,
-        aDictionary["COLLISION_PROBABILITY_METHOD"].accessString()
+        aDictionary["COLLISION_PROBABILITY_METHOD"].getString()
     };
 
     // Extract Conjunction Objects Metadata
@@ -495,21 +495,21 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 
     CDM::Metadata sat1ObjectMetadata = CDM::Metadata {
         String::Empty(),
-        aDictionary["SAT1_OBJECT"].accessString(),
-        ParseInt(aDictionary["SAT1_OBJECT_DESIGNATOR"].accessString()),
-        aDictionary["SAT1_CATALOG_NAME"].accessString(),
-        aDictionary["SAT1_OBJECT_NAME"].accessString(),
-        aDictionary["SAT1_INTERNATIONAL_DESIGNATOR"].accessString(),
+        aDictionary["SAT1_OBJECT"].getString(),
+        ParseInt(aDictionary["SAT1_OBJECT_DESIGNATOR"].getString()),
+        aDictionary["SAT1_CATALOG_NAME"].getString(),
+        aDictionary["SAT1_OBJECT_NAME"].getString(),
+        aDictionary["SAT1_INTERNATIONAL_DESIGNATOR"].getString(),
         CDM::ObjectType::Payload,
         String::Empty(),
         String::Empty(),
         String::Empty(),
         String::Empty(),
-        aDictionary["SAT1_EPHEMERIS_NAME"].accessString(),
-        aDictionary["SAT1_COVARIANCE_METHOD"].accessString(),
-        aDictionary["SAT1_MANEUVERABLE"].accessString(),
+        aDictionary["SAT1_EPHEMERIS_NAME"].getString(),
+        aDictionary["SAT1_COVARIANCE_METHOD"].getString(),
+        aDictionary["SAT1_MANEUVERABLE"].getString(),
         String::Empty(),
-        aDictionary["SAT1_REF_FRAME"].accessString(),
+        aDictionary["SAT1_REF_FRAME"].getString(),
         String::Empty(),
         String::Empty(),
         String::Empty(),
@@ -522,21 +522,21 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 
     CDM::Metadata sat2ObjectMetadata = CDM::Metadata {
         String::Empty(),
-        aDictionary["SAT2_OBJECT"].accessString(),
-        ParseInt(aDictionary["SAT2_OBJECT_DESIGNATOR"].accessString()),
-        aDictionary["SAT2_CATALOG_NAME"].accessString(),
-        aDictionary["SAT2_OBJECT_NAME"].accessString(),
-        aDictionary["SAT2_INTERNATIONAL_DESIGNATOR"].accessString(),
+        aDictionary["SAT2_OBJECT"].getString(),
+        ParseInt(aDictionary["SAT2_OBJECT_DESIGNATOR"].getString()),
+        aDictionary["SAT2_CATALOG_NAME"].getString(),
+        aDictionary["SAT2_OBJECT_NAME"].getString(),
+        aDictionary["SAT2_INTERNATIONAL_DESIGNATOR"].getString(),
         CDM::ObjectType::Payload,
         String::Empty(),
         String::Empty(),
         String::Empty(),
         String::Empty(),
-        aDictionary["SAT2_EPHEMERIS_NAME"].accessString(),
-        aDictionary["SAT2_COVARIANCE_METHOD"].accessString(),
-        aDictionary["SAT2_MANEUVERABLE"].accessString(),
+        aDictionary["SAT2_EPHEMERIS_NAME"].getString(),
+        aDictionary["SAT2_COVARIANCE_METHOD"].getString(),
+        aDictionary["SAT2_MANEUVERABLE"].getString(),
         String::Empty(),
-        aDictionary["SAT2_REF_FRAME"].accessString(),
+        aDictionary["SAT2_REF_FRAME"].getString(),
         String::Empty(),
         String::Empty(),
         String::Empty(),
@@ -554,27 +554,27 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
     // Construct Object 1 Covariance Matrix, TBI: Use symmetric construction
 
     MatrixXd object1CovarianceMatrix = MatrixXd::Zero(9, 9);
-    object1CovarianceMatrix(0, 0) = ParseDouble(aDictionary["SAT1_CR_R"].accessString());
-    object1CovarianceMatrix(1, 0) = ParseDouble(aDictionary["SAT1_CT_R"].accessString());
-    object1CovarianceMatrix(1, 1) = ParseDouble(aDictionary["SAT1_CT_T"].accessString());
-    object1CovarianceMatrix(2, 0) = ParseDouble(aDictionary["SAT1_CN_R"].accessString());
-    object1CovarianceMatrix(2, 1) = ParseDouble(aDictionary["SAT1_CN_T"].accessString());
-    object1CovarianceMatrix(2, 2) = ParseDouble(aDictionary["SAT1_CN_N"].accessString());
-    object1CovarianceMatrix(3, 0) = ParseDouble(aDictionary["SAT1_CRDOT_R"].accessString());
-    object1CovarianceMatrix(3, 1) = ParseDouble(aDictionary["SAT1_CRDOT_T"].accessString());
-    object1CovarianceMatrix(3, 2) = ParseDouble(aDictionary["SAT1_CRDOT_N"].accessString());
-    object1CovarianceMatrix(3, 3) = ParseDouble(aDictionary["SAT1_CRDOT_RDOT"].accessString());
-    object1CovarianceMatrix(4, 0) = ParseDouble(aDictionary["SAT1_CTDOT_R"].accessString());
-    object1CovarianceMatrix(4, 1) = ParseDouble(aDictionary["SAT1_CTDOT_T"].accessString());
-    object1CovarianceMatrix(4, 2) = ParseDouble(aDictionary["SAT1_CTDOT_N"].accessString());
-    object1CovarianceMatrix(4, 3) = ParseDouble(aDictionary["SAT1_CTDOT_RDOT"].accessString());
-    object1CovarianceMatrix(4, 4) = ParseDouble(aDictionary["SAT1_CTDOT_TDOT"].accessString());
-    object1CovarianceMatrix(5, 0) = ParseDouble(aDictionary["SAT1_CNDOT_R"].accessString());
-    object1CovarianceMatrix(5, 1) = ParseDouble(aDictionary["SAT1_CNDOT_T"].accessString());
-    object1CovarianceMatrix(5, 2) = ParseDouble(aDictionary["SAT1_CNDOT_N"].accessString());
-    object1CovarianceMatrix(5, 3) = ParseDouble(aDictionary["SAT1_CNDOT_RDOT"].accessString());
-    object1CovarianceMatrix(5, 4) = ParseDouble(aDictionary["SAT1_CNDOT_TDOT"].accessString());
-    object1CovarianceMatrix(5, 5) = ParseDouble(aDictionary["SAT1_CNDOT_NDOT"].accessString());
+    object1CovarianceMatrix(0, 0) = ParseDouble(aDictionary["SAT1_CR_R"].getString());
+    object1CovarianceMatrix(1, 0) = ParseDouble(aDictionary["SAT1_CT_R"].getString());
+    object1CovarianceMatrix(1, 1) = ParseDouble(aDictionary["SAT1_CT_T"].getString());
+    object1CovarianceMatrix(2, 0) = ParseDouble(aDictionary["SAT1_CN_R"].getString());
+    object1CovarianceMatrix(2, 1) = ParseDouble(aDictionary["SAT1_CN_T"].getString());
+    object1CovarianceMatrix(2, 2) = ParseDouble(aDictionary["SAT1_CN_N"].getString());
+    object1CovarianceMatrix(3, 0) = ParseDouble(aDictionary["SAT1_CRDOT_R"].getString());
+    object1CovarianceMatrix(3, 1) = ParseDouble(aDictionary["SAT1_CRDOT_T"].getString());
+    object1CovarianceMatrix(3, 2) = ParseDouble(aDictionary["SAT1_CRDOT_N"].getString());
+    object1CovarianceMatrix(3, 3) = ParseDouble(aDictionary["SAT1_CRDOT_RDOT"].getString());
+    object1CovarianceMatrix(4, 0) = ParseDouble(aDictionary["SAT1_CTDOT_R"].getString());
+    object1CovarianceMatrix(4, 1) = ParseDouble(aDictionary["SAT1_CTDOT_T"].getString());
+    object1CovarianceMatrix(4, 2) = ParseDouble(aDictionary["SAT1_CTDOT_N"].getString());
+    object1CovarianceMatrix(4, 3) = ParseDouble(aDictionary["SAT1_CTDOT_RDOT"].getString());
+    object1CovarianceMatrix(4, 4) = ParseDouble(aDictionary["SAT1_CTDOT_TDOT"].getString());
+    object1CovarianceMatrix(5, 0) = ParseDouble(aDictionary["SAT1_CNDOT_R"].getString());
+    object1CovarianceMatrix(5, 1) = ParseDouble(aDictionary["SAT1_CNDOT_T"].getString());
+    object1CovarianceMatrix(5, 2) = ParseDouble(aDictionary["SAT1_CNDOT_N"].getString());
+    object1CovarianceMatrix(5, 3) = ParseDouble(aDictionary["SAT1_CNDOT_RDOT"].getString());
+    object1CovarianceMatrix(5, 4) = ParseDouble(aDictionary["SAT1_CNDOT_TDOT"].getString());
+    object1CovarianceMatrix(5, 5) = ParseDouble(aDictionary["SAT1_CNDOT_NDOT"].getString());
 
     for (int i = 0; i < 5; i++)
     {
@@ -584,7 +584,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         }
     }
 
-    String sat1RefFrameString = aDictionary["SAT1_REF_FRAME"].accessString();
+    String sat1RefFrameString = aDictionary["SAT1_REF_FRAME"].getString();
     Shared<const Frame> sat1RefFramePtr = referenceFrameStringToFrame(sat1RefFrameString);
 
     CDM::Data sat1ObjectData = CDM::Data {
@@ -609,15 +609,15 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         State(
             Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
             Position::Meters(  // TBI: Add Position::Kilometers
-                {ParseDouble(aDictionary["SAT1_X"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT1_Y"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT1_Z"].accessString()) * 1000.0},
+                {ParseDouble(aDictionary["SAT1_X"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT1_Y"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT1_Z"].getString()) * 1000.0},
                 sat1RefFramePtr
             ),
             Velocity::MetersPerSecond(  // TBI: Add Velocity::KilometersPerSecond
-                {ParseDouble(aDictionary["SAT1_X_DOT"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT1_Y_DOT"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT1_Z_DOT"].accessString()) * 1000.0},
+                {ParseDouble(aDictionary["SAT1_X_DOT"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT1_Y_DOT"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT1_Z_DOT"].getString()) * 1000.0},
                 sat1RefFramePtr
             )
         ),
@@ -629,27 +629,27 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
     // Construct Object 2 Covariance Matrix
 
     MatrixXd object2CovarianceMatrix = MatrixXd::Zero(9, 9);
-    object2CovarianceMatrix(0, 0) = ParseDouble(aDictionary["SAT2_CR_R"].accessString());
-    object2CovarianceMatrix(1, 0) = ParseDouble(aDictionary["SAT2_CT_R"].accessString());
-    object2CovarianceMatrix(1, 1) = ParseDouble(aDictionary["SAT2_CT_T"].accessString());
-    object2CovarianceMatrix(2, 0) = ParseDouble(aDictionary["SAT2_CN_R"].accessString());
-    object2CovarianceMatrix(2, 1) = ParseDouble(aDictionary["SAT2_CN_T"].accessString());
-    object2CovarianceMatrix(2, 2) = ParseDouble(aDictionary["SAT2_CN_N"].accessString());
-    object2CovarianceMatrix(3, 0) = ParseDouble(aDictionary["SAT2_CRDOT_R"].accessString());
-    object2CovarianceMatrix(3, 1) = ParseDouble(aDictionary["SAT2_CRDOT_T"].accessString());
-    object2CovarianceMatrix(3, 2) = ParseDouble(aDictionary["SAT2_CRDOT_N"].accessString());
-    object2CovarianceMatrix(3, 3) = ParseDouble(aDictionary["SAT2_CRDOT_RDOT"].accessString());
-    object2CovarianceMatrix(4, 0) = ParseDouble(aDictionary["SAT2_CTDOT_R"].accessString());
-    object2CovarianceMatrix(4, 1) = ParseDouble(aDictionary["SAT2_CTDOT_T"].accessString());
-    object2CovarianceMatrix(4, 2) = ParseDouble(aDictionary["SAT2_CTDOT_N"].accessString());
-    object2CovarianceMatrix(4, 3) = ParseDouble(aDictionary["SAT2_CTDOT_RDOT"].accessString());
-    object2CovarianceMatrix(4, 4) = ParseDouble(aDictionary["SAT2_CTDOT_TDOT"].accessString());
-    object2CovarianceMatrix(5, 0) = ParseDouble(aDictionary["SAT2_CNDOT_R"].accessString());
-    object2CovarianceMatrix(5, 1) = ParseDouble(aDictionary["SAT2_CNDOT_T"].accessString());
-    object2CovarianceMatrix(5, 2) = ParseDouble(aDictionary["SAT2_CNDOT_N"].accessString());
-    object2CovarianceMatrix(5, 3) = ParseDouble(aDictionary["SAT2_CNDOT_RDOT"].accessString());
-    object2CovarianceMatrix(5, 4) = ParseDouble(aDictionary["SAT2_CNDOT_TDOT"].accessString());
-    object2CovarianceMatrix(5, 5) = ParseDouble(aDictionary["SAT2_CNDOT_NDOT"].accessString());
+    object2CovarianceMatrix(0, 0) = ParseDouble(aDictionary["SAT2_CR_R"].getString());
+    object2CovarianceMatrix(1, 0) = ParseDouble(aDictionary["SAT2_CT_R"].getString());
+    object2CovarianceMatrix(1, 1) = ParseDouble(aDictionary["SAT2_CT_T"].getString());
+    object2CovarianceMatrix(2, 0) = ParseDouble(aDictionary["SAT2_CN_R"].getString());
+    object2CovarianceMatrix(2, 1) = ParseDouble(aDictionary["SAT2_CN_T"].getString());
+    object2CovarianceMatrix(2, 2) = ParseDouble(aDictionary["SAT2_CN_N"].getString());
+    object2CovarianceMatrix(3, 0) = ParseDouble(aDictionary["SAT2_CRDOT_R"].getString());
+    object2CovarianceMatrix(3, 1) = ParseDouble(aDictionary["SAT2_CRDOT_T"].getString());
+    object2CovarianceMatrix(3, 2) = ParseDouble(aDictionary["SAT2_CRDOT_N"].getString());
+    object2CovarianceMatrix(3, 3) = ParseDouble(aDictionary["SAT2_CRDOT_RDOT"].getString());
+    object2CovarianceMatrix(4, 0) = ParseDouble(aDictionary["SAT2_CTDOT_R"].getString());
+    object2CovarianceMatrix(4, 1) = ParseDouble(aDictionary["SAT2_CTDOT_T"].getString());
+    object2CovarianceMatrix(4, 2) = ParseDouble(aDictionary["SAT2_CTDOT_N"].getString());
+    object2CovarianceMatrix(4, 3) = ParseDouble(aDictionary["SAT2_CTDOT_RDOT"].getString());
+    object2CovarianceMatrix(4, 4) = ParseDouble(aDictionary["SAT2_CTDOT_TDOT"].getString());
+    object2CovarianceMatrix(5, 0) = ParseDouble(aDictionary["SAT2_CNDOT_R"].getString());
+    object2CovarianceMatrix(5, 1) = ParseDouble(aDictionary["SAT2_CNDOT_T"].getString());
+    object2CovarianceMatrix(5, 2) = ParseDouble(aDictionary["SAT2_CNDOT_N"].getString());
+    object2CovarianceMatrix(5, 3) = ParseDouble(aDictionary["SAT2_CNDOT_RDOT"].getString());
+    object2CovarianceMatrix(5, 4) = ParseDouble(aDictionary["SAT2_CNDOT_TDOT"].getString());
+    object2CovarianceMatrix(5, 5) = ParseDouble(aDictionary["SAT2_CNDOT_NDOT"].getString());
 
     for (int i = 0; i < 5; i++)
     {
@@ -659,7 +659,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         }
     }
 
-    String sat2RefFrameString = aDictionary["SAT2_REF_FRAME"].accessString();
+    String sat2RefFrameString = aDictionary["SAT2_REF_FRAME"].getString();
     Shared<const Frame> sat2RefFramePtr = referenceFrameStringToFrame(sat2RefFrameString);
 
     CDM::Data sat2ObjectData = CDM::Data {
@@ -684,15 +684,15 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         State(
             Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
             Position::Meters(
-                {ParseDouble(aDictionary["SAT2_X"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT2_Y"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT2_Z"].accessString()) * 1000.0},
+                {ParseDouble(aDictionary["SAT2_X"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT2_Y"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT2_Z"].getString()) * 1000.0},
                 sat2RefFramePtr
             ),
             Velocity::MetersPerSecond(
-                {ParseDouble(aDictionary["SAT2_X_DOT"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT2_Y_DOT"].accessString()) * 1000.0,
-                 ParseDouble(aDictionary["SAT2_Z_DOT"].accessString()) * 1000.0},
+                {ParseDouble(aDictionary["SAT2_X_DOT"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT2_Y_DOT"].getString()) * 1000.0,
+                 ParseDouble(aDictionary["SAT2_Z_DOT"].getString()) * 1000.0},
                 sat2RefFramePtr
             )
         ),
@@ -708,14 +708,14 @@ CDM CDM::Parse(const String& aString)
 {
     using ostk::core::container::Object;
 
-    return CDM::Dictionary(Object::Parse(aString, Object::Format::JSON).accessDictionary());
+    return CDM::Dictionary(Object::Parse(aString, Object::Format::JSON).getDictionary());
 }
 
 CDM CDM::Load(const File& aFile)
 {
     using ostk::core::container::Object;
 
-    return CDM::Dictionary(Object::Load(aFile, Object::Format::JSON).accessDictionary());
+    return CDM::Dictionary(Object::Load(aFile, Object::Format::JSON).getDictionary());
 }
 
 CDM::ObjectType CDM::ObjectTypeFromString(const String& aString)

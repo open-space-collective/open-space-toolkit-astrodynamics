@@ -489,11 +489,6 @@ TLE TLE::Parse(const String& aString)
 
 TLE TLE::Load(const File& aFile)
 {
-    if (!aFile.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("File");
-    }
-
     if (!aFile.exists())
     {
         throw ostk::core::error::RuntimeError("File [{}] does not exist.", aFile.toString());

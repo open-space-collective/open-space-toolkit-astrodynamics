@@ -40,7 +40,7 @@ bool VisibilityCriterion::LineOfSight::isSatisfied(
     Shared<const Frame> commonFrameSPtr = nullptr;
     if (this->environment.hasCentralCelestialObject())
     {
-        commonFrameSPtr = this->environment.accessCentralCelestialObject()->accessFrame();
+        commonFrameSPtr = this->environment.getCentralCelestialObject()->getFrame();
     }
     else
     {
@@ -66,7 +66,7 @@ bool VisibilityCriterion::LineOfSight::isSatisfied(
 
 bool VisibilityCriterion::LineOfSight::operator==(const VisibilityCriterion::LineOfSight& aLineOfSight) const
 {
-    return this->environment.accessObjects() == aLineOfSight.environment.accessObjects();
+    return this->environment.getObjects() == aLineOfSight.environment.getObjects();
 }
 
 bool VisibilityCriterion::LineOfSight::operator!=(const VisibilityCriterion::LineOfSight& aLineOfSight) const

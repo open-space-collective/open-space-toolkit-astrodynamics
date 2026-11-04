@@ -87,7 +87,7 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState)
 
     const String name = this->generateFrameName(positionVelocityStateInParentFrame);
 
-    if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
+    if (const auto frameSPtr = FrameManager::Get().getFrameWithName(name))
     {
         return frameSPtr;
     }

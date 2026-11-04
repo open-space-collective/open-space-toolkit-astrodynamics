@@ -281,15 +281,15 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Start instant:" << (this->isDefined() ? this->getInterval().accessStart().toString() : "Undefined");
+        << "Start instant:" << (this->isDefined() ? this->getInterval().getStart().toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "End instant:" << (this->isDefined() ? this->getInterval().accessEnd().toString() : "Undefined");
+        << "End instant:" << (this->isDefined() ? this->getInterval().getEnd().toString() : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream);
 
     {
         const State firstState =
-            this->isDefined() ? this->calculateStateAt(this->getInterval().accessStart()) : State::Undefined();
+            this->isDefined() ? this->calculateStateAt(this->getInterval().getStart()) : State::Undefined();
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "First state:"
@@ -304,7 +304,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     {
         const State lastState =
-            this->isDefined() ? this->calculateStateAt(this->getInterval().accessEnd()) : State::Undefined();
+            this->isDefined() ? this->calculateStateAt(this->getInterval().getEnd()) : State::Undefined();
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "Last state:"
@@ -376,8 +376,8 @@ bool Tabulated::computeInterpolationData(
 
     // Cache the first and last states in their native frame, so getFirstState()/getLastState() preserve the
     // frame of the provided states.
-    firstState_ = stateArray.accessFirst();
-    lastState_ = stateArray.accessLast();
+    firstState_ = stateArray.getFirst();
+    lastState_ = stateArray.getLast();
 
     aTimestampVector.resize(stateArray.getSize());
     aCoordinateMatrix.resize(stateArray.getSize(), firstState_.getSize());

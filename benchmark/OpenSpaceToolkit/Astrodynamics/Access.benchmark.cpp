@@ -4,7 +4,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
@@ -33,11 +32,10 @@
 
 using ostk::core::container::Array;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
-using MathInterval = ostk::mathematics::object::Interval<Real>;
+using MathInterval = ostk::mathematics::object::Interval<double>;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -112,7 +110,7 @@ static void benchmark001(benchmark::State& state)
             "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
         };
         const SGP4 sgp4 = {tle};
-        const Orbit satelliteOrbit = {sgp4, REFERENCE_ENVIRONMENT.accessCelestialObjectWithName("Earth")};
+        const Orbit satelliteOrbit = {sgp4, REFERENCE_ENVIRONMENT.getCelestialObjectWithName("Earth")};
 
         computeAccesses(state, groundStationAccessTarget, satelliteOrbit);
     }
@@ -140,7 +138,7 @@ static const Array<State>& ReferenceSsoStatesGCRF()
             REFERENCE_START_INSTANT,
             Length::Kilometers(500.0),
             Time::Parse("10:30:00"),
-            REFERENCE_ENVIRONMENT.accessCelestialObjectWithName("Earth")
+            REFERENCE_ENVIRONMENT.getCelestialObjectWithName("Earth")
         );
 
         const Interval samplingInterval = Interval::Closed(

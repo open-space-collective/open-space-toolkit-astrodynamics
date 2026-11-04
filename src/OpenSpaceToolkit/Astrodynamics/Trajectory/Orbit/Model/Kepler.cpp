@@ -351,7 +351,7 @@ COE Kepler::InertialCoeFromFixedCoe(
 {
     using ostk::physics::coordinate::Transform;
 
-    const Shared<const Frame> fixedFrame = aCelestialObject.accessFrame();
+    const Shared<const Frame> fixedFrame = aCelestialObject.getFrame();
 
     const Transform fixedFrameToInertialFrameTransform = fixedFrame->getTransformTo(aFrameSPtr, anEpoch);
 
@@ -362,10 +362,10 @@ COE Kepler::InertialCoeFromFixedCoe(
     const Velocity& velocityInFixedFrame = cartesianStateInFixedFrame.second;
 
     const Position positionInInertialFrame = Position::Meters(
-        fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.accessCoordinates()), aFrameSPtr
+        fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.getCoordinates()), aFrameSPtr
     );
     const Velocity velocityInInertialFrame = Velocity::MetersPerSecond(
-        fixedFrameToInertialFrameTransform.applyToVelocity({0.0, 0.0, 0.0}, velocityInFixedFrame.accessCoordinates()),
+        fixedFrameToInertialFrameTransform.applyToVelocity({0.0, 0.0, 0.0}, velocityInFixedFrame.getCoordinates()),
         aFrameSPtr
     );
 
@@ -461,7 +461,7 @@ int Kepler::CalculateNoneRevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
+    return static_cast<int>(std::floor(durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()));
 }
 
 State Kepler::CalculateJ2StateAt(
@@ -702,7 +702,7 @@ int Kepler::CalculateJ2RevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
+    return static_cast<int>(std::floor(durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()));
 }
 
 State Kepler::CalculateJ4StateAt(
@@ -884,7 +884,7 @@ int Kepler::CalculateJ4RevolutionNumberAt(
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor();
+    return static_cast<int>(std::floor(durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()));
 }
 
 }  // namespace model

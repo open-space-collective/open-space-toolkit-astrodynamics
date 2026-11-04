@@ -3,7 +3,6 @@
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
@@ -46,7 +45,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
         satelliteGeometry_ = Composite(satelliteCuboid);
@@ -78,7 +77,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
     double crossSectionalSurfaceArea_ = 0.8;
     double dragCoefficient_ = 1.2;
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite::Undefined();
+    Composite satelliteGeometry_ = Composite(Point::Undefined());
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 };
 
@@ -146,7 +145,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOper
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
         const Composite anotherSatelliteGeometry(Cuboid(center, axes, extent));
         EXPECT_FALSE(
             satelliteSystem_ == SatelliteSystem(
@@ -264,7 +263,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToO
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
         const Composite anotherSatelliteGeometry(Cuboid(center, axes, extent));
         EXPECT_TRUE(
             satelliteSystem_ != SatelliteSystem(
@@ -353,7 +352,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
 
         EXPECT_FALSE(SatelliteSystem(
                          mass_,
-                         Composite::Undefined(),
+                         Composite(Point::Undefined()),
                          satelliteInertiaTensor_,
                          crossSectionalSurfaceArea_,
                          dragCoefficient_,
@@ -440,7 +439,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetGeometry
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
         const Composite satelliteGeometry(satelliteCuboid);

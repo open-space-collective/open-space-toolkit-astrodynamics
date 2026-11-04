@@ -30,7 +30,7 @@ def environment() -> Environment:
 
 @pytest.fixture
 def earth(environment: Environment) -> Celestial:
-    return environment.access_celestial_object_with_name("Earth")
+    return environment.get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -432,7 +432,7 @@ class TestCloseApproach:
         assert encounter_frame is not None
         assert isinstance(encounter_frame, Frame)
         assert encounter_frame.is_defined() is True
-        assert encounter_frame.access_parent() == gcrf_frame
+        assert encounter_frame.get_parent() == gcrf_frame
         assert close_approach.compute_encounter_frame(frame=gcrf_frame) == encounter_frame
 
     def test_compute_rotated_encounter_frame_parameters_success(

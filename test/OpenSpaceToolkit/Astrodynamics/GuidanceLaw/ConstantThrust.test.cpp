@@ -228,18 +228,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, calculateThrus
             for (const auto& referenceRow : referenceData)
             {
                 instantArray.add(Instant::DateTime(
-                    DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
+                    DateTime::Parse(referenceRow[0].getString(), DateTime::Format::ISO8601), Scale::UTC
                 ));
                 referencePositionArrayGCRF.add(
-                    Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
+                    Vector3d(referenceRow[1].getReal(), referenceRow[2].getReal(), referenceRow[3].getReal())
                 );
                 referenceVelocityArrayGCRF.add(
-                    Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
+                    Vector3d(referenceRow[4].getReal(), referenceRow[5].getReal(), referenceRow[6].getReal())
                 );
-                referenceManeuverAccelerationArrayGCRF.add(Vector3d(
-                    referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal()
-                ));
-                referenceMassArray.add(referenceRow[22].accessReal());
+                referenceManeuverAccelerationArrayGCRF.add(
+                    Vector3d(referenceRow[16].getReal(), referenceRow[17].getReal(), referenceRow[18].getReal())
+                );
+                referenceMassArray.add(referenceRow[22].getReal());
             }
 
             // Validation loop

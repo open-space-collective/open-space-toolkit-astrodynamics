@@ -104,7 +104,7 @@ Interval Tabulated::getInterval() const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return Interval::Closed(this->stateArray_.accessFirst().getInstant(), this->stateArray_.accessLast().getInstant());
+    return Interval::Closed(this->stateArray_.getFirst().getInstant(), this->stateArray_.getLast().getInstant());
 }
 
 Interpolator::Type Tabulated::getInterpolationType() const
@@ -131,19 +131,19 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     const Interval interval = this->getInterval();
 
-    if (anInstant < interval.accessStart() || anInstant > interval.accessEnd())
+    if (anInstant < interval.getStart() || anInstant > interval.getEnd())
     {
         throw ostk::core::error::RuntimeError(String::Format(
             "Provided instant [{}] is outside of interpolation range [{}, {}].",
             anInstant.toString(),
-            interval.accessStart().toString(),
-            interval.accessEnd().toString()
+            interval.getStart().toString(),
+            interval.getEnd().toString()
         ));
     }
 
     VectorXd reducedCoordinates(reducedStateBuilder_.getSize());
 
-    const double durationSeconds = (anInstant - interval.accessStart()).inSeconds();
+    const double durationSeconds = (anInstant - interval.getStart()).inSeconds();
 
     // Loop through all coordinate subsets except the last one (attitude quaternion)
     for (Size coordinateIndex = 0; coordinateIndex < interpolators_.getSize(); ++coordinateIndex)
@@ -169,11 +169,11 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     if (it == this->stateArray_.begin())
     {
-        qAtInstant = stateArray_.accessFirst().getAttitude();
+        qAtInstant = stateArray_.getFirst().getAttitude();
     }
     else if (it == this->stateArray_.end())
     {
-        qAtInstant = stateArray_.accessLast().getAttitude();
+        qAtInstant = stateArray_.getLast().getAttitude();
     }
     else
     {
@@ -262,14 +262,14 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Start instant:" << (this->isDefined() ? this->getInterval().accessStart().toString() : "Undefined");
+        << "Start instant:" << (this->isDefined() ? this->getInterval().getStart().toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "End instant:" << (this->isDefined() ? this->getInterval().accessEnd().toString() : "Undefined");
+        << "End instant:" << (this->isDefined() ? this->getInterval().getEnd().toString() : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream);
 
     {
-        const State firstState = this->isDefined() ? stateArray_.accessFirst() : State::Undefined();
+        const State firstState = this->isDefined() ? stateArray_.getFirst() : State::Undefined();
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "First state:"
@@ -283,7 +283,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     }
 
     {
-        const State lastState = this->isDefined() ? stateArray_.accessLast() : State::Undefined();
+        const State lastState = this->isDefined() ? stateArray_.getLast() : State::Undefined();
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "Last state:"
@@ -383,7 +383,7 @@ void Tabulated::setMembers(
     // Report the interpolation type of the first reduced coordinate via getInterpolationType().
     if (!interpolationTypePerCoordinate.isEmpty())
     {
-        interpolationType_ = interpolationTypePerCoordinate.accessFirst();
+        interpolationType_ = interpolationTypePerCoordinate.getFirst();
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -405,7 +405,7 @@ void Tabulated::computeReducedInterpolationData(
         throw ostk::core::error::RuntimeError("State array must have at least length 2.");
     }
 
-    const State& firstState = aStateArray.accessFirst();
+    const State& firstState = aStateArray.getFirst();
     stateBuilder_ = StateBuilder(firstState);
 
     Array<Shared<const CoordinateSubset>> reducedCoordinateSubsets = firstState.getCoordinateSubsets();

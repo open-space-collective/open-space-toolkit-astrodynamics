@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
 namespace ostk
@@ -87,7 +89,10 @@ const Composite& System::getGeometry() const
 
 System System::Undefined()
 {
-    return {Mass::Undefined(), Composite::Undefined()};
+    using ostk::mathematics::geometry::d3::object::Point;
+
+    // A composite holding an undefined object is undefined (mathematics v5 has no Composite::Undefined())
+    return {Mass::Undefined(), Composite(Point::Undefined())};
 }
 
 }  // namespace flight

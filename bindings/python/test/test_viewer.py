@@ -33,7 +33,7 @@ def orbit(environment: Environment) -> Orbit:
         epoch=Instant.date_time(DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC),
         altitude=Length.kilometers(500.0),
         local_time_at_descending_node=Time(14, 0, 0),
-        celestial_object=environment.access_celestial_object_with_name("Earth"),
+        celestial_object=environment.get_celestial_object_with_name("Earth"),
     )
 
 
@@ -44,13 +44,13 @@ def orbits(environment: Environment) -> list[Orbit]:
             epoch=Instant.date_time(DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC),
             altitude=Length.kilometers(500.0),
             local_time_at_descending_node=Time(14, 0, 0),
-            celestial_object=environment.access_celestial_object_with_name("Earth"),
+            celestial_object=environment.get_celestial_object_with_name("Earth"),
         ),
         Orbit.sun_synchronous(
             epoch=Instant.date_time(DateTime(2020, 1, 1, 0, 0, 0), Scale.UTC),
             altitude=Length.kilometers(500.0),
             local_time_at_descending_node=Time(12, 0, 0),
-            celestial_object=environment.access_celestial_object_with_name("Earth"),
+            celestial_object=environment.get_celestial_object_with_name("Earth"),
         ),
     ]
 
@@ -187,7 +187,7 @@ class TestViewer:
         viewer.add_celestial_body_direction(
             profile_or_trajectory=orbit,
             time_step=Duration.seconds(30.0),
-            celestial=environment.access_celestial_object_with_name(celestial_body_name),
+            celestial=environment.get_celestial_object_with_name(celestial_body_name),
         )
 
         rendered_html: str = viewer.render()
@@ -311,7 +311,7 @@ def test_compute_celestial_angular_diameter_from_states_success(
     environment: Environment,
 ) -> None:
     assert _compute_celestial_angular_diameter_from_states(
-        celestial=environment.access_celestial_object_with_name("Sun"),
+        celestial=environment.get_celestial_object_with_name("Sun"),
         states=orbit.get_states_at(
             interval.generate_grid(Duration.seconds(30.0)),
         ),

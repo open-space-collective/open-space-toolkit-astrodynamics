@@ -1230,7 +1230,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Load)
     }
 
     {
-        EXPECT_ANY_THROW(TLE::Load(File::Undefined()));
         EXPECT_ANY_THROW(TLE::Load(File::Path(Path::Parse("/path/to/satellite.tle"))));
     }
 }

@@ -140,7 +140,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation : public ::t
     const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
 
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite::Undefined();
+    Composite satelliteGeometry_ = Composite(Point::Undefined());
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();

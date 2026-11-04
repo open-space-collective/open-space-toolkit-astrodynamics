@@ -216,9 +216,7 @@ class NumericalSolver : public MathNumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     ) = delete;
 
-    Array<MathNumericalSolver::Solution> getObservedStateVectors() const = delete;
-
-    const Array<MathNumericalSolver::Solution>& accessObservedStateVectors() const = delete;
+    const Array<MathNumericalSolver::Solution>& getObservedStateVectors() const = delete;
 
    private:
     RootSolver rootSolver_;

@@ -18,7 +18,7 @@ using ostk::core::type::String;
 using ostk::mathematics::object::Vector2d;
 
 VisibilityCriterion::AERMask::AERMask(
-    const Map<double, double>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
+    const Map<double, double>& anAzimuthElevationMask, const Interval<double>& aRangeInterval
 )
     : azimuthElevationMask(anAzimuthElevationMask),
       range(aRangeInterval)
@@ -26,7 +26,7 @@ VisibilityCriterion::AERMask::AERMask(
     if (range.getLowerBound() < 0.0)
     {
         throw ostk::core::error::RuntimeError(
-            "The range interval [{}, {}] must be positive.", range.accessLowerBound(), range.accessUpperBound()
+            "The range interval [{}, {}] must be positive.", range.getLowerBound(), range.getUpperBound()
         );
     }
 

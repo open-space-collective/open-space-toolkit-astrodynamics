@@ -760,10 +760,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Load)
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM/cdm.json"))
         );
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Load(File::Undefined()));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, ObjectTypeFromString)

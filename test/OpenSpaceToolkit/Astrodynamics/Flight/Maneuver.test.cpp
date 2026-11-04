@@ -93,7 +93,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     };
 
     const Maneuver defaultManeuver_ = {defaultStates_};
-    const Maneuver singleStateManeuver_ = {{defaultStates_.accessFirst()}};
+    const Maneuver singleStateManeuver_ = {{defaultStates_.getFirst()}};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Constructor)
@@ -1188,7 +1188,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ConstantMassFlowRateProfi
     // Single state maneuver
     {
         const Maneuver maneuver =
-            Maneuver::ConstantMassFlowRateProfile({defaultStates_.accessFirst()}, defaultConstantMassFlowRate_);
+            Maneuver::ConstantMassFlowRateProfile({defaultStates_.getFirst()}, defaultConstantMassFlowRate_);
 
         EXPECT_EQ(maneuver.getStates().getSize(), 1);
 

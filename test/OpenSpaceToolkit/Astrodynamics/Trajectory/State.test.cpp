@@ -1563,8 +1563,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
         ));
         EXPECT_TRUE(stateITRF.getAngularVelocity().isNear({-1.0000398449, -1.9999601581, -2.9999537027}, 1e-7));
 
-        EXPECT_EQ(stateITRF.getPosition().accessFrame(), Frame::ITRF());
-        EXPECT_EQ(stateITRF.getVelocity().accessFrame(), Frame::ITRF());
+        EXPECT_EQ(stateITRF.getPosition().getFrame(), Frame::ITRF());
+        EXPECT_EQ(stateITRF.getVelocity().getFrame(), Frame::ITRF());
     }
 
     {

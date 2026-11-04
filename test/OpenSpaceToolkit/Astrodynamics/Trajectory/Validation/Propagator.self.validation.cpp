@@ -155,7 +155,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testin
     const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
 
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite::Undefined();
+    Composite satelliteGeometry_ = Composite(Point::Undefined());
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
@@ -339,14 +339,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, PropagationInte
                 const Velocity velocityLong = propagatedStateArray_long[i / indexIncrement].getVelocity();
 
                 const double positionErrorGCRF =
-                    (positionShort.accessCoordinates() - positionLong.accessCoordinates()).norm();
+                    (positionShort.getCoordinates() - positionLong.getCoordinates()).norm();
                 const double velocityErrorGCRF =
-                    (velocityShort.accessCoordinates() - velocityLong.accessCoordinates()).norm();
+                    (velocityShort.getCoordinates() - velocityLong.getCoordinates()).norm();
 
-                ASSERT_EQ(*Frame::GCRF(), *positionShort.accessFrame());
-                ASSERT_EQ(*Frame::GCRF(), *velocityShort.accessFrame());
-                ASSERT_EQ(*Frame::GCRF(), *positionLong.accessFrame());
-                ASSERT_EQ(*Frame::GCRF(), *velocityLong.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *positionShort.getFrame());
+                ASSERT_EQ(*Frame::GCRF(), *velocityShort.getFrame());
+                ASSERT_EQ(*Frame::GCRF(), *positionLong.getFrame());
+                ASSERT_EQ(*Frame::GCRF(), *velocityLong.getFrame());
 
                 ASSERT_GT(1.0e-7, positionErrorGCRF);
                 ASSERT_GT(1.0e-7, velocityErrorGCRF);
@@ -405,9 +405,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, PropagationInte
                 const Velocity velocityLong = stateLong.getVelocity();
 
                 const double positionErrorGCRF =
-                    (positionShort.accessCoordinates() - positionLong.accessCoordinates()).norm();
+                    (positionShort.getCoordinates() - positionLong.getCoordinates()).norm();
                 const double velocityErrorGCRF =
-                    (velocityShort.accessCoordinates() - velocityLong.accessCoordinates()).norm();
+                    (velocityShort.getCoordinates() - velocityLong.getCoordinates()).norm();
 
                 ASSERT_GT(3e-8, positionErrorGCRF);
                 ASSERT_GT(3e-11, velocityErrorGCRF);
@@ -475,8 +475,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, StepperType)
             const Position position78 = propagatedStateArray78[i].getPosition();
             const Velocity velocity78 = propagatedStateArray78[i].getVelocity();
 
-            const double positionErrorGCRF = (position54.accessCoordinates() - position78.accessCoordinates()).norm();
-            const double velocityErrorGCRF = (velocity54.accessCoordinates() - velocity78.accessCoordinates()).norm();
+            const double positionErrorGCRF = (position54.getCoordinates() - position78.getCoordinates()).norm();
+            const double velocityErrorGCRF = (velocity54.getCoordinates() - velocity78.getCoordinates()).norm();
 
             ASSERT_GT(5e-7, positionErrorGCRF);
             ASSERT_GT(5e-10, velocityErrorGCRF);
@@ -559,9 +559,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 360 vs 100
             const double positionErrorGCRF_360_100 =
-                (positionGCRF_360.accessCoordinates() - positionGCRF_100.accessCoordinates()).norm();
+                (positionGCRF_360.getCoordinates() - positionGCRF_100.getCoordinates()).norm();
             const double velocityErrorGCRF_360_100 =
-                (velocityGCRF_360.accessCoordinates() - velocityGCRF_100.accessCoordinates()).norm();
+                (velocityGCRF_360.getCoordinates() - velocityGCRF_100.getCoordinates()).norm();
             ASSERT_GT(2e-3, positionErrorGCRF_360_100);
             ASSERT_GT(2e-6, velocityErrorGCRF_360_100);
 
@@ -575,9 +575,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 360 vs 70
             const double positionErrorGCRF_360_70 =
-                (positionGCRF_360.accessCoordinates() - positionGCRF_70.accessCoordinates()).norm();
+                (positionGCRF_360.getCoordinates() - positionGCRF_70.getCoordinates()).norm();
             const double velocityErrorGCRF_360_70 =
-                (velocityGCRF_360.accessCoordinates() - velocityGCRF_70.accessCoordinates()).norm();
+                (velocityGCRF_360.getCoordinates() - velocityGCRF_70.getCoordinates()).norm();
             ASSERT_GT(5e-2, positionErrorGCRF_360_70);
             ASSERT_GT(5e-5, velocityErrorGCRF_360_70);
 
@@ -591,9 +591,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 360 vs 45
             const double positionErrorGCRF_360_45 =
-                (positionGCRF_360.accessCoordinates() - positionGCRF_45.accessCoordinates()).norm();
+                (positionGCRF_360.getCoordinates() - positionGCRF_45.getCoordinates()).norm();
             const double velocityErrorGCRF_360_45 =
-                (velocityGCRF_360.accessCoordinates() - velocityGCRF_45.accessCoordinates()).norm();
+                (velocityGCRF_360.getCoordinates() - velocityGCRF_45.getCoordinates()).norm();
             ASSERT_GT(5e-1, positionErrorGCRF_360_45);
             ASSERT_GT(5e-4, velocityErrorGCRF_360_45);
 
@@ -671,9 +671,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 360 vs 180
             const double positionErrorGCRF_360_180 =
-                (positionGCRF_360.accessCoordinates() - positionGCRF_180.accessCoordinates()).norm();
+                (positionGCRF_360.getCoordinates() - positionGCRF_180.getCoordinates()).norm();
             const double velocityErrorGCRF_360_180 =
-                (velocityGCRF_360.accessCoordinates() - velocityGCRF_180.accessCoordinates()).norm();
+                (velocityGCRF_360.getCoordinates() - velocityGCRF_180.getCoordinates()).norm();
             ASSERT_GT(1.0e-6, positionErrorGCRF_360_180);
             ASSERT_GT(1.2e-9, velocityErrorGCRF_360_180);
 
@@ -687,9 +687,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 360 vs 90
             const double positionErrorGCRF_360_90 =
-                (positionGCRF_360.accessCoordinates() - positionGCRF_90.accessCoordinates()).norm();
+                (positionGCRF_360.getCoordinates() - positionGCRF_90.getCoordinates()).norm();
             const double velocityErrorGCRF_360_90 =
-                (velocityGCRF_360.accessCoordinates() - velocityGCRF_90.accessCoordinates()).norm();
+                (velocityGCRF_360.getCoordinates() - velocityGCRF_90.getCoordinates()).norm();
             ASSERT_GT(7e-3, positionErrorGCRF_360_90);
             ASSERT_GT(7e-6, velocityErrorGCRF_360_90);
 
@@ -703,9 +703,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 360 vs 45
             const double positionErrorGCRF_360_45 =
-                (positionGCRF_360.accessCoordinates() - positionGCRF_45.accessCoordinates()).norm();
+                (positionGCRF_360.getCoordinates() - positionGCRF_45.getCoordinates()).norm();
             const double velocityErrorGCRF_360_45 =
-                (velocityGCRF_360.accessCoordinates() - velocityGCRF_45.accessCoordinates()).norm();
+                (velocityGCRF_360.getCoordinates() - velocityGCRF_45.getCoordinates()).norm();
             ASSERT_GT(5e-1, positionErrorGCRF_360_45);
             ASSERT_GT(5e-4, velocityErrorGCRF_360_45);
 
@@ -774,9 +774,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 180 vs 70
             const double positionErrorGCRF_180_70 =
-                (positionGCRF_180.accessCoordinates() - positionGCRF_70.accessCoordinates()).norm();
+                (positionGCRF_180.getCoordinates() - positionGCRF_70.getCoordinates()).norm();
             const double velocityErrorGCRF_180_70 =
-                (velocityGCRF_180.accessCoordinates() - velocityGCRF_70.accessCoordinates()).norm();
+                (velocityGCRF_180.getCoordinates() - velocityGCRF_70.getCoordinates()).norm();
             ASSERT_GT(6e-2, positionErrorGCRF_180_70);
             ASSERT_GT(6e-5, velocityErrorGCRF_180_70);
 
@@ -790,9 +790,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, GravityModel)
 
             // 180 vs 45
             const double positionErrorGCRF_180_45 =
-                (positionGCRF_180.accessCoordinates() - positionGCRF_45.accessCoordinates()).norm();
+                (positionGCRF_180.getCoordinates() - positionGCRF_45.getCoordinates()).norm();
             const double velocityErrorGCRF_180_45 =
-                (velocityGCRF_180.accessCoordinates() - velocityGCRF_45.accessCoordinates()).norm();
+                (velocityGCRF_180.getCoordinates() - velocityGCRF_45.getCoordinates()).norm();
             ASSERT_GT(3e-1, positionErrorGCRF_180_45);
             ASSERT_GT(3e-4, velocityErrorGCRF_180_45);
 
