@@ -871,15 +871,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryPointingTarget)
     // Test undefined trajectory throws
     {
         EXPECT_THROW(
-            Profile::TrajectoryPointingTarget::TargetPosition(Trajectory::Undefined(), Vector3d::X()),
+            Profile::TrajectoryPointingTarget::TargetPosition(Trajectory(Array<State>::Empty()), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryPointingTarget::TargetVelocity(Trajectory::Undefined(), Vector3d::X()),
+            Profile::TrajectoryPointingTarget::TargetVelocity(Trajectory(Array<State>::Empty()), Vector3d::X()),
             ostk::core::error::runtime::Undefined
         );
         EXPECT_THROW(
-            Profile::TrajectoryPointingTarget::TargetSlidingGroundVelocity(Trajectory::Undefined(), Vector3d::X()),
+            Profile::TrajectoryPointingTarget::TargetSlidingGroundVelocity(
+                Trajectory(Array<State>::Empty()), Vector3d::X()
+            ),
             ostk::core::error::runtime::Undefined
         );
     }

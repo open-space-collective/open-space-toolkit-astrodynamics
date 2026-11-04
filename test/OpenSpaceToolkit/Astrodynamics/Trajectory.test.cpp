@@ -143,12 +143,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
 
         EXPECT_FALSE(trajectory_A == trajectory_B);
 
-        EXPECT_FALSE(trajectory_A == Trajectory::Undefined());
-        EXPECT_FALSE(Trajectory::Undefined() == trajectory_B);
+        EXPECT_FALSE(trajectory_A == Trajectory(Array<State>::Empty()));
+        EXPECT_FALSE(Trajectory(Array<State>::Empty()) == trajectory_B);
     }
 
     {
-        EXPECT_FALSE(Trajectory::Undefined() == Trajectory::Undefined());
+        EXPECT_FALSE(Trajectory(Array<State>::Empty()) == Trajectory(Array<State>::Empty()));
     }
 }
 
@@ -204,12 +204,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
 
         EXPECT_TRUE(trajectory_A != trajectory_B);
 
-        EXPECT_TRUE(trajectory_A != Trajectory::Undefined());
-        EXPECT_TRUE(Trajectory::Undefined() != trajectory_B);
+        EXPECT_TRUE(trajectory_A != Trajectory(Array<State>::Empty()));
+        EXPECT_TRUE(Trajectory(Array<State>::Empty()) != trajectory_B);
     }
 
     {
-        EXPECT_TRUE(Trajectory::Undefined() != Trajectory::Undefined());
+        EXPECT_TRUE(Trajectory(Array<State>::Empty()) != Trajectory(Array<State>::Empty()));
     }
 }
 
@@ -261,7 +261,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
     }
 
     {
-        EXPECT_FALSE(Trajectory::Undefined().isDefined());
+        EXPECT_FALSE(Trajectory(Array<State>::Empty()).isDefined());
     }
 }
 
@@ -284,10 +284,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
         const Trajectory trajectory = {model};
 
         EXPECT_TRUE(trajectory.accessModel().is<Tabulated>());
-    }
-
-    {
-        EXPECT_ANY_THROW(Trajectory::Undefined().accessModel());
     }
 }
 
@@ -342,8 +338,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
     }
 
     {
-        EXPECT_ANY_THROW(Trajectory::Undefined().getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC)
-        ));
+        EXPECT_ANY_THROW(
+            Trajectory(Array<State>::Empty()).getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC))
+        );
     }
 }
 
@@ -446,7 +443,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
     }
 
     {
-        EXPECT_ANY_THROW(Trajectory::Undefined().getStatesAt(
+        const Trajectory undefinedTrajectory = {Array<State>::Empty()};
+
+        EXPECT_ANY_THROW(undefinedTrajectory.getStatesAt(
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
              Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
         ));
@@ -477,14 +476,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
         EXPECT_NO_THROW(trajectory.print(std::cout, false));
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Undefined)
-{
-    {
-        EXPECT_NO_THROW(Trajectory::Undefined());
-        EXPECT_FALSE(Trajectory::Undefined().isDefined());
     }
 }
 

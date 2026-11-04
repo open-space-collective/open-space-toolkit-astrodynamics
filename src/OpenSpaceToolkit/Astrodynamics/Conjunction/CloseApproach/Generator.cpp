@@ -185,7 +185,7 @@ void Generator::setTolerance(const Duration& aTolerance)
 
 Generator Generator::Undefined()
 {
-    return Generator(Trajectory::Undefined());
+    return Generator(Trajectory(Array<State>::Empty()));
 }
 
 double Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2)

@@ -80,7 +80,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                 Check if the trajectory is defined.
 
                 Returns:
-                    bool: True if the trajectory is defined, False otherwise.
+                    bool: True if the trajectory model is defined, False otherwise.
             )doc"
         )
 
@@ -124,17 +124,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
                     list[State]: The states of the trajectory at the given instants.
             )doc",
             arg("instants")
-        )
-
-        .def_static(
-            "undefined",
-            &Trajectory::Undefined,
-            R"doc(
-                Create an undefined `Trajectory` object.
-
-                Returns:
-                    Trajectory: The undefined `Trajectory` object.
-            )doc"
         )
 
         .def_static(

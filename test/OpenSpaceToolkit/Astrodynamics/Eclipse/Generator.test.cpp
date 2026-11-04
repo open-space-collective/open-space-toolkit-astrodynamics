@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -144,7 +146,7 @@ class OpenSpaceToolkit_Astrodynamics_Eclipse_Generator : public ::testing::Test
     Environment environment_ = Environment::Undefined();
     Duration searchStepSize_ = Duration::Undefined();
     Duration searchTolerance_ = Duration::Undefined();
-    Trajectory trajectory_ = Trajectory::Undefined();
+    std::optional<Trajectory> trajectory_ = std::nullopt;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Eclipse_Generator, ConstructorAndProperties)
