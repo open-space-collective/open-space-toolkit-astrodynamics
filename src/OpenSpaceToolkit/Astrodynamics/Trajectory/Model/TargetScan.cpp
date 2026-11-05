@@ -43,6 +43,10 @@ TargetScan::TargetScan(
       celestialSPtr_(std::make_shared<const Celestial>(aCelestial)),
       stepSize_(aStepSize)
 {
+    if (startInstant_.isDefined() && endInstant_.isDefined())
+    {
+        this->setValidityInterval(Interval::Closed(startInstant_, endInstant_));
+    }
 }
 
 TargetScan* TargetScan::clone() const

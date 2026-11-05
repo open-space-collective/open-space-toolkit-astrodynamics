@@ -211,8 +211,9 @@ class Tabulated : public virtual Model
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
     );
 
-    /// @brief Sort the provided states, build the (reduced) state builders, and compute the interpolation timestamps
-    /// and reduced coordinate matrix (excluding the attitude quaternion) shared by all constructors.
+    /// @brief Sort the provided states, build the (reduced) state builders, set the validity interval of the model, and
+    /// compute the interpolation timestamps and reduced coordinate matrix (excluding the attitude quaternion) shared by
+    /// all constructors.
     void computeReducedInterpolationData(
         const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aReducedCoordinateMatrix
     );

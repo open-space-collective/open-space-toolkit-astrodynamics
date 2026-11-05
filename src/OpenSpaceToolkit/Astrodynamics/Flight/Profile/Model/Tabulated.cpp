@@ -426,6 +426,10 @@ void Tabulated::computeReducedInterpolationData(
         }
     );
 
+    this->setValidityInterval(
+        Interval::Closed(stateArray_.accessFirst().accessInstant(), stateArray_.accessLast().accessInstant())
+    );
+
     aTimestampVector.resize(stateArray_.getSize());
     aReducedCoordinateMatrix.resize(stateArray_.getSize(), reducedStateBuilder_.getSize());  // Exclude quaternion
 

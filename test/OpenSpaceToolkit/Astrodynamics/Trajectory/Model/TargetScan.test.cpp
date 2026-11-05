@@ -222,6 +222,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, Getters)
     EXPECT_EQ(targetScan_.getStepSize(), stepSize_);
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, GetValidityInterval)
+{
+    EXPECT_EQ(targetScan_.getValidityInterval(), Interval::Closed(startInstant_, endInstant_));
+
+    {
+        const TargetScan targetScan = TargetScan::FromGroundSpeed(
+            startLLA_, endLLA_, Derived(7000.0, Derived::Unit::MeterPerSecond()), startInstant_
+        );
+
+        EXPECT_EQ(
+            targetScan.getValidityInterval(), Interval::Closed(targetScan.getStartInstant(), targetScan.getEndInstant())
+        );
+    }
+
+    {
+        const TargetScan undefinedTargetScan(
+            LLA::Undefined(), LLA::Undefined(), Instant::Undefined(), Instant::Undefined(), Earth::WGS84()
+        );
+
+        EXPECT_EQ(undefinedTargetScan.getValidityInterval(), std::nullopt);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, FromGroundSpeed)
 {
     const Derived groundSpeed = Derived(1000.0, Derived::Unit::MeterPerSecond());

@@ -1,6 +1,9 @@
 /// Apache License 2.0
 
+#include <algorithm>
+
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
+#include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -16,6 +19,7 @@ using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::String;
 using ostk::core::type::Shared;
+using ostk::core::type::Unique;
 
 using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
@@ -32,6 +36,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Interval;
 using ostk::physics::time::Scale;
 
+using ostk::astrodynamics::flight::profile::Model;
 using ostk::astrodynamics::flight::profile::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
@@ -206,6 +211,40 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
     {
         const Interpolator::Type interpolatorType = tabulated_.getInterpolatorType();
         EXPECT_EQ(interpolatorType, Interpolator::Type::Linear);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetValidityInterval)
+{
+    const Interval expectedInterval =
+        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
+
+    {
+        EXPECT_EQ(tabulated_.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(tabulated_.getValidityInterval(), tabulated_.getInterval());
+
+        // Accessible from the base model
+        const Model& model = tabulated_;
+
+        EXPECT_EQ(model.getValidityInterval(), expectedInterval);
+    }
+
+    // Set by every constructor, regardless of the order of the provided states
+    {
+        Array<State> reversedStates = states_;
+        std::reverse(reversedStates.begin(), reversedStates.end());
+
+        EXPECT_EQ(Tabulated(reversedStates, Interpolator::Type::Linear).getValidityInterval(), expectedInterval);
+        EXPECT_EQ(Tabulated::Default(reversedStates).getValidityInterval(), expectedInterval);
+    }
+
+    // Preserved by copies
+    {
+        const Tabulated copiedTabulated = tabulated_;
+        const Unique<Tabulated> clonedTabulatedUPtr(tabulated_.clone());
+
+        EXPECT_EQ(copiedTabulated.getValidityInterval(), expectedInterval);
+        EXPECT_EQ(clonedTabulatedUPtr->getValidityInterval(), expectedInterval);
     }
 }
 

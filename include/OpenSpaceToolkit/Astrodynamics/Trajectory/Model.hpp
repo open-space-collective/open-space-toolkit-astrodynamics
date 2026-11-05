@@ -3,9 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -19,6 +22,7 @@ namespace trajectory
 using ostk::core::container::Array;
 
 using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 
 using ostk::astrodynamics::trajectory::State;
 
@@ -89,6 +93,14 @@ class Model
         return *modelPtr;
     }
 
+    /// @brief Get the time interval over which the model is defined.
+    ///
+    /// @details Models that can only be evaluated over a bounded time interval (e.g. tabulated models) provide it, and
+    /// throw when evaluated outside of it. Other models can be evaluated at any instant.
+    ///
+    /// @return The time interval over which the model is defined, or std::nullopt if the model is not bounded in time.
+    std::optional<Interval> getValidityInterval() const;
+
     /// @brief Calculate state at a given instant.
     ///
     /// @param anInstant An instant.
@@ -106,6 +118,20 @@ class Model
     /// @param anOutputStream An output stream.
     /// @param displayDecorator If true, display decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
+
+   protected:
+    /// @brief Set the time interval over which the model is defined.
+    ///
+    /// @details Called by models that can only be evaluated over a bounded time interval, typically from their
+    /// constructor. Being a virtual base, the model cannot receive the interval through its constructor, as it is
+    /// constructed by the most derived class.
+    ///
+    /// @param anInterval The time interval over which the model is defined, or std::nullopt if the model is not
+    /// bounded in time.
+    void setValidityInterval(const std::optional<Interval>& anInterval);
+
+   private:
+    std::optional<Interval> validityInterval_;
 };
 
 }  // namespace trajectory

@@ -20,6 +20,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(pybind11
     class_<TargetScan, ostk::astrodynamics::trajectory::Model>(
         aModule,
         "TargetScan",
+        // The model base class is a virtual base: pybind11 must cast to it rather than reinterpret the pointer.
+        multiple_inheritance(),
         R"doc(
             TargetScan trajectory model.
 

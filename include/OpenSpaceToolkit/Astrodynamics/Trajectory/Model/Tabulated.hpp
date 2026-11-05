@@ -309,10 +309,10 @@ class Tabulated : public virtual Model
     Array<Shared<const Interpolator>> interpolators_;
     Shared<const Frame> outputFrameSPtr_ = Frame::GCRF();
 
-    /// @brief Sort the provided states by instant, cache the first and last states (in their native frame), and
-    /// compute the interpolation timestamps and coordinate matrix shared by all constructors. The states are
-    /// expressed in the output frame before their coordinates are extracted, so that interpolation is performed
-    /// directly in the output frame.
+    /// @brief Sort the provided states by instant, cache the first and last states (in their native frame), set the
+    /// validity interval of the model, and compute the interpolation timestamps and coordinate matrix shared by all
+    /// constructors. The states are expressed in the output frame before their coordinates are extracted, so that
+    /// interpolation is performed directly in the output frame.
     ///
     /// @param aStateArray An array of states defining the tabulated trajectory.
     /// @param aTimestampVector [out] The timestamps (in seconds, relative to the first state) of the sorted states.
