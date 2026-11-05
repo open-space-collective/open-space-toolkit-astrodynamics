@@ -166,6 +166,29 @@ class TestQLaw:
         assert q_law.get_gradient_strategy() is not None
         assert q_law.get_coe_domain() is not None
 
+    def test_frame(
+        self,
+        q_law: QLaw,
+        target_COE: COE,
+        gravitational_parameter: Derived,
+        parameters: QLaw.Parameters,
+        gradient_strategy: QLaw.GradientStrategy,
+    ):
+        # Defaults to GCRF
+        assert q_law.get_frame() == Frame.GCRF()
+
+        qlaw_cirf: QLaw = QLaw(
+            target_coe=target_COE,
+            gravitational_parameter=gravitational_parameter,
+            parameters=parameters,
+            coe_domain=QLaw.COEDomain.Osculating,
+            gradient_strategy=gradient_strategy,
+            frame=Frame.CIRF(),
+        )
+
+        assert qlaw_cirf.get_frame() == Frame.CIRF()
+        assert qlaw_cirf.construct_ungated_guidance_law().get_frame() == Frame.CIRF()
+
     def test_construct_ungated_guidance_law(self, q_law: QLaw):
         ungated_guidance_law: GuidanceLaw = q_law.construct_ungated_guidance_law()
 

@@ -128,3 +128,20 @@ def test_trajectory_orbit_models_kepler_calculate_rev_number_at_epoch():
     epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
     assert kepler.calculate_revolution_number_at(epoch) is not None
+
+
+def test_kepler_frame():
+    kepler = construct_kepler()
+
+    assert kepler.get_frame() == Frame.GCRF()
+
+    epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    coe = kepler.get_classical_orbital_elements()
+
+    kepler_cirf = Kepler(
+        coe, epoch, earth, Kepler.PerturbationType.J2, frame=Frame.CIRF()
+    )
+
+    assert kepler_cirf.get_frame() == Frame.CIRF()
+    assert kepler_cirf != kepler
+    assert kepler_cirf.calculate_state_at(epoch).get_frame() == Frame.CIRF()

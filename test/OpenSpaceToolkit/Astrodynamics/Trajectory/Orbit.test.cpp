@@ -2249,3 +2249,93 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
         }
     }
 }
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous_Frame)
+{
+    using ostk::physics::environment::object::celestial::Sun;
+
+    const Shared<const Celestial> earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Time ltdn = Time::Parse("10:30:00");
+
+    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+    // Default frame is GCRF
+    {
+        const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), ltdn, earthSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *Frame::GCRF());
+        EXPECT_EQ(*orbit.getStateAt(epoch).accessFrame(), *Frame::GCRF());
+    }
+
+    // The orbit is defined, and its local time of the descending node measured, in the requested frame
+    {
+        const Orbit orbit =
+            Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), ltdn, earthSPtr, Angle::Degrees(30.0), cirfSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *cirfSPtr);
+
+        const State state = orbit.getStateAt(epoch);
+
+        EXPECT_EQ(*state.accessFrame(), *cirfSPtr);
+
+        const COE coe = COE::Cartesian(
+            {state.getPosition(), state.getVelocity()}, orbit.accessModel().as<Kepler>().getGravitationalParameter()
+        );
+
+        EXPECT_NEAR(
+            COE::ComputeMeanLTDN(coe.getRaan(), epoch, Sun::Default(), cirfSPtr).getTotalFloatingHours(),
+            ltdn.getTotalFloatingHours(),
+            1e-6
+        );
+
+        // The same orbit interpreted in GCRF would be at a different local time
+        EXPECT_GT(
+            std::abs(COE::ComputeMeanLTDN(coe.getRaan(), epoch).getTotalFloatingHours() - ltdn.getTotalFloatingHours()),
+            5.0 / 3600.0
+        );
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(
+            Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), ltdn, earthSPtr, Angle::Zero(), nullptr)
+        );
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous_Frame)
+{
+    const Shared<const Celestial> earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Angle longitude = Angle::Degrees(30.0);
+
+    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+    // Default frame is GCRF
+    {
+        const Orbit orbit = Orbit::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *Frame::GCRF());
+    }
+
+    // At epoch the satellite sits at the requested longitude, regardless of the frame the orbit is defined in
+    {
+        const Orbit orbit = Orbit::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, cirfSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *cirfSPtr);
+
+        const State state = orbit.getStateAt(epoch);
+
+        EXPECT_EQ(*state.accessFrame(), *cirfSPtr);
+
+        const Vector3d positionITRF = state.getPosition().inFrame(earthSPtr->accessFrame(), epoch).getCoordinates();
+
+        EXPECT_NEAR(std::atan2(positionITRF.y(), positionITRF.x()), longitude.inRadians(), 1e-9);
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(Orbit::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, nullptr));
+    }
+}

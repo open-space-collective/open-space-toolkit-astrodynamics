@@ -142,8 +142,9 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         coeVector[3] = -coeVector[3];              // RAAN = - RAAN
         Position position = Position::Undefined();
         Velocity velocity = Velocity::Undefined();
-        std::tie(position, velocity) = COE::FromSIVector(coeVector, COE::AnomalyType::Mean)
-                                           .getCartesianState(aGravitationalParameter, Frame::GCRF());
+        std::tie(position, velocity) =
+            COE::FromSIVector(coeVector, COE::AnomalyType::Mean)
+                .getCartesianState(aGravitationalParameter, aCartesianState.first.accessFrame());
         cartesian.segment(0, 3) = position.getCoordinates();
         cartesian.segment(3, 3) = velocity.getCoordinates();
 
@@ -220,7 +221,8 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         const COE coe_2 = COE::FromSIVector(coeVector_2, COE::AnomalyType::Mean);
         Position position2 = Position::Undefined();
         Velocity velocity2 = Velocity::Undefined();
-        std::tie(position2, velocity2) = coe_2.getCartesianState(aGravitationalParameter, Frame::GCRF());
+        std::tie(position2, velocity2) =
+            coe_2.getCartesianState(aGravitationalParameter, aCartesianState.first.accessFrame());
         cartesian_2.segment(0, 3) = position2.getCoordinates();
         cartesian_2.segment(3, 3) = velocity2.getCoordinates();
 

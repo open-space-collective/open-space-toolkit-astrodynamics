@@ -188,6 +188,27 @@ class TestOrbit:
             argument_of_latitude=Angle.degrees(50.0),
         ).is_defined()
 
+    def test_frame(self, earth):
+        from ostk.physics.coordinate import Frame
+
+        epoch = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+
+        sso: Orbit = Orbit.sun_synchronous(
+            epoch,
+            Length.kilometers(500.0),
+            Time(10, 30, 0),
+            earth,
+            frame=Frame.CIRF(),
+        )
+
+        assert sso.get_state_at(epoch).get_frame() == Frame.CIRF()
+
+        geo: Orbit = Orbit.geo_synchronous(
+            epoch, Angle.degrees(0.01), Angle.degrees(30.0), earth, frame=Frame.CIRF()
+        )
+
+        assert geo.get_state_at(epoch).get_frame() == Frame.CIRF()
+
     def test_frozen(self, earth, epoch):
         altitude = Length.kilometers(500.0)
 

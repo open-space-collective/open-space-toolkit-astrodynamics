@@ -900,3 +900,108 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevo
         EXPECT_EQ(defaultRevolutionNumber - 2, orbit.getRevolutionNumberAt(defaultEpoch - 2 * orbitalPeriod));
     }
 }
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
+{
+    const Shared<const ostk::physics::environment::object::Celestial> earthSPtr =
+        Environment::Default().accessCelestialObjectWithName("Earth");
+
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+
+    const COE coe = {
+        Length::Kilometers(7000.0),
+        0.01,
+        Angle::Degrees(97.5),
+        Angle::Degrees(40.0),
+        Angle::Degrees(10.0),
+        Angle::Degrees(20.0),
+    };
+
+    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+    // Default frame is GCRF
+    {
+        const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2};
+
+        EXPECT_EQ(*model.getFrame(), *Frame::GCRF());
+        EXPECT_EQ(model.calculateStateAt(epoch + Duration::Hours(1.0)).accessFrame(), Frame::GCRF());
+
+        const Kepler modelExplicit = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, Frame::GCRF()};
+
+        EXPECT_EQ(model, modelExplicit);
+    }
+
+    // Explicit Earth-parameter constructor
+    {
+        const Kepler model = {
+            coe,
+            epoch,
+            earthSPtr->getGravitationalParameter(),
+            earthSPtr->getEquatorialRadius(),
+            earthSPtr->getJ2(),
+            earthSPtr->getJ4(),
+            Kepler::PerturbationType::J2,
+            cirfSPtr
+        };
+
+        EXPECT_EQ(*model.getFrame(), *cirfSPtr);
+    }
+
+    // States are returned in the model frame, for every perturbation type
+    for (const Kepler::PerturbationType& perturbationType :
+         {Kepler::PerturbationType::None, Kepler::PerturbationType::J2, Kepler::PerturbationType::J4})
+    {
+        const Kepler modelGCRF = {coe, epoch, *earthSPtr, perturbationType};
+        const Kepler modelCIRF = {coe, epoch, *earthSPtr, perturbationType, false, cirfSPtr};
+
+        const Instant instant = epoch + Duration::Hours(6.0);
+
+        const State stateGCRF = modelGCRF.calculateStateAt(instant);
+        const State stateCIRF = modelCIRF.calculateStateAt(instant);
+
+        EXPECT_EQ(*stateCIRF.accessFrame(), *cirfSPtr);
+
+        // Same elements, same numbers: only the frame they are interpreted in differs
+        EXPECT_TRUE(stateCIRF.getPosition().getCoordinates().isNear(stateGCRF.getPosition().getCoordinates(), 1e-6));
+        EXPECT_TRUE(stateCIRF.getVelocity().getCoordinates().isNear(stateGCRF.getVelocity().getCoordinates(), 1e-9));
+
+        // ... which is a physically different orbit (CIRF and GCRF differ by ~0.3 deg of precession since J2000)
+        const Real separation =
+            (stateCIRF.inFrame(Frame::GCRF()).getPosition().getCoordinates() - stateGCRF.getPosition().getCoordinates())
+                .norm();
+
+        EXPECT_GT(separation, 1.0e3);
+    }
+
+    // Body-fixed elements are converted into the model frame
+    {
+        const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true, cirfSPtr};
+
+        const Vector3d expectedPositionITRF =
+            coe.getCartesianState(earthSPtr->getGravitationalParameter(), earthSPtr->accessFrame())
+                .first.getCoordinates();
+
+        const Vector3d positionITRF =
+            model.calculateStateAt(epoch).getPosition().inFrame(earthSPtr->accessFrame(), epoch).getCoordinates();
+
+        EXPECT_TRUE(positionITRF.isNear(expectedPositionITRF, 1e-6));
+    }
+
+    // Equality accounts for the frame
+    {
+        const Kepler modelGCRF = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2};
+        const Kepler modelCIRF = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, cirfSPtr};
+
+        EXPECT_NE(modelGCRF, modelCIRF);
+        EXPECT_EQ(modelCIRF, modelCIRF);
+    }
+
+    // Undefined frame
+    {
+        const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, nullptr};
+
+        EXPECT_FALSE(model.isDefined());
+        EXPECT_ANY_THROW(model.getFrame());
+        EXPECT_ANY_THROW(model.calculateStateAt(epoch));
+    }
+}

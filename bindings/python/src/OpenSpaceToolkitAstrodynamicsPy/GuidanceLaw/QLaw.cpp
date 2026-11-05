@@ -244,7 +244,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 const Derived&,
                 const QLaw::Parameters&,
                 const QLaw::COEDomain&,
-                const QLaw::GradientStrategy&>(),
+                const QLaw::GradientStrategy&,
+                const Shared<const Frame>&>(),
             R"doc(
                 Constructor.
 
@@ -254,13 +255,15 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     parameters (QLaw.Parameters): A set of parameters for the QLaw.
                     coe_domain (QLaw.COEDomain): The domain of the Classical Orbital Elements.
                     gradient_strategy (QLaw.GradientStrategy): The strategy used to compute the gradient dQ_dOE. Defaults to FiniteDifference.
+                    frame (Frame): The frame in which the orbital elements are computed and the target COE is defined. The states are converted to this frame and the thrust is rotated back to the frame of the dynamics. Use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
 
             )doc",
             arg("target_coe"),
             arg("gravitational_parameter"),
             arg("parameters"),
             arg("coe_domain"),
-            arg("gradient_strategy") = QLaw::GradientStrategy::FiniteDifference
+            arg("gradient_strategy") = QLaw::GradientStrategy::FiniteDifference,
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def(
@@ -291,6 +294,16 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
 
                 Returns:
                     QLaw.GradientStrategy: The gradient strategy.
+            )doc"
+        )
+        .def(
+            "get_frame",
+            &QLaw::getFrame,
+            R"doc(
+                Get the frame in which the orbital elements are computed.
+
+                Returns:
+                    Frame: The frame.
             )doc"
         )
         .def(
@@ -334,7 +347,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Compute the relative and absolute effectivity of the guidance law.
 
                 Args:
-                    state (State): The state from which to extract orbital elements.
+                    state (State): The state from which to extract orbital elements (converted to the QLaw frame).
                     thrust_acceleration (float): The thrust acceleration.
                     discretization_step_count (int): The number of discretization steps for the true anomaly. Default to 50.
 
@@ -436,14 +449,14 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             "theta_rh_to_gcrf",
             &QLaw::ThetaRHToGCRF,
             R"doc(
-                Get the rotation matrix to convert from the theta-R-H frame to the GCRF frame.
+                Get the rotation matrix to convert from the theta-R-H frame to the frame in which the position and velocity coordinates are expressed.
 
                 Args:
                     position_coordinates (np.array): The position coordinates.
                     velocity_coordinates (np.array): The velocity coordinates.
 
                 Returns:
-                    np.array: The rotation matrix from the theta-R-H frame to the GCRF frame.
+                    np.array: The rotation matrix from the theta-R-H frame to the frame of the provided coordinates.
             )doc",
             arg("position_coordinates"),
             arg("velocity_coordinates")

@@ -341,3 +341,68 @@ class TestCOE:
         assert coe is not None
         assert isinstance(coe, COE)
         assert coe.is_defined()
+
+
+class TestCOEFrame:
+    def test_local_time_of_nodes_frame(self):
+        from ostk.physics.coordinate import Frame
+        from ostk.physics.time import DateTime, Scale
+
+        instant = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+        raan = Angle.degrees(100.0)
+
+        for compute in (
+            COE.compute_ltan,
+            COE.compute_ltdn,
+            COE.compute_mean_ltan,
+            COE.compute_mean_ltdn,
+        ):
+            default = compute(raan, instant)
+
+            assert compute(raan, instant, frame=Frame.GCRF()) == default
+
+            # The Sun right ascension differs between GCRF and CIRF (precession since J2000)
+            assert compute(raan, instant, frame=Frame.CIRF()) != default
+
+    def test_raan_from_ltan_round_trip_frame(self, earth: Celestial):
+        from ostk.physics.coordinate import Frame
+        from ostk.physics.time import DateTime, Scale
+
+        epoch = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+        ltan = Time(10, 30, 0)
+
+        raan = COE.compute_raan_from_ltan(ltan, epoch, earth, frame=Frame.CIRF())
+
+        assert raan != COE.compute_raan_from_ltan(ltan, epoch, earth)
+
+        mean_ltan = COE.compute_mean_ltan(raan, epoch, frame=Frame.CIRF())
+
+        assert abs(float(mean_ltan.get_total_floating_hours()) - 10.5) < 1e-9
+
+    def test_sun_and_geo_synchronous_frame(self, earth: Celestial):
+        from ostk.physics.coordinate import Frame
+        from ostk.physics.time import DateTime, Scale
+
+        epoch = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+
+        sso_gcrf = COE.sun_synchronous(
+            Length.kilometers(6878.0), Time(10, 30, 0), epoch, earth
+        )
+        sso_cirf = COE.sun_synchronous(
+            Length.kilometers(6878.0),
+            Time(10, 30, 0),
+            epoch,
+            earth,
+            frame=Frame.CIRF(),
+        )
+
+        assert sso_gcrf.get_raan() != sso_cirf.get_raan()
+
+        geo_gcrf = COE.geo_synchronous(
+            epoch, Angle.degrees(0.01), Angle.degrees(30.0), earth
+        )
+        geo_cirf = COE.geo_synchronous(
+            epoch, Angle.degrees(0.01), Angle.degrees(30.0), earth, frame=Frame.CIRF()
+        )
+
+        assert geo_gcrf.get_raan() != geo_cirf.get_raan()

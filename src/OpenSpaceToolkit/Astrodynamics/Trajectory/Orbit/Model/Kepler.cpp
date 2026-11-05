@@ -33,7 +33,8 @@ Kepler::Kepler(
     const Length& anEquatorialRadius,
     const Real& aJ2,
     const Real& aJ4,
-    const Kepler::PerturbationType& aPerturbationType
+    const Kepler::PerturbationType& aPerturbationType,
+    const Shared<const Frame>& aFrameSPtr
 )
     : Model(),
       coe_(aClassicalOrbitalElementSet),
@@ -42,7 +43,8 @@ Kepler::Kepler(
       equatorialRadius_(anEquatorialRadius),
       j2_(aJ2),
       j4_(aJ4),
-      perturbationType_(aPerturbationType)
+      perturbationType_(aPerturbationType),
+      frameSPtr_(aFrameSPtr)
 {
 }
 
@@ -51,19 +53,22 @@ Kepler::Kepler(
     const Instant& anEpoch,
     const Celestial& aCelestialObject,
     const Kepler::PerturbationType& aPerturbationType,
-    const bool inFixedFrame
+    const bool inFixedFrame,
+    const Shared<const Frame>& aFrameSPtr
 )
     : Model(),
       coe_(
-          inFixedFrame ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject)
-                       : aClassicalOrbitalElementSet
+          inFixedFrame
+              ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject, aFrameSPtr)
+              : aClassicalOrbitalElementSet
       ),
       epoch_(anEpoch),
       gravitationalParameter_(aCelestialObject.getGravitationalParameter()),
       equatorialRadius_(aCelestialObject.getEquatorialRadius()),
       j2_(aCelestialObject.getJ2()),
       j4_(aCelestialObject.getJ4()),
-      perturbationType_(aPerturbationType)
+      perturbationType_(aPerturbationType),
+      frameSPtr_(aFrameSPtr)
 {
 }
 
@@ -81,7 +86,7 @@ bool Kepler::operator==(const Kepler& aKeplerianModel) const
 
     return (coe_ == aKeplerianModel.coe_) && (epoch_ == aKeplerianModel.epoch_) &&
            (gravitationalParameter_ == aKeplerianModel.gravitationalParameter_) &&
-           (perturbationType_ == aKeplerianModel.perturbationType_);
+           (perturbationType_ == aKeplerianModel.perturbationType_) && ((*frameSPtr_) == (*aKeplerianModel.frameSPtr_));
 }
 
 bool Kepler::operator!=(const Kepler& aKeplerianModel) const
@@ -98,7 +103,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Kepler& aKeplerianM
 
 bool Kepler::isDefined() const
 {
-    return coe_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined();
+    return coe_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined() && (frameSPtr_ != nullptr) &&
+           frameSPtr_->isDefined();
 }
 
 COE Kepler::getClassicalOrbitalElements() const
@@ -171,6 +177,16 @@ Real Kepler::getJ4() const
     return j4_;
 }
 
+Shared<const Frame> Kepler::getFrame() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Kepler");
+    }
+
+    return frameSPtr_;
+}
+
 Kepler::PerturbationType Kepler::getPerturbationType() const
 {
     if (!this->isDefined())
@@ -196,14 +212,16 @@ State Kepler::calculateStateAt(const Instant& anInstant) const
     switch (perturbationType_)
     {
         case Kepler::PerturbationType::None:
-            return Kepler::CalculateNoneStateAt(coe_, epoch_, gravitationalParameter_, anInstant);
+            return Kepler::CalculateNoneStateAt(coe_, epoch_, gravitationalParameter_, anInstant, frameSPtr_);
 
         case Kepler::PerturbationType::J2:
-            return Kepler::CalculateJ2StateAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_);
+            return Kepler::CalculateJ2StateAt(
+                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, frameSPtr_
+            );
 
         case Kepler::PerturbationType::J4:
             return Kepler::CalculateJ4StateAt(
-                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_
+                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_, frameSPtr_
             );
 
         default:
@@ -265,6 +283,8 @@ void Kepler::print(std::ostream& anOutputStream, bool displayDecorator) const
         << "Gravitational parameter:"
         << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Kepler::StringFromPerturbationType(perturbationType_);
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Frame:" << ((frameSPtr_ != nullptr) ? frameSPtr_->getName() : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream, "Classical Orbital Elements");
 
@@ -306,16 +326,17 @@ bool Kepler::operator!=(const trajectory::Model& aModel) const
 }
 
 COE Kepler::InertialCoeFromFixedCoe(
-    const COE& aClassicalOrbitalElementSet, const Instant& anEpoch, const Celestial& aCelestialObject
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Celestial& aCelestialObject,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     using ostk::physics::coordinate::Transform;
 
     const Shared<const Frame> fixedFrame = aCelestialObject.accessFrame();
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
-
-    const Transform fixedFrameToInertialFrameTransform = fixedFrame->getTransformTo(gcrfSPtr, anEpoch);
+    const Transform fixedFrameToInertialFrameTransform = fixedFrame->getTransformTo(aFrameSPtr, anEpoch);
 
     const COE::CartesianState cartesianStateInFixedFrame =
         aClassicalOrbitalElementSet.getCartesianState(aCelestialObject.getGravitationalParameter(), fixedFrame);
@@ -324,11 +345,11 @@ COE Kepler::InertialCoeFromFixedCoe(
     const Velocity& velocityInFixedFrame = cartesianStateInFixedFrame.second;
 
     const Position positionInInertialFrame = Position::Meters(
-        fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.accessCoordinates()), gcrfSPtr
+        fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.accessCoordinates()), aFrameSPtr
     );
     const Velocity velocityInInertialFrame = Velocity::MetersPerSecond(
         fixedFrameToInertialFrameTransform.applyToVelocity({0.0, 0.0, 0.0}, velocityInFixedFrame.accessCoordinates()),
-        gcrfSPtr
+        aFrameSPtr
     );
 
     const COE::CartesianState cartesianStateInInertialFrame = {positionInInertialFrame, velocityInInertialFrame};
@@ -340,7 +361,8 @@ State Kepler::CalculateNoneStateAt(
     const COE& aClassicalOrbitalElementSet,
     const Instant& anEpoch,
     const Derived& aGravitationalParameter,
-    const Instant& anInstant
+    const Instant& anInstant,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     using ostk::physics::time::Duration;
@@ -399,9 +421,7 @@ State Kepler::CalculateNoneStateAt(
         Angle::Radians(trueAnomaly_rad)
     };
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
-
-    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr);
+    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, aFrameSPtr);
 
     const Position& position = cartesianState.first;
     const Velocity& velocity = cartesianState.second;
@@ -433,7 +453,8 @@ State Kepler::CalculateJ2StateAt(
     const Derived& aGravitationalParameter,
     const Instant& anInstant,
     const Length& anEquatorialRadius,
-    const Real& aJ2
+    const Real& aJ2,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     using ostk::physics::time::Duration;
@@ -505,9 +526,7 @@ State Kepler::CalculateJ2StateAt(
         Angle::Radians(trueAnomaly_rad)
     };
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
-
-    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr);
+    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, aFrameSPtr);
 
     const Position& position = cartesianState.first;
     const Velocity& velocity = cartesianState.second;
@@ -676,7 +695,8 @@ State Kepler::CalculateJ4StateAt(
     const Instant& anInstant,
     const Length& anEquatorialRadius,
     const Real& aJ2,
-    const Real& aJ4
+    const Real& aJ4,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     using ostk::physics::time::Duration;
@@ -779,9 +799,7 @@ State Kepler::CalculateJ4StateAt(
         Angle::Radians(trueAnomaly_rad)
     };
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
-
-    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr);
+    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, aFrameSPtr);
 
     const Position& position = cartesianState.first;
     const Velocity& velocity = cartesianState.second;

@@ -8,6 +8,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
     using ostk::core::type::Real;
 
+    using ostk::physics::coordinate::Frame;
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::time::Instant;
     using ostk::physics::time::Time;
@@ -824,14 +825,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Args:
                     raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute MLTAN.
-                    sun (Sun): The Sun model.
+                    sun (Sun, optional): The Sun model. Defaults to Sun.default().
+                    frame (Frame, optional): The frame in which the RAAN is measured. Its Z axis is the reference pole; use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
 
                 Returns:
                     float: The Mean Local Time of the Ascending Node (MLTAN) in hours.
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
@@ -846,14 +849,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Args:
                     raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute LTAN.
-                    sun (Sun): The Sun model.
+                    sun (Sun, optional): The Sun model. Defaults to Sun.default().
+                    frame (Frame, optional): The frame in which the RAAN is measured. Its Z axis is the reference pole; use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
 
                 Returns:
                     float: The Local Time of the Ascending Node (LTAN) in hours.
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
@@ -868,14 +873,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Args:
                     raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute MLTDN.
-                    sun (Sun): The Sun model.
+                    sun (Sun, optional): The Sun model. Defaults to Sun.default().
+                    frame (Frame, optional): The frame in which the RAAN is measured. Its Z axis is the reference pole; use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
 
                 Returns:
                     float: The Mean Local Time of the Descending Node (MLTDN) in hours.
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
@@ -890,14 +897,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Args:
                     raan (Angle): The Right Ascension of the Ascending Node.
                     instant (Instant): The instant at which to compute LTDN.
-                    sun (Sun): The Sun model.
+                    sun (Sun, optional): The Sun model. Defaults to Sun.default().
+                    frame (Frame, optional): The frame in which the RAAN is measured. Its Z axis is the reference pole; use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
 
                 Returns:
                     float: The Local Time of the Descending Node (LTDN) in hours.
             )doc",
             arg("raan"),
             arg("instant"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
@@ -930,6 +939,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     epoch (Instant): The epoch.
                     celestial_object (Celestial): The celestial object.
                     sun (Sun, optional): The Sun model. Defaults to Sun.default().
+                    frame (Frame, optional): The frame in which the RAAN is measured. Its Z axis is the reference pole; use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
 
                 Returns:
                     Angle: The Right Ascension of the Ascending Node.
@@ -937,7 +947,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("local_time_at_ascending_node"),
             arg("epoch"),
             arg("celestial_object"),
-            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()")
+            arg_v("sun", ostk::physics::environment::object::celestial::Sun::Default(), "Sun.default()"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
@@ -953,6 +964,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     celestial_object (Celestial): The celestial object.
                     eccentricity (float, optional): The eccentricity. Defaults to 0.0.
                     argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
+                    frame (Frame, optional): The frame in which the RAAN is measured. Defaults to Frame.GCRF().
 
                 Returns:
                     COE: The Sun-synchronous COE.
@@ -962,7 +974,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("epoch"),
             arg("celestial_object"),
             arg_v("eccentricity", 0.0, "0.0"),
-            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()")
+            arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
@@ -976,6 +989,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     inclination (Angle): The inclination.
                     longitude (Angle): The longitude above the surface.
                     celestial_object (Celestial): The celestial object.
+                    frame (Frame, optional): The frame in which the RAAN is measured. Defaults to Frame.GCRF().
 
                 Returns:
                     COE: The Geo-synchronous COE.
@@ -983,7 +997,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("epoch"),
             arg("inclination"),
             arg("longitude"),
-            arg("celestial_object")
+            arg("celestial_object"),
+            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
         )
 
         .def_static(
