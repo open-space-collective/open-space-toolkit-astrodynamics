@@ -283,7 +283,7 @@ class QLaw : public GuidanceLaw
     /// @param aVelocityCoordinates The velocity coordinates
     ///
     /// @return The rotation matrix from the theta-R-H frame to the frame of the provided coordinates
-    static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
+    static Matrix3d ThetaRHToInertial(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
     /// @brief Compute the relative and absolute effectivity of the guidance law
     ///

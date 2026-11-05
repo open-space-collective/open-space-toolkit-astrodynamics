@@ -446,8 +446,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
         )
 
         .def_static(
-            "theta_rh_to_gcrf",
-            &QLaw::ThetaRHToGCRF,
+            "theta_rh_to_inertial",
+            &QLaw::ThetaRHToInertial,
             R"doc(
                 Get the rotation matrix to convert from the theta-R-H frame to the frame in which the position and velocity coordinates are expressed.
 

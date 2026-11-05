@@ -300,12 +300,12 @@ class TestQLaw:
         assert result is not None
         assert result.shape == (5, 3)
 
-    def test_theta_rh_to_gcrf(
+    def test_theta_rh_to_inertial(
         self,
         position_coordinates: list[float],
         velocity_coordinates: list[float],
     ):
-        result = QLaw.theta_rh_to_gcrf(
+        result = QLaw.theta_rh_to_inertial(
             position_coordinates=np.array(position_coordinates),
             velocity_coordinates=np.array(velocity_coordinates),
         )

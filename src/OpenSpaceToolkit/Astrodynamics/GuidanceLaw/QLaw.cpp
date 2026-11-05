@@ -266,7 +266,7 @@ Vector3d QLaw::calculateThrustAccelerationAt(
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
-    const Matrix3d R_thetaRH_QLawFrame = QLaw::ThetaRHToGCRF(positionCoordinates, velocityCoordinates);
+    const Matrix3d R_thetaRH_QLawFrame = QLaw::ThetaRHToInertial(positionCoordinates, velocityCoordinates);
 
     const Vector3d thrustAcceleration_QLawFrame = aThrustAcceleration * R_thetaRH_QLawFrame * thrustDirection;
 
@@ -475,7 +475,7 @@ Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, c
     };
 }
 
-Matrix3d QLaw::ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates)
+Matrix3d QLaw::ThetaRHToInertial(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates)
 {
     const Vector3d R = aPositionCoordinates.normalized();
     const Vector3d H = (aPositionCoordinates.cross(aVelocityCoordinates)).normalized();
