@@ -166,9 +166,8 @@ void Propagator::clearDynamics()
     coordinatesBrokerSPtr_ = std::make_shared<CoordinateBroker>();
 }
 
-State Propagator::calculateStateAt(
-    const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray
-) const
+State Propagator::calculateStateAt(const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray)
+    const
 {
     if (!this->isDefined())
     {
