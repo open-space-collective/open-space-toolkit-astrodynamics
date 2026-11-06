@@ -22,6 +22,7 @@ using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::spherical::LLA;
@@ -30,6 +31,7 @@ using ostk::physics::data::Direction;
 using ostk::physics::data::provider::Nadir;
 using ostk::physics::Environment;
 using ostk::physics::environment::object::celestial::Earth;
+
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -58,7 +60,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -74,9 +76,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
              Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC),
+             Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 3), Scale::UTC),
+             Position::Meters({3.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
+        // The default (barycentric rational) interpolation requires at least 4 states.
         const Trajectory trajectory = {states};
 
         EXPECT_TRUE(trajectory.isDefined());
@@ -97,7 +106,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -116,7 +125,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model_A = {states_A};
+        const Tabulated model_A = {states_A, Interpolator::Type::Linear};
 
         const Trajectory trajectory_A = {model_A};
 
@@ -129,7 +138,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
              Velocity::MetersPerSecond({0.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model_B = {states_B};
+        const Tabulated model_B = {states_B, Interpolator::Type::Linear};
 
         const Trajectory trajectory_B = {model_B};
 
@@ -158,7 +167,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -177,7 +186,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model_A = {states_A};
+        const Tabulated model_A = {states_A, Interpolator::Type::Linear};
 
         const Trajectory trajectory_A = {model_A};
 
@@ -190,7 +199,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
              Velocity::MetersPerSecond({0.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model_B = {states_B};
+        const Tabulated model_B = {states_B, Interpolator::Type::Linear};
 
         const Trajectory trajectory_B = {model_B};
 
@@ -219,7 +228,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, StreamOperator)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -245,7 +254,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -271,7 +280,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -297,7 +306,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -354,7 +363,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -406,7 +415,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
 
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -459,7 +468,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
-        const Tabulated model = {states};
+        const Tabulated model = {states, Interpolator::Type::Linear};
 
         const Trajectory trajectory = {model};
 
@@ -496,6 +505,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Position)
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
         const State state = trajectory.getStateAt(Instant::J2000());
-        EXPECT_TRUE(state.accessFrame() == Frame::GCRF());
+        EXPECT_TRUE(state.accessFrame() == Frame::ITRF());
+        EXPECT_EQ(state.getInstant(), Instant::J2000());
+        EXPECT_EQ(state.getPosition(), Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
+        EXPECT_EQ(state.getVelocity(), Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()));
     }
 }

@@ -16,6 +16,7 @@ from ostk.astrodynamics.solver import LeastSquaresSolver
 from ostk.astrodynamics.solver import FiniteDifferenceSolver
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinateSubset
+from ostk.astrodynamics.uncertainty import Covariance
 
 
 @pytest.fixture
@@ -55,13 +56,23 @@ def estimated_state(coordinate_subsets: list[CoordinateSubset]) -> State:
 
 
 @pytest.fixture
-def estimated_covariance() -> np.ndarray:
-    return np.array([[1.0, 0.0], [0.0, 1.0]])
+def estimated_covariance(estimated_state: State) -> Covariance:
+    return Covariance(
+        estimated_state.get_instant(),
+        np.array([[1.0, 0.0], [0.0, 1.0]]),
+        estimated_state.get_frame(),
+        estimated_state.get_coordinate_subsets(),
+    )
 
 
 @pytest.fixture
-def estimated_frisbee_covariance() -> np.ndarray:
-    return np.array([[1.0, 0.0], [0.0, 1.0]])
+def estimated_frisbee_covariance(estimated_state: State) -> Covariance:
+    return Covariance(
+        estimated_state.get_instant(),
+        np.array([[1.0, 0.0], [0.0, 1.0]]),
+        estimated_state.get_frame(),
+        estimated_state.get_coordinate_subsets(),
+    )
 
 
 @pytest.fixture
@@ -85,8 +96,8 @@ def steps(step: LeastSquaresSolver.Step) -> list[LeastSquaresSolver.Step]:
 def analysis(
     termination_criteria: str,
     estimated_state: State,
-    estimated_covariance: np.ndarray,
-    estimated_frisbee_covariance: np.ndarray,
+    estimated_covariance: Covariance,
+    estimated_frisbee_covariance: Covariance,
     computed_observations: list[State],
     steps: list[LeastSquaresSolver.Step],
 ) -> LeastSquaresSolver.Analysis:
@@ -246,8 +257,8 @@ class TestLeastSquaresSolverAnalysis:
         assert isinstance(analysis.iteration_count, int)
         assert isinstance(analysis.termination_criteria, String)
         assert isinstance(analysis.estimated_state, State)
-        assert isinstance(analysis.estimated_covariance, np.ndarray)
-        assert isinstance(analysis.estimated_frisbee_covariance, np.ndarray)
+        assert isinstance(analysis.estimated_covariance, Covariance)
+        assert isinstance(analysis.estimated_frisbee_covariance, Covariance)
         assert isinstance(analysis.computed_observations, list)
         assert isinstance(analysis.steps, list)
 

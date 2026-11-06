@@ -23,19 +23,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
     )
 
         .def(
-            init<>(),
-            R"doc(
-                Default constructor.
-            )doc"
-        )
-        .def(
             init<const Array<Shared<const CoordinateSubset>>&>(),
-            arg("coordinate_subsets"),
+            arg_v("coordinate_subsets", Array<Shared<const CoordinateSubset>>::Empty(), "[]"),
             R"doc(
-                Create a broker for ther provided coordinate subsets.
+                Create a broker for the provided coordinate subsets.
 
                 Args:
-                    list[CoordinateSubset]: The list of coordinate subsets.
+                    coordinate_subsets (list[CoordinateSubset], optional): The list of coordinate subsets. Defaults to an empty list.
 
             )doc"
         )

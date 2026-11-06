@@ -29,10 +29,11 @@ Python API Documentation
    ostk.astrodynamics.trajectory.orbit
    ostk.astrodynamics.trajectory.orbit.message.spacex
    ostk.astrodynamics.trajectory.orbit.model
-   ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean
+   ostk.astrodynamics.trajectory.orbit.model.brouwer_lyddane_mean
    ostk.astrodynamics.trajectory.orbit.model.kepler
    ostk.astrodynamics.trajectory.orbit.model.sgp4
    ostk.astrodynamics.trajectory.state
    ostk.astrodynamics.trajectory.state.coordinate_subset
+   ostk.astrodynamics.uncertainty
    ostk.astrodynamics.utilities
    ostk.astrodynamics.viewer

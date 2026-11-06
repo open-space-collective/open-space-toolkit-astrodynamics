@@ -5,8 +5,10 @@
 
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
@@ -29,8 +31,10 @@ namespace model
 
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::String;
 
+using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::time::Instant;
 using ostk::physics::unit::Derived;
@@ -75,6 +79,9 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aJ2 J2 zonal harmonic coefficient of the central body.
     /// @param aJ4 J4 zonal harmonic coefficient of the central body.
     /// @param aPerturbationType Perturbation type to apply during propagation.
+    /// @param aFrameSPtr The inertial frame in which the orbital elements are defined and the states are returned.
+    /// Its Z axis is the pole about which the J2/J4 secular rates are applied. Must be quasi-inertial (not a
+    /// body-fixed frame). Defaults to GCRF.
     Kepler(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
@@ -82,7 +89,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Length& anEquatorialRadius,
         const Real& aJ2,
         const Real& aJ4,
-        const Kepler::PerturbationType& aPerturbationType
+        const Kepler::PerturbationType& aPerturbationType,
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Construct a Kepler model from a celestial body object.
@@ -99,12 +107,16 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aCelestialObject Celestial body providing gravitational parameters.
     /// @param aPerturbationType Perturbation type to apply during propagation.
     /// @param inFixedFrame If true, the provided orbital elements are given in the body-fixed frame.
+    /// @param aFrameSPtr The inertial frame in which the orbital elements are defined (or into which the body-fixed
+    /// elements are converted) and the states are returned. Its Z axis is the pole about which the J2/J4 secular
+    /// rates are applied. Must be quasi-inertial (not a body-fixed frame). Defaults to GCRF.
     Kepler(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
         const Celestial& aCelestialObject,
         const Kepler::PerturbationType& aPerturbationType,
-        const bool inFixedFrame = DEFAULT_IN_FIXED_FRAME
+        const bool inFixedFrame = DEFAULT_IN_FIXED_FRAME,
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Clone the Kepler model.
@@ -171,6 +183,11 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return The J4 coefficient used in this model.
     Real getJ4() const;
 
+    /// @brief Get the frame in which the orbital elements are defined and the states are returned.
+    ///
+    /// @return The frame of the model.
+    Shared<const Frame> getFrame() const;
+
     /// @brief Get the perturbation type applied by this model.
     ///
     /// @return The perturbation type used during propagation.
@@ -217,16 +234,23 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     Real j2_;
     Real j4_;
     Kepler::PerturbationType perturbationType_;
+    Shared<const Frame> frameSPtr_;
+
+    static const Shared<const Frame>& ValidateFrame(const Shared<const Frame>& aFrameSPtr);
 
     static COE InertialCoeFromFixedCoe(
-        const COE& aClassicalOrbitalElementSet, const Instant& anEpoch, const Celestial& aCelestialObject
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Celestial& aCelestialObject,
+        const Shared<const Frame>& aFrameSPtr
     );
 
     static State CalculateNoneStateAt(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
         const Derived& aGravitationalParameter,
-        const Instant& anInstant
+        const Instant& anInstant,
+        const Shared<const Frame>& aFrameSPtr
     );
 
     static Integer CalculateNoneRevolutionNumberAt(
@@ -242,7 +266,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Derived& aGravitationalParameter,
         const Instant& anInstant,
         const Length& anEquatorialRadius,
-        const Real& aJ2
+        const Real& aJ2,
+        const Shared<const Frame>& aFrameSPtr
     );
 
     static Integer CalculateJ2RevolutionNumberAt(
@@ -261,7 +286,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
         const Instant& anInstant,
         const Length& anEquatorialRadius,
         const Real& aJ2,
-        const Real& aJ4
+        const Real& aJ4,
+        const Shared<const Frame>& aFrameSPtr
     );
 
     static Integer CalculateJ4RevolutionNumberAt(

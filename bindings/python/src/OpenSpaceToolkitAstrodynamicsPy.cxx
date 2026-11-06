@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/RootSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Solver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Uncertainty.cpp>
 
 PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 {
@@ -35,6 +36,9 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 #else
     m.attr("__version__") = "dev";
 #endif
+
+    // Uncertainty is registered before Solver and Trajectory so LeastSquaresSolver and State can expose Covariance
+    OpenSpaceToolkitAstrodynamicsPy_Uncertainty(m);
 
     // [TBI] These modules will likely be moved to ostk-mathematics in a future version
     OpenSpaceToolkitAstrodynamicsPy_Solver(m);

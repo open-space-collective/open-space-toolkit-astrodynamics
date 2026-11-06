@@ -118,10 +118,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
              Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC),
+             Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr),
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 3), Scale::UTC),
+             Position::Meters({3.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
         };
 
         const Integer initialRevolutionNumber = 123;
+
+        // The default (barycentric rational) interpolation requires at least 4 states.
 
         const Orbit orbit = {states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth")};
 
@@ -1073,7 +1081,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
             "1  7276U 74026A   19177.06815612 -.00000040  00000-0 -59146-3 0  9999",
             "2  7276  63.5942  41.6062 6850823 289.3685  12.0680  2.45095050222705",
         };
-        const SGP4 sgp4 = SGP4(tle);
+        const SGP4 sgp4 = SGP4(tle, Frame::GCRF());
 
         // Forward propagation (Validated with STK)
         {
@@ -2239,5 +2247,95 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
                 ostk::core::error::runtime::Undefined
             );
         }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous_Frame)
+{
+    using ostk::physics::environment::object::celestial::Sun;
+
+    const Shared<const Celestial> earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Time ltdn = Time::Parse("10:30:00");
+
+    const Shared<const Frame> temeSPtr = Frame::TEME();
+
+    // Default frame is GCRF
+    {
+        const Orbit orbit = Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), ltdn, earthSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *Frame::GCRF());
+        EXPECT_EQ(*orbit.getStateAt(epoch).accessFrame(), *Frame::GCRF());
+    }
+
+    // The orbit is defined, and its local time of the descending node measured, in the requested frame
+    {
+        const Orbit orbit =
+            Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), ltdn, earthSPtr, Angle::Degrees(30.0), temeSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *temeSPtr);
+
+        const State state = orbit.getStateAt(epoch);
+
+        EXPECT_EQ(*state.accessFrame(), *temeSPtr);
+
+        const COE coe = COE::Cartesian(
+            {state.getPosition(), state.getVelocity()}, orbit.accessModel().as<Kepler>().getGravitationalParameter()
+        );
+
+        EXPECT_NEAR(
+            COE::ComputeMeanLTDN(coe.getRaan(), epoch, Sun::Default(), temeSPtr).getTotalFloatingHours(),
+            ltdn.getTotalFloatingHours(),
+            1e-6
+        );
+
+        // The same orbit interpreted in GCRF would be at a different local time
+        EXPECT_GT(
+            std::abs(COE::ComputeMeanLTDN(coe.getRaan(), epoch).getTotalFloatingHours() - ltdn.getTotalFloatingHours()),
+            5.0 / 3600.0
+        );
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(
+            Orbit::SunSynchronous(epoch, Length::Kilometers(500.0), ltdn, earthSPtr, Angle::Zero(), nullptr)
+        );
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous_Frame)
+{
+    const Shared<const Celestial> earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Angle longitude = Angle::Degrees(30.0);
+
+    const Shared<const Frame> temeSPtr = Frame::TEME();
+
+    // Default frame is GCRF
+    {
+        const Orbit orbit = Orbit::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *Frame::GCRF());
+    }
+
+    // At epoch the satellite sits at the requested longitude, regardless of the frame the orbit is defined in
+    {
+        const Orbit orbit = Orbit::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, temeSPtr);
+
+        EXPECT_EQ(*orbit.accessModel().as<Kepler>().getFrame(), *temeSPtr);
+
+        const State state = orbit.getStateAt(epoch);
+
+        EXPECT_EQ(*state.accessFrame(), *temeSPtr);
+
+        const Vector3d positionITRF = state.getPosition().inFrame(earthSPtr->accessFrame(), epoch).getCoordinates();
+
+        EXPECT_NEAR(std::atan2(positionITRF.y(), positionITRF.x()), longitude.inRadians(), 1e-9);
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(Orbit::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, nullptr));
     }
 }

@@ -62,7 +62,7 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
 ) const
 {
     const Shared<const Frame> parentFrameSPtr =
-        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->accessParentFrame();
+        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory().accessParentFrame();
 
     const State state = {
         anInstant,
@@ -71,7 +71,7 @@ Vector3d ConstantThrust::calculateThrustAccelerationAt(
     };
 
     const Shared<const Frame> localOrbitalFrameSPtr =
-        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(state);
+        this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory().generateFrame(state);
 
     const Quaternion q_requestedFrame_LOF =
         localOrbitalFrameSPtr->getTransformTo(outputFrameSPtr, anInstant).getOrientation().normalize();
@@ -104,12 +104,12 @@ ConstantThrust ConstantThrust::Intrack(const bool& velocityDirection)
 
 ConstantThrust ConstantThrust::FromManeuver(
     const Maneuver& aManeuver,
-    const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr,
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
     const Angle& aMaximumAllowedAngularOffset
 )
 {
     const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
-        aManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactorySPtr);
+        aManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactory);
 
     if (aMaximumAllowedAngularOffset.isDefined())
     {

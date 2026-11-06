@@ -9,7 +9,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/HeterogeneousGuidanceLaw.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 namespace ostk
@@ -20,7 +20,7 @@ namespace trajectory
 {
 
 using ostk::astrodynamics::flight::Maneuver;
-using ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw;
+using ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw;
 using ostk::core::type::Unique;
 using ostk::physics::time::Duration;
 
@@ -30,19 +30,19 @@ Sequence::Solution::Solution(const Array<Segment::Solution>& aSegmentSolutionArr
 {
 }
 
-const Instant& Sequence::Solution::accessStartInstant() const
+Instant Sequence::Solution::getStartInstant() const
 {
-    return this->segmentSolutions.accessFirst().accessStartInstant();
+    return this->segmentSolutions.accessFirst().getStartInstant();
 }
 
-const Instant& Sequence::Solution::accessEndInstant() const
+Instant Sequence::Solution::getEndInstant() const
 {
-    return this->segmentSolutions.accessLast().accessEndInstant();
+    return this->segmentSolutions.accessLast().getEndInstant();
 }
 
 Interval Sequence::Solution::getInterval() const
 {
-    return Interval::Closed(this->accessStartInstant(), this->accessEndInstant());
+    return Interval::Closed(this->getStartInstant(), this->getEndInstant());
 }
 
 Array<State> Sequence::Solution::getStates() const
@@ -77,7 +77,7 @@ Mass Sequence::Solution::getFinalMass() const
 
 Duration Sequence::Solution::getPropagationDuration() const
 {
-    return this->accessEndInstant() - this->accessStartInstant();
+    return this->getEndInstant() - this->getStartInstant();
 }
 
 Real Sequence::Solution::computeDeltaV(const Real& aSpecificImpulse) const
@@ -130,11 +130,11 @@ Array<State> Sequence::Solution::calculateStatesAt(
 
         for (const Instant& instant : anInstantArray)
         {
-            if ((instant >= segmentSolution.accessStartInstant()) && (instant < segmentSolution.accessEndInstant()))
+            if ((instant >= segmentSolution.getStartInstant()) && (instant < segmentSolution.getEndInstant()))
             {
                 segmentInstants.add(instant);
             }
-            else if ((i == this->segmentSolutions.getSize() - 1) && (instant == this->accessEndInstant()))
+            else if ((i == this->segmentSolutions.getSize() - 1) && (instant == this->getEndInstant()))
             {
                 segmentInstants.add(instant);
             }
@@ -172,8 +172,8 @@ void Sequence::Solution::print(std::ostream& anOutputStream, bool displayDecorat
 
     ostk::core::utils::Print::Separator(anOutputStream, "Summary");
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Start Instant: " << accessStartInstant().toString();
-    ostk::core::utils::Print::Line(anOutputStream) << "End Instant: " << accessEndInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Start Instant: " << getStartInstant().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End Instant: " << getEndInstant().toString();
     ostk::core::utils::Print::Line(anOutputStream) << "Propagation Duration: " << getPropagationDuration().toString();
 
     if (hasManeuver)
@@ -292,9 +292,15 @@ void Sequence::addCoastSegment(const Shared<EventCondition>& anEventConditionSPt
     segments_.add(Segment::Coast("Coast", anEventConditionSPtr, dynamics_, numericalSolver_));
 }
 
-void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster)
+void Sequence::addManeuverSegment(
+    const Shared<EventCondition>& anEventConditionSPtr,
+    const Shared<Thruster>& aThruster,
+    const std::optional<Segment::ManeuverConstraints>& aManeuverConstraints
+)
 {
-    segments_.add(Segment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_));
+    segments_.add(Segment::Maneuver(
+        "Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_, aManeuverConstraints
+    ));
 }
 
 Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionCount) const
@@ -314,7 +320,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
     {
         for (const Segment& segment : segments_)
         {
-            segment.accessEventCondition()->updateTarget(initialState);
+            segment.getEventCondition()->updateTarget(initialState);
 
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 
@@ -370,7 +376,7 @@ Sequence::Solution Sequence::solveToCondition(
     {
         for (const Segment& segment : segments_)
         {
-            segment.accessEventCondition()->updateTarget(initialState);
+            segment.getEventCondition()->updateTarget(initialState);
 
             BOOST_LOG_TRIVIAL(debug) << "Solving Segment:\n" << segment << std::endl;
 

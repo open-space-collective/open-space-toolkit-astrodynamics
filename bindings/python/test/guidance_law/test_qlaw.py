@@ -166,6 +166,30 @@ class TestQLaw:
         assert q_law.get_gradient_strategy() is not None
         assert q_law.get_coe_domain() is not None
 
+    def test_frame(
+        self,
+        q_law: QLaw,
+        target_COE: COE,
+        gravitational_parameter: Derived,
+        parameters: QLaw.Parameters,
+        gradient_strategy: QLaw.GradientStrategy,
+    ):
+        assert q_law.get_frame() is not None
+        assert isinstance(q_law.get_frame(), Frame)
+
+        qlaw_cirf: QLaw = QLaw(
+            target_coe=target_COE,
+            gravitational_parameter=gravitational_parameter,
+            parameters=parameters,
+            coe_domain=QLaw.COEDomain.Osculating,
+            gradient_strategy=gradient_strategy,
+            frame=Frame.CIRF(),
+        )
+
+        assert qlaw_cirf.get_frame() is not None
+        assert isinstance(qlaw_cirf.get_frame(), Frame)
+        assert qlaw_cirf.construct_ungated_guidance_law() is not None
+
     def test_construct_ungated_guidance_law(self, q_law: QLaw):
         ungated_guidance_law: GuidanceLaw = q_law.construct_ungated_guidance_law()
 
@@ -277,12 +301,12 @@ class TestQLaw:
         assert result is not None
         assert result.shape == (5, 3)
 
-    def test_theta_rh_to_gcrf(
+    def test_theta_rh_to_inertial(
         self,
         position_coordinates: list[float],
         velocity_coordinates: list[float],
     ):
-        result = QLaw.theta_rh_to_gcrf(
+        result = QLaw.theta_rh_to_inertial(
             position_coordinates=np.array(position_coordinates),
             velocity_coordinates=np.array(velocity_coordinates),
         )

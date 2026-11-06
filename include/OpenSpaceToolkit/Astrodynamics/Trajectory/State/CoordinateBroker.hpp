@@ -37,23 +37,20 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 class CoordinateBroker
 {
    public:
-    /// @brief Default constructor
+    /// @brief Constructor
     ///
     /// @code{.cpp}
-    ///              CoordinateBroker coordinateBroker ;
-    /// @endcode
-    CoordinateBroker();
-
-    /// @brief Constructor with coordinate subsets
-    ///
-    /// @code{.cpp}
+    ///              CoordinateBroker emptyCoordinateBroker ;
     ///              CoordinateBroker coordinateBroker = {
     ///                  {CartesianPosition::Default(), CartesianVelocity::Default()}
     ///              } ;
     /// @endcode
     ///
-    /// @param aCoordinateSubsetsArray The coordinate subsets to consider
-    CoordinateBroker(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray);
+    /// @param aCoordinateSubsetsArray The coordinate subsets to consider. Defaults to empty.
+    CoordinateBroker(
+        const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray =
+            Array<Shared<const CoordinateSubset>>::Empty()
+    );
 
     /// @brief Equality operator
     ///

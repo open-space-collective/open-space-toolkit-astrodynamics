@@ -536,7 +536,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation, ForceModel_EGM
 class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster : public ::testing::TestWithParam<Tuple<
                                                                                std::string,
                                                                                bool,
-                                                                               Shared<const LocalOrbitalFrameFactory>,
+                                                                               LocalOrbitalFrameFactory,
                                                                                Vector3d,
                                                                                Real,
                                                                                Real,
@@ -619,7 +619,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
 
     const String param_referenceDataFileName = std::get<0>(parameters);
     const bool param_withAtmosphere = std::get<1>(parameters);
-    Shared<const LocalOrbitalFrameFactory> param_localOrbitalFrameFactory = std::get<2>(parameters);
+    LocalOrbitalFrameFactory param_localOrbitalFrameFactory = std::get<2>(parameters);
     const Vector3d param_localOrbitalFrameThrustVector = std::get<3>(parameters);
     const Real param_satelliteDryMassReal = std::get<4>(parameters);
     const Real param_thrustReal = std::get<5>(parameters);
@@ -793,8 +793,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     }
 
     const Maneuver maneuver = Maneuver(maneuverStateArray);
-    Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_, {maneuver}};
-    const Array<State> propagatedStateArray_Maneuver = maneuverPropagator.calculateStatesAt(initialState, instantArray);
+    const Propagator maneuverPropagator = {defaultNumericalSolver_, defaultDynamics_};
+    const Array<State> propagatedStateArray_Maneuver =
+        maneuverPropagator.calculateStatesAt(initialState, instantArray, {maneuver});
 
     // Validation loop
     for (size_t i = 0; i < instantArray.getSize() - 1; i++)
@@ -864,7 +865,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
             (maneuverAccelerationGCRF_Maneuver.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
 
         // Get LOF
-        Shared<const Frame> lofSPtr = param_localOrbitalFrameFactory->generateFrame(
+        Shared<const Frame> lofSPtr = param_localOrbitalFrameFactory.generateFrame(
             State(instantArray[i], positionGCRF_Thruster, velocityGCRF_Thruster)
         );
 

@@ -1,6 +1,5 @@
 # Apache License 2.0
 
-from typing import Callable
 
 import pytest
 
@@ -102,14 +101,6 @@ def absolute_tolerance() -> float:
 
 
 @pytest.fixture
-def state_logger() -> Callable:
-    def log_state(state: State) -> None:
-        print(state.get_coordinates())
-
-    return log_state
-
-
-@pytest.fixture
 def numerical_solver(
     log_type: NumericalSolver.LogType,
     variable_size_stepper_type: NumericalSolver.StepperType,
@@ -128,7 +119,7 @@ def numerical_solver(
 
 @pytest.fixture
 def numerical_solver_conditional() -> NumericalSolver:
-    return NumericalSolver.default_conditional()
+    return NumericalSolver.default()
 
 
 class TestNumericalSolver:
@@ -136,6 +127,34 @@ class TestNumericalSolver:
         assert numerical_solver is not None
         assert isinstance(numerical_solver, NumericalSolver)
         assert numerical_solver.is_defined()
+
+    def test_constructor_with_state_logger(
+        self,
+        initial_state: State,
+        variable_size_stepper_type: NumericalSolver.StepperType,
+        initial_time_step: float,
+        relative_tolerance: float,
+        absolute_tolerance: float,
+    ):
+        logged_states: list[State] = []
+
+        numerical_solver = NumericalSolver(
+            log_type=NumericalSolver.LogType.LogAdaptive,
+            stepper_type=variable_size_stepper_type,
+            time_step=initial_time_step,
+            relative_tolerance=relative_tolerance,
+            absolute_tolerance=absolute_tolerance,
+            state_logger=logged_states.append,
+        )
+
+        numerical_solver.integrate_time(
+            initial_state,
+            initial_state.get_instant() + Duration.seconds(10.0),
+            oscillator,
+        )
+
+        assert len(logged_states) > 0
+        assert isinstance(logged_states[0], State)
 
     def test_comparators(self, numerical_solver: NumericalSolver):
         assert numerical_solver == numerical_solver
@@ -265,28 +284,56 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
-    def test_integrate_conditional_with_logger(
+    def test_integrate_time_append_observed_states(
         self,
         initial_state: State,
-        state_logger: Callable,
+        numerical_solver: NumericalSolver,
+        numerical_solver_conditional: NumericalSolver,
         custom_condition: RealCondition,
-        capsys,
     ):
-        numerical_solver: NumericalSolver = NumericalSolver.conditional(
-            5.0,
-            1.0e-15,
-            1.0e-15,
-            state_logger,
+        middle_instant: Instant = initial_state.get_instant() + Duration.seconds(2.0)
+        end_instant: Instant = initial_state.get_instant() + Duration.seconds(10.0)
+
+        # Without a condition
+        middle_state: State = numerical_solver.integrate_time(
+            initial_state, middle_instant, oscillator
         )
-        end_time: float = initial_state.get_instant() + Duration.seconds(10.0)
+        first_observed_states: list[State] = numerical_solver.get_observed_states()
 
         numerical_solver.integrate_time(
-            initial_state, end_time, oscillator, custom_condition
+            middle_state,
+            end_instant,
+            oscillator,
+            append_observed_states=True,
         )
 
-        captured = capsys.readouterr()
+        observed_states: list[State] = numerical_solver.get_observed_states()
 
-        assert captured.out != ""
+        assert len(observed_states) > len(first_observed_states)
+        assert observed_states[0].get_instant() == initial_state.get_instant()
+        assert observed_states[-1].get_instant() == end_instant
+
+        # With a condition
+        condition_solution = numerical_solver_conditional.integrate_time(
+            initial_state, middle_instant, oscillator, custom_condition
+        )
+        first_observed_states = numerical_solver_conditional.get_observed_states()
+
+        assert not condition_solution.condition_is_satisfied
+
+        condition_solution = numerical_solver_conditional.integrate_time(
+            condition_solution.state,
+            end_instant,
+            oscillator,
+            custom_condition,
+            append_observed_states=True,
+        )
+
+        observed_states = numerical_solver_conditional.get_observed_states()
+
+        assert condition_solution.condition_is_satisfied
+        assert len(observed_states) > len(first_observed_states)
+        assert observed_states[0].get_instant() == initial_state.get_instant()
 
     def test_default(self):
         assert NumericalSolver.default() is not None
@@ -307,21 +354,3 @@ class TestNumericalSolver:
         )
         with pytest.raises(Exception):
             NumericalSolver.fixed_step_size(variable_size_stepper_type, initial_time_step)
-
-    def test_default_conditional(self, state_logger):
-        assert NumericalSolver.default_conditional() is not None
-        assert NumericalSolver.default_conditional(state_logger) is not None
-
-    def test_conditional(
-        self,
-        initial_time_step: float,
-        relative_tolerance: float,
-        absolute_tolerance: float,
-        state_logger,
-    ):
-        assert (
-            NumericalSolver.conditional(
-                initial_time_step, relative_tolerance, absolute_tolerance, state_logger
-            )
-            is not None
-        )

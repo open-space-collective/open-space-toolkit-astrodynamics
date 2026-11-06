@@ -9,6 +9,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
     using namespace pybind11;
 
     using ostk::core::type::Real;
+    using ostk::core::type::Shared;
+
+    using ostk::physics::coordinate::Frame;
 
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::time::Instant;
@@ -57,7 +60,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                     const Length&,
                     const Real&,
                     const Real&,
-                    const Kepler::PerturbationType&>(),
+                    const Kepler::PerturbationType&,
+                    const Shared<const Frame>&>(),
                 R"doc(
                     Constructor.
 
@@ -69,6 +73,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                         j2 (float): The J2 coefficient.
                         j4 (float): The J4 coefficient.
                         perturbation_type (PerturbationType): The perturbation type.
+                        frame (Frame, optional): The inertial frame in which the elements are defined and the states are returned. Its Z axis is the pole about which J2/J4 act. Must be quasi-inertial (not a body-fixed frame). Defaults to Frame.GCRF().
 
                 )doc",
                 arg("coe"),
@@ -77,11 +82,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                 arg("equatorial_radius"),
                 arg("j2"),
                 arg("j4"),
-                arg("perturbation_type")
+                arg("perturbation_type"),
+                arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
             )
 
             .def(
-                init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
+                init<
+                    const COE&,
+                    const Instant&,
+                    const Celestial&,
+                    const Kepler::PerturbationType&,
+                    const bool,
+                    const Shared<const Frame>&>(),
                 R"doc(
                     Constructor.
 
@@ -91,13 +103,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                         celestial_object (Celestial): The celestial object.
                         perturbation_type (PerturbationType): The perturbation type.
                         in_fixed_frame (bool): If True, the state is expressed in the fixed frame, otherwise it is expressed in the inertial frame. Default is False.
+                        frame (Frame, optional): The inertial frame in which the elements are defined (or into which fixed-frame elements are converted) and the states are returned. Its Z axis is the pole about which J2/J4 act. Must be quasi-inertial (not a body-fixed frame). Defaults to Frame.GCRF().
 
                 )doc",
                 arg("coe"),
                 arg("epoch"),
                 arg("celestial_object"),
                 arg("perturbation_type"),
-                arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME
+                arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME,
+                arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
             )
 
             .def(self == self)
@@ -125,6 +139,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
 
                     Returns:
                         COE: The classical orbital elements.
+                )doc"
+            )
+
+            .def(
+                "get_frame",
+                &Kepler::getFrame,
+                R"doc(
+                    Get the frame in which the `Kepler` model's elements are defined and states are returned.
+
+                    Returns:
+                        Frame: The frame.
                 )doc"
             )
 

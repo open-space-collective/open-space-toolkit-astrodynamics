@@ -20,6 +20,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 #include <Global.test.hpp>
 
@@ -46,6 +47,7 @@ using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::StateBuilder;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Step : public ::testing::Test
 {
@@ -93,8 +95,18 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis : public
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
         Velocity::MetersPerSecond({7.5e3, 0.0, 0.0}, Frame::GCRF())
     );
-    const MatrixXd estimatedCovariance_ = MatrixXd::Identity(6, 6);
-    const MatrixXd estimatedFrisbeeCovariance_ = MatrixXd::Identity(6, 6);
+    const Covariance estimatedCovariance_ = Covariance(
+        Instant::J2000(),
+        MatrixXd::Identity(6, 6),
+        Frame::GCRF(),
+        {CartesianPosition::Default(), CartesianVelocity::Default()}
+    );
+    const Covariance estimatedFrisbeeCovariance_ = Covariance(
+        Instant::J2000(),
+        2.0 * MatrixXd::Identity(6, 6),
+        Frame::GCRF(),
+        {CartesianPosition::Default(), CartesianVelocity::Default()}
+    );
     const Array<State> computedObservationStates_ = {State(
         Instant::J2000(),
         Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
@@ -122,8 +134,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver_Analysis, Constr
         EXPECT_EQ(analysis_.observationCount, computedObservationStates_.getSize());
         EXPECT_EQ(analysis_.terminationCriteria, terminationCriteria_);
         EXPECT_EQ(analysis_.estimatedState, estimatedState_);
-        EXPECT_EQ(analysis_.estimatedCovariance, estimatedCovariance_);
-        EXPECT_EQ(analysis_.estimatedFrisbeeCovariance, estimatedFrisbeeCovariance_);
+        EXPECT_EQ(analysis_.estimatedCovariance.getCoordinates(), estimatedCovariance_.getCoordinates());
+        EXPECT_EQ(analysis_.estimatedCovariance.getInstant(), estimatedCovariance_.getInstant());
+        EXPECT_EQ(*analysis_.estimatedCovariance.getFrame(), *estimatedCovariance_.getFrame());
+        EXPECT_EQ(analysis_.estimatedCovariance.getCoordinateSubsets(), estimatedCovariance_.getCoordinateSubsets());
+        EXPECT_EQ(analysis_.estimatedFrisbeeCovariance.getCoordinates(), estimatedFrisbeeCovariance_.getCoordinates());
+        EXPECT_EQ(analysis_.estimatedFrisbeeCovariance.getInstant(), estimatedFrisbeeCovariance_.getInstant());
+        EXPECT_EQ(*analysis_.estimatedFrisbeeCovariance.getFrame(), *estimatedFrisbeeCovariance_.getFrame());
+        EXPECT_EQ(
+            analysis_.estimatedFrisbeeCovariance.getCoordinateSubsets(),
+            estimatedFrisbeeCovariance_.getCoordinateSubsets()
+        );
         EXPECT_EQ(analysis_.computedObservationStates, computedObservationStates_);
         EXPECT_EQ(analysis_.steps.getSize(), steps_.getSize());
     }
@@ -266,6 +287,18 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         };
     }
 
+    static void expectCovarianceMatchesEstimatedState(const LeastSquaresSolver::Analysis& anAnalysis)
+    {
+        for (const Covariance& covariance : {anAnalysis.estimatedCovariance, anAnalysis.estimatedFrisbeeCovariance})
+        {
+            EXPECT_EQ(covariance.getSize(), 6);
+            EXPECT_EQ(covariance.getInstant(), anAnalysis.estimatedState.getInstant());
+            EXPECT_EQ(*covariance.getFrame(), *anAnalysis.estimatedState.accessFrame());
+            EXPECT_EQ(covariance.getCoordinateSubsets(), anAnalysis.estimatedState.getCoordinateSubsets());
+            EXPECT_EQ(covariance.getCoordinates(), covariance.getCoordinates().transpose());
+        }
+    }
+
     State trueState_ = State::Undefined();
     State initialGuessState_ = State::Undefined();
 
@@ -402,10 +435,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
         EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_EQ(analysis.computedObservationStates.getSize(), observationStates_.getSize());
-        EXPECT_EQ(analysis.estimatedCovariance.rows(), 6);
-        EXPECT_EQ(analysis.estimatedCovariance.cols(), 6);
-        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.rows(), 6);
-        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.cols(), 6);
+        expectCovarianceMatchesEstimatedState(analysis);
 
         const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
         const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
@@ -427,10 +457,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
         EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_EQ(analysis.computedObservationStates.getSize(), observationStates_.getSize());
-        EXPECT_EQ(analysis.estimatedCovariance.rows(), 6);
-        EXPECT_EQ(analysis.estimatedCovariance.cols(), 6);
-        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.rows(), 6);
-        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.cols(), 6);
+        expectCovarianceMatchesEstimatedState(analysis);
 
         const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
         const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();
@@ -453,10 +480,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
         EXPECT_LT(analysis.iterationCount, solver_.getMaxIterationCount());
         EXPECT_EQ(analysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_EQ(analysis.computedObservationStates.getSize(), observationStates_.getSize());
-        EXPECT_EQ(analysis.estimatedCovariance.rows(), 6);
-        EXPECT_EQ(analysis.estimatedCovariance.cols(), 6);
-        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.rows(), 6);
-        EXPECT_EQ(analysis.estimatedFrisbeeCovariance.cols(), 6);
+        expectCovarianceMatchesEstimatedState(analysis);
 
         const VectorXd estimatedPosition = analysis.estimatedState.getPosition().getCoordinates();
         const VectorXd estimatedVelocity = analysis.estimatedState.getVelocity().getCoordinates();

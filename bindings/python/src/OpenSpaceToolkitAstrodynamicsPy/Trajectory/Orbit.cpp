@@ -18,6 +18,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::core::type::Integer;
     using ostk::core::type::Shared;
 
+    using ostk::physics::coordinate::Frame;
     using ostk::physics::environment::object::Celestial;
     using ostk::physics::time::Duration;
     using ostk::physics::unit::Angle;
@@ -84,7 +85,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                     Constructs an `Orbit` object.
 
                     Args:
-                        states (Array<State>): The states.
+                        states (Array<State>): The states. States are interpolated with barycentric rational interpolation, which requires at least 4 states.
                         initial_revolution_number (Integer): The initial revolution number.
                         celestial_object (Celestial): The celestial object.
 
@@ -351,6 +352,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("inclination"),
                 arg("longitude"),
                 arg("celestial_object"),
+                arg_v("frame", Frame::GCRF(), "Frame.GCRF()"),
                 R"doc(
                     Create a geosynchronous `Orbit` object.
 
@@ -359,6 +361,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         inclination (Angle): The inclination.
                         longitude (Angle): The longitude.
                         celestial_object (Celestial): The celestial object.
+                        frame (Frame, optional): The inertial frame in which the orbit is defined and propagated. Defaults to Frame.GCRF().
 
                     Returns:
                         Orbit: The geosynchronous `Orbit` object.
@@ -373,6 +376,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("local_time_at_descending_node"),
                 arg("celestial_object"),
                 arg_v("argument_of_latitude", Angle::Zero(), "Angle.zero()"),
+                arg_v("frame", Frame::GCRF(), "Frame.GCRF()"),
                 R"doc(
                     Create a sun-synchronous `Orbit` object.
 
@@ -382,6 +386,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         local_time_at_descending_node (Time): The local time at descending node.
                         celestial_object (Celestial): The celestial object.
                         argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
+                        frame (Frame, optional): The inertial frame in which the Sun direction is evaluated and the orbit is defined and propagated. Its Z axis is the pole about which J2 acts; use a frame aligned with the true pole (e.g. TEME) for mean elements. Must be quasi-inertial. Defaults to Frame.GCRF().
 
                     Returns:
                         Orbit: The sun-synchronous `Orbit` object.

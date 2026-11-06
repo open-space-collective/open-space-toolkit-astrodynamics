@@ -57,7 +57,7 @@ def orbits(environment: Environment) -> list[Orbit]:
 
 @pytest.fixture
 def profile(orbit: Orbit) -> Profile:
-    return Profile.local_orbital_frame_pointing(
+    return Profile.constant_local_orbital_frame_pointing(
         orbit=orbit,
         orbital_frame_type=Orbit.FrameType.VVLH,
     )

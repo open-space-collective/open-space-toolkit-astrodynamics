@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -24,6 +25,7 @@ using ostk::core::container::Tuple;
 using ostk::core::type::Integer;
 using ostk::core::type::Real;
 using ostk::core::type::Shared;
+using ostk::core::type::Size;
 using ostk::core::type::String;
 
 using ostk::mathematics::object::VectorXd;
@@ -189,6 +191,247 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             2e-8,
             std::abs(propagatedState.accessCoordinates()[1] - std::cos((endInstant - defaultStartInstant_).inSeconds()))
         );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_StateLogger)
+{
+    const Instant endInstant = defaultState_.accessInstant() + defaultDuration_;
+
+    // Logger called for each observed state when logging is enabled
+    {
+        Array<State> loggedStates = Array<State>::Empty();
+
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            1e-3,
+            1.0e-15,
+            1.0e-15,
+            RootSolver::Default(),
+            [&loggedStates](const State &aState) -> void
+            {
+                loggedStates.add(aState);
+            },
+        };
+
+        testing::internal::CaptureStdout();
+
+        numericalSolver.integrateTime(defaultState_, endInstant, systemOfEquations_);
+
+        testing::internal::GetCapturedStdout();
+
+        EXPECT_FALSE(loggedStates.isEmpty());
+        EXPECT_EQ(numericalSolver.getObservedStates().getSize(), loggedStates.getSize());
+    }
+
+    // Logger not called when logging is disabled
+    {
+        Array<State> loggedStates = Array<State>::Empty();
+
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            1e-3,
+            1.0e-15,
+            1.0e-15,
+            RootSolver::Default(),
+            [&loggedStates](const State &aState) -> void
+            {
+                loggedStates.add(aState);
+            },
+        };
+
+        numericalSolver.integrateTime(defaultState_, endInstant, systemOfEquations_);
+
+        EXPECT_FALSE(numericalSolver.getObservedStates().isEmpty());
+        EXPECT_TRUE(loggedStates.isEmpty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_AppendObservedStates)
+{
+    const Instant middleInstant = defaultStartInstant_ + Duration::Seconds(5.0);
+    const Instant endInstant = defaultStartInstant_ + Duration::Seconds(10.0);
+
+    const auto expectStrictlyIncreasingInstants = [](const Array<State> &aStateArray)
+    {
+        for (Size i = 1; i < aStateArray.getSize(); ++i)
+        {
+            EXPECT_LT(aStateArray[i - 1].accessInstant(), aStateArray[i].accessInstant()) << "state index " << i;
+        }
+    };
+
+    // By default, the observed states are the ones of the last integration only
+    {
+        NumericalSolver numericalSolver = defaultRK54_;
+
+        const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
+        numericalSolver.integrateTime(middleState, endInstant, systemOfEquations_);
+
+        EXPECT_EQ(numericalSolver.getObservedStates().accessFirst().accessInstant(), middleInstant);
+        EXPECT_EQ(numericalSolver.getObservedStates().accessLast().accessInstant(), endInstant);
+    }
+
+    // Without an event condition: the second integration continues the observed states of the first one
+    {
+        NumericalSolver numericalSolver = defaultRK54_;
+
+        const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
+        const Array<State> firstObservedStates = numericalSolver.getObservedStates();
+
+        EXPECT_EQ(firstObservedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(firstObservedStates.accessLast().accessInstant(), middleInstant);
+
+        const State endState = numericalSolver.integrateTime(middleState, endInstant, systemOfEquations_, true);
+
+        const Array<State> observedStates = numericalSolver.getObservedStates();
+
+        EXPECT_GT(observedStates.getSize(), firstObservedStates.getSize());
+        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessLast().accessInstant(), endInstant);
+        EXPECT_EQ(observedStates.accessLast(), endState);
+        expectStrictlyIncreasingInstants(observedStates);
+
+        // The first integration's states are untouched, and the middle state is observed only once
+        for (Size i = 0; i < firstObservedStates.getSize(); ++i)
+        {
+            EXPECT_EQ(observedStates[i], firstObservedStates[i]);
+        }
+    }
+
+    // Without an event condition: the states observed beyond the initial state are discarded
+    {
+        NumericalSolver numericalSolver = defaultRK54_;
+
+        const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
+        numericalSolver.integrateTime(middleState, endInstant, systemOfEquations_, true);
+
+        const Array<State> firstObservedStates = numericalSolver.getObservedStates();
+
+        // Integrate again from the middle state: everything observed after it is replaced
+        const State shorterEndState = numericalSolver.integrateTime(
+            middleState, middleInstant + Duration::Seconds(2.0), systemOfEquations_, true
+        );
+
+        const Array<State> observedStates = numericalSolver.getObservedStates();
+
+        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessLast(), shorterEndState);
+        EXPECT_LT(observedStates.getSize(), firstObservedStates.getSize());
+        expectStrictlyIncreasingInstants(observedStates);
+
+        unsigned int middleStateCount = 0;
+        for (const State &observedState : observedStates)
+        {
+            middleStateCount += observedState.accessInstant() == middleInstant ? 1 : 0;
+        }
+
+        EXPECT_EQ(middleStateCount, 1);
+    }
+
+    // Without an event condition: backward continuation
+    {
+        NumericalSolver numericalSolver = defaultRK54_;
+
+        const State backwardState = numericalSolver.integrateTime(
+            defaultState_, defaultStartInstant_ - Duration::Seconds(3.0), systemOfEquations_
+        );
+        numericalSolver.integrateTime(
+            backwardState, defaultStartInstant_ - Duration::Seconds(6.0), systemOfEquations_, true
+        );
+
+        const Array<State> observedStates = numericalSolver.getObservedStates();
+
+        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessLast().accessInstant(), defaultStartInstant_ - Duration::Seconds(6.0));
+
+        for (Size i = 1; i < observedStates.getSize(); ++i)
+        {
+            EXPECT_GT(observedStates[i - 1].accessInstant(), observedStates[i].accessInstant()) << "state index " << i;
+        }
+    }
+
+    // With an event condition: the event is reached during the second integration
+    {
+        NumericalSolver numericalSolver = defaultRK54_;
+
+        const InstantCondition eventCondition = {
+            InstantCondition::Criterion::StrictlyPositive,
+            defaultStartInstant_ + Duration::Seconds(8.0),
+        };
+
+        const NumericalSolver::ConditionSolution firstSolution =
+            numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_, eventCondition);
+        const Array<State> firstObservedStates = numericalSolver.getObservedStates();
+
+        EXPECT_FALSE(firstSolution.conditionIsSatisfied);
+        EXPECT_EQ(firstObservedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(firstObservedStates.accessLast().accessInstant(), middleInstant);
+
+        const NumericalSolver::ConditionSolution secondSolution =
+            numericalSolver.integrateTime(firstSolution.state, endInstant, systemOfEquations_, eventCondition, true);
+
+        const Array<State> observedStates = numericalSolver.getObservedStates();
+
+        EXPECT_TRUE(secondSolution.conditionIsSatisfied);
+        EXPECT_GT(observedStates.getSize(), firstObservedStates.getSize());
+        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessLast(), secondSolution.state);
+        expectStrictlyIncreasingInstants(observedStates);
+
+        for (Size i = 0; i < firstObservedStates.getSize(); ++i)
+        {
+            EXPECT_EQ(observedStates[i], firstObservedStates[i]);
+        }
+    }
+
+    // With an event condition that is satisfied at the initial state: nothing is added
+    {
+        NumericalSolver numericalSolver = defaultRK54_;
+
+        const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
+        const Array<State> firstObservedStates = numericalSolver.getObservedStates();
+
+        const InstantCondition satisfiedCondition = {
+            InstantCondition::Criterion::StrictlyPositive,
+            defaultStartInstant_ + Duration::Seconds(1.0),
+        };
+
+        const NumericalSolver::ConditionSolution solution =
+            numericalSolver.integrateTime(middleState, endInstant, systemOfEquations_, satisfiedCondition, true);
+
+        EXPECT_TRUE(solution.conditionIsSatisfied);
+        EXPECT_EQ(numericalSolver.getObservedStates(), firstObservedStates);
+    }
+
+    // The logger is not called again for the state the integration starts from
+    {
+        Array<State> loggedStates = Array<State>::Empty();
+
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            1e-3,
+            1.0e-15,
+            1.0e-15,
+            RootSolver::Default(),
+            [&loggedStates](const State &aState) -> void
+            {
+                loggedStates.add(aState);
+            },
+        };
+
+        testing::internal::CaptureStdout();
+
+        const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
+        numericalSolver.integrateTime(
+            middleState, endInstant, systemOfEquations_, numericalSolver.getObservedStates().getSize()
+        );
+
+        testing::internal::GetCapturedStdout();
+
+        EXPECT_EQ(loggedStates, numericalSolver.getObservedStates());
     }
 }
 
@@ -468,47 +711,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, FixedSte
             NumericalSolver::FixedStepSize(NumericalSolver::StepperType::RungeKuttaDopri5, 30.0),
             ostk::core::error::RuntimeError
         );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, DefaultConditional)
-{
-    {
-        EXPECT_NO_THROW(NumericalSolver::DefaultConditional());
-    }
-
-    {
-        const auto stateLogger = [](const State &aState) -> void
-        {
-            std::cout << aState << std::endl;
-        };
-
-        EXPECT_NO_THROW(NumericalSolver::DefaultConditional(stateLogger));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Conditional)
-{
-    {
-        const auto stateLogger = [](const State &aState) -> void
-        {
-            std::cout << aState << std::endl;
-        };
-
-        testing::internal::CaptureStdout();
-
-        NumericalSolver numericalSolver = NumericalSolver::Conditional(5.0, 1e-12, 1e-12, stateLogger);
-
-        const NumericalSolver::ConditionSolution conditionSolution = numericalSolver.integrateTime(
-            defaultState_,
-            defaultState_.accessInstant() + Duration::Hours(1.0),
-            systemOfEquations_,
-            InstantCondition(
-                RealCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(1.0)
-            )
-        );
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 

@@ -24,7 +24,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Constructor
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
-        EXPECT_NO_THROW(TLE(satelliteName, firstLine, secondLine));
+        EXPECT_NO_THROW(TLE(firstLine, secondLine, satelliteName));
     }
 
     {
@@ -77,7 +77,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, EqualToOper
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
-        EXPECT_FALSE(TLE(satelliteName, firstLine, secondLine) == TLE(firstLine, secondLine));
+        EXPECT_FALSE(TLE(firstLine, secondLine, satelliteName) == TLE(firstLine, secondLine));
     }
 
     {
@@ -103,7 +103,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, NotEqualToO
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
-        EXPECT_TRUE(TLE(satelliteName, firstLine, secondLine) != TLE(firstLine, secondLine));
+        EXPECT_TRUE(TLE(firstLine, secondLine, satelliteName) != TLE(firstLine, secondLine));
     }
 
     {
@@ -122,13 +122,39 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, StreamOpera
         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
-        const TLE tle(satelliteName, firstLine, secondLine);
+        const TLE tle(firstLine, secondLine, satelliteName);
 
         testing::internal::CaptureStdout();
 
         EXPECT_NO_THROW(std::cout << tle << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatelliteName)
+{
+    using ostk::core::type::String;
+
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+
+    const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+    const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+    {
+        const TLE tle(firstLine, secondLine, String("ISS (ZARYA)"));
+
+        EXPECT_EQ(std::optional<String>("ISS (ZARYA)"), tle.getSatelliteName());
+    }
+
+    {
+        const TLE tle(firstLine, secondLine);
+
+        EXPECT_FALSE(tle.getSatelliteName().has_value());
+    }
+
+    {
+        EXPECT_FALSE(TLE::Undefined().getSatelliteName().has_value());
     }
 }
 
@@ -1203,7 +1229,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
 
                 const TLE tle = TLE::Parse(tleString);
 
-                EXPECT_EQ(satelliteName, tle.getSatelliteName());
+                EXPECT_EQ(std::optional<String>(satelliteName), tle.getSatelliteName());
                 EXPECT_EQ(firstLine, tle.getFirstLine());
                 EXPECT_EQ(secondLine, tle.getSecondLine());
 
@@ -1379,7 +1405,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
                 revolutionNumberAtEpoch
             );
 
-            EXPECT_EQ("Satellite", tle.getSatelliteName());
+            EXPECT_EQ(std::optional<String>("Satellite"), tle.getSatelliteName());
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
@@ -1404,6 +1430,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
                 revolutionNumberAtEpoch
             );
 
+            EXPECT_FALSE(tle.getSatelliteName().has_value());
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }

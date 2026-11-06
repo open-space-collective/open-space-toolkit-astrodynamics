@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -17,6 +19,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
 namespace ostk
 {
@@ -40,6 +44,8 @@ using ostk::physics::time::Instant;
 
 using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::uncertainty::Covariance;
 
 /// @brief Trajectory state at a given instant in time.
 ///
@@ -213,6 +219,11 @@ class State
     /// @return The reference frame
     Shared<const Frame> getFrame() const;
 
+    /// @brief Get the Covariance associated with the State.
+    ///
+    /// @return The Covariance, or std::nullopt if no Covariance is attached to the State
+    const std::optional<Covariance>& getCovariance() const;
+
     /// @brief Get the cartesian position associated with the State (if present).
     ///
     /// @return The cartesian position
@@ -255,6 +266,11 @@ class State
     /// @return True if the coordinate subset is included in the State
     bool hasSubset(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const;
 
+    /// @brief Check if the State has a Covariance.
+    ///
+    /// @return True if a Covariance is attached to the State
+    bool hasCovariance() const;
+
     /// @brief Extract the coordinates for a single subset.
     ///
     /// @code{.cpp}
@@ -283,6 +299,37 @@ class State
     /// @return The transformed State
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
+    /// @brief Return a copy of the State with a Covariance attached.
+    ///
+    /// @details Passing std::nullopt returns a copy of the State without a Covariance.
+    /// Raises a Wrong error when the Covariance instant differs from the State's instant.
+    ///
+    /// @param aCovariance The Covariance to attach, or std::nullopt to remove it
+    /// @return A copy of the State with the Covariance attached
+    State withCovariance(const std::optional<Covariance>& aCovariance) const;
+
+    /// @brief Compute the Mahalanobis distance analysis of another State with respect to this State's Covariance.
+    ///
+    /// @details Both States are expressed in the Covariance frame and reduced to the given coordinate subsets, which
+    /// must be present in both States (other subsets may differ). The residuals (other - this) are then analyzed
+    /// against the Covariance reduced to the same coordinate subsets.
+    ///
+    /// @code{.cpp}
+    ///     State state = { ... } ;
+    ///     Covariance::MahalanobisDistanceAnalysis analysis = state.computeMahalanobisDistanceAnalysis(anotherState) ;
+    /// @endcode
+    ///
+    /// @ref https://en.wikipedia.org/wiki/Mahalanobis_distance
+    ///
+    /// @param anotherState The State to analyze
+    /// @param aCoordinateSubsetsArray The coordinate subsets to compute the analysis for
+    /// @return The Mahalanobis distance analysis
+    /// @throw ostk::core::error::runtime::Wrong If this State has no Covariance or the coordinate subsets are empty
+    Covariance::MahalanobisDistanceAnalysis computeMahalanobisDistanceAnalysis(
+        const State& anotherState,
+        const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray = {CartesianPosition::Default()}
+    ) const;
+
     /// @brief Print the State to an output stream.
     ///
     /// @param anOutputStream The output stream to print to
@@ -303,6 +350,7 @@ class State
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
     Shared<const CoordinateBroker> coordinatesBrokerSPtr_;
+    std::optional<Covariance> covariance_ = std::nullopt;
 };
 
 }  // namespace trajectory

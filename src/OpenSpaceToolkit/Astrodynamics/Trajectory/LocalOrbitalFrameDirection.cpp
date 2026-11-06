@@ -16,10 +16,10 @@ namespace trajectory
 using ostk::core::type::Real;
 
 LocalOrbitalFrameDirection::LocalOrbitalFrameDirection(
-    const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+    const Vector3d& aValue, const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 )
     : value_(aValue.normalized()),
-      localOrbitalFrameFactorySPtr_(aLocalOrbitalFrameFactorySPtr)
+      localOrbitalFrameFactory_(aLocalOrbitalFrameFactory)
 {
     if (std::abs(value_.norm() - 1.0) > Real::Epsilon())
     {
@@ -35,7 +35,7 @@ bool LocalOrbitalFrameDirection::operator==(const LocalOrbitalFrameDirection& aL
     }
 
     return (value_ == aLocalOrbitalFrameDirection.value_) &&
-           (localOrbitalFrameFactorySPtr_ == aLocalOrbitalFrameDirection.localOrbitalFrameFactorySPtr_);
+           (localOrbitalFrameFactory_ == aLocalOrbitalFrameDirection.localOrbitalFrameFactory_);
 }
 
 bool LocalOrbitalFrameDirection::operator!=(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const
@@ -52,8 +52,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const LocalOrbitalFrameDi
 
 bool LocalOrbitalFrameDirection::isDefined() const
 {
-    return value_.isDefined() && (localOrbitalFrameFactorySPtr_ != nullptr) &&
-           localOrbitalFrameFactorySPtr_->isDefined();
+    return value_.isDefined() && localOrbitalFrameFactory_.isDefined();
 }
 
 void LocalOrbitalFrameDirection::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -62,24 +61,23 @@ void LocalOrbitalFrameDirection::print(std::ostream& anOutputStream, bool displa
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Value:" << (this->getValue().isDefined() ? this->getValue().toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream
-    ) << "Local Orbital Frame Factory Type:"
-      << (((this->getLocalOrbitalFrameFactory() != nullptr) && (this->getLocalOrbitalFrameFactory()->isDefined()))
-              ? LocalOrbitalFrameTransformProvider::StringFromType(this->getLocalOrbitalFrameFactory()->getProviderType(
-                ))
-              : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Local Orbital Frame Factory Type:"
+        << (localOrbitalFrameFactory_.isDefined()
+                ? LocalOrbitalFrameTransformProvider::StringFromType(localOrbitalFrameFactory_.getProviderType())
+                : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-const Shared<const LocalOrbitalFrameFactory>& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const
+const LocalOrbitalFrameFactory& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Local orbital frame direction");
     }
 
-    return localOrbitalFrameFactorySPtr_;
+    return localOrbitalFrameFactory_;
 }
 
 Vector3d LocalOrbitalFrameDirection::getValue() const
@@ -92,7 +90,7 @@ Vector3d LocalOrbitalFrameDirection::getValue() const
     return value_;
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory() const
+LocalOrbitalFrameFactory LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory() const
 {
     return this->accessLocalOrbitalFrameFactory();
 }

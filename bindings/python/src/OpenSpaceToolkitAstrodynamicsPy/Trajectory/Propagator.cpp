@@ -9,8 +9,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
 
-    using ostk::mathematics::curvefitting::Interpolator;
-
     using ostk::physics::Environment;
     using ostk::physics::time::Instant;
 
@@ -45,34 +43,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
                 Returns:
                     Propagator: The new `Propagator` object.
 
-            )doc"
-        )
-
-        .def(
-            init<
-                const NumericalSolver&,
-                const Array<Shared<Dynamics>>&,
-                const Array<Maneuver>&,
-                const Interpolator::Type&>(),
-            arg("numerical_solver"),
-            arg("dynamics"),
-            arg("maneuvers"),
-            arg_v(
-                "interpolation_type",
-                DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
-            R"doc(
-                Construct a new `Propagator` object with maneuvers.
-
-                Args:
-                    numerical_solver (NumericalSolver) The numerical solver.
-                    dynamics (list[Dynamics]) The dynamics.
-                    maneuvers (list[Maneuver]) The maneuvers.
-                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
-
-                Returns:
-                    Propagator: The new `Propagator` object.
             )doc"
         )
 
@@ -162,35 +132,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         )
 
         .def(
-            "add_maneuver",
-            &Propagator::addManeuver,
-            arg("maneuver"),
-            arg_v(
-                "interpolation_type",
-                DEFAULT_MANEUVER_PROPAGATION_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
-            R"doc(
-                Add a maneuver.
-
-                Args:
-                    maneuver (Maneuver) The maneuver.
-                    interpolation_type (Interpolator.Type, optional) The interpolation type. Defaults to Barycentric Rational.
-
-            )doc"
-        )
-
-        .def(
             "calculate_state_at",
             &Propagator::calculateStateAt,
             arg("state"),
             arg("instant"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Calculate the state at a given instant.
+
+                When propagating across a maneuver, the integration is split at its exact start and end, so that a maneuver is never stepped over, however short it is.
 
                 Args:
                     state (State) The state.
                     instant (Instant) The instant.
+                    maneuvers (list[Maneuver], optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. The state must contain the mass.
 
                 Returns:
                     State: The state at the given instant.
@@ -203,13 +158,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             arg("state"),
             arg("instant"),
             arg("event_condition"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Calculate the state up to a given event condition.
+
+                When propagating across a maneuver, the integration is split at its exact start and end, so that a maneuver is never stepped over, however short it is.
 
                 Args:
                     state (State) The state.
                     instant (Instant) The instant.
                     event_condition (EventCondition) The event condition.
+                    maneuvers (list[Maneuver], optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. The state must contain the mass.
 
                 Returns:
                     State: The state up to the given event condition.
@@ -222,12 +181,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             &Propagator::calculateStatesAt,
             arg("state"),
             arg("instants"),
+            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
             R"doc(
                 Calculate the states at given instants. It is more performant than looping `calculate_state_at` for multiple instants.
+
+                When propagating across a maneuver, the integration is split at its exact start and end, so that a maneuver is never stepped over, however short it is.
 
                 Args:
                     state (State) The state.
                     instants (list[Instant]) The instants.
+                    maneuvers (list[Maneuver], optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. The state must contain the mass.
 
                 Returns:
                     list[State]: The states at the given instants.
