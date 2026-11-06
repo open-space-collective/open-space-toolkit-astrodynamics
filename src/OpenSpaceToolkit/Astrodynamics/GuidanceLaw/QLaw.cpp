@@ -26,6 +26,7 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Transform;
 using ostk::physics::coordinate::Velocity;
 
 using ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanLong;
@@ -118,7 +119,8 @@ QLaw::QLaw(
     const Derived& aGravitationalParameter,
     const QLaw::Parameters& aParameterSet,
     const COEDomain& aCOEDomain,
-    const GradientStrategy& aGradientStrategy
+    const GradientStrategy& aGradientStrategy,
+    const Shared<const Frame>& aFrameSPtr
 )
     : GuidanceLaw("Q-Law"),
       parameters_(aParameterSet),
@@ -129,9 +131,15 @@ QLaw::QLaw(
       finiteDifferenceSolver_(
           FiniteDifferenceSolver(FiniteDifferenceSolver::Type::Central, 1e-3, Duration::Seconds(1e-6))
       ),
-      stateBuilder_(Frame::GCRF(), {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
+      frameSPtr_(aFrameSPtr),
+      stateBuilder_(aFrameSPtr, {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
       coeDomain_(aCOEDomain)
 {
+    if ((frameSPtr_ == nullptr) || (!frameSPtr_->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
     // The semi-major axis term of the proximity quotient Q is scaled by
     //     S_a = (1 + (Δa / (m * a_target))^n)^(1/r),
     // which divides by the target semi-major axis. Targeting the semi-major axis (a non-zero control
@@ -181,6 +189,11 @@ QLaw::COEDomain QLaw::getCOEDomain() const
     return coeDomain_;
 }
 
+Shared<const Frame> QLaw::getFrame() const
+{
+    return frameSPtr_;
+}
+
 Shared<GuidanceLaw> QLaw::constructUngatedGuidanceLaw() const
 {
     const Vector5d controlWeights = parameters_.getControlWeights();
@@ -218,30 +231,51 @@ Shared<GuidanceLaw> QLaw::constructUngatedGuidanceLaw() const
     };
 
     return std::make_shared<QLaw>(
-        getTargetCOE(), gravitationalParameter_, ungatedParameters, coeDomain_, gradientStrategy_
+        getTargetCOE(), gravitationalParameter_, ungatedParameters, coeDomain_, gradientStrategy_, frameSPtr_
     );
 }
 
 Vector3d QLaw::calculateThrustAccelerationAt(
-    [[maybe_unused]] const Instant& anInstant,
+    const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
     const Real& aThrustAcceleration,
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
+    // The orbital elements are computed in the QLaw frame. If the dynamics are expressed in another frame, bring the
+    // state into the QLaw frame (including the frame's angular velocity), and rotate the thrust back afterwards.
+    const bool isOutputFrameQLawFrame = ((*outputFrameSPtr) == (*frameSPtr_));
+
+    Vector3d positionCoordinates = aPositionCoordinates;
+    Vector3d velocityCoordinates = aVelocityCoordinates;
+
+    if (!isOutputFrameQLawFrame)
+    {
+        const Transform outputFrameToQLawFrame = outputFrameSPtr->getTransformTo(frameSPtr_, anInstant);
+
+        positionCoordinates = outputFrameToQLawFrame.applyToPosition(aPositionCoordinates);
+        velocityCoordinates = outputFrameToQLawFrame.applyToVelocity(aPositionCoordinates, aVelocityCoordinates);
+    }
+
     const COE::CartesianState cartesianState = {
-        Position::Meters(aPositionCoordinates, outputFrameSPtr),
-        Velocity::MetersPerSecond(aVelocityCoordinates, outputFrameSPtr)
+        Position::Meters(positionCoordinates, frameSPtr_), Velocity::MetersPerSecond(velocityCoordinates, frameSPtr_)
     };
 
     Vector6d coeVector = convertCartesianStateToCOEVector(cartesianState);
 
     const Vector3d thrustDirection = computeThrustDirection(coeVector, aThrustAcceleration);
 
-    const Matrix3d R_thetaRH_GCRF = QLaw::ThetaRHToGCRF(aPositionCoordinates, aVelocityCoordinates);
+    const Matrix3d R_thetaRH_QLawFrame = QLaw::ThetaRHToInertial(positionCoordinates, velocityCoordinates);
 
-    return aThrustAcceleration * R_thetaRH_GCRF * thrustDirection;
+    const Vector3d thrustAcceleration_QLawFrame = aThrustAcceleration * R_thetaRH_QLawFrame * thrustDirection;
+
+    if (isOutputFrameQLawFrame)
+    {
+        return thrustAcceleration_QLawFrame;
+    }
+
+    return frameSPtr_->getTransformTo(outputFrameSPtr, anInstant).applyToVector(thrustAcceleration_QLawFrame);
 }
 
 Vector5d QLaw::compute_dQ_dOE(const Vector5d& aCOEVector, const double& aThrustAcceleration) const
@@ -441,7 +475,7 @@ Vector5d QLaw::computeOrbitalElementsMaximalChange(const Vector5d& aCOEVector, c
     };
 }
 
-Matrix3d QLaw::ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates)
+Matrix3d QLaw::ThetaRHToInertial(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates)
 {
     const Vector3d R = aPositionCoordinates.normalized();
     const Vector3d H = (aPositionCoordinates.cross(aVelocityCoordinates)).normalized();
@@ -459,9 +493,9 @@ Tuple<double, double> QLaw::computeEffectivity(
     const State& aState, const Real& aThrustAcceleration, const Size& discretizationStepCount
 ) const
 {
-    const State stateGCRF = aState.inFrame(Frame::GCRF());
-    const Position position = stateGCRF.getPosition();
-    const Velocity velocity = stateGCRF.getVelocity();
+    const State stateInFrame = aState.inFrame(frameSPtr_);
+    const Position position = stateInFrame.getPosition();
+    const Velocity velocity = stateInFrame.getVelocity();
 
     const COE::CartesianState cartesianState = {position, velocity};
 

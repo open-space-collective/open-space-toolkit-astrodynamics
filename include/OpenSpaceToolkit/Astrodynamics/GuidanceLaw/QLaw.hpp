@@ -151,12 +151,17 @@ class QLaw : public GuidanceLaw
     /// @param aCOEDomain The domain of the Classical Orbital Elements. Defaults to Osculating.
     /// @param aGradientStrategy The strategy to compute the gradient of the QLaw. Defaults to
     /// FiniteDifference
+    /// @param aFrameSPtr The frame in which the orbital elements are computed and the target COE is defined. The
+    /// states provided to the guidance law are converted to this frame and the resulting thrust is rotated back to
+    /// the frame of the dynamics. Its Z axis defines the pole the inclination and RAAN are measured against, so a
+    /// frame aligned with the true pole (e.g. CIRF or TEME) is appropriate for mean elements. Defaults to GCRF.
     QLaw(
         const COE& aCOE,
         const Derived& aGravitationalParameter,
         const Parameters& aParameterSet,
         const COEDomain& aCOEDomain,
-        const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference
+        const GradientStrategy& aGradientStrategy = GradientStrategy::FiniteDifference,
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Destructor
@@ -192,6 +197,11 @@ class QLaw : public GuidanceLaw
     ///
     /// @return COE Domain
     COEDomain getCOEDomain() const;
+
+    /// @brief Get the frame in which the orbital elements are computed
+    ///
+    /// @return The frame
+    Shared<const Frame> getFrame() const;
 
     /// @brief Print guidance law
     ///
@@ -266,19 +276,20 @@ class QLaw : public GuidanceLaw
     /// @return The derivative of the orbital elements with respect to the thrust vectors
     static Matrix53d Compute_dOE_dF(const Vector6d& aCOEVector, const Derived& aGravitationalParameter);
 
-    /// @brief Get the rotation matrix to convert from the theta-R-H frame to the GCRF frame
+    /// @brief Get the rotation matrix to convert from the theta-R-H frame to the frame in which the position and
+    /// velocity coordinates are expressed
     ///
     /// @param aPositionCoordinates The position coordinates
     /// @param aVelocityCoordinates The velocity coordinates
     ///
-    /// @return The coordinates in the GCRF frame
-    static Matrix3d ThetaRHToGCRF(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
+    /// @return The rotation matrix from the theta-R-H frame to the frame of the provided coordinates
+    static Matrix3d ThetaRHToInertial(const Vector3d& aPositionCoordinates, const Vector3d& aVelocityCoordinates);
 
     /// @brief Compute the relative and absolute effectivity of the guidance law
     ///
     /// @ref
     /// https://www.researchgate.net/publication/341296727_Q-Law_Aided_Direct_Trajectory_Optimization_of_Many-Revolution_Low-Thrust_Transfers
-    /// @param aState The state from which to extract orbital elements
+    /// @param aState The state from which to extract orbital elements (converted to the QLaw frame)
     /// @param aThrustAcceleration The thrust acceleration
     /// @param discretizationStepCount The number of discretization steps for the true anomaly
     ///
@@ -294,6 +305,7 @@ class QLaw : public GuidanceLaw
     const Derived gravitationalParameter_;
     const GradientStrategy gradientStrategy_;
     const FiniteDifferenceSolver finiteDifferenceSolver_;
+    const Shared<const Frame> frameSPtr_;
     const StateBuilder stateBuilder_;
     COEDomain coeDomain_;
 

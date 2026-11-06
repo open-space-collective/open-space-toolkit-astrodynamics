@@ -1142,13 +1142,31 @@ Real COE::ComputeArgumentOfLatitudeAngularRate(
     return meanMotion + meanAnomalyRate + aopRate;
 }
 
-Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+namespace
 {
-    // Calculate sun position
-    const Vector3d sunDirectionGCRF = aSun.getPositionIn(Frame::GCRF(), anInstant).getCoordinates();
 
+/// Right ascension of the Sun, measured in the X-Y plane of the given frame, whose Z axis is assumed to be the
+/// rotation pole used to define the RAAN.
+Angle computeSunRightAscension(const Sun& aSun, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr)
+{
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
+    const Vector3d sunDirection = aSun.getPositionIn(aFrameSPtr, anInstant).getCoordinates();
+
+    return Angle::Radians(std::atan2(sunDirection.y(), sunDirection.x()));
+}
+
+}  // namespace
+
+Time COE::ComputeMeanLTAN(
+    const Angle& raan, const Instant& anInstant, const Sun& aSun, const Shared<const Frame>& aFrameSPtr
+)
+{
     // Calculate sun apparent local time
-    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirectionGCRF.y(), sunDirectionGCRF.x()));
+    const Angle apparentSolarTime = computeSunRightAscension(aSun, anInstant, aFrameSPtr);
 
     // Get equation of time
     const Angle equationOfTime = COE::ComputeEquationOfTime(anInstant);
@@ -1165,22 +1183,23 @@ Time COE::ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun
     return Time::Hours(meanLTAN);
 }
 
-Time COE::ComputeMeanLTDN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+Time COE::ComputeMeanLTDN(
+    const Angle& raan, const Instant& anInstant, const Sun& aSun, const Shared<const Frame>& aFrameSPtr
+)
 {
-    const Real meanLTAN = COE::ComputeMeanLTAN(raan, anInstant, aSun).getTotalFloatingHours();
+    const Real meanLTAN = COE::ComputeMeanLTAN(raan, anInstant, aSun, aFrameSPtr).getTotalFloatingHours();
 
     const Real meanLTDN = std::fmod(meanLTAN + 12.0, 24.0);
 
     return Time::Hours(meanLTDN);
 }
 
-Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+Time COE::ComputeLTAN(
+    const Angle& raan, const Instant& anInstant, const Sun& aSun, const Shared<const Frame>& aFrameSPtr
+)
 {
-    // Calculate sun position
-    const Vector3d sunDirectionGCRF = aSun.getPositionIn(Frame::GCRF(), anInstant).getCoordinates();
-
     // Calculate sun apparent local time
-    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirectionGCRF.y(), sunDirectionGCRF.x()));
+    const Angle apparentSolarTime = computeSunRightAscension(aSun, anInstant, aFrameSPtr);
 
     // Get angle between sun and ascending node
     const Real alpha = std::fmod((raan - apparentSolarTime).inRadians(), 2.0 * M_PI);
@@ -1191,9 +1210,11 @@ Time COE::ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& aS
     return Time::Hours(LTAN);
 }
 
-Time COE::ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& aSun)
+Time COE::ComputeLTDN(
+    const Angle& raan, const Instant& anInstant, const Sun& aSun, const Shared<const Frame>& aFrameSPtr
+)
 {
-    const Real LTAN = COE::ComputeLTAN(raan, anInstant, aSun).getTotalFloatingHours();
+    const Real LTAN = COE::ComputeLTAN(raan, anInstant, aSun, aFrameSPtr).getTotalFloatingHours();
 
     const Real LTDN = std::fmod(LTAN + 12.0, 24.0);
 
@@ -1301,7 +1322,8 @@ Angle COE::ComputeRaanFromLTAN(
     const Time& aLocalTimeAtAscendingNode,
     const Instant& anEpoch,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    const Sun& aSun
+    const Sun& aSun,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     if (!aLocalTimeAtAscendingNode.isDefined())
@@ -1334,15 +1356,12 @@ Angle COE::ComputeRaanFromLTAN(
                            (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
                            (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
 
-    // Sun direction in GCRF
-    const Vector3d sunDirection_GCRF = aSun.getPositionIn(Frame::GCRF(), anEpoch).getCoordinates().normalized();
-
     // Desired angle between the Sun and the ascending node
     const Angle alpha = Angle::Degrees((localTime - 12.0) / 12.0 * 180.0);
 
-    // Sun Apparent Local Time (right ascension of the Sun in GCRF)
+    // Sun Apparent Local Time (right ascension of the Sun in the provided frame)
     // https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time
-    const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirection_GCRF.y(), sunDirection_GCRF.x()));
+    const Angle apparentSolarTime = computeSunRightAscension(aSun, anEpoch, aFrameSPtr);
 
     // Equation of Time
     // https://en.wikipedia.org/wiki/Equation_of_time
@@ -1364,7 +1383,8 @@ COE COE::SunSynchronous(
     const Instant& anEpoch,
     const Shared<const Celestial>& aCelestialObjectSPtr,
     const Real& anEccentricity,
-    const Angle& anArgumentOfLatitude
+    const Angle& anArgumentOfLatitude,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     if (!aSemiMajorAxis.isDefined())
@@ -1394,7 +1414,8 @@ COE COE::SunSynchronous(
 
     const Angle inclination =
         COE::ComputeSunSynchronousInclination(aSemiMajorAxis, anEccentricity, aCelestialObjectSPtr);
-    const Angle raan = COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch, aCelestialObjectSPtr);
+    const Angle raan =
+        COE::ComputeRaanFromLTAN(aLocalTimeAtAscendingNode, anEpoch, aCelestialObjectSPtr, Sun::Default(), aFrameSPtr);
     const Angle aop = Angle::Zero();
     const Angle trueAnomaly = anArgumentOfLatitude - aop;
 
@@ -1412,7 +1433,8 @@ COE COE::GeoSynchronous(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aLongitude,
-    const Shared<const Celestial>& aCelestialObjectSPtr
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     if (!anEpoch.isDefined())
@@ -1435,6 +1457,11 @@ COE COE::GeoSynchronous(
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
     if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
     {
         throw ostk::core::error::runtime::ToBeImplemented(
@@ -1451,14 +1478,13 @@ COE COE::GeoSynchronous(
         lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
     const Position ascendingNodePositionBodyFrame =
         Position::Meters(ascendingNodeVectorITRF, aCelestialObjectSPtr->accessFrame());
-    const Vector3d ascendingNodeVectorGCRF =
-        ascendingNodePositionBodyFrame.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
+    const Vector3d ascendingNodeVector = ascendingNodePositionBodyFrame.inFrame(aFrameSPtr, anEpoch).getCoordinates();
 
     // Define COEs that make up this orbit
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
     const Real eccentricity = Real::Epsilon();
     const Angle inclination = anInclination;
-    const Angle raan = Angle::Radians(std::atan2(ascendingNodeVectorGCRF[1], ascendingNodeVectorGCRF[0]));
+    const Angle raan = Angle::Radians(std::atan2(ascendingNodeVector[1], ascendingNodeVector[0]));
     const Angle aop = Angle::Zero();
     const Angle trueAnomaly = Angle::Zero();
 
