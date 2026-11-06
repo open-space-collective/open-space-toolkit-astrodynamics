@@ -46,6 +46,7 @@ Kepler::Kepler(
       perturbationType_(aPerturbationType),
       frameSPtr_(aFrameSPtr)
 {
+    Kepler::ValidateFrame(aFrameSPtr);
 }
 
 Kepler::Kepler(
@@ -58,9 +59,10 @@ Kepler::Kepler(
 )
     : Model(),
       coe_(
-          inFixedFrame
-              ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject, aFrameSPtr)
-              : aClassicalOrbitalElementSet
+          inFixedFrame ? Kepler::InertialCoeFromFixedCoe(
+                             aClassicalOrbitalElementSet, anEpoch, aCelestialObject, Kepler::ValidateFrame(aFrameSPtr)
+                         )
+                       : aClassicalOrbitalElementSet
       ),
       epoch_(anEpoch),
       gravitationalParameter_(aCelestialObject.getGravitationalParameter()),
@@ -70,6 +72,7 @@ Kepler::Kepler(
       perturbationType_(aPerturbationType),
       frameSPtr_(aFrameSPtr)
 {
+    Kepler::ValidateFrame(aFrameSPtr);
 }
 
 Kepler* Kepler::clone() const
@@ -323,6 +326,21 @@ bool Kepler::operator==(const trajectory::Model& aModel) const
 bool Kepler::operator!=(const trajectory::Model& aModel) const
 {
     return !((*this) == aModel);
+}
+
+const Shared<const Frame>& Kepler::ValidateFrame(const Shared<const Frame>& aFrameSPtr)
+{
+    if (aFrameSPtr == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
+    if (!aFrameSPtr->isQuasiInertial())
+    {
+        throw ostk::core::error::runtime::Wrong("Frame", aFrameSPtr->getName());
+    }
+
+    return aFrameSPtr;
 }
 
 COE Kepler::InertialCoeFromFixedCoe(

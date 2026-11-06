@@ -386,7 +386,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         local_time_at_descending_node (Time): The local time at descending node.
                         celestial_object (Celestial): The celestial object.
                         argument_of_latitude (Angle, optional): The argument of latitude. Defaults to Angle.zero().
-                        frame (Frame, optional): The inertial frame in which the Sun direction is evaluated and the orbit is defined and propagated. Its Z axis is the pole about which J2 acts; use a frame aligned with the true pole (e.g. CIRF or TEME) for mean elements. Defaults to Frame.GCRF().
+                        frame (Frame, optional): The inertial frame in which the Sun direction is evaluated and the orbit is defined and propagated. Its Z axis is the pole about which J2 acts; use a frame aligned with the true pole (e.g. TEME) for mean elements. Must be quasi-inertial. Defaults to Frame.GCRF().
 
                     Returns:
                         Orbit: The sun-synchronous `Orbit` object.

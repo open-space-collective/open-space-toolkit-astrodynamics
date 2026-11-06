@@ -917,7 +917,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
         Angle::Degrees(20.0),
     };
 
-    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+    const Shared<const Frame> temeSPtr = Frame::TEME();
 
     // Default frame is GCRF
     {
@@ -941,10 +941,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
             earthSPtr->getJ2(),
             earthSPtr->getJ4(),
             Kepler::PerturbationType::J2,
-            cirfSPtr
+            temeSPtr
         };
 
-        EXPECT_EQ(*model.getFrame(), *cirfSPtr);
+        EXPECT_EQ(*model.getFrame(), *temeSPtr);
     }
 
     // States are returned in the model frame, for every perturbation type
@@ -952,22 +952,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
          {Kepler::PerturbationType::None, Kepler::PerturbationType::J2, Kepler::PerturbationType::J4})
     {
         const Kepler modelGCRF = {coe, epoch, *earthSPtr, perturbationType};
-        const Kepler modelCIRF = {coe, epoch, *earthSPtr, perturbationType, false, cirfSPtr};
+        const Kepler modelTEME = {coe, epoch, *earthSPtr, perturbationType, false, temeSPtr};
 
         const Instant instant = epoch + Duration::Hours(6.0);
 
         const State stateGCRF = modelGCRF.calculateStateAt(instant);
-        const State stateCIRF = modelCIRF.calculateStateAt(instant);
+        const State stateTEME = modelTEME.calculateStateAt(instant);
 
-        EXPECT_EQ(*stateCIRF.accessFrame(), *cirfSPtr);
+        EXPECT_EQ(*stateTEME.accessFrame(), *temeSPtr);
 
         // Same elements, same numbers: only the frame they are interpreted in differs
-        EXPECT_TRUE(stateCIRF.getPosition().getCoordinates().isNear(stateGCRF.getPosition().getCoordinates(), 1e-6));
-        EXPECT_TRUE(stateCIRF.getVelocity().getCoordinates().isNear(stateGCRF.getVelocity().getCoordinates(), 1e-9));
+        EXPECT_TRUE(stateTEME.getPosition().getCoordinates().isNear(stateGCRF.getPosition().getCoordinates(), 1e-6));
+        EXPECT_TRUE(stateTEME.getVelocity().getCoordinates().isNear(stateGCRF.getVelocity().getCoordinates(), 1e-9));
 
-        // ... which is a physically different orbit (CIRF and GCRF differ by ~0.3 deg of precession since J2000)
+        // ... which is a physically different orbit (TEME and GCRF differ by ~0.3 deg of precession since J2000)
         const Real separation =
-            (stateCIRF.inFrame(Frame::GCRF()).getPosition().getCoordinates() - stateGCRF.getPosition().getCoordinates())
+            (stateTEME.inFrame(Frame::GCRF()).getPosition().getCoordinates() - stateGCRF.getPosition().getCoordinates())
                 .norm();
 
         EXPECT_GT(separation, 1.0e3);
@@ -975,7 +975,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
 
     // Body-fixed elements are converted into the model frame
     {
-        const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true, cirfSPtr};
+        const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true, temeSPtr};
 
         const Vector3d expectedPositionITRF =
             coe.getCartesianState(earthSPtr->getGravitationalParameter(), earthSPtr->accessFrame())
@@ -990,18 +990,31 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
     // Equality accounts for the frame
     {
         const Kepler modelGCRF = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2};
-        const Kepler modelCIRF = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, cirfSPtr};
+        const Kepler modelTEME = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, temeSPtr};
 
-        EXPECT_NE(modelGCRF, modelCIRF);
-        EXPECT_EQ(modelCIRF, modelCIRF);
+        EXPECT_NE(modelGCRF, modelTEME);
+        EXPECT_EQ(modelTEME, modelTEME);
     }
 
     // Undefined frame
     {
-        const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, nullptr};
+        EXPECT_ANY_THROW(Kepler(coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, nullptr));
+        EXPECT_ANY_THROW(Kepler(coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, true, nullptr));
+    }
 
-        EXPECT_FALSE(model.isDefined());
-        EXPECT_ANY_THROW(model.getFrame());
-        EXPECT_ANY_THROW(model.calculateStateAt(epoch));
+    // Frame must be quasi-inertial
+    {
+        EXPECT_ANY_THROW(Kepler(coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, Frame::ITRF()));
+        EXPECT_ANY_THROW(Kepler(coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, true, Frame::ITRF()));
+        EXPECT_ANY_THROW(Kepler(
+            coe,
+            epoch,
+            earthSPtr->getGravitationalParameter(),
+            earthSPtr->getEquatorialRadius(),
+            earthSPtr->getJ2(),
+            earthSPtr->getJ4(),
+            Kepler::PerturbationType::J2,
+            Frame::ITRF()
+        ));
     }
 }

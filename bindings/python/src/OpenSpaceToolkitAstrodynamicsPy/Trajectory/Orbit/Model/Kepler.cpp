@@ -73,7 +73,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                         j2 (float): The J2 coefficient.
                         j4 (float): The J4 coefficient.
                         perturbation_type (PerturbationType): The perturbation type.
-                        frame (Frame, optional): The inertial frame in which the elements are defined and the states are returned. Its Z axis is the pole about which J2/J4 act. Defaults to Frame.GCRF().
+                        frame (Frame, optional): The inertial frame in which the elements are defined and the states are returned. Its Z axis is the pole about which J2/J4 act. Must be quasi-inertial (not a body-fixed frame). Defaults to Frame.GCRF().
 
                 )doc",
                 arg("coe"),
@@ -103,7 +103,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                         celestial_object (Celestial): The celestial object.
                         perturbation_type (PerturbationType): The perturbation type.
                         in_fixed_frame (bool): If True, the state is expressed in the fixed frame, otherwise it is expressed in the inertial frame. Default is False.
-                        frame (Frame, optional): The inertial frame in which the elements are defined (or into which fixed-frame elements are converted) and the states are returned. Its Z axis is the pole about which J2/J4 act. Defaults to Frame.GCRF().
+                        frame (Frame, optional): The inertial frame in which the elements are defined (or into which fixed-frame elements are converted) and the states are returned. Its Z axis is the pole about which J2/J4 act. Must be quasi-inertial (not a body-fixed frame). Defaults to Frame.GCRF().
 
                 )doc",
                 arg("coe"),

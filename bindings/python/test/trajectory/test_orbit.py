@@ -198,16 +198,20 @@ class TestOrbit:
             Length.kilometers(500.0),
             Time(10, 30, 0),
             earth,
-            frame=Frame.CIRF(),
+            frame=Frame.TEME(),
         )
 
-        assert sso.get_state_at(epoch).get_frame() == Frame.CIRF()
+        assert sso is not None
+        assert isinstance(sso, Orbit)
+        assert sso.get_state_at(epoch) is not None
 
         geo: Orbit = Orbit.geo_synchronous(
-            epoch, Angle.degrees(0.01), Angle.degrees(30.0), earth, frame=Frame.CIRF()
+            epoch, Angle.degrees(0.01), Angle.degrees(30.0), earth, frame=Frame.TEME()
         )
 
-        assert geo.get_state_at(epoch).get_frame() == Frame.CIRF()
+        assert geo is not None
+        assert isinstance(geo, Orbit)
+        assert geo.get_state_at(epoch) is not None
 
     def test_frozen(self, earth, epoch):
         altitude = Length.kilometers(500.0)

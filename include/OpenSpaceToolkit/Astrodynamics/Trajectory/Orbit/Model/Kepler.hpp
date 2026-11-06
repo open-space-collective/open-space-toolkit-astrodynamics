@@ -80,7 +80,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aJ4 J4 zonal harmonic coefficient of the central body.
     /// @param aPerturbationType Perturbation type to apply during propagation.
     /// @param aFrameSPtr The inertial frame in which the orbital elements are defined and the states are returned.
-    /// Its Z axis is the pole about which the J2/J4 secular rates are applied. Defaults to GCRF.
+    /// Its Z axis is the pole about which the J2/J4 secular rates are applied. Must be quasi-inertial (not a
+    /// body-fixed frame). Defaults to GCRF.
     Kepler(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
@@ -108,7 +109,7 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param inFixedFrame If true, the provided orbital elements are given in the body-fixed frame.
     /// @param aFrameSPtr The inertial frame in which the orbital elements are defined (or into which the body-fixed
     /// elements are converted) and the states are returned. Its Z axis is the pole about which the J2/J4 secular
-    /// rates are applied. Defaults to GCRF.
+    /// rates are applied. Must be quasi-inertial (not a body-fixed frame). Defaults to GCRF.
     Kepler(
         const COE& aClassicalOrbitalElementSet,
         const Instant& anEpoch,
@@ -234,6 +235,8 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     Real j4_;
     Kepler::PerturbationType perturbationType_;
     Shared<const Frame> frameSPtr_;
+
+    static const Shared<const Frame>& ValidateFrame(const Shared<const Frame>& aFrameSPtr);
 
     static COE InertialCoeFromFixedCoe(
         const COE& aClassicalOrbitalElementSet,

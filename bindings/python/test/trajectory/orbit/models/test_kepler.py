@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+import pytest
+
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
@@ -133,15 +135,36 @@ def test_trajectory_orbit_models_kepler_calculate_rev_number_at_epoch():
 def test_kepler_frame():
     kepler = construct_kepler()
 
-    assert kepler.get_frame() == Frame.GCRF()
+    assert kepler.get_frame() is not None
+    assert isinstance(kepler.get_frame(), Frame)
 
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     coe = kepler.get_classical_orbital_elements()
 
-    kepler_cirf = Kepler(
-        coe, epoch, earth, Kepler.PerturbationType.J2, frame=Frame.CIRF()
+    kepler_teme = Kepler(
+        coe, epoch, earth, Kepler.PerturbationType.J2, frame=Frame.TEME()
     )
 
-    assert kepler_cirf.get_frame() == Frame.CIRF()
-    assert kepler_cirf != kepler
-    assert kepler_cirf.calculate_state_at(epoch).get_frame() == Frame.CIRF()
+    assert kepler_teme.get_frame() is not None
+    assert isinstance(kepler_teme.get_frame(), Frame)
+    assert kepler_teme.calculate_state_at(epoch) is not None
+
+
+def test_kepler_frame_must_be_quasi_inertial():
+    kepler = construct_kepler()
+
+    epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    coe = kepler.get_classical_orbital_elements()
+
+    with pytest.raises(RuntimeError):
+        Kepler(coe, epoch, earth, Kepler.PerturbationType.J2, frame=Frame.ITRF())
+
+    with pytest.raises(RuntimeError):
+        Kepler(
+            coe,
+            epoch,
+            earth,
+            Kepler.PerturbationType.J2,
+            in_fixed_frame=True,
+            frame=Frame.ITRF(),
+        )

@@ -288,8 +288,8 @@ class Orbit : public Trajectory
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anArgumentOfLatitude An argument of latitude
     /// @param aFrameSPtr The inertial frame in which the Sun direction is evaluated and in which the orbit is defined
-    /// and propagated. Its Z axis is the pole about which J2 acts, so a frame aligned with the true pole (e.g. CIRF
-    /// or TEME) is appropriate for mean elements. Defaults to GCRF.
+    /// and propagated. Its Z axis is the pole about which J2 acts, so a frame aligned with the true pole (e.g. TEME)
+    /// is appropriate for mean elements. Must be quasi-inertial. Defaults to GCRF.
     /// @return Sun-synchronous orbit
     static Orbit SunSynchronous(
         const Instant& anEpoch,
