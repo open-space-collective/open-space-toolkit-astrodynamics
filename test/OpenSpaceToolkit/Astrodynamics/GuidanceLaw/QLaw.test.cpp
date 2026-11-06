@@ -6,6 +6,8 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
@@ -41,8 +43,10 @@ using ostk::mathematics::geometry::d3::object::Point;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::environment::object::celestial::Earth;
+using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
@@ -922,5 +926,148 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effecti
         // Both values should be finite
         EXPECT_TRUE(std::isfinite(etaRelative));
         EXPECT_TRUE(std::isfinite(etaAbsolute));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Frame)
+{
+    // Default frame is GCRF
+    {
+        EXPECT_EQ(*qlaw_.getFrame(), *Frame::GCRF());
+    }
+
+    {
+        const QLaw qlaw = {
+            targetCOE_,
+            gravitationalParameter_,
+            parameters_,
+            QLaw::COEDomain::Osculating,
+            gradientStrategy_,
+            Frame::CIRF(),
+        };
+
+        EXPECT_EQ(*qlaw.getFrame(), *Frame::CIRF());
+
+        // The frame is carried over to the ungated guidance law
+        const Shared<GuidanceLaw> ungatedGuidanceLawSPtr = qlaw.constructUngatedGuidanceLaw();
+
+        EXPECT_EQ(*std::dynamic_pointer_cast<QLaw>(ungatedGuidanceLawSPtr)->getFrame(), *Frame::CIRF());
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(QLaw(
+            targetCOE_, gravitationalParameter_, parameters_, QLaw::COEDomain::Osculating, gradientStrategy_, nullptr
+        ));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, CalculateThrustAccelerationAt_Frame)
+{
+    // All five elements are targeted so that the thrust direction depends on the orientation of the pole
+    const COE targetCOE = {
+        Length::Meters(26500.0e3),
+        0.7,
+        Angle::Degrees(116.0),
+        Angle::Degrees(180.0),
+        Angle::Degrees(270.0),
+        Angle::Degrees(0.0),
+    };
+
+    const QLaw::Parameters parameters = {
+        {
+            {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+            {COE::Element::Eccentricity, {1.0, 1e-4}},
+            {COE::Element::Inclination, {1.0, 1e-4}},
+            {COE::Element::Raan, {1.0, 1e-4}},
+            {COE::Element::Aop, {1.0, 1e-4}},
+        },
+        3,
+        4,
+        2,
+        0.01,
+        100,
+        1.0,
+        Length::Kilometers(6578.0),
+    };
+
+    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+    const QLaw qlawGCRF = {
+        targetCOE, gravitationalParameter_, parameters, QLaw::COEDomain::Osculating, gradientStrategy_
+    };
+    const QLaw qlawCIRF = {
+        targetCOE, gravitationalParameter_, parameters, QLaw::COEDomain::Osculating, gradientStrategy_, cirfSPtr
+    };
+
+    // Precession since J2000 makes the two frames differ by ~0.3 deg at this epoch
+    const Instant instant = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+
+    const COE currentCOE = {
+        Length::Meters(24505.9e3),
+        0.725,
+        Angle::Degrees(10.0),
+        Angle::Degrees(3.0),
+        Angle::Degrees(5.0),
+        Angle::Degrees(40.0),
+    };
+
+    const COE::CartesianState cartesianStateCIRF = currentCOE.getCartesianState(gravitationalParameter_, cirfSPtr);
+
+    const State stateCIRF = {instant, cartesianStateCIRF.first, cartesianStateCIRF.second};
+    const State stateGCRF = stateCIRF.inFrame(Frame::GCRF());
+
+    const Real thrustAcceleration = 2.0 / 2000.0;
+
+    const Vector3d accelerationCIRF = qlawCIRF.calculateThrustAccelerationAt(
+        instant,
+        stateCIRF.getPosition().getCoordinates(),
+        stateCIRF.getVelocity().getCoordinates(),
+        thrustAcceleration,
+        cirfSPtr
+    );
+
+    ASSERT_GT(accelerationCIRF.norm(), 0.0);
+
+    // Dynamics integrated in GCRF: the elements are still computed in CIRF and the thrust is returned in GCRF
+    {
+        const Vector3d accelerationGCRF = qlawCIRF.calculateThrustAccelerationAt(
+            instant,
+            stateGCRF.getPosition().getCoordinates(),
+            stateGCRF.getVelocity().getCoordinates(),
+            thrustAcceleration,
+            Frame::GCRF()
+        );
+
+        const Vector3d expectedAccelerationGCRF =
+            cirfSPtr->getTransformTo(Frame::GCRF(), instant).applyToVector(accelerationCIRF);
+
+        EXPECT_NEAR(accelerationGCRF.norm(), accelerationCIRF.norm(), 1e-9);
+        EXPECT_TRUE(accelerationGCRF.isNear(expectedAccelerationGCRF, 1e-9));
+    }
+
+    // The frame is not cosmetic: the same GCRF state gives a different thrust if the elements are computed in GCRF
+    {
+        const Vector3d accelerationGCRF = qlawGCRF.calculateThrustAccelerationAt(
+            instant,
+            stateGCRF.getPosition().getCoordinates(),
+            stateGCRF.getVelocity().getCoordinates(),
+            thrustAcceleration,
+            Frame::GCRF()
+        );
+
+        const Vector3d expectedAccelerationGCRF =
+            cirfSPtr->getTransformTo(Frame::GCRF(), instant).applyToVector(accelerationCIRF);
+
+        EXPECT_GT((accelerationGCRF - expectedAccelerationGCRF).norm(), 1e-7);
+    }
+
+    // The effectivity is evaluated in the QLaw frame
+    {
+        const Tuple<double, double> effectivityFromCIRF = qlawCIRF.computeEffectivity(stateCIRF, thrustAcceleration);
+        const Tuple<double, double> effectivityFromGCRF = qlawCIRF.computeEffectivity(stateGCRF, thrustAcceleration);
+
+        EXPECT_NEAR(std::get<0>(effectivityFromCIRF), std::get<0>(effectivityFromGCRF), 1e-9);
+        EXPECT_NEAR(std::get<1>(effectivityFromCIRF), std::get<1>(effectivityFromGCRF), 1e-9);
     }
 }

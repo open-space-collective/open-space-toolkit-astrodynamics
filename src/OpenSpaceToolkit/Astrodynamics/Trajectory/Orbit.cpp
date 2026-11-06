@@ -867,7 +867,8 @@ Orbit Orbit::GeoSynchronous(
     const Instant& anEpoch,
     const Angle& anInclination,
     const Angle& aLongitude,
-    const Shared<const Celestial>& aCelestialObjectSPtr
+    const Shared<const Celestial>& aCelestialObjectSPtr,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     using orbit::model::Kepler;
@@ -893,9 +894,16 @@ Orbit Orbit::GeoSynchronous(
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
-    const COE coe = COE::GeoSynchronous(anEpoch, anInclination, aLongitude, aCelestialObjectSPtr);
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
 
-    const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};
+    const COE coe = COE::GeoSynchronous(anEpoch, anInclination, aLongitude, aCelestialObjectSPtr, aFrameSPtr);
+
+    const Kepler orbitalModel = {
+        coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false, aFrameSPtr
+    };
 
     return {orbitalModel, aCelestialObjectSPtr};
 }
@@ -905,7 +913,8 @@ Orbit Orbit::SunSynchronous(
     const Length& anAltitude,
     const Time& aLocalTimeAtDescendingNode,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    const Angle& anArgumentOfLatitude
+    const Angle& anArgumentOfLatitude,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     if (!anEpoch.isDefined())
@@ -945,12 +954,25 @@ Orbit Orbit::SunSynchronous(
         };
     };
 
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude;
     const COE coe = COE::SunSynchronous(
-        semiMajorAxis, calculateLocalTimeAtAscendingNode(), anEpoch, aCelestialObjectSPtr, 0.0, anArgumentOfLatitude
+        semiMajorAxis,
+        calculateLocalTimeAtAscendingNode(),
+        anEpoch,
+        aCelestialObjectSPtr,
+        0.0,
+        anArgumentOfLatitude,
+        aFrameSPtr
     );
 
-    const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};
+    const Kepler orbitalModel = {
+        coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false, aFrameSPtr
+    };
 
     // [TBM] STK propagates SSOs in the TrueOfOrbitEpoch (true equator and true equinox of the Earth at the orbit epoch)
     // frame, most likely to preserve the J2 symmetry around the true Z-axis (true equator normal).

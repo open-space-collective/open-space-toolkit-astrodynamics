@@ -22,6 +22,7 @@
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
 using ostk::core::type::Real;
+using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
@@ -1749,5 +1750,174 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Convert
                 .inDegrees(),
             0.0
         );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, LocalTimeOfNodes_Frame)
+{
+    // Frames whose Z axis is the true pole (CIRF) differ from GCRF by precession and nutation, so the Sun right
+    // ascension, and hence the local time of the nodes, depends on the frame the RAAN is measured in.
+
+    const Instant instant = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Angle raan = Angle::Degrees(100.0);
+
+    const auto computeSunRightAscension = [&instant](const Shared<const Frame>& aFrameSPtr) -> Real
+    {
+        const Vector3d sun = Sun::Default().getPositionIn(aFrameSPtr, instant).getCoordinates();
+
+        return std::atan2(sun.y(), sun.x());
+    };
+
+    const auto toLocalTimeHours = [&raan](const Real& aSunAngle) -> Real
+    {
+        return std::fmod((std::fmod(raan.inRadians() - aSunAngle, 2.0 * M_PI) * 12.0 / M_PI) + 12.0, 24.0);
+    };
+
+    // Default frame is GCRF
+    {
+        EXPECT_DOUBLE_EQ(
+            COE::ComputeLTAN(raan, instant).getTotalFloatingHours(),
+            COE::ComputeLTAN(raan, instant, Sun::Default(), Frame::GCRF()).getTotalFloatingHours()
+        );
+        EXPECT_DOUBLE_EQ(
+            COE::ComputeLTDN(raan, instant).getTotalFloatingHours(),
+            COE::ComputeLTDN(raan, instant, Sun::Default(), Frame::GCRF()).getTotalFloatingHours()
+        );
+        EXPECT_DOUBLE_EQ(
+            COE::ComputeMeanLTAN(raan, instant).getTotalFloatingHours(),
+            COE::ComputeMeanLTAN(raan, instant, Sun::Default(), Frame::GCRF()).getTotalFloatingHours()
+        );
+        EXPECT_DOUBLE_EQ(
+            COE::ComputeMeanLTDN(raan, instant).getTotalFloatingHours(),
+            COE::ComputeMeanLTDN(raan, instant, Sun::Default(), Frame::GCRF()).getTotalFloatingHours()
+        );
+    }
+
+    // The Sun right ascension is evaluated in the provided frame
+    {
+        const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+        const Real expectedLTAN = toLocalTimeHours(computeSunRightAscension(cirfSPtr));
+
+        EXPECT_NEAR(
+            COE::ComputeLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours(), expectedLTAN, 1e-9
+        );
+        EXPECT_NEAR(
+            COE::ComputeLTDN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours(),
+            std::fmod(expectedLTAN + 12.0, 24.0),
+            1e-9
+        );
+
+        const Real gcrfLTAN = COE::ComputeLTAN(raan, instant).getTotalFloatingHours();
+        const Real cirfLTAN = COE::ComputeLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours();
+
+        // The frames are not equivalent: precession since J2000 shifts the Sun right ascension by several tens of
+        // seconds of time
+        EXPECT_GT(std::abs(gcrfLTAN - cirfLTAN), 5.0 / 3600.0);
+        EXPECT_LT(std::abs(gcrfLTAN - cirfLTAN), 0.1);
+
+        const Real gcrfMeanLTAN = COE::ComputeMeanLTAN(raan, instant).getTotalFloatingHours();
+        const Real cirfMeanLTAN = COE::ComputeMeanLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours();
+
+        EXPECT_NEAR(cirfMeanLTAN - gcrfMeanLTAN, cirfLTAN - gcrfLTAN, 1e-9);
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(COE::ComputeLTAN(raan, instant, Sun::Default(), nullptr));
+        EXPECT_ANY_THROW(COE::ComputeLTDN(raan, instant, Sun::Default(), nullptr));
+        EXPECT_ANY_THROW(COE::ComputeMeanLTAN(raan, instant, Sun::Default(), nullptr));
+        EXPECT_ANY_THROW(COE::ComputeMeanLTDN(raan, instant, Sun::Default(), nullptr));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeRaanFromLTAN_Frame)
+{
+    const Shared<const Celestial> earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Time ltan = Time::Parse("10:30:00");
+
+    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+    // Default frame is GCRF
+    {
+        EXPECT_DOUBLE_EQ(
+            COE::ComputeRaanFromLTAN(ltan, epoch, earthSPtr).inRadians(),
+            COE::ComputeRaanFromLTAN(ltan, epoch, earthSPtr, Sun::Default(), Frame::GCRF()).inRadians()
+        );
+    }
+
+    // Round trip in a non-default frame
+    {
+        const Angle raan = COE::ComputeRaanFromLTAN(ltan, epoch, earthSPtr, Sun::Default(), cirfSPtr);
+
+        EXPECT_NEAR(
+            COE::ComputeMeanLTAN(raan, epoch, Sun::Default(), cirfSPtr).getTotalFloatingHours(),
+            ltan.getTotalFloatingHours(),
+            1e-9
+        );
+
+        // The same RAAN does not give the same local time when interpreted in GCRF
+        EXPECT_GT(
+            std::abs(COE::ComputeMeanLTAN(raan, epoch).getTotalFloatingHours() - ltan.getTotalFloatingHours()),
+            5.0 / 3600.0
+        );
+    }
+
+    // Sun-synchronous COE carries the RAAN of the requested frame
+    {
+        const COE coe =
+            COE::SunSynchronous(Length::Kilometers(6878.0), ltan, epoch, earthSPtr, 0.0, Angle::Zero(), cirfSPtr);
+
+        EXPECT_NEAR(
+            coe.getRaan().inRadians(),
+            COE::ComputeRaanFromLTAN(ltan, epoch, earthSPtr, Sun::Default(), cirfSPtr).inRadians(),
+            1e-12
+        );
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(COE::ComputeRaanFromLTAN(ltan, epoch, earthSPtr, Sun::Default(), nullptr));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GeoSynchronous_Frame)
+{
+    const Shared<const Celestial> earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
+    const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
+    const Angle longitude = Angle::Degrees(30.0);
+
+    const Shared<const Frame> cirfSPtr = Frame::CIRF();
+
+    // Default frame is GCRF
+    {
+        EXPECT_EQ(
+            COE::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr),
+            COE::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, Frame::GCRF())
+        );
+    }
+
+    // The RAAN points to the requested longitude, measured in the requested frame
+    {
+        const COE coe = COE::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, cirfSPtr);
+
+        const Position nodePosition = Position::Meters(
+            {std::cos(longitude.inRadians()), std::sin(longitude.inRadians()), 0.0}, earthSPtr->accessFrame()
+        );
+        const Vector3d nodeCIRF = nodePosition.inFrame(cirfSPtr, epoch).getCoordinates();
+
+        EXPECT_NEAR(coe.getRaan().inRadians(), std::atan2(nodeCIRF.y(), nodeCIRF.x()), 1e-12);
+
+        const COE coeGCRF = COE::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr);
+
+        // CIRF and GCRF share (almost) the same X axis, so the difference for an equatorial node is small but
+        // well above numerical noise (~1e-4 deg from the tilt of the pole)
+        EXPECT_GT(std::abs(coe.getRaan().inDegrees() - coeGCRF.getRaan().inDegrees()), 1e-5);
+    }
+
+    // Undefined frame
+    {
+        EXPECT_ANY_THROW(COE::GeoSynchronous(epoch, Angle::Degrees(0.01), longitude, earthSPtr, nullptr));
     }
 }
