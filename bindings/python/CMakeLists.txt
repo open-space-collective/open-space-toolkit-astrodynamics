@@ -106,15 +106,28 @@ FUNCTION (PY_ADD_MODULE NAME)
 
     TARGET_LINK_LIBRARIES (${NAME} PRIVATE ${SHARED_LIBRARY_TARGET})
 
-    # Target Properties
+    IF (APPLE)
+        TARGET_LINK_OPTIONS (${NAME} PRIVATE "-undefined" "dynamic_lookup")
+    ENDIF ()
+
+    IF (APPLE)
+        SET (MODULE_INSTALL_RPATH "@loader_path")
+    ELSE ()
+        SET (MODULE_INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
+    ENDIF ()
+
+    IF (NOT APPLE)
+        SET_TARGET_PROPERTIES (${NAME} PROPERTIES
+                              VERSION ${PROJECT_VERSION_STRING}
+                              SOVERSION ${PROJECT_VERSION_MAJOR})
+    ENDIF ()
+
     SET_TARGET_PROPERTIES (${NAME} PROPERTIES
-                          VERSION ${PROJECT_VERSION_STRING}
-                          SOVERSION ${PROJECT_VERSION_MAJOR}
                           OUTPUT_NAME ${PROJECT_PACKAGE_NAME}
                           CLEAN_DIRECT_OUTPUT 1
                           PREFIX ""
                           BUILD_WITH_INSTALL_RPATH TRUE
-                          INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/"
+                          INSTALL_RPATH "${MODULE_INSTALL_RPATH}"
                           C_VISIBILITY_PRESET hidden
                           CXX_VISIBILITY_PRESET hidden)
 ENDFUNCTION ()
@@ -134,14 +147,28 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
     # Package directory name
     SET (PACKAGE_DIRECTORY_NAME ${NAME})
 
-    # Set platforme name for wheel
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+    IF (APPLE)
+        IF (CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
+            IF (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+                SET (CMAKE_OSX_DEPLOYMENT_TARGET "14.0")
+            ENDIF ()
+            SET (PLATFORM "macosx-${CMAKE_OSX_DEPLOYMENT_TARGET}-arm64")
+            SET (BUNDLED_LIBRARY "lib${SHARED_LIBRARY_NAME}.${PROJECT_VERSION_MAJOR}.dylib")
+            SET (BUNDLED_LIBRARY_SOURCE "${CMAKE_SOURCE_DIR}/lib/${BUNDLED_LIBRARY}")
+        ELSE ()
+            MESSAGE (FATAL_ERROR "Unsupported platform")
+        ENDIF ()
+    ELSEIF (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
         SET (PLATFORM "manylinux2014_x86_64")
-    ELSEIF(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+        SET (BUNDLED_LIBRARY "${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}")
+        SET (BUNDLED_LIBRARY_SOURCE "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}")
+    ELSEIF (CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
         SET (PLATFORM "manylinux2014_aarch64")
-    ELSE()
+        SET (BUNDLED_LIBRARY "${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}")
+        SET (BUNDLED_LIBRARY_SOURCE "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}")
+    ELSE ()
         MESSAGE (FATAL_ERROR "Unsupported platform")
-    ENDIF()
+    ENDIF ()
 
     # Get python extension for relevant shared library spotting
     STRING (REPLACE "." "" EXTENSION "${PYTHON_VERSION}")
@@ -159,14 +186,14 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
                             COMMAND rm -rf "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/test"
                             COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/test"
                             COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/*" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}"
+                            COMMAND cp -L "${BUNDLED_LIBRARY_SOURCE}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${BUNDLED_LIBRARY}"
                             COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}.*${EXTENSION}*.so" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
                             COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/README.md" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/README.md"
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv sync --python ${PYTHON_VERSION} --all-extras
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv pip install "cesiumpy @ git+https://github.com/open-space-collective/cesiumpy@0.4.1" # TBR: after https://github.com/open-space-collective/open-space-toolkit/issues/183
-                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv run pybind11-stubgen -o . "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" # generate stubs in same dir as binaries
-                            COMMAND find "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}" -type f -name "*.pyi" -exec sed -i "s/: \\\\.\\\\.\\\\./: typing.Any/g" {} + # crudely fix broken stubs; need to escape \\
-                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && env _PYTHON_HOST_PLATFORM="${PLATFORM}" uv build
+                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv run pybind11-stubgen -o . "${PROJECT_GROUP}.${PROJECT_SUBGROUP}"
+                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv run python "${CMAKE_SOURCE_DIR}/tools/ci/fix-stubs.py" "${PROJECT_GROUP}"
+                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && env _PYTHON_HOST_PLATFORM="${PLATFORM}" uv build --python ${PYTHON_VERSION}
                             COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/dist"
                             COMMAND cp "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dist/*" "${CMAKE_CURRENT_BINARY_DIR}/dist"
                             DEPENDS ${DEPS})
@@ -178,7 +205,7 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
                             COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
                             COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}/__init__.py"
                             COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/*" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}"
+                            COMMAND cp -L "${BUNDLED_LIBRARY_SOURCE}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${BUNDLED_LIBRARY}"
                             COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}.*${EXTENSION}*.so" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
                             DEPENDS ${DEPS})
     ENDIF ()

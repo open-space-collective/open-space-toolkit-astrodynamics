@@ -269,6 +269,14 @@ build-packages-python: build-development-image ## Build Python packages
 
 .PHONY: build-packages-python
 
+build-packages-python-macos: ## Build macOS arm64 Python wheels on the host
+
+	@ echo "Building macOS arm64 Python wheels..."
+
+	bash "$(CURDIR)/tools/ci/build-macos-wheels.sh"
+
+.PHONY: build-packages-python-macos
+
 _build-package-python: ## Build Python package (runs inside container)
 
 	cd /app/build \
