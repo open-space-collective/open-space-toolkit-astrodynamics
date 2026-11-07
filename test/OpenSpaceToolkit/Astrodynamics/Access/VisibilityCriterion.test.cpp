@@ -46,23 +46,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
         EXPECT_NO_THROW(VisibilityCriterion visibilityCriterion =
                             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval););
 
-        // Undefined
-
-        {
-            EXPECT_THROW(
-                VisibilityCriterion::FromAERInterval(Interval<double>::Undefined(), elevationInterval, rangeInterval),
-                ostk::core::error::runtime::Undefined
-            );
-            EXPECT_THROW(
-                VisibilityCriterion::FromAERInterval(azimuthInterval, Interval<double>::Undefined(), rangeInterval),
-                ostk::core::error::runtime::Undefined
-            );
-            EXPECT_THROW(
-                VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, Interval<double>::Undefined()),
-                ostk::core::error::runtime::Undefined
-            );
-        }
-
         // incorrect bounds
         {
             {
@@ -127,8 +110,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, Constructor)
             {
                 const Map<double, double> azimuthElevationMask = {};
                 EXPECT_THROW(
-                    VisibilityCriterion::FromAERMask(azimuthElevationMask, Interval<double>::Undefined()),
-                    ostk::core::error::runtime::Undefined
+                    VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeInterval),
+                    ostk::core::error::runtime::Wrong
                 );
             }
 
@@ -391,7 +374,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_VisibilityCriterion, As)
 
         const auto lineOfSight = visibilityCriterion.as<VisibilityCriterion::LineOfSight>();
         ASSERT_TRUE(lineOfSight.has_value());
-        EXPECT_TRUE(lineOfSight.value().environment.isDefined());
     }
 
     // ElevationInterval

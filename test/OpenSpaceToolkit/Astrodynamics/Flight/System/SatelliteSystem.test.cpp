@@ -72,13 +72,13 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         };
     }
 
-    Mass mass_ = Mass::Undefined();
+    Mass mass_ = Mass::Kilograms(100.0);
     Matrix3d satelliteInertiaTensor_ = Matrix3d::Identity();
     double crossSectionalSurfaceArea_ = 0.8;
     double dragCoefficient_ = 1.2;
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite(Point::Undefined());
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
+    Composite satelliteGeometry_ = Composite(Point(0.0, 0.0, 0.0));
+    SatelliteSystem satelliteSystem_ = SatelliteSystem::Default();
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
@@ -333,55 +333,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToO
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
-{
-    {
-        EXPECT_TRUE(satelliteSystem_.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(SatelliteSystem(
-                         Mass::Undefined(),
-                         satelliteGeometry_,
-                         satelliteInertiaTensor_,
-                         crossSectionalSurfaceArea_,
-                         dragCoefficient_,
-                         propulsionSystem_
-        )
-                         .isDefined());
-
-        EXPECT_FALSE(SatelliteSystem(
-                         mass_,
-                         Composite(Point::Undefined()),
-                         satelliteInertiaTensor_,
-                         crossSectionalSurfaceArea_,
-                         dragCoefficient_,
-                         propulsionSystem_
-        )
-                         .isDefined());
-
-        EXPECT_FALSE(SatelliteSystem(
-                         mass_,
-                         satelliteGeometry_,
-                         Matrix3d::Undefined(),
-                         crossSectionalSurfaceArea_,
-                         dragCoefficient_,
-                         propulsionSystem_
-        )
-                         .isDefined());
-
-        EXPECT_FALSE(SatelliteSystem::Undefined().isDefined());
-    }
-
-    {
-        // An absent cross-sectional surface area, drag coefficient or propulsion system is not an undefined system
-        EXPECT_TRUE(SatelliteSystem(
-                        mass_, satelliteGeometry_, satelliteInertiaTensor_, std::nullopt, std::nullopt, std::nullopt
-        )
-                        .isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, StreamOperator)
 {
     {
@@ -456,18 +407,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetInertiaT
     {
         EXPECT_EQ(satelliteSystem_.getInertiaTensor(), satelliteInertiaTensor_);
     }
-
-    {
-        const SatelliteSystem aSatelliteSystem = {
-            mass_,
-            satelliteGeometry_,
-            Matrix3d::Undefined(),
-            crossSectionalSurfaceArea_,
-            dragCoefficient_,
-            propulsionSystem_
-        };
-        EXPECT_THROW(aSatelliteSystem.getInertiaTensor(), ostk::core::error::runtime::Undefined);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetCrossSectionalSurfaceArea)
@@ -519,13 +458,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsi
             std::nullopt
         };
         EXPECT_THROW(aSatelliteSystem.getPropulsionSystem(), ostk::core::error::runtime::Undefined);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Undefined)
-{
-    {
-        EXPECT_NO_THROW(SatelliteSystem::Undefined());
     }
 }
 

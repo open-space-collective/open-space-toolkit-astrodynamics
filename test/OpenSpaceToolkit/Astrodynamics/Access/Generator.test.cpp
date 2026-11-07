@@ -107,11 +107,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
 
         {
             EXPECT_NO_THROW(AccessTarget::FromLLA(defaultVisibilityCriterion_, defaultLLA_, defaultEarthSPtr_));
-
-            EXPECT_THROW(
-                AccessTarget::FromLLA(defaultVisibilityCriterion_, LLA::Undefined(), defaultEarthSPtr_),
-                ostk::core::error::runtime::Undefined
-            );
         }
 
         // FromPosition
@@ -121,13 +116,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
                 EXPECT_NO_THROW(AccessTarget::FromPosition(defaultVisibilityCriterion_, position));
             }
-
-            {
-                EXPECT_THROW(
-                    AccessTarget::FromPosition(defaultVisibilityCriterion_, Position::Undefined()),
-                    ostk::core::error::runtime::Undefined
-                );
-            }
         }
 
         // FromTrajectory
@@ -136,13 +124,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
             {
                 const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
                 EXPECT_NO_THROW(AccessTarget::FromTrajectory(defaultVisibilityCriterion_, trajectory));
-            }
-
-            {
-                EXPECT_THROW(
-                    AccessTarget::FromTrajectory(defaultVisibilityCriterion_, Trajectory(Array<State>::Empty())),
-                    ostk::core::error::runtime::Undefined
-                );
             }
         }
     }
@@ -263,43 +244,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromTrajectory)
     EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
-{
-    {
-        EXPECT_TRUE(defaultGenerator_.isDefined());
-    }
-
-    {
-        const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
-        {
-            (void)aFirstState;
-            (void)aSecondState;
-            return true;
-        };
-
-        const auto accessFilter = [](const Access&) -> bool
-        {
-            return true;
-        };
-
-        const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, accessFilter, stateFilter};
-
-        EXPECT_TRUE(generator.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(Generator::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStep)
 {
     {
         EXPECT_EQ(defaultStep_, defaultGenerator_.getStep());
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getStep());
     }
 }
 
@@ -308,10 +256,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
     {
         EXPECT_EQ(defaultTolerance_, defaultGenerator_.getTolerance());
     }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getTolerance());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
@@ -319,20 +263,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
     {
         EXPECT_EQ(nullptr, defaultGenerator_.getAccessFilter());
     }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getAccessFilter());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
 {
     {
         EXPECT_EQ(nullptr, defaultGenerator_.getStateFilter());
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getStateFilter());
     }
 }
 
@@ -405,14 +341,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         EXPECT_NE(nullptr, conditionFunction);
         EXPECT_TRUE(conditionFunction(epoch));
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getConditionFunction(accessTarget, toOrbit));
-    }
-
-    {
-        EXPECT_ANY_THROW(defaultGenerator_.getConditionFunction(accessTarget, Trajectory(Array<State>::Empty())));
     }
 }
 
@@ -515,9 +443,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
             << String::Format(
                    "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                );
-        ASSERT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+        ASSERT_TRUE(access.getTimeOfClosestApproach().value().isNear(reference_timeOfClosestApproach, toleranceDuration)
+        )
             << String::Format(
-                   "{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()
+                   "{} ~ {}",
+                   reference_timeOfClosestApproach.toString(),
+                   access.getTimeOfClosestApproach().value().toString()
                );
         ASSERT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
@@ -621,19 +552,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
             << String::Format(
                    "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                );
-        EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+        EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(reference_timeOfClosestApproach, toleranceDuration)
+        )
             << String::Format(
-                   "{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()
+                   "{} ~ {}",
+                   reference_timeOfClosestApproach.toString(),
+                   access.getTimeOfClosestApproach().value().toString()
                );
         EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
         EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
             << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString());
 
-        const State groundStateAtTCA = groundTrajectory.getStateAt(access.getTimeOfClosestApproach());
-        const State satelliteStateAtTCA = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach());
+        const State groundStateAtTCA = groundTrajectory.getStateAt(access.getTimeOfClosestApproach().value());
+        const State satelliteStateAtTCA = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach().value());
         const AER aerAtTCA = calculateAer(
-            access.getTimeOfClosestApproach(),
+            access.getTimeOfClosestApproach().value(),
             groundStateAtTCA.getPosition(),
             satelliteStateAtTCA.getPosition(),
             defaultEarthSPtr_
@@ -705,9 +639,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
             << String::Format(
                    "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                );
-        EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+        EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(reference_timeOfClosestApproach, toleranceDuration)
+        )
             << String::Format(
-                   "{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()
+                   "{} ~ {}",
+                   reference_timeOfClosestApproach.toString(),
+                   access.getTimeOfClosestApproach().value().toString()
                );
         EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
@@ -757,9 +694,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsA
 
     for (const Access& access : accesses)
     {
-        const Instant timeOfClosestApproach = access.getTimeOfClosestApproach();
+        ASSERT_TRUE(access.getTimeOfClosestApproach().has_value());
 
-        ASSERT_TRUE(timeOfClosestApproach.isDefined());
+        const Instant timeOfClosestApproach = access.getTimeOfClosestApproach().value();
+
         EXPECT_TRUE(access.getAcquisitionOfSignal() <= timeOfClosestApproach);
         EXPECT_TRUE(timeOfClosestApproach <= access.getLossOfSignal());
 
@@ -901,17 +839,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Array of targets
 
         {
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(Interval::Undefined(), {accessTarget}, orbit),
-                ostk::core::error::runtime::Undefined
-            );
-
             EXPECT_THROW(defaultGenerator_.computeAccesses(interval, {}, orbit), ostk::core::error::runtime::Undefined);
-
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(interval, {accessTarget}, Trajectory(Array<State>::Empty())),
-                ostk::core::error::runtime::Undefined
-            );
 
             EXPECT_THROW(
                 defaultGenerator_.computeAccesses(interval, {trajectoryTarget}, orbit, true),
@@ -927,16 +855,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Single target
 
         {
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(Interval::Undefined(), accessTarget, orbit),
-                ostk::core::error::runtime::Undefined
-            );
-
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(interval, accessTarget, Trajectory(Array<State>::Empty())),
-                ostk::core::error::runtime::Undefined
-            );
-
             EXPECT_THROW(
                 defaultGenerator_.computeAccesses(interval, trajectoryTarget, orbit, true),
                 ostk::core::error::RuntimeError
@@ -1017,10 +935,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                         expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
                     )) << access.getAcquisitionOfSignal().toString()
                        << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
-                    EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
-                        expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
-                    )) << access.getTimeOfClosestApproach().toString()
-                       << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                    EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(
+                        expectedAccess.getTimeOfClosestApproach().value(), Duration::Microseconds(1.0)
+                    )) << access.getTimeOfClosestApproach().value().toString()
+                       << " ~ " << expectedAccess.getTimeOfClosestApproach().value().toString();
                     EXPECT_TRUE(
                         access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
                     ) << access.getLossOfSignal().toString()
@@ -1071,10 +989,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                         expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
                     )) << access.getAcquisitionOfSignal().toString()
                        << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
-                    EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
-                        expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
-                    )) << access.getTimeOfClosestApproach().toString()
-                       << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                    EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(
+                        expectedAccess.getTimeOfClosestApproach().value(), Duration::Microseconds(1.0)
+                    )) << access.getTimeOfClosestApproach().value().toString()
+                       << " ~ " << expectedAccess.getTimeOfClosestApproach().value().toString();
                     EXPECT_TRUE(
                         access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
                     ) << access.getLossOfSignal().toString()
@@ -1151,8 +1069,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             ASSERT_GT(referenceAccess.getDuration(), Duration::Minutes(2.0));
 
             // Non-integer offset, to keep the window bounds off the 1 minute grid starting at the acquisition of signal
-            const Instant windowStartInstant = referenceAccess.getTimeOfClosestApproach() - Duration::Seconds(45.5);
-            const Instant windowEndInstant = referenceAccess.getTimeOfClosestApproach() + Duration::Seconds(45.5);
+            const Instant windowStartInstant =
+                referenceAccess.getTimeOfClosestApproach().value() - Duration::Seconds(45.5);
+            const Instant windowEndInstant =
+                referenceAccess.getTimeOfClosestApproach().value() + Duration::Seconds(45.5);
 
             const auto stateFilter = [windowStartInstant,
                                       windowEndInstant](const State& aFirstState, const State& aSecondState) -> bool
@@ -1449,8 +1369,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
         const Duration step = Duration::Seconds(1.0);
 
         EXPECT_NO_THROW(defaultGenerator_.setStep(step));
-
-        EXPECT_ANY_THROW(defaultGenerator_.setStep(Duration::Undefined()));
     }
 }
 
@@ -1460,8 +1378,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetTolerance)
         const Duration tolerance = Duration::Seconds(1.0);
 
         EXPECT_NO_THROW(defaultGenerator_.setTolerance(tolerance));
-
-        EXPECT_ANY_THROW(defaultGenerator_.setTolerance(Duration::Undefined()));
     }
 }
 
@@ -1490,15 +1406,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStateFilter)
         EXPECT_NO_THROW(defaultGenerator_.setStateFilter(stateFilter));
 
         EXPECT_NO_THROW(defaultGenerator_.setStateFilter({}));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
-{
-    {
-        EXPECT_NO_THROW(Generator::Undefined());
-
-        EXPECT_FALSE(Generator::Undefined().isDefined());
     }
 }
 

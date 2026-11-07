@@ -90,13 +90,11 @@ class TestPropagated:
     ):
         assert propagated is not None
         assert isinstance(propagated, Propagated)
-        assert propagated.is_defined()
 
         orbit = Orbit(propagated, earth)
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
         state_array = [state, state]
         propagated_with_state_array = Propagated(
@@ -105,7 +103,6 @@ class TestPropagated:
 
         assert propagated_with_state_array is not None
         assert isinstance(propagated_with_state_array, Propagated)
-        assert propagated_with_state_array.is_defined()
 
     def test_comparators(
         self,
@@ -240,4 +237,3 @@ class TestPropagated:
 
         assert tabulated is not None
         assert isinstance(tabulated, Tabulated)
-        assert tabulated.is_defined()

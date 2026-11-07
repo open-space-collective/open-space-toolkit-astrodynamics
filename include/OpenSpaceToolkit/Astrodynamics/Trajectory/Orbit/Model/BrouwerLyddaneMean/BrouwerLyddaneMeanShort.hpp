@@ -110,15 +110,6 @@ class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
         const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
     );
 
-    /// @brief Construct an undefined BrouwerLyddaneMeanShort.
-    ///
-    /// @code{.cpp}
-    ///     BrouwerLyddaneMeanShort blmShort = BrouwerLyddaneMeanShort::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined BrouwerLyddaneMeanShort.
-    static BrouwerLyddaneMeanShort Undefined();
-
    private:
     /// @brief Constructor
     ///

@@ -64,16 +64,6 @@ class AtmosphericDrag : public Dynamics
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag);
 
-    /// @brief Check if the atmospheric drag dynamics is defined.
-    ///
-    /// @code{.cpp}
-    ///     AtmosphericDrag atmosphericDrag = { ... } ;
-    ///     bool defined = atmosphericDrag.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the atmospheric drag dynamics is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the celestial object.
     ///
     /// @code{.cpp}

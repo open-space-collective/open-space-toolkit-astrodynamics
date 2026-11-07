@@ -56,16 +56,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(nanobind::module_& a
         .def("__repr__", &(shiftToString<Maneuver>))
 
         .def(
-            "is_defined",
-            &Maneuver::isDefined,
-            R"doc(
-                Check if the maneuver is defined.
-
-                Returns:
-                    bool: True if the maneuver is defined, False otherwise. (Always returns true).
-            )doc"
-        )
-        .def(
             "get_states",
             &Maneuver::getStates,
             R"doc(
@@ -175,7 +165,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(nanobind::module_& a
             "to_constant_local_orbital_frame_direction_maneuver",
             &Maneuver::toConstantLocalOrbitalFrameDirectionManeuver,
             arg("local_orbital_frame_factory"),
-            arg("maximum_allowed_angular_offset").sig("Angle.Undefined()") = Angle::Undefined(),
+            arg("maximum_allowed_angular_offset") = none(),
             R"doc(
                 Create a maneuver with a constant thrust acceleration direction in the Local Orbital Frame.
 
@@ -183,12 +173,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(nanobind::module_& a
                 constant in the Local Orbital Frame. Said direction is the mean direction of the thrust acceleration directions 
                 in the Local Orbital Frame of the original Maneuver. The thrust acceleration magnitude profile is the same as the original.
 
-                If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration direction 
+                If provided, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration direction 
                 and the mean thrust direction is violated.
 
                 Args:
                     local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
-                    maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Undefined.
+                    maximum_allowed_angular_offset (Angle | None, optional): The maximum allowed angular offset to consider (if any). Defaults to None.
 
                 Returns:
                     Maneuver: The constant local orbital frame direction maneuver.

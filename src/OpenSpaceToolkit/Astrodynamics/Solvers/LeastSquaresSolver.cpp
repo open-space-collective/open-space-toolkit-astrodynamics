@@ -38,7 +38,7 @@ double LastRmsError(const Array<LeastSquaresSolver::Step>& aStepArray)
         throw ostk::core::error::RuntimeError("Step array cannot be empty.");
     }
 
-    return aStepArray.accessLast().rmsError;
+    return aStepArray.getLast().rmsError;
 }
 
 }  // namespace
@@ -191,10 +191,6 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     // Notation used: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg
     // 196 for algorithm used)
 
-    if (!anInitialGuessState.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Initial guess state");
-    }
     if (anObservationStateArray.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("Observation state array");
@@ -334,7 +330,7 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     double previousRmsError = 0.0;
     String terminationCriteria = "Maximum Iteration Threshold";
     Array<Step> steps;
-    State currentEstimatedState = State::Undefined();
+    State currentEstimatedState = estimationStateBuilder.build(estimatedStateInstant, XNom);
     MatrixXd Lambda = MatrixXd::Zero(estimationStateDimension, estimationStateDimension);
     MatrixXd PHatFrisbee = MatrixXd::Zero(estimationStateDimension, estimationStateDimension);
 

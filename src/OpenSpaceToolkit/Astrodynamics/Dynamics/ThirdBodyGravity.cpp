@@ -74,18 +74,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& a
     return anOutputStream;
 }
 
-bool ThirdBodyGravity::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 const Shared<const Celestial>& ThirdBodyGravity::getCelestial() const
 {
-    if (!celestialObjectSPtr_->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Celestial");
-    }
-
     return celestialObjectSPtr_;
 }
 

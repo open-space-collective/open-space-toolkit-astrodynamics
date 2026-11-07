@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -40,11 +42,6 @@ Nadir* Nadir::clone() const
 
 bool Nadir::operator==(const Nadir& aNadirModel) const
 {
-    if ((!this->isDefined()) || (!aNadirModel.isDefined()))
-    {
-        return false;
-    }
-
     return orbit_ == aNadirModel.orbit_;
 }
 
@@ -60,43 +57,18 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Nadir& aNadirModel)
     return anOutputStream;
 }
 
-bool Nadir::isDefined() const
-{
-    return orbit_.isDefined();
-}
-
 const Orbit& Nadir::getOrbit() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Nadir");
-    }
-
     return orbit_;
 }
 
 const Duration& Nadir::getStepSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Nadir");
-    }
-
     return stepSize_;
 }
 
 State Nadir::calculateStateAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Nadir");
-    }
-
     // interpolate the velocity using polynomial interpolation
 
     const Array<Instant> instants = {
@@ -110,7 +82,7 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
     VectorXd times(instants.getSize());
     MatrixXd positionCoordinates(3, instants.getSize());
 
-    Position position = Position::Undefined();
+    std::optional<Position> position = std::nullopt;
 
     const Shared<const Frame> celestialBodyFrame = orbit_.getCelestialObject()->getFrame();
 
@@ -152,7 +124,7 @@ State Nadir::calculateStateAt(const Instant& anInstant) const
 
     const Velocity velocity = Velocity::MetersPerSecond(velocityCoordinates, Frame::GCRF());
 
-    return State(anInstant, position, velocity);
+    return State(anInstant, position.value(), velocity);
 }
 
 void Nadir::print(std::ostream& anOutputStream, bool displayDecorator) const

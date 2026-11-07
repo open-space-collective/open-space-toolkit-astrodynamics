@@ -34,16 +34,6 @@ Model::~Model() {}
 
 int Model::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Model");
-    }
-
     if (anInstant == this->getEpoch())
     {
         return this->getRevolutionNumberAtEpoch();

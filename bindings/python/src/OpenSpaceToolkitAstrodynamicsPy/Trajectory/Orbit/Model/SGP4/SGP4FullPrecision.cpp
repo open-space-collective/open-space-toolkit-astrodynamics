@@ -88,18 +88,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
         .def("__repr__", &(shiftToString<SGP4FullPrecision>))
 
         .def(
-            "is_defined",
-            &SGP4FullPrecision::isDefined,
-            R"doc(
-                Check if the mean element set is defined.
-
-                Returns:
-                    bool: True if the mean element set is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_epoch",
             &SGP4FullPrecision::getEpoch,
             R"doc(
@@ -247,18 +235,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
 
                 Returns:
                     list[State]: The states, expressed in the output frame.
-
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &SGP4FullPrecision::Undefined,
-            R"doc(
-                Construct an undefined mean element set.
-
-                Returns:
-                    SGP4FullPrecision: An undefined mean element set.
 
             )doc"
         )

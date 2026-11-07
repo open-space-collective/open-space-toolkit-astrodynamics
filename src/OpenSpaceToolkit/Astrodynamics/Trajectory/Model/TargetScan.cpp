@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -52,11 +54,6 @@ TargetScan* TargetScan::clone() const
 
 bool TargetScan::operator==(const TargetScan& aTargetScanModel) const
 {
-    if ((!this->isDefined()) || (!aTargetScanModel.isDefined()))
-    {
-        return false;
-    }
-
     return startLLA_ == aTargetScanModel.startLLA_ && endLLA_ == aTargetScanModel.endLLA_ &&
            startInstant_ == aTargetScanModel.startInstant_ && endInstant_ == aTargetScanModel.endInstant_ &&
            celestialSPtr_ == aTargetScanModel.celestialSPtr_ && stepSize_ == aTargetScanModel.stepSize_;
@@ -74,24 +71,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const TargetScan& aTarget
     return anOutputStream;
 }
 
-bool TargetScan::isDefined() const
-{
-    return startLLA_.isDefined() && endLLA_.isDefined() && startInstant_.isDefined() && endInstant_.isDefined() &&
-           celestialSPtr_ != nullptr && celestialSPtr_->isDefined() && stepSize_.isDefined();
-}
-
 State TargetScan::calculateStateAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TargetScan");
-    }
-
     if (anInstant < startInstant_ || anInstant > endInstant_)
     {
         throw ostk::core::error::RuntimeError("Instant is outside the interval.");
@@ -110,7 +91,7 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
     VectorXd times(instants.getSize());
     MatrixXd positionCoordinates(3, instants.getSize());
 
-    Position position = Position::Undefined();
+    std::optional<Position> position = std::nullopt;
 
     const Duration intervalDuration = endInstant_ - startInstant_;
     const Length scanDistance =
@@ -162,7 +143,7 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
 
     const Velocity velocity = Velocity::MetersPerSecond(velocityCoordinates, Frame::GCRF());
 
-    return State(anInstant, position, velocity);
+    return State(anInstant, position.value(), velocity);
 }
 
 const LLA& TargetScan::getStartLLA() const
@@ -201,24 +182,17 @@ void TargetScan::print(std::ostream& anOutputStream, bool displayDecorator) cons
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "TargetScan") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Start LLA:" << (startLLA_.isDefined() ? startLLA_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Start LLA:" << startLLA_.toString();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "End LLA:" << (endLLA_.isDefined() ? endLLA_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "End LLA:" << endLLA_.toString();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Start Instant:" << (startInstant_.isDefined() ? startInstant_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Start Instant:" << startInstant_.toString();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "End Instant:" << (endInstant_.isDefined() ? endInstant_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "End Instant:" << endInstant_.toString();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Celestial:"
-        << (celestialSPtr_ != nullptr && celestialSPtr_->isDefined() ? celestialSPtr_->getName() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialSPtr_->getName();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Step Size:" << (stepSize_.isDefined() ? stepSize_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Step Size:" << stepSize_.toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -244,31 +218,6 @@ TargetScan TargetScan::FromGroundSpeed(
     const Duration& aStepSize
 )
 {
-    if (!aStartLLA.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Start LLA");
-    }
-
-    if (!anEndLLA.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("End LLA");
-    }
-
-    if (!aGroundSpeed.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Ground speed");
-    }
-
-    if (!aStartInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Start instant");
-    }
-
-    if (!aStepSize.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Step size");
-    }
-
     if (aStepSize.inSeconds() <= 0.0)
     {
         throw ostk::core::error::RuntimeError("Step size must be positive.");

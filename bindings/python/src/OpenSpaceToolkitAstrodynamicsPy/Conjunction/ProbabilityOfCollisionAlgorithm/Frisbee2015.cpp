@@ -68,7 +68,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         below). Defaults to Alfano2005().
 
                 Raises:
-                    RuntimeError: If the probability of collision algorithm is undefined, or if the frame is undefined
+                    RuntimeError: If the probability of collision algorithm is null, or if the frame is null
                         or not quasi-inertial.
 
                 Note:

@@ -47,7 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Custom(nanobind
                         frame factory generating the vertex frame.
 
                 Raises:
-                    RuntimeError: If the vertex generator, the frame or the factory is undefined.
+                    RuntimeError: If the vertex generator or the frame is null.
 
                 Examples:
                     >>> # Cube of side 2.0 m, with edges aligned with the GCRF axes

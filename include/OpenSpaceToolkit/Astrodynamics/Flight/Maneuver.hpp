@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Maneuver__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Maneuver__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -115,11 +117,6 @@ class Maneuver
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Maneuver& aManeuver);
 
-    /// @brief Check if the maneuver is defined
-    ///
-    /// @return True if maneuver is defined (always returns true)
-    bool isDefined() const;
-
     /// @brief Get the states of the maneuver
     ///
     /// @code{.cpp}
@@ -219,7 +216,7 @@ class Maneuver
     /// in the Local Orbital Frame of the original Maneuver. The thrust acceleration magnitude profile is the same as
     /// the original.
     ///
-    /// If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust
+    /// If provided, a runtime error will be thrown if the maximum allowed angular offset between the original thrust
     /// acceleration direction and the mean thrust direction is violated.
     ///
     /// @code{.cpp}
@@ -229,12 +226,12 @@ class Maneuver
     ///
     /// @param aLocalOrbitalFrameFactory A local orbital frame factory
     /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults to
-    /// Undefined.
+    /// std::nullopt.
     ///
     /// @return A new maneuver
     Maneuver toConstantLocalOrbitalFrameDirectionManeuver(
         const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
+        const std::optional<Angle>& aMaximumAllowedAngularOffset = std::nullopt
     ) const;
 
     /// @brief Print Maneuver

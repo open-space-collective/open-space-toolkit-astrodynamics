@@ -114,18 +114,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(nanobind::module_& 
             .def("__repr__", &(shiftToString<Orbit>))
 
             .def(
-                "is_defined",
-                &Orbit::isDefined,
-                R"doc(
-                    Check if the `Orbit` object is defined.
-
-                    Returns:
-                        bool: True if the `Orbit` object is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_celestial_object",
                 &Orbit::getCelestialObject,
                 rv_policy::reference_internal,
@@ -289,17 +277,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(nanobind::module_& 
             )
 
             .def_static(
-                "undefined",
-                &Orbit::Undefined,
-                R"doc(
-                    Get an undefined `Orbit` object.
-
-                    Returns:
-                        Orbit: The undefined `Orbit` object.
-                )doc"
-            )
-
-            .def_static(
                 "circular",
                 &Orbit::Circular,
                 arg("epoch"),
@@ -415,9 +392,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(nanobind::module_& 
                 arg("altitude"),
                 arg("celestial_object"),
                 arg("eccentricity") = none(),
-                arg("inclination").sig("Angle.undefined()") = Angle::Undefined(),
+                arg("inclination") = none(),
                 arg("raan").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
-                arg("aop").sig("Angle.undefined()") = Angle::Undefined(),
+                arg("aop") = none(),
                 arg("true_anomaly").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
                 R"doc(
                     Create a frozen `Orbit` object.
@@ -446,9 +423,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(nanobind::module_& 
                         altitude (Length): The altitude (wrt. equatorial radius).
                         celestial_object (Celestial): The celestial object.
                         eccentricity (float | None, optional): The eccentricity. Defaults to None.
-                        inclination (Angle): The inclination.
+                        inclination (Angle | None, optional): The inclination. Defaults to None.
                         raan (Angle): The right ascension of the ascending node.
-                        aop (Angle): The argument of periapsis.
+                        aop (Angle | None, optional): The argument of periapsis. Defaults to None.
                         true_anomaly (Angle): The true anomaly.
 
                     Returns:

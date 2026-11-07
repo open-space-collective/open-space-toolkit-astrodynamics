@@ -217,7 +217,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Getters)
         const OrbitDeterminationSolver odSolver(environment_, numericalSolver_);
 
         EXPECT_EQ(odSolver.getEnvironment().getCentralCelestialObject()->getName(), "Earth");
-        EXPECT_TRUE(odSolver.getPropagator().isDefined());
         EXPECT_NO_THROW(odSolver.getSolver());
         EXPECT_EQ(odSolver.getEstimationFrame()->getName(), "GCRF");
     }
@@ -307,11 +306,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateO
         // Test basic orbit estimator
         const Orbit orbit = odSolver_.estimateOrbit(observationStates_[0], observationStates_);
 
-        EXPECT_TRUE(orbit.isDefined());
-
         // Check propagated state matches initial condition
-        const State orbitState = orbit.getStateAt(observationStates_[0].getInstant());
-        EXPECT_TRUE(orbitState.isDefined());
+        EXPECT_NO_THROW(orbit.getStateAt(observationStates_[0].getInstant()));
     }
 
     {
@@ -324,6 +320,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateO
             observationStates_[0], observationStates_, estimationSubsets, initialGuessSigmas_, observationSigmas_
         );
 
-        EXPECT_TRUE(orbit.isDefined());
+        EXPECT_NO_THROW(orbit.getStateAt(observationStates_[0].getInstant()));
     }
 }

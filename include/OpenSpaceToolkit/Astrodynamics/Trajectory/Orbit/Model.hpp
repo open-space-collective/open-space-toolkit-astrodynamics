@@ -36,11 +36,6 @@ class Model : public virtual ostk::astrodynamics::trajectory::Model
     /// @return A pointer to the cloned orbit model.
     virtual Model* clone() const = 0;
 
-    /// @brief Check if the orbit model is defined.
-    ///
-    /// @return True if the orbit model is defined, false otherwise.
-    virtual bool isDefined() const = 0;
-
     /// @brief Get the epoch of the orbit model.
     ///
     /// @return The epoch instant.

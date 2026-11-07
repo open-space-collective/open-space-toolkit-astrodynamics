@@ -18,7 +18,6 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.object.celestial import Earth, Sun
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
-from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
@@ -79,7 +78,7 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
 def earth() -> Earth:
     return Earth.from_models(
         EarthGravitationalModel(EarthGravitationalModel.Type.EGM96),
-        EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+        None,
         EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
 
@@ -281,7 +280,6 @@ class TestPropagator:
     def test_constructors(self, propagator: Propagator):
         assert propagator is not None
         assert isinstance(propagator, Propagator)
-        assert propagator.is_defined()
 
     def test_comparators(self, propagator: Propagator):
         assert propagator == propagator

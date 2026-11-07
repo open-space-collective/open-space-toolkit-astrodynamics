@@ -91,17 +91,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(nanobind::
         .def("__repr__", &(shiftToString<CloseApproach>))
 
         .def(
-            "is_defined",
-            &CloseApproach::isDefined,
-            R"doc(
-                Check if the close approach is defined.
-
-                Returns:
-                    bool: True if close approach is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_instant",
             &CloseApproach::getInstant,
             R"doc(
@@ -275,7 +264,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(nanobind::
                     CloseApproach.RotatedEncounterFrameParameters: The rotated encounter frame parameters.
 
                 Raises:
-                    RuntimeError: If the close approach or the encounter frame is undefined, or if a state has no
+                    RuntimeError: If the encounter frame is null, or if a state has no
                         position covariance.
 
                 Examples:
@@ -290,17 +279,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(nanobind::
             )doc",
             arg("encounter_frame"),
             arg("x_along_major_principal_axis") = true
-        )
-
-        .def_static(
-            "undefined",
-            &CloseApproach::Undefined,
-            R"doc(
-                Construct an undefined close approach.
-
-                Returns:
-                    CloseApproach: An undefined close approach.
-            )doc"
         )
 
         ;

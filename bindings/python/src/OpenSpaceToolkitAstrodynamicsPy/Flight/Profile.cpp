@@ -278,17 +278,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(nanobind::module_& aM
         .def("__repr__", &(shiftToString<Profile>))
 
         .def(
-            "is_defined",
-            &Profile::isDefined,
-            R"doc(
-                Check if the profile is defined.
-
-                Returns:
-                    bool: True if the profile is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_model",
             &Profile::getModel,
             rv_policy::reference_internal,

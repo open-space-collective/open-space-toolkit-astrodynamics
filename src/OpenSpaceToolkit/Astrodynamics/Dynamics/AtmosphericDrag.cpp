@@ -46,18 +46,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& an
     return anOutputStream;
 }
 
-bool AtmosphericDrag::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 const Shared<const Celestial>& AtmosphericDrag::getCelestial() const
 {
-    if (!celestialObjectSPtr_->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Celestial Object");
-    }
-
     return celestialObjectSPtr_;
 }
 

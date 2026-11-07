@@ -179,11 +179,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Maneuver& aManeuver
     return anOutputStream;
 }
 
-bool Maneuver::isDefined() const
-{
-    return true;
-}
-
 const Array<State>& Maneuver::getStates() const
 {
     return states_;
@@ -354,11 +349,6 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
     const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 ) const
 {
-    if (!aLocalOrbitalFrameFactory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
-    }
-
     Array<Vector3d> thrustAccelerationsInLof = Array<Vector3d>::Empty();
     thrustAccelerationsInLof.reserve(states_.getSize());
     Vector3d sumInLof = Vector3d::Zero();
@@ -410,19 +400,19 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
 }
 
 Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
-    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory, const Angle& aMaximumAllowedAngularOffset
+    const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory, const std::optional<Angle>& aMaximumAllowedAngularOffset
 ) const
 {
     const MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
         this->calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactory);
 
-    if (aMaximumAllowedAngularOffset.isDefined() && meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0) >
-                                                        aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0))
+    if (aMaximumAllowedAngularOffset.has_value() && meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0) >
+                                                        aMaximumAllowedAngularOffset.value().inDegrees(0.0, 360.0))
     {
         throw ostk::core::error::RuntimeError(String::Format(
             "Maximum angular offset ({:.6f} deg) is greater than the maximum allowed ({:.6f} deg).",
             meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0),
-            aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0)
+            aMaximumAllowedAngularOffset.value().inDegrees(0.0, 360.0)
         ));
     }
 

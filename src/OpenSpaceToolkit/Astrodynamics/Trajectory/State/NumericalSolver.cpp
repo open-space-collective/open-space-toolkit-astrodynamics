@@ -122,31 +122,16 @@ NumericalSolver::NumericalSolver(
 
 const RootSolver& NumericalSolver::getRootSolver() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
     return rootSolver_;
 }
 
 const Array<State>& NumericalSolver::getObservedStates() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
     return observedStates_;
 }
 
 std::optional<double> NumericalSolver::getMaxStepSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
     return maxStepSize_;
 }
 
@@ -289,19 +274,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     );
 }
 
-NumericalSolver NumericalSolver::Undefined()
-{
-    return {
-        LogType::NoLog,
-        StepperType::RungeKuttaCashKarp54,
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        RootSolver::Default(),
-        nullptr,
-    };
-}
-
 NumericalSolver NumericalSolver::Default()
 {
     return {
@@ -349,13 +321,13 @@ void NumericalSolver::resumeObservedStates(const State& aState, const Instant& a
     const bool isForward = anInstant >= startInstant;
 
     // Discard the states beyond the initial state, e.g. an event state found past the end of a previous integration
-    while (!observedStates_.isEmpty() && (isForward ? observedStates_.accessLast().getInstant() > startInstant
-                                                    : observedStates_.accessLast().getInstant() < startInstant))
+    while (!observedStates_.isEmpty() && (isForward ? observedStates_.getLast().getInstant() > startInstant
+                                                    : observedStates_.getLast().getInstant() < startInstant))
     {
         observedStates_.pop_back();
     }
 
-    if (observedStates_.isEmpty() || observedStates_.accessLast().getInstant() != startInstant)
+    if (observedStates_.isEmpty() || observedStates_.getLast().getInstant() != startInstant)
     {
         this->observeState(aState);
     }
@@ -461,7 +433,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     double previousTime = 0.0;
     double currentTime = 0.0;
     double dt = aSignedTimeStep;
-    State currentState = State::Undefined();
     State previousState = aState;
     bool conditionSatisfied = false;
     bool isInitialState = true;
@@ -492,7 +463,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
 
         doStep(aStepper, aSystemOfEquations, currentStateVector, currentTime, dt);
 
-        currentState = createState(currentStateVector, currentTime);
+        const State currentState = createState(currentStateVector, currentTime);
 
         conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
 

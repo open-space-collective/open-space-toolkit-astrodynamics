@@ -60,10 +60,6 @@ class TestSGP4FullPrecision:
         assert (sgp4_full_precision != SGP4FullPrecision.from_tle(tle)) is False
         assert sgp4_full_precision != SGP4FullPrecision.from_tle(tle, Frame.GCRF())
 
-    def test_is_defined(self, sgp4_full_precision: SGP4FullPrecision):
-        assert sgp4_full_precision.is_defined() is True
-        assert SGP4FullPrecision.undefined().is_defined() is False
-
     def test_getters(self, tle: TLE, sgp4_full_precision: SGP4FullPrecision):
         assert sgp4_full_precision.get_epoch() == tle.get_epoch()
         assert isinstance(sgp4_full_precision.get_inclination(), Angle)
@@ -94,7 +90,6 @@ class TestSGP4FullPrecision:
         state = sgp4_full_precision.calculate_state_at(tle.get_epoch())
 
         assert isinstance(state, State)
-        assert state.is_defined()
         assert state.get_instant() == tle.get_epoch()
         assert state.get_frame() == Frame.TEME()
 
@@ -128,5 +123,3 @@ class TestSGP4FullPrecision:
 
     def test_usable_as_an_orbit_model(self, sgp4_full_precision: SGP4FullPrecision):
         orbit = Orbit(sgp4_full_precision, Earth.spherical())
-
-        assert orbit.is_defined()

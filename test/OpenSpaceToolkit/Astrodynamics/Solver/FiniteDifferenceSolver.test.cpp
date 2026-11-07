@@ -6,6 +6,8 @@
 
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
@@ -28,6 +30,8 @@ using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using ostk::physics::environment::object::celestial::Earth;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
@@ -108,7 +112,12 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
         std::make_shared<const CoordinateSubset>(CoordinateSubset("Velocity", 1)),
     };
 
-    State initialState_ = State::Undefined();
+    // Placeholder, overwritten in the constructor
+    State initialState_ = {
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({0.0, 7.5e3, 0.0}, Frame::GCRF())
+    };
 
     std::function<MatrixXd(const State&, const Array<Instant>&)> generateStatesCoordinates_;
     std::function<VectorXd(const State&, const Instant&)> generateStateCoordinates_;

@@ -87,7 +87,6 @@ class TestCOE:
 
         assert coe is not None
         assert isinstance(coe, COE)
-        assert coe.is_defined()
 
     def test_comparators(
         self,
@@ -309,13 +308,6 @@ class TestCOE:
         assert COE.equatorial(semi_major_axis, eccentricity) is not None
         assert COE.equatorial(semi_major_axis) is not None
 
-    def test_undefined(self):
-        coe: COE = COE.undefined()
-
-        assert coe is not None
-        assert isinstance(coe, COE)
-        assert coe.is_defined() is False
-
     def test_frozen_orbit(
         self,
         semi_major_axis: Length,
@@ -331,7 +323,6 @@ class TestCOE:
 
         assert coe is not None
         assert isinstance(coe, COE)
-        assert coe.is_defined()
 
         coe: COE = COE.frozen_orbit(
             semi_major_axis,
@@ -340,26 +331,31 @@ class TestCOE:
 
         assert coe is not None
         assert isinstance(coe, COE)
-        assert coe.is_defined()
 
-        earth = Environment.default().access_celestial_object_with_name("Earth")
+        earth = Environment.default().get_celestial_object_with_name("Earth")
 
-        assert COE.frozen_orbit(semi_major_axis, earth, eccentricity=None).is_defined()
-        assert COE.frozen_orbit(semi_major_axis, earth, eccentricity=0.0006).is_defined()
-        assert COE.frozen_orbit(
-            semi_major_axis,
-            Earth.EGM2008.equatorial_radius,
-            Earth.EGM2008.J2,
-            Earth.EGM2008.J3,
-            eccentricity=None,
-        ).is_defined()
-        assert COE.frozen_orbit(
-            semi_major_axis,
-            Earth.EGM2008.equatorial_radius,
-            Earth.EGM2008.J2,
-            Earth.EGM2008.J3,
-            eccentricity=0.0006,
-        ).is_defined()
+        assert COE.frozen_orbit(semi_major_axis, earth, eccentricity=None) is not None
+        assert COE.frozen_orbit(semi_major_axis, earth, eccentricity=0.0006) is not None
+        assert (
+            COE.frozen_orbit(
+                semi_major_axis,
+                Earth.EGM2008.equatorial_radius,
+                Earth.EGM2008.J2,
+                Earth.EGM2008.J3,
+                eccentricity=None,
+            )
+            is not None
+        )
+        assert (
+            COE.frozen_orbit(
+                semi_major_axis,
+                Earth.EGM2008.equatorial_radius,
+                Earth.EGM2008.J2,
+                Earth.EGM2008.J3,
+                eccentricity=0.0006,
+            )
+            is not None
+        )
 
 
 class TestCOEFrame:

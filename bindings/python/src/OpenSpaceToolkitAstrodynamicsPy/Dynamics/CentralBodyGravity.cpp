@@ -41,18 +41,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(nanobind
             .def("__repr__", &(shiftToString<CentralBodyGravity>))
 
             .def(
-                "is_defined",
-                &CentralBodyGravity::isDefined,
-                R"doc(
-                    Check if the central-body gravity is defined.
-
-                    Returns:
-                        bool: True if the central-body gravity is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_celestial",
                 &CentralBodyGravity::getCelestial,
                 R"doc(

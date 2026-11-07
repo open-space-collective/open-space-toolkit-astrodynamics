@@ -137,15 +137,12 @@ class OpenSpaceToolkit_Astrodynamics_Eclipse_Generator : public ::testing::Test
    protected:
     void SetUp() override
     {
-        environment_ = Environment::Default();
-        searchStepSize_ = Duration::Seconds(60.0);
-        searchTolerance_ = Duration::Milliseconds(1.0);
         trajectory_ = buildTrajectory(environment_);
     }
 
-    Environment environment_ = Environment::Undefined();
-    Duration searchStepSize_ = Duration::Undefined();
-    Duration searchTolerance_ = Duration::Undefined();
+    Environment environment_ = Environment::Default();
+    Duration searchStepSize_ = Duration::Seconds(60.0);
+    Duration searchTolerance_ = Duration::Milliseconds(1.0);
     std::optional<Trajectory> trajectory_ = std::nullopt;
 };
 
@@ -155,8 +152,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Eclipse_Generator, ConstructorAndPropertie
     {
         const Generator generator(environment_, searchStepSize_, searchTolerance_);
 
-        EXPECT_TRUE(generator.isDefined());
-        EXPECT_TRUE(generator.getEnvironment().isDefined());
         EXPECT_EQ(generator.getSearchStepSize(), searchStepSize_);
         EXPECT_EQ(generator.getSearchTolerance(), searchTolerance_);
     }
@@ -165,9 +160,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Eclipse_Generator, ConstructorAndPropertie
     {
         const Generator generator;
 
-        EXPECT_TRUE(generator.isDefined());
-        EXPECT_TRUE(generator.getSearchStepSize().isDefined());
-        EXPECT_TRUE(generator.getSearchTolerance().isDefined());
+        EXPECT_NO_THROW(generator.getEnvironment());
+        EXPECT_NO_THROW(generator.getSearchStepSize());
+        EXPECT_NO_THROW(generator.getSearchTolerance());
     }
 }
 

@@ -12,7 +12,6 @@ from ostk.physics import Environment
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
-from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import DateTime
 from ostk.physics.time import Duration
@@ -105,7 +104,7 @@ def environment() -> Environment:
         [
             Earth.from_models(
                 EarthGravitationalModel(EarthGravitationalModel.Type.Spherical),
-                EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+                None,
                 EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
             )
         ],

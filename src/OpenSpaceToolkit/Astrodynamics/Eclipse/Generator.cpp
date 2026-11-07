@@ -34,38 +34,18 @@ Generator::Generator(
 {
 }
 
-bool Generator::isDefined() const
-{
-    return environment_.isDefined();
-}
-
 const Environment& Generator::getEnvironment() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return environment_;
 }
 
 const Duration& Generator::getSearchStepSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return temporalConditionSolver_.getTimeStep();
 }
 
 const Duration& Generator::getSearchTolerance() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return temporalConditionSolver_.getTolerance();
 }
 
@@ -76,21 +56,6 @@ Array<Eclipse> Generator::generate(
     const String& anOccultingCelestialObjectName
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
-    if (!anAnalysisInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Analysis interval");
-    }
-
     // Get celestial objects
     const Shared<const Celestial> occultedCelestialObject =
         environment_.getCelestialObjectWithName(anOccultedCelestialObjectName);

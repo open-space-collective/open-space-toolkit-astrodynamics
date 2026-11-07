@@ -139,11 +139,6 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return Reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Kepler& aKeplerianModel);
 
-    /// @brief Check if the Kepler model is defined.
-    ///
-    /// @return True if the model is fully defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the classical orbital elements.
     ///
     /// @return The classical orbital element set used by this model.

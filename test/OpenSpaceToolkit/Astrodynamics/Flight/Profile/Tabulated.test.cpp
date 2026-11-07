@@ -99,6 +99,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
     }
 
     {
+        // At least two states are required
+        EXPECT_THROW(Tabulated(Array<State> {states_[0]}), ostk::core::error::RuntimeError);
+        EXPECT_THROW(Tabulated(Array<State>::Empty()), ostk::core::error::RuntimeError);
+    }
+
+    {
         // The attitude quaternion entry is ignored (attitude is always interpolated using SLERP); all other reduced
         // coordinate subsets use the type given for them.
         const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
@@ -110,8 +116,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
 
         const Tabulated tabulatedFromMap = Tabulated(states_, interpolationTypes);
         const Tabulated tabulatedFromType = Tabulated(states_, Interpolator::Type::BarycentricRational);
-
-        EXPECT_TRUE(tabulatedFromMap.isDefined());
 
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
 
@@ -137,7 +141,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Default)
 {
     const Tabulated tabulated = Tabulated::Default(states_);
 
-    EXPECT_TRUE(tabulated.isDefined());
     EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
     EXPECT_NO_THROW(tabulated.calculateStateAt(Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC)));
@@ -186,13 +189,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Print)
     EXPECT_NO_THROW(tabulated_.print(std::cout, false));
 
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, IsDefined)
-{
-    {
-        EXPECT_TRUE(tabulated_.isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
@@ -285,12 +281,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetAxesAt)
 {
-    // instant undefined
-    {
-        const Instant instant = Instant::Undefined();
-        EXPECT_THROW(tabulated_.getAxesAt(instant), ostk::core::error::runtime::Undefined);
-    }
-
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
         const Axes axes = tabulated_.getAxesAt(instant);

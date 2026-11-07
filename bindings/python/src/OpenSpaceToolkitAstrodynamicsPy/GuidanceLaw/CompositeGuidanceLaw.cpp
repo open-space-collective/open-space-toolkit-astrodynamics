@@ -42,7 +42,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_CompositeGuidanceLaw(nan
                     guidance_laws_with_intervals (list[tuple[GuidanceLaw, Interval]], optional): Array of tuples containing the guidance laws and their corresponding intervals. Defaults to empty array.
 
                 Raises:
-                    RuntimeError: If any interval is undefined, if the guidance law is null or if the interval intersects with an existing interval.
+                    RuntimeError: If the guidance law is null or if the interval intersects with an existing interval.
             )doc"
         )
 
@@ -70,7 +70,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_CompositeGuidanceLaw(nan
                     interval (Interval): The interval during which the guidance law is active.
 
                 Raises:
-                    RuntimeError: If the interval is undefined, if the guidance law is null or if the interval intersects with an existing interval.
+                    RuntimeError: If the guidance law is null or if the interval intersects with an existing interval.
             )doc"
         )
 

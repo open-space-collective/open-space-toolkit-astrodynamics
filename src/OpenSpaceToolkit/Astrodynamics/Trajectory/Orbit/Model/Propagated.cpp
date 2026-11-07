@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -61,6 +63,11 @@ Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCache
       cachedStateArray_(aCachedStateArray),
       initialRevolutionNumber_(aRevolutionNumber)
 {
+    if (cachedStateArray_.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Cached state array is empty.");
+    }
+
     sanitizeCachedArray();
 }
 
@@ -71,11 +78,6 @@ Propagated* Propagated::clone() const
 
 bool Propagated::operator==(const Propagated& aPropagatedModel) const
 {
-    if ((!this->isDefined()) || (!aPropagatedModel.isDefined()))
-    {
-        return false;
-    }
-
     return (cachedStateArray_ == aPropagatedModel.cachedStateArray_) && (propagator_ == aPropagatedModel.propagator_);
 }
 
@@ -91,43 +93,18 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Propagated& aPropag
     return anOutputStream;
 }
 
-bool Propagated::isDefined() const
-{
-    return !cachedStateArray_.isEmpty() && propagator_.isDefined();
-}
-
 Instant Propagated::getEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     return cachedStateArray_[0].getInstant();
 }
 
 int Propagated::getRevolutionNumberAtEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     return this->initialRevolutionNumber_;
 }
 
 State Propagated::calculateStateAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     const Array<State> propagatedStateArray = this->calculateStatesAt(Array(1, anInstant));
 
     if (propagatedStateArray.getSize() != 1)
@@ -142,11 +119,6 @@ State Propagated::calculateStateAt(const Instant& anInstant) const
 
 Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     if (anInstantArray.isEmpty())
     {
         return Array<State>::Empty();
@@ -267,33 +239,30 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
 
 int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     if (anInstant == this->getEpoch())
     {
         return this->getRevolutionNumberAtEpoch();
     }
 
     // Find the central body gravity dynamics to use its gravitational parameter for orbital period computation
-    Derived gravitationalParameter = Derived::Undefined();
+    std::optional<Derived> gravitationalParameterOptional = std::nullopt;
     for (const Shared<Dynamics>& dynamicsSPtr :
          propagator_.getDynamics())  // Propagator has exactly one Central Body Gravity Dynamics, so
-                                     // graviationalParameter will be defined after the loop
+                                     // graviationalParameter will be set after the loop
     {
         if (const auto centralBodyGravitySPtr = std::dynamic_pointer_cast<CentralBodyGravity>(dynamicsSPtr))
         {
-            gravitationalParameter = centralBodyGravitySPtr->getCelestial()->getGravitationalParameter();
+            gravitationalParameterOptional = centralBodyGravitySPtr->getCelestial()->getGravitationalParameter();
             break;
         }
     }
+
+    if (!gravitationalParameterOptional.has_value())
+    {
+        throw ostk::core::error::runtime::Undefined("Central body gravity dynamics");
+    }
+
+    const Derived gravitationalParameter = gravitationalParameterOptional.value();
 
     // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
     const State stateAtEpoch = this->calculateStateAt(this->getEpoch());
@@ -331,26 +300,21 @@ int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
 const Array<State>& Propagated::getCachedStateArray() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     return cachedStateArray_;
 }
 
 const Propagator& Propagated::getPropagator() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     return propagator_;
 }
 
 void Propagated::setCachedStateArray(const Array<State>& aStateArray)
 {
+    if (aStateArray.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Cached state array is empty.");
+    }
+
     this->cachedStateArray_ = aStateArray;
 
     sanitizeCachedArray();
@@ -389,11 +353,6 @@ bool Propagated::operator!=(const trajectory::Model& aModel) const
 
 void Propagated::sanitizeCachedArray() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagated");
-    }
-
     // Sort cashed state array and remove duplicate states
     std::sort(
         cachedStateArray_.begin(),

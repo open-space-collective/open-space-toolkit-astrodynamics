@@ -71,22 +71,6 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public ::testing::Test
 {
    protected:
-    void SetUp() override
-    {
-        this->earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        this->defaultDynamics_ = {
-            std::make_shared<PositionDerivative>(),
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-        };
-
-        this->defaultPosition_ = Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_);
-        this->defaultVelocity_ = Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_);
-
-        this->defaultState_ = {this->defaultInstant_, this->defaultPosition_, this->defaultVelocity_};
-
-        this->propagator_ = Propagator(defaultNumericalSolver_, defaultDynamics_);
-    }
-
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
     const NumericalSolver defaultNumericalSolver_ = {
         NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15
@@ -96,14 +80,17 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public 
 
     const int defaultRevolutionNumber_ = 5;
 
-    Position defaultPosition_ = Position::Undefined();
-    Velocity defaultVelocity_ = Velocity::Undefined();
-    State defaultState_ = State::Undefined();
+    Position defaultPosition_ = Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_);
+    Velocity defaultVelocity_ = Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_);
+    State defaultState_ = {defaultInstant_, defaultPosition_, defaultVelocity_};
 
-    Shared<Celestial> earthSpherical_ = nullptr;
-    Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
+    Shared<Celestial> earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
+    Array<Shared<Dynamics>> defaultDynamics_ = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSpherical_),
+    };
 
-    Propagator propagator_ = Propagator::Undefined();
+    Propagator propagator_ = Propagator(defaultNumericalSolver_, defaultDynamics_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Constructor)
@@ -128,6 +115,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Constru
         EXPECT_NO_THROW(Propagated(propagator_, stateArray, defaultRevolutionNumber_));
     }
 
+    // Constructor with an empty cached state array
+    {
+        EXPECT_THROW(Propagated(propagator_, Array<State>::Empty()), ostk::core::error::RuntimeError);
+    }
+
     // Constructor with putting into orbit object
     {
         // Setup Propagated model
@@ -149,7 +141,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Constru
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ(e.getMessage(), String("{Propagated} is undefined."));
+                    EXPECT_EQ(e.getMessage(), String("Cached state array is empty."));
                     throw;
                 }
             },
@@ -229,15 +221,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, NotEqua
         stateArray.add(state_0);
         const Propagated propagatedModel_3 = {propagator_, stateArray};
         EXPECT_TRUE(propagatedModel != propagatedModel_3);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, IsDefined)
-{
-    {
-        const Propagated propagatedModel = {propagator_, defaultState_};
-
-        EXPECT_TRUE(propagatedModel.isDefined());
     }
 }
 
@@ -458,16 +441,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Calcula
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, CalculateRevolutionNumberAt)
 {
-    // Test undefined
+    // Test propagator without central body gravity
     {
+        const Propagator propagatorWithoutCentralBodyGravity = {
+            defaultNumericalSolver_, {std::make_shared<PositionDerivative>()}
+        };
+
         const Propagated propagatedModel = {
-            Propagator::Undefined(),
+            propagatorWithoutCentralBodyGravity,
             defaultState_,
             defaultRevolutionNumber_,
         };
 
         EXPECT_THROW(
-            propagatedModel.calculateRevolutionNumberAt(defaultInstant_), ostk::core::error::runtime::Undefined
+            propagatedModel.calculateRevolutionNumberAt(defaultInstant_ + Duration::Hours(1.0)),
+            ostk::core::error::runtime::Undefined
         );
     }
 
@@ -683,6 +671,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, GetCach
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCachedStateArray)
 {
+    // Empty cached state array is rejected
+    {
+        Propagated propagatedModel = {propagator_, defaultState_};
+
+        EXPECT_THROW(propagatedModel.setCachedStateArray(Array<State>::Empty()), ostk::core::error::RuntimeError);
+    }
+
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC);
     const State state = {startInstant, defaultPosition_, defaultVelocity_};
@@ -709,9 +704,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCach
 
         // Manually set cachedStateArray
         propagatedModel.setCachedStateArray(stateArray);
-
-        // Check propagatedModel is properly defined
-        EXPECT_TRUE(propagatedModel.isDefined());
 
         // Access cachedStateArray and verify
         const Array<State> cachedStateArray = propagatedModel.getCachedStateArray();
@@ -742,9 +734,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCach
         // Manually set cachedStateArray
         propagatedModel.setCachedStateArray(stateArray);
 
-        // Check propagatedModel is properly defined
-        EXPECT_TRUE(propagatedModel.isDefined());
-
         // Access cachedStateArray and verify
         const Array<State> cachedStateArray = propagatedModel.getCachedStateArray();
 
@@ -765,7 +754,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, SetCach
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ(e.getMessage(), String("{Propagated} is undefined."));
+                    EXPECT_EQ(e.getMessage(), String("Cached state array is empty."));
                     throw;
                 }
             },

@@ -49,20 +49,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, Constructor)
     EXPECT_NO_THROW(TargetScan targetScan(startLLA_, endLLA_, startInstant_, endInstant_));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, IsDefined)
-{
-    EXPECT_TRUE(targetScan_.isDefined());
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, CalculateStateAt)
 {
-    // undefined cases
+    // out of interval cases
 
     {
-        {
-            EXPECT_THROW(targetScan_.calculateStateAt(Instant::Undefined()), ostk::core::error::runtime::Undefined);
-        }
-
         {
             EXPECT_THROW(
                 targetScan_.calculateStateAt(startInstant_ - Duration::Seconds(1.0)), ostk::core::error::RuntimeError
@@ -73,13 +64,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, CalculateStat
             EXPECT_THROW(
                 targetScan_.calculateStateAt(endInstant_ + Duration::Seconds(1.0)), ostk::core::error::RuntimeError
             );
-        }
-
-        {
-            const TargetScan undefinedTargetScan(
-                LLA::Undefined(), LLA::Undefined(), Instant::Undefined(), Instant::Undefined(), Earth::WGS84()
-            );
-            EXPECT_THROW(undefinedTargetScan.calculateStateAt(startInstant_), ostk::core::error::runtime::Undefined);
         }
     }
 
@@ -229,39 +213,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_TargetScan, FromGroundSpe
 
     EXPECT_NO_THROW(TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, startInstant_, earth_, stepSize));
 
-    // undefined cases
+    // invalid cases
 
     {
-        EXPECT_THROW(
-            TargetScan::FromGroundSpeed(LLA::Undefined(), endLLA_, groundSpeed, startInstant_, earth_, stepSize),
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            TargetScan::FromGroundSpeed(startLLA_, LLA::Undefined(), groundSpeed, startInstant_, earth_, stepSize),
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            TargetScan::FromGroundSpeed(startLLA_, endLLA_, Derived::Undefined(), startInstant_, earth_, stepSize),
-            ostk::core::error::runtime::Undefined
-        );
-
         EXPECT_THROW(
             TargetScan::FromGroundSpeed(
                 startLLA_, endLLA_, Derived(-1000.0, Derived::Unit::MeterPerSecond()), startInstant_, earth_, stepSize
             ),
             ostk::core::error::RuntimeError
-        );
-
-        EXPECT_THROW(
-            TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, Instant::Undefined(), earth_, stepSize),
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            TargetScan::FromGroundSpeed(startLLA_, endLLA_, groundSpeed, startInstant_, earth_, Duration::Undefined()),
-            ostk::core::error::runtime::Undefined
         );
 
         EXPECT_THROW(

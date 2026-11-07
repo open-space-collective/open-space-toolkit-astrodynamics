@@ -76,18 +76,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(nanobi
             .def("__repr__", &(shiftToString<SatelliteSystem>))
 
             .def(
-                "is_defined",
-                &SatelliteSystem::isDefined,
-                R"doc(
-                    Check if the satellite system is defined.
-
-                    Returns:
-                        bool: True if the satellite system is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_inertia_tensor",
                 &SatelliteSystem::getInertiaTensor,
                 R"doc(
@@ -141,17 +129,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(nanobi
                     Raises:
                         RuntimeError: If the satellite system has no propulsion system.
 
-                )doc"
-            )
-
-            .def_static(
-                "undefined",
-                &SatelliteSystem::Undefined,
-                R"doc(
-                    Create an undefined satellite system.
-
-                    Returns:
-                        SatelliteSystem: The undefined satellite system.
                 )doc"
             )
 

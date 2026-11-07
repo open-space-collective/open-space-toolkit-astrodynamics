@@ -20,11 +20,6 @@ VisibilityCriterion::AERInterval::AERInterval(
       elevation(anElevationInterval),
       range(aRangeInterval)
 {
-    if (!azimuth.isDefined() || !elevation.isDefined() || !range.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Interval");
-    }
-
     if (azimuth.getLowerBound() < 0.0 || azimuth.getUpperBound() > 360.0)
     {
         throw ostk::core::error::RuntimeError(

@@ -88,17 +88,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(nanobind::module_& aModul
         .def("__repr__", &(shiftToString<Trajectory>))
 
         .def(
-            "is_defined",
-            &Trajectory::isDefined,
-            R"doc(
-                Check if the trajectory is defined.
-
-                Returns:
-                    bool: True if the trajectory model is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_model",
             &Trajectory::getModel,
             rv_policy::reference_internal,

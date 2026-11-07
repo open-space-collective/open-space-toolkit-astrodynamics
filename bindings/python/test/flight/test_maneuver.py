@@ -116,7 +116,6 @@ class TestManeuver:
     ):
         assert maneuver is not None
         assert isinstance(maneuver, Maneuver)
-        assert maneuver.is_defined()
 
     def test_constructor_with_interpolation_type(
         self,
@@ -154,8 +153,6 @@ class TestManeuver:
         maneuver: Maneuver,
         states: list[State],
     ):
-        assert maneuver.is_defined()
-
         assert maneuver.get_states() == states
 
         assert maneuver.get_interpolation_type() == Interpolator.Type.BarycentricRational
@@ -195,7 +192,6 @@ class TestManeuver:
             frame=frame
         )
 
-        assert tabulated_dynamics.is_defined()
         assert tabulated_dynamics.get_instants() == [
             state.get_instant() for state in maneuver.get_states()
         ]
@@ -234,7 +230,7 @@ class TestManeuver:
         maneuver: Maneuver = maneuver.to_constant_local_orbital_frame_direction_maneuver(
             local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
         )
-        assert maneuver.is_defined()
+        assert isinstance(maneuver, Maneuver)
 
         maneuver_with_maximum_allowed_angular_offset: Maneuver = (
             maneuver.to_constant_local_orbital_frame_direction_maneuver(
@@ -242,7 +238,15 @@ class TestManeuver:
                 maximum_allowed_angular_offset=Angle.degrees(180.0),
             )
         )
-        assert maneuver_with_maximum_allowed_angular_offset.is_defined()
+        assert isinstance(maneuver_with_maximum_allowed_angular_offset, Maneuver)
+
+        maneuver_with_none_maximum_allowed_angular_offset: Maneuver = (
+            maneuver.to_constant_local_orbital_frame_direction_maneuver(
+                local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+                maximum_allowed_angular_offset=None,
+            )
+        )
+        assert isinstance(maneuver_with_none_maximum_allowed_angular_offset, Maneuver)
 
     def test_from_constant_mass_flow_rate(
         self,
@@ -254,4 +258,4 @@ class TestManeuver:
             mass_flow_rate=mass_flow_rate,
         )
 
-        assert maneuver.is_defined()
+        assert isinstance(maneuver, Maneuver)

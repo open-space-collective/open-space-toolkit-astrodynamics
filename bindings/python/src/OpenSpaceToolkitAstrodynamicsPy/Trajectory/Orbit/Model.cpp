@@ -45,17 +45,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(nanobind::mod
         .def("__str__", &(shiftToString<Model>))
 
         .def(
-            "is_defined",
-            &Model::isDefined,
-            R"doc(
-                Check if the orbit model is defined.
-
-                Returns:
-                    bool: True if the orbit model is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "is_kepler",
             +[](const Model& aModel) -> bool
             {

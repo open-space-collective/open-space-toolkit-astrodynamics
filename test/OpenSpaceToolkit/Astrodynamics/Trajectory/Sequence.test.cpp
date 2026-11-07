@@ -58,7 +58,6 @@ using ostk::physics::unit::Angle;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Mass;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
-using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astrodynamics::Dynamics;
@@ -553,25 +552,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
                 try
                 {
                     Sequence sequence(
-                        defaultSegments_, defaultNumericalSolver_, defaultDynamics_, Duration::Undefined()
-                    );
-                }
-                catch (const ostk::core::error::runtime::Wrong& e)
-                {
-                    EXPECT_NE(e.getMessage().find("Maximum propagation duration must be defined."), std::string::npos);
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Wrong
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Sequence sequence(
                         defaultSegments_, defaultNumericalSolver_, defaultDynamics_, Duration::Seconds(-1.0)
                     );
                 }
@@ -902,7 +882,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     // dynamics
     const Shared<Earth> earthSPtr = std::make_shared<Earth>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
     ));
 

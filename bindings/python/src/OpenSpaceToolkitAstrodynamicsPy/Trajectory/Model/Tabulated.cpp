@@ -88,17 +88,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(nanobind:
         )
 
         .def(
-            "is_defined",
-            &Tabulated::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-             )doc"
-        )
-
-        .def(
             "get_frame",
             &Tabulated::getFrame,
             R"doc(

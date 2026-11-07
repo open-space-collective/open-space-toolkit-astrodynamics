@@ -93,12 +93,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         }
 
         {
-            EXPECT_ANY_THROW(LocalOrbitalFrameTransformProvider::Construct(
-                LocalOrbitalFrameTransformProvider::Type::Undefined, state_
-            ));
-        }
-
-        {
             EXPECT_THROW(
                 LocalOrbitalFrameTransformProvider::Construct(LocalOrbitalFrameTransformProvider::Type::Custom, state_),
                 ostk::core::error::RuntimeError
@@ -107,20 +101,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider, IsDefined)
-{
-    {
-        EXPECT_TRUE(localOrbitalFrameTransformProvider_->isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvider, GetTransformAt)
 {
     // Exact instant match
     {
         Transform transform = localOrbitalFrameTransformProvider_->getTransformAt(instant_);
-
-        EXPECT_TRUE(transform.isDefined());
         EXPECT_EQ(transform.getInstant(), instant_);
     }
 
@@ -134,8 +119,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
         const Instant nearInstant = instant_ + Duration::Nanoseconds(500.0);
 
         Transform transform = localOrbitalFrameTransformProvider_->getTransformAt(nearInstant);
-
-        EXPECT_TRUE(transform.isDefined());
         EXPECT_EQ(transform.getInstant(), nearInstant);
     }
 
@@ -155,9 +138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::VNC
                 );
 
-            const Transform transform = transformGenerator(state_);
-
-            EXPECT_TRUE(transform.isDefined());
+            EXPECT_NO_THROW(transformGenerator(state_));
         }
 
         {
@@ -165,9 +146,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::NED
                 );
 
-            const Transform transform = transformGenerator(state_);
-
-            EXPECT_TRUE(transform.isDefined());
+            EXPECT_NO_THROW(transformGenerator(state_));
         }
 
         {
@@ -175,9 +154,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::LVLH
                 );
 
-            const Transform transform = transformGenerator(state_);
-
-            EXPECT_TRUE(transform.isDefined());
+            EXPECT_NO_THROW(transformGenerator(state_));
         }
 
         {
@@ -185,9 +162,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::QSW
                 );
 
-            const Transform transform = transformGenerator(state_);
-
-            EXPECT_TRUE(transform.isDefined());
+            EXPECT_NO_THROW(transformGenerator(state_));
         }
 
         {
@@ -195,9 +170,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameTransformProvi
                 LocalOrbitalFrameTransformProvider::GetTransformGenerator(LocalOrbitalFrameTransformProvider::Type::TNW
                 );
 
-            const Transform transform = transformGenerator(state_);
-
-            EXPECT_TRUE(transform.isDefined());
+            EXPECT_NO_THROW(transformGenerator(state_));
         }
     }
 }

@@ -36,16 +36,6 @@ static const LocalOrbitalFrameFactory VVLHFrameFactory = LocalOrbitalFrameFactor
 
 Tuple<Angle, Angle, Angle> ComputeOffNadirAngles(const State& aState, const Position& aTargetPosition)
 {
-    if (!aState.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
-    if (!aTargetPosition.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Target position");
-    }
-
     const Instant instant = aState.getInstant();
 
     const Shared<const Frame> localOrbitalFrameSPtr = VVLHFrameFactory.generateFrame(aState);

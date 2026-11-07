@@ -105,8 +105,8 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag : public ::testing
         EarthGravitationalModel::Spherical.J2_,
         EarthGravitationalModel::Spherical.J4_,
         std::make_shared<Analytical>(Frame::ITRF()),
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
     };
 
@@ -133,9 +133,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, Constructor)
             0.0,
             0.0,
             std::make_shared<Analytical>(Frame::ITRF()),
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
+            nullptr,
+            nullptr,
+            nullptr,
         };
 
         const String expectedString = "{Atmospheric Model} is undefined.";
@@ -156,12 +156,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, Constructor)
             ostk::core::error::runtime::Undefined
         );
     }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, IsDefined)
-{
-    AtmosphericDrag atmosphericDynamics(earthSPtr_);
-    EXPECT_TRUE(atmosphericDynamics.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag, StreamOperator)

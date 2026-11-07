@@ -49,7 +49,7 @@ class TestNadir:
         self,
         nadir: Nadir,
     ):
-        assert nadir.is_defined()
+        assert isinstance(nadir, Nadir)
 
     def test_calculate_state_at(
         self,
@@ -71,7 +71,27 @@ class TestNadir:
         self,
         nadir: Nadir,
     ):
-        nadir2 = Nadir(Orbit.undefined())
+        earth = Earth.WGS84()
+        other_orbit = Orbit(
+            Kepler(
+                coe=COE(
+                    semi_major_axis=Length.kilometers(7100.0),
+                    eccentricity=0.0,
+                    inclination=Angle.degrees(98.0),
+                    raan=Angle.degrees(0.0),
+                    aop=Angle.degrees(0.0),
+                    true_anomaly=Angle.degrees(0.0),
+                ),
+                epoch=Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+                gravitational_parameter=earth.get_gravitational_parameter(),
+                equatorial_radius=earth.get_equatorial_radius(),
+                j2=earth.get_j2(),
+                j4=earth.get_j4(),
+                perturbation_type=Kepler.PerturbationType.No,
+            ),
+            earth,
+        )
+        nadir2 = Nadir(other_orbit)
         assert nadir != nadir2
 
     def test_get_orbit(

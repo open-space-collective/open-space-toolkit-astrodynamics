@@ -90,11 +90,6 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Propagated& aPropagatedModel);
 
-    /// @brief Check if propagated model is defined
-    ///
-    /// @return True if propagated model is defined
-    virtual bool isDefined() const override;
-
     /// @brief Get epoch (in this case it is the first instant in the cached state array)
     ///
     /// @code{.cpp}

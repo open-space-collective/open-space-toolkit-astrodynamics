@@ -55,59 +55,24 @@ Generator::Generator(const Trajectory& aReferenceTrajectory, const Duration& aSt
     this->setTolerance(aTolerance);
 }
 
-bool Generator::isDefined() const
-{
-    return referenceTrajectory_.isDefined() && step_.isDefined() && tolerance_.isDefined();
-}
-
 const Trajectory& Generator::getReferenceTrajectory() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return referenceTrajectory_;
 }
 
 const Duration& Generator::getStep() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return step_;
 }
 
 const Duration& Generator::getTolerance() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return tolerance_;
 }
 
 Array<CloseApproach> Generator::computeCloseApproaches(const Trajectory& aTrajectory, const Interval& aSearchInterval)
     const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Other object trajectory");
-    }
-
-    if (!aSearchInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Search interval");
-    }
-
     const TemporalConditionSolver temporalConditionSolver = TemporalConditionSolver(step_, tolerance_);
 
     // Define condition: objects are moving apart (relative distance derivative > 0)
@@ -155,11 +120,6 @@ Array<CloseApproach> Generator::computeCloseApproaches(const Trajectory& aTrajec
 
 void Generator::setStep(const Duration& aStep)
 {
-    if (!aStep.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Step");
-    }
-
     if (!aStep.isStrictlyPositive())
     {
         throw ostk::core::error::runtime::Wrong("Step");
@@ -170,11 +130,6 @@ void Generator::setStep(const Duration& aStep)
 
 void Generator::setTolerance(const Duration& aTolerance)
 {
-    if (!aTolerance.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tolerance");
-    }
-
     if (!aTolerance.isStrictlyPositive())
     {
         throw ostk::core::error::runtime::Wrong("Tolerance");
@@ -183,18 +138,8 @@ void Generator::setTolerance(const Duration& aTolerance)
     tolerance_ = aTolerance;
 }
 
-Generator Generator::Undefined()
-{
-    return Generator(Trajectory(Array<State>::Empty()));
-}
-
 double Generator::ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2)
 {
-    if (!aState1.isDefined() || !aState2.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     // Reduce states to position and velocity in GCRF frame
     const State reducedState1InFrame =
         relativeDistanceDerivativeStateBuilder.reduce(aState1.inFrame(relativeDistanceDerivativeFrame));

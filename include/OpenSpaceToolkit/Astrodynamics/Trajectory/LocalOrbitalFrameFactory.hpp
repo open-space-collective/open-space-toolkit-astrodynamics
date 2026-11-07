@@ -69,16 +69,6 @@ class LocalOrbitalFrameFactory
     /// @return A shared pointer to the frame created.
     Shared<const Frame> generateFrame(const State& aState) const;
 
-    /// @brief Check if local orbital frame factory is defined.
-    ///
-    /// @code{.cpp}
-    ///     LocalOrbitalFrameFactory factory = { ... } ;
-    ///     bool defined = factory.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if local orbital frame factory is defined.
-    bool isDefined() const;
-
     /// @brief Get the parent frame.
     ///
     /// @return The parent frame
@@ -148,15 +138,6 @@ class LocalOrbitalFrameFactory
     /// @param aParentFrame A parent frame.
     /// @return A LocalOrbitalFrameFactory.
     static LocalOrbitalFrameFactory VNC(const Shared<const Frame>& aParentFrame);
-
-    /// @brief Construct an undefined local orbital frame factory.
-    ///
-    /// @code{.cpp}
-    ///     LocalOrbitalFrameFactory factory = LocalOrbitalFrameFactory::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined local orbital frame factory.
-    static LocalOrbitalFrameFactory Undefined();
 
     /// @brief Construct function
     ///

@@ -143,11 +143,6 @@ Segment::ManeuverConstraints::ManeuverConstraints(
             "aliasing issues which can cause sequential maneuver intervals to overlap by a nanosecond."
         );
     }
-
-    if (constantLocalOrbitalFrameEnforcement.has_value() && !constantLocalOrbitalFrameEnforcement->first.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local orbital frame factory");
-    }
 }
 
 bool Segment::ManeuverConstraints::intervalHasValidMinimumDuration(const Interval& aManeuverInterval) const
@@ -422,7 +417,7 @@ Mass Segment::Solution::computeDeltaMass() const
 
 Array<FlightManeuver> Segment::Solution::extractManeuvers(const Shared<const Frame>& aFrameSPtr) const
 {
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }
@@ -755,11 +750,6 @@ Segment::Segment(
         throw ostk::core::error::runtime::Undefined("Coast dynamics");
     }
 
-    if (!numericalSolver_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Numerical solver");
-    }
-
     if (type_ == Segment::Type::Coast && thrusterDynamicsSPtr_ != nullptr)
     {
         throw ostk::core::error::runtime::Wrong("Thruster dynamics", "Coast segment cannot have thruster dynamics.");
@@ -768,11 +758,6 @@ Segment::Segment(
     if (type_ == Segment::Type::Maneuver && thrusterDynamicsSPtr_ == nullptr)
     {
         throw ostk::core::error::runtime::Wrong("Thruster dynamics", "Maneuver segment must have thruster dynamics.");
-    }
-
-    if (type_ == Segment::Type::Maneuver && thrusterDynamicsSPtr_ != nullptr && !thrusterDynamicsSPtr_->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Thruster dynamics");
     }
 
     // Check that coast dynamics doesn't contain any Thruster dynamics
@@ -878,8 +863,9 @@ Segment::Solution Segment::solve(
     Array<Interval> acceptedManeuverIntervals = Array<Interval>::Empty();
 
     // Running "last" maneuver interval for minimum separation: start from last of initial intervals if any
-    Interval previousManeuverInterval =
-        sortedPreviousManeuverIntervals.isEmpty() ? Interval::Undefined() : sortedPreviousManeuverIntervals.getLast();
+    std::optional<Interval> previousManeuverInterval =
+        sortedPreviousManeuverIntervals.isEmpty() ? std::nullopt
+                                                  : std::make_optional(sortedPreviousManeuverIntervals.getLast());
 
     // Helper lambda to build a thruster dynamics that only thrusts within the given interval
     const Shared<Thruster> segmentThrusterDynamics = this->getThrusterDynamics();
@@ -1013,13 +999,13 @@ Segment::Solution Segment::solve(
         previousManeuverInterval = maneuver.getInterval();
 
         // Track the accepted maneuver interval for explicit maneuver extraction
-        acceptedManeuverIntervals.add(previousManeuverInterval);
+        acceptedManeuverIntervals.add(previousManeuverInterval.value());
 
         // Reset the multiplier to 1, as we have accepted a maneuver
         multiplier = 1;
 
         segmentCompositeGuidanceLaw->addGuidanceLaw(
-            maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), previousManeuverInterval
+            maneuverSolution.getThrusterDynamics()->getGuidanceLaw(), previousManeuverInterval.value()
         );
     };
 
@@ -1384,10 +1370,10 @@ Segment::Solution Segment::solve(
     while (segmentStates.getLast().getInstant() < maximumInstant && !segmentConditionIsSatisfied)
     {
         // Check minimum maneuver separation constraint from previous maneuver
-        if (maneuverConstraints.minimumSeparation.has_value() && previousManeuverInterval.isDefined())
+        if (maneuverConstraints.minimumSeparation.has_value() && previousManeuverInterval.has_value())
         {
             const Instant endInstant =
-                previousManeuverInterval.getEnd() + maneuverConstraints.minimumSeparation.value();
+                previousManeuverInterval->getEnd() + maneuverConstraints.minimumSeparation.value();
 
             // No need to coast if we are already past the minimum separation target
             if (segmentStates.getLast().getInstant() < endInstant)
@@ -1681,7 +1667,7 @@ Segment::Solution Segment::constructLOFCompliantManeuverSolution_(const State& a
     const Shared<ConstantThrust> constantThrust = std::make_shared<ConstantThrust>(ConstantThrust::FromManeuver(
         aManeuver,
         maneuverConstraints_->constantLocalOrbitalFrameEnforcement->first,
-        maneuverConstraints_->constantLocalOrbitalFrameEnforcement->second.value_or(Angle::Undefined())
+        maneuverConstraints_->constantLocalOrbitalFrameEnforcement->second
     ));
 
     const Shared<Thruster> constantThrustDynamics = std::make_shared<Thruster>(

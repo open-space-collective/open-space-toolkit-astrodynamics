@@ -72,8 +72,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         Defaults to True.
 
                 Raises:
-                    RuntimeError: If the frame is undefined or not quasi-inertial, if the angular step size is
-                        undefined or not within (0, 360] deg, or if the number of radial steps is zero.
+                    RuntimeError: If the frame is null or not quasi-inertial, if the angular step size is
+                        not within (0, 360] deg, or if the number of radial steps is zero.
             )doc",
             arg("relative_speed_threshold").sig("Derived(100.0, Derived.Unit.meter_per_second())") =
                 Derived(100.0, Derived::Unit::MeterPerSecond()),

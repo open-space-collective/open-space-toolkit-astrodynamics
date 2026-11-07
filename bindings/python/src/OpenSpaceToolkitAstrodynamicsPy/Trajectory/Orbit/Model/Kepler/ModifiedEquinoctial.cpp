@@ -90,17 +90,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
         .def("__repr__", &(shiftToString<ModifiedEquinoctial>))
 
         .def(
-            "is_defined",
-            &ModifiedEquinoctial::isDefined,
-            R"doc(
-                Check if ModifiedEquinoctial is defined.
-
-                Returns:
-                    bool: True if ModifiedEquinoctial is defined.
-            )doc"
-        )
-
-        .def(
             "get_semi_latus_rectum",
             &ModifiedEquinoctial::getSemiLatusRectum,
             R"doc(
@@ -205,16 +194,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
             )doc"
         )
 
-        .def_static(
-            "undefined",
-            &ModifiedEquinoctial::Undefined,
-            R"doc(
-                Create an undefined ModifiedEquinoctial object.
-
-                Returns:
-                    ModifiedEquinoctial: Undefined ModifiedEquinoctial object.
-            )doc"
-        )
         .def_static(
             "cartesian",
             &ModifiedEquinoctial::Cartesian,

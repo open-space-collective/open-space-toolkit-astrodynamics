@@ -65,11 +65,6 @@ class Model
     /// @return A reference to output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel);
 
-    /// @brief Check if model is defined.
-    ///
-    /// @return True if model is defined.
-    virtual bool isDefined() const = 0;
-
     /// @brief Returns true if model can be converted to type
     ///
     /// @return True if model can be converted to type

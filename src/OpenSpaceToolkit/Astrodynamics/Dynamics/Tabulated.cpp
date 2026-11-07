@@ -161,11 +161,6 @@ Interpolator::Type Tabulated::getInterpolationType() const
     return interpolators_[0]->getInterpolationType();
 }
 
-bool Tabulated::isDefined() const
-{
-    return true;
-}
-
 Array<Shared<const CoordinateSubset>> Tabulated::getReadCoordinateSubsets() const
 {
     return {};

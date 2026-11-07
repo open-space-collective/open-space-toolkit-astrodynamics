@@ -111,11 +111,8 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
 {
     Array<Shared<const Object>> celestials = Array<Shared<const Object>>::Empty();
 
-    EarthGravitationalModel::Type earthGravitationalModelType = EarthGravitationalModel::Type::Undefined;
-    int earthGravitationalModelDegree = 0;
-    int earthGravitationalModelOrder = 0;
-    EarthMagneticModel::Type earthMagneticModelType = EarthMagneticModel::Type::Undefined;
-    EarthAtmosphericModel::Type earthAtmosphericModelType = EarthAtmosphericModel::Type::Undefined;
+    Shared<EarthGravitationalModel> earthGravitationalModelSPtr = nullptr;
+    Shared<EarthAtmosphericModel> earthAtmosphericModelSPtr = nullptr;
 
     for (const auto& force : aDictionary["data"]["sequence"]["forces"].getArray())
     {
@@ -125,9 +122,12 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
             {
                 if (force["data"]["model"].getString() == "EGM96")
                 {
-                    earthGravitationalModelType = EarthGravitationalModel::Type::EGM96;
-                    earthGravitationalModelDegree = force["data"]["degree"].getInteger();
-                    earthGravitationalModelOrder = force["data"]["order"].getInteger();
+                    earthGravitationalModelSPtr = std::make_shared<EarthGravitationalModel>(
+                        EarthGravitationalModel::Type::EGM96,
+                        std::nullopt,
+                        force["data"]["degree"].getInteger(),
+                        force["data"]["order"].getInteger()
+                    );
                 }
                 else
                 {
@@ -155,11 +155,13 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
             {
                 if (force["data"]["model"].getString() == "NRLMSISE00")
                 {
-                    earthAtmosphericModelType = EarthAtmosphericModel::Type::NRLMSISE00;
+                    earthAtmosphericModelSPtr =
+                        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00);
                 }
                 else if (force["data"]["model"].getString() == "EXPONENTIAL")
                 {
-                    earthAtmosphericModelType = EarthAtmosphericModel::Type::Exponential;
+                    earthAtmosphericModelSPtr =
+                        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential);
                 }
                 else
                 {
@@ -179,13 +181,10 @@ Environment Parser::CreateEnvironment(const Dictionary& aDictionary)
         }
     }
 
-    celestials.add(std::make_shared<const Earth>(Earth::FromModels(
-        std::make_shared<EarthGravitationalModel>(
-            earthGravitationalModelType, std::nullopt, earthGravitationalModelDegree, earthGravitationalModelOrder
-        ),
-        std::make_shared<EarthMagneticModel>(earthMagneticModelType),
-        std::make_shared<EarthAtmosphericModel>(earthAtmosphericModelType)
-    )));
+    // No magnetic model is used by the validation cases
+    celestials.add(std::make_shared<const Earth>(
+        Earth::FromModels(earthGravitationalModelSPtr, nullptr, earthAtmosphericModelSPtr)
+    ));
 
     return Environment(Instant::J2000(), celestials);
 }
@@ -197,30 +196,31 @@ Sequence Parser::CreateSequence(
 )
 {
     // Create numerical solver
-    NumericalSolver numericalSolver = NumericalSolver::Undefined();
-    if (aDictionary["data"]["sequence"]["propagator"]["type"].getString() == "RUNGE_KUTTA_DORMAND_PRINCE_45")
+    const NumericalSolver numericalSolver = [&aDictionary]() -> NumericalSolver
     {
-        numericalSolver = NumericalSolver(
-            NumericalSolver::LogType::NoLog,
-            NumericalSolver::StepperType::RungeKuttaFehlberg78,
-            aDictionary["data"]["sequence"]["propagator"]["data"]["initial-step"].getReal(),
-            aDictionary["data"]["sequence"]["propagator"]["data"]["relative-tolerance"].getReal(),
-            aDictionary["data"]["sequence"]["propagator"]["data"]["absolute-tolerance"].getReal()
-        );
-    }
-    else if (aDictionary["data"]["sequence"]["propagator"]["type"].getString() == "RUNGE_KUTTA_4")
-    {
-        numericalSolver = NumericalSolver::FixedStepSize(
-            NumericalSolver::StepperType::RungeKutta4,
-            aDictionary["data"]["sequence"]["propagator"]["data"]["step"].getReal()
-        );
-    }
-    else
-    {
+        if (aDictionary["data"]["sequence"]["propagator"]["type"].getString() == "RUNGE_KUTTA_DORMAND_PRINCE_45")
+        {
+            return NumericalSolver(
+                NumericalSolver::LogType::NoLog,
+                NumericalSolver::StepperType::RungeKuttaFehlberg78,
+                aDictionary["data"]["sequence"]["propagator"]["data"]["initial-step"].getReal(),
+                aDictionary["data"]["sequence"]["propagator"]["data"]["relative-tolerance"].getReal(),
+                aDictionary["data"]["sequence"]["propagator"]["data"]["absolute-tolerance"].getReal()
+            );
+        }
+
+        if (aDictionary["data"]["sequence"]["propagator"]["type"].getString() == "RUNGE_KUTTA_4")
+        {
+            return NumericalSolver::FixedStepSize(
+                NumericalSolver::StepperType::RungeKutta4,
+                aDictionary["data"]["sequence"]["propagator"]["data"]["step"].getReal()
+            );
+        }
+
         throw ostk::core::error::runtime::Wrong(
             "Propagator type", aDictionary["data"]["sequence"]["propagator"]["type"].getString()
         );
-    }
+    }();
 
     Array<Segment> segments = Array<Segment>::Empty();
     for (const auto& segment : aDictionary["data"]["sequence"]["segments"].getArray())

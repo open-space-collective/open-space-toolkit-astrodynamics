@@ -47,11 +47,6 @@ Tabulated* Tabulated::clone() const
 
 bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
 {
-    if ((!this->isDefined()) || (!aTabulatedModel.isDefined()))
-    {
-        return false;
-    }
-
     return (trajectory::model::Tabulated::operator==(aTabulatedModel)) &&
            (initialRevolutionNumber_ == aTabulatedModel.initialRevolutionNumber_);
 }
@@ -61,28 +56,13 @@ bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
     return !((*this) == aTabulatedModel);
 }
 
-bool Tabulated::isDefined() const
-{
-    return trajectory::model::Tabulated::isDefined();
-}
-
 Instant Tabulated::getEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     return this->getInterval().getStart();
 }
 
 int Tabulated::getRevolutionNumberAtEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     return initialRevolutionNumber_;
 }
 

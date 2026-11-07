@@ -63,9 +63,6 @@ class TestOPM:
     def test_get_deployment_with_name(self, opm: OPM):
         assert opm.get_deployment_with_name(name="A").name == "A"
 
-    def test_undefined(self):
-        assert OPM.undefined().is_defined() is False
-
     def test_dictionary(self):
         dictionary = Dictionary(
             {

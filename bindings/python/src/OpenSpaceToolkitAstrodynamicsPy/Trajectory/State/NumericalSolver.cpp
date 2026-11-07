@@ -139,17 +139,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(nan
             .def("__repr__", &(shiftToString<NumericalSolver>))
 
             .def(
-                "is_defined",
-                &NumericalSolver::isDefined,
-                R"doc(
-                    Check if the numerical solver is defined.
-
-                    Returns:
-                        bool: True if the numerical solver is defined, False otherwise.
-                )doc"
-            )
-
-            .def(
                 "get_observed_states",
                 &NumericalSolver::getObservedStates,
                 R"doc(
@@ -322,16 +311,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(nan
 
                     Returns:
                         NumericalSolver: The default numerical solver.
-                )doc"
-            )
-            .def_static(
-                "undefined",
-                &NumericalSolver::Undefined,
-                R"doc(
-                    Return an undefined numerical solver.
-
-                    Returns:
-                        NumericalSolver: The undefined numerical solver.
                 )doc"
             )
             .def_static(

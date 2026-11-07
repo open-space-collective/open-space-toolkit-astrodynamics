@@ -32,7 +32,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
         )doc"
     )
 
-        .value("Undefined", LocalOrbitalFrameTransformProvider::Type::Undefined, "Undefined")
         .value("NED", LocalOrbitalFrameTransformProvider::Type::NED, "North-East-Down")
         .value("LVLH", LocalOrbitalFrameTransformProvider::Type::LVLH, "Local Vertical-Local Horizontal")
         .value("LVLHGD", LocalOrbitalFrameTransformProvider::Type::LVLHGD, "Local Vertical-Local Horizontal Geodetic")
@@ -56,17 +55,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
 
                 Returns:
                     LocalOrbitalFrameTransformProvider: The provider.
-            )doc"
-        )
-
-        .def(
-            "is_defined",
-            &LocalOrbitalFrameTransformProvider::isDefined,
-            R"doc(
-                Returns true if the provider is defined.
-
-                Returns:
-                    bool: True if the provider is defined.
             )doc"
         )
 

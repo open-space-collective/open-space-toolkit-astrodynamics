@@ -60,17 +60,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Static(nanobind::mo
 
         .def("__str__", &(shiftToString<Static>))
         .def("__repr__", &(shiftToString<Static>))
-
-        .def(
-            "is_defined",
-            &Static::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-            )doc"
-        )
         .def(
             "get_frame",
             &Static::getFrame,

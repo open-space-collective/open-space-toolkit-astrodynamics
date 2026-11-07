@@ -134,17 +134,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(nanobi
             .def("__repr__", &(shiftToString<Kepler>))
 
             .def(
-                "is_defined",
-                &Kepler::isDefined,
-                R"doc(
-                    Check if the `Kepler` model is defined.
-
-                    Returns:
-                        bool: True if the `Kepler` model is defined, False otherwise.
-                )doc"
-            )
-
-            .def(
                 "get_classical_orbital_elements",
                 &Kepler::getClassicalOrbitalElements,
                 R"doc(

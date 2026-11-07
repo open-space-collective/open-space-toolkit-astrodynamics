@@ -58,7 +58,6 @@ def test_access_constructors():
 
     assert access_without_max_elevation is not None
     assert isinstance(access_without_max_elevation, Access)
-    assert access_without_max_elevation.is_defined()
 
     access_with_none_max_elevation: Access = Access(
         Access.Type.Complete,
@@ -70,15 +69,32 @@ def test_access_constructors():
 
     assert access_with_none_max_elevation is not None
     assert isinstance(access_with_none_max_elevation, Access)
-    assert access_with_none_max_elevation.is_defined()
 
 
-def test_access_undefined():
-    access: Access = Access.undefined()
+def test_access_partial_without_time_of_closest_approach():
+    acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
+
+    access: Access = Access(
+        Access.Type.Partial,
+        acquisition_of_signal,
+        None,
+        loss_of_signal,
+    )
 
     assert access is not None
     assert isinstance(access, Access)
-    assert access.is_defined() is False
+    assert access.get_time_of_closest_approach() is None
+    assert access.get_max_elevation() is None
+
+    # A complete access requires a time of closest approach
+    with pytest.raises(RuntimeError):
+        Access(
+            Access.Type.Complete,
+            acquisition_of_signal,
+            None,
+            loss_of_signal,
+        )
 
 
 def test_access_getters():

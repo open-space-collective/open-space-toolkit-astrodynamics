@@ -47,6 +47,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_OffNadirAngles_Parameterized, ComputeOffNa
     const auto& [instant, position, velocity, expectedCrossTrackAngle, expectedAlongTrackAngle, expectedTotalOffNadirAngle] =
         GetParam();
 
+    // LLA::toCartesian() falls back to the global environment's Earth
+    const Environment environment = Environment::Default(true);
+
     const Position targetPosition = Position::Meters(
         LLA(Angle::Degrees(40.0), Angle::Degrees(-70.0), Length::Meters(500.0)).toCartesian(), Frame::ITRF()
     );
@@ -91,26 +94,3 @@ INSTANTIATE_TEST_SUITE_P(
         )
     )
 );
-
-class OpenSpaceToolkit_Astrodynamics_OffNadirAngles : public ::testing::Test
-{
-   protected:
-    const Environment environment_ = Environment::Default(true);
-    const Position targetPosition_ = Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF());
-};
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_OffNadirAngles, ComputeOffNadirAngles_Undefined)
-{
-    {
-        EXPECT_ANY_THROW(ComputeOffNadirAngles(State::Undefined(), targetPosition_));
-    }
-
-    {
-        const State state = State(
-            Instant::J2000(),
-            Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
-            Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::GCRF())
-        );
-        EXPECT_ANY_THROW(ComputeOffNadirAngles(state, Position::Undefined()));
-    }
-}

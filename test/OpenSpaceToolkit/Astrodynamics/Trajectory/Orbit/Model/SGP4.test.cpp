@@ -77,7 +77,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle_};
 
         const SGP4 sgp4(tleArray);
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
         EXPECT_EQ(1u, sgp4.getTles().getSize());
     }
@@ -91,7 +90,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle2, tle1};  // Intentionally reversed order
 
         const SGP4 sgp4(tleArray);
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(2u, sgp4.getTles().getSize());
         // Should be sorted by epoch: tle1 first
         EXPECT_EQ(tle1.getEpoch(), sgp4.getTles()[0].getEpoch());
@@ -103,7 +101,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle_};
 
         const SGP4 sgp4(tleArray, Frame::TEME());
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
     }
 
@@ -151,7 +148,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         };
 
         const SGP4 sgp4(tleIntervalArray);
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(2u, sgp4.getTles().getSize());
         EXPECT_EQ(2u, sgp4.getValidityIntervals().getSize());
     }
@@ -237,7 +233,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyConstruct
 {
     const SGP4 sgp4Copy(sgp4_);
 
-    EXPECT_TRUE(sgp4Copy.isDefined());
     EXPECT_EQ(sgp4_, sgp4Copy);
 
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
@@ -267,7 +262,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
 {
     const SGP4* sgp4ClonePtr = sgp4_.clone();
 
-    EXPECT_TRUE(sgp4ClonePtr->isDefined());
     EXPECT_EQ(sgp4_, *sgp4ClonePtr);
 
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
@@ -298,13 +292,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
 
     const SGP4 alpha5Sgp4 = {alpha5Tle};
 
-    // calculateStateAt yields a defined state.
+    // calculateStateAt yields a state at the requested instant.
     {
         const State state = alpha5Sgp4.calculateStateAt(alpha5Tle.getEpoch());
 
-        EXPECT_TRUE(state.isDefined());
-        EXPECT_TRUE(state.getPosition().isDefined());
-        EXPECT_TRUE(state.getVelocity().isDefined());
+        EXPECT_EQ(alpha5Tle.getEpoch(), state.getInstant());
     }
 
     // Propagation correctness: the Alpha-5 model must produce the same states as the numeric ISS
@@ -363,11 +355,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, StreamOperato
     stream << sgp4_;
 
     EXPECT_FALSE(stream.str().empty());
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, IsDefined)
-{
-    EXPECT_TRUE(sgp4_.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetTle)

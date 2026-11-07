@@ -45,48 +45,23 @@ std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM)
     return anOutputStream;
 }
 
-bool OPM::isDefined() const
-{
-    return this->header_.generationDate.isDefined() && this->header_.launchDate.isDefined();
-}
-
 const OPM::Header& OPM::getHeader() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     return this->header_;
 }
 
 const Array<OPM::Deployment>& OPM::getDeployments() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     return this->deployments_;
 }
 
 const OPM::Deployment& OPM::getDeploymentAt(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     return this->deployments_.at(anIndex);
 }
 
 OPM::Deployment OPM::getDeploymentWithName(const String& aName) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     for (const auto& deployment : this->deployments_)
     {
         if (deployment.name == aName)
@@ -104,18 +79,10 @@ void OPM::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Orbit Parameter Message") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Generation date:"
-        << (this->header_.generationDate.isDefined() ? this->header_.generationDate.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Launch date:" << (this->header_.launchDate.isDefined() ? this->header_.launchDate.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Generation date:" << this->header_.generationDate.toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Launch date:" << this->header_.launchDate.toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-OPM OPM::Undefined()
-{
-    return {{Instant::Undefined(), Instant::Undefined()}, Array<Deployment>::Empty()};
 }
 
 OPM OPM::Dictionary(const container::Dictionary& aDictionary)

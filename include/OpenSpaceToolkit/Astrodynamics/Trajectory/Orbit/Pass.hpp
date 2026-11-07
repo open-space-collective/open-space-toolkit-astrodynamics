@@ -40,9 +40,8 @@ class Pass
     /// @brief The type of the pass.
     enum class Type
     {
-        Undefined,  ///< The type is undefined.
-        Complete,   ///< The pass is a complete revolution.
-        Partial     ///< The pass is a partial revolution.
+        Complete,  ///< The pass is a complete revolution: all of its instants are known.
+        Partial    ///< The pass is a partial revolution: at least one of its instants is unknown.
     };
 
     /// @enum Phase
@@ -61,18 +60,18 @@ class Pass
     /// @endcode
     ///
     /// @param aRevolutionNumber The revolution number of the pass (std::nullopt if unknown).
-    /// @param anInstantAtAscendingNode The instant at the ascending node of the pass.
-    /// @param anInstantAtNorthPoint The instant at the north point of the pass.
-    /// @param anInstantAtDescendingNode The instant at the descending node of the pass.
-    /// @param anInstantAtSouthPoint The instant at the south point of the pass.
-    /// @param anInstantAtPassBreak The instant at the pass break, i.e. next ascending node.
+    /// @param anInstantAtAscendingNode The instant at the ascending node of the pass (std::nullopt if unknown).
+    /// @param anInstantAtNorthPoint The instant at the north point of the pass (std::nullopt if unknown).
+    /// @param anInstantAtDescendingNode The instant at the descending node of the pass (std::nullopt if unknown).
+    /// @param anInstantAtSouthPoint The instant at the south point of the pass (std::nullopt if unknown).
+    /// @param anInstantAtPassBreak The instant at the pass break, i.e. next ascending node (std::nullopt if unknown).
     Pass(
         const std::optional<int>& aRevolutionNumber,
-        const Instant& anInstantAtAscendingNode,
-        const Instant& anInstantAtNorthPoint,
-        const Instant& anInstantAtDescendingNode,
-        const Instant& anInstantAtSouthPoint,
-        const Instant& anInstantAtPassBreak
+        const std::optional<Instant>& anInstantAtAscendingNode,
+        const std::optional<Instant>& anInstantAtNorthPoint,
+        const std::optional<Instant>& anInstantAtDescendingNode,
+        const std::optional<Instant>& anInstantAtSouthPoint,
+        const std::optional<Instant>& anInstantAtPassBreak
     );
 
     /// @brief Equality operator.
@@ -94,11 +93,6 @@ class Pass
     /// @return The output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Pass& aPass);
 
-    /// @brief Checks if the pass is defined.
-    ///
-    /// @return True if the pass is defined.
-    bool isDefined() const;
-
     /// @brief Checks if the pass is complete.
     ///
     /// @return True if the pass is complete.
@@ -116,59 +110,54 @@ class Pass
 
     /// @brief Gets the duration of the pass.
     ///
-    /// @return The duration of the pass.
-    Duration getDuration() const;
+    /// @return The duration of the pass, or std::nullopt if the pass is not complete.
+    std::optional<Duration> getDuration() const;
 
-    /// @brief Get the start instant of the pass. For partial passes, this is the minimum defined instant.
+    /// @brief Get the start instant of the pass. For partial passes, this is the minimum known instant.
     ///
-    /// @return The start instant of the pass.
-    Instant getStartInstant() const;
+    /// @return The start instant of the pass, or std::nullopt if none of the instants of the pass is known.
+    std::optional<Instant> getStartInstant() const;
 
-    /// @brief Get the end instant of the pass. For partial passes, this is the maximum defined instant.
+    /// @brief Get the end instant of the pass. For partial passes, this is the maximum known instant.
     ///
-    /// @return The end instant of the pass.
-    Instant getEndInstant() const;
+    /// @return The end instant of the pass, or std::nullopt if none of the instants of the pass is known.
+    std::optional<Instant> getEndInstant() const;
 
     /// @brief Gets the interval of the pass.
     ///
-    /// @return The interval of the pass.
-    Interval getInterval() const;
+    /// @return The interval of the pass, or std::nullopt if the pass is not complete.
+    std::optional<Interval> getInterval() const;
 
     /// @brief Get the instant at the ascending node of the pass.
     ///
-    /// @return The instant at the ascending node of the pass.
-    const Instant& getInstantAtAscendingNode() const;
+    /// @return The instant at the ascending node of the pass, or std::nullopt if unknown.
+    const std::optional<Instant>& getInstantAtAscendingNode() const;
 
     /// @brief Get the instant at the north point of the pass.
     ///
-    /// @return The instant at the north point of the pass.
-    const Instant& getInstantAtNorthPoint() const;
+    /// @return The instant at the north point of the pass, or std::nullopt if unknown.
+    const std::optional<Instant>& getInstantAtNorthPoint() const;
 
     /// @brief Get the instant at the descending node of the pass.
     ///
-    /// @return The instant at the descending node of the pass.
-    const Instant& getInstantAtDescendingNode() const;
+    /// @return The instant at the descending node of the pass, or std::nullopt if unknown.
+    const std::optional<Instant>& getInstantAtDescendingNode() const;
 
     /// @brief Get the instant at the south point of the pass.
     ///
-    /// @return The instant at the south point of the pass.
-    const Instant& getInstantAtSouthPoint() const;
+    /// @return The instant at the south point of the pass, or std::nullopt if unknown.
+    const std::optional<Instant>& getInstantAtSouthPoint() const;
 
     /// @brief Get the instant at the break of the pass.
     ///
-    /// @return The instant at the break of the pass.
-    const Instant& getInstantAtPassBreak() const;
+    /// @return The instant at the break of the pass, or std::nullopt if unknown.
+    const std::optional<Instant>& getInstantAtPassBreak() const;
 
     /// @brief Print
     ///
     /// @param anOutputStream The output stream.
     /// @param displayDecorator Whether or not to display the decorator
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Creates an undefined pass.
-    ///
-    /// @return An undefined pass.
-    static Pass Undefined();
 
     /// @brief Converts a pass type to a string.
     ///
@@ -186,11 +175,11 @@ class Pass
     Pass::Type type_;
 
     std::optional<int> revolutionNumber_;
-    Instant instantAtAscendingNode_;
-    Instant instantAtNorthPoint_;
-    Instant instantAtDescendingNode_;
-    Instant instantAtSouthPoint_;
-    Instant instantAtPassBreak_;
+    std::optional<Instant> instantAtAscendingNode_;
+    std::optional<Instant> instantAtNorthPoint_;
+    std::optional<Instant> instantAtDescendingNode_;
+    std::optional<Instant> instantAtSouthPoint_;
+    std::optional<Instant> instantAtPassBreak_;
 };
 
 }  // namespace orbit

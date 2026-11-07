@@ -116,9 +116,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, Constructor)
             0.0,
             0.0,
             std::make_shared<Analytical>(Frame::ITRF()),
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
+            nullptr,
+            nullptr,
+            nullptr,
         };
 
         const String expectedString = "{Gravitational Model} is undefined.";
@@ -158,15 +158,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, Constructor)
             },
             ostk::core::error::RuntimeError
         );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, IsDefined)
-{
-    {
-        const ThirdBodyGravity thirdBodyGravity(sphericalMoonSPtr_);
-
-        EXPECT_TRUE(thirdBodyGravity.isDefined());
     }
 }
 
@@ -304,8 +295,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, ComputeContribu
             0.0,
             ephemerisSPtr,
             std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::WGS84),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined)
+            nullptr,
+            nullptr
         );
 
         const ThirdBodyGravity thirdBodyGravity(oblateThirdBodySPtr);

@@ -448,13 +448,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Print)
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, IsDefined)
-{
-    {
-        EXPECT_TRUE(defaultManeuver_.isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
 {
     {
@@ -743,49 +736,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
-        EXPECT_TRUE(meanDirection.isDefined());
         EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
-        EXPECT_TRUE(maximumAngularOffset.isDefined());
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(
-                        LocalOrbitalFrameFactory::Undefined()
-                    );
-                }
-                catch (const ostk::core::error::runtime::Undefined& e)
-                {
-                    EXPECT_EQ("{Local Orbital Frame Factory} is undefined.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            {
-                try
-                {
-                    defaultManeuver_.calculateMeanThrustDirectionAndMaximumAngularOffset(
-                        LocalOrbitalFrameFactory::Undefined()
-                    );
-                }
-                catch (const ostk::core::error::runtime::Undefined& e)
-                {
-                    EXPECT_EQ("{Local Orbital Frame Factory} is undefined.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Undefined
-        );
+        EXPECT_GE(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
     }
 
     {
@@ -830,12 +784,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
-        EXPECT_TRUE(meanDirection.isDefined());
         EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.0, -1.0, 3.0).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
-        EXPECT_TRUE(maximumAngularOffset.isDefined());
+        EXPECT_GE(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
         EXPECT_DOUBLE_EQ(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
     }
 
@@ -866,12 +819,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
-        EXPECT_TRUE(meanDirection.isDefined());
         EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.5, 0.0, 0.5).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
-        EXPECT_TRUE(maximumAngularOffset.isDefined());
+        EXPECT_GE(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
         EXPECT_DOUBLE_EQ(
             maximumAngularOffset.inDegrees(0.0, 360.0),
             std::max(
@@ -908,12 +860,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
-        EXPECT_TRUE(meanDirection.isDefined());
         EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(3.5, -0.5, 2.0).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
-        EXPECT_TRUE(maximumAngularOffset.isDefined());
+        EXPECT_GE(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
         EXPECT_DOUBLE_EQ(
             maximumAngularOffset.inDegrees(0.0, 360.0),
             std::max(
@@ -941,12 +892,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, calculateMeanThrustDirect
             originalManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory);
 
         const LocalOrbitalFrameDirection meanDirection = meanDirectionAndMaximumAngularOffset.first;
-        EXPECT_TRUE(meanDirection.isDefined());
         EXPECT_EQ(meanDirection.getLocalOrbitalFrameFactory(), localOrbitalFrameFactory);
         EXPECT_TRUE(meanDirection.getValue().isApprox(Vector3d(2.0, -1.0, 3.0).normalized(), 1e-12));
 
         const Angle maximumAngularOffset = meanDirectionAndMaximumAngularOffset.second;
-        EXPECT_TRUE(maximumAngularOffset.isDefined());
+        EXPECT_GE(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
         EXPECT_DOUBLE_EQ(maximumAngularOffset.inDegrees(0.0, 360.0), 0.0);
     }
 }
@@ -961,7 +911,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
         const Maneuver newManeuver =
             defaultManeuver_.toConstantLocalOrbitalFrameDirectionManeuver(localOrbitalFrameFactory);
 
-        EXPECT_TRUE(newManeuver.isDefined());
         EXPECT_EQ(newManeuver.getStates().getSize(), defaultStates_.getSize());
         EXPECT_EQ(newManeuver.getInterval(), defaultManeuver_.getInterval());
         EXPECT_EQ(newManeuver.getInterpolationType(), defaultManeuver_.getInterpolationType());
@@ -996,7 +945,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
             Angle::Degrees(1.1 * meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0))
         );
 
-        EXPECT_TRUE(newManeuver.isDefined());
         EXPECT_EQ(newManeuver.getStates().getSize(), defaultStates_.getSize());
         EXPECT_EQ(newManeuver.getInterval(), defaultManeuver_.getInterval());
     }
@@ -1018,14 +966,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
                 throw;
             },
             ostk::core::error::RuntimeError
-        );
-    }
-
-    // Local Orbital Frame Factory is undefined
-    {
-        EXPECT_THROW(
-            defaultManeuver_.toConstantLocalOrbitalFrameDirectionManeuver(LocalOrbitalFrameFactory::Undefined()),
-            ostk::core::error::runtime::Undefined
         );
     }
 

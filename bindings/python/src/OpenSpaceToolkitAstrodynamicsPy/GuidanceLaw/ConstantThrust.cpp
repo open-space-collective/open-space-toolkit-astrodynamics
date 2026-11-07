@@ -98,20 +98,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_ConstantThrust(nanobind:
                     The local orbital frame maneuver's mean thrust direction is calculated and used to create a 
                     constant thrust guidance law in said direction.
                     
-                    If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration 
+                    If provided, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration 
                     direction and the mean thrust direction is violated.
 
                     Args:
                         maneuver (Maneuver): The maneuver.
                         local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
-                        maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Undefined.
+                        maximum_allowed_angular_offset (Angle | None): The maximum allowed angular offset to consider (if any). Defaults to None.
 
                     Returns:
                         ConstantThrust: The constant thrust guidance law.
                 )doc",
                 arg("maneuver"),
                 arg("local_orbital_frame_factory"),
-                arg("maximum_allowed_angular_offset").sig("Angle.Undefined()") = Angle::Undefined()
+                arg("maximum_allowed_angular_offset") = none()
             )
 
             ;

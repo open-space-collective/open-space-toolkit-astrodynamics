@@ -41,7 +41,6 @@ class TestPositionDerivative:
         assert dynamics is not None
         assert isinstance(dynamics, PositionDerivative)
         assert isinstance(dynamics, Dynamics)
-        assert dynamics.is_defined()
 
     def test_compute_contribution(self, dynamics: PositionDerivative, state: State):
         contribution = dynamics.compute_contribution(

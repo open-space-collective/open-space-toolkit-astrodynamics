@@ -64,11 +64,6 @@ class System
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const System& aSystem);
 
-    /// @brief Check if system is defined
-    ///
-    /// @return True if system is defined
-    virtual bool isDefined() const;
-
     /// @brief Print system
     ///
     /// @param anOutputStream An output stream
@@ -92,15 +87,6 @@ class System
     ///
     /// @return Composite
     const Composite& getGeometry() const;
-
-    /// @brief Construct an undefined system.
-    ///
-    /// @code{.cpp}
-    ///     System system = System::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined system.
-    static System Undefined();
 
    private:
     Mass mass_;

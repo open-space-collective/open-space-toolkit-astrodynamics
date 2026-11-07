@@ -43,11 +43,34 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::AttitudeQuaterni
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
 using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 
+namespace
+{
+
+const State& GetValidatedFirstState(const Array<State>& aStateArray)
+{
+    if (aStateArray.getSize() < 2)
+    {
+        throw ostk::core::error::RuntimeError("State array must have at least length 2.");
+    }
+
+    return aStateArray.getFirst();
+}
+
+StateBuilder GenerateReducedStateBuilder(const State& aFirstState)
+{
+    Array<Shared<const CoordinateSubset>> reducedCoordinateSubsets = aFirstState.getCoordinateSubsets();
+    reducedCoordinateSubsets.remove(AttitudeQuaternion::Default());
+
+    return StateBuilder(aFirstState.getFrame(), reducedCoordinateSubsets);
+}
+
+}  // namespace
+
 Tabulated::Tabulated(const Array<State>& aStateArray, const Interpolator::Type& anInterpolationType)
     : Model(),
       interpolationType_(anInterpolationType),
-      stateBuilder_(StateBuilder::Undefined()),
-      reducedStateBuilder_(StateBuilder::Undefined())
+      stateBuilder_(GetValidatedFirstState(aStateArray)),
+      reducedStateBuilder_(GenerateReducedStateBuilder(aStateArray.getFirst()))
 {
     setMembers(aStateArray);
 }
@@ -58,8 +81,8 @@ Tabulated::Tabulated(
 )
     : Model(),
       interpolationType_(Interpolator::Type::BarycentricRational),
-      stateBuilder_(StateBuilder::Undefined()),
-      reducedStateBuilder_(StateBuilder::Undefined())
+      stateBuilder_(GetValidatedFirstState(aStateArray)),
+      reducedStateBuilder_(GenerateReducedStateBuilder(aStateArray.getFirst()))
 {
     setMembers(aStateArray, anInterpolationTypeMap);
 }
@@ -71,11 +94,6 @@ Tabulated* Tabulated::clone() const
 
 bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
 {
-    if ((!this->isDefined()) || (!aTabulatedModel.isDefined()))
-    {
-        return false;
-    }
-
     return this->stateArray_ == aTabulatedModel.stateArray_ && this->stateBuilder_ == aTabulatedModel.stateBuilder_ &&
            this->interpolators_ == aTabulatedModel.interpolators_;
 }
@@ -92,43 +110,18 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
     return anOutputStream;
 }
 
-bool Tabulated::isDefined() const
-{
-    return !this->interpolators_.isEmpty() && !this->stateArray_.isEmpty() && this->stateBuilder_.isDefined();
-}
-
 Interval Tabulated::getInterval() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     return Interval::Closed(this->stateArray_.getFirst().getInstant(), this->stateArray_.getLast().getInstant());
 }
 
 Interpolator::Type Tabulated::getInterpolationType() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     return this->interpolationType_;
 }
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     const Interval interval = this->getInterval();
 
     if (anInstant < interval.getStart() || anInstant > interval.getEnd())
@@ -165,18 +158,18 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         }
     );
 
-    Quaternion qAtInstant = Quaternion::Undefined();
+    const Quaternion qAtInstant = [&]() -> Quaternion
+    {
+        if (it == this->stateArray_.begin())
+        {
+            return stateArray_.getFirst().getAttitude();
+        }
 
-    if (it == this->stateArray_.begin())
-    {
-        qAtInstant = stateArray_.getFirst().getAttitude();
-    }
-    else if (it == this->stateArray_.end())
-    {
-        qAtInstant = stateArray_.getLast().getAttitude();
-    }
-    else
-    {
+        if (it == this->stateArray_.end())
+        {
+            return stateArray_.getLast().getAttitude();
+        }
+
         const State& stateBefore = *(it - 1);
         const State& stateAfter = *it;
 
@@ -185,8 +178,9 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
         const double ratio = (anInstant - stateBefore.getInstant()).inSeconds() /
                              (stateAfter.getInstant() - stateBefore.getInstant()).inSeconds();
-        qAtInstant = Quaternion::SLERP(qBefore, qAfter, ratio);
-    }
+
+        return Quaternion::SLERP(qBefore, qAfter, ratio);
+    }();
 
     const State reducedState = reducedStateBuilder_.build(anInstant, reducedCoordinates);
 
@@ -202,16 +196,6 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
 Axes Tabulated::getAxesAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     const State state = this->calculateStateAt(anInstant);
     const Quaternion q_GCRF_B = state.getAttitude().toConjugate();
 
@@ -227,11 +211,6 @@ Shared<const Frame> Tabulated::constructBodyFrame(const String& aFrameName) cons
     if (aFrameName.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("Body frame name");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
     const DynamicProvider dynamicTransformProvider = {
@@ -261,39 +240,33 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Start instant:" << (this->isDefined() ? this->getInterval().getStart().toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "End instant:" << (this->isDefined() ? this->getInterval().getEnd().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << this->getInterval().getStart().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << this->getInterval().getEnd().toString();
 
     ostk::core::utils::Print::Separator(anOutputStream);
 
     {
-        const State firstState = this->isDefined() ? stateArray_.getFirst() : State::Undefined();
+        const State& firstState = stateArray_.getFirst();
 
-        ostk::core::utils::Print::Line(anOutputStream)
-            << "First state:"
-            << (firstState.isDefined() ? String::Format(
-                                             "{} - {} - {}",
-                                             firstState.getInstant().toString(),
-                                             firstState.getPosition().toString(),
-                                             firstState.getVelocity().toString()
-                                         )
-                                       : "Undefined");
+        ostk::core::utils::Print::Line(anOutputStream) << "First state:"
+                                                       << String::Format(
+                                                              "{} - {} - {}",
+                                                              firstState.getInstant().toString(),
+                                                              firstState.getPosition().toString(),
+                                                              firstState.getVelocity().toString()
+                                                          );
     }
 
     {
-        const State lastState = this->isDefined() ? stateArray_.getLast() : State::Undefined();
+        const State& lastState = stateArray_.getLast();
 
-        ostk::core::utils::Print::Line(anOutputStream)
-            << "Last state:"
-            << (lastState.isDefined() ? String::Format(
-                                            "{} - {} - {}",
-                                            lastState.getInstant().toString(),
-                                            lastState.getPosition().toString(),
-                                            lastState.getVelocity().toString()
-                                        )
-                                      : "Undefined");
+        ostk::core::utils::Print::Line(anOutputStream) << "Last state:"
+                                                       << String::Format(
+                                                              "{} - {} - {}",
+                                                              lastState.getInstant().toString(),
+                                                              lastState.getPosition().toString(),
+                                                              lastState.getVelocity().toString()
+                                                          );
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
@@ -400,17 +373,7 @@ void Tabulated::computeReducedInterpolationData(
     const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aReducedCoordinateMatrix
 )
 {
-    if (aStateArray.getSize() < 2)
-    {
-        throw ostk::core::error::RuntimeError("State array must have at least length 2.");
-    }
-
     const State& firstState = aStateArray.getFirst();
-    stateBuilder_ = StateBuilder(firstState);
-
-    Array<Shared<const CoordinateSubset>> reducedCoordinateSubsets = firstState.getCoordinateSubsets();
-    reducedCoordinateSubsets.remove(AttitudeQuaternion::Default());
-    reducedStateBuilder_ = StateBuilder(firstState.getFrame(), reducedCoordinateSubsets);
 
     // Ensure the states are sorted by instant
     stateArray_ = aStateArray;

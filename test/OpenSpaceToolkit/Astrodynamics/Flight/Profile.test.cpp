@@ -85,7 +85,7 @@ using ostk::astrodynamics::trajectory::State;
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 {
    protected:
-    void SetUp() override
+    static Orbit GenerateOrbit()
     {
         const Environment environment = Environment::Default();
 
@@ -108,19 +108,18 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        this->orbit_ = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
-
-        this->profile_ = Profile::ConstantLocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
+        return {keplerianModel, environment.getCelestialObjectWithName("Earth")};
     }
 
-    Orbit orbit_ = Orbit::Undefined();
-    Profile profile_ = Profile(Transform::Undefined());
+    // The profile references the orbit, so the orbit must outlive it
+    Orbit orbit_ = GenerateOrbit();
+    Profile profile_ = Profile::ConstantLocalOrbitalFramePointing(orbit_, Orbit::FrameType::VVLH);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Constructor)
 {
     {
-        EXPECT_NO_THROW(Profile {Transform::Undefined()};);
+        EXPECT_NO_THROW(Profile {profile_.getModel()};);
     }
 }
 
@@ -147,35 +146,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, StreamOperator)
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
-
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(std::cout << Profile(Transform::Undefined()) << std::endl);
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
-{
-    {
-        EXPECT_TRUE(profile_.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(Profile(Transform::Undefined()).isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetModel)
 {
     {
-        EXPECT_TRUE(profile_.getModel().isDefined());
-    }
-
-    {
-        EXPECT_THROW(Profile(Transform::Undefined()).getModel(), ostk::core::error::runtime::Undefined);
+        EXPECT_NO_THROW(profile_.getModel());
+        EXPECT_TRUE(profile_.getModel().is<Transform>());
     }
 }
 
@@ -192,12 +169,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
         ));
         EXPECT_TRUE(state.getAngularVelocity().isNear(Vector3d {0.0, -0.00107800762584, 0.0}, 1e-5));
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
-    }
-
-    {
-        EXPECT_ANY_THROW(Profile(Transform::Undefined()).getStateAt(Instant::Undefined()));
-        EXPECT_ANY_THROW(Profile(Transform::Undefined()).getStateAt(Instant::J2000()));
-        EXPECT_ANY_THROW(profile_.getStateAt(Instant::Undefined()));
     }
 }
 
@@ -250,15 +221,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
             EXPECT_EQ(state.getFrame(), referenceState.getFrame());
         }
     }
-
-    {
-        const Profile undefinedProfile = {Transform::Undefined()};
-
-        EXPECT_ANY_THROW(undefinedProfile.getStatesAt(
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-        ));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstructBodyFrame)
@@ -269,9 +231,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, ConstructBodyFrame)
         // basic construction
         EXPECT_NO_THROW(profile_.constructBodyFrame(frameName));
         EXPECT_TRUE(Manager::Get().hasFrameWithName(frameName));
-
-        // undefined constructor throws
-        EXPECT_THROW(Profile(Transform::Undefined()).constructBodyFrame(frameName), ostk::core::error::RuntimeError);
 
         // calling again without overwrite (default false) throws
         EXPECT_THROW(profile_.constructBodyFrame(frameName), ostk::core::error::RuntimeError);
@@ -855,24 +814,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, PointingTarget)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, TrajectoryPointingTarget)
 {
-    // Test undefined trajectory throws
-    {
-        EXPECT_THROW(
-            Profile::TrajectoryPointingTarget::TargetPosition(Trajectory(Array<State>::Empty()), Vector3d::X()),
-            ostk::core::error::runtime::Undefined
-        );
-        EXPECT_THROW(
-            Profile::TrajectoryPointingTarget::TargetVelocity(Trajectory(Array<State>::Empty()), Vector3d::X()),
-            ostk::core::error::runtime::Undefined
-        );
-        EXPECT_THROW(
-            Profile::TrajectoryPointingTarget::TargetSlidingGroundVelocity(
-                Trajectory(Array<State>::Empty()), Vector3d::X()
-            ),
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Test valid trajectory
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));

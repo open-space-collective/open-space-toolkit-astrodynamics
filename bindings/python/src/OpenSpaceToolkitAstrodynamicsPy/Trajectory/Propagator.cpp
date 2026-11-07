@@ -67,18 +67,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(nanobind::modu
         .def("__repr__", &(shiftToString<Propagator>))
 
         .def(
-            "is_defined",
-            &Propagator::isDefined,
-            R"doc(
-                Check if the propagator is defined.
-
-                Returns:
-                    bool: True if the propagator is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_numerical_solver",
             &Propagator::getNumericalSolver,
             R"doc(

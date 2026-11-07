@@ -49,17 +49,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Eclipse_Generator(nanobind::module_&
         )
 
         .def(
-            "is_defined",
-            &Generator::isDefined,
-            R"doc(
-                Check if eclipse generator is defined.
-
-                Returns:
-                    bool: True if eclipse generator is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_environment",
             &Generator::getEnvironment,
             R"doc(

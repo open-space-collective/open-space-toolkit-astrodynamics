@@ -65,18 +65,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(nanobind::module_& aMo
             .def("__repr__", &(shiftToString<System>))
 
             .def(
-                "is_defined",
-                &System::isDefined,
-                R"doc(
-                    Check if the system is defined.
-
-                    Returns:
-                        bool: True if the system is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_mass",
                 &System::getMass,
                 R"doc(
@@ -97,17 +85,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(nanobind::module_& aMo
                     Returns:
                         Composite: The geometry of the system.
 
-                )doc"
-            )
-
-            .def_static(
-                "undefined",
-                &System::Undefined,
-                R"doc(
-                    Create an undefined system.
-
-                    Returns:
-                        System: The undefined system.
                 )doc"
             )
 

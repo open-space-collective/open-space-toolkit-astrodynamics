@@ -102,191 +102,93 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CDM& anCDM)
     return anOutputStream;
 }
 
-bool CDM::isDefined() const
-{
-    return (
-        !this->header_.ccsdsCdmVersion.isEmpty() && !this->header_.messageId.isEmpty() &&
-        this->header_.creationDate.isDefined() && !this->header_.originator.isEmpty()
-    );
-}
-
 const CDM::Header& CDM::getHeader() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->header_;
 }
 
 const CDM::RelativeMetadata& CDM::getRelativeMetadata() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_;
 }
 
 const Array<CDM::Metadata>& CDM::getMetadataArray() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->objectsMetadata_;
 }
 
 const Array<CDM::Data>& CDM::getDataArray() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->objectsData_;
 }
 
 const CDM::Metadata& CDM::getObjectMetadataAt(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->objectsMetadata_.at(anIndex);
 }
 
 const CDM::Data& CDM::getObjectDataAt(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->objectsData_.at(anIndex);
 }
 
 const String& CDM::getCCSDSCDMVersion() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->header_.ccsdsCdmVersion;
 }
 
 const Instant& CDM::getCreationDate() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->header_.creationDate;
 }
 
 const String& CDM::getOriginator() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->header_.originator;
 }
 
 const String& CDM::getMessageFor() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->header_.messageFor;
 }
 
 const String& CDM::getMessageId() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->header_.messageId;
 }
 
 const Instant& CDM::getTCA() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_.TCA;
 }
 
 const Length& CDM::getMissDistance() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_.missDistance;
 }
 
-const Position& CDM::getRelativePosition() const
+const std::optional<Position>& CDM::getRelativePosition() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_.relativePosition;
 }
 
-const Velocity& CDM::getRelativeVelocity() const
+const std::optional<Velocity>& CDM::getRelativeVelocity() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_.relativeVelocity;
 }
 
 std::optional<double> CDM::getCollisionProbability() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_.collisionProbability;
 }
 
 const String& CDM::getCollisionProbabilityMethod() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     return this->relativeMetadata_.collisionProbabilityMethod;
 }
 
 int CDM::getObjectDesignator(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.objectDesignator;
@@ -294,11 +196,6 @@ int CDM::getObjectDesignator(const Index& anIndex) const
 
 const String& CDM::getObjectName(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.objectName;
@@ -306,11 +203,6 @@ const String& CDM::getObjectName(const Index& anIndex) const
 
 const String& CDM::getObjectInternationalDesignator(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.internationalDesignator;
@@ -318,11 +210,6 @@ const String& CDM::getObjectInternationalDesignator(const Index& anIndex) const
 
 CDM::ObjectType CDM::getObjectType(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.objectType;
@@ -330,11 +217,6 @@ CDM::ObjectType CDM::getObjectType(const Index& anIndex) const
 
 const String& CDM::getObjectEphemerisName(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.ephemerisName;
@@ -342,11 +224,6 @@ const String& CDM::getObjectEphemerisName(const Index& anIndex) const
 
 const String& CDM::getObjectCovarianceMethod(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.covarianceMethod;
@@ -354,11 +231,6 @@ const String& CDM::getObjectCovarianceMethod(const Index& anIndex) const
 
 const String& CDM::getObjectManeuverability(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.maneuverable;
@@ -366,11 +238,6 @@ const String& CDM::getObjectManeuverability(const Index& anIndex) const
 
 const String& CDM::getObjectReferenceFrame(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CDM");
-    }
-
     const CDM::Metadata& objectMetadata = this->getObjectMetadataAt(anIndex);
 
     return objectMetadata.refFrame;
@@ -390,31 +257,6 @@ void CDM::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-CDM CDM::Undefined()
-{
-    return {
-        {String::Empty(), String::Empty(), Instant::Undefined(), String::Empty(), String::Empty(), String::Empty()},
-        {String::Empty(),
-         Instant::Undefined(),
-         Length::Undefined(),
-         Position::Undefined(),
-         Velocity::Undefined(),
-         Instant::Undefined(),
-         Instant::Undefined(),
-         String::Empty(),
-         String::Empty(),
-         std::nullopt,
-         std::nullopt,
-         std::nullopt,
-         Instant::Undefined(),
-         Instant::Undefined(),
-         std::nullopt,
-         String::Empty()},
-        Array<CDM::Metadata>::Empty(),
-        Array<CDM::Data>::Empty()
-    };
-}
-
 CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 {
     using ostk::physics::time::DateTime;
@@ -423,7 +265,7 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
     // WARNING:
     // TBI: Currently adapted to handle SpaceTrack CDM (following CCSDS format loosely)
     // TBI: Only use the mandatory fields from the CCSDS reference document
-    // TBI: Set the other fields to Undefined() or String::Empty() (except `MESSAGE_FOR`) for now
+    // TBI: Set the other fields to std::nullopt or String::Empty() (except `MESSAGE_FOR`) for now
 
     // Utility Function (to be moved later)
     const auto referenceFrameStringToFrame = [](const String& referenceFrameString) -> Shared<const Frame>
@@ -466,25 +308,25 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 
     const std::optional<double> collisionProbability =
         (aDictionary.hasValueForKey("COLLISION_PROBABILITY") &&
-         !aDictionary["COLLISION_PROBABILITY"].accessString().isEmpty())
-            ? std::optional<double>(ParseDouble(aDictionary["COLLISION_PROBABILITY"].accessString()))
+         !aDictionary["COLLISION_PROBABILITY"].getString().isEmpty())
+            ? std::optional<double>(ParseDouble(aDictionary["COLLISION_PROBABILITY"].getString()))
             : std::nullopt;
 
     CDM::RelativeMetadata relativeMetadata = CDM::RelativeMetadata {
         String::Empty(),
         Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
         Length::Meters(ParseDouble(aDictionary["MISS_DISTANCE"].getString())),
-        Position::Undefined(),
-        Velocity::Undefined(),
-        Instant::Undefined(),
-        Instant::Undefined(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         String::Empty(),
         String::Empty(),
         std::nullopt,
         std::nullopt,
         std::nullopt,
-        Instant::Undefined(),
-        Instant::Undefined(),
+        std::nullopt,
+        std::nullopt,
         collisionProbability,
         aDictionary["COLLISION_PROBABILITY_METHOD"].getString()
     };
@@ -588,10 +430,6 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
     Shared<const Frame> sat1RefFramePtr = referenceFrameStringToFrame(sat1RefFrameString);
 
     CDM::Data sat1ObjectData = CDM::Data {
-        Instant::Undefined(),
-        Instant::Undefined(),
-        Duration::Undefined(),
-        Duration::Undefined(),
         std::nullopt,
         std::nullopt,
         std::nullopt,
@@ -601,7 +439,11 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         std::nullopt,
         std::nullopt,
         std::nullopt,
-        Mass::Undefined(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         std::nullopt,
         std::nullopt,
         std::nullopt,
@@ -663,10 +505,6 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
     Shared<const Frame> sat2RefFramePtr = referenceFrameStringToFrame(sat2RefFrameString);
 
     CDM::Data sat2ObjectData = CDM::Data {
-        Instant::Undefined(),
-        Instant::Undefined(),
-        Duration::Undefined(),
-        Duration::Undefined(),
         std::nullopt,
         std::nullopt,
         std::nullopt,
@@ -676,7 +514,11 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         std::nullopt,
         std::nullopt,
         std::nullopt,
-        Mass::Undefined(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         std::nullopt,
         std::nullopt,
         std::nullopt,

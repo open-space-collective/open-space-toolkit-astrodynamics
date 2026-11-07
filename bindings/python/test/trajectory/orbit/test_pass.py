@@ -26,9 +26,6 @@ def pass_() -> Pass:
 
 
 class TestPass:
-    def test_is_defined(self, pass_: Pass):
-        assert pass_.is_defined()
-
     def test_is_complete(self, pass_: Pass):
         assert pass_.is_complete() is not None
 
@@ -50,16 +47,39 @@ class TestPass:
 
         pass_without_revolution_number = Pass(None, *instants)
 
-        assert pass_without_revolution_number.is_defined()
         assert pass_without_revolution_number.get_type() == Pass.Type.Complete
         assert pass_without_revolution_number.get_revolution_number() is None
 
-        assert Pass(None, *([Instant.undefined()] * 5)).is_defined() is False
-
-        partial_pass = Pass(123, *([Instant.undefined()] * 5))
+        partial_pass = Pass(123, *([None] * 5))
 
         assert partial_pass.get_type() == Pass.Type.Partial
         assert partial_pass.get_revolution_number() == 123
+
+    def test_constructor_partial_pass(self, pass_: Pass):
+        partial_pass = Pass(
+            123,
+            None,
+            pass_.get_instant_at_north_point(),
+            pass_.get_instant_at_descending_node(),
+            None,
+            None,
+        )
+
+        assert partial_pass.is_complete() is False
+        assert partial_pass.get_type() == Pass.Type.Partial
+        assert partial_pass.get_instant_at_ascending_node() is None
+        assert partial_pass.get_instant_at_south_point() is None
+        assert partial_pass.get_instant_at_pass_break() is None
+        assert partial_pass.get_start_instant() == pass_.get_instant_at_north_point()
+        assert partial_pass.get_end_instant() == pass_.get_instant_at_descending_node()
+        assert partial_pass.get_duration() is None
+        assert partial_pass.get_interval() is None
+
+    def test_constructor_without_instants(self):
+        pass_without_instants = Pass(123, None, None, None, None, None)
+
+        assert pass_without_instants.get_start_instant() is None
+        assert pass_without_instants.get_end_instant() is None
 
     def test_get_duration(self, pass_: Pass):
         assert pass_.get_duration() is not None
@@ -88,14 +108,14 @@ class TestPass:
     def test_get_instant_at_pass_break(self, pass_: Pass):
         assert pass_.get_instant_at_pass_break() is not None
 
-    def test_undefined(self):
-        assert Pass.undefined().is_defined() is False
-
     def test_string_from_type(self):
         assert Pass.string_from_type(Pass.Type.Complete) is not None
 
     def test_string_from_phase(self):
         assert Pass.string_from_phase(Pass.Phase.Ascending) is not None
+
+    def test_type_has_no_undefined(self):
+        assert not hasattr(Pass.Type, "Undefined")
 
     def test_phase_has_no_undefined(self):
         assert not hasattr(Pass.Phase, "Undefined")

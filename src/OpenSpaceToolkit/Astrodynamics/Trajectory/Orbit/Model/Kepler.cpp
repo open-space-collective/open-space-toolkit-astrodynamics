@@ -83,11 +83,6 @@ Kepler* Kepler::clone() const
 
 bool Kepler::operator==(const Kepler& aKeplerianModel) const
 {
-    if ((!this->isDefined()) || (!aKeplerianModel.isDefined()))
-    {
-        return false;
-    }
-
     return (coe_ == aKeplerianModel.coe_) && (epoch_ == aKeplerianModel.epoch_) &&
            (gravitationalParameter_ == aKeplerianModel.gravitationalParameter_) &&
            (perturbationType_ == aKeplerianModel.perturbationType_) && ((*frameSPtr_) == (*aKeplerianModel.frameSPtr_));
@@ -105,114 +100,53 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Kepler& aKeplerianM
     return anOutputStream;
 }
 
-bool Kepler::isDefined() const
-{
-    return coe_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined() && (frameSPtr_ != nullptr) &&
-           frameSPtr_->isDefined();
-}
-
 const COE& Kepler::getClassicalOrbitalElements() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return coe_;
 }
 
 Instant Kepler::getEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return epoch_;
 }
 
 int Kepler::getRevolutionNumberAtEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return 1;
 }
 
 const Derived& Kepler::getGravitationalParameter() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return gravitationalParameter_;
 }
 
 const Length& Kepler::getEquatorialRadius() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return equatorialRadius_;
 }
 
 double Kepler::getJ2() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return j2_;
 }
 
 double Kepler::getJ4() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return j4_;
 }
 
 Shared<const Frame> Kepler::getFrame() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return frameSPtr_;
 }
 
 Kepler::PerturbationType Kepler::getPerturbationType() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     return perturbationType_;
 }
 
 State Kepler::calculateStateAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     switch (perturbationType_)
     {
         case Kepler::PerturbationType::None:
@@ -231,22 +165,10 @@ State Kepler::calculateStateAt(const Instant& anInstant) const
         default:
             throw ostk::core::error::runtime::Wrong("Perturbation type", StringFromPerturbationType(perturbationType_));
     }
-
-    return State::Undefined();
 }
 
 int Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Kepler");
-    }
-
     if (anInstant == epoch_)
     {
         return this->getRevolutionNumberAtEpoch();
@@ -279,11 +201,8 @@ void Kepler::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Kepler") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Epoch:" << (epoch_.isDefined() ? epoch_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Gravitational parameter:"
-        << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << epoch_.toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << gravitationalParameter_.toString();
     ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Kepler::StringFromPerturbationType(perturbationType_);
     ostk::core::utils::Print::Line(anOutputStream)
         << "Frame:" << ((frameSPtr_ != nullptr) ? frameSPtr_->getName() : "Undefined");
@@ -574,8 +493,6 @@ int Kepler::CalculateJ2RevolutionNumberAt(
     // " << aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds().toString() << " [s]" <<
     // std::endl;
 
-    Duration orbitalPeriod = Duration::Undefined();
-
     // {
 
     //     // https://en.wikipedia.org/wiki/Nodal_period
@@ -680,25 +597,23 @@ int Kepler::CalculateJ2RevolutionNumberAt(
 
     // }
 
-    {
-        // https://arxiv.org/pdf/1609.00915.pdf (7.37)
+    // https://arxiv.org/pdf/1609.00915.pdf (7.37)
 
-        const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
+    const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
 
-        const double n_0 = 2.0 * M_PI / T_0;
-        const double n = n_0 - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 3.0 / 2.0) *
-                                   (1.0 - 3.0 * std::cos(i_rad) * std::cos(i_rad));
-        const double w_dot = -(3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 2) *
-                             (1.0 - 5.0 * std::cos(i_rad) * std::cos(i_rad));
+    const double n_0 = 2.0 * M_PI / T_0;
+    const double n = n_0 - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 3.0 / 2.0) *
+                               (1.0 - 3.0 * std::cos(i_rad) * std::cos(i_rad));
+    const double w_dot = -(3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 2) *
+                         (1.0 - 5.0 * std::cos(i_rad) * std::cos(i_rad));
 
-        const double T = 2.0 * M_PI / (n + w_dot);
+    const double T = 2.0 * M_PI / (n + w_dot);
 
-        orbitalPeriod = Duration::Seconds(T);
+    const Duration orbitalPeriod = Duration::Seconds(T);
 
-        // std::cout << "B - T = " << orbitalPeriod.toString() << " == " << orbitalPeriod.inSeconds().toString() << "
-        // [s]" << std::endl; std::cout << "B - DT = " << (orbitalPeriod -
-        // aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString() << std::endl;
-    }
+    // std::cout << "B - T = " << orbitalPeriod.toString() << " == " << orbitalPeriod.inSeconds().toString() << "
+    // [s]" << std::endl; std::cout << "B - DT = " << (orbitalPeriod -
+    // aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString() << std::endl;
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 
@@ -846,41 +761,36 @@ int Kepler::CalculateJ4RevolutionNumberAt(
 
     const double p = a_m * (1.0 - e * e);
 
-    Duration orbitalPeriod = Duration::Undefined();
+    const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
 
-    {
-        const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
+    const double n_0 = 2.0 * M_PI / T_0;
 
-        const double n_0 = 2.0 * M_PI / T_0;
+    const double expr = (3.0 / 2.0) * aJ2 * std::pow((R_m / p), 2);
 
-        const double expr = (3.0 / 2.0) * aJ2 * std::pow((R_m / p), 2);
+    const double n_bar =
+        n_0 * (1.0 + expr * std::sqrt(1.0 - e * e) * ((1.0 - (3.0 / 2.0) * std::pow(std::sin(i_rad), 2))) +
+               3.0 / 128.0 * aJ2 * aJ2 * std::pow(R_m / p, 4) * std::sqrt(1.0 - e * e) *
+                   (16.0 * std::sqrt(1.0 - e * e) + 25.0 * (1.0 - e * e) - 15.0 +
+                    (30.0 - 96.0 * std::sqrt(1.0 - e * e) - 90.0 * (1.0 - e * e)) * std::pow(std::cos(i_rad), 2) +
+                    (105.0 + 144.0 * std::sqrt(1.0 - e * e) + 25.0 * (1.0 - e * e)) * std::pow(std::cos(i_rad), 4)) -
+               45.0 / 128.0 * aJ4 * e * e * std::pow(R_m / p, 4) * std::sqrt(1.0 - e * e) *
+                   (3.0 - 30.0 * std::pow(std::cos(i_rad), 2) + 35.0 * std::pow(std::cos(i_rad), 4)));
 
-        const double n_bar =
-            n_0 *
-            (1.0 + expr * std::sqrt(1.0 - e * e) * ((1.0 - (3.0 / 2.0) * std::pow(std::sin(i_rad), 2))) +
-             3.0 / 128.0 * aJ2 * aJ2 * std::pow(R_m / p, 4) * std::sqrt(1.0 - e * e) *
-                 (16.0 * std::sqrt(1.0 - e * e) + 25.0 * (1.0 - e * e) - 15.0 +
-                  (30.0 - 96.0 * std::sqrt(1.0 - e * e) - 90.0 * (1.0 - e * e)) * std::pow(std::cos(i_rad), 2) +
-                  (105.0 + 144.0 * std::sqrt(1.0 - e * e) + 25.0 * (1.0 - e * e)) * std::pow(std::cos(i_rad), 4)) -
-             45.0 / 128.0 * aJ4 * e * e * std::pow(R_m / p, 4) * std::sqrt(1.0 - e * e) *
-                 (3.0 - 30.0 * std::pow(std::cos(i_rad), 2) + 35.0 * std::pow(std::cos(i_rad), 4)));
+    const double w_dot =
+        n_bar * expr * (2.0 - (5.0 / 2.0) * std::pow(std::sin(i_rad), 2)) *
+            (1.0 + expr * (2.0 + e * e / 2.0 - 2.0 * std::sqrt(1.0 - e * e) -
+                           (43.0 / 24.0 - e * e / 48.0 - 3.0 * std::sqrt(1.0 - e * e)) * std::pow(std::sin(i_rad), 2))
+            ) -
+        45.0 / 36.0 * aJ2 * aJ2 * n_0 * std::pow(R_m / p, 4) * e * e * std::pow(std::cos(i_rad), 4) -
+        35.0 / 8.0 * n_0 * aJ4 * std::pow(R_m / p, 4) *
+            (12.0 / 7.0 - 93.0 / 14.0 * std::pow(std::sin(i_rad), 2) + 21.0 / 4.0 * std::pow(std::sin(i_rad), 4) +
+             e * e *
+                 (27.0 / 14.0 - 189.0 / 28.0 * std::pow(std::sin(i_rad), 2) + 81.0 / 16.0 * std::pow(std::sin(i_rad), 4)
+                 ));
 
-        const double w_dot =
-            n_bar * expr * (2.0 - (5.0 / 2.0) * std::pow(std::sin(i_rad), 2)) *
-                (1.0 +
-                 expr * (2.0 + e * e / 2.0 - 2.0 * std::sqrt(1.0 - e * e) -
-                         (43.0 / 24.0 - e * e / 48.0 - 3.0 * std::sqrt(1.0 - e * e)) * std::pow(std::sin(i_rad), 2))) -
-            45.0 / 36.0 * aJ2 * aJ2 * n_0 * std::pow(R_m / p, 4) * e * e * std::pow(std::cos(i_rad), 4) -
-            35.0 / 8.0 * n_0 * aJ4 * std::pow(R_m / p, 4) *
-                (12.0 / 7.0 - 93.0 / 14.0 * std::pow(std::sin(i_rad), 2) + 21.0 / 4.0 * std::pow(std::sin(i_rad), 4) +
-                 e * e *
-                     (27.0 / 14.0 - 189.0 / 28.0 * std::pow(std::sin(i_rad), 2) +
-                      81.0 / 16.0 * std::pow(std::sin(i_rad), 4)));
+    const double T = 2.0 * M_PI / (n_bar + w_dot);
 
-        const double T = 2.0 * M_PI / (n_bar + w_dot);
-
-        orbitalPeriod = Duration::Seconds(T);
-    }
+    const Duration orbitalPeriod = Duration::Seconds(T);
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant);
 

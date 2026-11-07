@@ -109,6 +109,7 @@ class SatelliteSystemBuilder
     /// that were not set are absent from the built satellite system.
     ///
     /// @return A new satellite system
+    /// @throw ostk::core::error::runtime::Undefined If the dry mass, geometry or inertia tensor was not set
     const SatelliteSystem build() const;
 
     /// @brief Print satellite system builder
@@ -127,9 +128,9 @@ class SatelliteSystemBuilder
     static SatelliteSystemBuilder Default();
 
    private:
-    Mass dryMass_;
-    Composite geometry_;
-    Matrix3d inertiaTensor_;
+    std::optional<Mass> dryMass_;
+    std::optional<Composite> geometry_;
+    std::optional<Matrix3d> inertiaTensor_;
     std::optional<double> crossSectionalSurfaceArea_;
     std::optional<double> dragCoefficient_;
     std::optional<PropulsionSystem> propulsionSystem_;

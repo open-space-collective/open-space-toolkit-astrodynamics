@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
@@ -45,6 +47,8 @@ using ostk::mathematics::geometry::d3::object::Cuboid;
 using ostk::mathematics::geometry::d3::object::Point;
 
 using ostk::physics::coordinate::Frame;
+using ostk::physics::coordinate::Position;
+using ostk::physics::coordinate::Velocity;
 using ostk::physics::environment::object::celestial::Earth;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -182,7 +186,12 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
         gradientStrategy_,
     };
 
-    State initialState_ = State::Undefined();
+    // Placeholder, overwritten in SetUp
+    State initialState_ = {
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({0.0, 7.5e3, 0.0}, Frame::GCRF())
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constructor)
@@ -886,7 +895,12 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectiv
 
     const double thrustAcceleration_ = 1.0 / 300.0;
 
-    State initialState_ = State::Undefined();
+    // Placeholder, overwritten in SetUp
+    State initialState_ = {
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({0.0, 7.5e3, 0.0}, Frame::GCRF())
+    };
 };
 
 static std::string GenerateTestName(

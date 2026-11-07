@@ -85,18 +85,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(na
             .def("__repr__", &(shiftToString<Propagated>))
 
             .def(
-                "is_defined",
-                &Propagated::isDefined,
-                R"doc(
-                    Check if the `Propagated` model is defined.
-
-                    Returns:
-                        bool: True if the `Propagated` model is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_epoch",
                 &Propagated::getEpoch,
                 R"doc(

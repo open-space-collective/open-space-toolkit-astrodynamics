@@ -42,7 +42,7 @@ class Thruster : public Dynamics
     /// @param aSatelliteSystem A satellite system
     /// @param aGuidanceLaw A guidance law
     /// @param aName A name
-    /// @throw ostk::core::error::runtime::Undefined If a defined satellite system has no propulsion system
+    /// @throw ostk::core::error::runtime::Undefined If the satellite system has no propulsion system
     Thruster(
         const SatelliteSystem& aSatelliteSystem,
         const Shared<const GuidanceLaw>& aGuidanceLaw,
@@ -82,11 +82,6 @@ class Thruster : public Dynamics
     /// @return The coordinate subsets that the instance writes to
     virtual Array<Shared<const CoordinateSubset>> getWriteCoordinateSubsets() const override;
 
-    /// @brief Check if constant thrust thruster dynamics is defined
-    ///
-    /// @return True if constant thrust thruster dynamics is defined
-    virtual bool isDefined() const override;
-
     /// @brief Compute the contribution to the state derivative.
     ///
     /// @param anInstant        An instant
@@ -109,7 +104,7 @@ class Thruster : public Dynamics
    private:
     const SatelliteSystem satelliteSystem_;
     const Shared<const GuidanceLaw> guidanceLaw_;
-    const std::optional<double> massFlowRateCache_;  ///< Mass flow rate [kg/s], absent if the satellite is undefined
+    const double massFlowRateCache_;  ///< Mass flow rate [kg/s]
 };
 
 }  // namespace dynamics

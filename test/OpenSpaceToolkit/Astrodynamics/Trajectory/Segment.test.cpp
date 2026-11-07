@@ -89,7 +89,6 @@ using ostk::physics::coordinate::Position;
 using ostk::physics::coordinate::Velocity;
 using ostk::physics::Environment;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
-using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using ostk::physics::environment::object::Celestial;
 using ostk::physics::environment::object::celestial::Earth;
@@ -375,20 +374,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment_ManeuverConstraints, Cons
                     }
                 },
                 ostk::core::error::RuntimeError
-            );
-        }
-
-        // Test that the local orbital frame factory must be defined if provided
-        {
-            EXPECT_THROW(
-                Segment::ManeuverConstraints(
-                    std::nullopt,
-                    std::nullopt,
-                    std::nullopt,
-                    std::nullopt,
-                    {{LocalOrbitalFrameFactory::Undefined(), std::nullopt}}
-                ),
-                ostk::core::error::runtime::Undefined
             );
         }
     }
@@ -704,34 +689,6 @@ TEST(
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
 {
-    void SetUp() override
-    {
-        VectorXd initialCoordinates(7);
-        initialCoordinates << +7000000.000000, +0000000.000000, -0000000.000000, +00000.00000000, -05719.55029824,
-            -04922.36372519, 200.0000000;
-
-        VectorXd intermediateCoordinates(7);
-        intermediateCoordinates << +6996339.698520, -0171556.896937, -0147645.427045, -00243.99897054, -05716.57931343,
-            -04919.80683398, 199.999796057;
-
-        VectorXd finalCoordinates(7);
-        finalCoordinates << +6985362.605194, -0342934.972574, -0295136.956767, -00487.74360713, -05707.62991393,
-            -04912.10479499, 199.999592114;
-
-        initialStateWithMass_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_};
-
-        intermediateStateWithMass_ = {
-            Instant::J2000() + Duration::Seconds(30.0),
-            intermediateCoordinates,
-            Frame::GCRF(),
-            thrustCoordinateBrokerSPtr_
-        };
-
-        finalStateWithMass_ = {
-            Instant::J2000() + Duration::Seconds(60.0), finalCoordinates, Frame::GCRF(), thrustCoordinateBrokerSPtr_
-        };
-    }
-
    protected:
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
     const State defaultState_ = {
@@ -834,9 +791,47 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
     const Shared<Thruster> defaultQLawThrusterDynamicsSPtr_ =
         std::make_shared<Thruster>(defaultSatelliteSystem_, std::make_shared<QLaw>(defaultQLaw_));
 
-    State initialStateWithMass_ = State::Undefined();
-    State intermediateStateWithMass_ = State::Undefined();
-    State finalStateWithMass_ = State::Undefined();
+    State initialStateWithMass_ = {
+        Instant::J2000(),
+        (VectorXd(7) << +7000000.000000,
+         +0000000.000000,
+         -0000000.000000,
+         +00000.00000000,
+         -05719.55029824,
+         -04922.36372519,
+         200.0000000)
+            .finished(),
+        Frame::GCRF(),
+        thrustCoordinateBrokerSPtr_,
+    };
+
+    State intermediateStateWithMass_ = {
+        Instant::J2000() + Duration::Seconds(30.0),
+        (VectorXd(7) << +6996339.698520,
+         -0171556.896937,
+         -0147645.427045,
+         -00243.99897054,
+         -05716.57931343,
+         -04919.80683398,
+         199.999796057)
+            .finished(),
+        Frame::GCRF(),
+        thrustCoordinateBrokerSPtr_,
+    };
+
+    State finalStateWithMass_ = {
+        Instant::J2000() + Duration::Seconds(60.0),
+        (VectorXd(7) << +6985362.605194,
+         -0342934.972574,
+         -0295136.956767,
+         -00487.74360713,
+         -05707.62991393,
+         -04912.10479499,
+         199.999592114)
+            .finished(),
+        Frame::GCRF(),
+        thrustCoordinateBrokerSPtr_,
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Constructor)
@@ -1033,21 +1028,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_Extrac
                 try
                 {
                     segmentSolution.extractManeuvers(nullptr);
-                }
-                catch (const ostk::core::error::runtime::Undefined& e)
-                {
-                    EXPECT_EQ("{Frame} is undefined.", e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            {
-                try
-                {
-                    segmentSolution.extractManeuvers(Frame::Undefined());
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
@@ -1464,7 +1444,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SegmentSolution_GetDyn
         // Construct a dynamics not part of the segment
         const Earth earth = Earth::FromModels(
             std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            nullptr,
             std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
@@ -1617,21 +1597,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Coast)
 
     {
         EXPECT_THROW(
-            Segment::Coast(defaultName_, nullptr, defaultDynamics_, NumericalSolver::Undefined()),
+            Segment::Coast(defaultName_, nullptr, defaultDynamics_, defaultNumericalSolver_),
             ostk::core::error::runtime::Undefined
         );
     }
 
     {
         EXPECT_THROW(
-            Segment::Coast(defaultName_, defaultInstantCondition_, {}, NumericalSolver::Undefined()),
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, NumericalSolver::Undefined()),
+            Segment::Coast(defaultName_, defaultInstantCondition_, {}, defaultNumericalSolver_),
             ostk::core::error::runtime::Undefined
         );
     }
@@ -4536,7 +4509,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Singl
     // It tests the fix: https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/619
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, std::nullopt, 24, 24),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
     ));
 
@@ -4657,7 +4630,7 @@ TEST_F(
     // https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/637
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, std::nullopt, 70, 70),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
     ));
 
@@ -4800,7 +4773,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     // the logic was switched to use absolute instants instead of relative durations.
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, std::nullopt, 12, 12),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
     ));
 
@@ -4947,8 +4920,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Maneu
     // It was fixed in https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/646
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, std::nullopt, 0, 0),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined)
+        nullptr,
+        nullptr
     ));
 
     const Instant initialInstant = Instant::DateTime(DateTime(2025, 1, 1, 0, 0, 0, 0, 0), Scale::UTC);
@@ -5063,7 +5036,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Negat
     // the logic was switched to use an ungated thruster instance instead of the original guidance law.
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM96, std::nullopt, 70, 70),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
     ));
 

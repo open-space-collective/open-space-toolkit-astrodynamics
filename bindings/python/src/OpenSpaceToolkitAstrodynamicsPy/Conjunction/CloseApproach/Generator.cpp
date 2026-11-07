@@ -47,17 +47,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(
         )
 
         .def(
-            "is_defined",
-            &Generator::isDefined,
-            R"doc(
-                Check if the generator is defined.
-
-                Returns:
-                    bool: True if generator is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_reference_trajectory",
             &Generator::getReferenceTrajectory,
             R"doc(
@@ -129,17 +118,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach_Generator(
                     tolerance (Duration): The tolerance.
             )doc",
             arg("tolerance")
-        )
-
-        .def_static(
-            "undefined",
-            &Generator::Undefined,
-            R"doc(
-                Construct an undefined generator.
-
-                Returns:
-                    Generator: An undefined generator.
-            )doc"
         )
 
         ;

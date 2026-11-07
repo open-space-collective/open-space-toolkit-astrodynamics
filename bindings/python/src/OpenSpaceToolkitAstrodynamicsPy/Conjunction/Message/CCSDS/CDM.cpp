@@ -72,18 +72,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
         )
 
         .def(
-            "is_defined",
-            &CDM::isDefined,
-            R"doc(
-                Check if the CDM is defined.
-
-                Returns:
-                    bool: True if the CDM is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_header",
             &CDM::getHeader,
             R"doc(
@@ -280,16 +268,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
         )
 
         .def_static(
-            "undefined",
-            &CDM::Undefined,
-            R"doc(
-                Get an undefined CDM.
-
-                Returns:
-                    CDM: An undefined CDM.
-            )doc"
-        )
-        .def_static(
             "dictionary",
             &CDM::Dictionary,
             R"doc(
@@ -442,17 +420,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
                 const String&,
                 const Instant&,
                 const Length&,
-                const Position&,
-                const Velocity&,
-                const Instant&,
-                const Instant&,
+                const std::optional<Position>&,
+                const std::optional<Velocity>&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
                 const String&,
                 const String&,
                 const std::optional<double>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
-                const Instant&,
-                const Instant&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
                 const std::optional<double>&,
                 const String&>(),
             R"doc(
@@ -462,17 +440,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
                     comment (str): The comment.
                     time_of_closest_approach (Instant): The time of closest approach.
                     miss_distance (Distance): The miss distance.
-                    relative_position (Position): The relative position.
-                    relative_velocity (Velocity): The relative velocity.
-                    start_screen_period (Instant): The start screen period.
-                    end_screen_period (Instant): The end screen period.
+                    relative_position (Position | None): The relative position. None if not provided.
+                    relative_velocity (Velocity | None): The relative velocity. None if not provided.
+                    start_screen_period (Instant | None): The start screen period. None if not provided.
+                    end_screen_period (Instant | None): The end screen period. None if not provided.
                     screen_volume_frame (str): The screen volume frame.
                     screen_volume_shape (str): The screen volume shape.
                     screen_volume_x (float | None): The screen volume x. None if not provided.
                     screen_volume_y (float | None): The screen volume y. None if not provided.
                     screen_volume_z (float | None): The screen volume z. None if not provided.
-                    screen_entry_time (Instant): The screen entry time.
-                    screen_exit_time (Instant): The screen exit time.
+                    screen_entry_time (Instant | None): The screen entry time. None if not provided.
+                    screen_exit_time (Instant | None): The screen exit time. None if not provided.
                     collision_probability (float | None): The collision probability. None if not provided.
                     collision_probability_method (str): The collision probability method.
 
@@ -481,17 +459,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             arg("comment").sig("String.empty()") = String::Empty(),
             arg("time_of_closest_approach"),
             arg("miss_distance"),
-            arg("relative_position").sig("Position.undefined()") = Position::Undefined(),
-            arg("relative_velocity").sig("Velocity.undefined()") = Velocity::Undefined(),
-            arg("start_screen_period"),
-            arg("end_screen_period"),
+            arg("relative_position") = none(),
+            arg("relative_velocity") = none(),
+            arg("start_screen_period") = none(),
+            arg("end_screen_period") = none(),
             arg("screen_volume_frame").sig("String.empty()") = String::Empty(),
             arg("screen_volume_shape").sig("String.empty()") = String::Empty(),
             arg("screen_volume_x") = none(),
             arg("screen_volume_y") = none(),
             arg("screen_volume_z") = none(),
-            arg("screen_entry_time"),
-            arg("screen_exit_time"),
+            arg("screen_entry_time") = none(),
+            arg("screen_exit_time") = none(),
             arg("collision_probability") = none(),
             arg("collision_probability_method")
         )
@@ -521,28 +499,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             "relative_position",
             &CDM::RelativeMetadata::relativePosition,
             R"doc(
-                The relative position.
+                The relative position, or None if not provided.
             )doc"
         )
         .def_ro(
             "relative_velocity",
             &CDM::RelativeMetadata::relativeVelocity,
             R"doc(
-                The relative velocity.
+                The relative velocity, or None if not provided.
             )doc"
         )
         .def_ro(
             "start_screen_period",
             &CDM::RelativeMetadata::startScreenPeriod,
             R"doc(
-                The start screen period.
+                The start screen period, or None if not provided.
             )doc"
         )
         .def_ro(
             "end_screen_period",
             &CDM::RelativeMetadata::endScreenPeriod,
             R"doc(
-                The end screen period.
+                The end screen period, or None if not provided.
             )doc"
         )
         .def_ro(
@@ -584,14 +562,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             "screen_entry_time",
             &CDM::RelativeMetadata::screenEntryTime,
             R"doc(
-                The screen entry time.
+                The screen entry time, or None if not provided.
             )doc"
         )
         .def_ro(
             "screen_exit_time",
             &CDM::RelativeMetadata::screenExitTime,
             R"doc(
-                The screen exit time.
+                The screen exit time, or None if not provided.
             )doc"
         )
         .def_ro(
@@ -869,10 +847,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
 
         .def(
             init<
-                const Instant&,
-                const Instant&,
-                const Duration&,
-                const Duration&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
+                const std::optional<Duration>&,
+                const std::optional<Duration>&,
                 const std::optional<int>&,
                 const std::optional<int>&,
                 const std::optional<int>&,
@@ -882,7 +860,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
                 const std::optional<double>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
-                const Mass&,
+                const std::optional<Mass>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
@@ -893,10 +871,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             Constructor.
 
             Args:
-                time_last_observation_start (Instant): The time of the last observation start.
-                time_last_observation_end (Instant): The time of the last observation end.
-                recommended_od_span (Duration): The recommended OD span.
-                actual_od_span (Duration): The actual OD span.
+                time_last_observation_start (Instant | None): The time of the last observation start. None if unknown.
+                time_last_observation_end (Instant | None): The time of the last observation end. None if unknown.
+                recommended_od_span (Duration | None): The recommended OD span. None if unknown.
+                actual_od_span (Duration | None): The actual OD span. None if unknown.
                 observations_available (int | None): The number of observations available. None if unknown.
                 observations_used (int | None): The number of observations used. None if unknown.
                 tracks_available (int | None): The number of tracks available. None if unknown.
@@ -906,7 +884,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
                 area_pc (float | None): The area PC. None if unknown.
                 area_drag (float | None): The area drag. None if unknown.
                 area_srp (float | None): The area SRP. None if unknown.
-                mass (Mass): The mass.
+                mass (Mass | None): The mass. None if unknown.
                 cd_area_over_mass (float | None): The CD area over mass. None if unknown.
                 cr_area_over_mass (float | None): The CR area over mass. None if unknown.
                 thrust_acceleration (float | None): The thrust acceleration. None if unknown.
@@ -933,7 +911,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             arg("cr_area_over_mass"),
             arg("thrust_acceleration"),
             arg("sedr"),
-            arg("state").sig("undefined") = State::Undefined(),
+            arg("state"),
             arg("covariance_matrix") = MatrixXd::Zero(9, 9)
         )
 
@@ -941,28 +919,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             "time_last_observation_start",
             &CDM::Data::timeLastObStart,
             R"doc(
-                The time of the last observation start.
+                The time of the last observation start, or None if not provided.
             )doc"
         )
         .def_ro(
             "time_last_observation_end",
             &CDM::Data::timeLastObEnd,
             R"doc(
-                The time of the last observation end.
+                The time of the last observation end, or None if not provided.
             )doc"
         )
         .def_ro(
             "recommended_od_span",
             &CDM::Data::recommendedODSpan,
             R"doc(
-                The recommended OD span.
+                The recommended OD span, or None if not provided.
             )doc"
         )
         .def_ro(
             "actual_od_span",
             &CDM::Data::actualODSpan,
             R"doc(
-                The actual OD span.
+                The actual OD span, or None if not provided.
             )doc"
         )
         .def_ro(
@@ -1032,7 +1010,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobi
             "mass",
             &CDM::Data::mass,
             R"doc(
-                The mass.
+                The mass, or None if not provided.
             )doc"
         )
         .def_ro(

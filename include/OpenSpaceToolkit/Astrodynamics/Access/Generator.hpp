@@ -230,16 +230,6 @@ class Generator
         const std::function<bool(const State&, const State&)>& aStateFilter = {}
     );
 
-    /// @brief Check whether this Generator is defined.
-    ///
-    /// @code{.cpp}
-    ///     Generator generator = { ... };
-    ///     bool defined = generator.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the Generator is defined, false otherwise.
-    bool isDefined() const;
-
     /// @brief Get the time step used when sampling the interval.
     ///
     /// @code{.cpp}
@@ -405,15 +395,6 @@ class Generator
     /// @param aStateFilter The new state filter function.
     void setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter);
 
-    /// @brief Construct an undefined Generator.
-    ///
-    /// @code{.cpp}
-    ///     Generator generator = Generator::Undefined();
-    /// @endcode
-    ///
-    /// @return An undefined Generator instance.
-    static Generator Undefined();
-
    private:
     Environment environment_;
 
@@ -529,7 +510,7 @@ class Generator
     /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
     /// the target is fixed.
     /// @return The Access. For a Partial access whose closest approach did not converge, the time of closest approach
-    /// and maximum elevation are undefined.
+    /// and maximum elevation are absent (std::nullopt).
     /// @throw ostk::core::error::RuntimeError If the closest approach of a Complete access does not converge.
     static Access GenerateAccess(
         const physics::time::Interval& anAccessInterval,
@@ -556,8 +537,8 @@ class Generator
     /// @param aCelestialSPtr The central celestial object whose frame the range is computed in.
     /// @param aFixedFromPositionCoordinates The target's coordinates in the central celestial object's frame, when
     /// the target is fixed. Supplying them skips evaluating aFromTrajectory at each iteration.
-    /// @return The time of closest approach, or an undefined Instant if the root solve did not converge.
-    static Instant FindTimeOfClosestApproach(
+    /// @return The time of closest approach, or std::nullopt if the root solve did not converge.
+    static std::optional<Instant> FindTimeOfClosestApproach(
         const physics::time::Interval& anAccessInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,

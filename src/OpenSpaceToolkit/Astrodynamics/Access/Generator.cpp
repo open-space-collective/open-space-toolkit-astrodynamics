@@ -111,11 +111,6 @@ AccessTarget AccessTarget::FromLLA(
 
 AccessTarget AccessTarget::FromPosition(const VisibilityCriterion& aVisibilityCriterion, const Position& aPosition)
 {
-    if (!aPosition.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Position");
-    }
-
     return AccessTarget(AccessTarget::Type::Fixed, aVisibilityCriterion, Trajectory::Position(aPosition));
 }
 
@@ -123,11 +118,6 @@ AccessTarget AccessTarget::FromTrajectory(
     const VisibilityCriterion& aVisibilityCriterion, const Trajectory& aTrajectory
 )
 {
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     return AccessTarget(AccessTarget::Type::Trajectory, aVisibilityCriterion, aTrajectory);
 }
 
@@ -153,7 +143,7 @@ Generator::Generator(
       accessFilter_(anAccessFilter),
       stateFilter_(aStateFilter)
 {
-    if (anEnvironment.isDefined() && !anEnvironment.hasCentralCelestialObject())
+    if (!anEnvironment.hasCentralCelestialObject())
     {
         std::cerr << "Warning: Environment must have a central celestial object for Access Generator." << std::endl;
 
@@ -166,48 +156,23 @@ Generator::Generator(
     }
 }
 
-bool Generator::isDefined() const
-{
-    return this->environment_.isDefined() && this->step_.isDefined() && this->tolerance_.isDefined();
-}
-
 const Duration& Generator::getStep() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return this->step_;
 }
 
 const Duration& Generator::getTolerance() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return this->tolerance_;
 }
 
 const std::function<bool(const Access&)>& Generator::getAccessFilter() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return this->accessFilter_;
 }
 
 const std::function<bool(const State&, const State&)>& Generator::getStateFilter() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return this->stateFilter_;
 }
 
@@ -215,16 +180,6 @@ std::function<bool(const Instant&)> Generator::getConditionFunction(
     const AccessTarget& anAccessTarget, const Trajectory& aToTrajectory
 ) const
 {
-    if (!aToTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("To Trajectory");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     // TBR: Deprecate the Earth fallback in a future release
     const Shared<const Celestial> celestialSPtr = this->environment_.hasCentralCelestialObject()
                                                     ? this->environment_.getCentralCelestialObject()
@@ -286,16 +241,6 @@ Array<Access> Generator::computeAccesses(
     const bool& coarse
 ) const
 {
-    if (!anInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Interval");
-    }
-
-    if (!aToTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("To Trajectory");
-    }
-
     if (anAccessTarget.getType() == AccessTarget::Type::Trajectory)
     {
         if (coarse)
@@ -318,19 +263,9 @@ Array<Array<Access>> Generator::computeAccesses(
     const bool& coarse
 ) const
 {
-    if (!anInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Interval");
-    }
-
     if (someAccessTargets.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("Access targets");
-    }
-
-    if (!aToTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("To Trajectory");
     }
 
     if (std::all_of(
@@ -377,21 +312,11 @@ Array<Array<Access>> Generator::computeAccesses(
 
 void Generator::setStep(const Duration& aStep)
 {
-    if (!aStep.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Step");
-    }
-
     this->step_ = aStep;
 }
 
 void Generator::setTolerance(const Duration& aTolerance)
 {
-    if (!aTolerance.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tolerance");
-    }
-
     this->tolerance_ = aTolerance;
 }
 
@@ -403,11 +328,6 @@ void Generator::setAccessFilter(const std::function<bool(const Access&)>& anAcce
 void Generator::setStateFilter(const std::function<bool(const State&, const State&)>& aStateFilter)
 {
     this->stateFilter_ = aStateFilter;
-}
-
-Generator Generator::Undefined()
-{
-    return {Environment::Undefined(), Duration::Undefined(), Duration::Undefined()};
 }
 
 Array<Access> Generator::computeAccessesForTrajectoryTarget(
@@ -670,7 +590,7 @@ Array<Array<Access>> Generator::computeAccessesForFixedTargets(
 
     MatrixXi inAccessPerTarget = MatrixXi::Zero(instants.getSize(), targetCount);
 
-    // Bind the state filter once, rather than copying the std::function (and re-running isDefined()) on every step.
+    // Bind the state filter once, rather than copying the std::function on every step.
     const std::function<bool(const State&, const State&)>& stateFilter = this->stateFilter_;
 
     for (Index index = 0; index < instants.getSize(); ++index)
@@ -987,8 +907,7 @@ Array<physics::time::Interval> Generator::ComputeIntervals(const VectorXi& inAcc
     const Index paddedSize = padded.size() - 1;
     const VectorXi diff = padded.tail(paddedSize) - padded.head(paddedSize);
 
-    Instant startInstant = Instant::Undefined();
-    Instant endInstant = Instant::Undefined();
+    std::optional<Instant> startInstant;
 
     for (Eigen::Index j = 0; j < diff.size() - 1; ++j)
     {
@@ -1004,9 +923,9 @@ Array<physics::time::Interval> Generator::ComputeIntervals(const VectorXi& inAcc
 
         if (diff[j] == -1)
         {
-            endInstant = instants[j - 1];
+            const Instant endInstant = instants[j - 1];
 
-            accessIntervals.add(physics::time::Interval::Closed(startInstant, endInstant));
+            accessIntervals.add(physics::time::Interval::Closed(startInstant.value(), endInstant));
         }
     }
 
@@ -1014,7 +933,7 @@ Array<physics::time::Interval> Generator::ComputeIntervals(const VectorXi& inAcc
 
     if (diff.tail<1>().value() == -1)
     {
-        accessIntervals.add(physics::time::Interval::Closed(startInstant, instants.getLast()));
+        accessIntervals.add(physics::time::Interval::Closed(startInstant.value(), instants.getLast()));
     }
 
     return accessIntervals;
@@ -1037,13 +956,13 @@ Access Generator::GenerateAccess(
 
     const Instant acquisitionOfSignal = anAccessInterval.getStart();
 
-    const Instant timeOfClosestApproach = Generator::FindTimeOfClosestApproach(
+    const std::optional<Instant> timeOfClosestApproach = Generator::FindTimeOfClosestApproach(
         anAccessInterval, aFromTrajectory, aToTrajectory, aTolerance, aCelestialSPtr, aFixedFromPositionCoordinates
     );
 
     const Instant lossOfSignal = anAccessInterval.getEnd();
 
-    if (!timeOfClosestApproach.isDefined() and type == Access::Type::Complete)
+    if (!timeOfClosestApproach.has_value() && type == Access::Type::Complete)
     {
         throw ostk::core::error::RuntimeError(
             "Cannot find TCA (solution did not converge): {} - {}.",
@@ -1052,17 +971,20 @@ Access Generator::GenerateAccess(
         );
     }
 
-    const std::optional<Angle> maxElevation =
-        timeOfClosestApproach.isDefined()
-            ? std::optional<Angle>(Generator::CalculateElevationAt(
-                  timeOfClosestApproach, aFromTrajectory, aToTrajectory, aCelestialSPtr, aFixedFromPositionCoordinates
-              ))
-            : std::nullopt;
+    const std::optional<Angle> maxElevation = timeOfClosestApproach.has_value()
+                                                ? std::optional<Angle>(Generator::CalculateElevationAt(
+                                                      timeOfClosestApproach.value(),
+                                                      aFromTrajectory,
+                                                      aToTrajectory,
+                                                      aCelestialSPtr,
+                                                      aFixedFromPositionCoordinates
+                                                  ))
+                                                : std::nullopt;
 
     return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
 }
 
-Instant Generator::FindTimeOfClosestApproach(
+std::optional<Instant> Generator::FindTimeOfClosestApproach(
     const physics::time::Interval& anAccessInterval,
     const Trajectory& aFromTrajectory,
     const Trajectory& aToTrajectory,
@@ -1139,7 +1061,7 @@ Instant Generator::FindTimeOfClosestApproach(
 
     if (!solution.hasConverged)
     {
-        return Instant::Undefined();
+        return std::nullopt;
     }
 
     return startInstant + Duration::Seconds(solution.root);

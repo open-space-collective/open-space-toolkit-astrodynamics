@@ -37,11 +37,6 @@ class PyDynamics : public Dynamics
         NB_OVERRIDE(print, anOutputStream, displayDecorator);
     }
 
-    bool isDefined() const override
-    {
-        OSTK_NB_OVERRIDE_PURE_NAME_BOOL("is_defined", isDefined);
-    }
-
     Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override
     {
         NB_OVERRIDE_PURE_NAME("get_read_coordinate_subsets", getReadCoordinateSubsets);
@@ -68,7 +63,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(nanobind::module_& aModule)
             Abstract interface class for dynamics.
             
             Can inherit and provide the virtual methods:
-                - is_defined
                 - get_read_coordinate_subsets
                 - get_write_coordinate_subsets
                 - compute_contribution
@@ -104,17 +98,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics(nanobind::module_& aModule)
 
         .def("__str__", &(shiftToString<Dynamics>))
         .def("__repr__", &(shiftToString<Dynamics>))
-
-        .def(
-            "is_defined",
-            &Dynamics::isDefined,
-            R"doc(
-                Check if the dynamics is defined.
-
-                Returns:
-                    is_defined (bool): True if the dynamics is defined, False otherwise.
-            )doc"
-        )
 
         .def(
             "get_read_coordinate_subsets",

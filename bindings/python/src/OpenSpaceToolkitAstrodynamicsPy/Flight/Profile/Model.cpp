@@ -39,17 +39,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(nanobind::modul
         .def("__repr__", &(shiftToString<Model>))
 
         .def(
-            "is_defined",
-            &Model::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "is_tabulated",
             +[](const Model &aModel) -> bool
             {

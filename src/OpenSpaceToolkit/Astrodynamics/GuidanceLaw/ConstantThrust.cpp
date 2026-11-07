@@ -44,11 +44,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
 
 const LocalOrbitalFrameDirection& ConstantThrust::getLocalThrustDirection() const
 {
-    if (!localOrbitalFrameDirection_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local Thrust Direction");
-    }
-
     return localOrbitalFrameDirection_;
 }
 
@@ -104,15 +99,15 @@ ConstantThrust ConstantThrust::Intrack(const bool& velocityDirection)
 ConstantThrust ConstantThrust::FromManeuver(
     const Maneuver& aManeuver,
     const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
-    const Angle& aMaximumAllowedAngularOffset
+    const std::optional<Angle>& aMaximumAllowedAngularOffset
 )
 {
     const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
         aManeuver.calculateMeanThrustDirectionAndMaximumAngularOffset(aLocalOrbitalFrameFactory);
 
-    if (aMaximumAllowedAngularOffset.isDefined())
+    if (aMaximumAllowedAngularOffset.has_value())
     {
-        const double maximumAllowedAngularOffsetDegrees = aMaximumAllowedAngularOffset.inDegrees(0.0, 360.0);
+        const double maximumAllowedAngularOffsetDegrees = aMaximumAllowedAngularOffset->inDegrees(0.0, 360.0);
         const double maximumAngularOffsetDegrees = meanDirectionAndMaximumAngularOffset.second.inDegrees(0.0, 360.0);
         if (maximumAngularOffsetDegrees > maximumAllowedAngularOffsetDegrees)
         {

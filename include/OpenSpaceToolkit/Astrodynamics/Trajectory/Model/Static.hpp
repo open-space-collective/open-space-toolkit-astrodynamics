@@ -99,16 +99,6 @@ class Static : public virtual Model
     /// @return The output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Static& aStaticModel);
 
-    /// @brief Check if the static model is defined
-    ///
-    /// @code{.cpp}
-    ///              Static staticModel = { ... };
-    ///              bool isDefined = staticModel.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the model is defined, false otherwise
-    virtual bool isDefined() const override;
-
     /// @brief Get the reference frame in which the computed states are expressed.
     ///
     /// @code{.cpp}

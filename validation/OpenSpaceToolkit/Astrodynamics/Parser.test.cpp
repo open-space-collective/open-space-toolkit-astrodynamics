@@ -230,7 +230,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateEnvironment)
         EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 10);
         EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 10);
 
-        EXPECT_FALSE(earthSPtr->getAtmosphericModel()->isDefined());
+        EXPECT_FALSE(earthSPtr->atmosphericModelIsDefined());
 
         EXPECT_THROW(environment.getCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
         EXPECT_THROW(environment.getCelestialObjectWithName("Moon"), ostk::core::error::RuntimeError);
@@ -249,7 +249,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateEnvironment)
         EXPECT_EQ(earthGravitationalModelSPtr->getDegree(), 60);
         EXPECT_EQ(earthGravitationalModelSPtr->getOrder(), 60);
 
-        EXPECT_FALSE(earthSPtr->getAtmosphericModel()->isDefined());
+        EXPECT_FALSE(earthSPtr->atmosphericModelIsDefined());
 
         EXPECT_THROW(environment.getCelestialObjectWithName("Sun"), ostk::core::error::RuntimeError);
         EXPECT_NO_THROW(environment.getCelestialObjectWithName("Moon"));
@@ -346,7 +346,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
             const Shared<const Thruster> thrusterSPtr = std::dynamic_pointer_cast<Thruster>(dynamics);
             if (thrusterSPtr)
             {
-                EXPECT_TRUE(thrusterSPtr->isDefined());
                 EXPECT_EQ(thrusterSPtr->getSatelliteSystem(), defaultThrusterDynamics1.getSatelliteSystem());
                 const Shared<const ConstantThrust> constantThrustSPtr =
                     std::dynamic_pointer_cast<const ConstantThrust>(thrusterSPtr->getGuidanceLaw());
@@ -384,7 +383,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
             const Shared<const Thruster> thrusterSPtr = std::dynamic_pointer_cast<Thruster>(dynamics);
             if (thrusterSPtr)
             {
-                EXPECT_TRUE(thrusterSPtr->isDefined());
                 EXPECT_EQ(thrusterSPtr->getSatelliteSystem(), defaultThrusterDynamics2.getSatelliteSystem());
                 const Shared<const ConstantThrust> constantThrustSPtr =
                     std::dynamic_pointer_cast<const ConstantThrust>(thrusterSPtr->getGuidanceLaw());

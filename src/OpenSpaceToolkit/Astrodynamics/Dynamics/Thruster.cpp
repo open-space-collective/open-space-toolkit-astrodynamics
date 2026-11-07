@@ -36,10 +36,7 @@ Thruster::Thruster(
     : Dynamics(aName),
       satelliteSystem_(aSatelliteSystem),
       guidanceLaw_(aGuidanceLaw),
-      massFlowRateCache_(
-          aSatelliteSystem.isDefined() ? std::optional<double>(aSatelliteSystem.getPropulsionSystem().getMassFlowRate())
-                                       : std::nullopt
-      )
+      massFlowRateCache_(aSatelliteSystem.getPropulsionSystem().getMassFlowRate())
 {
 }
 
@@ -47,11 +44,6 @@ Thruster::~Thruster() {}
 
 const SatelliteSystem& Thruster::getSatelliteSystem() const
 {
-    if (!satelliteSystem_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Satellite System");
-    }
-
     return satelliteSystem_;
 }
 
@@ -75,11 +67,6 @@ Array<Shared<const CoordinateSubset>> Thruster::getWriteCoordinateSubsets() cons
         CartesianVelocity::Default(),
         CoordinateSubset::Mass(),
     };
-}
-
-bool Thruster::isDefined() const
-{
-    return satelliteSystem_.isDefined();
 }
 
 VectorXd Thruster::computeContribution(
@@ -106,7 +93,7 @@ VectorXd Thruster::computeContribution(
     // Compute contribution
     VectorXd contribution(4);
     contribution << acceleration[0], acceleration[1], acceleration[2],
-        -effectiveAccelerationFraction * massFlowRateCache_.value();
+        -effectiveAccelerationFraction * massFlowRateCache_;
 
     return contribution;
 }

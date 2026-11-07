@@ -175,13 +175,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, Constructor)
             ostk::core::error::runtime::Undefined
         );
     }
-
-    {
-        EXPECT_THROW(
-            Custom(buildVertexGenerator(cubeVertices_), LocalOrbitalFrameFactory::Undefined()),
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Custom, GetVertexGenerator)

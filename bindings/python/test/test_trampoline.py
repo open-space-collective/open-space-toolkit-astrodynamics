@@ -47,9 +47,6 @@ class ConstantAcceleration(Dynamics):
         self.acceleration = np.array(acceleration)
         self.call_count = 0
 
-    def is_defined(self) -> bool:
-        return True
-
     def get_read_coordinate_subsets(self) -> list:
         return [CartesianPosition.default()]
 
@@ -201,7 +198,7 @@ class TestDynamicsTrampoline:
             pass
 
         with pytest.raises(RuntimeError):
-            Incomplete("Incomplete").is_defined()
+            Incomplete("Incomplete").get_read_coordinate_subsets()
 
 
 class TestGuidanceLawTrampoline:

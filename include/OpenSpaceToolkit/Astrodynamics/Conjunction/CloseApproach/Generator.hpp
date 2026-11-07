@@ -64,16 +64,6 @@ class Generator
         const Duration& aTolerance = Duration::Milliseconds(1.0)
     );
 
-    /// @brief Check if the generator is defined
-    ///
-    /// @code{.cpp}
-    ///              Generator generator = { ... } ;
-    ///              generator.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if generator is defined
-    bool isDefined() const;
-
     /// @brief Get the reference trajectory
     ///
     /// @code{.cpp}
@@ -138,15 +128,6 @@ class Generator
     ///
     /// @param aTolerance The tolerance
     void setTolerance(const Duration& aTolerance);
-
-    /// @brief Construct an undefined generator
-    ///
-    /// @code{.cpp}
-    ///              Generator generator = Generator::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined generator
-    static Generator Undefined();
 
    private:
     Trajectory referenceTrajectory_;

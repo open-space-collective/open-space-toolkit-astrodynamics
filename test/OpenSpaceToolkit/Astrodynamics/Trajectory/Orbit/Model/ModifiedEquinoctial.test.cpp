@@ -63,7 +63,6 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquin
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, Getters)
 {
     {
-        ASSERT_TRUE(modifiedEquinoctial_.isDefined());
         ASSERT_DOUBLE_EQ(semiLatusRectum_.inMeters(), modifiedEquinoctial_.getSemiLatusRectum().inMeters());
         ASSERT_DOUBLE_EQ(eccentricityX_, modifiedEquinoctial_.getEccentricityX());
         ASSERT_DOUBLE_EQ(eccentricityY_, modifiedEquinoctial_.getEccentricityY());
@@ -71,32 +70,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
         ASSERT_DOUBLE_EQ(nodeY_, modifiedEquinoctial_.getNodeY());
         ASSERT_DOUBLE_EQ(trueLongitude_.inRadians(), modifiedEquinoctial_.getTrueLongitude().inRadians());
     }
-
-    {
-        const ModifiedEquinoctial undefinedModifiedEquinoctial = ModifiedEquinoctial::Undefined();
-
-        EXPECT_THROW(undefinedModifiedEquinoctial.getSemiLatusRectum(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(undefinedModifiedEquinoctial.getEccentricityX(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(undefinedModifiedEquinoctial.getEccentricityY(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(undefinedModifiedEquinoctial.getNodeX(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(undefinedModifiedEquinoctial.getNodeY(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(undefinedModifiedEquinoctial.getTrueLongitude(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(undefinedModifiedEquinoctial.getSIVector(), ostk::core::error::runtime::Undefined);
-        EXPECT_THROW(
-            undefinedModifiedEquinoctial.getCartesianState(earthGravitationalParameter_, gcrf_),
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, GetCartesianState)
 {
-    {
-        EXPECT_THROW(
-            modifiedEquinoctial_.getCartesianState(Derived::Undefined(), gcrf_), ostk::core::error::runtime::Undefined
-        );
-    }
-
     {
         EXPECT_THROW(
             modifiedEquinoctial_.getCartesianState(earthGravitationalParameter_, Frame::ITRF()),
@@ -133,17 +110,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const Length p3 = Length::Kilometers(8000.0);  // Different p
     const ModifiedEquinoctial meoe3(p3, f1, g1, h1, k1, L1);
 
-    const ModifiedEquinoctial undefinedMeoe = ModifiedEquinoctial::Undefined();
-
     ASSERT_TRUE(meoe1 == meoe2);
     ASSERT_FALSE(meoe1 == meoe3);
-    ASSERT_FALSE(meoe1 == undefinedMeoe);
-    ASSERT_FALSE(undefinedMeoe == meoe1);
-    ASSERT_FALSE(undefinedMeoe == ModifiedEquinoctial::Undefined());  // Undefined == Undefined is false
 
     ASSERT_FALSE(meoe1 != meoe2);
     ASSERT_TRUE(meoe1 != meoe3);
-    ASSERT_TRUE(meoe1 != undefinedMeoe);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, GetSIVector)
@@ -168,27 +139,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
         EXPECT_THROW(
             ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_),
             ostk::core::error::runtime::Wrong
-        );
-    }
-
-    {
-        const Position position = Position::Undefined();
-        const Velocity velocity = Velocity::Undefined();
-        const Pair<Position, Velocity> cartesianState = {position, velocity};
-
-        EXPECT_THROW(
-            ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_),
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        const Position position = Position::Meters({1000000.0, 2000000.0, 3000000.0}, gcrf_);
-        const Velocity velocity = Velocity::MetersPerSecond({1.0, 2.0, 3.0}, gcrf_);
-        const Pair<Position, Velocity> cartesianState = {position, velocity};
-
-        EXPECT_THROW(
-            ModifiedEquinoctial::Cartesian(cartesianState, Derived::Undefined()), ostk::core::error::runtime::Undefined
         );
     }
 }
@@ -235,8 +185,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const ModifiedEquinoctial modifiedEquinoctial =
         ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_);
 
-    ASSERT_TRUE(modifiedEquinoctial.isDefined());
-
     // Expected values
     const double p_expected_m = sma.inMeters() * (1.0 - ecc * ecc);
     const double L_expected_rad =
@@ -273,7 +221,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const ModifiedEquinoctial modifiedEquinoctial =
         ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_);
 
-    ASSERT_TRUE(modifiedEquinoctial.isDefined());
     EXPECT_NEAR(
         sma.inMeters(), modifiedEquinoctial.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE
     );                                                                    // p = a for circular
@@ -315,7 +262,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const ModifiedEquinoctial modifiedEquinoctial =
         ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_);
 
-    ASSERT_TRUE(modifiedEquinoctial.isDefined());
     const double p_expected_m = sma.inMeters() * (1.0 - ecc * ecc);
     EXPECT_NEAR(p_expected_m, modifiedEquinoctial.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE);
     EXPECT_NEAR(0.0, modifiedEquinoctial.getNodeX(), TOLERANCE);  // h = tan(0/2)*cos(raan) = 0
@@ -351,7 +297,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const ModifiedEquinoctial modifiedEquinoctial =
         ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_);
 
-    ASSERT_TRUE(modifiedEquinoctial.isDefined());
     EXPECT_NEAR(sma.inMeters(), modifiedEquinoctial.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE);  // p = a
     EXPECT_NEAR(0.0, modifiedEquinoctial.getEccentricityX(), TOLERANCE);  // f = 0 for e=0
     EXPECT_NEAR(0.0, modifiedEquinoctial.getEccentricityY(), TOLERANCE);  // g = 0 for e=0
@@ -376,9 +321,10 @@ TEST_F(
     const COE coe(sma, ecc, inc, raan, aop, ta);
     const Pair<Position, Velocity> cartesianState = coe.getCartesianState(earthGravitationalParameter_, gcrf_);
 
-    const ModifiedEquinoctial modifiedEquinoctial =
-        ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_);
-    ASSERT_FALSE(modifiedEquinoctial.isDefined());  // Should return Undefined due to tan(PI/2)
+    // Retrograde equatorial state is a singularity of the modified equinoctial elements
+    EXPECT_THROW(
+        ModifiedEquinoctial::Cartesian(cartesianState, earthGravitationalParameter_), ostk::core::error::RuntimeError
+    );
 }
 
 TEST_F(
@@ -390,7 +336,6 @@ TEST_F(
 
     const ModifiedEquinoctial modifiedEquinoctial =
         ModifiedEquinoctial::Cartesian({position, velocity}, earthGravitationalParameter_);
-    ASSERT_TRUE(modifiedEquinoctial.isDefined());
 
     const Pair<Position, Velocity> cartesianComputed =
         modifiedEquinoctial.getCartesianState(earthGravitationalParameter_, gcrf_);
@@ -417,12 +362,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
     const Pair<Position, Velocity> cartesian_intermediate =
         meoe_initial.getCartesianState(earthGravitationalParameter_, gcrf_);
-    ASSERT_TRUE(cartesian_intermediate.first.isDefined());
-    ASSERT_TRUE(cartesian_intermediate.second.isDefined());
 
     const ModifiedEquinoctial meoe_final =
         ModifiedEquinoctial::Cartesian(cartesian_intermediate, earthGravitationalParameter_);
-    ASSERT_TRUE(meoe_final.isDefined());
 
     EXPECT_NEAR(
         meoe_initial.getSemiLatusRectum().inMeters(), meoe_final.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE
@@ -451,10 +393,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 // Test based on Orekit testEquinoctialToEquinoctialEll
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, COE_OrekitElliptical)
 {
-    {
-        EXPECT_THROW(ModifiedEquinoctial::COE(COE::Undefined()), ostk::core::error::runtime::Undefined);
-    }
-
     // Values from Orekit testEquinoctialToEquinoctialEll
     const Length sma = Length::Meters(42166712.0);
     const double ecc = 0.5;  // This is quite high eccentricity
@@ -466,8 +404,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
 
     const COE coe(sma, ecc, inc, raan, aop, ta);
     const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(coe);
-
-    ASSERT_TRUE(meoe.isDefined());
 
     // Expected values based on Orekit test
     const double p_expected = sma.inMeters() * (1.0 - ecc * ecc);
@@ -501,8 +437,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const COE coe(sma, ecc, inc, raan, aop, ta);
     const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(coe);
 
-    ASSERT_TRUE(meoe.isDefined());
-
     // For nearly circular orbit
     EXPECT_NEAR(sma.inMeters(), meoe.getSemiLatusRectum().inMeters(), POSITION_TOLERANCE);
     EXPECT_NEAR(0.0, meoe.getEccentricityX(), TOLERANCE);
@@ -529,8 +463,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const Angle l = Angle::Radians(5.299891200518183);
 
     const ModifiedEquinoctial meoe = ModifiedEquinoctial(p, ex, ey, hx, hy, l);
-
-    ASSERT_TRUE(meoe.isDefined());
 
     // Convert to Cartesian and verify against Orekit expected values
     const Pair<Position, Velocity> cartesianState = meoe.getCartesianState(earthGravitationalParameter_, gcrf_);
@@ -569,13 +501,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const COE coe(sma, ecc, inc, raan, aop, ta);
     const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(coe);
 
-    ASSERT_TRUE(meoe.isDefined());
-
     // Convert back to COE and verify
     const Pair<Position, Velocity> cartesianState = meoe.getCartesianState(earthGravitationalParameter_, gcrf_);
     const COE coeFinal = COE::Cartesian(cartesianState, earthGravitationalParameter_);
-
-    ASSERT_TRUE(coeFinal.isDefined());
 
     // Compare with original values
     EXPECT_NEAR(sma.inMeters(), coeFinal.getSemiMajorAxis().inMeters(), POSITION_TOLERANCE);
@@ -596,7 +524,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     EXPECT_NEAR(ta_normalized, ta_final_normalized, ANGLE_TOLERANCE);
 }
 
-// Test for hyperbolic orbits (should return undefined)
+// Test for hyperbolic orbits (should throw)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, COE_Hyperbolic)
 {
     // Test with negative semi-major axis (hyperbolic)
@@ -608,13 +536,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const Angle ta = Angle::Degrees(5.300);
 
     const COE coe(sma, ecc, inc, raan, aop, ta);
-    const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(coe);
 
-    // Should return undefined for hyperbolic orbits
-    ASSERT_FALSE(meoe.isDefined());
+    // Hyperbolic orbits cannot be represented
+    EXPECT_THROW(ModifiedEquinoctial::COE(coe), ostk::core::error::RuntimeError);
 }
 
-// Test for parabolic orbits (should return undefined)
+// Test for parabolic orbits (should throw)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, COE_Parabolic)
 {
     // Test with eccentricity = 1.0 (parabolic)
@@ -626,28 +553,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
     const Angle ta = Angle::Degrees(0.0);
 
     const COE coe(sma, ecc, inc, raan, aop, ta);
-    const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(coe);
 
-    // Should return undefined for parabolic orbits
-    ASSERT_FALSE(meoe.isDefined());
+    // Parabolic orbits cannot be represented
+    EXPECT_THROW(ModifiedEquinoctial::COE(coe), ostk::core::error::RuntimeError);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial, ToCOE)
 {
-    // undefined ModifiedEquinoctial
-    {
-        const ModifiedEquinoctial undefinedMeoe = ModifiedEquinoctial::Undefined();
-
-        EXPECT_THROW(undefinedMeoe.toCOE(earthGravitationalParameter_), ostk::core::error::runtime::Undefined);
-    }
-
-    // invalid gravitational parameter
-    {
-        const Derived invalidGravitationalParameter = Derived::Undefined();
-
-        EXPECT_THROW(modifiedEquinoctial_.toCOE(invalidGravitationalParameter), ostk::core::error::runtime::Undefined);
-    }
-
     // general elliptical orbit
     {
         const Length sma = Length::Kilometers(24396.137);
@@ -660,11 +572,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEqui
         const COE originalCoe(sma, ecc, inc, raan, aop, ta);
         const ModifiedEquinoctial meoe = ModifiedEquinoctial::COE(originalCoe);
 
-        ASSERT_TRUE(meoe.isDefined());
-
         const COE convertedCoe = meoe.toCOE(earthGravitationalParameter_);
-
-        ASSERT_TRUE(convertedCoe.isDefined());
 
         EXPECT_NEAR(sma.inMeters(), convertedCoe.getSemiMajorAxis().inMeters(), POSITION_TOLERANCE);
         EXPECT_NEAR(ecc, convertedCoe.getEccentricity(), TOLERANCE);

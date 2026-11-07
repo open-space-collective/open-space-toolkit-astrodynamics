@@ -36,28 +36,16 @@ void MissionSequence::run()
 
 const SatelliteSystem& MissionSequence::accessSatelliteSystem() const
 {
-    if (!satelliteSystem_.isDefined())
-    {
-        throw ostk::core::error::RuntimeError("No satellite system defined.");
-    }
     return satelliteSystem_;
 }
 
 const State& MissionSequence::accessInitialState() const
 {
-    if (!initialState_.isDefined())
-    {
-        throw ostk::core::error::RuntimeError("No initial state defined.");
-    }
     return initialState_;
 }
 
 const Environment& MissionSequence::getEnvironment() const
 {
-    if (!environment_.isDefined())
-    {
-        throw ostk::core::error::RuntimeError("No environment defined.");
-    }
     return environment_;
 }
 

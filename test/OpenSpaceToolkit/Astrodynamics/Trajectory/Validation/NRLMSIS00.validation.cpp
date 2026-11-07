@@ -95,37 +95,6 @@ using ostk::astrodynamics::trajectory::state::NumericalSolver;
 class OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation : public ::testing::Test
 {
    protected:
-    void SetUp() override
-    {
-        const Composite satelliteGeometry(Cuboid(
-            {0.0, 0.0, 0.0},
-            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-            {1.0, 2.0, 3.0}
-        ));
-
-        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
-
-        this->satelliteGeometry_ = satelliteGeometry;
-        this->propulsionSystem_ = propulsionSystem;
-
-        this->satelliteSystem_ = {
-            this->satelliteDryMass_,
-            satelliteGeometry_,
-            Matrix3d::Identity(),
-            1.0,
-            2.1,
-            propulsionSystem_,
-        };
-
-        this->earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        this->defaultDynamics_ = {
-            std::make_shared<PositionDerivative>(),
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-        };
-
-        this->defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
-    }
-
     const NumericalSolver defaultNumericalSolver_ = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaFehlberg78,
@@ -136,14 +105,26 @@ class OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation : public ::t
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
-    Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
     const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
 
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite(Point::Undefined());
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-    Shared<Celestial> earthSpherical_ = nullptr;
-    Propagator defaultPropagator_ = Propagator::Undefined();
+    PropulsionSystem propulsionSystem_ = {0.1, 1500.0};
+    Composite satelliteGeometry_ = Composite(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    SatelliteSystem satelliteSystem_ = {
+        satelliteDryMass_,
+        satelliteGeometry_,
+        Matrix3d::Identity(),
+        1.0,
+        2.1,
+        propulsionSystem_,
+    };
+    Shared<Celestial> earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
+    Array<Shared<Dynamics>> defaultDynamics_ = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSpherical_),
+    };
+    Propagator defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
 
     const Shared<CoordinateBroker> dragCoordinateBrokerSPtr_ = std::make_shared<CoordinateBroker>(CoordinateBroker(
         {CartesianPosition::Default(),
@@ -217,7 +198,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation_Data_Succes
     // Setup dynamics
     const Earth earth = Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM2008),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
     );
 
@@ -299,7 +280,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation_Data_Failur
     // Setup dynamics
     const Earth earth = Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM2008),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        nullptr,
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
     );
 

@@ -198,18 +198,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(nanobind::module_& 
         )
 
         .def(
-            "is_defined",
-            &Generator::isDefined,
-            R"doc(
-                Check if the generator is defined.
-
-                Returns:
-                    bool: True if the generator is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_step",
             &Generator::getStep,
             R"doc(
@@ -364,17 +352,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(nanobind::module_& 
 
         )doc",
             arg("state_filter")
-        )
-
-        .def_static(
-            "undefined",
-            &Generator::Undefined,
-            R"doc(
-                Get an undefined generator.
-
-                Returns:
-                    Generator: An undefined generator.
-            )doc"
         )
 
         ;

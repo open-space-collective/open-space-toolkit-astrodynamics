@@ -2,6 +2,43 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp>
 
+namespace
+{
+
+std::variant<
+    ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE,
+    ostk::core::container::Pair<ostk::astrodynamics::trajectory::State, double>,
+    ostk::astrodynamics::trajectory::State>
+ToInitialGuess(const nanobind::object& anInitialGuess)
+{
+    using namespace nanobind;
+
+    using ostk::core::container::Pair;
+
+    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
+    using ostk::astrodynamics::trajectory::State;
+
+    if (isinstance<TLE>(anInitialGuess))
+    {
+        return nanobind::cast<TLE>(anInitialGuess);
+    }
+
+    if (isinstance<tuple>(anInitialGuess) && len(nanobind::cast<tuple>(anInitialGuess)) == 2)
+    {
+        auto t = nanobind::cast<tuple>(anInitialGuess);
+        return Pair<State, double>(nanobind::cast<State>(t[0]), nanobind::cast<double>(t[1]));
+    }
+
+    if (isinstance<State>(anInitialGuess))
+    {
+        return nanobind::cast<State>(anInitialGuess);
+    }
+
+    throw std::runtime_error("Initial guess must be a TLE, tuple[State, float], or State.");
+}
+
+}  // namespace
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(nanobind::module_& aModule)
 {
     using namespace nanobind;
@@ -221,25 +258,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(nanobind::module
                const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
                const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
             {
-                std::variant<TLE, Pair<State, double>, State> cppInitialGuess = State::Undefined();
-
-                if (isinstance<TLE>(anInitialGuess))
-                {
-                    cppInitialGuess = nanobind::cast<TLE>(anInitialGuess);
-                }
-                else if (isinstance<tuple>(anInitialGuess) && len(nanobind::cast<tuple>(anInitialGuess)) == 2)
-                {
-                    auto t = nanobind::cast<tuple>(anInitialGuess);
-                    cppInitialGuess = Pair<State, double>(nanobind::cast<State>(t[0]), nanobind::cast<double>(t[1]));
-                }
-                else if (isinstance<State>(anInitialGuess))
-                {
-                    cppInitialGuess = nanobind::cast<State>(anInitialGuess);
-                }
-                else
-                {
-                    throw std::runtime_error("Initial guess must be a TLE, tuple[State, float], or State.");
-                }
+                const std::variant<TLE, Pair<State, double>, State> cppInitialGuess = ToInitialGuess(anInitialGuess);
 
                 return self.estimate(
                     cppInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas
@@ -270,25 +289,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_TLESolver(nanobind::module
                const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
                const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas)
             {
-                std::variant<TLE, Pair<State, double>, State> cppInitialGuess = State::Undefined();
-
-                if (isinstance<TLE>(anInitialGuess))
-                {
-                    cppInitialGuess = nanobind::cast<TLE>(anInitialGuess);
-                }
-                else if (isinstance<tuple>(anInitialGuess) && len(nanobind::cast<tuple>(anInitialGuess)) == 2)
-                {
-                    auto t = nanobind::cast<tuple>(anInitialGuess);
-                    cppInitialGuess = Pair<State, double>(nanobind::cast<State>(t[0]), nanobind::cast<double>(t[1]));
-                }
-                else if (isinstance<State>(anInitialGuess))
-                {
-                    cppInitialGuess = nanobind::cast<State>(anInitialGuess);
-                }
-                else
-                {
-                    throw std::runtime_error("Initial guess must be a TLE, tuple[State, float], or State.");
-                }
+                const std::variant<TLE, Pair<State, double>, State> cppInitialGuess = ToInitialGuess(anInitialGuess);
 
                 return self.estimateOrbit(
                     cppInitialGuess, anObservationStateArray, anInitialGuessSigmas, anObservationSigmas

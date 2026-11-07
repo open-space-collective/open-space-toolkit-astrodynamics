@@ -34,18 +34,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_PositionDerivative(nanobind
             .def("__repr__", &(shiftToString<PositionDerivative>))
 
             .def(
-                "is_defined",
-                &PositionDerivative::isDefined,
-                R"doc(
-                    Check if the position derivative is defined.
-
-                    Returns:
-                        bool: True if the position derivative is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "compute_contribution",
                 &PositionDerivative::computeContribution,
                 arg("instant"),

@@ -33,7 +33,8 @@ using ostk::physics::unit::Angle;
 /// to satellite), defined by an Acquisition of Signal (AOS), a Time of Closest Approach (TCA), and a Loss of
 /// Signal (LOS). Also stores the (optional) maximum elevation angle reached during the access and whether the
 /// access window is complete or partial (i.e., truncated by the analysis interval boundaries). The maximum
-/// elevation angle is not defined for satellite to satellite accesses.
+/// elevation angle is not defined for satellite to satellite accesses. The time of closest approach is always present
+/// for a complete access, but may be absent for a partial access (e.g., if the closest approach could not be found).
 class Access
 {
    public:
@@ -58,14 +59,15 @@ class Access
     ///
     /// @param aType An access type.
     /// @param anAcquisitionOfSignal An acquisition of signal instant.
-    /// @param aTimeOfClosestApproach A time of closest approach instant.
+    /// @param aTimeOfClosestApproach A time of closest approach instant, which may only be absent (std::nullopt) for a
+    /// partial access.
     /// @param aLossOfSignal A loss of signal instant.
     /// @param aMaxElevation A maximum elevation angle (optional), not defined for satellite to satellite accesses.
     /// Defaults to std::nullopt.
     Access(
         const Access::Type& aType,
         const Instant& anAcquisitionOfSignal,
-        const Instant& aTimeOfClosestApproach,
+        const std::optional<Instant>& aTimeOfClosestApproach,
         const Instant& aLossOfSignal,
         const std::optional<Angle>& aMaxElevation = std::nullopt
     );
@@ -106,16 +108,6 @@ class Access
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Access& anAccess);
 
-    /// @brief Check if the access is defined.
-    ///
-    /// @code{.cpp}
-    ///     Access access = { ... } ;
-    ///     bool defined = access.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the access is defined.
-    bool isDefined() const;
-
     /// @brief Check if the access is complete.
     ///
     /// @code{.cpp}
@@ -150,11 +142,11 @@ class Access
     ///
     /// @code{.cpp}
     ///     Access access = { ... } ;
-    ///     Instant tca = access.getTimeOfClosestApproach() ;
+    ///     std::optional<Instant> tca = access.getTimeOfClosestApproach() ;
     /// @endcode
     ///
-    /// @return The time of closest approach instant.
-    const Instant& getTimeOfClosestApproach() const;
+    /// @return The time of closest approach instant, or std::nullopt if not set (only possible for a partial access).
+    const std::optional<Instant>& getTimeOfClosestApproach() const;
 
     /// @brief Get the loss of signal instant.
     ///
@@ -196,15 +188,6 @@ class Access
     /// @return The maximum elevation angle, or std::nullopt if not set (e.g., for satellite to satellite accesses).
     const std::optional<Angle>& getMaxElevation() const;
 
-    /// @brief Construct an undefined access.
-    ///
-    /// @code{.cpp}
-    ///     Access access = Access::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined access.
-    static Access Undefined();
-
     /// @brief Get a string representation of an access type.
     ///
     /// @code{.cpp}
@@ -219,7 +202,7 @@ class Access
     Access::Type type_;
 
     Instant acquisitionOfSignal_;
-    Instant timeOfClosestApproach_;
+    std::optional<Instant> timeOfClosestApproach_;
     Instant lossOfSignal_;
     std::optional<Angle> maxElevation_;
 };

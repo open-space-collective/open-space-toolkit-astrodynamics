@@ -111,9 +111,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Constructor)
 {
     {
-        const Tabulated tabulated(states_, Interpolator::Type::Linear);
-
-        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_NO_THROW(Tabulated(states_, Interpolator::Type::Linear));
     }
 
     {
@@ -124,7 +122,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
 
         const Tabulated tabulated(states_, interpolationTypes);
 
-        EXPECT_TRUE(tabulated.isDefined());
         EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
     }
 
@@ -152,7 +149,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
     {
         const Tabulated tabulated(states_, Interpolator::Type::Linear, Frame::ITRF());
 
-        EXPECT_TRUE(tabulated.isDefined());
         EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
         EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
     }
@@ -162,7 +158,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 {
     const Tabulated tabulated = Tabulated::Default(states_, Frame::GCRF(), 2);
 
-    EXPECT_TRUE(tabulated.isDefined());
     EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 2);
     EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
@@ -273,7 +268,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 
     const Tabulated tabulated(states_, Interpolator::Type::Linear);
 
-    EXPECT_TRUE(tabulated.getInterval().isDefined());
     EXPECT_TRUE(
         tabulated.getInterval() == Interval::Closed(states_.getFirst().getInstant(), states_.getLast().getInstant())
     );

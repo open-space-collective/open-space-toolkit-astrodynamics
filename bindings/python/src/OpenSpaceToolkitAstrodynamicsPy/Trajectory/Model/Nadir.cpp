@@ -60,17 +60,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Nadir(nanobind::mod
 
         .def("__str__", &(shiftToString<Nadir>))
         .def("__repr__", &(shiftToString<Nadir>))
-
-        .def(
-            "is_defined",
-            &Nadir::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-            )doc"
-        )
         .def(
             "calculate_state_at",
             &Nadir::calculateStateAt,

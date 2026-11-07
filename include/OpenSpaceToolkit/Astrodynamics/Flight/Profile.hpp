@@ -240,15 +240,6 @@ class Profile
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Profile& aProfile);
 
-    /// @brief Check if profile is defined
-    ///
-    /// @code{.cpp}
-    ///              Profile(...).isDefined();
-    /// @endcode
-    ///
-    /// @return True if profile is defined
-    bool isDefined() const;
-
     /// @brief Get profile model
     ///
     /// @code{.cpp}

@@ -157,15 +157,6 @@ class NumericalSolver : public MathNumericalSolver
         const bool& appendObservedStates = false
     );
 
-    /// @brief Construct an undefined numerical solver.
-    ///
-    /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::Undefined();
-    /// @endcode
-    ///
-    /// @return An undefined numerical solver.
-    static NumericalSolver Undefined();
-
     /// @brief Construct a default numerical solver.
     ///
     /// @code{.cpp}

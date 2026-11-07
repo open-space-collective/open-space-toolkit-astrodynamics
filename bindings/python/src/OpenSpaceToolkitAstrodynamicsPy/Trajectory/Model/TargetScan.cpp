@@ -70,17 +70,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_TargetScan(nanobind
 
         .def("__str__", &(shiftToString<TargetScan>))
         .def("__repr__", &(shiftToString<TargetScan>))
-
-        .def(
-            "is_defined",
-            &TargetScan::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-            )doc"
-        )
         .def(
             "calculate_state_at",
             &TargetScan::calculateStateAt,

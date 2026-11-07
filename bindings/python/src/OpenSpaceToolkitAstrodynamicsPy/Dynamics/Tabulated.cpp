@@ -58,18 +58,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Tabulated(nanobind::module_
             .def("__repr__", &(shiftToString<Tabulated>))
 
             .def(
-                "is_defined",
-                &Tabulated::isDefined,
-                R"doc(
-                    Check if the tabulated dynamics is defined.
-
-                    Returns:
-                        bool: True if the tabulated dynamics is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_instants",
                 &Tabulated::getInstants,
                 R"doc(

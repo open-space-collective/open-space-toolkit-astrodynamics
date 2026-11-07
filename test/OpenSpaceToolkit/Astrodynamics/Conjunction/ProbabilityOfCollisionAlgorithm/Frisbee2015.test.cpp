@@ -187,18 +187,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                Frisbee2015(true, true, relativeSpeedThreshold_, Frame::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            try {
                 Frisbee2015(true, true, relativeSpeedThreshold_, Frame::ITRF());
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("Frame = ITRF is wrong.", e.getMessage());

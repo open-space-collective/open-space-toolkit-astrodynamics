@@ -59,16 +59,6 @@ class CentralBodyGravity : public Dynamics
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity& aCentralBodyGravity);
 
-    /// @brief Check if the central body gravity dynamics is defined.
-    ///
-    /// @code{.cpp}
-    ///     CentralBodyGravity centralBodyGravity = { ... } ;
-    ///     bool defined = centralBodyGravity.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the central body gravity dynamics is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the celestial object.
     ///
     /// @code{.cpp}

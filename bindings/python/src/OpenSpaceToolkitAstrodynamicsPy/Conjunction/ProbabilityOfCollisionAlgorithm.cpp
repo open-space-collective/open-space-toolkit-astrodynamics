@@ -323,7 +323,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         approach.
 
                 Raises:
-                    RuntimeError: If the probability of collision algorithm is undefined or computes a maximum
+                    RuntimeError: If the probability of collision algorithm is null or computes a maximum
                         probability of collision, or if neither covariance is to be scaled.
             )doc",
             arg("probability_of_collision_algorithm"),

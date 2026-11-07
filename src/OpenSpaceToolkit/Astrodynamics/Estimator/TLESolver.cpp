@@ -75,6 +75,30 @@ void TLESolver::Analysis::print(std::ostream& anOutputStream) const
     ostk::core::utils::Print::Footer(anOutputStream);
 }
 
+namespace
+{
+
+Array<Shared<const CoordinateSubset>> MakeTLECoordinateSubsets(const bool anEstimateBStar)
+{
+    Array<Shared<const CoordinateSubset>> coordinateSubsets = {
+        TLESolver::SemiLatusRectumSubset,
+        TLESolver::EccentricityXSubset,
+        TLESolver::EccentricityYSubset,
+        TLESolver::NodeXSubset,
+        TLESolver::NodeYSubset,
+        TLESolver::TrueLongitudeSubset,
+    };
+
+    if (anEstimateBStar)
+    {
+        coordinateSubsets.add(TLESolver::BStarSubset);
+    }
+
+    return coordinateSubsets;
+}
+
+}  // namespace
+
 TLESolver::TLESolver(
     const LeastSquaresSolver& aSolver,
     int aSatelliteNumber,
@@ -92,24 +116,8 @@ TLESolver::TLESolver(
       secondDerivativeMeanMotionDividedBy6_(0.0),
       ephemerisType_(0),
       elementSetNumber_(0),
-      tleStateBuilder_(StateBuilder::Undefined())
+      tleStateBuilder_(Frame::TEME(), MakeTLECoordinateSubsets(anEstimateBStar))
 {
-    // Setup coordinate subsets for TLE state
-    Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-        SemiLatusRectumSubset,
-        EccentricityXSubset,
-        EccentricityYSubset,
-        NodeXSubset,
-        NodeYSubset,
-        TrueLongitudeSubset,
-    };
-
-    if (estimateBStar_)
-    {
-        coordinateSubsets.add(BStarSubset);
-    }
-
-    tleStateBuilder_ = StateBuilder(Frame::TEME(), coordinateSubsets);
 }
 
 const LeastSquaresSolver& TLESolver::getSolver() const
@@ -175,38 +183,38 @@ TLESolver::Analysis TLESolver::estimate(
 ) const
 {
     // Convert initial guess to TLE state
-    State initialGuessTLEState = State::Undefined();
+    const State unsnappedInitialGuessTLEState = [&]() -> State
+    {
+        if (const auto* tle = std::get_if<TLE>(&anInitialGuess))
+        {
+            return TLEToTLEState(*tle);
+        }
 
-    if (const auto* tle = std::get_if<TLE>(&anInitialGuess))
-    {
-        initialGuessTLEState = TLEToTLEState(*tle);
-    }
-    else if (const auto* pair = std::get_if<Pair<State, double>>(&anInitialGuess))
-    {
-        if (estimateBStar_)
+        if (const auto* pair = std::get_if<Pair<State, double>>(&anInitialGuess))
         {
-            initialGuessTLEState = CartesianStateAndBStarToTLEState(pair->first, pair->second);
-        }
-        else
-        {
-            initialGuessTLEState = CartesianStateAndBStarToTLEState(pair->first);
+            if (estimateBStar_)
+            {
+                return CartesianStateAndBStarToTLEState(pair->first, pair->second);
+            }
+
             defaultBStar_ = pair->second;
+            return CartesianStateAndBStarToTLEState(pair->first);
         }
-    }
-    else if (const auto* state = std::get_if<State>(&anInitialGuess))
-    {
+
         if (estimateBStar_)
         {
             throw ostk::core::error::RuntimeError("Initial guess must be a TLE or (State, B*) when also estimating B*."
             );
         }
-        initialGuessTLEState = CartesianStateAndBStarToTLEState(*state);
-    }
+
+        return CartesianStateAndBStarToTLEState(std::get<State>(anInitialGuess));
+    }();
 
     // Snap the estimation epoch to the nearest epoch that can be represented by a TLE.
     // This avoids accuracy loss compared to if the epoch was truncated to TLE precision at the end of the solve.
-    initialGuessTLEState =
-        tleStateBuilder_.build(TLEStateToTLE(initialGuessTLEState).getEpoch(), initialGuessTLEState.getCoordinates());
+    const State initialGuessTLEState = tleStateBuilder_.build(
+        TLEStateToTLE(unsnappedInitialGuessTLEState).getEpoch(), unsnappedInitialGuessTLEState.getCoordinates()
+    );
 
     const Array<State> observationsInEstimationFrame = anObservationStateArray.map<State>(
         [this](const State& aState) -> State

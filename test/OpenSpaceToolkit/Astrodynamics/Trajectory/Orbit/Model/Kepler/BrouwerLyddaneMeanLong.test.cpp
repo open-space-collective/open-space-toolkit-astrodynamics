@@ -279,9 +279,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
             meanAnomaly,
         };
 
-        Position position = Position::Undefined();
-        Velocity velocity = Velocity::Undefined();
-        std::tie(position, velocity) = brouwerLyddaneMeanLong.getCartesianState(
+        const auto [position, velocity] = brouwerLyddaneMeanLong.getCartesianState(
             EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()
         );
 
@@ -320,13 +318,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
             brouwerLyddaneMeanLongConverted.getMeanAnomaly().inRadians(),
             1e-6
         );
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, Undefined)
-{
-    {
-        EXPECT_NO_THROW(BrouwerLyddaneMeanLong::Undefined());
     }
 }
 

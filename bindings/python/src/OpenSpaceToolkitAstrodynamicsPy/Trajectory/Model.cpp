@@ -40,18 +40,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(nanobind::module_ &
         .def("__repr__", &(shiftToString<BaseModel>))
 
         .def(
-            "is_defined",
-            &BaseModel::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "calculate_state_at",
             &BaseModel::calculateStateAt,
             arg("instant"),

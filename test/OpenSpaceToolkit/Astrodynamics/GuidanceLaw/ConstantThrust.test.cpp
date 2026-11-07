@@ -91,19 +91,6 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testing::Test
 {
    protected:
-    void SetUp() override
-    {
-        const Composite satelliteGeometry(Cuboid(
-            {0.0, 0.0, 0.0},
-            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-            {1.0, 2.0, 3.0}
-        ));
-
-        this->defaultSatelliteSystem_ = {
-            satelliteDryMass_, satelliteGeometry, Matrix3d::Identity(), 1.2, 2.1, defaultPropulsionSystem_
-        };
-    }
-
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     const LocalOrbitalFrameFactory localOrbitalFrameFactory_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
@@ -117,7 +104,13 @@ class OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust : public ::testi
     const PropulsionSystem defaultPropulsionSystem_ = {0.1, 1500.0};
     const Mass satelliteDryMass_ = Mass::Kilograms(100.0);
 
-    SatelliteSystem defaultSatelliteSystem_ = SatelliteSystem::Undefined();
+    const Composite satelliteGeometry_ = Composite(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+
+    const SatelliteSystem defaultSatelliteSystem_ = {
+        satelliteDryMass_, satelliteGeometry_, Matrix3d::Identity(), 1.2, 2.1, defaultPropulsionSystem_
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Constructor)
@@ -155,11 +148,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Getters)
     {
         // Not checking equality due to precision loss.
         EXPECT_NO_THROW(defaultConstantThrust_.getLocalThrustDirection());
-    }
-
-    {
-        ConstantThrust constantThrust(LocalOrbitalFrameDirection::Undefined());
-        EXPECT_THROW(constantThrust.getLocalThrustDirection(), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -338,18 +326,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
     const Maneuver::MeanDirectionAndMaximumAngularOffset meanDirectionAndMaximumAngularOffset =
         maneuver.calculateMeanThrustDirectionAndMaximumAngularOffset(localOrbitalFrameFactory_);
 
-    {
-        EXPECT_THROW(
-            try {
-                ConstantThrust::FromManeuver(maneuver, LocalOrbitalFrameFactory::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Local Orbital Frame Factory} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Not considering maximum allowed angular offset for now
     {
         ConstantThrust constantThrust = ConstantThrust::FromManeuver(maneuver, localOrbitalFrameFactory_);
@@ -357,6 +333,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
             constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
         );
         EXPECT_EQ(constantThrust.getLocalThrustDirection().getLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
+
+        // Explicitly no maximum allowed angular offset
+        EXPECT_NO_THROW(ConstantThrust::FromManeuver(maneuver, localOrbitalFrameFactory_, std::nullopt));
     }
 
     // Considering a maximum allowed angular offset, but it's not violated

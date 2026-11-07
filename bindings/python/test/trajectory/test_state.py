@@ -90,7 +90,6 @@ class TestState:
         state = State(instant, position, velocity)
         assert state is not None
         assert isinstance(state, State)
-        assert state.is_defined()
 
     def test_constructor_position_velocity_attitude_angular_velocity(
         self,
@@ -104,7 +103,6 @@ class TestState:
         state = State(instant, position, velocity, attitude, angular_velocity, frame)
         assert state is not None
         assert isinstance(state, State)
-        assert state.is_defined()
 
     def test_explicit_constructor(
         self,
@@ -117,7 +115,6 @@ class TestState:
         state = State(instant, position, velocity)
         assert state is not None
         assert isinstance(state, State)
-        assert state.is_defined()
 
         state = State(
             instant,
@@ -128,7 +125,6 @@ class TestState:
 
         assert state is not None
         assert isinstance(state, State)
-        assert state.is_defined()
 
     def test_subsets_constructor(
         self,
@@ -146,7 +142,6 @@ class TestState:
 
         assert state is not None
         assert isinstance(state, State)
-        assert state.is_defined()
 
     def test_custom_state_class_generator(
         self,
@@ -175,7 +170,6 @@ class TestState:
         assert custom_state is not None
         assert isinstance(custom_state, MySuperFunState)
         assert isinstance(state, State)
-        assert custom_state.is_defined()
 
         assert custom_state == state
         assert custom_state is not state

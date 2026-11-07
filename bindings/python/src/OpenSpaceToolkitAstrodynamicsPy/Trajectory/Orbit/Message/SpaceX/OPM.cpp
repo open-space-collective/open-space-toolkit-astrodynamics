@@ -47,18 +47,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
         )
 
         .def(
-            "is_defined",
-            &OPM::isDefined,
-            R"doc(
-                Check if the OPM message is defined.
-
-                Returns:
-                    is_defined (bool): True if the OPM message is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_header",
             &OPM::getHeader,
             R"doc(
@@ -111,16 +99,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
             arg("name")
         )
 
-        .def_static(
-            "undefined",
-            &OPM::Undefined,
-            R"doc(
-                Return an undefined OPM message.
-
-                Returns:
-                    opm (OPM): An undefined OPM message.
-            )doc"
-        )
         .def_static(
             "dictionary",
             &OPM::Dictionary,

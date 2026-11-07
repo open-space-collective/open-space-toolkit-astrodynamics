@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
@@ -147,15 +149,6 @@ class Tabulated : public virtual Model
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulatedModel);
 
-    /// @brief Check if the tabulated model is defined.
-    ///
-    /// @code{.cpp}
-    ///     bool defined = tabulated.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the tabulated model is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the reference frame in which the computed states are expressed.
     ///
     /// @code{.cpp}
@@ -277,8 +270,8 @@ class Tabulated : public virtual Model
     virtual bool operator!=(const Model& aModel) const override;
 
    private:
-    State firstState_ = State::Undefined();
-    State lastState_ = State::Undefined();
+    std::optional<State> firstState_ = std::nullopt;
+    std::optional<State> lastState_ = std::nullopt;
     Array<Shared<const Interpolator>> interpolators_;
     Shared<const Frame> outputFrameSPtr_ = Frame::GCRF();
 
@@ -291,8 +284,8 @@ class Tabulated : public virtual Model
     /// @param aTimestampVector [out] The timestamps (in seconds, relative to the first state) of the sorted states.
     /// @param aCoordinateMatrix [out] The coordinates of the sorted states, expressed in the output frame (one row
     /// per state, one column per coordinate).
-    /// @return True if the model could be defined (i.e. at least two states were provided), false otherwise.
-    bool computeInterpolationData(
+    /// @throw ostk::core::error::runtime::Wrong If fewer than two states were provided.
+    void computeInterpolationData(
         const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aCoordinateMatrix
     );
 };

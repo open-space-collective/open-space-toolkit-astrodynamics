@@ -115,7 +115,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
             EXPECT_EQ(
                 Pass(
                     defaultRevolutionNumber_,
-                    Instant::Undefined(),
+                    std::nullopt,
                     defaultInstantAtNorthPoint_,
                     defaultInstantAtDescendingNode_,
                     defaultInstantAtSouthPoint_,
@@ -131,7 +131,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
                 Pass(
                     defaultRevolutionNumber_,
                     defaultInstantAtAscendingNode_,
-                    Instant::Undefined(),
+                    std::nullopt,
                     defaultInstantAtDescendingNode_,
                     defaultInstantAtSouthPoint_,
                     defaultInstantAtPassBreak_
@@ -147,7 +147,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
                     defaultRevolutionNumber_,
                     defaultInstantAtAscendingNode_,
                     defaultInstantAtNorthPoint_,
-                    Instant::Undefined(),
+                    std::nullopt,
                     defaultInstantAtSouthPoint_,
                     defaultInstantAtPassBreak_
                 )
@@ -163,7 +163,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
                     defaultInstantAtAscendingNode_,
                     defaultInstantAtNorthPoint_,
                     defaultInstantAtDescendingNode_,
-                    Instant::Undefined(),
+                    std::nullopt,
                     defaultInstantAtPassBreak_
                 )
                     .getType(),
@@ -179,59 +179,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Constructor)
                     defaultInstantAtNorthPoint_,
                     defaultInstantAtDescendingNode_,
                     defaultInstantAtSouthPoint_,
-                    Instant::Undefined()
+                    std::nullopt
                 )
                     .getType(),
                 Pass::Type::Partial
             );
         }
-    }
-
-    // undefined
-    {
-        const Pass pass = {
-            std::nullopt,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-        };
-        EXPECT_FALSE(pass.isDefined());
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, ConstructorWithOptionalRevolutionNumber)
 {
-    // No revolution number and no instant: undefined
+    // No revolution number and no instant: partial, and never equal to another pass
     {
         const Pass pass = {
             std::nullopt,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
         };
 
-        EXPECT_FALSE(pass.isDefined());
-        EXPECT_FALSE(pass == Pass::Undefined());
+        EXPECT_EQ(Pass::Type::Partial, pass.getType());
+        EXPECT_FALSE(pass.getRevolutionNumber().has_value());
+        EXPECT_FALSE(pass.getStartInstant().has_value());
+        EXPECT_FALSE(pass.getEndInstant().has_value());
+        EXPECT_FALSE(pass == pass);
     }
 
     // Revolution number and no instant: partial
     {
         const Pass pass = {
             defaultRevolutionNumber_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
         };
 
-        EXPECT_TRUE(pass.isDefined());
         EXPECT_EQ(Pass::Type::Partial, pass.getType());
         EXPECT_EQ(std::optional<int>(defaultRevolutionNumber_), pass.getRevolutionNumber());
+        EXPECT_FALSE(pass.getStartInstant().has_value());
+        EXPECT_FALSE(pass.getEndInstant().has_value());
     }
 
     // Revolution number and some instants: partial
@@ -240,9 +231,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, ConstructorWithOpti
             defaultRevolutionNumber_,
             defaultInstantAtAscendingNode_,
             defaultInstantAtNorthPoint_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
         };
 
         EXPECT_EQ(Pass::Type::Partial, pass.getType());
@@ -266,7 +257,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, ConstructorWithOpti
             defaultInstantAtPassBreak_,
         };
 
-        EXPECT_TRUE(pass.isDefined());
         EXPECT_EQ(Pass::Type::Complete, pass.getType());
         EXPECT_FALSE(pass.getRevolutionNumber().has_value());
 
@@ -277,19 +267,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, ConstructorWithOpti
         EXPECT_FALSE(defaultPass_ == pass);
     }
 
-    // No revolution number and some instants: complete, without a revolution number
+    // No revolution number and some instants: partial, without a revolution number
     {
         const Pass pass = {
             std::nullopt,
             defaultInstantAtAscendingNode_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
         };
 
-        EXPECT_TRUE(pass.isDefined());
-        EXPECT_EQ(Pass::Type::Complete, pass.getType());
+        EXPECT_EQ(Pass::Type::Partial, pass.getType());
         EXPECT_FALSE(pass.getRevolutionNumber().has_value());
     }
 
@@ -321,7 +310,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
         {
             const Pass pass_1 = {
                 defaultRevolutionNumber_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
@@ -330,7 +319,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
 
             const Pass pass_2 = {
                 defaultRevolutionNumber_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
@@ -344,7 +333,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
         {
             const Pass pass_1 = {
                 defaultRevolutionNumber_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
@@ -371,7 +360,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
             const Pass pass_1 = {
                 defaultRevolutionNumber_,
                 defaultInstantAtAscendingNode_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
                 defaultInstantAtPassBreak_,
@@ -380,7 +369,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
             const Pass pass_2 = {
                 defaultRevolutionNumber_,
                 defaultInstantAtAscendingNode_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
                 defaultInstantAtPassBreak_,
@@ -395,7 +384,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
             const Pass pass_1 = {
                 defaultRevolutionNumber_,
                 defaultInstantAtAscendingNode_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
                 defaultInstantAtPassBreak_,
@@ -422,7 +411,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultRevolutionNumber_,
                 defaultInstantAtAscendingNode_,
                 defaultInstantAtNorthPoint_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtSouthPoint_,
                 defaultInstantAtPassBreak_,
             };
@@ -431,7 +420,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultRevolutionNumber_,
                 defaultInstantAtAscendingNode_,
                 defaultInstantAtNorthPoint_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtSouthPoint_,
                 defaultInstantAtPassBreak_,
             };
@@ -445,7 +434,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultRevolutionNumber_,
                 defaultInstantAtAscendingNode_,
                 defaultInstantAtNorthPoint_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtSouthPoint_,
                 defaultInstantAtPassBreak_,
             };
@@ -472,7 +461,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultInstantAtAscendingNode_,
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtPassBreak_,
             };
 
@@ -481,7 +470,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultInstantAtAscendingNode_,
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtPassBreak_,
             };
 
@@ -495,7 +484,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultInstantAtAscendingNode_,
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
-                Instant::Undefined(),
+                std::nullopt,
                 defaultInstantAtPassBreak_,
             };
 
@@ -522,7 +511,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
-                Instant::Undefined(),
+                std::nullopt,
             };
 
             const Pass pass_2 = {
@@ -531,7 +520,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
-                Instant::Undefined(),
+                std::nullopt,
             };
 
             EXPECT_TRUE(pass_1 == pass_2);
@@ -545,7 +534,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, EqualToOperator)
                 defaultInstantAtNorthPoint_,
                 defaultInstantAtDescendingNode_,
                 defaultInstantAtSouthPoint_,
-                Instant::Undefined(),
+                std::nullopt,
             };
 
             const Pass pass_2 = {
@@ -578,32 +567,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, StreamOperator)
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsDefined)
-{
-    {
-        EXPECT_TRUE(defaultPass_.isDefined());
-    }
-
-    {
-        const Pass pass = {
-            std::nullopt,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-        };
-
-        EXPECT_FALSE(pass.isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsComplete)
 {
-    {
-        EXPECT_THROW(Pass::Undefined().isComplete(), ostk::core::error::runtime::Undefined);
-    }
-
     {
         EXPECT_TRUE(defaultPass_.isComplete());
     }
@@ -615,7 +580,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsComplete)
             defaultInstantAtNorthPoint_,
             defaultInstantAtDescendingNode_,
             defaultInstantAtSouthPoint_,
-            Instant::Undefined(),
+            std::nullopt,
         };
         EXPECT_FALSE(pass.isComplete());
     }
@@ -624,20 +589,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, IsComplete)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetType)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getType(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
         EXPECT_EQ(defaultPass_.getType(), Pass::Type::Complete);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetRevolutionNumber)
 {
-    {
-        EXPECT_THROW(Pass::Undefined().getRevolutionNumber(), ostk::core::error::runtime::Undefined);
-    }
-
     {
         EXPECT_EQ(defaultPass_.getRevolutionNumber(), defaultRevolutionNumber_);
     }
@@ -646,11 +603,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetRevolutionNumber
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetDuration)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getDuration(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_TRUE(defaultPass_.getDuration().isDefined());
+        EXPECT_TRUE(defaultPass_.getDuration().has_value());
     }
 
     {
@@ -659,84 +612,76 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetDuration)
             defaultInstantAtAscendingNode_,
             defaultInstantAtNorthPoint_,
             defaultInstantAtDescendingNode_,
-            Instant::Undefined(),
+            std::nullopt,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_FALSE(pass.getDuration().isDefined());
+        EXPECT_FALSE(pass.getDuration().has_value());
     }
 
     {
-        EXPECT_EQ(defaultPass_.getDuration(), defaultInstantAtPassBreak_ - defaultInstantAtAscendingNode_);
+        EXPECT_EQ(defaultPass_.getDuration().value(), defaultInstantAtPassBreak_ - defaultInstantAtAscendingNode_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetStartInstant)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getStartInstant(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getStartInstant(), defaultInstantAtAscendingNode_);
+        EXPECT_EQ(defaultPass_.getStartInstant().value(), defaultInstantAtAscendingNode_);
     }
 
     {
         const Pass pass = {
             defaultRevolutionNumber_,
-            Instant::Undefined(),
+            std::nullopt,
             defaultInstantAtNorthPoint_,
             defaultInstantAtDescendingNode_,
             defaultInstantAtSouthPoint_,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtNorthPoint_);
+        EXPECT_EQ(pass.getStartInstant().value(), defaultInstantAtNorthPoint_);
     }
 
     {
         const Pass pass = {
             defaultRevolutionNumber_,
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
             defaultInstantAtDescendingNode_,
             defaultInstantAtSouthPoint_,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtDescendingNode_);
+        EXPECT_EQ(pass.getStartInstant().value(), defaultInstantAtDescendingNode_);
     }
 
     {
         const Pass pass = {
             defaultRevolutionNumber_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
             defaultInstantAtSouthPoint_,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtSouthPoint_);
+        EXPECT_EQ(pass.getStartInstant().value(), defaultInstantAtSouthPoint_);
     }
 
     {
         const Pass pass = {
             defaultRevolutionNumber_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_EQ(pass.getStartInstant(), defaultInstantAtPassBreak_);
+        EXPECT_EQ(pass.getStartInstant().value(), defaultInstantAtPassBreak_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetEndInstant)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getEndInstant(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getEndInstant(), defaultInstantAtPassBreak_);
+        EXPECT_EQ(defaultPass_.getEndInstant().value(), defaultInstantAtPassBreak_);
     }
 
     {
@@ -746,9 +691,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetEndInstant)
             defaultInstantAtNorthPoint_,
             defaultInstantAtDescendingNode_,
             defaultInstantAtSouthPoint_,
-            Instant::Undefined(),
+            std::nullopt,
         };
-        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtSouthPoint_);
+        EXPECT_EQ(pass.getEndInstant().value(), defaultInstantAtSouthPoint_);
     }
 
     {
@@ -757,10 +702,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetEndInstant)
             defaultInstantAtAscendingNode_,
             defaultInstantAtNorthPoint_,
             defaultInstantAtDescendingNode_,
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
         };
-        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtDescendingNode_);
+        EXPECT_EQ(pass.getEndInstant().value(), defaultInstantAtDescendingNode_);
     }
 
     {
@@ -768,34 +713,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetEndInstant)
             defaultRevolutionNumber_,
             defaultInstantAtAscendingNode_,
             defaultInstantAtNorthPoint_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
         };
-        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtNorthPoint_);
+        EXPECT_EQ(pass.getEndInstant().value(), defaultInstantAtNorthPoint_);
     }
 
     {
         const Pass pass = {
             defaultRevolutionNumber_,
             defaultInstantAtAscendingNode_,
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Instant::Undefined(),
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
         };
-        EXPECT_EQ(pass.getEndInstant(), defaultInstantAtAscendingNode_);
+        EXPECT_EQ(pass.getEndInstant().value(), defaultInstantAtAscendingNode_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getInterval(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_TRUE(defaultPass_.getInterval().isDefined());
+        EXPECT_TRUE(defaultPass_.getInterval().has_value());
     }
 
     {
@@ -804,15 +745,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
             defaultInstantAtAscendingNode_,
             defaultInstantAtNorthPoint_,
             defaultInstantAtDescendingNode_,
-            Instant::Undefined(),
+            std::nullopt,
             defaultInstantAtPassBreak_,
         };
-        EXPECT_FALSE(pass.getInterval().isDefined());
+        EXPECT_FALSE(pass.getInterval().has_value());
     }
 
     {
         EXPECT_EQ(
-            defaultPass_.getInterval(), Interval::Closed(defaultInstantAtAscendingNode_, defaultInstantAtPassBreak_)
+            defaultPass_.getInterval().value(),
+            Interval::Closed(defaultInstantAtAscendingNode_, defaultInstantAtPassBreak_)
         );
     }
 }
@@ -820,55 +762,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtAscendingNode)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getInstantAtAscendingNode(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getInstantAtAscendingNode(), defaultInstantAtAscendingNode_);
+        EXPECT_EQ(defaultPass_.getInstantAtAscendingNode().value(), defaultInstantAtAscendingNode_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtNorthPoint)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getInstantAtNorthPoint(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getInstantAtNorthPoint(), defaultInstantAtNorthPoint_);
+        EXPECT_EQ(defaultPass_.getInstantAtNorthPoint().value(), defaultInstantAtNorthPoint_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtDescendingNode)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getInstantAtDescendingNode(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getInstantAtDescendingNode(), defaultInstantAtDescendingNode_);
+        EXPECT_EQ(defaultPass_.getInstantAtDescendingNode().value(), defaultInstantAtDescendingNode_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtSouthPoint)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getInstantAtSouthPoint(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getInstantAtSouthPoint(), defaultInstantAtSouthPoint_);
+        EXPECT_EQ(defaultPass_.getInstantAtSouthPoint().value(), defaultInstantAtSouthPoint_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtPassBreak)
 {
     {
-        EXPECT_THROW(Pass::Undefined().getInstantAtPassBreak(), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        EXPECT_EQ(defaultPass_.getInstantAtPassBreak(), defaultInstantAtPassBreak_);
+        EXPECT_EQ(defaultPass_.getInstantAtPassBreak().value(), defaultInstantAtPassBreak_);
     }
 }
 
@@ -902,16 +824,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, Undefined)
-{
-    {
-        EXPECT_FALSE(Pass::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, StringFromType)
 {
-    EXPECT_EQ(Pass::StringFromType(Pass::Type::Undefined), "Undefined");
     EXPECT_EQ(Pass::StringFromType(Pass::Type::Complete), "Complete");
     EXPECT_EQ(Pass::StringFromType(Pass::Type::Partial), "Partial");
 }

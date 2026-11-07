@@ -902,7 +902,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, CalculateRevo
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
 {
     const Shared<const ostk::physics::environment::object::Celestial> earthSPtr =
-        Environment::Default().accessCelestialObjectWithName("Earth");
+        Environment::Default().getCelestialObjectWithName("Earth");
 
     const Instant epoch = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
 
@@ -976,11 +976,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
         const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true, temeSPtr};
 
         const Vector3d expectedPositionITRF =
-            coe.getCartesianState(earthSPtr->getGravitationalParameter(), earthSPtr->accessFrame())
-                .first.getCoordinates();
+            coe.getCartesianState(earthSPtr->getGravitationalParameter(), earthSPtr->getFrame()).first.getCoordinates();
 
         const Vector3d positionITRF =
-            model.calculateStateAt(epoch).getPosition().inFrame(earthSPtr->accessFrame(), epoch).getCoordinates();
+            model.calculateStateAt(epoch).getPosition().inFrame(earthSPtr->getFrame(), epoch).getCoordinates();
 
         EXPECT_TRUE(positionITRF.isNear(expectedPositionITRF, 1e-6));
     }

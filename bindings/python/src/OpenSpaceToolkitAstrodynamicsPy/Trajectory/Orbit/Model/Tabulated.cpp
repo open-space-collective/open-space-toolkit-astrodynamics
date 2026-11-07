@@ -94,18 +94,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Tabulated(nan
         .def("__repr__", &(shiftToString<Tabulated>))
 
         .def(
-            "is_defined",
-            &Tabulated::isDefined,
-            R"doc(
-                Check if the `Tabulated` model is defined.
-
-                Returns:
-                    bool: True if the `Tabulated` model is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_epoch",
             &Tabulated::getEpoch,
             R"doc(

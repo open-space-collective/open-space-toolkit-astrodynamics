@@ -41,18 +41,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(nanobind::m
             .def("__repr__", &(shiftToString<AtmosphericDrag>))
 
             .def(
-                "is_defined",
-                &AtmosphericDrag::isDefined,
-                R"doc(
-                    Check if the atmospheric drag is defined.
-
-                    Returns:
-                        bool: True if the atmospheric drag is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_celestial",
                 &AtmosphericDrag::getCelestial,
                 R"doc(

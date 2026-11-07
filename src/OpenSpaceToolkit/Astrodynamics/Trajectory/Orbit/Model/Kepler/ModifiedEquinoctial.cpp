@@ -57,11 +57,6 @@ ModifiedEquinoctial::ModifiedEquinoctial(
 
 bool ModifiedEquinoctial::operator==(const ModifiedEquinoctial& aModifiedEquinoctial) const
 {
-    if ((!this->isDefined()) || (!aModifiedEquinoctial.isDefined()))
-    {
-        return false;
-    }
-
     const double tolerance = 1e-15 * 1e3;
 
     return (std::abs(semiLatusRectum_.inMeters() - aModifiedEquinoctial.semiLatusRectum_.inMeters()) <= tolerance) &&
@@ -86,71 +81,38 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ModifiedEquinoctial
     return anOutputStream;
 }
 
-bool ModifiedEquinoctial::isDefined() const
-{
-    return semiLatusRectum_.isDefined() && trueLongitude_.isDefined();
-}
-
 const Length& ModifiedEquinoctial::getSemiLatusRectum() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return semiLatusRectum_;
 }
 
 double ModifiedEquinoctial::getEccentricityX() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return eccentricityX_;
 }
 
 double ModifiedEquinoctial::getEccentricityY() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return eccentricityY_;
 }
 
 double ModifiedEquinoctial::getNodeX() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return nodeX_;
 }
 
 double ModifiedEquinoctial::getNodeY() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return nodeY_;
 }
 
 const Angle& ModifiedEquinoctial::getTrueLongitude() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return trueLongitude_;
 }
 
 Vector6d ModifiedEquinoctial::getSIVector() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
     return Vector6d(
         semiLatusRectum_.inMeters(), eccentricityX_, eccentricityY_, nodeX_, nodeY_, trueLongitude_.inRadians()
     );
@@ -158,16 +120,6 @@ Vector6d ModifiedEquinoctial::getSIVector() const
 
 KeplerianCOE ModifiedEquinoctial::toCOE(const Derived& aGravitationalParameter) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
-
-    if (!aGravitationalParameter.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Gravitational Parameter");
-    }
-
     const double semiLatusRectum = semiLatusRectum_.inMeters();
     const double inclination = 2.0 * std::atan(std::sqrt(std::pow(nodeX_, 2) + std::pow(nodeY_, 2)));
     const double raan = std::atan2(nodeY_, nodeX_);
@@ -190,16 +142,6 @@ Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
     const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("ModifiedEquinoctial");
-    }
-
-    if (!aGravitationalParameter.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Gravitational Parameter");
-    }
-
     if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
@@ -264,37 +206,20 @@ void ModifiedEquinoctial::print(std::ostream& anOutputStream, bool displayDecora
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Modified Equinoctial") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Semi-latus rectum:" << (semiLatusRectum_.isDefined() ? semiLatusRectum_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Semi-latus rectum:" << semiLatusRectum_.toString();
     ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity X:" << utility::DoubleToString(eccentricityX_);
     ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity Y:" << utility::DoubleToString(eccentricityY_);
     ostk::core::utils::Print::Line(anOutputStream) << "Node X:" << utility::DoubleToString(nodeX_);
     ostk::core::utils::Print::Line(anOutputStream) << "Node Y:" << utility::DoubleToString(nodeY_);
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "True Longitude:" << (trueLongitude_.isDefined() ? trueLongitude_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "True Longitude:" << trueLongitude_.toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-ModifiedEquinoctial ModifiedEquinoctial::Undefined()
-{
-    return {Length::Undefined(), 0.0, 0.0, 0.0, 0.0, Angle::Undefined()};
 }
 
 ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
     const Pair<Position, Velocity>& aCartesianState, const Derived& aGravitationalParameter
 )
 {
-    if (!aCartesianState.first.isDefined() || !aCartesianState.second.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Cartesian State");
-    }
-
-    if (!aGravitationalParameter.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Gravitational Parameter");
-    }
-
     if (!aCartesianState.first.getFrame()->isQuasiInertial() || !aCartesianState.second.getFrame()->isQuasiInertial())
     {
         throw ostk::core::error::runtime::Wrong(
@@ -332,7 +257,9 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
     // Check for singularity (angularMomentumDirection.z() == -1, i.e., inclination = 180 degrees)
     if (std::abs(1.0 + angularMomentumDirection.z()) < 1e-15)
     {
-        return ModifiedEquinoctial::Undefined();
+        throw ostk::core::error::RuntimeError(
+            "Cannot convert a retrograde equatorial state (inclination = 180 [deg]) to modified equinoctial elements."
+        );
     }
 
     const double nodeXSquared = nodeX * nodeX;
@@ -368,11 +295,6 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
 
 ModifiedEquinoctial ModifiedEquinoctial::COE(const KeplerianCOE& aKeplerianElements)
 {
-    if (!aKeplerianElements.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Classical Orbital Elements");
-    }
-
     const double sma_m = aKeplerianElements.getSemiMajorAxis().inMeters();
     const double ecc_val = aKeplerianElements.getEccentricity();
     const double inc_rad = aKeplerianElements.getInclination().inRadians();
@@ -381,30 +303,28 @@ ModifiedEquinoctial ModifiedEquinoctial::COE(const KeplerianCOE& aKeplerianEleme
     const double ta_rad = aKeplerianElements.getTrueAnomaly().inRadians();
 
     // Check for parabolic orbit (eccentricity = 1)
-    Length semiLatusRectum = Length::Undefined();
-    if (ecc_val == 1.0)  // Parabolic
+    // For a parabolic orbit the semi-major axis is infinite, so the standard formula cannot be used (the
+    // gravitational parameter would be required for this conversion).
+    if (ecc_val == 1.0)
     {
-        // For parabolic orbit, semiLatusRectum = 2 * q (periapsis distance)
-        // q = nodeY^2 / mu, where nodeY is specific angular momentum
-        // Since we don't have gravitational parameter here, we need to handle this case
-        // For parabolic orbits, the semi-major axis is infinite, so we can't use the standard formula
-        // We'll return undefined for now, as we need gravitational parameter for this conversion
-        return ModifiedEquinoctial::Undefined();
+        throw ostk::core::error::RuntimeError("Cannot convert a parabolic orbit to modified equinoctial elements.");
     }
-    else if (ecc_val > 1.0)
-    {  // Hyperbolic
-        return ModifiedEquinoctial::Undefined();
+
+    if (ecc_val > 1.0)
+    {
+        throw ostk::core::error::RuntimeError("Cannot convert a hyperbolic orbit to modified equinoctial elements.");
     }
-    else
-    {  // Elliptical
-        semiLatusRectum = Length::Meters(sma_m * (1.0 - ecc_val * ecc_val));
-    }
+
+    // Elliptical
+    const Length semiLatusRectum = Length::Meters(sma_m * (1.0 - ecc_val * ecc_val));
 
     // Check for inclination singularity (i = 180 degrees)
     if (std::abs(inc_rad - M_PI) < 1e-15)
     {
         // This case (inclination is PI) is a singularity for nodeY, nodeX elements.
-        return ModifiedEquinoctial::Undefined();
+        throw ostk::core::error::RuntimeError(
+            "Cannot convert a retrograde equatorial orbit (inclination = 180 [deg]) to modified equinoctial elements."
+        );
     }
 
     // Convert to Modified Equinoctial elements

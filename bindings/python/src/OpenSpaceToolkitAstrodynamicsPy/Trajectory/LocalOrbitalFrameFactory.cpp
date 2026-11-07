@@ -46,18 +46,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         )
 
         .def(
-            "is_defined",
-            &LocalOrbitalFrameFactory::isDefined,
-            R"doc(
-                Check if the local orbital frame factory is defined.
-
-                Returns:
-                    Frame: True if the local orbital frame factory is defined, False otherwise.
-
-            )doc"
-        )
-
-        .def(
             "get_parent_frame",
             &LocalOrbitalFrameFactory::getParentFrame,
             R"doc(
@@ -92,17 +80,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
                 Returns:
                     Frame: The local orbital frame.
 
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &LocalOrbitalFrameFactory::Undefined,
-            R"doc(
-                Get an undefined local orbital frame factory.
-
-                Returns:
-                    LocalOrbitalFrameFactory: The undefined local orbital frame factory.
             )doc"
         )
         .def_static(

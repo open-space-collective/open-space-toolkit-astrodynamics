@@ -98,8 +98,6 @@ class TestTabulatedProfile:
             },
         )
 
-        assert tabulated_model.is_defined()
-
     def test_constructor_with_interpolation_types_failure(
         self,
         states: list[State],
@@ -120,17 +118,10 @@ class TestTabulatedProfile:
     ):
         tabulated_model: TabulatedModel = TabulatedModel.default(dense_states)
 
-        assert tabulated_model.is_defined()
         assert (
             tabulated_model.get_interpolation_type()
             == Interpolator.Type.BarycentricRational
         )
-
-    def test_is_defined(
-        self,
-        tabulated_model: TabulatedModel,
-    ):
-        assert tabulated_model.is_defined() is True
 
     def test_get_interval(
         self,

@@ -255,6 +255,17 @@ class TestTabulatedTrajectory:
             is not None
         )
 
+    def test_constructor_with_too_few_states_failure(
+        self,
+        test_states: list[State],
+    ):
+        # At least two states are required to build a tabulated model.
+        with pytest.raises(Exception):
+            Tabulated(
+                states=test_states[:1],
+                interpolation_type=Interpolator.Type.Linear,
+            )
+
     def test_constructor_with_interpolation_types(
         self,
         test_states: list[State],
@@ -268,7 +279,6 @@ class TestTabulatedTrajectory:
         )
 
         assert tabulated is not None
-        assert tabulated.is_defined()
 
     def test_constructor_with_interpolation_types_ignores_unknown_subsets(
         self,
@@ -284,7 +294,7 @@ class TestTabulatedTrajectory:
             },
         )
 
-        assert tabulated.is_defined()
+        assert tabulated is not None
 
     def test_constructor_with_interpolation_types_failure(
         self,
@@ -305,7 +315,6 @@ class TestTabulatedTrajectory:
     ):
         tabulated: Tabulated = Tabulated.default(test_states)
 
-        assert tabulated.is_defined()
         assert tabulated.get_interpolation_type() == Interpolator.Type.BarycentricRational
 
     def test_get_interpolation_type(
@@ -334,7 +343,6 @@ class TestTabulatedTrajectory:
             output_frame=frame,
         )
 
-        assert tabulated.is_defined()
         assert tabulated.get_frame() == frame
         assert (
             tabulated.calculate_state_at(test_states[0].get_instant()).get_frame()

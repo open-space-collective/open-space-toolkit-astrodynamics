@@ -155,6 +155,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
                     Returns:
                         SatelliteSystem: A new satellite system.
 
+                    Raises:
+                        RuntimeError: If the dry mass, geometry or inertia tensor has not been set.
+
                 )doc"
             )
 

@@ -41,18 +41,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(nanobind::
             .def("__repr__", &(shiftToString<ThirdBodyGravity>))
 
             .def(
-                "is_defined",
-                &ThirdBodyGravity::isDefined,
-                R"doc(
-                    Check if the third-body gravity is defined.
-
-                    Returns:
-                        bool: True if the third-body gravity is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_celestial",
                 &ThirdBodyGravity::getCelestial,
                 R"doc(

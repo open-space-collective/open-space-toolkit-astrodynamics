@@ -27,7 +27,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
         )doc"
     )
 
-        .value("Undefined", Pass::Type::Undefined, "Undefined")
         .value("Complete", Pass::Type::Complete, "Complete")
         .value("Partial", Pass::Type::Partial, "Partial")
 
@@ -51,11 +50,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
         .def(
             init<
                 const std::optional<int>&,
-                const Instant&,
-                const Instant&,
-                const Instant&,
-                const Instant&,
-                const Instant&>(),
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&>(),
             arg("revolution_number"),
             arg("instant_at_ascending_node"),
             arg("instant_at_north_point"),
@@ -67,11 +66,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
 
                 Args:
                     revolution_number (int | None): The revolution number of the pass. None if unknown.
-                    instant_at_ascending_node (Instant): The instant at the ascending node of the pass.
-                    instant_at_north_point (Instant): The instant at the north point of the pass.
-                    instant_at_descending_node (Instant): The instant at the descending node of the pass.
-                    instant_at_south_point (Instant): The instant at the south point of the pass.
-                    instant_at_pass_break (Instant): The instant at break of the pass.
+                    instant_at_ascending_node (Instant | None): The instant at the ascending node of the pass. None if unknown.
+                    instant_at_north_point (Instant | None): The instant at the north point of the pass. None if unknown.
+                    instant_at_descending_node (Instant | None): The instant at the descending node of the pass. None if unknown.
+                    instant_at_south_point (Instant | None): The instant at the south point of the pass. None if unknown.
+                    instant_at_pass_break (Instant | None): The instant at break of the pass. None if unknown.
 
             )doc"
         )
@@ -96,17 +95,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
         .def("__str__", &(shiftToString<Pass>))
         .def("__repr__", &(shiftToString<Pass>))
 
-        .def(
-            "is_defined",
-            &Pass::isDefined,
-            R"doc(
-                Check if the pass is defined.
-
-                Returns:
-                    bool: True if the pass is defined, False otherwise.
-
-            )doc"
-        )
         .def(
             "is_complete",
             &Pass::isComplete,
@@ -145,10 +133,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
             "get_duration",
             &Pass::getDuration,
             R"doc(
-                Get the duration of the pass. Undefined if the pass is not complete.
+                Get the duration of the pass. None if the pass is not complete.
 
                 Returns:
-                    Duration: The duration of the pass.
+                    Duration | None: The duration of the pass.
 
             )doc"
         )
@@ -156,10 +144,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
             "get_start_instant",
             &Pass::getStartInstant,
             R"doc(
-                Get the start instant of the pass. For partial passes, this is the minimum defined instant.
+                Get the start instant of the pass. For partial passes, this is the minimum known instant.
 
                 Returns:
-                    Instant: The start instant of the pass.
+                    Instant | None: The start instant of the pass, or None if none of the instants of the pass is known.
             
             )doc"
         )
@@ -167,10 +155,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
             "get_end_instant",
             &Pass::getEndInstant,
             R"doc(
-                Get the end instant of the pass. For partial passes, this is the maximum defined instant.
+                Get the end instant of the pass. For partial passes, this is the maximum known instant.
 
                 Returns:
-                    Instant: The end instant of the pass.
+                    Instant | None: The end instant of the pass, or None if none of the instants of the pass is known.
 
             )doc"
         )
@@ -178,10 +166,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
             "get_interval",
             &Pass::getInterval,
             R"doc(
-                Get the interval of the pass. Undefined if the pass is not complete.
+                Get the interval of the pass. None if the pass is not complete.
 
                 Returns:
-                    Interval: The interval of the pass.
+                    Interval | None: The interval of the pass.
             )doc"
         )
         .def(
@@ -192,7 +180,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
                 i.e. z = 0 & vz > 0 in an ECI frame.
 
                 Returns:
-                    Instant: The instant at the ascending node of the pass.
+                    Instant | None: The instant at the ascending node of the pass. None if unknown.
             
             )doc"
         )
@@ -204,7 +192,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
                 i.e. z = maximum and vz = 0 in an ECI frame.
 
                 Returns:
-                    Instant: The instant at the north point of the pass.
+                    Instant | None: The instant at the north point of the pass. None if unknown.
 
             )doc"
         )
@@ -216,7 +204,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
                 i.e. z = 0 and vz < 0 in an ECI frame.
 
                 Returns:
-                    Instant: The instant at the descending node of the pass.
+                    Instant | None: The instant at the descending node of the pass. None if unknown.
 
             )doc"
         )
@@ -228,7 +216,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
                 i.e. z = minimum and vz = 0 in an ECI frame.
 
                 Returns:
-                    Instant: The instant at the south point of the pass.
+                    Instant | None: The instant at the south point of the pass. None if unknown.
 
             )doc"
         )
@@ -240,21 +228,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(nanobind::modu
                 i.e. the ascending node of the next pass.
 
                 Returns:
-                    Instant: The instant at the break of the pass.
+                    Instant | None: The instant at the break of the pass. None if unknown.
 
             )doc"
         )
 
-        .def_static(
-            "undefined",
-            &Pass::Undefined,
-            R"doc(
-                Get an undefined pass.
-
-                Returns:
-                    Pass: The undefined pass.
-            )doc"
-        )
         .def_static(
             "string_from_type",
             &Pass::StringFromType,

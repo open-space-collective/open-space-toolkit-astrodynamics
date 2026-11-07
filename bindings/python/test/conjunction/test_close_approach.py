@@ -181,7 +181,6 @@ class TestCloseApproach:
 
         assert close_approach is not None
         assert isinstance(close_approach, CloseApproach)
-        assert close_approach.is_defined() is True
 
         relative_speed = close_approach.compute_relative_speed()
 
@@ -190,19 +189,6 @@ class TestCloseApproach:
         assert relative_speed.in_unit(Derived.Unit.meter_per_second()) > 0.0
         assert close_approach.get_object_1_state().has_covariance() is True
         assert close_approach.get_object_2_state().has_covariance() is True
-
-    def test_is_defined_success(
-        self,
-        close_approach: CloseApproach,
-    ):
-        assert close_approach.is_defined() is True
-
-    def test_undefined_success(self):
-        close_approach = CloseApproach.undefined()
-
-        assert close_approach is not None
-        assert isinstance(close_approach, CloseApproach)
-        assert close_approach.is_defined() is False
 
     def test_get_instant_success(
         self,
@@ -250,7 +236,6 @@ class TestCloseApproach:
 
         assert scaled_close_approach is not None
         assert isinstance(scaled_close_approach, CloseApproach)
-        assert scaled_close_approach.is_defined() is True
         assert np.allclose(
             scaled_close_approach.get_object_1_state().get_covariance().get_coordinates(),
             object_1_covariance.scale(2.0).get_coordinates(),
@@ -262,7 +247,6 @@ class TestCloseApproach:
 
         scaled_object_1_only = close_approach_with_covariances.scale(scale_factor_1=2.0)
 
-        assert scaled_object_1_only.is_defined() is True
         assert np.allclose(
             scaled_object_1_only.get_object_1_state().get_covariance().get_coordinates(),
             object_1_covariance.scale(2.0).get_coordinates(),
@@ -277,7 +261,6 @@ class TestCloseApproach:
             scale_factor_2=4.0,
         )
 
-        assert scaled_object_2_only.is_defined() is True
         assert np.allclose(
             scaled_object_2_only.get_object_1_state().get_covariance().get_coordinates(),
             object_1_covariance.get_coordinates(),
@@ -289,7 +272,6 @@ class TestCloseApproach:
 
         unscaled_close_approach = close_approach_with_covariances.scale()
 
-        assert unscaled_close_approach.is_defined() is True
         assert (
             unscaled_close_approach.get_object_1_state()
             == close_approach_with_covariances.get_object_1_state()
@@ -305,7 +287,6 @@ class TestCloseApproach:
     ):
         unscaled_close_approach = close_approach.scale()
 
-        assert unscaled_close_approach.is_defined() is True
         assert (
             unscaled_close_approach.get_object_1_state()
             == close_approach.get_object_1_state()
@@ -327,7 +308,6 @@ class TestCloseApproach:
 
         assert swapped_close_approach is not None
         assert isinstance(swapped_close_approach, CloseApproach)
-        assert swapped_close_approach.is_defined() is True
         assert (
             swapped_close_approach.get_object_1_state() == object_2_state_with_covariance
         )
@@ -431,7 +411,6 @@ class TestCloseApproach:
 
         assert encounter_frame is not None
         assert isinstance(encounter_frame, Frame)
-        assert encounter_frame.is_defined() is True
         assert encounter_frame.get_parent() == gcrf_frame
         assert close_approach.compute_encounter_frame(frame=gcrf_frame) == encounter_frame
 

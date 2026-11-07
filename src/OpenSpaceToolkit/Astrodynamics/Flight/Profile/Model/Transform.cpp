@@ -20,6 +20,10 @@ Transform::Transform(const DynamicProvider& aDynamicTransformProvider, const Sha
     : transformProvider_(aDynamicTransformProvider),
       frameSPtr_(aFrameSPtr)
 {
+    if (frameSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
 }
 
 Transform* Transform::clone() const
@@ -34,26 +38,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Transform& aTransfo
     return anOutputStream;
 }
 
-bool Transform::isDefined() const
-{
-    return this->transformProvider_.isDefined() && (this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined();
-}
-
 State Transform::calculateStateAt(const Instant& anInstant) const
 {
     using ostk::physics::coordinate::Position;
     using ostk::physics::coordinate::Transform;
     using ostk::physics::coordinate::Velocity;
-
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Transform");
-    }
 
     const Transform T_REF_B = this->transformProvider_.getTransformAt(anInstant);
 
@@ -79,16 +68,6 @@ Axes Transform::getAxesAt(const Instant& anInstant) const
 {
     using ostk::physics::coordinate::Transform;
 
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Transform");
-    }
-
     const Transform transform = this->transformProvider_.getTransformAt(anInstant);
 
     const Quaternion q_GCRF_BODY = transform.getOrientation();
@@ -103,11 +82,6 @@ Axes Transform::getAxesAt(const Instant& anInstant) const
 Shared<const Frame> Transform::constructBodyFrame(const String& aFrameName) const
 {
     using ostk::physics::coordinate::Transform;
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Transform");
-    }
 
     const DynamicProvider dynamicTransformProvider = {
         [this](const Instant& anInstant) -> Transform
@@ -128,24 +102,9 @@ void Transform::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Transform Transform::Undefined()
-{
-    return {DynamicProvider::Undefined(), Frame::Undefined()};
-}
-
 Transform Transform::InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion)
 {
     using ostk::physics::coordinate::Transform;
-
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
-    if (!aQuaternion.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Quaternion");
-    }
 
     const DynamicProvider dynamicTransformProvider = {
         [aTrajectory, aQuaternion](const Instant& anInstant) -> Transform
@@ -170,11 +129,6 @@ Transform Transform::LocalOrbitalFramePointing(
 {
     using ostk::physics::coordinate::Transform;
 
-    if (!anOrbit.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Orbit");
-    }
-
     const Shared<const Frame> orbitalFrameSPtr = anOrbit.getOrbitalFrame(anOrbitalFrameType);
 
     const DynamicProvider dynamicTransformProvider = {
@@ -191,11 +145,6 @@ Transform Transform::LocalOrbitalFramePointing(
 
 bool Transform::operator==(const Model& aModel) const
 {
-    if ((!this->isDefined()) || (!aModel.isDefined()))
-    {
-        return false;
-    }
-
     const Transform* transformModelPtr = dynamic_cast<const Transform*>(&aModel);
 
     throw ostk::core::error::runtime::ToBeImplemented("Transform::operator ==");

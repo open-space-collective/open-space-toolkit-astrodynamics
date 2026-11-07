@@ -45,14 +45,3 @@ class TestOffNadirAngles:
         assert along_track is not None
         assert cross_track is not None
         assert off_nadir is not None
-
-    def test_compute_off_nadir_angles_undefined(
-        self,
-        state: State,
-        target_position: Position,
-    ):
-        with pytest.raises(RuntimeError):
-            compute_off_nadir_angles(State.undefined(), target_position)
-
-        with pytest.raises(RuntimeError):
-            compute_off_nadir_angles(state, Position.undefined())

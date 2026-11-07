@@ -50,7 +50,7 @@ using ostk::astrodynamics::trajectory::State;
 class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform : public ::testing::Test
 {
    protected:
-    void SetUp() override
+    static Orbit GenerateOrbit()
     {
         const Environment environment = Environment::Default();
 
@@ -73,13 +73,11 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform : public ::
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        this->orbit_ = {keplerianModel, environment.getCelestialObjectWithName("Earth")};
-
-        this->transform_ = Transform::LocalOrbitalFramePointing(this->orbit_, Orbit::FrameType::VVLH);
+        return {keplerianModel, environment.getCelestialObjectWithName("Earth")};
     }
 
-    Orbit orbit_ = Orbit::Undefined();
-    Transform transform_ = Transform::Undefined();
+    Orbit orbit_ = GenerateOrbit();
+    Transform transform_ = Transform::LocalOrbitalFramePointing(orbit_, Orbit::FrameType::VVLH);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Constructor)
@@ -101,6 +99,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Construct
     };
 
     EXPECT_NO_THROW(Transform transform(DynamicProvider(dynamicProviderGenerator), Frame::GCRF()));
+
+    // A null frame is not valid
+    EXPECT_THROW(
+        Transform transform(DynamicProvider(dynamicProviderGenerator), nullptr), ostk::core::error::runtime::Undefined
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, StreamOperator)
@@ -124,13 +127,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Print)
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, IsDefined)
-{
-    {
-        EXPECT_TRUE(transform_.isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, CalculateStateAt)
 {
     {
@@ -146,19 +142,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Calculate
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, GetAxesAt)
 {
-    // undefined
-    {
-        const Instant instant = Instant::J2000();
-        const Transform undefinedTransform = Transform::Undefined();
-        EXPECT_THROW(undefinedTransform.getAxesAt(instant), ostk::core::error::runtime::Undefined);
-    }
-
-    // instant undefined
-    {
-        const Instant instant = Instant::Undefined();
-        EXPECT_THROW(transform_.getAxesAt(instant), ostk::core::error::runtime::Undefined);
-    }
-
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
         const Axes axes = transform_.getAxesAt(instant);
@@ -181,12 +164,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Construct
     {
         const String frameName = "OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform.ConstructBodyFrame";
 
-        // undefined model
-        {
-            const Transform undefinedTransform = Transform::Undefined();
-            EXPECT_THROW(undefinedTransform.constructBodyFrame(frameName), ostk::core::error::runtime::Undefined);
-        }
-
         {
             const Shared<const Frame> bodyFrame = transform_.constructBodyFrame(frameName);
             EXPECT_EQ(bodyFrame->getName(), frameName);
@@ -194,23 +171,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Construct
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Undefined)
-{
-    {
-        EXPECT_FALSE(Transform::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, InertialPointing)
 {
     {
-        EXPECT_TRUE(Transform::InertialPointing(orbit_, Quaternion::Unit()).isDefined());
+        EXPECT_NO_THROW(Transform::InertialPointing(orbit_, Quaternion::Unit()));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, LocalOrbitalFramePointing)
 {
     {
-        EXPECT_TRUE(Transform::LocalOrbitalFramePointing(orbit_, Orbit::FrameType::VVLH).isDefined());
+        EXPECT_NO_THROW(Transform::LocalOrbitalFramePointing(orbit_, Orbit::FrameType::VVLH));
     }
 }

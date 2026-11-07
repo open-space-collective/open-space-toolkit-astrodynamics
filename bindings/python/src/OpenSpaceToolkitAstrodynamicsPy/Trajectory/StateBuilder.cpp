@@ -135,17 +135,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(nanobind::mo
         .def("__repr__", &(shiftToString<StateBuilder>))
 
         .def(
-            "is_defined",
-            &StateBuilder::isDefined,
-            R"doc(
-                Check if the `StateBuilder` is defined.
-
-                Returns:
-                    bool: True if the `StateBuilder` is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "build",
             &StateBuilder::build,
             arg("instant"),
@@ -232,17 +221,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(nanobind::mo
 
                 Returns:
                     Frame: The reference frame of the `StateBuilder`.
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &StateBuilder::Undefined,
-            R"doc(
-                Get an undefined `StateBuilder`.
-
-                Returns:
-                    StateBuilder: The undefined `StateBuilder`.
             )doc"
         )
 

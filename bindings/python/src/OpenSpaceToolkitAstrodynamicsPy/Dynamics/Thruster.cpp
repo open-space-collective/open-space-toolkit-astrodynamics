@@ -33,11 +33,6 @@ class PyThruster : public Thruster
         NB_OVERRIDE(print, anOutputStream, displayDecorator);
     }
 
-    bool isDefined() const override
-    {
-        OSTK_NB_OVERRIDE_PURE_NAME_BOOL("is_defined", isDefined);
-    }
-
     Array<Shared<const CoordinateSubset>> getReadCoordinateSubsets() const override
     {
         NB_OVERRIDE_PURE_NAME("get_read_coordinate_subsets", getReadCoordinateSubsets);
@@ -108,18 +103,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster(nanobind::module_&
 
         .def("__str__", &(shiftToString<Thruster>))
         .def("__repr__", &(shiftToString<Thruster>))
-
-        .def(
-            "is_defined",
-            &Thruster::isDefined,
-            R"doc(
-                Check if the thruster is defined.
-
-                Returns:
-                    bool: True if the thruster is defined, False otherwise.
-
-            )doc"
-        )
 
         .def(
             "compute_contribution",

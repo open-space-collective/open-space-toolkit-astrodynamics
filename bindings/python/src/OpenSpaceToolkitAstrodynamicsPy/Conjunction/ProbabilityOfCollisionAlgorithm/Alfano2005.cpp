@@ -47,7 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                     frame (Frame, optional): An inertial (or quasi-inertial) frame to use. Defaults to GCRF.
 
                 Raises:
-                    RuntimeError: If the frame is undefined or not quasi-inertial.
+                    RuntimeError: If the frame is null or not quasi-inertial.
             )doc",
             arg("relative_speed_threshold").sig("Derived(100.0, Derived.Unit.meter_per_second())") =
                 Derived(100.0, Derived::Unit::MeterPerSecond()),

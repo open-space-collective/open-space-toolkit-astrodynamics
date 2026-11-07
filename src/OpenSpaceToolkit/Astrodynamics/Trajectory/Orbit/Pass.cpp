@@ -16,66 +16,54 @@ namespace orbit
 
 Pass::Pass(
     const std::optional<int>& aRevolutionNumber,
-    const Instant& anInstantAtAscendingNode,
-    const Instant& anInstantAtNorthPoint,
-    const Instant& anInstantAtDescendingNode,
-    const Instant& anInstantAtSouthPoint,
-    const Instant& anInstantAtPassBreak
+    const std::optional<Instant>& anInstantAtAscendingNode,
+    const std::optional<Instant>& anInstantAtNorthPoint,
+    const std::optional<Instant>& anInstantAtDescendingNode,
+    const std::optional<Instant>& anInstantAtSouthPoint,
+    const std::optional<Instant>& anInstantAtPassBreak
 )
-    : revolutionNumber_(aRevolutionNumber),
+    : type_(
+          (anInstantAtAscendingNode.has_value() && anInstantAtNorthPoint.has_value() &&
+           anInstantAtDescendingNode.has_value() && anInstantAtSouthPoint.has_value() &&
+           anInstantAtPassBreak.has_value())
+              ? Pass::Type::Complete
+              : Pass::Type::Partial
+      ),
+      revolutionNumber_(aRevolutionNumber),
       instantAtAscendingNode_(anInstantAtAscendingNode),
       instantAtNorthPoint_(anInstantAtNorthPoint),
       instantAtDescendingNode_(anInstantAtDescendingNode),
       instantAtSouthPoint_(anInstantAtSouthPoint),
       instantAtPassBreak_(anInstantAtPassBreak)
 {
-    if (!anInstantAtNorthPoint.isDefined() && !anInstantAtSouthPoint.isDefined() &&
-        !anInstantAtDescendingNode.isDefined() && !anInstantAtAscendingNode.isDefined() &&
-        !anInstantAtPassBreak.isDefined() && !revolutionNumber_.has_value())
-    {
-        type_ = Pass::Type::Undefined;
-    }
-    else if ((!anInstantAtNorthPoint.isDefined() || !anInstantAtSouthPoint.isDefined() ||
-              !anInstantAtDescendingNode.isDefined() || !anInstantAtAscendingNode.isDefined() ||
-              !anInstantAtPassBreak.isDefined()) &&
-             revolutionNumber_.has_value())
-    {
-        type_ = Pass::Type::Partial;
-    }
-    else
-    {
-        type_ = Pass::Type::Complete;
-    }
+    // The order of the instants is only verified along the leading run of known instants.
 
-    if (instantAtAscendingNode_.isDefined())
+    if (instantAtAscendingNode_.has_value() && instantAtNorthPoint_.has_value())
     {
-        if (instantAtNorthPoint_.isDefined())
+        if (instantAtAscendingNode_.value() > instantAtNorthPoint_.value())
         {
-            if (instantAtAscendingNode_ > instantAtNorthPoint_)
+            throw ostk::core::error::RuntimeError("Ascending node must be before north point.");
+        }
+
+        if (instantAtDescendingNode_.has_value())
+        {
+            if (instantAtNorthPoint_.value() > instantAtDescendingNode_.value())
             {
-                throw ostk::core::error::RuntimeError("Ascending node must be before north point.");
+                throw ostk::core::error::RuntimeError("North point must be before descending node.");
             }
 
-            if (instantAtDescendingNode_.isDefined())
+            if (instantAtSouthPoint_.has_value())
             {
-                if (instantAtNorthPoint_ > instantAtDescendingNode_)
+                if (instantAtDescendingNode_.value() > instantAtSouthPoint_.value())
                 {
-                    throw ostk::core::error::RuntimeError("North point must be before descending node.");
+                    throw ostk::core::error::RuntimeError("Descending node must be before south point.");
                 }
 
-                if (instantAtSouthPoint_.isDefined())
+                if (instantAtPassBreak_.has_value())
                 {
-                    if (instantAtDescendingNode_ > instantAtSouthPoint_)
+                    if (instantAtSouthPoint_.value() > instantAtPassBreak_.value())
                     {
-                        throw ostk::core::error::RuntimeError("Descending node must be before south point.");
-                    }
-
-                    if (instantAtPassBreak_.isDefined())
-                    {
-                        if (instantAtSouthPoint_ > instantAtPassBreak_)
-                        {
-                            throw ostk::core::error::RuntimeError("South point must be before pass break.");
-                        }
+                        throw ostk::core::error::RuntimeError("South point must be before pass break.");
                     }
                 }
             }
@@ -85,45 +73,12 @@ Pass::Pass(
 
 bool Pass::operator==(const Pass& aPass) const
 {
-    if ((!this->isDefined()) || (!aPass.isDefined()))
-    {
-        return false;
-    }
-
-    bool isEqual = (type_ == aPass.type_) && revolutionNumber_.has_value() && aPass.revolutionNumber_.has_value() &&
-                   (revolutionNumber_.value() == aPass.revolutionNumber_.value()) &&
-                   (instantAtAscendingNode_.isDefined() == aPass.instantAtAscendingNode_.isDefined()) &&
-                   (instantAtDescendingNode_.isDefined() == aPass.instantAtDescendingNode_.isDefined()) &&
-                   (instantAtNorthPoint_.isDefined() == aPass.instantAtNorthPoint_.isDefined()) &&
-                   (instantAtSouthPoint_.isDefined() == aPass.instantAtSouthPoint_.isDefined()) &&
-                   (instantAtPassBreak_.isDefined() == aPass.instantAtPassBreak_.isDefined());
-
-    if (instantAtAscendingNode_.isDefined() && aPass.instantAtAscendingNode_.isDefined())
-    {
-        isEqual = isEqual && (instantAtAscendingNode_ == aPass.instantAtAscendingNode_);
-    }
-
-    if (instantAtDescendingNode_.isDefined() && aPass.instantAtDescendingNode_.isDefined())
-    {
-        isEqual = isEqual && (instantAtDescendingNode_ == aPass.instantAtDescendingNode_);
-    }
-
-    if (instantAtNorthPoint_.isDefined() && aPass.instantAtNorthPoint_.isDefined())
-    {
-        isEqual = isEqual && (instantAtNorthPoint_ == aPass.instantAtNorthPoint_);
-    }
-
-    if (instantAtSouthPoint_.isDefined() && aPass.instantAtSouthPoint_.isDefined())
-    {
-        isEqual = isEqual && (instantAtSouthPoint_ == aPass.instantAtSouthPoint_);
-    }
-
-    if (instantAtPassBreak_.isDefined() && aPass.instantAtPassBreak_.isDefined())
-    {
-        isEqual = isEqual && (instantAtPassBreak_ == aPass.instantAtPassBreak_);
-    }
-
-    return isEqual;
+    return (type_ == aPass.type_) && revolutionNumber_.has_value() && aPass.revolutionNumber_.has_value() &&
+           (revolutionNumber_.value() == aPass.revolutionNumber_.value()) &&
+           (instantAtAscendingNode_ == aPass.instantAtAscendingNode_) &&
+           (instantAtDescendingNode_ == aPass.instantAtDescendingNode_) &&
+           (instantAtNorthPoint_ == aPass.instantAtNorthPoint_) &&
+           (instantAtSouthPoint_ == aPass.instantAtSouthPoint_) && (instantAtPassBreak_ == aPass.instantAtPassBreak_);
 }
 
 bool Pass::operator!=(const Pass& aPass) const
@@ -138,178 +93,101 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Pass& aPass)
     return anOutputStream;
 }
 
-bool Pass::isDefined() const
-{
-    return type_ != Pass::Type::Undefined;
-}
-
 bool Pass::isComplete() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return type_ == Pass::Type::Complete;
 }
 
 Pass::Type Pass::getType() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return type_;
 }
 
 const std::optional<int>& Pass::getRevolutionNumber() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return revolutionNumber_;
 }
 
-Duration Pass::getDuration() const
+std::optional<Duration> Pass::getDuration() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     if (type_ == Pass::Type::Complete)
     {
-        return instantAtPassBreak_ - instantAtAscendingNode_;
+        return instantAtPassBreak_.value() - instantAtAscendingNode_.value();
     }
 
-    return Duration::Undefined();
+    return std::nullopt;
 }
 
-Instant Pass::getStartInstant() const
+std::optional<Instant> Pass::getStartInstant() const
 {
-    if (!this->isDefined())
+    for (const std::optional<Instant>* instantPtr : {
+             &instantAtAscendingNode_,
+             &instantAtNorthPoint_,
+             &instantAtDescendingNode_,
+             &instantAtSouthPoint_,
+             &instantAtPassBreak_,
+         })
     {
-        throw ostk::core::error::runtime::Undefined("Pass");
+        if (instantPtr->has_value())
+        {
+            return *instantPtr;
+        }
     }
 
-    if (instantAtAscendingNode_.isDefined())
-    {
-        return instantAtAscendingNode_;
-    }
-
-    if (instantAtNorthPoint_.isDefined())
-    {
-        return instantAtNorthPoint_;
-    }
-
-    if (instantAtDescendingNode_.isDefined())
-    {
-        return instantAtDescendingNode_;
-    }
-
-    if (instantAtSouthPoint_.isDefined())
-    {
-        return instantAtSouthPoint_;
-    }
-
-    return instantAtPassBreak_;
+    return std::nullopt;
 }
 
-Instant Pass::getEndInstant() const
+std::optional<Instant> Pass::getEndInstant() const
 {
-    if (!this->isDefined())
+    for (const std::optional<Instant>* instantPtr : {
+             &instantAtPassBreak_,
+             &instantAtSouthPoint_,
+             &instantAtDescendingNode_,
+             &instantAtNorthPoint_,
+             &instantAtAscendingNode_,
+         })
     {
-        throw ostk::core::error::runtime::Undefined("Pass");
+        if (instantPtr->has_value())
+        {
+            return *instantPtr;
+        }
     }
 
-    if (instantAtPassBreak_.isDefined())
+    return std::nullopt;
+}
+
+std::optional<Interval> Pass::getInterval() const
+{
+    if (type_ == Pass::Type::Complete)
     {
-        return instantAtPassBreak_;
+        return Interval::Closed(instantAtAscendingNode_.value(), instantAtPassBreak_.value());
     }
 
-    if (instantAtSouthPoint_.isDefined())
-    {
-        return instantAtSouthPoint_;
-    }
+    return std::nullopt;
+}
 
-    if (instantAtDescendingNode_.isDefined())
-    {
-        return instantAtDescendingNode_;
-    }
-
-    if (instantAtNorthPoint_.isDefined())
-    {
-        return instantAtNorthPoint_;
-    }
-
+const std::optional<Instant>& Pass::getInstantAtAscendingNode() const
+{
     return instantAtAscendingNode_;
 }
 
-Interval Pass::getInterval() const
+const std::optional<Instant>& Pass::getInstantAtNorthPoint() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
-    if (type_ == Pass::Type::Complete)
-    {
-        return Interval::Closed(instantAtAscendingNode_, instantAtPassBreak_);
-    }
-
-    return Interval::Undefined();
-}
-
-const Instant& Pass::getInstantAtAscendingNode() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
-    return instantAtAscendingNode_;
-}
-
-const Instant& Pass::getInstantAtNorthPoint() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return instantAtNorthPoint_;
 }
 
-const Instant& Pass::getInstantAtDescendingNode() const
+const std::optional<Instant>& Pass::getInstantAtDescendingNode() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return instantAtDescendingNode_;
 }
 
-const Instant& Pass::getInstantAtSouthPoint() const
+const std::optional<Instant>& Pass::getInstantAtSouthPoint() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return instantAtSouthPoint_;
 }
 
-const Instant& Pass::getInstantAtPassBreak() const
+const std::optional<Instant>& Pass::getInstantAtPassBreak() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Pass");
-    }
-
     return instantAtPassBreak_;
 }
 
@@ -317,48 +195,31 @@ void Pass::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Pass") : void();
 
-    const Duration duration = this->isDefined() ? this->getDuration() : Duration::Undefined();
+    const auto instantToString = [](const std::optional<Instant>& anInstant) -> String
+    {
+        return anInstant.has_value() ? anInstant.value().toString() : "Undefined";
+    };
+
+    const std::optional<Duration> duration = this->getDuration();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Pass::StringFromType(type_);
     ostk::core::utils::Print::Line(anOutputStream)
         << "Revolution #:" << (revolutionNumber_.has_value() ? std::to_string(revolutionNumber_.value()) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Duration:" << (duration.isDefined() ? duration.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Ascending node:"
-        << (instantAtAscendingNode_.isDefined() ? instantAtAscendingNode_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "North point:" << (instantAtNorthPoint_.isDefined() ? instantAtNorthPoint_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Descending node:"
-        << (instantAtDescendingNode_.isDefined() ? instantAtDescendingNode_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "South point:" << (instantAtSouthPoint_.isDefined() ? instantAtSouthPoint_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Pass break:" << (instantAtPassBreak_.isDefined() ? instantAtPassBreak_.toString() : "Undefined");
+        << "Duration:" << (duration.has_value() ? duration.value().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Ascending node:" << instantToString(instantAtAscendingNode_);
+    ostk::core::utils::Print::Line(anOutputStream) << "North point:" << instantToString(instantAtNorthPoint_);
+    ostk::core::utils::Print::Line(anOutputStream) << "Descending node:" << instantToString(instantAtDescendingNode_);
+    ostk::core::utils::Print::Line(anOutputStream) << "South point:" << instantToString(instantAtSouthPoint_);
+    ostk::core::utils::Print::Line(anOutputStream) << "Pass break:" << instantToString(instantAtPassBreak_);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-Pass Pass::Undefined()
-{
-    return {
-        std::nullopt,
-        Instant::Undefined(),
-        Instant::Undefined(),
-        Instant::Undefined(),
-        Instant::Undefined(),
-        Instant::Undefined(),
-    };
 }
 
 String Pass::StringFromType(const Pass::Type& aType)
 {
     switch (aType)
     {
-        case Pass::Type::Undefined:
-            return "Undefined";
-
         case Pass::Type::Complete:
             return "Complete";
 

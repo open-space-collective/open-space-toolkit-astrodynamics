@@ -198,7 +198,7 @@ class ProbabilityOfCollisionAlgorithm
     /// scaling factor and as a sigma scaling factor. In the unknown region (ProbabilityRegion::Unknown), the maximum
     /// probability of collision and its scaling factors are empty.
     ///
-    /// Raises an Undefined error if the probability of collision algorithm is undefined, and a RuntimeError if it
+    /// Raises an Undefined error if the probability of collision algorithm is null, and a RuntimeError if it
     /// computes a maximum probability of collision or if neither covariance is to be scaled.
     ///
     /// @ref Alfano, Salvatore. (2020). Relating Position Uncertainty to Maximum Conjunction Probability.

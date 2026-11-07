@@ -100,21 +100,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_CompositeGuidanceLaw, Construc
         )));
     }
 
-    // Undefined interval
-    {
-        EXPECT_THROW(
-            try {
-                CompositeGuidanceLaw(Array<Pair<Shared<const GuidanceLaw>, Interval>>(
-                    {Pair<Shared<const GuidanceLaw>, Interval>(guidanceLaw1_, Interval::Undefined())}
-                ));
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Interval} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Null guidance law
     {
         EXPECT_THROW(
@@ -207,20 +192,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_CompositeGuidanceLaw, AddGuida
         }
     }
 
-    // Undefined interval
-    {
-        CompositeGuidanceLaw compositeGuidanceLaw = CompositeGuidanceLaw();
-        EXPECT_THROW(
-            try {
-                compositeGuidanceLaw.addGuidanceLaw(guidanceLaw1_, Interval::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Interval} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Null guidance law
     {
         CompositeGuidanceLaw compositeGuidanceLaw = CompositeGuidanceLaw();
@@ -234,6 +205,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_CompositeGuidanceLaw, AddGuida
             ostk::core::error::RuntimeError
         );
     }
+
     // Intersecting intervals
     {
         CompositeGuidanceLaw compositeGuidanceLaw = CompositeGuidanceLaw();

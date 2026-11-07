@@ -90,16 +90,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddan
             arg("gravitational_parameter")
         )
 
-        .def_static(
-            "undefined",
-            &BrouwerLyddaneMeanShort::Undefined,
-            R"doc(
-                Create an undefined `BrouwerLyddaneMeanShort` model.
-
-                Returns:
-                    BrouwerLyddaneMeanShort: The undefined `BrouwerLyddaneMeanShort` model.
-            )doc"
-        )
-
         ;
 }

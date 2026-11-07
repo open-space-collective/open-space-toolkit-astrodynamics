@@ -60,7 +60,7 @@ class Custom : public HardBody
     /// @brief Constructor
     ///
     /// @details The vertices are expressed either in a fixed frame, or in a local orbital frame generated from the
-    /// state by a factory. Raises an Undefined error if the vertex generator, the frame or the factory is undefined.
+    /// state by a factory. Raises an Undefined error if the vertex generator or the frame is null.
     ///
     /// @code{.cpp}
     ///              // Cube of side 2.0 m, with edges aligned with the GCRF axes

@@ -74,11 +74,6 @@ Profile::TrajectoryPointingTarget::TrajectoryPointingTarget(
     : PointingTarget(aType, aDirectionInBodyFrame),
       trajectory(aTrajectory)
 {
-    if (!trajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     if (aType != PointingTarget::Type::TrajectoryPosition && aType != PointingTarget::Type::TrajectoryVelocity &&
         aType != PointingTarget::Type::TrajectorySlidingGroundVelocity)
     {
@@ -166,58 +161,28 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Profile& aProfile)
     return anOutputStream;
 }
 
-bool Profile::isDefined() const
-{
-    return this->modelUPtr_->isDefined();
-}
-
 const Model& Profile::getModel() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return *modelUPtr_;
 }
 
 State Profile::getStateAt(const Instant& anInstant) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return this->modelUPtr_->calculateStateAt(anInstant);
 }
 
 Array<State> Profile::getStatesAt(const Array<Instant>& anInstantArray) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return this->modelUPtr_->calculateStatesAt(anInstantArray);
 }
 
 Axes Profile::getAxesAt(const Instant& anInstant) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return modelUPtr_->getAxesAt(anInstant);
 }
 
 Shared<const Frame> Profile::constructBodyFrame(const String& aFrameName, const bool& overwrite) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     if (Manager::Get().hasFrameWithName(aFrameName))
     {
         if (overwrite)
@@ -237,14 +202,7 @@ void Profile::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Flight Profile") : void();
 
-    if (this->isDefined())
-    {
-        this->modelUPtr_->print(anOutputStream, false);
-    }
-    else
-    {
-        ostk::core::utils::Print::Line(anOutputStream) << "Model:" << "Undefined";
-    }
+    this->modelUPtr_->print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

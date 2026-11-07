@@ -148,17 +148,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(nanobind::module_& 
 
         .def("__str__", &(shiftToString<State>))
         .def("__repr__", &(shiftToString<State>))
-
-        .def(
-            "is_defined",
-            &State::isDefined,
-            R"doc(
-                Check if the state is defined.
-
-                Returns:
-                    bool: True if the state is defined, False otherwise.
-            )doc"
-        )
         .def(
             "get_size",
             &State::getSize,
@@ -398,17 +387,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(nanobind::module_& 
                     State: The transformed state.
             )doc",
             arg("frame")
-        )
-
-        .def_static(
-            "undefined",
-            &State::Undefined,
-            R"doc(
-                Get an undefined state.
-
-                Returns:
-                    State: An undefined state.
-            )doc"
         )
 
         ;

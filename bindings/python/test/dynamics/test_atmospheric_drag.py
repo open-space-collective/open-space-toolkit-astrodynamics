@@ -38,8 +38,8 @@ from ostk.astrodynamics.dynamics import AtmosphericDrag
 @pytest.fixture
 def earth() -> Earth:
     return Earth.from_models(
-        EarthGravitationalModel(EarthGravitationalModel.Type.Undefined),
-        EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+        None,
+        None,
         EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
 
@@ -115,7 +115,6 @@ class TestAtmosphericDrag:
         assert dynamics is not None
         assert isinstance(dynamics, AtmosphericDrag)
         assert isinstance(dynamics, Dynamics)
-        assert dynamics.is_defined()
 
     def test_getters(self, dynamics: AtmosphericDrag, earth: Earth):
         assert dynamics.get_celestial() == earth

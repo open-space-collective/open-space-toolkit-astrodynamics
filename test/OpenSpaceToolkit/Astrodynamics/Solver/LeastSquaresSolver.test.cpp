@@ -299,8 +299,13 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         }
     }
 
-    State trueState_ = State::Undefined();
-    State initialGuessState_ = State::Undefined();
+    // Placeholders, overwritten in SetUp
+    State trueState_ = {
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({0.0, 7.5e3, 0.0}, Frame::GCRF())
+    };
+    State initialGuessState_ = trueState_;
 
     VectorXd initialGuessPositionSigmas_ = VectorXd(3);
     VectorXd initialGuessVelocitySigmas_ = VectorXd(3);
@@ -495,14 +500,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Success)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver, Solve_Failures)
 {
-    // Test undefined initial guess state
-    {
-        EXPECT_THROW(
-            solver_.solve(State::Undefined(), observationStates_, generateStates_),
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
     // Test empty observations
     {
         EXPECT_THROW(

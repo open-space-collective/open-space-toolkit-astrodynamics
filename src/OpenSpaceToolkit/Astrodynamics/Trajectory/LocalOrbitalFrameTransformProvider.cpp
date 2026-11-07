@@ -53,11 +53,6 @@ LocalOrbitalFrameTransformProvider* LocalOrbitalFrameTransformProvider::clone() 
     return new LocalOrbitalFrameTransformProvider(*this);
 }
 
-bool LocalOrbitalFrameTransformProvider::isDefined() const
-{
-    return transform_.isDefined();
-}
-
 Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant) const
 {
     if (anInstant != transform_.getInstant())
@@ -108,9 +103,6 @@ String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFram
 {
     switch (aType)
     {
-        case LocalOrbitalFrameTransformProvider::Type::Undefined:
-            return "Undefined";
-
         case LocalOrbitalFrameTransformProvider::Type::NED:
             return "NED";
 

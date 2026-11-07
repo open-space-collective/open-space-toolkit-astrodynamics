@@ -109,7 +109,7 @@ def test_core_string_arguments_and_return_values():
         Environment.default().get_celestial_object_with_name(String("Earth")),
     )
 
-    assert orbit.is_defined()
+    assert orbit is not None
 
 
 def test_mathematics_arguments_and_return_values():

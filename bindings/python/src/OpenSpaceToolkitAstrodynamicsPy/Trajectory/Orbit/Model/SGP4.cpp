@@ -88,18 +88,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(nanobind
             )
 
             .def(
-                "is_defined",
-                &SGP4::isDefined,
-                R"doc(
-                    Check if the `SGP4` model is defined.
-
-                    Returns:
-                        bool: True if the `SGP4` model is defined, False otherwise.
-
-                )doc"
-            )
-
-            .def(
                 "get_tle",
                 &SGP4::getTle,
                 R"doc(

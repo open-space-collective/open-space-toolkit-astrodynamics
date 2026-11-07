@@ -44,23 +44,22 @@ using ostk::astrodynamics::trajectory::State;
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir : public ::testing::Test
 {
    protected:
-    void SetUp() override
+    static Orbit BuildOrbit(const Instant& anEpoch, const Length& aSemiMajorAxis)
     {
         const Earth earth = Earth::WGS84();
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const COE coe = {
-            Length::Kilometers(7000.0),  // Semi-major axis
-            0.0,                         // Eccentricity
-            Angle::Degrees(98.0),        // Inclination
-            Angle::Degrees(0.0),         // RAAN
-            Angle::Degrees(0.0),         // AOP
-            Angle::Degrees(0.0)          // True anomaly
+            aSemiMajorAxis,        // Semi-major axis
+            0.0,                   // Eccentricity
+            Angle::Degrees(98.0),  // Inclination
+            Angle::Degrees(0.0),   // RAAN
+            Angle::Degrees(0.0),   // AOP
+            Angle::Degrees(0.0)    // True anomaly
         };
 
         const Kepler keplerianModel = {
             coe,
-            epoch_,
+            anEpoch,
             EarthGravitationalModel::EGM2008.gravitationalParameter_,
             EarthGravitationalModel::EGM2008.equatorialRadius_,
             EarthGravitationalModel::EGM2008.J2_,
@@ -68,12 +67,13 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir : public ::testing::
             Kepler::PerturbationType::None
         };
 
-        orbit_ = {keplerianModel, std::make_shared<Earth>(earth)};
+        return {keplerianModel, std::make_shared<Earth>(earth)};
     }
 
     const Instant epoch_ = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
     const Duration stepSize_ = Duration::Seconds(1e-2);
-    Orbit orbit_ = Orbit::Undefined();
+    const Orbit orbit_ = BuildOrbit(epoch_, Length::Kilometers(7000.0));
+    const Orbit differentOrbit_ = BuildOrbit(epoch_, Length::Kilometers(7100.0));
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, Constructor)
@@ -82,27 +82,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, Constructor)
     EXPECT_NO_THROW(Nadir nadirModel(orbit_, stepSize_));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, IsDefined)
-{
-    const Nadir nadirModel(orbit_);
-
-    EXPECT_TRUE(nadirModel.isDefined());
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, CalculateStateAt)
 {
-    {
-        const Nadir nadirModel(orbit_);
-
-        EXPECT_THROW(nadirModel.calculateStateAt(Instant::Undefined()), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        const Nadir nadirModel(Orbit::Undefined());
-
-        EXPECT_THROW(nadirModel.calculateStateAt(epoch_), ostk::core::error::runtime::Undefined);
-    }
-
     {
         const Nadir nadirModel(orbit_);
 
@@ -169,8 +150,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, EqualityOperator)
 
     EXPECT_TRUE(nadirModel1 == nadirModel2);
 
-    const Orbit differentOrbit = Orbit::Undefined();
-    const Nadir nadirModel3(differentOrbit);
+    const Nadir nadirModel3(differentOrbit_);
 
     EXPECT_FALSE(nadirModel1 == nadirModel3);
 }
@@ -182,8 +162,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, InequalityOperator
 
     EXPECT_FALSE(nadirModel1 != nadirModel2);
 
-    const Orbit differentOrbit = Orbit::Undefined();
-    const Nadir nadirModel3(differentOrbit);
+    const Nadir nadirModel3(differentOrbit_);
 
     EXPECT_TRUE(nadirModel1 != nadirModel3);
 }
@@ -193,10 +172,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetOrbit)
     const Nadir nadirModel(orbit_);
 
     EXPECT_TRUE(nadirModel.getOrbit() == orbit_);
-
-    const Nadir undefinedNadirModel(Orbit::Undefined());
-
-    EXPECT_THROW(undefinedNadirModel.getOrbit(), ostk::core::error::runtime::Undefined);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetStepSize)
@@ -204,8 +179,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Nadir, GetStepSize)
     const Nadir nadirModel(orbit_, stepSize_);
 
     EXPECT_EQ(nadirModel.getStepSize(), stepSize_);
-
-    const Nadir undefinedNadirModel(Orbit::Undefined());
-
-    EXPECT_THROW(undefinedNadirModel.getStepSize(), ostk::core::error::runtime::Undefined);
 }

@@ -79,17 +79,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Tabulated(nanob
         )
 
         .def(
-            "is_defined",
-            &Tabulated::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-             )doc"
-        )
-
-        .def(
             "get_interval",
             &Tabulated::getInterval,
             R"doc(

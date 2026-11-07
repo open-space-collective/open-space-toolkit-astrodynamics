@@ -136,8 +136,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
         ostk::core::error::RuntimeError
     );
 
-    // An undefined element set carries no propagator, so it constructs without complaint.
-    EXPECT_NO_THROW(SGP4FullPrecision::Undefined());
+    // A null output frame is rejected.
+    EXPECT_THROW(
+        SGP4FullPrecision(
+            tle_.getEpoch(),
+            tle_.getInclination(),
+            tle_.getRaan(),
+            tle_.getEccentricity(),
+            tle_.getAop(),
+            tle_.getMeanAnomaly(),
+            tle_.getMeanMotion(),
+            tle_.getBStarDragTerm(),
+            tle_.getRevolutionNumberAtEpoch(),
+            nullptr
+        ),
+        ostk::core::error::runtime::Undefined
+    );
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Clone)
@@ -163,12 +177,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_FALSE(sgp4FullPrecision_ != SGP4FullPrecision::FromTLE(tle_));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, RevolutionNumberAtEpoch)
 {
-    EXPECT_TRUE(sgp4FullPrecision_.isDefined());
-    EXPECT_TRUE(deepSpaceSGP4FullPrecision_.isDefined());
-    EXPECT_FALSE(SGP4FullPrecision::Undefined().isDefined());
-
     {
         const SGP4FullPrecision sgp4FullPrecision = {
             tle_.getEpoch(),
@@ -182,7 +192,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
             12345,
         };
 
-        EXPECT_TRUE(sgp4FullPrecision.isDefined());
         EXPECT_EQ(12345, sgp4FullPrecision.getRevolutionNumberAtEpoch());
     }
 }
@@ -199,17 +208,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     EXPECT_EQ(sgp4FullPrecision_.getBStarDragTerm(), tle_.getBStarDragTerm());
     EXPECT_EQ(sgp4FullPrecision_.getRevolutionNumberAtEpoch(), tle_.getRevolutionNumberAtEpoch());
     EXPECT_EQ(*sgp4FullPrecision_.getOutputFrame(), *Frame::TEME());
-
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getEpoch());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getInclination());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getRaan());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getEccentricity());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getAop());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getMeanAnomaly());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getMeanMotion());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getBStarDragTerm());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getRevolutionNumberAtEpoch());
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().getOutputFrame());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, StreamOperator)
@@ -217,7 +215,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     testing::internal::CaptureStdout();
 
     EXPECT_NO_THROW(std::cout << sgp4FullPrecision_ << std::endl);
-    EXPECT_NO_THROW(std::cout << SGP4FullPrecision::Undefined() << std::endl);
 
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
@@ -228,7 +225,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 
     EXPECT_NO_THROW(sgp4FullPrecision_.print(std::cout, true));
     EXPECT_NO_THROW(sgp4FullPrecision_.print(std::cout, false));
-    EXPECT_NO_THROW(SGP4FullPrecision::Undefined().print(std::cout, true));
 
     const String output = testing::internal::GetCapturedStdout();
 
@@ -266,7 +262,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 {
     const State state = sgp4FullPrecision_.calculateStateAt(tle_.getEpoch());
 
-    EXPECT_TRUE(state.isDefined());
     EXPECT_EQ(state.getInstant(), tle_.getEpoch());
     EXPECT_EQ(*state.getFrame(), *Frame::TEME());
 
@@ -274,9 +269,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
 
     EXPECT_EQ(*stateGCRF.getFrame(), *Frame::GCRF());
     EXPECT_GT((stateGCRF.getPosition().getCoordinates() - state.getPosition().getCoordinates()).norm(), 1.0);
-
-    EXPECT_ANY_THROW(sgp4FullPrecision_.calculateStateAt(Instant::Undefined()));
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().calculateStateAt(tle_.getEpoch()));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, CalculateStatesAt)
@@ -309,17 +301,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecis
     }
 
     EXPECT_EQ(sgp4FullPrecision_.calculateStatesAt({}).getSize(), 0);
-
-    EXPECT_ANY_THROW(sgp4FullPrecision_.calculateStatesAt({Instant::Undefined()}));
-    EXPECT_ANY_THROW(SGP4FullPrecision::Undefined().calculateStatesAt(instants));
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, Undefined)
-{
-    const SGP4FullPrecision sgp4FullPrecision = SGP4FullPrecision::Undefined();
-
-    EXPECT_FALSE(sgp4FullPrecision.isDefined());
-    EXPECT_ANY_THROW(sgp4FullPrecision.calculateStateAt(tle_.getEpoch()));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision, FromTLE)

@@ -38,31 +38,16 @@ BrouwerLyddaneMean::BrouwerLyddaneMean(
 
 Angle BrouwerLyddaneMean::getMeanAnomaly() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("BrouwerLyddaneMean");
-    }
-
     return anomaly_;
 }
 
 Angle BrouwerLyddaneMean::getTrueAnomaly() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("BrouwerLyddaneMean");
-    }
-
     return COE::TrueAnomalyFromMeanAnomaly(anomaly_, eccentricity_, 1e-15);
 }
 
 Angle BrouwerLyddaneMean::getEccentricAnomaly() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("BrouwerLyddaneMean");
-    }
-
     return COE::EccentricAnomalyFromMeanAnomaly(anomaly_, eccentricity_, 1e-15);
 }
 
@@ -142,13 +127,11 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     {
         coeVector[2] = M_PI - coeVector[2];  // INC = 180 - INC
         coeVector[3] = -coeVector[3];        // RAAN = - RAAN
-        Position position = Position::Undefined();
-        Velocity velocity = Velocity::Undefined();
-        std::tie(position, velocity) =
+        const COE::CartesianState pseudoCartesianState =
             COE::FromSIVector(coeVector, COE::AnomalyType::Mean)
-                .getCartesianState(aGravitationalParameter, aCartesianState.first.accessFrame());
-        cartesian.segment(0, 3) = position.getCoordinates();
-        cartesian.segment(3, 3) = velocity.getCoordinates();
+                .getCartesianState(aGravitationalParameter, aCartesianState.first.getFrame());
+        cartesian.segment(0, 3) = pseudoCartesianState.first.getCoordinates();
+        cartesian.segment(3, 3) = pseudoCartesianState.second.getCoordinates();
 
         pseudoState = 1;
     }
@@ -215,12 +198,10 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         coeVector_2 = toCOEVector(brouwerLyddaneMean);
 
         const COE coe_2 = COE::FromSIVector(coeVector_2, COE::AnomalyType::Mean);
-        Position position2 = Position::Undefined();
-        Velocity velocity2 = Velocity::Undefined();
-        std::tie(position2, velocity2) =
-            coe_2.getCartesianState(aGravitationalParameter, aCartesianState.first.accessFrame());
-        cartesian_2.segment(0, 3) = position2.getCoordinates();
-        cartesian_2.segment(3, 3) = velocity2.getCoordinates();
+        const COE::CartesianState cartesianState2 =
+            coe_2.getCartesianState(aGravitationalParameter, aCartesianState.first.getFrame());
+        cartesian_2.segment(0, 3) = cartesianState2.first.getCoordinates();
+        cartesian_2.segment(3, 3) = cartesianState2.second.getCoordinates();
 
         const Vector6d delta = cartesian - cartesian_2;
 

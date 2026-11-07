@@ -125,17 +125,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
         .def("__repr__", &(shiftToString<COE>))
 
         .def(
-            "is_defined",
-            &COE::isDefined,
-            R"doc(
-                Check if the COE is defined.
-
-                Returns:
-                    bool: True if the COE is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_semi_major_axis",
             &COE::getSemiMajorAxis,
             R"doc(
@@ -393,17 +382,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
         )
 
         .def_static(
-            "undefined",
-            &COE::Undefined,
-            R"doc(
-                Create an undefined `COE` model.
-
-                Returns:
-                    COE: The undefined `COE` model.
-            )doc"
-        )
-
-        .def_static(
             "cartesian",
             &COE::Cartesian,
             R"doc(
@@ -443,9 +421,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
                 const Length&,
                 const Shared<const Celestial>&,
                 const std::optional<double>&,
+                const std::optional<Angle>&,
                 const Angle&,
-                const Angle&,
-                const Angle&,
+                const std::optional<Angle>&,
                 const Angle&>(&COE::FrozenOrbit),
             R"doc(
                 Build a `COE` model of a frozen orbit.
@@ -473,9 +451,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
                     semi_major_axis (Length): The semi-major axis.
                     celestial_object (Celestial): The celestial object.
                     eccentricity (float | None, optional): The eccentricity. Defaults to None.
-                    inclination (Angle): The inclination.
+                    inclination (Angle | None, optional): The inclination. Defaults to None.
                     raan (Angle): The right ascension of the ascending node.
-                    aop (Angle): The argument of periapsis.
+                    aop (Angle | None, optional): The argument of periapsis. Defaults to None.
                     true_anomaly (Angle): The true anomaly.
 
                 Returns:
@@ -484,9 +462,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
             arg("semi_major_axis"),
             arg("celestial_object"),
             arg("eccentricity") = none(),
-            arg("inclination").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("inclination") = none(),
             arg("raan").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
-            arg("aop").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("aop") = none(),
             arg("true_anomaly").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0)
         )
 
@@ -498,9 +476,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
                 double,
                 double,
                 const std::optional<double>&,
+                const std::optional<Angle>&,
                 const Angle&,
-                const Angle&,
-                const Angle&,
+                const std::optional<Angle>&,
                 const Angle&>(&COE::FrozenOrbit),
             R"doc(
                 Build a `COE` model of a frozen orbit.
@@ -530,9 +508,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
                     j2 (float): The second zonal harmonic coefficient.
                     j3 (float): The third zonal harmonic coefficient.
                     eccentricity (float | None, optional): The eccentricity. Defaults to None.
-                    inclination (Angle): The inclination.
+                    inclination (Angle | None, optional): The inclination. Defaults to None.
                     raan (Angle): The right ascension of the ascending node.
-                    aop (Angle): The argument of periapsis.
+                    aop (Angle | None, optional): The argument of periapsis. Defaults to None.
                     true_anomaly (Angle): The true anomaly.
 
                 Returns:
@@ -543,9 +521,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(na
             arg("j2"),
             arg("j3"),
             arg("eccentricity") = none(),
-            arg("inclination").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("inclination") = none(),
             arg("raan").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0),
-            arg("aop").sig("Angle.undefined()") = Angle::Undefined(),
+            arg("aop") = none(),
             arg("true_anomaly").sig("Angle.degrees(0.0)") = Angle::Degrees(0.0)
         )
 

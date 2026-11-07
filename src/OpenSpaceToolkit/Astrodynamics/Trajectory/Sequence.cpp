@@ -208,11 +208,6 @@ Sequence::Sequence(
       dynamics_(aDynamicsArray),
       segmentPropagationDurationLimit_(aMaximumPropagationDuration)
 {
-    if (!aMaximumPropagationDuration.isDefined())
-    {
-        throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be defined.");
-    }
-
     if (!aMaximumPropagationDuration.isStrictlyPositive())
     {
         throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be strictly positive.");
@@ -313,7 +308,6 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
 
     State initialState = aState;
-    State finalState = State::Undefined();
     Array<Interval> previousManeuverIntervals = Array<Interval>::Empty();
 
     for (Size i = 0; i < aRepetitionCount; ++i)
@@ -363,7 +357,6 @@ Sequence::Solution Sequence::solveToCondition(
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
 
     State initialState = aState;
-    State finalState = State::Undefined();
     Array<Interval> previousManeuverIntervals = Array<Interval>::Empty();
 
     Duration propagationDuration = Duration::Zero();

@@ -115,7 +115,6 @@ class TestThruster:
         for thruster in thrusters:
             assert thruster is not None
             assert isinstance(thruster, Thruster)
-            assert thruster.is_defined()
 
     def test_getters(self, dynamics: Thruster):
         assert dynamics.get_satellite_system() is not None

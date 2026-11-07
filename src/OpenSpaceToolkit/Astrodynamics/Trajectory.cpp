@@ -64,11 +64,6 @@ Trajectory& Trajectory::operator=(const Trajectory& aTrajectory)
 
 bool Trajectory::operator==(const Trajectory& aTrajectory) const
 {
-    if ((!this->isDefined()) || (!aTrajectory.isDefined()))
-    {
-        return false;
-    }
-
     return (*modelUPtr_) == (*aTrajectory.modelUPtr_);
 }
 
@@ -84,11 +79,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Trajectory& aTrajec
     return anOutputStream;
 }
 
-bool Trajectory::isDefined() const
-{
-    return modelUPtr_->isDefined();
-}
-
 const Model& Trajectory::getModel() const
 {
     return *modelUPtr_;
@@ -96,21 +86,11 @@ const Model& Trajectory::getModel() const
 
 State Trajectory::getStateAt(const Instant& anInstant) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     return modelUPtr_->calculateStateAt(anInstant);
 }
 
 Array<State> Trajectory::getStatesAt(const Array<Instant>& anInstantArray) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     return modelUPtr_->calculateStatesAt(anInstantArray);
 }
 
@@ -127,11 +107,6 @@ void Trajectory::print(std::ostream& anOutputStream, bool displayDecorator) cons
 
 Trajectory Trajectory::Position(const physics::coordinate::Position& aPosition)
 {
-    if (!aPosition.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Position");
-    }
-
     return Trajectory(Static(aPosition));
 }
 

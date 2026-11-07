@@ -98,11 +98,6 @@ class Dynamics
     /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Check if dynamics is defined (pure virtual)
-    ///
-    /// @return True if dynamics is defined
-    virtual bool isDefined() const = 0;
-
     /// @brief Return the coordinate subsets that the instance reads from
     ///
     /// @return The coordinate subsets that the instance reads from
