@@ -21,9 +21,9 @@ using ostk::core::type::String;
 
 /// @brief Convert a double to a string
 ///
-/// Internal helper. The output matches the former ostk::core::type::Real::toString() output: NaN prints as
-/// "Undefined", infinities print as "+Inf" / "-Inf", integral values keep a trailing ".0", and other values use the
-/// round-trip representation without trailing zeros.
+/// Internal helper. The output matches the former ostk::core::type::Real::toString() output, except that NaN prints as
+/// "NaN" (there is no undefined double): infinities print as "+Inf" / "-Inf", integral values keep a trailing ".0", and
+/// other values use the round-trip representation without trailing zeros.
 ///
 /// @code{.cpp}
 ///     DoubleToString(1.0) ; // "1.0"
@@ -36,7 +36,7 @@ inline String DoubleToString(double aValue)
 {
     if (std::isnan(aValue))
     {
-        return "Undefined";
+        return "NaN";
     }
 
     if (std::isinf(aValue))

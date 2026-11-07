@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE__
 
 #include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -329,7 +330,7 @@ class COE
     static COE FrozenOrbit(
         const Length& aSemiMajorAxis,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        double anEccentricity = std::numeric_limits<double>::quiet_NaN(),
+        const std::optional<double>& anEccentricity = std::nullopt,
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
         const Angle& anAop = Angle::Undefined(),
@@ -372,7 +373,7 @@ class COE
         const Length& anEquatorialRadius,
         double aJ2,
         double aJ3,
-        double anEccentricity = std::numeric_limits<double>::quiet_NaN(),
+        const std::optional<double>& anEccentricity = std::nullopt,
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
         const Angle& anAop = Angle::Undefined(),

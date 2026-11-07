@@ -989,7 +989,7 @@ Orbit Orbit::Frozen(
     const Instant& anEpoch,
     const Length& anAltitude,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    double anEccentricity,
+    const std::optional<double>& anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,

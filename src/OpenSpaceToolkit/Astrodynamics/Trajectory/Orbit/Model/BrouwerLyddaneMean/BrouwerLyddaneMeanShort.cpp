@@ -342,7 +342,7 @@ BrouwerLyddaneMeanShort BrouwerLyddaneMeanShort::Undefined()
 {
     return {
         Length::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
+        0.0,
         Angle::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),

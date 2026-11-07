@@ -154,7 +154,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation : public ::testin
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
     const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
 
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
     Composite satelliteGeometry_ = Composite::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;

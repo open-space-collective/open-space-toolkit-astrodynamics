@@ -112,6 +112,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 R"doc(
                     Get the target angle of the condition.
 
+                    Raises:
+                        RuntimeError: If the condition has no target angle (e.g. a range condition).
+
                     Returns:
                         Angle: The target angle of the condition.
 
@@ -123,6 +126,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 &AngularCondition::getTargetRange,
                 R"doc(
                     Get the target range of the condition.
+
+                    Raises:
+                        RuntimeError: If the condition has no target range.
 
                     Returns:
                         tuple: The target range of the condition.

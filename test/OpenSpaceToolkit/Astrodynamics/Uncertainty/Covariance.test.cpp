@@ -744,11 +744,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Scale)
         EXPECT_THROW(
             try {
                 defaultCovariance_.scale(std::numeric_limits<double>::quiet_NaN());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
+            } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_NE(e.getMessage().find("Scalar"), std::string::npos);
                 throw;
             },
-            ostk::core::error::runtime::Undefined
+            ostk::core::error::runtime::Wrong
         );
 
         EXPECT_THROW(

@@ -38,17 +38,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
             .def("__repr__", &(shiftToString<PropulsionSystem>))
 
             .def(
-                "is_defined",
-                &PropulsionSystem::isDefined,
-                R"doc(
-                    Check if the propulsion system is defined.
-
-                    Returns:
-                        bool: True if the propulsion system is defined, False otherwise.
-                )doc"
-            )
-
-            .def(
                 "get_thrust",
                 &PropulsionSystem::getThrust,
                 R"doc(
@@ -93,16 +82,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
                 )doc"
             )
 
-            .def_static(
-                "undefined",
-                &PropulsionSystem::Undefined,
-                R"doc(
-                    Return an undefined propulsion system.
-
-                    Returns:
-                        PropulsionSystem: An undefined propulsion system.
-                )doc"
-            )
             .def_static(
                 "default",
                 &PropulsionSystem::Default,

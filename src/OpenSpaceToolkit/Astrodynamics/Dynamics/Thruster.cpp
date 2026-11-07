@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -37,8 +37,9 @@ Thruster::Thruster(
       satelliteSystem_(aSatelliteSystem),
       guidanceLaw_(aGuidanceLaw),
       massFlowRateCache_(
-          aSatelliteSystem.isDefined() ? aSatelliteSystem.accessPropulsionSystem().getMassFlowRate()
-                                       : std::numeric_limits<double>::quiet_NaN()
+          aSatelliteSystem.isDefined()
+              ? std::optional<double>(aSatelliteSystem.accessPropulsionSystem().getMassFlowRate())
+              : std::nullopt
       )
 {
 }
@@ -106,7 +107,7 @@ VectorXd Thruster::computeContribution(
     // Compute contribution
     VectorXd contribution(4);
     contribution << acceleration[0], acceleration[1], acceleration[2],
-        -effectiveAccelerationFraction * massFlowRateCache_;
+        -effectiveAccelerationFraction * massFlowRateCache_.value();
 
     return contribution;
 }

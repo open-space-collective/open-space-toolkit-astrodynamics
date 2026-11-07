@@ -314,7 +314,7 @@ class TestCDM:
         with pytest.raises(Exception) as e:
             cdm.get_object_data_at(2)
 
-    def test_data_without_observation_counts(self):
+    def test_data_without_optional_values(self):
         data = CDM.Data(
             time_last_observation_start=Instant.undefined(),
             time_last_observation_end=Instant.undefined(),
@@ -324,22 +324,114 @@ class TestCDM:
             observations_used=None,
             tracks_available=None,
             tracks_used=None,
-            residuals_accepted=0.0,
-            weighted_rms=0.0,
-            area_pc=0.0,
-            area_drag=0.0,
-            area_srp=0.0,
+            residuals_accepted=None,
+            weighted_rms=None,
+            area_pc=None,
+            area_drag=None,
+            area_srp=None,
             mass=Mass.kilograms(1.0),
-            cd_area_over_mass=0.0,
-            cr_area_over_mass=0.0,
-            thrust_acceleration=0.0,
-            sedr=0.0,
+            cd_area_over_mass=None,
+            cr_area_over_mass=None,
+            thrust_acceleration=None,
+            sedr=None,
         )
 
         assert data.observations_available is None
         assert data.observations_used is None
         assert data.tracks_available is None
         assert data.tracks_used is None
+        assert data.residuals_accepted is None
+        assert data.weighted_rms is None
+        assert data.area_pc is None
+        assert data.area_drag is None
+        assert data.area_srp is None
+        assert data.cd_area_over_mass is None
+        assert data.cr_area_over_mass is None
+        assert data.thrust_acceleration is None
+        assert data.sedr is None
+
+    def test_data_with_optional_values(self):
+        data = CDM.Data(
+            time_last_observation_start=Instant.undefined(),
+            time_last_observation_end=Instant.undefined(),
+            recommended_od_span=Duration.undefined(),
+            actual_od_span=Duration.undefined(),
+            observations_available=None,
+            observations_used=None,
+            tracks_available=None,
+            tracks_used=None,
+            residuals_accepted=97.8,
+            weighted_rms=0.864,
+            area_pc=5.2,
+            area_drag=1.0,
+            area_srp=2.0,
+            mass=Mass.kilograms(1.0),
+            cd_area_over_mass=0.1,
+            cr_area_over_mass=0.2,
+            thrust_acceleration=0.0,
+            sedr=0.3,
+        )
+
+        assert data.residuals_accepted == 97.8
+        assert data.weighted_rms == 0.864
+        assert data.area_pc == 5.2
+        assert data.area_drag == 1.0
+        assert data.area_srp == 2.0
+        assert data.cd_area_over_mass == 0.1
+        assert data.cr_area_over_mass == 0.2
+        assert data.thrust_acceleration == 0.0
+        assert data.sedr == 0.3
+
+    def test_relative_metadata_without_optional_values(self):
+        relative_metadata = CDM.RelativeMetadata(
+            time_of_closest_approach=Instant.date_time(
+                datetime(2010, 3, 13, 22, 37, 52, 618), Scale.UTC
+            ),
+            miss_distance=Length.meters(715.0),
+            start_screen_period=Instant.undefined(),
+            end_screen_period=Instant.undefined(),
+            screen_entry_time=Instant.undefined(),
+            screen_exit_time=Instant.undefined(),
+            collision_probability_method="FOSTER-1992",
+        )
+
+        assert relative_metadata.screen_volume_x is None
+        assert relative_metadata.screen_volume_y is None
+        assert relative_metadata.screen_volume_z is None
+        assert relative_metadata.collision_probability is None
+
+    def test_get_collision_probability_none(self, cdm: CDM):
+        cdm_without_probability = CDM(
+            header=cdm.get_header(),
+            relative_metadata=CDM.RelativeMetadata(
+                time_of_closest_approach=cdm.get_time_of_closest_approach(),
+                miss_distance=cdm.get_miss_distance(),
+                start_screen_period=Instant.undefined(),
+                end_screen_period=Instant.undefined(),
+                screen_entry_time=Instant.undefined(),
+                screen_exit_time=Instant.undefined(),
+                collision_probability=None,
+                collision_probability_method="FOSTER-1992",
+            ),
+            objects_metadata_array=cdm.get_metadata_array(),
+            objects_data_array=cdm.get_data_array(),
+        )
+
+        assert cdm_without_probability.get_collision_probability() is None
+
+    def test_dictionary_without_collision_probability(
+        self, cdm_spacetrack_dictionary: dict
+    ):
+        cdm_spacetrack_dictionary["COLLISION_PROBABILITY"] = ""
+
+        cdm: CDM = CDM.dictionary(Dictionary(cdm_spacetrack_dictionary))
+
+        assert cdm.get_collision_probability() is None
+
+        cdm_spacetrack_dictionary["COLLISION_PROBABILITY"] = "NaN"
+
+        with pytest.raises(Exception):
+            CDM.dictionary(Dictionary(cdm_spacetrack_dictionary))
 
     def test_get_ccsds_cdm_version(self, cdm: CDM):
         assert cdm.get_ccsds_cdm_version() == "1.0"

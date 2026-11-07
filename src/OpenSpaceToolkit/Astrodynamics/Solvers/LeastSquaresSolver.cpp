@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <cmath>
-#include <limits>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -24,6 +23,25 @@ namespace solver
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
+
+namespace
+{
+
+/// @brief Access the RMS error of the last step.
+///
+/// @param [in] aStepArray A non-empty array of steps
+/// @return RMS error of the last step
+double LastRmsError(const Array<LeastSquaresSolver::Step>& aStepArray)
+{
+    if (aStepArray.isEmpty())
+    {
+        throw ostk::core::error::RuntimeError("Step array cannot be empty.");
+    }
+
+    return aStepArray.accessLast().rmsError;
+}
+
+}  // namespace
 
 LeastSquaresSolver::Step::Step(double aRmsError, const VectorXd& anXHat)
     : rmsError(aRmsError),
@@ -52,7 +70,7 @@ LeastSquaresSolver::Analysis::Analysis(
     const Array<State>& aComputedObservationsStateArray,
     const Array<Step>& aStepArray
 )
-    : rmsError(std::numeric_limits<double>::quiet_NaN()),
+    : rmsError(LastRmsError(aStepArray)),
       observationCount(aComputedObservationsStateArray.getSize()),
       iterationCount(aStepArray.getSize()),
       terminationCriteria(aTerminationCriteria),
@@ -62,12 +80,6 @@ LeastSquaresSolver::Analysis::Analysis(
       computedObservationStates(aComputedObservationsStateArray),
       steps(aStepArray)
 {
-    if (aStepArray.isEmpty())
-    {
-        throw ostk::core::error::RuntimeError("Step array cannot be empty.");
-    }
-
-    rmsError = aStepArray.accessLast().rmsError;
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const LeastSquaresSolver::Analysis& anAnalysis)
@@ -320,7 +332,6 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
     MatrixXd residualCoordinates = MatrixXd::Zero(observationStateDimension, observationCount);
     MatrixXd computedObservationCoordinates = MatrixXd::Zero(observationStateDimension, observationCount);
     double previousRmsError = 0.0;
-    double currentRmsError = std::numeric_limits<double>::quiet_NaN();
     String terminationCriteria = "Maximum Iteration Threshold";
     Array<Step> steps;
     State currentEstimatedState = State::Undefined();
@@ -382,7 +393,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
         // x̄ = x̄ - x̂
         xApriori -= xHat;
 
-        currentRmsError = std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
+        const double currentRmsError =
+            std::sqrt(residualCoordinates.colwise().norm().array().square().sum() / observationCount);
         steps.add(Step(currentRmsError, xHat));
 
         // Check convergence

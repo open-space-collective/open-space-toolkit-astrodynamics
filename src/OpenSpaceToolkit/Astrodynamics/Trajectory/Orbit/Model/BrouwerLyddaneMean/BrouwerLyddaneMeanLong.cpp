@@ -317,9 +317,9 @@ COE BrouwerLyddaneMeanLong::toCOE() const
     //-------------------------I
     // COMPUTE (MEAN ANOMALY), (LONGITUDE OF ASCENDING NODE) and (ARGUMENT  OF PERIGEE) I
     //-------------------------I
-    double ma = std::numeric_limits<double>::quiet_NaN();
-    double raan = std::numeric_limits<double>::quiet_NaN();
-    double aop = std::numeric_limits<double>::quiet_NaN();
+    double ma = 0.0;
+    double raan = 0.0;
+    double aop = 0.0;
     if (ecc <= 1.0E-11)
     {
         aop = 0.0;
@@ -423,7 +423,7 @@ BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::Undefined()
 {
     return {
         Length::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
+        0.0,
         Angle::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),

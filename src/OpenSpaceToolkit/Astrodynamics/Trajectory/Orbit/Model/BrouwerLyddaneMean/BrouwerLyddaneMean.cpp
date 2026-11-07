@@ -170,16 +170,10 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     // TBI: Same as above
     const auto brouwerLyddaneMeanFromMEE = [](const Vector6d &anAeqVector) -> Vector6d
     {
-        double meanInc = std::numeric_limits<double>::quiet_NaN();
+        const double nodeMagnitudeSquared = anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4];
 
-        if ((anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]) <= 1.0)
-        {
-            meanInc = std::acos(1.0 - 2.0 * (anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]));
-        }
-        else
-        {
-            meanInc = std::acos(1.0 - 2.0 * 1.0);
-        }
+        const double meanInc =
+            (nodeMagnitudeSquared <= 1.0) ? std::acos(1.0 - 2.0 * nodeMagnitudeSquared) : std::acos(1.0 - 2.0 * 1.0);
 
         double meanRaan = std::atan2(anAeqVector[3], anAeqVector[4]);
         if (meanRaan < 0.0)

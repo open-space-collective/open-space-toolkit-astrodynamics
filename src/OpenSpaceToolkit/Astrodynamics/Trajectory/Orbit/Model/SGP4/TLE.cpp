@@ -35,7 +35,7 @@ namespace
 
 /// @brief Parse a string into a double
 ///
-/// "NaN" and "Undefined" map to NaN, and "Inf", "+Inf" and "-Inf" map to infinities.
+/// "Inf", "+Inf" and "-Inf" map to infinities. Any other non-number (including "NaN" and "Undefined") is rejected.
 ///
 /// @param [in] aString A string
 /// @return Parsed value
@@ -44,11 +44,6 @@ double ParseDouble(const String& aString)
     if (aString.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("String");
-    }
-
-    if ((aString == "Undefined") || (aString == "NaN"))
-    {
-        return std::numeric_limits<double>::quiet_NaN();
     }
 
     if ((aString == "Inf") || (aString == "+Inf"))

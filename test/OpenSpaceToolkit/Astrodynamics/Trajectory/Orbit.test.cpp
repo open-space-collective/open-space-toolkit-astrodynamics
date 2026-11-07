@@ -2188,13 +2188,25 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
                 epoch,
                 altitude,
                 Environment::Default().accessCelestialObjectWithName("Earth"),
-                std::numeric_limits<double>::quiet_NaN(),
+                std::nullopt,
                 Angle::Degrees(60.0)
             );
 
             EXPECT_TRUE(orbit.isDefined());
             EXPECT_EQ(
                 orbit.accessModel().as<Kepler>().getClassicalOrbitalElements().getInclination(), Angle::Degrees(60.0)
+            );
+        }
+
+        // Provide target eccentricity
+        {
+            const Orbit orbit = Orbit::Frozen(
+                epoch, altitude, Environment::Default().accessCelestialObjectWithName("Earth"), 6.5941377e-4
+            );
+
+            EXPECT_TRUE(orbit.isDefined());
+            EXPECT_NEAR(
+                orbit.accessModel().as<Kepler>().getClassicalOrbitalElements().getEccentricity(), 6.5941377e-4, 1e-12
             );
         }
     }

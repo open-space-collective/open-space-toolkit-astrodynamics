@@ -1615,10 +1615,10 @@ Segment::Solution Segment::solveWithDynamics_(
     {
         double maxStepSize =
             std::min(120.0, static_cast<double>((anEndInstant - aState.accessInstant()).inSeconds() / 10.0));
-        const double originalMaxStepSize = numericalSolver_.getMaxStepSize();
-        if (!std::isnan(originalMaxStepSize))
+        const std::optional<double> originalMaxStepSize = numericalSolver_.getMaxStepSize();
+        if (originalMaxStepSize.has_value())
         {
-            maxStepSize = std::min(maxStepSize, originalMaxStepSize);
+            maxStepSize = std::min(maxStepSize, originalMaxStepSize.value());
         }
         numericalSolver.setMaxStepSize(maxStepSize);
     }

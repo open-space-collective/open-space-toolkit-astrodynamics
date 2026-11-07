@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Estimator_TLESolver__
 
 #include <limits>
+#include <optional>
 #include <unordered_map>
 #include <variant>
 
@@ -240,11 +241,11 @@ class TLESolver
     /// @brief Convert Cartesian state and B* to TLE state
     ///
     /// @param aCartesianState Cartesian state
-    /// @param aBStar B* value. Default is undefined
+    /// @param aBStar B* value. Required when estimating B*, ignored otherwise. Default is none
     ///
     /// @return TLE state
     State CartesianStateAndBStarToTLEState(
-        const State& aCartesianState, double aBStar = std::numeric_limits<double>::quiet_NaN()
+        const State& aCartesianState, const std::optional<double>& aBStar = std::nullopt
     ) const;
 };
 

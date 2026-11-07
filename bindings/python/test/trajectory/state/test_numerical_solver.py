@@ -175,7 +175,7 @@ class TestNumericalSolver:
         assert numerical_solver.get_absolute_tolerance() == absolute_tolerance
         assert numerical_solver.get_root_solver() is not None
         assert numerical_solver.get_observed_states() is not None
-        assert math.isnan(numerical_solver.get_maximum_step_size())
+        assert numerical_solver.get_maximum_step_size() is None
 
     def test_set_and_get_maximum_step_size_success(
         self, numerical_solver: NumericalSolver
@@ -183,8 +183,8 @@ class TestNumericalSolver:
         numerical_solver.set_maximum_step_size(10.0)
         assert numerical_solver.get_maximum_step_size() == 10.0
 
-        numerical_solver.set_maximum_step_size(float("nan"))
-        assert math.isnan(numerical_solver.get_maximum_step_size())
+        numerical_solver.set_maximum_step_size(None)
+        assert numerical_solver.get_maximum_step_size() is None
 
     def test_get_string_from_types(self):
         assert (

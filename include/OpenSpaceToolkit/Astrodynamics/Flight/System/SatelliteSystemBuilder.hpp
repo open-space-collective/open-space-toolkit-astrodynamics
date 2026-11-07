@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -103,7 +105,8 @@ class SatelliteSystemBuilder
     /// @return The builder
     SatelliteSystemBuilder& withPropulsionSystem(const PropulsionSystem& aPropulsionSystem);
 
-    /// @brief Builds the satellite system
+    /// @brief Builds the satellite system. The cross-sectional surface area, drag coefficient and propulsion system
+    /// that were not set are absent from the built satellite system.
     ///
     /// @return A new satellite system
     const SatelliteSystem build() const;
@@ -127,9 +130,9 @@ class SatelliteSystemBuilder
     Mass dryMass_;
     Composite geometry_;
     Matrix3d inertiaTensor_;
-    double crossSectionalSurfaceArea_;
-    double dragCoefficient_;
-    PropulsionSystem propulsionSystem_;
+    std::optional<double> crossSectionalSurfaceArea_;
+    std::optional<double> dragCoefficient_;
+    std::optional<PropulsionSystem> propulsionSystem_;
 };
 
 }  // namespace system

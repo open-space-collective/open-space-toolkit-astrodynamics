@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <limits>
+#include <optional>
 
 #include <boost/lexical_cast.hpp>
 
@@ -27,7 +28,7 @@ namespace
 
 /// @brief Parse a string into a double
 ///
-/// "NaN" and "Undefined" map to NaN, and "Inf", "+Inf" and "-Inf" map to infinities.
+/// "Inf", "+Inf" and "-Inf" map to infinities. Any other non-number (including "NaN" and "Undefined") is rejected.
 ///
 /// @param [in] aString A string
 /// @return Parsed value
@@ -36,11 +37,6 @@ double ParseDouble(const String& aString)
     if (aString.isEmpty())
     {
         throw ostk::core::error::runtime::Undefined("String");
-    }
-
-    if ((aString == "Undefined") || (aString == "NaN"))
-    {
-        return std::numeric_limits<double>::quiet_NaN();
     }
 
     if ((aString == "Inf") || (aString == "+Inf"))
@@ -264,7 +260,7 @@ Velocity CDM::getRelativeVelocity() const
     return this->relativeMetadata_.relativeVelocity;
 }
 
-double CDM::getCollisionProbability() const
+std::optional<double> CDM::getCollisionProbability() const
 {
     if (!this->isDefined())
     {
@@ -407,12 +403,12 @@ CDM CDM::Undefined()
          Instant::Undefined(),
          String::Empty(),
          String::Empty(),
-         std::numeric_limits<double>::quiet_NaN(),
-         std::numeric_limits<double>::quiet_NaN(),
-         std::numeric_limits<double>::quiet_NaN(),
+         std::nullopt,
+         std::nullopt,
+         std::nullopt,
          Instant::Undefined(),
          Instant::Undefined(),
-         std::numeric_limits<double>::quiet_NaN(),
+         std::nullopt,
          String::Empty()},
         Array<CDM::Metadata>::Empty(),
         Array<CDM::Data>::Empty()
@@ -468,6 +464,12 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
 
     // Extract Conjunction Relative Metadata
 
+    const std::optional<double> collisionProbability =
+        (aDictionary.hasValueForKey("COLLISION_PROBABILITY") &&
+         !aDictionary["COLLISION_PROBABILITY"].accessString().isEmpty())
+            ? std::optional<double>(ParseDouble(aDictionary["COLLISION_PROBABILITY"].accessString()))
+            : std::nullopt;
+
     CDM::RelativeMetadata relativeMetadata = CDM::RelativeMetadata {
         String::Empty(),
         Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
@@ -478,12 +480,12 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         Instant::Undefined(),
         String::Empty(),
         String::Empty(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         Instant::Undefined(),
         Instant::Undefined(),
-        ParseDouble(aDictionary["COLLISION_PROBABILITY"].accessString()),
+        collisionProbability,
         aDictionary["COLLISION_PROBABILITY_METHOD"].accessString()
     };
 
@@ -594,16 +596,16 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         std::nullopt,
         std::nullopt,
         std::nullopt,
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         Mass::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         State(
             Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
             Position::Meters(  // TBI: Add Position::Kilometers
@@ -669,16 +671,16 @@ CDM CDM::Dictionary(const container::Dictionary& aDictionary)
         std::nullopt,
         std::nullopt,
         std::nullopt,
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         Mass::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
         State(
             Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
             Position::Meters(

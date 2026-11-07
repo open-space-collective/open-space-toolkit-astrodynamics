@@ -59,7 +59,7 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
 
 double RealCondition::evaluate(const State& aState) const
 {
-    return this->evaluator_(aState) - (target_.value + target_.valueOffset);
+    return this->evaluator_(aState) - (target_->value + target_->valueOffset);
 }
 
 bool RealCondition::isSatisfied(const State& currentState, const State& previousState) const

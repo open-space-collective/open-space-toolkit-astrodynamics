@@ -1,8 +1,5 @@
 /// Apache License 2.0
 
-#include <cmath>
-#include <limits>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -22,9 +19,9 @@ SatelliteSystemBuilder::SatelliteSystemBuilder()
     : dryMass_(Mass::Undefined()),
       geometry_(Composite::Undefined()),
       inertiaTensor_(Matrix3d::Undefined()),
-      crossSectionalSurfaceArea_(std::numeric_limits<double>::quiet_NaN()),
-      dragCoefficient_(std::numeric_limits<double>::quiet_NaN()),
-      propulsionSystem_(PropulsionSystem::Undefined())
+      crossSectionalSurfaceArea_(std::nullopt),
+      dragCoefficient_(std::nullopt),
+      propulsionSystem_(std::nullopt)
 {
 }
 
@@ -100,14 +97,15 @@ void SatelliteSystemBuilder::print(std::ostream& anOutputStream, bool displayDec
     geometry_.isDefined() ? geometry_.print(anOutputStream, false) : void();
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream
-    ) << "Cross Sectional Surface Area:"
-      << (!std::isnan(crossSectionalSurfaceArea_) ? utility::DoubleToString(crossSectionalSurfaceArea_) : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Cross Sectional Surface Area:"
+        << (crossSectionalSurfaceArea_.has_value() ? utility::DoubleToString(crossSectionalSurfaceArea_.value())
+                                                   : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Drag Coefficient:"
-        << (!std::isnan(dragCoefficient_) ? utility::DoubleToString(dragCoefficient_) : "Undefined");
+        << (dragCoefficient_.has_value() ? utility::DoubleToString(dragCoefficient_.value()) : "Undefined");
     ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
-    propulsionSystem_.isDefined() ? propulsionSystem_.print(anOutputStream, false) : void();
+    propulsionSystem_.has_value() ? propulsionSystem_.value().print(anOutputStream, false) : void();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

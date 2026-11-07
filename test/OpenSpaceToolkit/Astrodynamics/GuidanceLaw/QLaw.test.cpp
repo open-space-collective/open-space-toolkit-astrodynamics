@@ -28,6 +28,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
+using ostk::core::container::Map;
 using ostk::core::container::Tuple;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
@@ -251,6 +252,44 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetParameters)
 {
     EXPECT_NO_THROW(qlaw_.getParameters());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ParametersEffectivityThresholds)
+{
+    const Map<COE::Element, Tuple<double, double>> elementWeights = {
+        {COE::Element::SemiMajorAxis, {1.0, 100.0}},
+    };
+
+    // Not used by default
+    {
+        const QLaw::Parameters parameters = {elementWeights};
+
+        EXPECT_FALSE(parameters.absoluteEffectivityThreshold.has_value());
+        EXPECT_FALSE(parameters.relativeEffectivityThreshold.has_value());
+    }
+
+    // Provided
+    {
+        const QLaw::Parameters parameters = {
+            elementWeights, 3, 4, 2, 0.01, 100, 0.0, Length::Kilometers(6578.0), 0.2, std::nullopt
+        };
+
+        EXPECT_TRUE(parameters.absoluteEffectivityThreshold.has_value());
+        EXPECT_DOUBLE_EQ(0.2, parameters.absoluteEffectivityThreshold.value());
+        EXPECT_FALSE(parameters.relativeEffectivityThreshold.has_value());
+    }
+
+    // Out of range
+    {
+        EXPECT_THROW(
+            QLaw::Parameters(elementWeights, 3, 4, 2, 0.01, 100, 0.0, Length::Kilometers(6578.0), -0.1, std::nullopt),
+            ostk::core::error::RuntimeError
+        );
+        EXPECT_THROW(
+            QLaw::Parameters(elementWeights, 3, 4, 2, 0.01, 100, 0.0, Length::Kilometers(6578.0), std::nullopt, 1.1),
+            ostk::core::error::RuntimeError
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, GetControlWeightsAndConvergenceThresholds)
@@ -559,7 +598,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
                 100,
                 1.0,
                 Length::Kilometers(6578.0),
-                std::numeric_limits<double>::quiet_NaN(),
+                std::nullopt,
                 0.8,
             },
             QLaw::COEDomain::Osculating,
@@ -839,8 +878,8 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectiv
         100,
         1.0,
         Length::Kilometers(6578.0),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
+        std::nullopt,
+        std::nullopt,
     };
 
     const Derived gravitationalParameter_ = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());

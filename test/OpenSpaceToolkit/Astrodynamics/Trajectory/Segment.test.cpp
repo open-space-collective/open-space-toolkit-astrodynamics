@@ -814,15 +814,15 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
                 },
             },
         },
-        3,                                         // M value
-        4,                                         // N value
-        2,                                         // R value
-        0.01,                                      // B value
-        100,                                       // K value
-        1.0,                                       // Periapsis weight
-        Length::Kilometers(6578.0),                // Minimum periapsis
-        std::numeric_limits<double>::quiet_NaN(),  // Absolute effectivity threshold
-        0.5,                                       // Relative effectivity threshold
+        3,                           // M value
+        4,                           // N value
+        2,                           // R value
+        0.01,                        // B value
+        100,                         // K value
+        1.0,                         // Periapsis weight
+        Length::Kilometers(6578.0),  // Minimum periapsis
+        std::nullopt,                // Absolute effectivity threshold
+        0.5,                         // Relative effectivity threshold
     };
 
     const QLaw defaultQLaw_ = {

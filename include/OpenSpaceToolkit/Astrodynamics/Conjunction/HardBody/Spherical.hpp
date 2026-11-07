@@ -35,7 +35,7 @@ class Spherical : public HardBody
    public:
     /// @brief Constructor
     ///
-    /// @details Raises an Undefined error if the radius is undefined, and a RuntimeError if it is negative.
+    /// @details Raises a RuntimeError if the radius is negative.
     ///
     /// @code{.cpp}
     ///              Spherical spherical = { 1.0 } ;

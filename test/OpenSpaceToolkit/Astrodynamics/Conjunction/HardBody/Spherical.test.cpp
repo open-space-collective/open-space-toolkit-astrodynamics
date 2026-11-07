@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <limits>
-
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
@@ -80,18 +78,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Spherical, Constructo
         const HardBody& hardBody = spherical_;
 
         EXPECT_NO_THROW(hardBody.calculateCrossSectionAt(state_, Frame::GCRF()));
-    }
-
-    {
-        EXPECT_THROW(
-            try {
-                Spherical(std::numeric_limits<double>::quiet_NaN());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Radius} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 
     {

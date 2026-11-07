@@ -164,7 +164,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Get the maximum step size.
 
                     Returns:
-                        float: The maximum step size in seconds, or NaN if not set.
+                        float | None: The maximum step size in seconds, or None if not set.
                 )doc"
             )
             .def(
@@ -174,9 +174,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     Set the maximum step size.
 
                     Args:
-                        maximum_step_size (float): The maximum step size in seconds. Use float('nan') to remove the limit.
+                        maximum_step_size (float | None): The maximum step size in seconds. Use None to remove the limit.
                 )doc",
-                arg("maximum_step_size")
+                arg("maximum_step_size").none()
             )
 
             .def(

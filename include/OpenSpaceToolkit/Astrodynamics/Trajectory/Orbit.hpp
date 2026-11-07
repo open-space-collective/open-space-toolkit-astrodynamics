@@ -5,6 +5,7 @@
 
 #include <limits>
 #include <mutex>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
@@ -331,7 +332,7 @@ class Orbit : public Trajectory
         const Instant& anEpoch,
         const Length& anAltitude,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        double anEccentricity = std::numeric_limits<double>::quiet_NaN(),
+        const std::optional<double>& anEccentricity = std::nullopt,
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
         const Angle& anAop = Angle::Undefined(),

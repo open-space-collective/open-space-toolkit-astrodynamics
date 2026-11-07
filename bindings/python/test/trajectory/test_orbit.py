@@ -225,6 +225,9 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
+        assert Orbit.frozen(epoch, altitude, earth, eccentricity=None).is_defined()
+        assert Orbit.frozen(epoch, altitude, earth, eccentricity=0.0006).is_defined()
+
     def test_compute_passes(self, states: list[State]):
         passes: list[tuple[int, Pass]] = Orbit.compute_passes(states, 1)
         assert passes is not None

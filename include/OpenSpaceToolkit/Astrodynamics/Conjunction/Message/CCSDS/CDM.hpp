@@ -3,7 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM__
 
-#include <limits>
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
@@ -110,13 +109,13 @@ class CDM
         Instant endScreenPeriod = Instant::Undefined();    // UTC
         String screenVolumeFrame = String::Empty();
         String screenVolumeShape = String::Empty();
-        double screenVolumeX = std::numeric_limits<double>::quiet_NaN();  // TBI: Make it a vector?
-        double screenVolumeY = std::numeric_limits<double>::quiet_NaN();
-        double screenVolumeZ = std::numeric_limits<double>::quiet_NaN();
+        std::optional<double> screenVolumeX = std::nullopt;  // TBI: Make it a vector?
+        std::optional<double> screenVolumeY = std::nullopt;
+        std::optional<double> screenVolumeZ = std::nullopt;
         Instant screenEntryTime = Instant::Undefined();  // UTC
         Instant screenExitTime = Instant::Undefined();   // UTC
 
-        double collisionProbability = std::numeric_limits<double>::quiet_NaN();
+        std::optional<double> collisionProbability = std::nullopt;
         String collisionProbabilityMethod = String::Empty();
     };
 
@@ -170,20 +169,20 @@ class CDM
         std::optional<int> obsUsed = std::nullopt;
         std::optional<int> tracksAvailable = std::nullopt;
         std::optional<int> tracksUsed = std::nullopt;
-        double residualsAccepted = std::numeric_limits<double>::quiet_NaN();
-        double weightedRMS = std::numeric_limits<double>::quiet_NaN();
+        std::optional<double> residualsAccepted = std::nullopt;
+        std::optional<double> weightedRMS = std::nullopt;
 
         // Additional Parameters
 
         // String              additionParametersComment;
-        double areaPC = std::numeric_limits<double>::quiet_NaN();  // Area, add Unit
-        double areaDrag = std::numeric_limits<double>::quiet_NaN();
-        double areaSRP = std::numeric_limits<double>::quiet_NaN();
+        std::optional<double> areaPC = std::nullopt;  // Area, add Unit
+        std::optional<double> areaDrag = std::nullopt;
+        std::optional<double> areaSRP = std::nullopt;
         Mass mass = Mass::Undefined();
-        double cdAreaOverMass = std::numeric_limits<double>::quiet_NaN();
-        double crAreaOverMass = std::numeric_limits<double>::quiet_NaN();
-        double thrustAcceleration = std::numeric_limits<double>::quiet_NaN();  // Acceleration, add Unit
-        double SEDR = std::numeric_limits<double>::quiet_NaN();
+        std::optional<double> cdAreaOverMass = std::nullopt;
+        std::optional<double> crAreaOverMass = std::nullopt;
+        std::optional<double> thrustAcceleration = std::nullopt;  // Acceleration, add Unit
+        std::optional<double> SEDR = std::nullopt;
 
         // State Vector
 
@@ -393,11 +392,11 @@ class CDM
     ///
     /// @code{.cpp}
     ///     CDM cdm = CDM::Load(File::Path(Path::Parse("path/to/cdm.txt"))) ;
-    ///     double collisionProbability = cdm.getCollisionProbability() ;
+    ///     std::optional<double> collisionProbability = cdm.getCollisionProbability() ;
     /// @endcode
     ///
-    /// @return The collision probability as a double.
-    double getCollisionProbability() const;
+    /// @return The collision probability, or std::nullopt if the CDM does not provide one.
+    std::optional<double> getCollisionProbability() const;
 
     /// @brief Get the method used to compute the collision probability.
     ///

@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
@@ -119,8 +119,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                  97.8,
                  0.864,
                  5.2,
-                 std::numeric_limits<double>::quiet_NaN(),
-                 std::numeric_limits<double>::quiet_NaN(),
+                 std::nullopt,
+                 std::nullopt,
                  Mass::Kilograms(251.6),
                  0.045663,
                  0.0,
@@ -140,14 +140,14 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                  15,
                  97.8,
                  0.864,
-                 std::numeric_limits<double>::quiet_NaN(),
-                 std::numeric_limits<double>::quiet_NaN(),
-                 std::numeric_limits<double>::quiet_NaN(),
+                 std::nullopt,
+                 std::nullopt,
+                 std::nullopt,
                  Mass::Kilograms(20.0),
-                 std::numeric_limits<double>::quiet_NaN(),
-                 std::numeric_limits<double>::quiet_NaN(),
-                 std::numeric_limits<double>::quiet_NaN(),
-                 std::numeric_limits<double>::quiet_NaN(),
+                 std::nullopt,
+                 std::nullopt,
+                 std::nullopt,
+                 std::nullopt,
                  State::Undefined(),
                  MatrixXd(9, 9)
              }}
@@ -204,16 +204,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelative
         );
         EXPECT_EQ("RTN", relativeMetadata.screenVolumeFrame);
         EXPECT_EQ("ELLIPSOID", relativeMetadata.screenVolumeShape);
-        EXPECT_EQ(200.0, relativeMetadata.screenVolumeX);
-        EXPECT_EQ(1000.0, relativeMetadata.screenVolumeY);
-        EXPECT_EQ(1000.0, relativeMetadata.screenVolumeZ);
+        EXPECT_EQ(std::optional<double>(200.0), relativeMetadata.screenVolumeX);
+        EXPECT_EQ(std::optional<double>(1000.0), relativeMetadata.screenVolumeY);
+        EXPECT_EQ(std::optional<double>(1000.0), relativeMetadata.screenVolumeZ);
         EXPECT_EQ(
             Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC), relativeMetadata.screenEntryTime
         );
         EXPECT_EQ(
             Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC), relativeMetadata.screenExitTime
         );
-        EXPECT_EQ(0.0000435, relativeMetadata.collisionProbability);
+        EXPECT_EQ(std::optional<double>(0.0000435), relativeMetadata.collisionProbability);
         EXPECT_EQ("FOSTER-1992", relativeMetadata.collisionProbabilityMethod);
     }
 
@@ -299,16 +299,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
         EXPECT_EQ(std::optional<int>(579), objectData.obsUsed);
         EXPECT_EQ(std::optional<int>(123), objectData.tracksAvailable);
         EXPECT_EQ(std::optional<int>(119), objectData.tracksUsed);
-        EXPECT_EQ(97.8, objectData.residualsAccepted);
-        EXPECT_EQ(0.864, objectData.weightedRMS);
-        EXPECT_EQ(5.2, objectData.areaPC);
-        // EXPECT_EQ(std::numeric_limits<double>::quiet_NaN(), objectData.areaDrag);
-        // EXPECT_EQ(std::numeric_limits<double>::quiet_NaN(), objectData.areaSRP);
+        EXPECT_EQ(std::optional<double>(97.8), objectData.residualsAccepted);
+        EXPECT_EQ(std::optional<double>(0.864), objectData.weightedRMS);
+        EXPECT_EQ(std::optional<double>(5.2), objectData.areaPC);
+        EXPECT_FALSE(objectData.areaDrag.has_value());
+        EXPECT_FALSE(objectData.areaSRP.has_value());
         EXPECT_EQ(Mass::Kilograms(251.6), objectData.mass);
-        EXPECT_EQ(0.045663, objectData.cdAreaOverMass);
-        EXPECT_EQ(0.0, objectData.crAreaOverMass);
-        EXPECT_EQ(0.0, objectData.thrustAcceleration);
-        EXPECT_EQ(0.000045457, objectData.SEDR);
+        EXPECT_EQ(std::optional<double>(0.045663), objectData.cdAreaOverMass);
+        EXPECT_EQ(std::optional<double>(0.0), objectData.crAreaOverMass);
+        EXPECT_EQ(std::optional<double>(0.0), objectData.thrustAcceleration);
+        EXPECT_EQ(std::optional<double>(0.000045457), objectData.SEDR);
         // EXPECT_EQ(State::Undefined(), objectData.state );
         // EXPECT_EQ(MatrixXd(9, 9), objectData.covarianceMatrix );
     }
@@ -330,26 +330,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, DataWithout
 {
     {
         const CDM::Data objectData = {
-            Instant::Undefined(),
-            Instant::Undefined(),
-            Duration::Undefined(),
-            Duration::Undefined(),
-            std::nullopt,
-            std::nullopt,
-            std::nullopt,
-            std::nullopt,
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            Mass::Undefined(),
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            std::numeric_limits<double>::quiet_NaN(),
-            State::Undefined(),
-            MatrixXd(9, 9)
+            Instant::Undefined(), Instant::Undefined(), Duration::Undefined(), Duration::Undefined(), std::nullopt,
+            std::nullopt,         std::nullopt,         std::nullopt,          std::nullopt,          std::nullopt,
+            std::nullopt,         std::nullopt,         std::nullopt,          Mass::Undefined(),     std::nullopt,
+            std::nullopt,         std::nullopt,         std::nullopt,          State::Undefined(),    MatrixXd(9, 9)
         };
 
         EXPECT_FALSE(objectData.obsAvailable.has_value());
@@ -365,6 +349,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, DataWithout
         EXPECT_EQ(std::optional<int>(58), objectData.obsUsed);
         EXPECT_EQ(std::optional<int>(15), objectData.tracksAvailable);
         EXPECT_EQ(std::optional<int>(15), objectData.tracksUsed);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, DataWithoutOptionalValues)
+{
+    {
+        const CDM::Data objectData = this->cdm_.getObjectDataAt(1);
+
+        EXPECT_EQ(std::optional<double>(97.8), objectData.residualsAccepted);
+        EXPECT_EQ(std::optional<double>(0.864), objectData.weightedRMS);
+        EXPECT_FALSE(objectData.areaPC.has_value());
+        EXPECT_FALSE(objectData.areaDrag.has_value());
+        EXPECT_FALSE(objectData.areaSRP.has_value());
+        EXPECT_FALSE(objectData.cdAreaOverMass.has_value());
+        EXPECT_FALSE(objectData.crAreaOverMass.has_value());
+        EXPECT_FALSE(objectData.thrustAcceleration.has_value());
+        EXPECT_FALSE(objectData.SEDR.has_value());
+    }
+
+    {
+        const CDM::Data objectData =
+            CDM::Data {Instant::Undefined(), Instant::Undefined(), Duration::Undefined(), Duration::Undefined(),
+                       std::nullopt,         std::nullopt,         std::nullopt,          std::nullopt,
+                       std::nullopt,         std::nullopt,         std::nullopt,          std::nullopt,
+                       std::nullopt,         Mass::Undefined(),    std::nullopt,          std::nullopt,
+                       std::nullopt,         std::nullopt,         State::Undefined(),    MatrixXd(9, 9)};
+
+        EXPECT_FALSE(objectData.residualsAccepted.has_value());
+        EXPECT_FALSE(objectData.weightedRMS.has_value());
+        EXPECT_FALSE(objectData.areaPC.has_value());
+        EXPECT_FALSE(objectData.areaDrag.has_value());
+        EXPECT_FALSE(objectData.areaSRP.has_value());
+        EXPECT_FALSE(objectData.cdAreaOverMass.has_value());
+        EXPECT_FALSE(objectData.crAreaOverMass.has_value());
+        EXPECT_FALSE(objectData.thrustAcceleration.has_value());
+        EXPECT_FALSE(objectData.SEDR.has_value());
     }
 }
 
@@ -482,7 +502,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMissDist
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisionProbability)
 {
     {
-        EXPECT_EQ(0.0000435, this->cdm_.getCollisionProbability());
+        EXPECT_EQ(std::optional<double>(0.0000435), this->cdm_.getCollisionProbability());
+    }
+
+    {
+        const CDM cdm = {
+            this->cdm_.getHeader(),
+            CDM::RelativeMetadata {
+                String::Empty(),
+                Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
+                Length::Meters(715.0),
+                Position::Undefined(),
+                Velocity::Undefined(),
+                Instant::Undefined(),
+                Instant::Undefined(),
+                String::Empty(),
+                String::Empty(),
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                Instant::Undefined(),
+                Instant::Undefined(),
+                std::nullopt,
+                String::Empty()
+            },
+            this->cdm_.getMetadataArray(),
+            this->cdm_.getDataArray()
+        };
+
+        EXPECT_FALSE(cdm.getCollisionProbability().has_value());
     }
 
     {
@@ -634,9 +682,61 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Dictionary)
 {
     using ostk::core::container::Dictionary;
     using ostk::core::container::Object;
+    using ostk::core::filesystem::Path;
 
     {
         EXPECT_ANY_THROW(CDM::Dictionary(Dictionary::Empty()));
+    }
+
+    {
+        const File file =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM/cdm.json"));
+
+        Dictionary dictionary = Object::Load(file, Object::Format::JSON).accessDictionary();
+
+        {
+            const CDM cdm = CDM::Dictionary(dictionary);
+
+            EXPECT_EQ(std::optional<double>(5.162516e-16), cdm.getCollisionProbability());
+
+            const CDM::RelativeMetadata relativeMetadata = cdm.getRelativeMetadata();
+
+            EXPECT_FALSE(relativeMetadata.screenVolumeX.has_value());
+            EXPECT_FALSE(relativeMetadata.screenVolumeY.has_value());
+            EXPECT_FALSE(relativeMetadata.screenVolumeZ.has_value());
+
+            const CDM::Data objectData = cdm.getObjectDataAt(0);
+
+            EXPECT_FALSE(objectData.residualsAccepted.has_value());
+            EXPECT_FALSE(objectData.weightedRMS.has_value());
+            EXPECT_FALSE(objectData.areaPC.has_value());
+            EXPECT_FALSE(objectData.areaDrag.has_value());
+            EXPECT_FALSE(objectData.areaSRP.has_value());
+            EXPECT_FALSE(objectData.cdAreaOverMass.has_value());
+            EXPECT_FALSE(objectData.crAreaOverMass.has_value());
+            EXPECT_FALSE(objectData.thrustAcceleration.has_value());
+            EXPECT_FALSE(objectData.SEDR.has_value());
+        }
+
+        {
+            dictionary["COLLISION_PROBABILITY"] = Object::String(String::Empty());
+
+            EXPECT_FALSE(CDM::Dictionary(dictionary).getCollisionProbability().has_value());
+        }
+
+        {
+            dictionary["COLLISION_PROBABILITY"] = Object::String("NaN");
+
+            EXPECT_ANY_THROW(CDM::Dictionary(dictionary));
+
+            dictionary["COLLISION_PROBABILITY"] = Object::String("Undefined");
+
+            EXPECT_ANY_THROW(CDM::Dictionary(dictionary));
+
+            dictionary["COLLISION_PROBABILITY"] = Object::String("1.0e-5");
+
+            EXPECT_EQ(std::optional<double>(1.0e-5), CDM::Dictionary(dictionary).getCollisionProbability());
+        }
     }
 }
 

@@ -26,7 +26,6 @@ class TestPropulsionSystem:
     ):
         assert propulsion_system is not None
         assert isinstance(propulsion_system, PropulsionSystem)
-        assert propulsion_system.is_defined()
 
     def test_comparators(
         self,
@@ -34,12 +33,6 @@ class TestPropulsionSystem:
     ):
         assert (propulsion_system == propulsion_system) is True
         assert (propulsion_system != propulsion_system) is False
-
-    def test_is_defined(
-        self,
-        propulsion_system: PropulsionSystem,
-    ):
-        assert propulsion_system.is_defined()
 
     def test_getters(
         self,
@@ -55,9 +48,9 @@ class TestPropulsionSystem:
         self,
         mass: Mass,
     ):
-        assert PropulsionSystem.undefined().is_defined() is False
+        assert not hasattr(PropulsionSystem, "undefined")
+        assert not hasattr(PropulsionSystem, "is_defined")
 
-        assert PropulsionSystem.default().is_defined() is True
         assert PropulsionSystem.default().get_thrust() is not None
         assert PropulsionSystem.default().get_specific_impulse() is not None
         assert PropulsionSystem.default().get_mass_flow_rate() is not None
